@@ -1,0 +1,36 @@
+id: 115-1-S1-Q38
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 38
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 12
+type: 情境
+codes: [L23301]
+concepts: [outlier-treatment, missing-value-imputation]
+stem: |
+  某 IoT 平台接收工廠溫度感測器資料，發現在常態分佈（均值 25°C，標準差 2°C）的數萬筆紀錄中，出現數筆「999°C」的極端值，研判為感測器通訊錯誤（網路封包延遲導致數值溢位）所致，且該異常數值在實際情況下不可能發生。在進行模型訓練前的資料清洗階段，針對這類離群值，最適當的處理策略為何？
+options:
+  A: 保留所有原始數值，並使用平均數（Mean）作為特徵輸入模型；
+  B: 對數據進行 Z-score 標準化，使數值落於約[-3, 3]範圍；
+  C: 將 999°C 以獨熱編碼（One-Hot Encoding）轉為獨立類別特徵；
+  D: 刪除異常的 999°C 記錄，或以中位數（Median）進行填補
+answer: D
+explanation:
+  summary: "D。已確認不可能的通訊錯值，應剔除或當作缺失處理。"
+  correct: "D 依題幹已確認 999°C 非真實高溫，可刪除少量錯誤紀錄，或把錯誤欄位設為缺失，再以訓練資料中位數等合理方式補值。若有可信時間序列背景也可據此選補法，並保留處理標記；不可把所有真實極端事件一律刪除。"
+  wrong:
+    A: "已知錯值會拉動平均數並污染訓練；保留原始紀錄供稽核，不等於把錯值當有效模型輸入。"
+    B: "Z-score 換尺度而不截斷或修復錯值；若以題給均值 25、標準差 2 計算，(999−25)/2=487，並不在 [-3,3]。"
+    C: "溫度是連續量，把通訊錯誤編成類別不會修復溫度；可另留錯誤旗標，但不能取代清洗。"
+  rule: "先分辨真實極端事件與已知錯值，再決定保留、刪除或補值。"
+guide_refs: [guide-3:5-3, guide-1:5-3]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 12
+    by: EX-E6-codex
+  blind_answer: D
+  dispute: null

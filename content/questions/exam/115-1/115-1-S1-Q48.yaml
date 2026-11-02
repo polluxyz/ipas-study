@@ -1,0 +1,36 @@
+id: 115-1-S1-Q48
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 48
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 15
+type: 情境
+codes: [L21203, L21302]
+concepts: [concept-drift, data-drift]
+stem: |
+  某銀行的信用卡風控模型已穩定上線一年，主要用於偵測盜刷交易提醒。近期在未對模型或特徵工程進行調整的情況下，系統觀察到深夜電商交易的核准率明顯上升，盜刷攔截率下降，但模型 AUC 幾乎維持不變，且交易金額、地區與裝置等特徵分布未出現明顯變化。進一步分析發現，疫情後使用者行為改變，使原本被視為高風險的交易型態逐漸轉為一般消費。下列何者最能敘述此現象的原因？
+options:
+  A: 資料漂移（Data Drift），因輸入特徵分布發生變化；
+  B: 訓練與服務偏差（Training-Serving Skew），因線上與離線特徵處理不一致；
+  C: 概念漂移（Concept Drift），因特徵與目標標籤之間的關聯性改變；
+  D: 決策閾值偏移（Threshold Shift），因分類門檻設定不當導致預測偏差
+answer: C
+explanation:
+  summary: "C。相同交易特徵對應的風險意義改變，核心是概念漂移。"
+  correct: "C 依據原高風險型態轉為一般消費，表示 P(Y|X) 隨時間改變，即使 P(X) 外觀未明顯變動也可能發生。AUC 衡量跨門檻排序能力，整體 AUC 近似不變，不能排除某子群或固定門檻下的效能退化。"
+  wrong:
+    A: "資料漂移通常指輸入 P(X) 改變；本題主要證據是特徵對標籤的意義改變，且明示特徵分布未見明顯變化，概念漂移較切題。"
+    B: "需要有線上與離線特徵處理不一致的證據，本題沒有提供，且明示未調整特徵工程。"
+    D: "門檻影響核准與攔截率，但不能解釋交易型態對真實風險的關係改變，題幹也未指出門檻被修改。"
+  rule: "區分輸入 P(X) 與標籤關係 P(Y|X) 的改變，再判斷漂移類型。"
+guide_refs: [guide-1:4-31, guide-1:5-19]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 15
+    by: EX-E6-codex
+  blind_answer: C
+  dispute: null
