@@ -7,7 +7,7 @@ number: 36
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 9
 type: 情境
-codes: [ L23401 ]
+codes: [L23401]
 concepts: [homomorphic-encryption]
 stem: |
   某金融機構的 AI 信用評分模型需上傳至第三方雲端服務商進行推論。法務部門要求：在不解密資料的前提下，由單一雲端服務商直接對加密資料進行模型運算。下列哪種隱私保護技術最符合此需求？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:6-11]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 9
     by: EX-E7
-  blind_answer: null
+  blind_answer: B
   dispute: null

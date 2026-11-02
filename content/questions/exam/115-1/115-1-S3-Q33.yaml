@@ -7,7 +7,7 @@ number: 33
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 8
 type: 情境
-codes: [ L23304, L23301 ]
+codes: [L23304, L23301]
 concepts: [ridge-regression, l2-regularization]
 stem: |
   某工程師的多元線性迴歸模型包含 150 個特徵，其中許多特徵高度相關（如「建坪」與「總面積」）。他同時希望控制過擬合且保留所有特徵的解釋能力，不讓任何特徵係數歸零，下列哪一項正則化方案最適當？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-15, guide-3:4-16, guide-3:5-44]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 8
     by: EX-E7
-  blind_answer: null
+  blind_answer: B
   dispute: null

@@ -7,7 +7,7 @@ number: 1
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 1
 type: 情境
-codes: [ L23101 ]
+codes: [L23101]
 concepts: [monte-carlo-method]
 stem: |
   某量化投資團隊需估算某投資組合未來 30 日的風險值。由於衍生性金融商品的定價模型過於複雜，無法以解析解直接求得，工程師因此採用隨機模擬方式，產生大量市場情境模擬並估計損失分布。此方法屬於下列哪一種技術框架？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 1
     by: EX-E7
-  blind_answer: null
+  blind_answer: C
   dispute: null

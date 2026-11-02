@@ -7,7 +7,7 @@ number: 22
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 6
 type: 情境
-codes: [ L21101, L21103 ]
+codes: [L21101, L21103]
 concepts: [hybrid-search, rag]
 stem: |
   某工程師建置企業內部知識問答的 RAG 系統，上線後發現部分問題檢索結果與查詢語意不符。分析後確認問題出在向量搜尋的語意匹配不準確。於檢索階段，採取下列哪種方法最能直接改善此問題？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 6
     by: EX-E7
-  blind_answer: null
+  blind_answer: C
   dispute: null

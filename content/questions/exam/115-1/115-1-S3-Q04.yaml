@@ -7,7 +7,7 @@ number: 4
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 1
 type: 情境
-codes: [ L23301, L23304 ]
+codes: [L23301, L23304]
 concepts: [image-augmentation]
 stem: |
   某 AI 團隊同時開發多個影像辨識系統，並在訓練流程中統一加入資料擴增策略（包含隨機水平翻轉）以提升模型泛化能力。實驗後發現，部分任務的測試表現明顯下降。下列哪一項任務最可能因該資料擴增策略引入語意錯誤（Semantic Inconsistency），使同一樣本在翻轉後對應不同類別標籤，進而影響模型學習？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:5-9, guide-3:5-47]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 1
     by: EX-E7
-  blind_answer: null
+  blind_answer: C
   dispute: null

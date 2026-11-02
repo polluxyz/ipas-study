@@ -7,7 +7,7 @@ number: 16
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 4
 type: 情境
-codes: [ L23202, L23304 ]
+codes: [L23202, L23304]
 concepts: [xgboost]
 stem: |
   某資料科學家在信用評分任務中使用 XGBoost 建立模型，發現模型在訓練集表現良好但驗證集出現過擬合跡象。他檢視其模型設計，發現 XGBoost 在目標函數（Objective Function）中引入額外的正則化機制以控制模型複雜度。相較於傳統梯度提升決策樹（GBDT），XGBoost 在其核心目標函數中加入了下列哪一種關鍵設計，使其具備更強的防過擬合能力？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-23, guide-3:4-24]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 4
     by: EX-E7
-  blind_answer: null
-  dispute: null
+  blind_answer: A
+  dispute: 官方答案 A。典型 XGBoost 正則化目標為葉節點數與葉權重懲罰，樹深度由結構或超參數控制，不能直接把深度寫成該核心目標的獨立懲罰項。A 最接近出題意圖但有此實質措辭瑕疵，官方計分保留 A。

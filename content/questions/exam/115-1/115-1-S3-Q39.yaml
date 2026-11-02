@@ -7,7 +7,7 @@ number: 39
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 10
 type: 情境
-codes: [ L23402 ]
+codes: [L23402]
 concepts: [fairness-constrained-training, fairness-preprocessing]
 stem: |
   某銀行信貸模型上線後稽核發現，女性申請者中「實際具有還款能力卻被模型拒絕」的比例顯著高於男性，但法務限制不允許在推論階段使用性別欄位調整輸出。下列去偏策略何者在此限制下仍可執行？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:6-18, guide-3:6-21, guide-3:6-22]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 10
     by: EX-E7
-  blind_answer: null
-  dispute: null
+  blind_answer: A
+  dispute: 官方答案 A。推論不用性別不代表訓練也不能使用；A 的訓練中去偏可行，B 的前處理後重新訓練也可行。題幹未禁止重新訓練；若把 B 限成只重採樣而不重訓，才不能直接修正既有權重。兩種讀法造成選項疑義，官方計分保留 A。

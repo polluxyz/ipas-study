@@ -7,7 +7,7 @@ number: 7
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 2
 type: 情境
-codes: [ L23304, L23301 ]
+codes: [L23304, L23301]
 concepts: [l1-regularization]
 stem: |
   某金融團隊建立信貸風險模型，特徵工程後共產生 200 個變數，其中「月收入」、「年收入」、「季收入」三者高度相關。模型上線後業務單位反映：每次重新訓練後，模型輸出的重要特徵清單在這些高度相關特徵間反覆變動，難以向審查單位解釋。請問下列何者為造成此現象最可能的原因？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-16, guide-3:5-43]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 2
     by: EX-E7
-  blind_answer: null
+  blind_answer: B
   dispute: null

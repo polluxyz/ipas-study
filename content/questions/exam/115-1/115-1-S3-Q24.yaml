@@ -7,7 +7,7 @@ number: 24
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 6
 type: 情境
-codes: [ L23301 ]
+codes: [L23301]
 concepts: [one-hot-encoding]
 stem: |
   某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情境下，下列哪一種編碼方式最容易造成維度爆炸問題？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:5-8]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 6
     by: EX-E7
-  blind_answer: null
+  blind_answer: D
   dispute: null

@@ -7,7 +7,7 @@ number: 13
 pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
 pdf_page: 3
 type: 情境
-codes: [ L23304, L23303 ]
+codes: [L23304, L23303]
 concepts: [l2-regularization, overfitting]
 stem: |
   某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯，顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過擬合？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-63, guide-3:5-44, guide-3:5-45]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 3
     by: EX-E7
-  blind_answer: null
+  blind_answer: C
   dispute: null
