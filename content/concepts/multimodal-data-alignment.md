@@ -20,8 +20,8 @@ status: draft
 formula_groups:
   - id: dtw-absolute
     source: https://www.audiolabs-erlangen.de/resources/MIR/FMP/C3/C3S2_DTWbasic.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L21104-B
 self_check:
   - id: c1
     goal: g1
@@ -72,7 +72,7 @@ self_check:
 
 ## 為什麼需要
 
-一張異常影像若配到正常設備的紀錄，模型收到的教學訊號就矛盾。多模態資料對齊要處理時間與語意一致性，標註與資料管理則讓關係可追查。
+一張異常影像若配到正常設備的紀錄，模型收到的訓練訊號就矛盾。多模態資料對齊要處理時間與語意一致性，標註與資料管理則讓關係可追查。
 
 指引還指出，影像加文字等多重標註耗費專業人力。資料量增加後，儲存、維護與品質管理都會成為成本。
 
@@ -93,7 +93,7 @@ self_check:
 
 ## 定義與公式
 
-指引列出動態時間校正（Dynamic Time Warping，DTW）、跨模態語意對齊、弱監督與資料版本控制。這些手段處理不同層次，不能互相替代。
+指引列出動態時間規整（亦稱動態時間校正；Dynamic Time Warping，DTW）、跨模態語意對齊、弱監督與資料版本控制。這些手段處理不同層次，不能互相替代。
 
 ### 依問題選管理手段
 
@@ -122,7 +122,7 @@ $$
 
 $X=(x_1,\ldots,x_n)$、$Y=(y_1,\ldots,y_m)$ 是同單位的特徵序列；$i,j$ 是從 1 起算的索引。$c$ 是單次配對差，$D$ 是走到該格的最小累積成本。
 
-邊界設 $D(0,0)=0$，其餘第零列及第零欄為無限大。由 $(1,1)$ 走到 $(n,m)$，每次只能增加一個或兩個索引各 1，不能回頭或跨格。
+邊界設 $D(0,0)=0$，其餘第零列及第零欄為無限大。由 $(1,1)$ 走到 $(n,m)$，每步只能讓 $i$ 加 1、$j$ 加 1，或兩者各加 1，不能回頭或跨格。
 
 本頁距離取 $D(n,m)$，不開根號、不除路徑長。tslearn 預設的平方差總和再開根號是另一種成本定義，不能把不同版本數字直接相比。
 
@@ -174,7 +174,9 @@ $X=(x_1,\ldots,x_n)$、$Y=(y_1,\ldots,y_m)$ 是同單位的特徵序列；$i,j$ 
 
 ## 程式（補充）
 
-先從共用 JSON 讀 F-S1，算成本並保存前一格。本頁兩段程式依序執行，同分時優先對角、再上、再左，讓路徑可重現。
+先從共用 JSON 讀 F-S1，算成本並保存前一格。本頁兩段程式依序執行，同分時優先對角、再左、再上，方向以列為 Y、欄為 X 的表格為準。
+
+回溯候選依序為 $(i-1,j-1)$、$(i-1,j)$、$(i,j-1)$；Python 的 `min` 在同分時選第一個候選，因此順序固定，讓路徑可重現。
 
 執行前將環境變數 `IPAS_REPO_ROOT` 設為教材專案的絕對路徑，讓程式能找到共用資料。
 
@@ -244,6 +246,7 @@ DTW 不適合任意拉伸沒有對應關係的序列，必要時限制允許路�
 
 - 科目 1 學習指引（版本未標示），guide-1:3-80～3-81：支持資料挑戰、DTW、CLIP、弱監督、生成原型及儲存／版本方向。
 - [FMP 的 DTW 原作者課程](https://www.audiolabs-erlangen.de/resources/MIR/FMP/C3/C3S2_DTWbasic.html)：支持步長、邊界、累積成本與回溯；絕對差是本頁選用的局部成本。
+- [Python 3.12 的 min 文件](https://docs.python.org/3.12/library/functions.html#min)：支持同分時取第一個候選的回溯規則。
 - [tslearn DTW 文件](https://tslearn.readthedocs.io/en/stable/user_guide/dtw.html)：支持成本定義差異與路徑限制的補充。
 - [Snorkel 官方教學](https://snorkelproject.org/use-cases/01-spam-tutorial/)：支持有噪標註、抽查及測試資料分工。
 - [DVC 資料管理入門](https://doc.dvc.org/start)：支持版本快照與大型資料分開管理。

@@ -83,6 +83,12 @@ self_check:
 
 融合可在資料、特徵或各分支預測後發生，位置差異見多模態資料、特徵與決策融合。本頁重點是輸入是否可共同解釋，不另推導融合演算法。
 
+指引 3-77 將晚期融合描述為特徵層級整合。
+
+:::supplement[來源：Multimodal Machine Learning 綜述第 VI-A 節]
+常見用法的晚期融合指決策層：各分支先輸出預測，再合併結果。本站沿用此定義；判讀時同時確認合併物件與位置，詳見多模態資料、特徵與決策融合。
+:::
+
 ### 自駕的需求與量測
 
 指引 3-55 將車道偵測、障礙物辨識與感測融合放在同一自駕情境。以下細分各來源能提供的證據。
@@ -115,6 +121,8 @@ self_check:
 3. F01 影像時間 10000 ms，感測時間 10050 ms。依「記錄時間比事件時間快 50 ms」的定義，減 50 得 10000 ms。
 4. 在共同時鐘下，以 20 ms 容許差找同設備最近量測；超出容許差就標缺失，不用舊值冒充即時讀值。
 5. T01 換成路口影像與 48 輛/min 車流，沿用相同時鐘規則；車流單位不同，不能把 48 當成比 4.8 更可靠的證據。
+
+本例以事件配對，不要求每幀都有感測值。若逐幀配對且兩路規律採樣、起點對齊，20 ms 內約有一半影格找不到 10 Hz 的量測；這是採樣間隔造成，不能直接判為故障。
 
 ![先校正快了 50 ms 的感測時鐘，兩路才會落在同一事件時刻；不同採樣率仍須另行處理。](figure:l21104-sensor-fusion-clock)
 
@@ -153,7 +161,7 @@ self_check:
 - 時間戳數字相同就已同步：先確認時鐘來源與偏移。
 - 採樣率加倍就多一倍獨立資訊：複製或插值不會變成新量測。（補充）
 - 多一個感測器必然更準：錯配或失效來源可能拉低結果。（補充）
-- 晚期融合一定合併特徵：指引用語需回到實際合併位置判讀，詳見融合頁。
+- 晚期融合一定合併特徵：指引 3-77 的名稱與常見定義有差異，須確認實際合併位置。
 
 ## 進階
 
@@ -163,7 +171,8 @@ self_check:
 - [nuScenes 論文](https://arxiv.org/abs/1903.11027)：支持感測互補、校正與感知條件的補充。
 - [nuScenes devkit 教學](https://www.nuscenes.org/tutorials/nuscenes_tutorial.html)：支持事件索引、感測器校正與共同座標的流程思路。
 - [ROS 2 近似時間同步官方教學原始文件](https://github.com/ros2/message_filters/blob/rolling/doc/Tutorials/Approximate-Synchronizer-Python.rst)：支持時間窗與近似同步；本例偏移、容許差及預算為自訂教學條件。
-- [CMU 多模態教學](https://multicomp.cs.cmu.edu/mmml-tutorial/schedule/)：Representation、Alignment 與 Quantification 支持先配對再評估的安排。
+- [多模態學習綜述](https://arxiv.org/html/1705.09406v2)：第 VI-A 節支持晚期融合的決策層定義，與前置融合頁一致。
+- [CMU 多模態教學](https://multicomp.cs.cmu.edu/mmml-tutorial/schedule/)：Representation、Alignment 與 Quantification 支持將表示、對齊及評估分開討論的教學架構。
 
 ## 小結
 
