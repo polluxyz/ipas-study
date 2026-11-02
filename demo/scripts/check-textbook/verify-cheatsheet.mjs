@@ -24,6 +24,46 @@ export function assertSheetContent(hrefs, rows, lists, body) {
   return { expectedLinks, ...expected };
 }
 
+/** 只檢查獨立的二、三字中文短標籤，逐字量位置，避免把一般長句換行視為缺陷。 */
+export function measurePrintShortLabels() {
+  const candidates = [...document.querySelectorAll('.cheatsheet-body th, .cheatsheet-body td, .cheatsheet-body a')]
+    .filter((element) => /^[\p{Script=Han}]{2,3}$/u.test(element.textContent.trim()) && !element.querySelector('th, td, a'));
+  const labels = candidates.map((element) => {
+    const text = element.textContent.trim();
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+    const positions = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      for (let i = 0; i < node.length; i++) {
+        if (!/\p{Script=Han}/u.test(node.data[i])) continue;
+        const range = document.createRange();
+        range.setStart(node, i); range.setEnd(node, i + 1);
+        const rect = range.getBoundingClientRect();
+        positions.push(Math.round(rect.top));
+      }
+    }
+    return { text, lines: new Set(positions).size, cellWidth: element.closest('th, td')?.getBoundingClientRect().width ?? 0 };
+  });
+  const supplements = [...document.querySelectorAll('.cheatsheet-body .cheatsheet-print-supplement')].map((element) => {
+    const range = document.createRange(); range.selectNodeContents(element);
+    return { text: element.textContent, lines: new Set([...range.getClientRects()].map((rect) => Math.round(rect.top))).size };
+  });
+  return { checked: labels.length, vertical: labels.filter((label) => label.lines === label.text.length), supplements: supplements.length, splitSupplements: supplements.filter((item) => item.lines > 1) };
+}
+
+/** 每次正式驗收先以瀏覽器實測直排負例與自然折行正例。 */
+export async function verifyPrintShortLabelFixture(page) {
+  await page.emulateMedia({ media: 'print' });
+  await page.setContent('<div class="cheatsheet-body"><table style="table-layout:fixed;width:32px"><tr><th>教材</th></tr><tr><td><a>看教材</a></td></tr><tr><td><span class="cheatsheet-print-supplement">（補充）</span></td></tr></table></div><style>th,td{padding:0;font:16px sans-serif;overflow-wrap:anywhere}</style>');
+  const bad = await page.evaluate(measurePrintShortLabels);
+  assert.equal(bad.checked, 2); assert.deepEqual(bad.vertical.map((item) => item.text), ['教材', '看教材']); assert.equal(bad.splitSupplements.length, 1);
+  await page.setContent('<div class="cheatsheet-body"><table><tr><td style="width:32px">這是一段需要自然換行的句子</td><td style="width:16px">字</td><td style="width:16px">2</td><td style="width:80px"><a>看教材</a></td><th style="width:50px">教材</th><td><span class="cheatsheet-print-supplement" style="white-space:nowrap">（補充）</span></td></tr></table></div><style>td,th{padding:0;font:16px sans-serif}</style>');
+  const good = await page.evaluate(measurePrintShortLabels);
+  assert.equal(good.checked, 2); assert.deepEqual(good.vertical, []); assert.equal(good.supplements, 1); assert.deepEqual(good.splitSupplements, []);
+  await page.emulateMedia({ media: 'screen' });
+  return { bad, good };
+}
+
 export async function verifyCheatsheet() {
   const root = resolve(import.meta.dirname, '../../..');
   assert.ok(process.env.Q2_OUTPUT ?? process.env.SMOKE_OUTPUT, '請由協調者指定獨立 Q2_OUTPUT 或 SMOKE_OUTPUT');
@@ -60,6 +100,7 @@ export async function verifyCheatsheet() {
     assert.equal(await page.locator('html').getAttribute('data-theme'), cell.theme);
   }
   try {
+    report.printShortLabelFixture = await verifyPrintShortLabelFixture(page);
     for (const sheet of sheets) {
       const path = `/codes/${sheet.code}/cheatsheet/`;
       const entry = { code: sheet.code, path, status: '未執行', links: [], viewports: [] }; report.pages.push(entry);
@@ -107,6 +148,9 @@ export async function verifyCheatsheet() {
         await go(path); await page.setViewportSize({ width: 794, height: 1123 }); await page.emulateMedia({ media: 'print' });
         const print = await page.evaluate(() => ({ document: document.documentElement.scrollWidth, viewport: innerWidth, button: getComputedStyle(document.querySelector('.cheatsheet-top')).display, navigation: [...document.querySelectorAll('header.header, .sidebar-pane, .right-sidebar-container, .cheatsheet-jump')].map((e) => getComputedStyle(e).display) }));
         assert.ok(print.document <= print.viewport, JSON.stringify(print)); assert.equal(print.button, 'none'); assert.ok(print.navigation.every((display) => display === 'none'));
+        print.shortLabels = await page.evaluate(measurePrintShortLabels);
+        assert.deepEqual(print.shortLabels.vertical, [], `短標籤逐字換行：${JSON.stringify(print.shortLabels.vertical)}`);
+        assert.deepEqual(print.shortLabels.splitSupplements, [], `補充標記換行：${JSON.stringify(print.shortLabels.splitSupplements)}`);
         entry.print = { ...print, verified: true }; await page.screenshot({ path: resolve(output, `${mode}-${sheet.code}-print.png`), fullPage: true, animations: 'disabled' }); entry.status = '通過';
       } catch (error) {
         entry.status = '失敗'; entry.failure = { url: page.url(), width: page.viewportSize()?.width, theme: await page.locator('html').getAttribute('data-theme').catch(() => null), error: String(error), screenshot: `${mode}-${sheet.code}-failure.png` };
