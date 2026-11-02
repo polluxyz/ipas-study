@@ -1,0 +1,36 @@
+id: 115-1-S3-Q19
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 19
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 5
+type: 情境
+codes: [L23203, L21101]
+concepts: [transformer, self-attention]
+stem: |
+  某團隊開發合約文件審查系統，需比對合約首頁的定義條款與第 20 頁的責任條款是否一致。工程師初版採用雙向長短期記憶（Bidirectional LSTM），但發現長文件的跨段落語義關聯捕捉效果不佳，且訓練時間隨文件長度明顯增加。改用 Transformer 架構後問題獲得改善，下列何者為最主要的原因？
+options:
+  A: Transformer 參數量比 LSTM 少，因此訓練速度更快、不易過擬合
+  B: Transformer 內建位置編碼，使模型天生理解文件的章節結構與段落順序
+  C: LSTM 無法處理超過 512 個 token 的輸入，Transformer 無此硬性限制
+  D: Transformer 的 Self-Attention 可讓任意 token 直接建立關聯，不受距離限制，且運算可平行化
+answer: D
+explanation:
+  summary: "答案 D。自注意力可直接連結同一輸入範圍內的遠距位置。"
+  correct: "循環模型沿時間步傳遞狀態，遠端資訊需經較長路徑；自注意力能直接計算位置間的關聯，訓練時也可平行處理多個位置。但「不受距離限制」只是在可見範圍內不必逐步傳遞，仍受上下文長度、遮罩與運算記憶體限制；自回歸生成也仍須逐步產生 token。"
+  wrong:
+    A: "參數數量取決於寬度、層數等設定，Transformer 不必比 LSTM 小，也不能因此保證較少過擬合。"
+    B: "位置編碼提供位置線索，不會直接賦予模型對法律章節結構的理解，相關語意仍須學習。"
+    C: "LSTM 沒有通用的 512 token 硬上限；Transformer 也有各自的上下文與資源上限。"
+  rule: "比較序列架構時，分清關聯路徑、訓練平行化與實際上下文上限。"
+guide_refs: [guide-3:4-76, guide-3:4-78, guide-3:4-79]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 5
+    by: EX-E7
+  blind_answer: D
+  dispute: null

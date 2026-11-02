@@ -1,0 +1,36 @@
+id: 115-1-S3-Q39
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 39
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 10
+type: 情境
+codes: [L23402]
+concepts: [fairness-constrained-training, fairness-preprocessing]
+stem: |
+  某銀行信貸模型上線後稽核發現，女性申請者中「實際具有還款能力卻被模型拒絕」的比例顯著高於男性，但法務限制不允許在推論階段使用性別欄位調整輸出。下列去偏策略何者在此限制下仍可執行？
+options:
+  A: 訓練中（In-processing）：在損失函數加入公平性懲罰項，降低不同群體的錯誤拒絕比例差異
+  B: 前處理（Pre-processing）：僅於訓練資料進行重新採樣，無法直接修正既有模型在推論階段的偏誤
+  C: 後處理（Post-processing）：依性別分組調整決策門檻，使不同群體的錯誤拒絕比例一致
+  D: 改用人口統計均等指標（Demographic Parity），錯誤拒絕比例差異將自動消失
+answer: A
+explanation:
+  summary: "官方答案 A。訓練中去偏可行，但 B 所述前處理重訓也可能符合限制。"
+  correct: "訓練時可用性別與真實還款標籤計算群體錯誤拒絕率差異並加入懲罰，部署時讓預測只依非性別欄位，因此 A 可行，且直接針對實際有能力者被拒的問題。若正類代表有還款能力，這是在關注假陰性率，與機會平等有關。參見 [Fairlearn 訓練中約束文件](https://fairlearn.org/main/user_guide/mitigation/reductions.html)。但題幹沒有禁止重新訓練，A 也需重訓，故不能以既有模型不會立即改變為理由唯一排除 B。"
+  wrong:
+    B: "重新採樣本身不會立即改變已部署的權重，但可重採樣後重訓，推論時同樣不使用性別；科目 3 指引 6-21 也列此方法。因此它有符合限制的實作，與 A 形成多解疑義，不能教成前處理必然無效。"
+    C: "依性別選擇推論門檻，必須在決策時知道該筆性別，違反題幹的推論限制。"
+    D: "改看人口統計均等不會自動改變模型；整體正向率相同也不保證各群體實際正例的錯誤拒絕率相同。"
+  rule: "去偏策略須分開核對訓練與推論可用欄位，並確認公平性指標對準實際傷害。"
+guide_refs: [guide-3:6-18, guide-3:6-21, guide-3:6-22]
+author: codex
+review:
+  status: disputed
+  answer_checked:
+    pdf_page: 10
+    by: EX-E7
+  blind_answer: A
+  dispute: 官方答案 A。推論不用性別不代表訓練也不能使用；A 的訓練中去偏可行，B 的前處理後重新訓練也可行。題幹未禁止重新訓練；若把 B 限成只重採樣而不重訓，才不能直接修正既有權重。兩種讀法造成選項疑義，官方計分保留 A。
