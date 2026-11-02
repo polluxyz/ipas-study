@@ -11,7 +11,7 @@ vi.mock('../rollout-smoke.mjs', async (importOriginal) => ({
   ...await importOriginal(), readBuildReceipt: fake.read, verifyBuildReceipt: fake.verify,
   guardBuildContext: fake.guard, routeLocalOnly: fake.route, gotoSettled: fake.gotoSettled,
 }));
-import { verify } from './verify.mjs';
+import { verify, inlineLinkMeasurements, assertInlineLinkContrast } from './verify.mjs';
 import { assertCompanion } from '../rollout-smoke.mjs';
 
 const binding = { receipt: { sha: 'test-sha' }, receiptDigest: 'test-digest' };
@@ -44,9 +44,11 @@ class FakeContext extends EventEmitter {
       if (!this.options.javaScriptEnabled && this.options.javaScriptEnabled !== false) this.emit('request', { url: () => 'http://127.0.0.1:4321/KaTeX.woff2' });
     };
     page.locator = (selector) => ({
-      count: async () => settings.badFigures && selector === '.textbook-figure' ? 4 : selector.includes('math') || selector.includes('katex') ? 3 : 5,
-      evaluate: async () => selector === '.textbook-advanced' ? true : selector.includes('figure-scroll') ? true : 5,
-      click: async () => {}, first() { return this; }, isVisible: async () => true,
+      count: async () => settings.badFigures && selector === '.textbook-figure' ? 4 : selector.includes('math') || selector.includes('katex') || selector === '.s1-figures > p a' ? 3 : 5,
+      evaluate: async (fn) => selector === '.textbook-advanced' ? true : String(fn).includes('outlineStyle') ? { active: true, visible: true, outlineStyle: 'solid', outlineWidth: '3px' } : String(fn).includes('scrollWidth - el.clientWidth') ? (String(fn).includes('svgWidth') ? { left: 0, max: settings.noOverflow ? 0 : 200, clientWidth: 380, scrollWidth: 580, svgWidth: 580, id: 'test', focused: true } : { left: settings.noMovement ? 0 : 200, max: 200, focused: !settings.lostFocus }) : selector.includes('figure-scroll') ? true : 5,
+      evaluateAll: async () => ['精確率', '召回率', 'F1 分數'].map((text) => ({ text, contrast: 8, decoration: 'underline' })),
+      scrollIntoViewIfNeeded: async () => {}, focus: async () => {}, hover: async () => {}, elementHandle: async () => ({}),
+      click: async () => {}, first() { return this; }, nth() { return this; }, isVisible: async () => true,
     });
     page.getByText = () => ({ isVisible: async () => true });
     page.evaluate = async (fn, query) => {
@@ -65,6 +67,8 @@ class FakeContext extends EventEmitter {
     page.waitForFunction = async () => {};
     page.screenshot = async () => {};
     page.setViewportSize = async () => {};
+    page.keyboard = { press: async () => {} };
+    page.mouse = { move: async () => {} };
     return page;
   }
   async close() {}
@@ -98,6 +102,25 @@ beforeEach(async () => {
       if (entry.failures.length) throw new Error('close race');
     };
     context.close = finish; return finish;
+  });
+});
+
+describe('行內連結實際色彩對比', () => {
+  it('拒絕舊深綠並接受新的前景，背景由祖先合成', () => {
+    const oldStyle = globalThis.getComputedStyle;
+    const background = { parentElement: null, style: { color: 'rgb(228, 237, 241)', backgroundColor: 'rgb(21, 37, 43)', backgroundImage: 'none', opacity: '1', visibility: 'visible' } };
+    const elements = ['精確率', '召回率', 'F1 分數'].map((text) => ({ textContent: text, parentElement: background, getClientRects: () => [1], getAttribute: () => '/concept/', style: { color: 'rgb(40, 102, 83)', backgroundColor: 'rgba(0, 0, 0, 0)', backgroundImage: 'none', opacity: '1', visibility: 'visible', textDecorationLine: 'underline' } }));
+    globalThis.getComputedStyle = (el) => el.style;
+    try {
+      const old = inlineLinkMeasurements(elements);
+      expect(old[0].contrast).toBeCloseTo(2.34, 2);
+      expect(() => assertInlineLinkContrast(old)).toThrow('行內連結對比不足');
+      for (const el of elements) el.style.color = 'rgb(120, 222, 210)';
+      const current = inlineLinkMeasurements(elements);
+      expect(current.every((item) => item.contrast >= 4.5)).toBe(true);
+      expect(() => assertInlineLinkContrast(current)).not.toThrow();
+      expect(() => assertInlineLinkContrast(current.slice(0, 2))).toThrow();
+    } finally { globalThis.getComputedStyle = oldStyle; }
   });
 });
 afterEach(() => { delete process.env.FIGURES_OUTPUT; delete process.env.DEMO_URL; delete process.env.BUILD_RECEIPT; });
@@ -147,6 +170,10 @@ describe('figures 收件接線（替身，非真 UI）', () => {
   it('原本圖表斷言失敗仍保存量測且不得完成', async () => {
     await expect(run({ badFigures: true })).rejects.toThrow();
     const r = await recorded(); expect(r.completed).toBe(false); expect(r.figures).toBe(4); expect(r.failure).toBeTruthy();
+  });
+  it.each(['noOverflow', 'noMovement', 'lostFocus'])('右端驗證拒絕 %s', async (fault) => {
+    await expect(run({ [fault]: true })).rejects.toThrow();
+    const report = await recorded(); expect(report.completed).toBe(false); expect(report.figureRightEdges).toHaveLength(0);
   });
   it('缺收據或收據錯誤保留失敗紀錄', async () => {
     delete process.env.BUILD_RECEIPT; await expect(run()).rejects.toThrow(); expect((await recorded()).completed).toBe(false);
