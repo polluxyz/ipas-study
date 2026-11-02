@@ -8,6 +8,10 @@ codes:
 aliases:
   - Historical Bias
 requires: []
+contrasts:
+  - target: label-bias
+    note: 歷史偏見延續資料形成前的社會或制度不平等；標註偏見由製作標籤時的主觀或文化判斷引入，兩者可同時存在
+    source: [guide-1:4-37]
 summary: 過往制度造成的不平等即使被忠實記錄，也可能由模型繼續複製
 goals:
   - id: g1

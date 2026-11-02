@@ -4,7 +4,7 @@
 
 ## 1. 角色表（換模型只改這裡）
 
-**worker 優先用 Codex**（2026-11-01 使用者要求）。**推理強度**（2026-11-02 使用者要求）：生產工作（寫作、修正、網站、抽取）用 `gpt-6.1-sol` + `high`；審查、核算、建議類的 Codex 工作用 `xhigh`。Claude 主審維持 `--effort medium`。只有真的需要時才派非 Codex：審查 Codex 寫的內容（避免同一個 provider 自己審自己），或 Codex 做不好的工作（派工單寫明理由）。
+**worker 優先用 Codex**（2026-11-01 使用者要求）。**推理強度**（2026-11-02 使用者要求）：生產工作（寫作、修正、網站、抽取）通常用 `gpt-6.1-sol` + `high`；中等難度且範圍明確的工作也可選 `gpt-6.1-terra` + `xhigh`。審查、核算、建議類的 Codex 工作用 `xhigh`。Claude 主審維持 `--effort medium`。只有真的需要時才派非 Codex：審查 Codex 寫的內容（避免同一個 provider 自己審自己），或 Codex 做不好的工作（派工單寫明理由）。
 
 | 角色 | 啟動方式 | 用在 |
 |---|---|---|
@@ -12,6 +12,7 @@
 | `site` | Codex 兩段式，`gpt-6.1-sol` + `high` | 網站程式、檢查器、需要判斷的資料工作 |
 | `extract` | Codex 兩段式，`gpt-6.1-sol` + `high` | 單純的題目抽取、圖片產生 |
 | `writer` | Codex 兩段式，`gpt-6.1-sol` + `high`，加 `--search`（上網查資料） | 概念頁、題目解析、模擬題、讀 PDF 圖片轉錄 |
+| 中等難度生產 | Codex 兩段式，可選 `gpt-6.1-terra` + `xhigh` | 範圍明確的內容修正、來源同步、文件或報告整理 |
 | `reviewer-claude` | 一行，`--agent claude --model claude-opus-5-5 --effort medium` | 主審 Codex 寫的內容（Claude Code 的唯一角色） |
 | `reviewer-gemini` | 一行，`--agent antigravity --model gemini-4-argon-high` | 主審 Codex 寫的內容（與 `reviewer-claude` 分攤） |
 | `reviewer` | Codex 兩段式，`gpt-6.1-sol` + `xhigh`，加 `--search` | 盲解、審查 Claude 寫的內容、程式與工具審查 |
@@ -44,6 +45,8 @@ Task spec 檔放 `tmp/<工作>/specs/`。
 ```bash
 # 寫作組：開新 worktree（從 main，分支改名為 content/<名>），派 Codex
 WT=w-l23102-a bash scripts/orca/dispatch.sh "W-L23102-A" <spec 檔>
+# 中等難度、範圍明確的工作：可選 Terra
+WT=w-medium MODEL=gpt-6.1-terra EFFORT=xhigh bash scripts/orca/dispatch.sh "W-MEDIUM" <spec 檔>
 # 審查：進寫作者的 worktree，派 Opus 5.5（effort medium）或 Gemini 4 Argon
 WTPATH=<worktree 路徑> AGENT=claude EFFORT=medium bash scripts/orca/dispatch.sh "R-L23102-A" <spec 檔>
 WTPATH=<worktree 路徑> AGENT=gemini bash scripts/orca/dispatch.sh "R-L23102-A" <spec 檔>
@@ -63,7 +66,7 @@ WTPATH=<worktree 路徑> AGENT=gemini bash scripts/orca/dispatch.sh "R-L23102-A"
 
 - 同時執行上限：Codex 10 個、Claude 6 個。每次派工前跑 `orca account list --json`。
 - 審查原則：寫的人和審的人用不同 provider。Codex 寫的內容由 `reviewer-claude`（Opus 5.5）或 `reviewer-gemini`（Gemini 4 Argon）主審，不用 Sonnet；公式獨立核算與程式實測另派非作者 Codex `reviewer`。Claude 寫的內容由 Codex `reviewer` 審（使用者 2026-11-01 核可混合審查）。
-- Claude 的 5 小時 `session` 用量超過 80% 時，暫停派 Claude，主審改派 `reviewer-gemini`。兩者都不可用時才改用另一個 Codex session，並在報告註明。
+- Claude 的 5 小時 `session` 用量超過 80% 時，暫停派 Claude，主審改派 `reviewer-gemini`。兩者都不可用時才改用不同 session 的非作者 Codex，並在報告註明這不是跨 provider 審查。
 - **Gemini 用量用完要做標記**（2026-11-02 使用者要求）。Gemini 終端機出現額度錯誤（例如 `429`、`RESOURCE_EXHAUSTED`、`quota`、usage limit）時：
   1. 在 `tmp/rollout/quota.md` 加一行：`- <日期 時間> gemini 用完｜恢復：<畫面寫的時間，沒寫就填「未知」>｜受影響：<任務代號> → 改派 <agent>`。
   2. 該任務改派 `reviewer-claude`；Claude 也不可用才改派 Codex。改派寫進 handles.txt，PR 描述的審查欄註明「Gemini 用完，改由 ○○ 主審」。

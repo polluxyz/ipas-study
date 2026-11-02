@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術�
 pdf_page: 6
 type: 情境
 codes: [L21203, L23401]
-concepts: [corpus-copyright]
+concepts: [corpus-copyright, data-sources]
 stem: |
   某企業部署生成式 AI 系統協助行銷與內容產出，但近期遭質疑部分生成內容可能涉及著作權侵權。為降低企業在法律層面的潛在責任與風險，下列哪一項策略最能有效預防侵權問題產生？
 options:
