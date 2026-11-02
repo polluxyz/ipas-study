@@ -1,0 +1,36 @@
+id: 115-1-S3-Q26
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 26
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 7
+type: 情境
+codes: [L23301]
+concepts: [temporal-features]
+stem: |
+  在時間序列資料的特徵工程中，工程師常使用滑動窗口（Sliding Window）方法，將過去多個時間點的觀測值組合為模型輸入。下列何者為此方法的主要目的？
+options:
+  A: 資料增強
+  B: 去除資料雜訊
+  C: 降低特徵維度
+  D: 建立滯後特徵
+answer: D
+explanation:
+  summary: "答案 D。把過去觀測排成輸入欄位，是建立時間滯後特徵。"
+  correct: "例如以 (xₜ₋₃, xₜ₋₂, xₜ₋₁) 預測 xₜ，每個欄位對應一個歷史位置，讓一般監督式模型也能利用時間依賴。所有輸入必須在預測當下已可取得；若不小心包含 xₜ 或更晚資料，就可能洩漏。"
+  wrong:
+    A: "相鄰窗口可增加可用訓練列，但本題把歷史觀測組成輸入的主要作用是表達滯後關係，不是一般擾動式資料增強。"
+    B: "單純排入多個原始時間點沒有做平滑或濾波，因此不保證去噪。"
+    C: "窗口通常增加每筆樣本包含的歷史欄位，而不是把原有特徵壓成更少維度。"
+  rule: "建立時序窗口時，先對齊預測目標，再確認每個輸入的可用時間。"
+guide_refs: [guide-3:5-10]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 7
+    by: EX-E7
+  blind_answer: D
+  dispute: null

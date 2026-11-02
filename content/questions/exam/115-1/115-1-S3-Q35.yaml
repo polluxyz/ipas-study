@@ -1,0 +1,36 @@
+id: 115-1-S3-Q35
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 35
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 9
+type: 情境
+codes: [L23304, L21103]
+concepts: [lora]
+stem: |
+  某團隊使用 LoRA 微調大型語言模型進行法律摘要任務，發現模型在複雜條款的摘要上常出現內容遺漏，但 GPU 顯存已接近上限。下列哪種調整方式最能在不明顯增加記憶體使用的前提下改善模型表現？
+options:
+  A: 提高 LoRA rank 以增強模型表達能力
+  B: 改用完整微調（Full Fine-tuning）以學習更多細節
+  C: 降低 LoRA rank 以釋放記憶體並增加 Batch Size
+  D: 降低 LoRA rank 但套用到更多層，保持 trainable 總參數不變
+answer: D
+explanation:
+  summary: "官方答案 D。可把適配器預算分配到更多層，但品質與顯存效果仍需實測。"
+  correct: "若固定基底模型及各層尺寸，LoRA 一個 d_out×d_in 權重的適配器參數數約為 r(d_in+d_out)。降低各處 rank，將省下的預算分配到更多目標層，可以在可訓練參數總量固定下增加調整範圍，因此 D 是合理策略。但同參數量不保證活化值或尖峰顯存相同，也不能保證摘要遺漏改善；題幹欠缺原始 rank、目標層與遺漏成因，無法唯一證明最有效。參見 [LoRA 論文](https://arxiv.org/abs/2106.09685) 及 [PEFT 設定文件](https://huggingface.co/docs/peft/en/package_reference/lora)。指引只概述 LoRA，未教授此預算分配判斷。"
+  wrong:
+    A: "提高 rank 通常增加可訓練參數及相關梯度、最佳化器狀態；顯存已接近上限時需評估代價。但小幅提高的實際成本可能不明顯，不能在缺少設定時斷言一定不可行。"
+    B: "完整微調通常要為更多參數保留梯度與最佳化器狀態，若其他設定不變，較難符合顯存限制。"
+    C: "降 rank 可減少適配器預算，但加大 batch 會增加活化值需求，且較大 batch 不會自動補回複雜條款的表示能力；是否改善仍要驗證。"
+  rule: "受限微調要同時核算適配器參數、活化值與品質，不能用參數總數代表全部顯存。"
+guide_refs: [guide-1:3-29]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 9
+    by: EX-E7
+  blind_answer: D
+  dispute: null

@@ -1,0 +1,36 @@
+id: 115-1-S3-Q14
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 14
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 4
+type: 情境
+codes: [L23202, L23301]
+concepts: [naive-bayes, sampling-bias]
+stem: |
+  某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象的最主要原因與較適當的改善方式為何？
+options:
+  A: 應禁用 Naive Bayes，改用其他更先進演算法
+  B: 模型過擬合於訓練資料，應增加 Epoch 數以提升泛化能力
+  C: 類別條件機率受訓練資料分布影響，導致促銷關鍵字被視為垃圾信特徵，應重新平衡資料或調整先驗機率
+  D: 模型未進行特徵標準化（Feature Scaling），導致分類邊界偏移，應先進行正規化處理
+answer: C
+explanation:
+  summary: "答案 C。訓練語料的代表性影響詞彙對垃圾信的機率證據。"
+  correct: "模型以類別先驗及詞彙在各類郵件中的條件機率形成判斷。正常促銷信不足時，促銷用語就可能成為偏向垃圾信的證據。應補入具代表性的正常促銷資料並重估機率；若部署類別比例改變，也可校準先驗。僅調先驗或讓類別數量相同，不保證修復詞彙條件機率的偏差，仍須驗證正常信誤判率。"
+  wrong:
+    A: "換演算法不會自動補回缺少的正常促銷語料；Naive Bayes 本身也不是不能用於垃圾信辨識。"
+    B: "一般詞頻式 Naive Bayes 由計數估計機率，不是靠增加 Epoch 反覆梯度訓練；重複看同一批偏斜語料不能補足代表性。"
+    D: "此處已有詞彙與類別共現偏斜的直接線索，並非距離尺度造成的問題；任意標準化詞頻也不是主要修正。"
+  rule: "機率分類誤判先查類別先驗與類別內的特徵分布，兩者不能互相取代。"
+guide_refs: [guide-3:4-34, guide-3:4-35]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 4
+    by: EX-E7
+  blind_answer: C
+  dispute: null

@@ -1,0 +1,36 @@
+id: 115-1-S3-Q01
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 1
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 1
+type: 情境
+codes: [L23101]
+concepts: [monte-carlo-method]
+stem: |
+  某量化投資團隊需估算某投資組合未來 30 日的風險值。由於衍生性金融商品的定價模型過於複雜，無法以解析解直接求得，工程師因此採用隨機模擬方式，產生大量市場情境模擬並估計損失分布。此方法屬於下列哪一種技術框架？
+options:
+  A: 馬可夫鏈（Markov Chain）：以狀態轉移機率描述系統演變的隨機過程
+  B: 梯度下降最佳化（Gradient Descent）：透過迭代更新參數以最小化損失函數
+  C: 蒙地卡羅方法（Monte Carlo Method）：透過大量隨機抽樣近似機率分布或數值結果
+  D: 貝氏推論（Bayesian Inference）：結合先驗分布與資料更新後驗機率
+answer: C
+explanation:
+  summary: "答案 C。以大量隨機情境近似難以直接求出的損失分布。"
+  correct: "先依市場變數的機率模型抽樣，再對每個情境計算投資組合損失，彙整為經驗分布，就能估計所需的風險分位數；這是蒙地卡羅模擬。模擬品質仍取決於市場假設與抽樣數量。科目 3 指引第 3.1 節未明確教授此方法，因此未填指引頁碼。"
+  wrong:
+    A: "馬可夫鏈描述狀態如何依轉移機率變化；它可作為某些模擬的工具，但題幹的辨識重點是反覆抽樣近似分布，未提狀態轉移。"
+    B: "梯度下降用梯度更新待估參數；題幹是在估計風險分布，沒有以最小化某個目標為主要流程。"
+    D: "貝氏推論需要用觀察資料更新先驗信念；題幹沒有先驗與後驗更新的敘述。"
+  rule: "看見反覆隨機抽樣並彙整數值估計，優先辨認蒙地卡羅方法。"
+guide_refs: []
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E7
+  blind_answer: C
+  dispute: null

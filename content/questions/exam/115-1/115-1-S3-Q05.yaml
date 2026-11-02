@@ -1,0 +1,36 @@
+id: 115-1-S3-Q05
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 5
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 1
+type: 情境
+codes: [L23303, L23101]
+concepts: [residual-analysis]
+stem: |
+  某工程師完成多元線性迴歸模型後，繪製殘差圖（Residual Plot），發現殘差隨預測值增大而呈現擴散現象（右側明顯比左側分散）。此現象最可能代表什麼問題？
+options:
+  A: 殘差之間存在關聯
+  B: 特徵之間高度相關
+  C: 殘差變異數不一致
+  D: 殘差不符合常態分布
+answer: C
+explanation:
+  summary: "答案 C。殘差圖呈漏斗狀，直接提示誤差的條件變異數改變。"
+  correct: "預測值較大時，殘差的垂直散布也較寬，表示不同預測區間的誤差波動幅度不相同，稱為異質變異。這是對變異數齊一假設的警訊，仍可再以分組統計或檢定確認。"
+  wrong:
+    A: "殘差相關通常要依時間或觀測順序查看相依性；單看散布由窄變寬不足以判定自相關。"
+    B: "高度共線性是輸入特徵間的關係，要查看特徵相關或其他共線性診斷，不能從漏斗外形直接推論。"
+    D: "常態性要看誤差分布形狀，例如 Q–Q 圖；散布幅度不同並不直接證明每個條件分布都非常態。"
+  rule: "殘差圖先分清散布寬度、彎曲趨勢與時間相依，各自對應不同診斷。"
+guide_refs: [guide-3:4-14]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E7
+  blind_answer: C
+  dispute: null

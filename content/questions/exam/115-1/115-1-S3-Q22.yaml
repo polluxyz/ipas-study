@@ -1,0 +1,36 @@
+id: 115-1-S3-Q22
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 22
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 6
+type: 情境
+codes: [L21101, L21103]
+concepts: [hybrid-search, rag]
+stem: |
+  某工程師建置企業內部知識問答的 RAG 系統，上線後發現部分問題檢索結果與查詢語意不符。分析後確認問題出在向量搜尋的語意匹配不準確。於檢索階段，採取下列哪種方法最能直接改善此問題？
+options:
+  A: 將切片大小（Chunk Size）由 512tokens 縮小至 128tokens，以提升檢索精細度
+  B: 調整向量相似度閾值（Similarity Threshold），以過濾低相關檢索結果
+  C: 採用混合搜尋（Hybrid Search）：結合語意向量搜尋與關鍵字搜尋（BM25），並以 RRF（Reciprocal Rank Fusion）融合排序
+  D: 將檢索結果隨機洗牌（Shuffle）後回傳給 LLM，避免位置偏誤（Position Bias）
+answer: C
+explanation:
+  summary: "官方答案 C。混合檢索可補足向量匹配弱點，但不能由題幹保證優於所有調整。"
+  correct: "BM25 提供字詞匹配訊號，可在向量語意失準時找回精確術語；RRF 再依各檢索清單的名次融合候選。這是可行的修正方向，參見 [Azure AI Search 排序融合文件](https://learn.microsoft.com/en-us/azure/search/hybrid-search-ranking)。但題目未提供錯誤型態與評估結果，不能斷言此法一定最有效。兩科指引未明確教授 BM25 加 RRF 的混合策略，因此未填指引頁碼。"
+  wrong:
+    A: "縮短切片可能減少無關文字，也可能切斷回答所需上下文；沒有證據顯示 128 tokens 比 512 更適合本資料。"
+    B: "若錯誤結果確實具有低相似度，提高閾值可直接改善精確率，因此此項有成立情境；但無法修復高分誤配，也可能漏掉正確結果，不能保證最佳。"
+    D: "洗牌只改變送給生成器的順序，沒有補回相關文件或改進檢索候選的語意品質。"
+  rule: "檢索修正應以錯誤型態及精確率、召回率證據判斷，不能只憑方法名稱。"
+guide_refs: []
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 6
+    by: EX-E7
+  blind_answer: C
+  dispute: null
