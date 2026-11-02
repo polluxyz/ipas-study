@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 13
 type: 程式
 codes: [L23203, L23302]
-concepts: []
+concepts: [cnn-tensor-shapes, convolution-layer]
 stem: |
   VGG16 是由牛津大學 Visual Geometry Group(VGG)在 2014 年提出的經典卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習等任務。附圖程式碼載入了預訓練的 VGG16 模型，並輸出其完整層級結構及參數統計摘要（如附表）。請根據此資訊回答 42~45 題。
 
@@ -85,13 +85,21 @@ options:
     池化層(MaxPool2d, AdaptiveAvgPool2d)
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案：A。卷積核在各個空間位置重複運算，題示卷積層的總運算量高於全連接層。
+  correct: >-
+    對單張影像，一般卷積層的乘加次數約為輸出高×輸出寬×輸出通道×輸入通道×卷積核高×卷積核寬。
+    例如第二個卷積層為 150×150×64×64×3×3 = 829,440,000 次乘加；光這一層就超過三個 Linear 合計的 123,633,664 次。
+    依題示所有尺寸計算，13 個卷積層約有 6,615,491,328 次乘加，因此卷積最多。
+    此處略去偏差加法，並用 MAC 表示一次乘加；若把一次乘與一次加各算一個 FLOP，兩類的主項皆乘以 2，不改變比較結果。
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: >-
+      Linear 的權重雖多，但每張影像只作一次對應的矩陣向量運算，沒有卷積在整張特徵圖上的空間重用倍數。
+    C: >-
+      ReLU 每個元素只需一次與 0 的比較，計算成本遠低於卷積每個輸出元素所需的通道與卷積核乘加。
+    D: >-
+      池化需要區域比較或加總，並非完全不運算；但它不作輸入通道與輸出通道間的大量權重乘加，題示成本低於卷積。
+  rule: 比較卷積計算量要把權重使用次數乘上輸出空間大小，不能只用參數數量判斷 FLOPs。
+guide_refs: [guide-3:4-68, guide-3:4-69]
 author: codex
 review:
   status: draft

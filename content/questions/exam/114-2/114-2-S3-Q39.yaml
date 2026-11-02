@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 10
 type: 程式
 codes: [L23304, L23203]
-concepts: []
+concepts: [dropout, regularization]
 stem: |
   附圖程式碼實現的是哪一種正則化技術？
 code: |
@@ -30,13 +30,22 @@ options:
     Batch Normalization
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案：C。訓練時隨機把元素歸零並補償保留值的尺度，是 inverted dropout。
+  correct: >-
+    `np.random.binomial(1, p, size=x.shape)` 產生與輸入同形狀的 0／1 遮罩，每個位置以機率 p 保留；相乘會把被遮住的輸出變成 0。
+    這裡 p 是保留機率，須滿足 0 < p <= 1；除以 p 讓每個輸出在遮罩隨機性下的期望仍等於原值，因為 E[mask]=p。
+    `training=False` 時直接回傳 x，訓練時已補償過尺度，推論時不必再縮放。
+    指引 5-45～5-46 介紹隨機失活及測試時縮放的另一種慣例，本題採訓練時縮放，兩種寫法不要重複套用。
+    此外，PyTorch 的 Dropout API 以 p 表示「丟棄」機率，和本題符號方向相反；參見 [Dropout 官方文件](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Dropout.html)。
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: >-
+      L1 是在目標函數加入權重絕對值的懲罰項，促使權重稀疏；題示沒有計算這種懲罰。
+    B: >-
+      L2 以權重平方和限制權重大小；本程式操作的是隨機遮罩，沒有權重平方和。
+    D: >-
+      Batch Normalization 會利用批次或累積統計量調整中間特徵，再作可學習的縮放與平移；題示沒有均值、變異數或這些參數。
+  rule: 讀到訓練時的隨機二元遮罩，先辨認 Dropout，再確認機率代表保留或丟棄，以及縮放發生在哪個階段。
+guide_refs: [guide-3:5-45, guide-3:5-46]
 author: codex
 review:
   status: draft

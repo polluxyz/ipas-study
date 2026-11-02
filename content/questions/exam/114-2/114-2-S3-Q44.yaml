@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 13
 type: 程式
 codes: [L23203, L23102]
-concepts: []
+concepts: [cnn-tensor-shapes, cnn-architectures, pooling]
 stem: |
   VGG16 是由牛津大學 Visual Geometry Group(VGG)在 2014 年提出的經典卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習等任務。附圖程式碼載入了預訓練的 VGG16 模型，並輸出其完整層級結構及參數統計摘要（如附表）。請根據此資訊回答 42~45 題。
 
@@ -85,13 +85,20 @@ options:
     VGG16 包含 13 層卷積層（conv）與 3 層全連接層（FC），總參數數目約為 138,357,544（約 138.36M）
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案：D。VGG16 的 16 指 13 個卷積層加 3 個全連接層，題示共有 138,357,544 個參數。
+  correct: >-
+    按摘要逐層數出 13 個 Conv2d 與 3 個 Linear；VGG16 名稱中的 16 不把 ReLU、Dropout 與池化另算成有權重的層。
+    卷積參數 14,714,688 加上全連接參數 123,642,856，得到 138,357,544，約 138.36M。
+    資料會先經 features、AdaptiveAvgPool2d，再攤平進 classifier；此處自適應池化明確輸出 7×7，所以不能沿用先前的 4×4 尺寸。
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: >-
+      4×4 是 MaxPool2d-31 的輸出；下一層自適應平均池化已改成 7×7，因此攤平維度為 512×7×7=25,088，而非 8,192。
+    B: >-
+      Linear 預設包含偏差，每個輸出單元各一個；25,088×4,096 個權重加 4,096 個偏差，才是表內的 102,764,544。
+    C: >-
+      摘要的 Estimated Total Size 是特定假設下的估計，不能保證涵蓋 optimizer state、所有梯度、實際批次與執行工作空間；不能由它斷定 1 GB GPU 足夠訓練。
+  rule: 核算網路尺寸與參數時，依實際資料流逐層追蹤，並把 Linear 的權重與偏差分開計算。
+guide_refs: [guide-3:4-69, guide-3:4-71]
 author: codex
 review:
   status: draft

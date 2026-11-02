@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 15
 type: 程式
 codes: [L23301, L23202]
-concepts: []
+concepts: [pca]
 stem: |
   在郵遞區號自動辨識的研究中，研究人員收集了一份手寫數字影像資料集，每一張影像為 8×8 的灰階圖片，共包含多個手寫數字樣本。這份資料集來自 UCI Machine Learning Repository，常被用於數字辨識與機器學習方法的教學與實驗。
   在過程中，研究人員發現資料中可能存在雜訊，例如筆跡模糊或影像中附加的干擾點，這會影響後續分類模型的效能。因此，他們希望透過資料降噪的方法，提升後續分類的準確度。同時，他們也想透過 KNN (K-Nearest Neighbors) 搭配交叉驗證來評估模型表現，確保模型在不同資料切割下都能有穩定的預測能力。
@@ -51,13 +51,22 @@ options:
     程式碼 D
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案：B。PCA() 在本題保留全部 64 個主成分，投影再重建幾乎原樣保留了雜訊。
+  correct: >-
+    這組資料有 1,797 筆、64 維；未指定 n_components 的 PCA 在題示預設設定下保留全部 64 個方向。
+    `fit(noisy)` 學投影方向，`transform` 轉到主成分座標，`inverse_transform` 轉回像素座標；保留全部方向只是更換座標系，無法藉捨棄成分濾除雜訊。
+    因此應修改 B，例如 `PCA(n_components=20)`，保留部分方向再重建。
+    20 只是可嘗試的設定，並非保證最佳；去噪須以主要訊號集中於保留方向、部分雜訊落在捨棄方向為條件，應比較重建與後續驗證表現。
+    指引介紹 PCA 的降維及雜訊過濾用途；預設保留量與重建 API 見 [PCA 官方文件](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)。
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: >-
+      匯入 sklearn.decomposition 的 PCA 類別並沒有錯；只更換匯入步驟，不會解決保留全部主成分的問題。
+    C: >-
+      fit 用含雜訊資料學習主要方向是這類無監督去噪的常見作法；它本身不代表設定錯誤，問題是沒有限制保留維度。
+    D: >-
+      transform 是投影到已學得的主成分空間，之後仍須 inverse_transform 重建像素；只改投影呼叫而不減少保留成分，不能解決原問題。
+  rule: PCA 去噪須捨棄部分主成分再重建，保留全部方向通常只會還原含雜訊的輸入。
+guide_refs: [guide-3:4-44, guide-3:4-45, guide-3:5-6]
 author: codex
 review:
   status: draft

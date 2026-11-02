@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 13
 type: 程式
 codes: [L23203, L23302]
-concepts: []
+concepts: [cnn-tensor-shapes, cnn-architectures]
 stem: |
   VGG16 是由牛津大學 Visual Geometry Group(VGG)在 2014 年提出的經典卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習等任務。附圖程式碼載入了預訓練的 VGG16 模型，並輸出其完整層級結構及參數統計摘要（如附表）。請根據此資訊回答 42~45 題。
 
@@ -85,13 +85,21 @@ options:
     池化層(MaxPool2d, AdaptiveAvgPool2d)
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案：B。題示 VGG16 的三個 Linear 層合計約占 89.36% 的參數。
+  correct: >-
+    直接加總摘要中的三個全連接層：102,764,544 + 16,781,312 + 4,097,000 = 123,642,856。
+    相較之下，13 個卷積層共 14,714,688 個參數，因此全連接層最多。
+    主要來源是第一個 Linear：AdaptiveAvgPool2d 產生 512×7×7 個數值，攤平後有 25,088 維，連到 4,096 個單元並包含偏差，就要 (25,088+1)×4,096 個參數。
+    這是儲存及學習的參數數目，不等於每次推論的運算次數。
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: >-
+      卷積會在不同空間位置重用同一組卷積核；雖然層數較多，合計參數仍少於題示三個 Linear 層。
+    C: >-
+      本模型的 ReLU 只將負值設為 0，沒有可訓練權重或偏差，因此摘要參數為 0。
+    D: >-
+      題示最大池化與自適應平均池化依區域取最大值或平均值，沒有可訓練參數；輸出張量有元素不代表有參數。
+  rule: 比較參數量先加總權重與偏差；卷積的空間重用次數影響計算量，不能重複算進參數量。
+guide_refs: [guide-3:4-68, guide-3:4-69, guide-3:4-71]
 author: codex
 review:
   status: draft

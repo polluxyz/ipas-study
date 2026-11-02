@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 13
 type: 程式
 codes: [L23302, L23203]
-concepts: []
+concepts: [transfer-learning, pytorch]
 stem: |
   VGG16 是由牛津大學 Visual Geometry Group(VGG)在 2014 年提出的經典卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習等任務。附圖程式碼載入了預訓練的 VGG16 模型，並輸出其完整層級結構及參數統計摘要（如附表）。請根據此資訊回答 42~45 題。
 
@@ -116,12 +116,21 @@ options:
     ```
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: 官方答案：B。若 classifier 指整個分類器，B 符合；若只指最後一個 Linear，A 也符合，題意有歧義。
+  correct: >-
+    把題幹的 classifier 解讀為整個分類器時，B 只對 `model.features.parameters()` 設定 `requires_grad=False`，凍結卷積部分而保留 classifier 的三個 Linear 可訓練。
+    再把 `classifier[6]` 換成輸出 10 類的新 Linear，其參數預設可訓練；後續仍須把欲更新的參數交給 optimizer。
+    但「只訓練最後全連接層」也可指僅最後一個 Linear，此時 A 才是精確作法，因此不能無條件排除 A。
+    指引談過預訓練與微調概念，未教授 VGG 的凍結迴圈、classifier 範圍及新層的梯度預設值，故此題不填假借 API 教學的指引頁碼。
+    依據：[VGG 官方結構](https://docs.pytorch.org/vision/stable/_modules/torchvision/models/vgg.html) 及 [PyTorch 遷移學習教學](https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html#convnet-as-fixed-feature-extractor)。
   wrong:
-    A: ""
-    C: ""
-    D: ""
+    A: >-
+      先凍結所有既有參數，再換上的 Linear 預設 requires_grad=True，所以只有新的 classifier[6] 可訓練；它不符合「整個 classifier 都要訓練」的解讀，卻符合「只訓練最後一層」的解讀，不能直接說它無法學習。
+    C: >-
+      凍結的是舊 classifier，並未凍結 features；換上新層後，卷積與最後 Linear 仍可訓練，違反凍結卷積的要求。
+    D: >-
+      設定 model.requires_grad 只是對模型物件增加一般屬性，不會遞迴改變各 Parameter 的 requires_grad；須逐參數設定或呼叫 requires_grad_()，原寫法沒有凍結卷積。
+  rule: 判斷凍結範圍要逐一看 Parameter 的 requires_grad，並注意凍結後換上的新模組預設仍可訓練。
 guide_refs: []
 author: codex
 review:

@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 18
 type: 程式
 codes: [L23102, L23203]
-concepts: []
+concepts: [mlp, keras, activation-functions]
 stem: |
   使用鐵達尼號(Titanic)資料集進行多層感知機(Multilayer Perceptron, MLP)分類預測分析，其中 survived 為反應變數(1 表示存活，0 表示死亡)。附圖程式碼展示資料載入與處理，請根據此資料回答第 48~50 題。
 
@@ -90,13 +90,21 @@ options:
     activation="sigmoid" 一般用於多類別分類預測模型
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案：C。9 維輸入接 10 個單元需 100 個參數，接著的 10 到 10 層需 110 個參數。
+  correct: >-
+    `dataset_train[:, 0:9]` 取得第 0～8 欄，所以模型輸入有 9 個特徵；第 9 欄 survived 是標籤，不應另算成輸入。
+    Dense 預設使用偏差，參數數目是輸入維度×輸出單元數 + 輸出單元數：第一層為 9×10+10=100，第二層為 10×10+10=110。
+    最後 10 到 1 層則有 10×1+1=11 個，和摘要一致；三層合計 221 個。
+    `Input` 只指定形狀，ReLU、Sigmoid 激活也不額外增加這些 Dense 層的可訓練參數，參見 [Dense 官方文件](https://keras.io/api/layers/core_layers/dense/)。
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: >-
+      題示公式 1/(1+e^(-x)) 是 Sigmoid；預設 ReLU 是 max(0,x)，負輸入變為 0，正輸入保留。
+    B: >-
+      把兩層的數字顛倒了；第一層只有 9 個輸入，第二層才接收前一層的 10 個輸出。
+    D: >-
+      本題單一 Sigmoid 輸出搭配 binary_crossentropy，用於存活／死亡的二元分類；互斥多類別通常用多個 Softmax 輸出，雖然多標籤任務也可逐標籤用 Sigmoid，但那不是本題設定。
+  rule: Dense 的參數量等於輸入維度乘輸出單元數再加偏差數，計算前先排除標籤欄並沿資料流確認每層維度。
+guide_refs: [guide-3:3-10, guide-3:4-57, guide-3:4-65]
 author: codex
 review:
   status: draft

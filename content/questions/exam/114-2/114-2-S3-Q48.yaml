@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 17
 type: 程式
 codes: [L23301, L23303]
-concepts: []
+concepts: [feature-scaling]
 stem: |
   使用鐵達尼號(Titanic)資料集進行多層感知機(Multilayer Perceptron, MLP)分類預測分析，其中 survived 為反應變數(1 表示存活，0 表示死亡)。附圖程式碼展示資料載入與處理，請根據此資料回答第 48~50 題。
 
@@ -84,13 +84,23 @@ options:
     A、C、F
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: 官方答案：C（敘述 A、D）。A 成立，但 D 若解讀為保證防止梯度爆炸或消失，則過強且沒有完全正確的組合。
+  correct: >-
+    將 D 理解為「有助改善尺度造成的訓練不穩」時，官方組合 A、D 最接近出題意圖。
+    `axis=0` 沿樣本方向計算各欄統計量；減平均使每欄均值接近 0，再除以非零標準差使標準差接近 1，浮點運算會有微小誤差。
+    不過標準化無法保證梯度穩定，權重、網路深度與激活函數仍會造成爆炸或消失；嚴格依 D 的「防止」解讀，只有 A 正確，而選項沒有 A 單獨，故須交爭議審查。
+    題示也錯在用測試集自己的統計量：應先用未修改的 X_train 計算 mu、sigma，令零標準差欄的縮放因子為 1，再讓訓練與測試資料都套用 (X-mu)/sigma。
+    標準化也不會把任意資料變成常態分布，指引 5-7 的說法需澄清。
+    參見 [StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html) 與 [MLP 的縮放指引](https://scikit-learn.org/stable/modules/neural_networks_supervised.html#tips-on-practical-use)。
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: >-
+      此組合包含錯誤敘述 B 與 C：除以標準差會使標準差約為 1，並非 0；Z-score 也不限制在 [0,1]，可能有負值或大於 1 的值。
+    B: >-
+      敘述 E 把縮放誤當特徵選擇；標準化改變每欄的尺度，沒有選掉欄位。
+    D: >-
+      此組合含錯誤敘述 C 與 F：Z-score 不保證落在 [0,1]；直接把 X 指派成各欄標準差，會把原本的樣本矩陣換成單一統計向量，失去逐筆特徵資料。
+  rule: Z-score 在非零尺度下調整均值與標準差，測試資料沿用訓練統計量，但它不保證範圍、分布形狀或梯度穩定。
+guide_refs: [guide-3:5-6, guide-3:5-7]
 author: codex
 review:
   status: draft

@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 10
 type: 程式
 codes: [L23101]
-concepts: []
+concepts: [conditional-probability, monte-carlo-method]
 stem: |
   考慮擲出骰子並採用 Monte Carlo 方法估算條件機率，參考附圖程式碼。
   事件 A：擲出偶數
@@ -36,13 +36,21 @@ options:
     A_and_B.sum() / B.sum()
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案：D。估計 P(A∣B) 時，只在滿足 B 的模擬結果中計算 A 也發生的比例。
+  correct: >-
+    已知 B 發生後，分母應是 B 的次數，分子則是 A 與 B 同時發生的次數，即 `A_and_B.sum() / B.sum()`。
+    程式先以 `randint(1, 7)` 產生 1～6，再用布林遮罩表示事件；`&` 取交集，布林陣列的 sum 計算 True 的個數。
+    公平骰子的 B={4,5,6}、交集={4,6}，所以理論條件機率是 2/3。
+    本題的有限次 Monte Carlo 模擬則給出 33,288 / 49,888，約 0.667255，無須恰好等於 2/3；估計式以 B.sum()>0 為前提。
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: >-
+      將 A 與 B 的次數相乘沒有對應到所求的條件樣本數；隨模擬次數增加，此比值還會因分母多乘一次樣本量而趨近 0。
+    B: >-
+      A.sum()+B.sum() 會重複計入交集，也不是已知 B 時的樣本數，因此不符合條件機率的分母。
+    C: >-
+      以 A.sum() 作分母得到 P(B∣A) 的估計，條件方向反了；本例兩個方向的理論值剛好都是 2/3，不能因此認為兩種估計式相同。
+  rule: 計算 P(A∣B) 時，把 B 當作新的樣本空間，以交集次數除以 B 的次數。
+guide_refs: [guide-3:3-5]
 author: codex
 review:
   status: draft
