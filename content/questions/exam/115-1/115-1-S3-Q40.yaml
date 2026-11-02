@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 11
 type: 程式
 codes: [L23203, L23103]
-concepts: []
+concepts: [output-loss-contract, softmax, cross-entropy-loss]
 stem: |
   分析師準備建立一個能將手寫數字圖片（28x28 像素展平為 784 維度）分為 0~9 共 10 個類別的多層感知機（MLP），且標籤已轉為 One-Hot 編碼（One-Hot Encoding）。為符合 10 個類別的單標籤分類需求，下圖中的程式碼中(A)與(B)的函數應填入何者？
 code: |
@@ -28,13 +28,14 @@ options:
   D: tanh，sparse_categorical_crossentropy
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案為 B；10 類互斥分類且標籤已獨熱編碼，應搭配 softmax 與 categorical_crossentropy。
+  correct: Dense(10) 產生每筆資料的 10 個輸出，softmax 將它們轉成總和為 1 的類別機率；categorical_crossentropy 接收同樣為 10 維的獨熱標籤，衡量真實類別的預測機率。資料因此依序經過 784 維輸入、64 個隱藏單元與 10 類輸出，輸出、標籤及損失的格式相容。
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: sigmoid 分別限制各輸出在 0 到 1，卻不要求 10 個值總和為 1；mean_squared_error 衡量平方誤差。這組合並非絕對不能訓練分類器，但沒有直接表達本題互斥類別的機率與分類損失，B 更符合需求。
+    C: relu 的輸出沒有機率上限，也不會形成總和為 1 的分布；binary_crossentropy 通常搭配二元或多標籤機率，不能用這組設定直接滿足本題的互斥多類別需求。
+    D: tanh 可能輸出負值，不是類別機率；sparse_categorical_crossentropy 要接收整數類別索引，而本題已提供獨熱標籤，兩者格式不符。
+  rule: 互斥多類別分類用 softmax，並依獨熱或整數標籤選擇 categorical 或 sparse categorical 交叉熵。
+guide_refs: [guide-3:4-62, guide-3:4-65, guide-3:5-8]
 author: codex
 review:
   status: draft

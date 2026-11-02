@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 16
 type: 程式
 codes: [L23203, L23304]
-concepts: []
+concepts: [cnn, batch-normalization, dropout, flatten]
 stem: |
   請依據下方資訊回答第 46~48 題。
   使用 CIFAR-10 資料集以建立卷積神經網路（CNN），進行彩色影像之分類與辨識分析。CIFAR-10 為一常用之影像分類基準資料集，內容包含 10 個類別，共計 60000 張彩色影像，其中訓練集含 50000 張影像，測試集則含 10000 張影像。每張影像解析度為 32 × 32 像素，並具有三個通道（channel），分別對應紅、綠、藍三原色。以下程式碼片段示範資料載入與處理流程。
@@ -90,13 +90,14 @@ options:
   D: 描述 D、描述 E、描述 F
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案為 B；BatchNormalization 可幫助穩定訓練，Dropout 用於抑制過擬合，Flatten 負責展平每筆特徵圖。
+  correct: 描述 C 可理解為批次正規化調整中間活化值的尺度，有助於深層模型訓練穩定，並非保證消除所有梯度問題。描述 E 的 Dropout 在訓練時隨機將部分輸出歸零，降低對少數特徵的依賴。描述 F 的 Flatten 不改批次軸；本模型經三次 2×2 池化後，每筆特徵由 4×4×128 展成 2048 維向量，再交給 Dense 分類頭，因此 C、E、F 的組合最合理。
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: 描述 A 錯誤；Input(shape=(32,32,3)) 宣告每筆輸入的尺寸，不會自動標準化像素。另須注意未列入任何選項的描述 B 也錯誤：第一個 Conv2D 的 32 個濾波器使輸出成為 (32,32,32)，不含批次軸，而非 (32,32,3)。
+    C: 同時含錯誤的描述 A、D；Input 不負責標準化，Dropout(0.25) 在訓練時以 25% 機率將各輸出設為 0，並非設為 1。留下的值會依保留率縮放，推論時不執行隨機丟棄。
+    D: 描述 E、F 成立，但描述 D 把 Dropout 的歸零寫成設為 1；這個值的差異正是本選項的錯因。
+  rule: 讀 CNN 時分別追蹤形狀宣告、濾波器數、訓練時歸零與保留批次軸的展平操作。
+guide_refs: [guide-3:3-27, guide-3:4-69, guide-3:5-34, guide-3:5-45, guide-3:5-46]
 author: codex
 review:
   status: draft

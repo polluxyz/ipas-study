@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 18
 type: 程式
 codes: [L23304, L23103]
-concepts: []
+concepts: [gradient-clipping]
 stem: |
   某人工智慧團隊正在開發一套自動光學檢測（Automated Optical Inspection, AOI）系統，目標是透過機械手臂上的相機，自動辨識晶圓表面是否存在「劃傷（Scratch）」或「污點（Spot）」等瑕疵。目前系統開發面臨以下挑戰：
   ● 資料極度不平衡，正常晶圓影像約佔 99%，有瑕疵影像僅佔 1%。
@@ -33,13 +33,14 @@ options:
   D: 插入於位置 1 與位置 2 之間；用以對輸入影像進行批次標準化
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案為 B；在 backward 產生梯度後、step 使用梯度前裁剪，才會影響本輪更新。
+  correct: loss.backward() 將本輪梯度累積到參數的 .grad，接著可呼叫 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)，再執行 optimizer.step()。這個 API 以全部指定參數梯度合併後的範數判斷是否需同比縮小，原地修改梯度，抑制過大梯度對更新的影響；1.0 只是示意門檻，須依任務調整。裁剪不保證解決所有 NaN，若損失或梯度已是 NaN/Inf，還須追查資料、運算或學習率等原因。
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: 此時尚未執行本輪 backward，沒有本輪梯度可裁剪；clip_grad_norm_ 處理參數梯度，不是限制 loss 的值，也不是用來補救梯度消失。
+    C: step 已用未裁剪的梯度完成更新，此時裁剪無法改變剛才那一步；它也不會將權重投影回某個範圍。
+    D: zero_grad 之後、前向傳播之前沒有本輪梯度；梯度裁剪不會對輸入影像進行批次標準化。
+  rule: 一般訓練迴圈的梯度裁剪順序是清梯度、前向與算損失、反向、裁剪、更新。
+guide_refs: [guide-3:3-27]
 author: codex
 review:
   status: draft

@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 12
 type: 程式
 codes: [L23302, L23304]
-concepts: []
+concepts: [transfer-learning, gradient-descent]
 stem: |
   下圖為使用 ResNet 進行遷移學習（Transfer Learning）的 Python 程式片段。請回答第 42~43 題。
 
@@ -32,13 +32,14 @@ options:
   D: 為了避免更新步伐過大，破壞預訓練模型原本已學好的良好特徵表示
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: 官方答案為 D；解凍預訓練層進行微調時，小學習率可降低既有表示被大幅改動的風險，但圖中程式只更新新分類頭。
+  correct: 若題幹的「微調」指解凍部分或全部預訓練參數，小學習率會縮小更新尺度，讓既有特徵逐步適應新任務，D 是這個前提下的最佳答案。可是圖中骨幹 requires_grad=False，Adam 也只更新 model.fc，新分類頭的 1e-4 不會透過參數更新破壞已凍結的骨幹。因此應區分一般微調原理與本程式的實際行為，不能把 D 的理由直接套在這段凍結設定；若要更新骨幹，須解凍並將相應參數交給優化器。
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: 學習率控制更新尺度，不會直接減少模型參數、活化值或優化器狀態的記憶體需求；降低它並非避免 OOM 的主要方法。
+    B: 小學習率可能改善穩定性，卻也可能需要更多更新步數；沒有保證縮短整體收斂時間，不能作為主要理由。
+    C: 學習率不會強制損失等於零，能否降低損失仍取決於資料、模型、梯度及訓練設定。
+  rule: 以小學習率保護預訓練表示的理由，適用於那些實際解凍且會被優化器更新的參數。
+guide_refs: [guide-3:3-27, guide-3:4-82]
 author: codex
 review:
   status: draft
