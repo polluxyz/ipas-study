@@ -46,8 +46,8 @@ formula_groups:
     checked_by: null
   - id: weight-budget
     source: https://docs.pytorch.org/docs/2.15/generated/torch.Tensor.nbytes.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK2-W-L21302-B
 self_check:
   - id: c1
     goal: g1
