@@ -3,7 +3,7 @@ import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
-import { loadContent, localUrl, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses } from './rollout-smoke.mjs';
+import { loadContent, localUrl, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses, gotoSettled, settlePage } from './rollout-smoke.mjs';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
@@ -120,7 +120,7 @@ export async function main() {
   async function gridScan(viewport, scrollY) {
     const scan = await context.newPage(); await scan.setViewportSize(viewport);
     try {
-      await scan.goto(base + '/map/'); await ready(scan);
+      await gotoSettled(scan, base + '/map/'); await ready(scan);
       // 正文連線也一起打開，避免網格只測到預設隱藏正文的狀態。
       await scan.locator('#map-body').check();
       await scan.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), scrollY);
@@ -179,10 +179,11 @@ export async function main() {
       console.log('grid-scan', JSON.stringify(record));
       assert.equal(result.mismatches, 0, JSON.stringify(result.examples));
       assert.ok(result.nodePoints > 0 && result.blankPoints > 0);
+      await settlePage(scan);
     } finally { await scan.close(); }
   }
   try {
-    const response = await page.goto(base + '/map/'); assert.equal(response.status(), 200); await ready();
+    const response = await gotoSettled(page, base + '/map/'); assert.equal(response.status(), 200); await ready();
     const data = JSON.parse(await page.locator('#concept-map-data').textContent());
     report.baselineDifference = { oldNodes: 30, actualNodes: data.nodes.length, oldTypedRelations: 37, actualTypedRelations: data.edges.filter((edge) => edge.type !== 'body').length, expectedTypedRelations: expectedEdges.length };
     console.log('目前路線／真實關係與早期基準的差異', JSON.stringify(report.baselineDifference));
@@ -278,9 +279,9 @@ export async function main() {
     await page.mouse.click(point.x, point.y);
     assert.match(await page.locator('#map-detail-title').innerText(), /資料洩漏/);
     assert.equal(await page.locator('#map-focus').inputValue(), 'data-leakage');
-    await page.locator('#map-open-concept').click(); await page.waitForURL('**/concepts/data-leakage/');
+    await settlePage(page); await page.locator('#map-open-concept').click(); await page.waitForURL('**/concepts/data-leakage/'); await settlePage(page);
     await page.locator('[data-reading-toggle] button').click();
-    await page.goto(base + '/map/'); await ready(); assert.ok((await graph(page)).read.includes('data-leakage'));
+    await gotoSettled(page, base + '/map/'); await ready(); assert.ok((await graph(page)).read.includes('data-leakage'));
     report.nodeNavigation = true; report.readingMark = true;
     await page.locator('#map-body').uncheck();
     for (const type of ['is_a', 'part_of', 'requires', 'mitigates']) await page.locator(`[data-map-relation][value="${type}"]`).uncheck();
@@ -307,7 +308,7 @@ export async function main() {
     buildChecks.push(finishMobileBuildCheck);
     mobileContext.on('page', (mobile) => mobile.on('pageerror', (error) => errors.push(error.message)));
     await routeLocalOnly(mobileContext, base, external, assets);
-    const mobile = await mobileContext.newPage(); await mobile.goto(base + '/map/'); await ready(mobile);
+    const mobile = await mobileContext.newPage(); await gotoSettled(mobile, base + '/map/'); await ready(mobile);
     assert.equal(await mobile.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
     await shot(mobile, 'map-mobile.png');
     await mobile.locator('#map-zoom-in').tap(); const zoomed = await graph(mobile);

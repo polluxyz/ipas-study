@@ -5,11 +5,11 @@ import { createHash } from 'node:crypto';
 import { mkdtemp, readFile, mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-const fake = vi.hoisted(() => ({ launch: vi.fn(), read: vi.fn(), verify: vi.fn(), guard: vi.fn(), route: vi.fn() }));
+const fake = vi.hoisted(() => ({ launch: vi.fn(), read: vi.fn(), verify: vi.fn(), guard: vi.fn(), route: vi.fn(), gotoSettled: vi.fn() }));
 vi.mock('playwright', () => ({ chromium: { launch: fake.launch } }));
 vi.mock('../rollout-smoke.mjs', async (importOriginal) => ({
   ...await importOriginal(), readBuildReceipt: fake.read, verifyBuildReceipt: fake.verify,
-  guardBuildContext: fake.guard, routeLocalOnly: fake.route,
+  guardBuildContext: fake.guard, routeLocalOnly: fake.route, gotoSettled: fake.gotoSettled,
 }));
 import { verify } from './verify.mjs';
 import { assertCompanion } from '../rollout-smoke.mjs';
@@ -62,6 +62,8 @@ beforeEach(async () => {
   process.env.DEMO_URL = 'http://127.0.0.1:4321'; process.env.BUILD_RECEIPT = 'fake-receipt';
   fake.read.mockReset().mockResolvedValue(binding); fake.verify.mockReset().mockResolvedValue();
   fake.route.mockReset().mockResolvedValue();
+  // 本測試以替身模擬導航；真實屏障由共用 helper 的測試及瀏覽器驗收負責。
+  fake.gotoSettled.mockReset().mockImplementation((page, url, options) => page.goto(url, options));
   fake.guard.mockReset().mockImplementation((context, _binding, _base, report) => {
     const entry = { context: report.buildResponses.length, seen: [], failures: [], pending: 0 }; report.buildResponses.push(entry);
     let closed = false;
@@ -88,6 +90,7 @@ describe('figures 收件接線（替身，非真 UI）', () => {
     const report = await run();
     expect(contexts).toHaveLength(2); expect(contexts[1].options.javaScriptEnabled).toBe(false);
     expect(fake.guard).toHaveBeenCalledTimes(2); expect(fake.route).toHaveBeenCalledTimes(2);
+    expect(fake.gotoSettled).toHaveBeenCalledTimes(2);
     expect(report.buildResponses.every((x) => x.sealed)).toBe(true);
     expect(() => assertCompanion('figures', report, binding, {})).not.toThrow();
     expect(await recorded()).toEqual(report);

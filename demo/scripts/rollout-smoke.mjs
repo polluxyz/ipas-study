@@ -808,7 +808,7 @@ export async function runRollout(options) {
   }
   async function navigate(page, path, cell = CELLS[4]) {
     await page.setViewportSize({ width: cell.width, height: cell.height });
-    const response = await page.goto(localUrl(path, base).href, { waitUntil: 'networkidle' });
+    const response = await gotoSettled(page, localUrl(path, base).href, { waitUntil: 'networkidle' });
     assert.equal(response?.status(), 200, `${path} HTTP`);
     await page.evaluate(async (theme) => {
       document.documentElement.dataset.theme = theme;
@@ -1001,7 +1001,7 @@ export async function runRollout(options) {
         await navigate(page, `/concepts/${stage.concepts[0].id}/`);
         const button = page.locator('[data-reading-toggle] button');
         await button.focus(); if (await button.getAttribute('aria-pressed') !== 'true') await page.keyboard.press('Space');
-        await page.reload(); assert.equal(await button.getAttribute('aria-pressed'), 'true');
+        await settlePage(page); await page.reload(); await settlePage(page); assert.equal(await button.getAttribute('aria-pressed'), 'true');
         await navigate(page, `/codes/${route.code}/`);
         assert.match(await page.locator(`[data-stage="${stage.id}"] [data-stage-reading]`).innerText(), /已讀 [1-9]/);
         return { stage: stage.id, expected, sampled: ids };
