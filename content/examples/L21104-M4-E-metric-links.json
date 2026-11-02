@@ -1,0 +1,59 @@
+{
+  "source": "僅索引既有責任頁的指引案例，不另生成醫療／零售／互動資料。",
+  "split": "案例／任務對照，非樣本集；不合併既有工廠／交通數據。",
+  "seed": null,
+  "generation": "逐筆或依指定計數展開，無隨機抽樣。",
+  "index": "id 為本例內固定索引；排序依各欄位說明。",
+  "units": "計數為筆；比例無單位；分數為人工設定的排序值。",
+  "source_page": "content/concepts/multimodal-application-evaluation.md",
+  "source_sha256": "sha256:f2059db5d4d353f07be3e4444f5a4b818c891ccf8c3046ee405487dec45b5862",
+  "signoff": "作者讀取的版本；最終跨頁審查由協調者核對W-L21104-B簽核，M4皆partial。",
+  "cases": [
+    {
+      "id": "medical",
+      "anchor": "醫療診斷與生成是不同任務",
+      "goal": "g1",
+      "tasks": [
+        "病灶與報告：影像、病歷→分類Accuracy／摘要ROUGE",
+        "慢性病：生理訊號、病歷→風險分類Accuracy、FPR",
+        "ICU：生命徵象、筆記→異常警示FPR及漏報"
+      ],
+      "constraints": [
+        "隱私",
+        "時點同步",
+        "解釋性"
+      ]
+    },
+    {
+      "id": "retail",
+      "anchor": "零售讓每個輸出有對應物件",
+      "goal": "g2",
+      "tasks": [
+        "動線：影像、銷售→區域IoU",
+        "推薦：交易、評論→Precision",
+        "情感：評論、社群→F1",
+        "BI：影像、POS、評論→按任務驗收"
+      ],
+      "constraints": [
+        "隱私",
+        "噪聲",
+        "即時性"
+      ]
+    },
+    {
+      "id": "interaction",
+      "anchor": "互動姿態轉寫速度分開量",
+      "goal": "g3",
+      "tasks": [
+        "Avatar與展覽：語音、手勢→姿態Accuracy、WER、Latency",
+        "教室：手勢、語音→姿態Accuracy、WER、Latency",
+        "會議：即時手勢、語音轉文字→姿態Accuracy、WER、Latency"
+      ],
+      "constraints": [
+        "同步",
+        "資源",
+        "延遲起訖"
+      ]
+    }
+  ]
+}

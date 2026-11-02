@@ -1,0 +1,97 @@
+{
+  "source": "作者設定的教學合成資料，非模型訓練或實際業務成效。",
+  "split": "固定留出評估示例，無訓練、無調參；不與其他示例合併估成效。",
+  "seed": null,
+  "generation": "逐筆或依指定計數展開，無隨機抽樣。",
+  "index": "id 為本例內固定索引；排序依各欄位說明。",
+  "units": "計數為筆；比例無單位；分數為人工設定的排序值。",
+  "positive": "盜刷=1",
+  "threshold": 0.5,
+  "rule": "score >= threshold",
+  "grouping": "金額層為人工指定子群，不是正負標籤；不代表真實金額風險。",
+  "groups": [
+    {
+      "id": "一般金額",
+      "n": 9000,
+      "TP": 36,
+      "FP": 90,
+      "FN": 4,
+      "TN": 8870
+    },
+    {
+      "id": "高金額",
+      "n": 1000,
+      "TP": 1,
+      "FP": 1,
+      "FN": 9,
+      "TN": 989
+    }
+  ],
+  "sample_ranges": [
+    {
+      "id_from": "X00001",
+      "id_to": "X00036",
+      "count": 36,
+      "group": "一般金額",
+      "label": 1,
+      "score": 0.9
+    },
+    {
+      "id_from": "X00037",
+      "id_to": "X00126",
+      "count": 90,
+      "group": "一般金額",
+      "label": 0,
+      "score": 0.9
+    },
+    {
+      "id_from": "X00127",
+      "id_to": "X00130",
+      "count": 4,
+      "group": "一般金額",
+      "label": 1,
+      "score": 0.1
+    },
+    {
+      "id_from": "X00131",
+      "id_to": "X09000",
+      "count": 8870,
+      "group": "一般金額",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id_from": "X09001",
+      "id_to": "X09001",
+      "count": 1,
+      "group": "高金額",
+      "label": 1,
+      "score": 0.9
+    },
+    {
+      "id_from": "X09002",
+      "id_to": "X09002",
+      "count": 1,
+      "group": "高金額",
+      "label": 0,
+      "score": 0.9
+    },
+    {
+      "id_from": "X09003",
+      "id_to": "X09011",
+      "count": 9,
+      "group": "高金額",
+      "label": 1,
+      "score": 0.1
+    },
+    {
+      "id_from": "X09012",
+      "id_to": "X10000",
+      "count": 989,
+      "group": "高金額",
+      "label": 0,
+      "score": 0.1
+    }
+  ],
+  "range_note": "每列為連續樣本索引的無損游程編碼；將count筆相同group/label/score展開即可重算10000筆。"
+}

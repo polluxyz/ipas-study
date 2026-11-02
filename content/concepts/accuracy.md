@@ -1,18 +1,18 @@
 ---
 id: accuracy
 title: 準確率
-aliases: [ Accuracy, 正確率 ]
+aliases: [Accuracy, 正確率]
 kind: metric
-codes: [ L23303 ]
-requires: [ confusion-matrix ]
+codes: [L23303]
+requires: [confusion-matrix]
 contrasts:
   - target: f1-score
     note: Accuracy 把所有預測一視同仁，會被大量的真負例撐高；F1 只看正類的 Precision 與 Recall，不受真負例數量影響
-    source: [ guide-3:5-21, 114-2-S1-Q10 ]
+    source: [guide-3:5-21, 114-2-S1-Q10]
   - target: recall
     note: Accuracy 是整體答對的比例，少數類別全漏掉也能很高；Recall 專看實際為正的樣本抓到多少
-    source: [ guide-3:5-21, 115-1-S3-Q12 ]
-guide_refs: [ guide-3:5-21, guide-3:4-26, guide-3:5-25 ]
+    source: [guide-3:5-21, 115-1-S3-Q12]
+guide_refs: [guide-3:5-21, guide-3:4-26, guide-3:5-25]
 gaps:
   - ref: guide-3:5-21
     level: covered
@@ -27,12 +27,20 @@ goals:
   - id: g2
     text: 比較準確率與全猜多數類的基準，辨認少數類別被漏掉的問題
   - id: g3
-    text: 判斷準確率的適用條件、空資料限制與互補指標
+    text: 判斷準確率的適用條件、空資料限制與互補指標，依多模態輸出選對評估對象
 formula_groups:
   - id: accuracy
     source: guide-3:5-21
     status: verified
-    checked_by: ctx_4f7951475612
+    checked_by: task_5bbc5b6241d1
+  - id: m4-accuracy-links
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html
+    status: verified
+    checked_by: task_5bbc5b6241d1
+  - id: m4-top5-complement
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.top_k_accuracy_score.html
+    status: pending
+    checked_by: null
 self_check:
   - id: c1
     goal: g1
@@ -94,6 +102,11 @@ self_check:
       B: 零筆正確除以零筆總數是 0/0，不能直接記為 0。
       C: 分母為零，應先說明沒有資料；本專案套件對空輸入也會拋出例外。
       D: 上次的分數來自另一批資料，不能冒充這次沒有觀測值的結果。
+  - id: c5
+    goal: g3
+    type: short
+    prompt: 多模態系統的姿態分類、ICU 警示誤報與摘要能否都用 Accuracy 驗收？另說明 20 筆交易的 Accuracy=0.80 為何不等於 F1。
+    key_points: ["姿態真值與預測可算分類準確率，警示另看FPR與漏報，摘要另看ROUGE和事實", "同批交易F1=0.75，只使用TP、FP、FN，Accuracy還使用TN", "醫療仍須檢查隱私、時點同步與解釋性"]
 ---
 
 ## 為什麼需要
@@ -140,6 +153,18 @@ TP 是正類判對數，TN 是負類判對數；FP 是誤報數，FN 是漏報�
 | 閾值 0.5 的模型 | 16/20 | 0.80 | 0.75 |
 
 模型比這個基準高 0.20，也確實抓到部分盜刷。這仍只是小型教學模擬資料上的比較，不是實際上線成績。
+
+### 同批四指標與成本（補充）
+
+沿用 C01–C20、正類盜刷、分數 ≥ 0.5 的同一批資料。
+
+先在[混淆矩陣](../confusion-matrix/#算一次補充)核對 TP=6、FP=2、FN=2、TN=10，再讀[準確率](../accuracy/#算一次補充)的 16/20=0.80、[精確率](../precision/#算一次補充)與[召回率](../recall/#算一次補充)的 6/8=0.75，最後讀[F1](../f1-score/#四格計數與零分母補充)的 12/16=0.75。
+
+誤報成本高，先查 Precision 及 FP；漏報成本高，先查 Recall 及 FN；要兼顧兩者可並列 F1，但成本不等時仍看實際代價。
+
+Accuracy 包含 TN，適合作整體摘要，無法替代前述取捨。
+
+資料索引與唯讀來源版本記在 `L23303-M4-E-metric-cases.json`。
 
 ## 程式（補充）
 
@@ -191,6 +216,32 @@ accuracy_score 不會替你選閾值；pred 才是閾值決策之後的結果。
 
 補充場景都是「多數類別可能撐高整體分數」的應用；不是換個產業就換準確率公式。
 
+### 多模態醫療與互動的分母
+
+以下任務與指標配對承接科目 1 指引 3-78～3-79，完整對照見段末的多模態責任頁；各指標的分母判讀、事實一致性與警報負擔檢查則是本頁補充延伸。
+
+影像、病歷、生命徵象的評估須按輸出分開。
+
+病灶與報告使用影像、病歷：病灶分類可算 Accuracy，報告文字看 ROUGE；另補查事實一致性（補充）。
+
+慢性病用生理訊號及病歷做風險分類，並列 Accuracy 與 FPR。
+
+ICU 用生命徵象、醫師筆記做警示，指引列出 FPR；本頁另補查漏報與警報負擔（補充）。
+
+患者隱私、檢查時點同步、決策解釋都要另驗，分類高分不會自動滿足這些條件。
+
+Avatar／展覽以語音與手勢驅動展示，教室以語音、手勢互動，會議則有即時手勢與轉寫。
+
+姿態 Accuracy 比較姿態真值與預測；WER 衡量轉寫錯誤；Latency 衡量明訂起訖的等待時間。
+
+三者不可互代，且須查語音／手勢同步與資源限制。
+
+完整任務對照見[多模態醫療](../multimodal-application-evaluation/#醫療診斷與生成是不同任務)與[互動評估](../multimodal-application-evaluation/#互動姿態轉寫速度分開量)。
+
+本頁只教分類的分母與選用限制，並不以 Accuracy 一項代表生成、轉寫或互動品質。
+
+來源案例索引為 `L21104-M4-E-metric-links.json`。
+
 ## 常見誤解
 
 - **準確率高就代表少數類別抓得好。** 全猜正常的基準即可反駁。
@@ -204,8 +255,19 @@ accuracy_score 不會替你選閾值；pred 才是閾值決策之後的結果。
 
 本頁準確率評估離散類別是否判對。迴歸預測連續數值，應改用誤差指標或決定係數；決定係數 0.85 不能說成「準確率 85%」。
 
+### Top-5 名稱易誤讀（補充）
+
+科目 1 指引 3-49 在 Top-5 錯誤率項下說明真實類別進入前五名時算正確，描述的是命中條件。閱讀時要分清命中率與錯誤率，不能把這句解讀成命中就算錯誤。
+
+每筆恰有一個真值、候選排序規則固定且資料非空時，由命中／未命中互斥且完整的兩種結果自行推導，Top-5 Error 是 1 減 Top-5 命中率，例如 100 筆中 90 筆命中，錯誤率是 10%。
+
+它與本頁只看最終一個預測類別的 Accuracy 也不同；完整排序評估見 [[top-k-error]]。
+
 ### 參考來源
 
+- 科目 1 學習指引，3-49、3-78～3-80：支持分類評估、Top-5 名稱易誤讀、多模態醫療及互動的任務與限制。
+- [scikit-learn top_k_accuracy_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.top_k_accuracy_score.html)：支持前 k 名命中的定義；錯誤率的互補關係由本站按命中／未命中推導。
+- 既有責任頁 [多模態應用與評估設計](../multimodal-application-evaluation/)：支持醫療、互動導讀；本站案例索引見 L21104-M4-E-metric-links.json。
 - 學習指引科目 3，5-21（支持：公式、類別均衡條件、95% 負類的限制）。
 - [scikit-learn accuracy_score API](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html)（支持：定義與公式、程式、多類別；空資料由公式檢查分母）。
 - [Google 機器學習速成課：分類指標](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall)（支持：成本不同時的限制；取比較基準的教學思路）。

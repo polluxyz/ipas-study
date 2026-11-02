@@ -1,14 +1,14 @@
 ---
 id: confusion-matrix
 title: 混淆矩陣
-aliases: [ Confusion Matrix, TP, FP, FN, TN ]
+aliases: [Confusion Matrix, TP, FP, FN, TN]
 kind: metric
-codes: [ L23303 ]
+codes: [L23303]
 contrasts:
   - target: roc-auc
     note: 混淆矩陣只記錄一個分類閾值下的四格結果，能直接算 Precision、Recall、Accuracy；ROC-AUC 要掃過多個閾值，單一矩陣算不出來
-    source: [ guide-3:5-22, 115-1-S1-Q09 ]
-guide_refs: [ guide-3:5-20, guide-3:5-21 ]
+    source: [guide-3:5-22, 115-1-S1-Q09]
+guide_refs: [guide-3:5-20, guide-3:5-21]
 gaps:
   - ref: guide-3:5-20
     level: shallow
@@ -19,20 +19,24 @@ textbook: v2
 summary: 混淆矩陣把實際與預測交叉計數，分清抓到、漏掉、誤報與放行
 goals:
   - id: g1
-    text: 指定正類與座標方向後，逐筆填出四格並核對總數
+    text: 指定正類與座標方向後，逐筆填出四格並核對總數，再從三類矩陣追查誤分類
   - id: g2
-    text: 分辨單一矩陣能算的指標與需要其他資訊的指標
+    text: 分辨單一矩陣能算的指標與需要其他資訊的指標，串起四指標及錯誤成本
   - id: g3
-    text: 說明閾值與行列順序改變時，該如何重新讀矩陣
+    text: 說明閾值與行列順序改變時，該如何重新讀矩陣，並對照醫療誤報與瑕疵漏檢的損害
 formula_groups:
   - id: cell-totals
     source: guide-3:5-20
     status: verified
-    checked_by: ctx_4f7951475612
+    checked_by: task_5bbc5b6241d1
   - id: derived-metrics
     source: guide-3:5-21 # Recall 依 recall_score 官方定義；指引 5-21 印刷分母誤植，見頁尾參考來源與召回率頁勘誤。
     status: verified
-    checked_by: ctx_4f7951475612
+    checked_by: task_5bbc5b6241d1
+  - id: m4-multiclass-counts
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html
+    status: verified
+    checked_by: task_5bbc5b6241d1
 self_check:
   - id: c1
     goal: g1
@@ -79,6 +83,11 @@ self_check:
       B: 第一列第一欄是預測正類、實際正類，5 代表 TP。
       C: 第二列第二欄是預測負類、實際負類，11 代表 TN。
       D: FN 位於預測負類的第二列、實際正類的第一欄，所以是 1。
+  - id: c4
+    goal: g1
+    type: short
+    prompt: 三類矩陣中，實際刮痕預測凹痕為 3 件，反向為 2 件。如何定位問題，且為何不能僅憑此認定資料不足？
+    key_points: ["列是實際、欄是預測，非對角線是錯誤方向", "先回查V08至V10及V11至V12，對照原圖、標註及光照", "需分辨標錯、拍攝條件或特徵混淆；計數不能直接推出原因"]
 ---
 
 ## 為什麼需要
@@ -149,6 +158,40 @@ Accuracy 問全部判對多少，Precision 問警報有多少是真的，Recall 
 
 C08 剛好等於閾值，仍預測正類；C06、C07 同為 0.65，卻因實際標籤不同進入兩格。加總 $6+2+2+10=20$，與原始筆數吻合。
 
+### 同批四指標與成本（補充）
+
+沿用 C01–C20、正類盜刷、分數 ≥ 0.5 的同一批資料。
+
+先在[混淆矩陣](../confusion-matrix/#算一次補充)核對 TP=6、FP=2、FN=2、TN=10，再讀[準確率](../accuracy/#算一次補充)的 16/20=0.80、[精確率](../precision/#算一次補充)與[召回率](../recall/#算一次補充)的 6/8=0.75，最後讀[F1](../f1-score/#四格計數與零分母補充)的 12/16=0.75。
+
+誤報成本高，先查 Precision 及 FP；漏報成本高，先查 Recall 及 FN；要兼顧兩者可並列 F1，但成本不等時仍看實際代價。
+
+Accuracy 包含 TN，適合作整體摘要，無法替代前述取捨。
+
+資料索引與唯讀來源版本記在 `L23303-M4-E-metric-cases.json`。
+
+### 三類矩陣與誤分類追查（補充）
+
+把 `L23303-M4-E-metric-cases.json` 中 V01–V30 的真值與預測交叉計數。
+
+這是另造的教學品檢資料，每類實際各 10 件；列固定為實際、欄固定為預測，不與前述交易合算。
+
+![列為實際刮痕、凹痕、良品；欄為預測。刮痕誤判凹痕3件，凹痕誤判刮痕2件，需雙向追查。](figure:l23303-m4-e-multiclass-matrix)
+
+| 實際＼預測 | 刮痕 | 凹痕 | 良品 |
+|---|---:|---:|---:|
+| 刮痕 | 7 | 3 | 0 |
+| 凹痕 | 2 | 7 | 1 |
+| 良品 | 0 | 1 | 9 |
+
+對角線 7+7+9=23 件判對，總數 30；最常互相混淆的是刮痕與凹痕，共 3+2=5 件。
+
+先抽回 V08–V10（刮痕→凹痕）、V11–V12（凹痕→刮痕），按原圖、光照、標註規則分組核對，再決定補標註、補拍攝條件或調模型。
+
+矩陣定位了錯誤方向，並未證明錯誤原因。
+
+此例按 scikit-learn confusion_matrix 的列／欄定義重算；科目 1 指引 3-49 教辨認混淆分布，具體計數及追查流程為補充。
+
 ## 程式（補充）
 
 以下按共用檔 C01 到 C20 的順序放入資料。指定 labels=[1, 0]，讓輸出順序與本頁的表一致。
@@ -195,6 +238,14 @@ print(confusion_matrix(y, pred, labels=[0, 1]))
 
 以上是把四格定義套到不同任務的教學延伸；正類由任務決定，不固定是疾病或瑕疵。
 
+### 醫療誤報與瑕疵漏檢（補充）
+
+四格的固定計數與代價見[F1 共用案例](../f1-score/#醫療與瑕疵共用案例補充)：醫療 TP=4、FP=5、FN=1、TN=90，FP 是健康者被要求複檢，FN 是患者未被轉介。
+
+製造 A 為 3、2、1、14，FN 是一件瑕疵流出，FP 是兩件良品被誤攔。
+
+不能只說「錯六件」或「錯三件」就忽略損害不同；先寫正類與四格，再選指標或成本。
+
 ## 常見誤解
 
 - **混淆矩陣一定把 TP 放左上。** 先讀軸與類別順序，不能記格子位置。（補充）
@@ -210,6 +261,8 @@ print(confusion_matrix(y, pred, labels=[0, 1]))
 
 ### 參考來源
 
+- 科目 1 學習指引，3-49、3-57～3-58：支持多類混淆追查與誤檢／漏檢損害；30 件計數及交易串接為本站教學補充。
+- [scikit-learn f1_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)：支持同批四指標導讀中的 F1 計數式。
 - 學習指引科目 3，5-20～5-21（支持：四格、總數、三個基本指標；Recall 印刷公式的勘誤見召回率頁）。
 - [scikit-learn confusion_matrix API](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html)（支持：軸向、程式、類別順序、多類別）。
 - [scikit-learn Metrics and scoring](https://scikit-learn.org/stable/modules/model_evaluation.html)（支持：單一矩陣能提供的資訊與跨閾值限制）。
