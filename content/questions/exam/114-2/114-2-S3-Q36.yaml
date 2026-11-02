@@ -1,0 +1,35 @@
+id: 114-2-S3-Q36
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 36
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 9
+type: 情境
+codes: [ L23401 ]
+concepts: []
+stem: |
+  某銀行計畫與多家合作機構共同訓練一個 AI 信用風險預測模型，為避免客戶交易資料在傳輸與運算過程中外洩，技術團隊評估使用同態加密（Homomorphic Encryption）技術。下列何者最能正確描述同態加密在此應用中的關鍵特性？
+options:
+  A: 系統以隨機雜訊（Noise）干擾輸出，確保統計結果不洩漏個資
+  B: 各參與銀行透過安全通道交換私鑰，確保模型參數一致
+  C: 將原始資料壓縮並同時加密，以減少加密後資料量與運算時間
+  D: 資料在加密狀態下仍可進行數值運算，模型訓練可於未解密資料上完成
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

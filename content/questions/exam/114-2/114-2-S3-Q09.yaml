@@ -1,0 +1,35 @@
+id: 114-2-S3-Q09
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 9
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 2
+type: 觀念
+codes: [ L23301 ]
+concepts: []
+stem: |
+  在建構以距離為基礎的機器學習模型（如 KNN、SVM）時，下列哪一項資料前處理方式最為關鍵？
+options:
+  A: 進行特徵縮放（Feature Scaling），使各特徵變數具有相似的數值範圍
+  B: 將連續型特徵變數轉換為類別型變數
+  C: 以平均值或中位數進行缺失值補齊
+  D: 進行隨機抽樣以平衡資料筆數
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

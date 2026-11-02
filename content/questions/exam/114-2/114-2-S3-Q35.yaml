@@ -1,0 +1,35 @@
+id: 114-2-S3-Q35
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 35
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 9
+type: 計算
+codes: [ L23102, L23301 ]
+concepts: []
+stem: |
+  某公司針對製程感測器資料進行主成分分析（PCA），經標準化與協方差矩陣分解後，得到三個主成分的特徵值如下：λ1=6.0, λ2=3.0, λ3=1.0。若團隊決定僅保留能解釋至少 80% 總變異量的主成分，以進行後續模型建構，下列哪一項敘述最合理且數據解讀正確？
+options:
+  A: 前兩個主成分合計解釋 90%的總變異量，因此可安全降維至二維，且仍保留大部分資訊
+  B: 第一主成分解釋 60%的變異量，表示資料結構呈現明顯線性關係，僅保留一維即可避免過擬合
+  C: 雖然前兩個主成分可解釋超過 80% 變異量，但第二主成分貢獻仍高達 30%，不宜捨棄第三主成分
+  D: 三個特徵值相差不大，顯示各主成分變異均衡，降維可能導致資訊損失
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

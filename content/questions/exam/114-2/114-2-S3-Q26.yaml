@@ -1,0 +1,35 @@
+id: 114-2-S3-Q26
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 26
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 6
+type: 觀念
+codes: [ L23304, L23303 ]
+concepts: []
+stem: |
+  在防止監督式學習模型過擬合（Overfitting）時，下列哪一種策略不屬於降低模型複雜度或限制學習能力的作法？
+options:
+  A: 採用 L1 或 L2 正則化
+  B: 在訓練過程中使用 Dropout 技術
+  C: 採取早期停止（Early Stopping）機制
+  D: 擴增輸入特徵變數以提升模型表達能力
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

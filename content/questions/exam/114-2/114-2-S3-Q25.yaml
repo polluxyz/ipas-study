@@ -1,0 +1,35 @@
+id: 114-2-S3-Q25
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 25
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 6
+type: 情境
+codes: [ L23301, L23303 ]
+concepts: []
+stem: |
+  某金融機構正在建立傳統信用評分卡模型，採用邏輯迴歸（Logistic Regression）作為建模方法，並依循監理機關建議的標準化流程進行模型開發。下列哪一項不是傳統信用評分卡模型開發流程中的常見步驟？
+options:
+  A: 使用生成式模型進行特徵學習
+  B: 進行特徵選擇與多重共線性（Multicollinearity）分析
+  C: 進行分箱（Binning）與資訊值（Information Value, IV）檢定
+  D: 使用樣本穩定性指標（Population Stability Index, PSI）檢驗模型穩定性
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

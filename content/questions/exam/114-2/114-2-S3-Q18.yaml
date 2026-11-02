@@ -1,0 +1,35 @@
+id: 114-2-S3-Q18
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 18
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 4
+type: 觀念
+codes: [ L23202, L23304 ]
+concepts: []
+stem: |
+  下列何者最能同時反映 XGBoost（eXtreme Gradient Boosting）相較於傳統梯度提升決策樹（Gradient Boosting Decision Tree, GBDT）的主要技術改進？
+options:
+  A: 引入正則化項（Regularization）以抑制過擬合，並支援缺失值自動處理與並行化訓練
+  B: 改以隨機森林（Random Forest）架構取代樹模型以提升準確率
+  C: 以類神經網路（Neural Network）取代弱分類器（Weak Learners）
+  D: 採用批次正規化（Batch Normalization）技術提升模型穩定性
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

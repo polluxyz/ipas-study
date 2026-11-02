@@ -1,0 +1,35 @@
+id: 114-2-S3-Q10
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 10
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 3
+type: 情境
+codes: [ L23302, L23304 ]
+concepts: []
+stem: |
+  下列哪一種應用情境最適合導入 AutoML，以提升模型開發效率？
+options:
+  A: 公司已有完整的 MLOps 平台與資深資料科學團隊，模型更新採固定流程
+  B: 製造部門的生產良率模型已長期穩定運作，只需定期調整參數
+  C: 行銷部門希望在短時間內比較多種顧客流失預測模型，缺乏專職工程師與時間進行手動建模
+  D: 財務部門正在開發高度客製化的信用風險評估模型，需要精細控制特徵工程與演算法細節
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

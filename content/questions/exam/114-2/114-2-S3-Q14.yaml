@@ -1,0 +1,35 @@
+id: 114-2-S3-Q14
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 14
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 3
+type: 情境
+codes: [ L23302 ]
+concepts: []
+stem: |
+  下列哪一種 AI 應用情境中，模型的可解釋性（Explainability）最為關鍵？
+options:
+  A: 電商平台利用深度學習模型預測用戶的下一次購買時間，以優化推播行銷策略
+  B: 新創公司使用機器學習演算法自動調整廣告出價策略，以提升點擊轉換率
+  C: 醫院導入 AI 模型分析病患影像並給出腫瘤惡性可能性，作為臨床醫師診斷依據
+  D: 銀行導入 AI 模型預測客戶流失率，並自動推薦留客優惠方案
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,35 @@
+id: 114-2-S3-Q27
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 27
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 6
+type: 情境
+codes: [ L23203, L23302 ]
+concepts: []
+stem: |
+  某智慧製造團隊在開發瑕疵影像檢測模型時，發現使用線性激活函數（Activation Function）後，模型的訓練準確率長期停滯，懷疑模型無法學習到足夠複雜的特徵表達。若要改善此問題，下列哪一項調整方案最為合適？
+options:
+  A: 增加卷積層（Convolutional Layer）數量，使網路更深以強化特徵提取
+  B: 將輸入影像先進行灰階化處理，降低運算量
+  C: 使用 Sigmoid 激活函數，以將輸出壓縮至[0,1]範圍
+  D: 改用 ReLU（Rectified Linear Unit）激活函數，以引入非線性並提升模型表達能力
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

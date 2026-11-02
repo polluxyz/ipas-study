@@ -1,0 +1,35 @@
+id: 114-2-S3-Q04
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 4
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 1
+type: 觀念
+codes: [ L23202 ]
+concepts: []
+stem: |
+  在執行 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）群集分析時，若某資料點鄰域內的樣本數不足以形成核心點（Core Point），且該點未被任何核心點的鄰域所包含，也未與其他群集形成密度可達關係（Density Reachability），此資料點最終將被歸類為哪一種類型？
+options:
+  A: 鄰近點（Neighbor Point）
+  B: 雜訊點（Noise Point）
+  C: 邊界點（Border Point）
+  D: 潛在點（Potential Point）
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

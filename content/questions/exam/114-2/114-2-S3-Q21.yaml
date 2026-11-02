@@ -1,0 +1,35 @@
+id: 114-2-S3-Q21
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 21
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 5
+type: 情境
+codes: [ L23203 ]
+concepts: []
+stem: |
+  某語音辨識系統開發團隊採用 Transformer 架構，為了讓模型能同時理解語音片段中的發音特徵、語速變化與語意脈絡等多層次資訊，團隊在設計中導入了多頭注意力（Multi-head Attention）機制。請問下列何者為此機制的主要優點？
+options:
+  A: 減少模型參數量以降低訓練成本
+  B: 加速整體注意力計算過程
+  C: 從不同表示子空間（Representation Subspaces）同時捕捉多樣化關聯資訊
+  D: 避免梯度消失（Gradient Vanishing）問題
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,35 @@
+id: 114-2-S3-Q03
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 3
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 1
+type: 觀念
+codes: [ L23103 ]
+concepts: []
+stem: |
+  在訓練非線性模型時，若目標函數為非凸函數（Non-convex Function），演算法在參數更新過程中可能出現多個極值點，導致最佳化結果不穩定。請問此時最可能發生下列哪一種情況？
+options:
+  A: 梯度消失
+  B: 資料過少
+  C: 局部最優解
+  D: 過擬合
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

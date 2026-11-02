@@ -1,0 +1,35 @@
+id: 114-2-S3-Q20
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 20
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 5
+type: 情境
+codes: [ L23301 ]
+concepts: []
+stem: |
+  某電子商務公司為開發商品評論情感分析模型，希望模型能捕捉評論中不同特徵之間的關聯影響，例如「商品價格」與「顧客滿意度」的互動效果。下列哪一種特徵工程設計方式最適合用於建立互動特徵（Interaction Features）？
+options:
+  A: 將單一特徵取平方
+  B: 對所有特徵進行對數轉換
+  C: 將兩個或多個特徵進行乘積或交互組合
+  D: 對特徵進行標準化
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

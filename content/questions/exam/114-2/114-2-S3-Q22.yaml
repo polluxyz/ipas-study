@@ -1,0 +1,35 @@
+id: 114-2-S3-Q22
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 22
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 5
+type: 情境
+codes: [ L23101, L23202 ]
+concepts: []
+stem: |
+  某電商平台希望預測顧客是否會購買特定商品。系統蒐集顧客的瀏覽紀錄、停留時間、商品類別偏好與過去購買行為，並以此推估「在觀察到這些行為特徵的情況下，該顧客會購買的機率」。若模型採用貝氏定理（Bayes’ Theorem）進行推論，下列敘述何者最符合其核心運作機制？
+options:
+  A: 根據歷史樣本自動分群，找出行為相似的顧客群
+  B: 以條件機率方式計算顧客屬於「會購買」或「不會購買」的分類機率
+  C: 以最小平方誤差（Mean Squared Error）為損失函數，預測顧客的購買金額
+  D: 依據回饋信號（Feedback Signal）透過強化學習（Reinforcement Learning）動態調整推薦策略
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

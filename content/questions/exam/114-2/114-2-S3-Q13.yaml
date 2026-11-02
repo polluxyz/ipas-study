@@ -1,0 +1,35 @@
+id: 114-2-S3-Q13
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 13
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 3
+type: 觀念
+codes: [ L23402 ]
+concepts: []
+stem: |
+  標籤偏差(Label Bias)通常是因為什麼原因造成？
+options:
+  A: 訓練資料量過大
+  B: 標記資料本身帶有主觀偏見
+  C: 模型結構設計不當
+  D: 特徵數量設定過多
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

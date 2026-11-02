@@ -1,0 +1,35 @@
+id: 114-2-S3-Q33
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 33
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 8
+type: 情境
+codes: [ L23201 ]
+concepts: []
+stem: |
+  某資料科學團隊正在開發一個客戶相似度比對系統，用於計算所有客戶之間的相似度分數。若系統需逐一比對每一位客戶與其他所有客戶的資料組合，此時演算法的時間複雜度最可能為哪一種？其代表意義為何？
+options:
+  A: O(n) — 執行時間與資料量成線性關係
+  B: O(n²) — 執行時間與資料量平方成正比
+  C: O(1) — 執行時間固定不變
+  D: O(log n) — 執行時間與資料量呈對數成長關係
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 8
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,35 @@
+id: 114-2-S3-Q32
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 32
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 8
+type: 情境
+codes: [ L23304, L23301 ]
+concepts: []
+stem: |
+  某電信公司開發客戶流失預測模型，使用大量顧客行為特徵，例如通話時長、上網頻率、帳單金額、客服聯絡次數等。在訓練過程中，團隊發現部分特徵彼此高度相關，但同時也懷疑有些特徵對流失預測的貢獻度有限。若希望模型在避免過擬合（Overfitting）的同時，能自動篩選出較具代表性的特徵，採用下列哪一種方法最為合適？
+options:
+  A: 使用早期停止法（Early Stopping）控制訓練回合數，避免過擬合（Overfitting）
+  B: 同時移除多重共線性特徵並採用 L2 正則化（Ridge），以確保模型穩定收斂
+  C: 僅使用 L2 正則化（Ridge），抑制所有權重幅度但保留全部特徵
+  D: 採用 L1 正則化（Lasso），透過懲罰項使部分特徵係數縮為 0
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 8
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,36 @@
+id: 114-2-S3-Q37
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 37
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 9
+type: 情境
+codes: [ L23401 ]
+concepts: []
+stem: |
+  某跨銀行風控平台希望整合多家銀行的用戶行為資料，用於訓練信用風險預測模型。由於競爭與法規限制，各銀行僅願意提供加密後資料，且資料在任何時間不得被平台解密。同時，平台需建立安全通訊協議以確保資料在傳輸過程未被竄改或重放。
+  下列哪一組技術最能完整對應上述需求？
+options:
+  A: 對稱加密（Symmetric Encryption）＋ 單向雜湊（Hash Function）＋ 非對稱加密（Asymmetric Encryption）＋ 差分隱私（Differential Privacy）
+  B: 同態加密（Homomorphic Encryption）＋ 非對稱加密（Asymmetric Encryption）＋ 單向雜湊（One-way Hash Function）＋ 對稱加密（Symmetric Encryption）
+  C: 差分隱私（Differential Privacy）＋ 對稱加密（Symmetric Encryption）＋ 同態加密（Homomorphic Encryption）＋ 數位簽章（Digital Signature）
+  D: 同態加密（Homomorphic Encryption）＋ 安全多方計算（Secure Multi-party Computation, MPC）＋ 雜湊函數（Hash Function）＋ 對稱加密（Symmetric Encryption）
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

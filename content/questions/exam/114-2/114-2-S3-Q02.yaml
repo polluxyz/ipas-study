@@ -1,0 +1,35 @@
+id: 114-2-S3-Q02
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 2
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 1
+type: 觀念
+codes: [ L23304, L23301 ]
+concepts: []
+stem: |
+  在建立迴歸或分類模型時，若希望避免模型過度擬合（Overfitting），可透過加入正則化項以限制模型的複雜度。其中，L1 正則化（Lasso）的主要效果為何？
+options:
+  A: 增加模型參數的數量，以提升表現靈活度
+  B: 強化梯度穩定性，避免參數更新過度震盪
+  C: 產生稀疏模型（Sparse Model），使部分參數權重收斂為零
+  D: 提高學習率（Learning Rate），加速模型收斂速度
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

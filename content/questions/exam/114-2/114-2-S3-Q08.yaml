@@ -1,0 +1,35 @@
+id: 114-2-S3-Q08
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 8
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 2
+type: 觀念
+codes: [ L23202 ]
+concepts: []
+stem: |
+  資訊增益（Information Gain）常用於衡量特徵對分類結果的不確定性貢獻程度，並據以進行特徵選擇。此方法主要應用於下列哪一類模型架構中？
+options:
+  A: 使用 L1 正則化進行特徵篩選的線性模型
+  B: 利用激活函數（Activation Function）進行特徵擷取的深度神經網路
+  C: 透過核函數（Kernel Function）將特徵映射至高維空間的分類模型
+  D: 透過遞迴分裂方式建立分類規則的決策樹模型
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

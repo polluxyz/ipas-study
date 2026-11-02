@@ -1,0 +1,35 @@
+id: 114-2-S3-Q11
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 11
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 3
+type: 觀念
+codes: [ L23304 ]
+concepts: []
+stem: |
+  相較於 Grid Search，Random Search 在超參數調整上具備哪一項主要優勢？
+options:
+  A: 可自動產生模型架構
+  B: 可使用更大的訓練集
+  C: 避免模型過擬合
+  D: 能更有效率搜尋高維參數空間
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null

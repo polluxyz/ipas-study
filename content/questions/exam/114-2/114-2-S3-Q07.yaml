@@ -1,0 +1,35 @@
+id: 114-2-S3-Q07
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 7
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 2
+type: 觀念
+codes: [ L23203, L23302 ]
+concepts: []
+stem: |
+  下列哪一種應用最適合採用長短期記憶網路（Long Short-Term Memory, LSTM）模型？
+options:
+  A: 預測未來七天的電力需求變化趨勢
+  B: 辨識監視影像中不同類別的物件
+  C: 將大量顧客資料依相似特徵自動分群
+  D: 將高維度的感測器資料壓縮成低維表示
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E3-codex
+  blind_answer: null
+  dispute: null
