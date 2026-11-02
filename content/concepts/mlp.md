@@ -25,9 +25,9 @@ author: codex
 status: draft
 formula_groups:
   - id: dense-parameters
-    source: https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html
+    source: https://essay.utwente.nl/fileshare/file/87314/87314_Wesselink_BA_EEMCS.pdf
     status: verified
-    checked_by: codex-gpt-6.1-sol:CK-W-L23203-A
+    checked_by: task_96b06ca84f70
 self_check:
   - id: c1
     goal: g1
@@ -110,6 +110,8 @@ $$
 
 $P$ 是可訓練純量參數個數；$dh$ 是權重數，$h$ 是每個輸出單元各一個偏置。多層網路把各層的數量相加；輸入層本身不另產生權重。
 
+來源界線：依 PyTorch Linear 的 `weight`、`bias` 形狀逐項計數，是本頁的自行推導；該文件沒有直接列出完整參數計數式。多層網路逐層相加也是本頁自行延伸，並非 Wesselink 單層式的原文。完整單層式另見 Wesselink 的原始研究論文第 2.2.2 節、印刷第 12 頁式（2.6）；原文的 `N`、`M` 分別對應本頁輸入寬度與輸出寬度，包含權重與每個輸出的偏置。這個計數只涵蓋全連接層，不含額外模組的可訓練參數。
+
 ## 算一次（補充）
 
 用零售共用資料預測流失。每筆只有到訪與消費兩欄，固定轉換後送進 2→2→1 網路；參數沿用前向與反向頁。
@@ -162,7 +164,7 @@ MLP 能組合非線性特徵，但參數多、資料不足時容易過擬合。�
 
 科目 3 指引 4-67 指出，輸入維度或隱藏層寬度增加時，全連接權重會大量增加，推高計算成本。
 
-:::supplement[來源：本組共用例子的 parameter_comparison；PyTorch Linear]
+:::supplement[來源：本組共用例子的 parameter_comparison；依 PyTorch Linear 形狀自行計數]
 固定隱藏寬度 32，只比較第一個全連接層，權重與偏置都算入：
 
 | 輸入 | 輸入寬度 $d$ | 第一層參數數 | 結構限制 |
@@ -209,7 +211,8 @@ MLP 能組合非線性特徵，但參數多、資料不足時容易過擬合。�
 ### 參考來源
 
 - 科目 3 指引 4-64～4-67：支持結構、三種任務輸出、訓練流程、應用與限制；4-67 的獨立假設與展平敘述已回 PDF 核對並校正。
-- [PyTorch Linear](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html)：支持全連接權重形狀、偏置與參數數量。
+- [PyTorch Linear](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html)：直接支持權重與偏置形狀；本頁依形狀自行計數，不把完整計數式歸為文件原式。
+- [Wesselink，Reducing memory requirements for Neural Networks trained for Direction of Arrival Estimation](https://essay.utwente.nl/fileshare/file/87314/87314_Wesselink_BA_EEMCS.pdf)：University of Twente 學士研究論文，第 2.2.2 節、印刷第 12 頁式（2.6）直接列完整單層計數式；只採用含偏置的全連接層參數定義。
 - [scikit-learn MLP 使用者指南](https://scikit-learn.org/stable/modules/neural_networks_supervised.html)：支持表格建模與訓練限制。
 - [Dive into Deep Learning 5.1](https://d2l.ai/chapter_multilayer-perceptrons/mlp.html)及 [Stanford CS231n](https://cs231n.github.io/neural-networks-1/)：支持全連接表示、特徵交互與影像結構限制。
 
@@ -218,4 +221,5 @@ MLP 能組合非線性特徵，但參數多、資料不足時容易過擬合。�
 - MLP 以全連接隱藏層組合非線性表示。
 - 輸入寬度看特徵，輸出寬度與處理看任務。
 - 訓練包含前向、損失、反向求梯度與優化器更新。
-- 高維輸入增加全連接成本；MLP 不要求特徵獨立。（補充）
+- 高維輸入增加全連接成本。
+- MLP 不要求特徵獨立。（補充）
