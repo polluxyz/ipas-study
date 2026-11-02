@@ -9,7 +9,7 @@ pdf_page: 9
 type: 情境
 codes:
   - L21102
-concepts: []
+concepts: [panoptic-segmentation, image-segmentation]
 stem: |
   在自駕車影像辨識系統中，開發團隊希望模型能同時辨識每個像素所屬的物件類別（例如道路、建築、行人），又能區分出同類物件的不同個體（例如多位行人）。此時最適合採用下列哪一項電腦視覺技術？
 options:
@@ -19,13 +19,14 @@ options:
   D: 全景分割（Panoptic Segmentation）
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 D。全景分割同時提供完整像素類別與可數物件的個體區分。"
+  correct: "D 讓道路、建築等背景區域具有像素級類別，也替不同的行人配置各自的實例識別，正好滿足全影像覆蓋與同類個體分離。指引介紹語意、實例分割及其結合，未直接命名全景分割；其任務定義可參照 [Panoptic Segmentation 原始論文](https://arxiv.org/abs/1801.00868)。"
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: "語意分割會為像素判斷類別，但同類的多位行人可能都只標為行人，沒有各自的實例識別。"
+    B: "一般物件偵測輸出物件類別與邊界框，並不替每一個像素提供類別與完整遮罩。"
+    C: "實例分割能分離不同的行人，卻通常聚焦可數物件，未必完整標註道路等背景區域；全景分割才把這兩類需求統一。"
+  rule: "要求所有像素的類別並區分同類可數個體時，應選全景分割。"
+guide_refs: [guide-1:3-41, guide-1:3-46]
 author: codex
 review:
   status: draft

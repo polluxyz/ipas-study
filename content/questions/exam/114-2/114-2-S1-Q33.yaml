@@ -9,7 +9,7 @@ pdf_page: 9
 type: 情境
 codes:
   - L21101
-concepts: []
+concepts: [word2vec]
 stem: |
   企業團隊在使用 Word2Vec 模型訓練客服文本語料時，若訓練資料量龐大且希望模型能更有效捕捉罕見詞的語意關聯，下列哪一種訓練策略最為適合？
 options:
@@ -19,13 +19,14 @@ options:
   D: 採用 CBOW 模型（Continuous Bag of Words Model），利用周圍詞預測中心詞，能提升罕見詞的語意穩定度
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 C。Skip-gram 由中心詞預測上下文，通常較適合學習低頻詞的表示。"
+  correct: "C 正確描述 Skip-gram 的訓練方向：每次中心詞出現時，可形成多個與周邊詞的訓練配對，使少見詞也能從上下文得到學習訊號。CBOW 則由周圍詞預測中心詞，通常訓練較快；兩者實際品質仍取決於語料量、窗口與訓練設定。"
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: "Skip-gram 的選擇方向合理，但隨機初始化是常見起點，並不是特別保證高頻詞快速收斂或低頻詞品質的策略；理由沒有回答題目的核心需求。"
+    B: "TF-IDF 是基於詞頻與文件頻率的表示權重，不是標準 CBOW 必備的低頻詞強化機制；僅把兩者結合，無法推出比 Skip-gram 更適合本題。"
+    D: "由上下文預測中心詞確實是 CBOW，但這個方向本身不保證提升罕見詞穩定度；本題特別要求低頻語意關係，Skip-gram 較符合一般比較。"
+  rule: "比較 Word2Vec 架構時，先記 Skip-gram 是中心詞到上下文，CBOW 是上下文到中心詞。"
+guide_refs: [guide-1:3-20, guide-1:3-21]
 author: codex
 review:
   status: draft

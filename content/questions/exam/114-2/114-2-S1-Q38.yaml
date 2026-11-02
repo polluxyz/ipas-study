@@ -9,7 +9,7 @@ pdf_page: 10
 type: 情境
 codes:
   - L21103
-concepts: []
+concepts: [diffusion-model]
 stem: |
   某影像設計團隊在使用 Stable Diffusion 生成 4K 級產品圖時，發現影像邊緣與細節存在顆粒化與模糊現象。
   若僅能在生成階段進行調整，希望提升畫面清晰度與紋理層次，同時避免過度平滑，下列哪一項作法最適合？
@@ -20,13 +20,14 @@ options:
   D: 改用低解析度輸入以降低計算成本
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 B。在去噪尚不充分時，調整取樣步數與取樣器較能改善細節。"
+  correct: "B 直接調整生成時的逐步去噪流程；若目前步數不足，增加步數並選擇合適取樣器，通常能改善噪點與細節，但會增加時間。品質增益可能飽和，也受模型與輸出尺寸限制，不能僅靠步數保證原生 4K 細節；有時還需高解析度流程。指引只有擴散生成概念，取樣參數的效果參照 [Diffusers 推論文件](https://huggingface.co/docs/diffusers/en/api/pipelines/stable_diffusion/text2img)。"
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: "降低步數通常可縮短時間，但在取樣不足的情況下，可能留下更多殘噪或不完整細節，與題目品質目標不符。"
+    C: "提高 CFG 主要加強文字條件的引導，不等於提高創意與多樣性；過高還可能產生失真或過飽和，不能當作細節修復的通則。"
+    D: "降低解析度可能節省運算，卻減少可表達的空間細節；後續放大也不能保證補回不存在的紋理。"
+  rule: "擴散模型步數與取樣器須按品質及時間驗證，增加步數不保證無限提升細節。"
+guide_refs: [guide-1:3-63, guide-1:3-67]
 author: codex
 review:
   status: draft

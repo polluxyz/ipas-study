@@ -9,7 +9,7 @@ pdf_page: 9
 type: 情境
 codes:
   - L21104
-concepts: []
+concepts: [clip, cross-modal-alignment]
 stem: |
   某媒體公司計畫導入 CLIP（Contrastive Language–Image Pre-training）模型，以協助大量影像自動標註與搜尋，並希望在無需新增標訓資料的情況下，僅透過文字提示（Text Prompt）即可識別影像內容。請問此應用情境中，CLIP 能夠達成的關鍵技術特性為何？
 options:
@@ -19,13 +19,14 @@ options:
   D: 以自迴歸生成模型（Autoregressive Model）逐步生成文字標籤描述影像內容
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 A。CLIP 以配對圖文的對比學習建立可比較的表示，支援文字提示的零樣本分類。"
+  correct: "A 的機制是先在預訓練階段拉近配對圖文、拉遠不配對圖文的表示；推論時將影像與候選類別的文字提示分別編碼，依相似度選出類別。此處不需新增下游任務標註，不代表預訓練沒用過圖文配對資料；文字提示也不保證涵蓋所有未知物件。"
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: "影像增強可以是訓練工具，但特徵擴散並不是 CLIP 以文字提示進行分類的核心，沒有解釋共同圖文表示。"
+    C: "固定分類頭的監督式分類通常針對既定類別學習；僅加 MLP 無法說明為何能直接用新的文字類別提示作零樣本判別。"
+    D: "原始 CLIP 主要編碼並比較影像與文字，不是靠自迴歸解碼器逐字產生描述；產生圖片說明需額外生成模型設計。"
+  rule: "CLIP 的零樣本分類是比較影像與候選文字提示的嵌入相似度。"
+guide_refs: [guide-1:3-44, guide-1:3-74]
 author: codex
 review:
   status: draft

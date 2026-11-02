@@ -10,7 +10,7 @@ type: 情境
 codes:
   - L23302
   - L23202
-concepts: []
+concepts: [lasso, l1-regularization]
 stem: |
   在房價預測任務中，若發現特徵如「房間數」與「坪數」存在高度多重共線性（Multicollinearity），為降低共線性對模型參數估計的負面影響，應優先選擇下列哪種模型？
 options:
@@ -20,13 +20,14 @@ options:
   D: 含 L1 正則化的 LASSO 迴歸模型
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 D。題目考正則化如何處理相關特徵；但未限定線性模型，使決策樹也有合理性。"
+  correct: "官方選 D。若要保留線性係數模型並減少冗餘變數，LASSO 以 L1 懲罰縮小係數，並可讓部分係數變成零，符合出題意圖。不過，高度相關特徵之間的選取仍可能不穩；若重點是係數穩定，Ridge 或 Elastic Net 也應比較。題幹未限定線性模型，故 D 不能視為無條件唯一解；[scikit-learn 線性模型文件](https://scikit-learn.org/stable/modules/linear_model.html#elastic-net)亦提醒 Lasso 對相關特徵的選取問題。"
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: "決策樹不以反解線性係數估計房價，確實能避開同類共線性問題，因此不能直接判它學理錯誤；若考點限於線性係數的收縮與篩選，LASSO 才更直接。題幹缺少此限制，需保留多解疑義。"
+    B: "未加懲罰的最小平方法在特徵近乎線性相依時，係數容易因小幅資料擾動而大幅改變，沒有處理題目指定的估計不穩問題。"
+    C: "線性核只指定線性決策或預測函數，未直接提供 L1 式的冗餘特徵篩選；即使支援向量模型也可有正則化，單憑線性核仍不能推出最適合本題的係數估計方案。"
+  rule: "相關特徵造成係數不穩時，須區分稀疏篩選與係數穩定兩種目標再選正則化。"
+guide_refs: [guide-3:4-14, guide-3:4-15, guide-3:4-20]
 author: codex
 review:
   status: draft

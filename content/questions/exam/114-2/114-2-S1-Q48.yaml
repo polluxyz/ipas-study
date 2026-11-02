@@ -10,7 +10,7 @@ type: 情境
 codes:
   - L23202
   - L23304
-concepts: []
+concepts: [dbscan, neighbor-search-index]
 stem: |
   某數據工程師使用 DBSCAN 演算法對一份數百萬筆的高維顧客資料進行聚類分析，但發現程式執行速度極慢，甚至出現記憶體不足的情況。若要在不改變演算法核心邏輯的前提下，最有效提升其運算效率的作法為何？
 options:
@@ -20,13 +20,14 @@ options:
   D: 在資料前處理時增加標準化後的特徵維度數
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 B。距離索引可加速鄰域查詢，但高維資料不保證受益或解決記憶體問題。"
+  correct: "官方 B 的優點是保留 DBSCAN 的半徑鄰域與密度連通規則，只替換尋找鄰居的方式；在資料結構與距離度量適合時，可略過不必要的距離計算。但題幹強調高維，KD-Tree 可能退化，Ball Tree 也依資料結構而定；大量鄰居的保存成本仍可能過高，不能保證 B 最有效。指引教 DBSCAN 與高維限制，未教索引選型；見 [官方近鄰搜尋文件](https://scikit-learn.org/stable/modules/neighbors.html#nearest-neighbor-algorithms)及 [DBSCAN 文件](https://scikit-learn.org/stable/modules/clustering.html#dbscan)。"
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: "階層式群集以另一套合併規則建構群集，已替換演算法核心，不符合保留 DBSCAN 邏輯的限制，且大資料下仍可能昂貴。"
+    C: "縮小 ε 雖可能減少鄰居數，卻會改變核心點、密度連通與噪聲判定，不能為了省資源而任意更動分群意義。"
+    D: "增加維度通常增加距離計算與資料儲存成本，還可能使鄰近關係更難區分；標準化不會抵消新增維度的成本。"
+  rule: "加速 DBSCAN 可先評估鄰域索引，但高維效益與鄰居儲存成本必須實測。"
+guide_refs: [guide-3:4-43, guide-3:4-44]
 author: codex
 review:
   status: draft

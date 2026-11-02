@@ -10,7 +10,7 @@ type: 觀念
 codes:
   - L21103
   - L21104
-concepts: []
+concepts: [variational-autoencoder, gan, diffusion-model, cross-modal-alignment]
 stem: |
   下列哪一項最正確地描述了 VAE（Variational Autoencoder）、GAN（Generative Adversarial Network）與擴散模型（Diffusion Model）在多模態潛在空間對齊（Latent Alignment）與生成策略上的根本差異？
 options:
@@ -20,13 +20,14 @@ options:
   D: 三者在多模態應用中皆依賴同一潛在表徵空間（Shared Latent Space），僅在解碼器結構不同而已
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 A。三類模型的生成機制不同，但選項把跨模態能力與品質差異說得過於必然。"
+  correct: "官方 A 最接近三者的核心：VAE 以潛變數機率模型與變分推論學習生成；GAN 透過生成器與鑑別器對抗；擴散模型學習反向去噪。A 的跨模態敘述須附加條件：使用合適的配對資料、條件化或共同表示目標，這些基本架構不會自動完成對齊。VAE 不存在通用的解析度上限，GAN 不一定訓練不穩，擴散模型也不保證兼具最佳穩定性與多樣性；這些只能視為常見經驗趨勢，不能照單全收。"
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: "VAE 有明確的潛變數生成模型與近似後驗；標準擴散模型以去噪目標訓練，兩者不以對抗式訓練為必要條件。GAN 也不是以顯式後驗估計作為其核心。"
+    C: "一般 VAE 與 GAN 不需用馬可夫鏈完成生成；擴散模型可涉及 KL 或變分目標，但最小化這些量本身不代表已學會跨模態語意對應。"
+    D: "三者在機率建模、訓練目標與取樣流程皆有差異，不能說只差解碼器；是否採共享潛在空間還取決於具體多模態設計。"
+  rule: "生成架構決定建模與取樣機制，跨模態對齊仍需額外資料及訓練目標。"
+guide_refs: [guide-1:3-62, guide-1:3-63]
 author: codex
 review:
   status: draft

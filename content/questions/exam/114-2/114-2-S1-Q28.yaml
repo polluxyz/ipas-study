@@ -9,7 +9,7 @@ pdf_page: 7
 type: 情境
 codes:
   - L23301
-concepts: []
+concepts: [feature-scaling, target-encoding, interaction-features, data-leakage]
 stem: |
   在一個同時包含連續型特徵與類別型特徵的資料集中，若希望透過適當的特徵工程流程來提升模型整體表現，下列哪一種作法最為合適？
 options:
@@ -19,13 +19,14 @@ options:
   D: 只保留連續特徵，忽略類別型變量以簡化模型
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 C。混合型資料可分別處理尺度、類別統計與交互作用，但效果取決於模型及驗證。"
+  correct: "C 在四個選項中最完整：對尺度敏感的模型可受益於連續值標準化，高基數類別可考慮目標編碼，再驗證交互特徵是否有用。目標編碼必須在訓練折內以折外統計等方式防止標籤洩漏，並處理稀有或未見類別；不能先用全資料的目標標籤計算類別統計再切分。題目未給模型與類別基數，因此 C 是條件式最佳方案，並不保證普遍最優；見 [TargetEncoder 文件](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.TargetEncoder.html)。"
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: "標籤編碼可用於有序類別或支援此表示的模型，但任意整數會讓部分模型誤認類別有大小與距離；直接合併也未考慮連續欄位尺度，不能作為通用流程。"
+    B: "分桶在某些任務有效，卻可能丟掉桶內數值差異；沒有資料與模型依據就全面離散化，無法保證提升表現。"
+    D: "類別欄位可能含有關鍵預測訊息，僅因處理方便而全部刪除，缺少實證依據；應先評估貢獻與洩漏風險。"
+  rule: "特徵工程須配合模型與資料型態，使用目標統計時尤其要防止標籤洩漏。"
+guide_refs: [guide-3:5-7, guide-3:5-8, guide-3:5-10]
 author: codex
 review:
   status: draft
