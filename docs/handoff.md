@@ -1,4 +1,4 @@
-# 交接：同名公開遷移與全站寫作波
+# 交接：公開遷移完成，接續全站寫作波
 
 本頁記錄穩定決策及接手方式；即時狀態以本機 `tmp/migration/control.json`、`tmp/scratch/coordinator-current-state.json`、Orca 與 GitHub 實際回應為準。原始 API、備份與私人身分資料不進版控。
 
@@ -6,7 +6,8 @@
 
 - 新的正式工作根目錄是 **`D:/ipas-study`**。正式 GitHub 名稱為 **`polluxyz/ipas-study`**；新 GitHub node ID 必須是 **`R_kgDOVfp2dg`**。
 - 舊本機 `D:/AI_test` 與原工作樹只作私有備份。舊 GitHub node ID `R_kgDOVev-fQ`；使用者已指定：新庫驗收後刪除舊 GitHub repo，最後只留一個同名公開 repo。本機備份保留，不能把舊歷史搬回新庫。
-- 新 Orca repo ID 從 `orca repo show --repo path:D:/ipas-study --json` 的實際輸出取得；它與舊 ID 不同。worker／worktree 明傳新 repo ID 或精確完整 selector，不靠同名 UI 分組或舊 current 推測。
+- **遷移已完成**：唯一公開庫為 `polluxyz/ipas-study`，新 node ID 正確；匿名 clone 與候選相同，舊 GitHub repo 已刪除（204，舊 numeric ID 查詢 404）。不要重跑建庫、改名或刪舊；驗收見 `docs/public-migration-verification.md`。
+- 新 Orca repo ID 是 **`555621aa-2814-4352-83be-7ccb05ac7de4`**。worker／worktree 明傳新 repo ID 或精確完整 selector，不靠同名 UI 分組或舊 current 推測；Orca 的 cached remote identity 可能仍顯示 staging 暫名，以實際 Git remote 及 GitHub node ID 為準，不改底層資料庫。
 - Run 沿用 **`run_0668a2365727`**。先 `orca orchestration run-use --id run_0668a2365727 --json`，核對自己的 coordinator handle，再讀信及 worker-list。
 - Windows 腳本使用 **`C:/Program Files/Git/bin/bash.exe`**；PATH 的 bash 指向 WSL。新專案腳本及 tmp 協調工具使用新根目錄。
 
@@ -26,9 +27,9 @@
 
 - 舊庫最後 PR #98 合併後，共 **73 組**在 main；遷移文件為舊庫 PR #97。原六組 queue 全完成，不可重跑原清單。
 - **12 組交稿尚未合併**，由本機檔案差異重建新歷史分支，不 fetch／merge／cherry-pick 舊分支：W-L23302-B、W-L23304-B、W-L21102-C、W-L21102-D、W-L21103-B、W-L21103-E、W-L21104-B、W-L21302-B、W-L23401-G、W-L23402-C、W-L21101-E、W-L21103-D。
-- 原十組已由協調者重跑檢查、230 項測試、照抄與建置驗收；RV 十組完成。CK 六組完成：W-L23402-C、W-L23401-G、W-L23304-B、W-L21102-D、W-L23302-B、W-L21103-E。
-- **下一波 CK**：W-L21302-B、W-L21103-B、W-L21102-C、W-L21104-B。最後兩組完成協調者驗收後派 RV／CK。
-- W-L23402-C 的 FX 完成，下一步 RR；其餘收到 RV＋CK 的組別先 FX。必須讀完整 review-main／review-calc 並補足 partial，不能以「0 錯誤」省略深度缺口。
+- 12 組 writer 與 RV 均完成；CK 只剩 W-L21103-D，已派新庫核算。W-L23402-C 的 RR 通過（0 錯誤、7 列 complete），待正常驗收／coverage／PR。
+- W-L23401-G、W-L23304-B、W-L21102-D、W-L23302-B、W-L21103-E 的 FX 完成，協調者驗收後派 RR；部分 pending 公式需 CK2。W-L21302-B、W-L21103-B、W-L21102-C、W-L21104-B、W-L21101-E 已有 RV＋CK，接續 FX。即時 dispatch 與驗收以本機 handles、收據及 Run 為準。
+- 必須讀完整 review-main／review-calc 並補足 partial，不能以「0 錯誤」省略深度缺口。所有 worker 已改在新庫工作，切換完成後恢復正常新庫 PR，仍禁止引入舊歷史。
 - W-L23402-C 重建時保留乾淨 writer／FX 兩個新提交供 RR 比較。實際 worktree／commit 對照在本機遷移清單；舊 metadata 不進公開庫。
 - 新整合重跑協調者驗收與 CI；舊審查只沿用內容雜湊相同的部分，衝突與新差異重審。reviewed_revision 是教材內容 SHA-256，不是 Git commit SHA。
 
