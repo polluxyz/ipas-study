@@ -3,6 +3,7 @@
 import { Code } from 'astro:components';
 import type { ComponentProps } from 'astro/types';
 import { sourceLabel, type Question } from '../lib/content';
+import { renderQuestionMarkdown } from '../lib/question-markdown';
 import JudgmentRule from './JudgmentRule.astro';
 import Sources from './Sources.astro';
 interface Props { question: Question; mode?: string; titles: Record<string, string>; hidden?: boolean; unit?: { subject: number; guide_section: string }; }
@@ -10,24 +11,29 @@ const { question: q, mode = 'question', titles, hidden = false, unit } = Astro.p
 const choices = ['A', 'B', 'C', 'D'] as const;
 const language = (q.code_lang ?? 'python') as ComponentProps<typeof Code>['lang'];
 const dispute = typeof q.review.dispute === 'string' ? q.review.dispute : JSON.stringify(q.review.dispute, null, 2);
+const [stem, summary, correct, rule, ...optionAndReasons] = await Promise.all([
+  q.stem, q.explanation.summary, q.explanation.correct, q.explanation.rule ?? '',
+  ...choices.map((choice) => q.options[choice]),
+  ...choices.map((choice) => q.explanation.wrong[choice] ?? ''),
+].map(renderQuestionMarkdown));
 ---
 <article class="question-card" data-question data-qid={q.id} data-rev={q.rev} data-answer={q.answer} data-mode={mode} hidden={hidden}>
   <div class="question-card-meta"><span class="tag">{q.type}</span><span>{sourceLabel(q)}</span>{q.source === 'mock' && q.review.status === 'draft' && <span class="tag amber">模擬題・待審查</span>}{q.review.status === 'disputed' && <span class="tag amber">有爭議・依官方答案計分</span>}</div>
-  <div class="question-stem">{q.stem.split(/\n\s*\n/).map((paragraph) => <p>{paragraph}</p>)}</div>
+  <div class="question-stem" set:html={stem} />
   {q.code && <div class="question-code"><div class="code-label">{q.code_lang ?? 'python'}<span>題目程式碼</span></div><Code code={q.code} lang={language} themes={{ light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' }} /></div>}
   {q.image && <img class="question-image" src={`/question-assets/${q.image}`} alt={`${sourceLabel(q)} 原題附圖`} />}
   <form data-answer-form>
-    <fieldset><legend>選擇一個答案</legend><div class="answer-options">{choices.map((choice) => <label class="answer-option" data-option={choice}><input type="radio" name={`choice-${q.id}`} value={choice} required /><span class="option-letter">{choice}</span><span>{q.options[choice]}</span><span class="option-status" aria-hidden="true"></span></label>)}</div></fieldset>
+    <fieldset><legend>選擇一個答案</legend><div class="answer-options">{choices.map((choice, index) => <div class="answer-option" data-option={choice}><input id={`${q.id}-${choice}`} type="radio" name={`choice-${q.id}`} value={choice} aria-labelledby={`${q.id}-${choice}-label ${q.id}-${choice}-text`} required /><label id={`${q.id}-${choice}-label`} for={`${q.id}-${choice}`} class="option-letter">{choice}</label><div id={`${q.id}-${choice}-text`} class="option-content" set:html={optionAndReasons[index]} /><span class="option-status" aria-hidden="true"></span></div>)}</div></fieldset>
     <div class="answer-actions"><p class="muted">提交後顯示答案與完整解析</p><button class="button primary" type="submit">確認作答 <span>→</span></button></div>
   </form>
   <p class="save-error" role="status" hidden></p>
   <section class="answer-explanation" data-explanation hidden aria-label="答案與解析" tabindex="-1">
     <div class="answer-result" role="status"><span data-result-symbol></span><div><strong data-result-label></strong><p>官方答案 <b>{q.answer}</b><span data-chosen></span></p></div><a href="/wrong-book/">查看錯題本 ↗</a></div>
-    <div class="explanation-summary">{q.explanation.summary}</div>
-    <h3>為什麼 {q.answer} 正確？</h3><p>{q.explanation.correct}</p>
-    <h3>其他選項的問題</h3><dl class="wrong-reasons">{choices.filter((choice) => choice !== q.answer).map((choice) => <div><dt>{choice}</dt><dd>{q.explanation.wrong[choice]}</dd></div>)}</dl>
+    <div class="explanation-summary" set:html={summary} />
+    <h3>為什麼 {q.answer} 正確？</h3><div class="explanation-correct" set:html={correct} />
+    <h3>其他選項的問題</h3><dl class="wrong-reasons">{choices.map((choice, index) => choice !== q.answer && <div><dt>{choice}</dt><dd set:html={optionAndReasons[4 + index]} /></div>)}</dl>
     {q.review.status === 'disputed' && <aside class="dispute"><strong>爭議說明</strong><p>{dispute}</p><small>此題依官方答案 {q.answer} 計分，請一併理解上述實務限制。</small></aside>}
-    <JudgmentRule rule={q.explanation.rule} concepts={q.concepts} titles={titles} />
+    <JudgmentRule rule={q.explanation.rule ? rule : undefined} concepts={q.concepts} titles={titles} />
     <p class="fine-print">評鑑代碼：{q.codes.join('、')}<br />學習指引：{q.guide_refs.length > 0 ? <Sources sources={q.guide_refs} /> : '請參照相關概念頁'}{unit && <>・科目 {unit.subject} §{unit.guide_section}</>}</p>
   </section>
 </article>
@@ -40,6 +46,13 @@ const dispute = typeof q.review.dispute === 'string' ? q.review.dispute : JSON.s
       let started = card.hidden ? null : performance.now();
       card.addEventListener('question-shown', () => { started = performance.now(); });
       const form = card.querySelector<HTMLFormElement>('form');
+      form?.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element) || target.closest('a, button, input, label, summary') || !window.getSelection()?.isCollapsed) return;
+        const option = target.closest<HTMLElement>('[data-option]');
+        const input = option?.querySelector<HTMLInputElement>('input[type="radio"]');
+        if (input && !input.disabled) input.click();
+      });
       form?.addEventListener('submit', (event) => {
         event.preventDefault();
         if (card.dataset.answered) return;
@@ -76,3 +89,9 @@ const dispute = typeof q.review.dispute === 'string' ? q.review.dispute : JSON.s
   }
   initQuestions();
 </script>
+<style>
+  .option-content { min-width: 0; flex: 1; }
+  .option-content :global(p:first-child), .explanation-correct :global(p:first-child) { margin-top: 0; }
+  .option-content :global(p:last-child) { margin-bottom: 0; }
+  .explanation-correct { font-size: .81rem; line-height: 1.95; }
+</style>

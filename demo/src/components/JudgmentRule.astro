@@ -4,5 +4,5 @@ import { conceptUrl } from '../lib/content';
 interface Props { rule?: string; concepts: string[]; titles: Record<string, string>; }
 const { rule, concepts, titles } = Astro.props;
 ---
-{rule && <aside class="judgment-rule"><h3>判斷規則</h3><p>{rule}</p></aside>}
+{rule && <aside class="judgment-rule"><h3>判斷規則</h3><div set:html={rule} /></aside>}
 <h3>回到相關概念</h3><div class="link-chips">{concepts.map((id) => <a href={conceptUrl(id)}>{titles[id] ?? id} ↗</a>)}</div>

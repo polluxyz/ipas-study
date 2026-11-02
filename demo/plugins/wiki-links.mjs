@@ -1,17 +1,7 @@
 /** 手動連結顯示標題；正文依二級標題分節，自動連結其他概念的首次提及並保留作者用字。 */
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { parse } from 'yaml';
-
-function readConcepts(folder) {
-  if (!existsSync(folder)) return [];
-  return readdirSync(folder).filter((name) => name.endsWith('.md')).sort().flatMap((name) => {
-    const path = resolve(folder, name);
-    const raw = readFileSync(path, 'utf8');
-    const data = parse(raw.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '');
-    return data?.id && data?.title ? [{ ...data, path }] : [];
-  });
-}
 
 function english(term) { return /^[\x20-\x7e]+$/.test(term) && /[a-z]/i.test(term); }
 function key(term) { return term.toLowerCase(); }
@@ -23,8 +13,27 @@ function conceptLink(id, text, automatic = false) {
 export default function wikiLinks(options = {}) {
   // 外掛也會被 Astro 打包到 .astro/.prerender；沿用 demo 工作目錄，避免把打包位置誤當專案根目錄。
   const folder = options.folder ?? resolve('../content/concepts');
-  return (tree, file = {}) => {
-    const concepts = readConcepts(folder), byId = new Map(concepts.map((concept) => [concept.id, concept]));
+  let cachedFiles = new Map(), registry;
+  const loadRegistry = () => {
+    const files = new Map();
+    const names = existsSync(folder) ? readdirSync(folder).filter((name) => name.endsWith('.md')).sort() : [];
+    let changed = !registry || names.length !== cachedFiles.size;
+    for (const name of names) {
+      const path = resolve(folder, name);
+      const stat = statSync(path, { bigint: true });
+      const fingerprint = `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}`;
+      let entry = cachedFiles.get(name);
+      if (!entry || entry.fingerprint !== fingerprint) {
+        const raw = readFileSync(path, 'utf8');
+        const data = parse(raw.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '');
+        entry = { fingerprint, concept: data?.id && data?.title ? { ...data, path } : undefined };
+        changed = true;
+      }
+      files.set(name, entry);
+    }
+    if (!changed) return registry;
+    const concepts = [...files.values()].flatMap(({ concept }) => concept ? [concept] : []);
+    const byId = new Map(concepts.map((concept) => [concept.id, concept]));
     const lookup = new Map(), terms = new Map();
     const register = (map, term, id, automatic = true) => {
       if (typeof term !== 'string' || !term.trim()) return;
@@ -46,6 +55,13 @@ export default function wikiLinks(options = {}) {
       const literal = escapeRegex(term);
       return english(term) ? `(?<![A-Za-z0-9_])${literal}(?![A-Za-z0-9_])` : literal;
     }).join('|'), 'giu') : undefined;
+    // 驗證通過後才提交快取；若有歧義，每次轉換都必須繼續報錯直到資料修正。
+    cachedFiles = files;
+    registry = { concepts, byId, lookup, terms, pattern };
+    return registry;
+  };
+  return (tree, file = {}) => {
+    const { concepts, byId, lookup, terms, pattern } = loadRegistry();
     const sourcePath = file.path ? resolve(String(file.path)) : undefined;
     const current = file.data?.astro?.frontmatter?.id ?? concepts.find((concept) => concept.path === sourcePath)?.id;
     const definitions = new Map();
