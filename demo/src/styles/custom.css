@@ -372,3 +372,15 @@ progress::-webkit-progress-value { background: #779b62; border-radius: 1rem; }
 .catalog-group .empty-copy, .catalog-unit { padding: 1rem 1.3rem; }
 .catalog-unit { border-top: 1px solid var(--line); }
 @media(max-width:49.99rem) { .header { padding-inline-end: 4rem !important; } .sl-menu-button { inset-inline-end: 1rem !important; } }
+/* 概念正文沿用原型淺色紙張；注入深色時仍成對指定文字、表格與語法色。 */
+:root[data-theme='dark'] .concept-prose {
+  --sl-color-text: #344941;
+  --sl-color-white: #253d37;
+  color: #344941;
+  background: #fafbf7;
+}
+:root[data-theme='dark'] .concept-prose .textbook-table-scroll :is(th, td):not(.textbook-supplement *) { color: #344941; }
+:root[data-theme='dark'] .concept-prose .expressive-code pre { color: #403f53; }
+:root[data-theme='dark'] .concept-prose :is(p, li, h2, h3, h4, summary, code):not(.textbook-figure *, .starlight-aside *, .textbook-supplement *, pre *) { color: #344941; }
+:root[data-theme='dark'] .concept-prose a:not(.textbook-figure *, .starlight-aside *, .textbook-supplement *) { color: #286653; }
+:root[data-theme='dark'] .concept-prose .expressive-code pre span[style*='--0:'] { color: var(--1, #403f53) !important; }
