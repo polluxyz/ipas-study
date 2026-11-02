@@ -1,0 +1,36 @@
+id: 114-2-S3-Q10
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 10
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 3
+type: 情境
+codes: [L23302, L23304]
+concepts: [automl]
+stem: |
+  下列哪一種應用情境最適合導入 AutoML，以提升模型開發效率？
+options:
+  A: 公司已有完整的 MLOps 平台與資深資料科學團隊，模型更新採固定流程
+  B: 製造部門的生產良率模型已長期穩定運作，只需定期調整參數
+  C: 行銷部門希望在短時間內比較多種顧客流失預測模型，缺乏專職工程師與時間進行手動建模
+  D: 財務部門正在開發高度客製化的信用風險評估模型，需要精細控制特徵工程與演算法細節
+answer: C
+explanation:
+  summary: 答案 C：時間與建模人力有限、又需快速比較多模型時，AutoML 最切合需求。
+  correct: AutoML 可在指定搜尋空間與運算預算內，自動進行部分特徵處理、候選模型比較與超參數調整，減少逐一手動試驗的工作。行銷部門的需求正符合這種優勢；但仍需有人確認資料品質、目標、驗證方法與上線限制。科目 3 指引未明列 AutoML，本題可連到科目 1 第 5.1 節的自動特徵工程與模型驗證說明。
+  wrong:
+    A: 成熟團隊也能使用 AutoML，但已有穩定平台與固定流程時，題幹沒有顯示快速補足建模人力的迫切需求。
+    B: 穩定模型的例行參數調整也可自動化，但比起短期比較多種模型，這個情境對完整 AutoML 流程的需求較弱。
+    D: 高度客製化且需掌控特徵與演算法細節時，必須先確認 AutoML 的可調整範圍；不如時間與人力受限的標準比較任務直接。
+  rule: AutoML 適合將可規格化的建模搜尋自動化，採用前仍要定義資料、評估與資源限制。
+guide_refs: [guide-1:5-6, guide-1:5-7]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 3
+    by: EX-E3-codex
+  blind_answer: C
+  dispute: null

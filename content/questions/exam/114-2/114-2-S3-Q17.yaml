@@ -1,0 +1,36 @@
+id: 114-2-S3-Q17
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 17
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 4
+type: 觀念
+codes: [L23103]
+concepts: [adam, momentum, optimizer-selection]
+stem: |
+  下列哪一種優化演算法內建動量（Momentum）的設計機制？
+options:
+  A: SGD+Momentum
+  B: Adam
+  C: RMSProp
+  D: Adagrad
+answer: B
+explanation:
+  summary: 官方答案 B：Adam 含動量機制，但 A 的 SGD+Momentum 也成立，單選有歧義。
+  correct: Adam 對梯度做一階矩指數移動平均以保留歷史方向，並用二階矩估計調整各參數的步長，因此官方 B 確實具有動量設計。若題意特指不需額外添加動量的基本演算法，B 可符合命題意圖；但選項 A 已經明寫加入 Momentum，無法據此排除。依題面，A、B 均合理，因此無法由題面唯一選出 B。
+  wrong:
+    A: 不能判為技術錯誤：SGD+Momentum 明確包含歷史梯度的動量累積。把未加動量的原始 SGD 與此選項混同，會造成錯誤排除，因此本題存在多解疑點。
+    C: 基本 RMSprop 以梯度平方的移動平均縮放步長，並不等於累積梯度方向的動量；但某些實作允許額外設定 momentum，須區分基本定義與擴充版本。
+    D: 基本 Adagrad 累積梯度平方以調整步長，沒有像動量法那樣累積帶方向的歷史梯度。
+  rule: 辨認動量要看是否累積歷史梯度方向，並區分基本演算法與已明示加入動量的版本。
+guide_refs: [guide-3:3-24, guide-3:3-25]
+author: codex
+review:
+  status: disputed
+  answer_checked:
+    pdf_page: 4
+    by: EX-E3-codex
+  blind_answer: B
+  dispute: 官方答案 B。Adam 的一階矩含動量，A 已明寫 SGD 加 Momentum，也具有動量設計；題面未給能排除 A 的條件，保留官方 B 與多解疑義。

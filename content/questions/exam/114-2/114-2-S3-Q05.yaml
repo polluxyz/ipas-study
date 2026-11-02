@@ -1,0 +1,36 @@
+id: 114-2-S3-Q05
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 5
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 1
+type: 情境
+codes: [L23203]
+concepts: [convolution-layer, cnn]
+stem: |
+  某智慧製造公司開發一套影像辨識系統，用於自動檢測生產線上的瑕疵產品。系統採用卷積神經網路（Convolutional Neural Network, CNN）作為主要模型架構，其中第一層卷積層（Convolutional Layer）主要負責的功能為下列何者？
+options:
+  A: 自動提取輸入影像中的局部特徵
+  B: 降低影像維度以加速運算效率
+  C: 增加神經元與參數數量以提升模型容量
+  D: 整合所有特徵並輸出最終分類結果
+answer: A
+explanation:
+  summary: 答案 A：第一層卷積用局部濾波器擷取影像中的基礎模式。
+  correct: 卷積核掃過影像的小區域，將局部像素組合轉成特徵圖。第一層常學到邊緣、方向、色塊或紋理等低階模式，後續層再組成較抽象的特徵，供分類頭判斷瑕疵。
+  wrong:
+    B: 步幅較大的卷積可以縮小空間尺寸，但尺寸是否縮小取決於設定；第一層卷積的主要目的仍是擷取局部特徵。
+    C: 通道數可以調整容量，但增加參數不是卷積的核心職責；局部連接與共享權重反而有助節省參數。
+    D: 整合高階特徵並產生分類分數通常在網路後段，第一層尚未完成這些抽象與決策。
+  rule: 判讀 CNN 層次時，前段卷積抓局部模式，後段再整合成任務輸出。
+guide_refs: [guide-3:4-68, guide-3:4-69]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E3-codex
+  blind_answer: A
+  dispute: null

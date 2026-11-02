@@ -1,0 +1,36 @@
+id: 114-2-S3-Q25
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 25
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 6
+type: 情境
+codes: [L23301, L23303]
+concepts: [scorecard-feature-screening, population-stability-index]
+stem: |
+  某金融機構正在建立傳統信用評分卡模型，採用邏輯迴歸（Logistic Regression）作為建模方法，並依循監理機關建議的標準化流程進行模型開發。下列哪一項不是傳統信用評分卡模型開發流程中的常見步驟？
+options:
+  A: 使用生成式模型進行特徵學習
+  B: 進行特徵選擇與多重共線性（Multicollinearity）分析
+  C: 進行分箱（Binning）與資訊值（Information Value, IV）檢定
+  D: 使用樣本穩定性指標（Population Stability Index, PSI）檢驗模型穩定性
+answer: A
+explanation:
+  summary: 答案 A：生成式特徵學習不是傳統邏輯迴歸信用評分卡的常見標準步驟。
+  correct: 本題比較傳統評分卡流程：通常檢查分箱與資訊值、篩選變數及共線性，再監控樣本或分數分布穩定性。生成式特徵學習可另行研究，但並非這類傳統流程的典型必要步驟。兩科指引沒有明確教授完整評分卡、IV 與 PSI 流程；題幹也未指出特定監理文件，不能據此宣稱某機關一律要求這些步驟。
+  wrong:
+    B: 篩選變數與檢查共線性，有助於控制冗餘、係數穩定性與可解釋性，是傳統邏輯迴歸評分卡的常見工作。
+    C: 分箱常用於整理變數與風險的關係，IV 用於評估區別能力，屬於評分卡常見篩選工具；但 IV 不是單靠一個值就可完成的統計顯著性檢定。
+    D: PSI 通常稱族群穩定性指數，用於比較分箱後的分布差異，可作穩定性監控；它本身不證明預測品質或因果關係穩定。
+  rule: 判讀傳統信用評分卡流程時，分清變數篩選、分布穩定性監控與另行引入的生成式學習。
+guide_refs: []
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 6
+    by: EX-E3-codex
+  blind_answer: A
+  dispute: null
