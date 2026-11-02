@@ -1,5 +1,6 @@
 /** 以正式 Markdown 處理器驗證補充解析、來源整併與隱藏邊界，覆蓋巢狀提示框及排版外掛。 */
 import { describe, expect, it } from 'vitest';
+import { readFile } from 'node:fs/promises';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import asides from './asides.mjs';
 import { supplementSections } from './supplement.mjs';
@@ -58,6 +59,46 @@ describe('正式補充呈現', () => {
     supplementSections()({ type: 'root', children: [list] });
     expect(list.children.map((node) => node.properties.value)).toEqual([9, 6, 5]);
     expect(list.children[1].properties['data-supplement-kind']).toBe('list-item');
+  });
+  it('補充小節內逐列及清單項保留標記、結構和原文，重複處理不再包裝', () => {
+    const el = (tagName, children = [], properties = {}) => ({ type: 'element', tagName, properties, children });
+    const txt = (value) => ({ type: 'text', value });
+    const row = (name) => el('tr', [el('td', [txt(name)]), el('td', [el('a', [txt('連結')], { href: '/concepts/test/' }), el('span', [txt('x²')], { className: ['katex'] })])]);
+    const rows = ['分位延遲（補充）', '完成吞吐（補充）', '時間可用率（補充）', '族群穩定性指數（補充）', '密集數值容量（補充）'].map(row);
+    const ordinary = row('指引列');
+    const listItems = [el('li', [txt('選做（補充）')]), el('li', [txt('一般項')])];
+    const children = [el('h2', [txt('指引')]), el('p', [txt('正文')]), el('h3', [txt('服務觀測（補充）')]), el('table', [el('tbody', [...rows.slice(0, 3), ordinary])]), el('ul', listItems), el('h3', [txt('分布（補充）')]), el('table', [el('tbody', rows.slice(3))]), el('h3', [txt('參考來源')]), el('p', [txt('原始來源')])];
+    const tree = { type: 'root', children };
+    const original = structuredClone(tree);
+    supplementSections()(tree);
+    expect(rows.map((r) => r.properties['data-supplement-kind'])).toEqual(Array(5).fill('row'));
+    expect(ordinary.properties['data-supplement-kind']).toBeUndefined();
+    expect(listItems.map((i) => i.properties['data-supplement-kind'])).toEqual(['list-item', undefined]);
+    expect(tree.children.filter((n) => n.properties?.['data-supplement-kind'] === 'section')).toHaveLength(2);
+    expect(tree.children.at(-2).tagName).toBe('h3');
+    const strip = (node) => {
+      if (node.children) node.children = node.children.flatMap((child) => child.properties?.['data-supplement-kind'] === 'section' ? child.children : [child]).map(strip);
+      if (node.properties) { delete node.properties['data-supplement']; delete node.properties['data-supplement-kind']; }
+      return node;
+    };
+    expect(strip(structuredClone(tree))).toEqual(original);
+    const once = structuredClone(tree);
+    supplementSections()(tree);
+    expect(tree).toEqual(once);
+  });
+  it('實際 L21302 速查內五個補充小節表列與其他表列均逐一標記', async () => {
+    const source = await readFile(new URL('../../content/cheatsheets/L21302.md', import.meta.url), 'utf8');
+    const html = await render(source);
+    expect(html.match(/data-supplement-kind="row"/g)).toHaveLength(20);
+    for (const name of ['分位延遲', '完成吞吐', '時間可用率', '族群穩定性指數', '密集數值容量']) {
+      expect(html).toMatch(new RegExp('data-supplement-kind="row"[^>]*><td[^>]*>' + name + '（補充）'));
+      expect(html.split(name + '（補充）')).toHaveLength(2);
+    }
+  });
+  it('補充小節內有序清單仍保留原本編號', async () => {
+    const html = await render('### 選讀（補充）\n\n5. 準備\n6. 選做（補充）\n7. 核對');
+    expect([...html.matchAll(/\bvalue="(\d+)"/g)].map((match) => Number(match[1]))).toEqual([5, 6, 7]);
+    expect(html).toMatch(/data-supplement-kind="list-item" value="6">選做（補充）/);
   });
   it('解析寫法，來源僅在合併區塊末尾顯示，同來源順序不同也合併', async () => {
     const html = await render(':::supplement[來源：甲；乙]\n段落甲。\n:::\n\n:::supplement[來源：乙；甲]\n段落乙。\n:::');

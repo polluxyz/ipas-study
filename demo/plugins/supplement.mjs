@@ -17,13 +17,13 @@ function preserveNumbers(list) {
 }
 export function supplementSections() {
   return (tree) => {
-    const visit = (parent) => {
+    const visit = (parent, inWrappedSection = false) => {
       if (!parent.children) return;
       const output = [], children = parent.children;
       for (let i = 0; i < children.length; i++) {
         const node = children[i], level = depth(node), title = text(node).trim();
         if (level && /^(?:參考來源)(?:（補充）)?$/.test(title)) { output.push(node); continue; }
-        if (level >= 2 && level <= 4 && title.endsWith('（補充）')) {
+        if (!inWrappedSection && level >= 2 && level <= 4 && title.endsWith('（補充）')) {
           const body = [node];
           while (i + 1 < children.length) {
             const next = children[i + 1], nextLevel = depth(next);
@@ -31,12 +31,14 @@ export function supplementSections() {
             body.push(children[++i]);
           }
           const wrapper = { type: 'element', tagName: 'section', properties: { className: ['textbook-supplement-section'], 'data-supplement': '', 'data-supplement-kind': 'section' }, children: body };
+          // 已收集的標題不可再次包裝，但其表格與清單仍須逐一辨識。
+          visit(wrapper, true);
           output.push(wrapper);
         } else {
           const firstCell = node.type === 'element' && node.tagName === 'tr' ? node.children.find((cell) => cell.type === 'element' && cell.tagName === 'td') : undefined;
           if (firstCell && text(firstCell).trim().endsWith('（補充）')) mark(node, 'row');
           if (node.type === 'element' && node.tagName === 'li' && itemText(node).trim().endsWith('（補充）')) mark(node, 'list-item');
-          visit(node); output.push(node);
+          visit(node, node.properties?.['data-supplement-kind'] === 'section'); output.push(node);
         }
       }
       parent.children = output;
