@@ -15,6 +15,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { readdir, readFile, mkdir, writeFile, stat } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { resolve, relative, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
@@ -351,12 +352,12 @@ export function featureBlocks(item, phase = 'before', concepts = []) {
     ? [{ key: 'body', selector: '#concept-body, .cheatsheet-body, main .prose', text: item.body ?? '' }]
     : [
       { key: 'stem', selector: '.question-stem', text: item.stem },
-      ...Object.entries(item.options ?? {}).map(([choice, text]) => ({ key: `option:${choice}`, selector: `[data-option="${choice}"] > span:not([class])`, text })),
+      ...Object.entries(item.options ?? {}).map(([choice, text]) => ({ key: `option:${choice}`, selector: `[data-option="${choice}"] > .option-content, label[data-option="${choice}"] > span:not([class])`, text })),
       ...(phase === 'after' ? [
         { key: 'summary', selector: '.explanation-summary', text: typeof item.explanation === 'string' ? item.explanation : item.explanation?.summary },
-        { key: 'correct', selector: '[data-explanation] > p:not([class])', text: item.explanation?.correct },
+        { key: 'correct', selector: '[data-explanation] > .explanation-correct, [data-explanation] > p:not([class])', text: item.explanation?.correct },
         ...['A', 'B', 'C', 'D'].filter((choice) => choice !== item.answer).map((choice, index) => ({ key: `wrong:${choice}`, selector: `.wrong-reasons > div:nth-child(${index + 1}) dd`, text: item.explanation?.wrong?.[choice] })),
-        { key: 'rule', selector: '.judgment-rule p', text: item.explanation?.rule },
+        { key: 'rule', selector: '.judgment-rule > div, .judgment-rule > p', text: item.explanation?.rule },
       ] : []),
     ];
   const blocks = fields.map(({ text, ...field }) => ({ ...field, ...parseFeatureBlocks(text ?? '', concepts) }));
@@ -557,6 +558,72 @@ export function sourceStageChecks(content, stage) {
   return [...checks.filter((c) => c.type === 'choice'), ...checks.filter((c) => c.type === 'short')];
 }
 
+/** 離線以 Markdown→HAST→CSS selector 驗證同一題欄位的完整內容與隔離邊界。 */
+function questionSelectorFixtures() {
+  const require = createRequire(import.meta.resolve('@astrojs/markdown-remark'));
+  const ownRequire = createRequire(import.meta.url);
+  const { selectAll, select } = require('hast-util-select');
+  const { fromHtml } = require('hast-util-from-html');
+  const { toHtml } = require('hast-util-to-html');
+  const processor = require('unified').unified().use(require('remark-parse').default)
+    .use(require('remark-gfm').default).use(ownRequire('remark-math').default)
+    .use(require('remark-rehype').default).use(ownRequire('rehype-katex').default);
+  const q49 = parse(readFileSync(resolve(root, 'content/questions/exam/114-2/114-2-S3-Q49.yaml'), 'utf8'));
+  assert.deepEqual(parseFeatureBlocks(q49.options.A).formulas, ['f(x)=\\frac{1}{1+e^{-x}}']);
+  const rich = (name) => `${name} 第一段。\n\n第二段 $${name}=2$。\n\n| 欄 | 值 |\n| --- | --- |\n| ${name} | 2 |\n\n\`\`\`python\nprint('${name}')\n\`\`\``;
+  const text = (node) => node.type === 'text' ? node.value : (node.children ?? []).map(text).join('');
+  const render = (markdown, inline = false) => {
+    const tree = processor.runSync(processor.parse(markdown));
+    return toHtml(inline ? tree.children[0]?.children ?? [] : tree);
+  };
+  const fixture = (old) => ({ stem: '', answer: 'C', options: { A: q49.options.A, B: old ? '$b=2$' : rich('b') }, explanation: {
+    correct: old ? '$c=2$' : rich('c'), rule: old ? '$r=2$' : rich('r'), wrong: {},
+  } });
+  const actualFrom = (expected, item, old) => {
+    const body = (value) => render(value, old);
+    const option = (choice) => old
+      ? `<label data-option="${choice}"><span class="option-letter">${choice}</span><span>${body(item.options[choice])}</span><span class="option-status"></span></label>`
+      : `<div data-option="${choice}"><label>${choice}</label><div class="option-content">${body(item.options[choice])}</div><span class="option-status"></span></div>`;
+    const correct = old ? `<p>${body(item.explanation.correct)}</p>` : `<div class="explanation-correct">${body(item.explanation.correct)}</div>`;
+    const rule = old ? `<p>${body(item.explanation.rule)}</p>` : `<div>${body(item.explanation.rule)}</div>`;
+    const tree = fromHtml(`<main><div class="question-stem"></div>${option('A')}${option('B')}<section data-explanation>${correct}<aside class="judgment-rule"><h3>判斷規則</h3>${rule}</aside><div class="link-chips">${render('$decoy=9$')}</div></section></main>`, { fragment: true });
+    const blocks = expected.blocks.map(({ key, selector }) => {
+      const roots = selectAll(selector, tree);
+      const all = (query) => roots.flatMap((node) => selectAll(query, node));
+      const formulas = all('.katex').map((node) => text(select('annotation[encoding="application/x-tex"]', node)));
+      const codes = all('pre').map((node) => {
+        const code = select('code', node);
+        return { language: (code.properties.className ?? []).find((name) => name.startsWith('language-'))?.slice(9) ?? '', text: text(code) };
+      });
+      return { key, formulas, katex: formulas.length, mathml: all('.katex math').length, codes, diagrams: 0,
+        tables: all('table').map((table) => selectAll('tr', table).map((row) => selectAll('th, td', row).map(text))) };
+    });
+    return { blocks, errors: selectAll('.katex-error', tree).length, katex: selectAll('.katex', tree).length,
+      mathml: selectAll('.katex math', tree).length, tables: selectAll('table', tree).length, code: selectAll('pre', tree).length,
+      diagrams: 0, figures: [], images: [] };
+  };
+  let passed = 0, rejected = 0;
+  for (const old of [true, false]) {
+    const item = fixture(old), expected = sourceFeatures(item, 'after');
+    const check = (value) => assertFeatureInventory(actualFrom(expected, value, old), expected);
+    check(item); passed++;
+    // 公式消失或內容改變都必須在原欄位失敗；其他欄位及相關概念不應補位。
+    for (const [section, key] of [['options', 'A'], ['options', 'B'], ['explanation', 'correct'], ['explanation', 'rule']]) {
+      for (const replacement of ['', '$wrong=9$']) {
+        const damaged = structuredClone(item); damaged[section][key] = replacement;
+        assert.throws(() => check(damaged), /公式數量／TeX 不符/); rejected++;
+      }
+    }
+    if (!old) for (const [section, key] of [['options', 'B'], ['explanation', 'correct'], ['explanation', 'rule']]) {
+      for (const pattern of [/\n\n\| 欄 \| 值 \|[\s\S]*?(?=\n\n```)/, /\n\n```python[\s\S]*?```/]) {
+        const damaged = structuredClone(item); damaged[section][key] = damaged[section][key].replace(pattern, '');
+        assert.throws(() => check(damaged), /表格|程式/); rejected++;
+      }
+    }
+  }
+  return { passed, rejected, q49: q49.id, browserExecuted: false };
+}
+
 /** 純邏輯的正／負 fixtures，不啟動瀏覽器、不連網、不改檔。 */
 export function selfTest() {
   assert.equal(localUrl('/codes/L23303/', 'http://127.0.0.1:4321').pathname, '/codes/L23303/');
@@ -584,7 +651,7 @@ export function selfTest() {
   const invalid = structuredClone(complete); invalid.questions[0].review.status = 'draft'; invalid.codes[0].stages.push(invalid.codes[0].stages[0]); invalid.concepts[1].id = invalid.concepts[0].id;
   const rejected = contentProblems(invalid, index);
   for (const pattern of [/缺審查證據/, /重複 stage ID/, /concepts 含重複 ID/]) assert.ok(rejected.some((p) => pattern.test(p)), String(pattern));
-  return { fixtures: { pass: ['同源 URL', '單元題池', '跨碼階段題池', '順序與版本', '完整 485/21/21/200'], fail: ['四種非同源 URL', '缺概念', '階段反序', '版本不符', '固定分母缺項', 'draft 審查', '重複 stage', '重複 concept'] }, browserExecuted: false };
+  return { fixtures: { pass: ['同源 URL', '單元題池', '跨碼階段題池', '順序與版本', '完整 485/21/21/200'], fail: ['四種非同源 URL', '缺概念', '階段反序', '版本不符', '固定分母缺項', 'draft 審查', '重複 stage', '重複 concept'] }, questionSelectors: questionSelectorFixtures(), browserExecuted: false };
 }
 
 export async function runRollout(options) {
