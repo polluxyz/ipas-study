@@ -13,9 +13,9 @@ goals:
     text: 安排跨院與手機鍵盤的訓練流程，指出通訊成本與參數逆推風險
 formula_groups:
   - id: weighted-update
-    source: https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf
+    source: '一般加權平均完整式：https://numpy.org/doc/2.5/reference/generated/numpy.average.html；本輪參與者正規化為本站示範約定；聯邦流程：https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf'
     status: verified
-    checked_by: codex-gpt-6.1-sol:CK-W-L23401-D
+    checked_by: codex:task_b60da5753ff1
 self_check:
   - id: c1
     goal: g1
@@ -79,7 +79,7 @@ status: draft
 ![沿箭頭分辨下發模型、回傳更新與本地原始列，更新跨網路仍須保護。](figure:l23401-federated-learning-flow)
 
 :::supplement[來源：McMahan 等（2017）第 1–2 節]
-本頁介紹中央聚合式流程。聯邦學習也有其他協作架構，不能把「一定有單一中央」當成整個家族的必要條件。
+本頁依學習指引採中央伺服器協調的流程。中央下發共同模型供各方本地訓練，再接收並聚合更新，是 McMahan 等原論文補充說明的步驟。
 :::
 
 ## 定義與公式
@@ -94,13 +94,15 @@ status: draft
 
 ### 按樣本數聚合（補充）
 
-本例採 FedAvg 的加權平均，三方都從同版模型出發、完成同一輪本地更新：
+本例示範 FedAvg 式的本地更新與聚合，約定只對本輪實際參與且回傳有效更新的各方，按訓練筆數正規化。以下三方全部參與，使用相同模型結構與參數對應，都從同版共同模型出發、完成同一輪本地更新：
 
 $$
 w^{\mathrm{new}}=\sum_{k=1}^{3}\frac{n_k}{N}w_k,\qquad N=\sum_{k=1}^{3}n_k
 $$
 
-$w_k$ 是第 $k$ 方更新後的模型權重，$n_k$ 是該方本輪訓練筆數，$N$ 是總訓練筆數。一般模型有多個權重，須逐項用相同規則聚合。
+$w_k$ 是第 $k$ 方更新後的模型權重，$n_k$ 是該方本輪訓練筆數，$N$ 只加總本輪納入聚合各方的訓練筆數，不含驗證列。條件為 $n_k\ge 0$、$N>0$；若沒有有效訓練列，就不執行本輪聚合。一般模型有多個權重，須逐項用相同規則聚合。
+
+一般加權平均的直接來源是 [NumPy `average` 官方文件](https://numpy.org/doc/2.5/reference/generated/numpy.average.html)的 `weights` 說明，完整列出 `avg = sum(a * weights) / sum(weights)`。逐一對應本式：`a` 的各元素是 $w_k$、`weights` 的各元素是 $n_k$、`sum(weights)` 是 $N$、`avg` 是 $w^{\mathrm{new}}$；求和涵蓋輸入的所有元素。本例把本輪納入聚合的各方放入輸入，因此得到上式。NumPy 支持一般加權平均的數學與程式語義，參與者如何選取則是本站示範約定。
 
 本例各方 $n_k=6$、$N=18$。代入 $w_A=1/30$、$w_B=1/10$、$w_C=7/30$，得新權重 $11/90$，約 0.122222。
 
@@ -108,7 +110,7 @@ $w_k$ 是第 $k$ 方更新後的模型權重，$n_k$ 是該方本輪訓練筆數
 
 ### 留存與交換的安排
 
-跨院流程先在各院保留原始資料、進行本地訓練，僅回傳更新。中央處理收到的更新，再把共同模型送回各院。
+跨院流程先在各院保留原始資料、進行本地訓練，僅回傳更新。中央處理收到的更新，再把共同模型送回各院。（補充）
 
 ### 固定資料走一輪（補充）
 
@@ -125,7 +127,7 @@ FedAvg 回傳更新後的權重。本例起始權重是 0，數值才恰好等�
 
 ### 手機鍵盤怎麼換成同一流程
 
-各手機保留輸入紀錄，先下載共同鍵盤模型，在裝置內學習，再傳回更新。中央整合多支手機的更新，送出新版模型；通訊量與參數逆推風險仍需評估。
+各手機保留輸入紀錄，先下載共同鍵盤模型，在裝置內學習，再傳回更新。中央整合多支手機的更新，送出新版模型；通訊量與參數逆推風險仍需評估。（補充）
 
 ## 程式
 
@@ -165,7 +167,7 @@ global 0.122222
 
 適合資料分散、需要合作建模而不宜集中原始紀錄的情境。要同時問「資料留在哪裡」與「聚合端能看見什麼」，不能只問有沒有上雲。
 
-通訊成本隨模型大小、參與方及輪次變動。更新仍可能被逆推，聯邦學習本身沒有承諾更新不帶個人資訊。
+通訊成本隨模型大小、參與方及輪次變動。（補充）更新仍可能被逆推，聯邦學習本身沒有承諾更新不帶個人資訊。
 
 :::supplement[來源：Google Research 聯邦學習介紹；TensorFlow Federated 影像分類教學]
 可另評估安全聚合，限制中央看到單一更新；差分隱私則處理輸出對個人的影響。各方資料分布不同也會影響訓練，保護機制與模型品質要分別檢查。
@@ -190,12 +192,15 @@ global 0.122222
 
 ### 聚合的前提（補充）
 
-權重需使用相同模型結構與版本，不能把不同欄位的數值直接平均。少一方或某方筆數改變時，須重算本輪參與者的分母，並記錄實際參與情況。
+權重需使用相同模型結構、參數對應與共同起始版本，不能把不同欄位的數值直接平均。依本站「只納入本輪有效更新」的示範約定，少一方或某方訓練筆數改變時，分子與分母都只計入本輪實際納入聚合的各方，重算分母並記錄參與情況；仍須滿足前述非零分母條件。
+
+McMahan 等原論文 Algorithm 1 先抽出本輪參與集合 $S_t$，但印刷的聚合式仍對 $k=1,\ldots,K$ 求和，分母 $n$ 沿用全體訓練筆數。本頁三方全參與時沒有此範圍差異；部分參與時，不能把本站重新正規化的約定說成該原式直接列出的規則，也不能由該式自行補出缺席端如何處理。原論文在此支持下發共同模型、本地訓練及回傳模型後聚合的流程。
 
 ### 參考來源
 
 - 科目 3 學習指引，本機快照，guide-3:6-10、guide-3:6-11：支持本地訓練、跨院與鍵盤場景、通訊與逆推限制。
-- [McMahan 等：FedAvg 原始論文](https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf)，第 2 節 Algorithm 1：支持加權公式與本地更新。
+- [McMahan 等：FedAvg 原始論文](https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf)，第 1–2 節與 Algorithm 1：支持中央協調、本地訓練與回傳模型後聚合；全體參與的加權寫法不直接支持本頁部分參與時重新正規化的約定。
+- [NumPy `average` 官方文件](https://numpy.org/doc/2.5/reference/generated/numpy.average.html)，`weights` 參數：完整加權平均式與非零權重總和條件，符號對應見上文；不作為聯邦參與者選取或缺席處理的來源。
 - [Google Research：聯邦學習教學](https://research.google/blog/federated-learning-collaborative-machine-learning-without-centralized-training-data/)：支持流程圖思路、鍵盤流程與安全聚合定位。
 - [TensorFlow Federated 影像分類教學](https://www.tensorflow.org/federated/tutorials/federated_learning_for_image_classification)：支持分散資料、模擬與資料分布差異。
 - [Google 機器學習課程：邏輯斯迴歸](https://developers.google.com/machine-learning/crash-course/logistic-regression/sigmoid-function)：支持程式的起始機率說明。
