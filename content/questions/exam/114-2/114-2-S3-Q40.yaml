@@ -1,0 +1,51 @@
+id: 114-2-S3-Q40
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 40
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 10
+type: 程式
+codes: [L23102]
+concepts: [matrix-operations, eigenvalue-decomposition, numpy-data-operations]
+stem: |
+  依據附圖程式碼進行資料處理，下列何者正確？
+code: |
+  import numpy as np
+
+  v1 = np.array([1, 2, 3])
+  v2 = np.array([4, 5, 6])
+  A = np.array([[1, 2], [3, 4]])
+code_lang: python
+options:
+  A: |-
+    np.linalg.inv(A) 計算矩陣 A 的行列式
+  B: |-
+    v1 * v2 結果為 array([5, 7, 9])
+  C: |-
+    np.dot(v1, v2) 結果為 np.int64(32)
+  D: |-
+    np.linalg.eig(A) 計算矩陣 A 的反矩陣
+answer: C
+explanation:
+  summary: 答案：C。兩個一維陣列的 dot 是內積，數值為 32；np.int64 的型別寫法有環境條件。
+  correct: >-
+    一維輸入的 `np.dot(v1, v2)` 先將對應位置相乘，再加總，得到 1×4 + 2×5 + 3×6 = 32。 若兩個陣列採預設的 int64 整數型別，結果就是 `np.int64(32)`，因此官方答案 C 在此條件下成立。 但題目沒有指定 NumPy 版本、平台或 dtype，不能把 int64 當成跨環境保證：例如舊版 Windows 的預設整數可能是 int32，數值仍為 32。 這是型別敘述的條件不足，不影響內積運算的判讀；版本差異見 [NumPy 2.0 的 Windows 整數遷移說明](https://numpy.org/doc/stable/numpy_2_0_migration_guide.html#windows-default-integer)。
+  wrong:
+    A: >-
+      `np.linalg.inv(A)` 求反矩陣，得到 [[-2, 1], [1.5, -0.5]]；行列式應用 `np.linalg.det(A)`，本例數值為 -2。
+    B: >-
+      `v1 * v2` 是逐元素相乘，得到 [4, 10, 18]；[5, 7, 9] 是兩向量相加的結果。
+    D: >-
+      `np.linalg.eig(A)` 回傳特徵值及對應的特徵向量；要反矩陣應使用 inv。
+  rule: NumPy 的陣列星號是逐元素相乘，一維 dot 是內積，而精確回傳型別須另看 dtype 與執行環境。
+guide_refs: [guide-3:3-10, guide-3:3-13, guide-3:3-14]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 10
+    by: EX-E4-Codex
+  blind_answer: C
+  dispute: null
