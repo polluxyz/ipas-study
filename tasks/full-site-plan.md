@@ -142,3 +142,7 @@
 - C12 固定八頁條件例外及分析 CSV 新表頭／映射均僅為待使用者決定的提案，現有 C12 原強條件仍缺 8 頁、核可例外 0；不改寫成已核可。後續仍須完成 21 碼路線及速查、固定 main 的 R0–R10 和人工六格、更新並核對常駐 preview；正式 `site/`、章末 70 題、額外模擬題、外部部署不納入本輪。上方舊環境路徑僅為歷史紀錄，目前 Python 共用環境為 `D:/ipas-study/tools/python/.venv`。
 
 - 2026-11-03：後續固定main 5dd99a87b59450d91b165c789ee6dd6b962ea010 已整合21／21路線及速查（PR #59–#66依各自實際head與非空全綠CI合併）；題目renderer #58及D04相容工具 #62已整合。owner-first #67完成148頁metadata-only及360列獨立沿用鏈，273測試/976有效列/947complete與29partial保全、全485頁owner第一碼不符0。figures同建置觀測及最後R0–R10/人工收件仍在執行，C12與CSV格式仍待使用者決定。
+
+- 2026-11-03 驗收中快照：PR #69–#78 已合，受測產品 main `85769e8b0e718aa12baca800a8be44b116837bc4`；#69 同步題圖，#70 將 figures 核對綁定凍結 build，#71 澄清前置導覽，#72–#78 修補瀏覽器回應、導覽屏障、驗收工具、公式搜尋見證及速查列印與補充標記。候選 D 的正式根目錄結果為 359 測試、976 有效列（947 complete／29 partial）、照抄 0、760 頁含型別檢查；85／85 組、485 概念、200 考古題及 1 既有模擬題、920／920 目標、21 路線及 21 速查均已整合。148 頁 owner metadata 簽章是沿用鏈，不是重新語意審查。
+- 候選 D 的 `source.json`、`receipt.json` 與 `figures-command.json`、`supplement-command.json` 可核對，後兩者退出碼 0；`smoke-command.json` 退出碼 1，因斷言 `data-leakage` 第一而 UI 實為第二，原成功條件 9 允許前三。`FX-search-ui-contract` 正在另一工作樹修補，未預寫已完成。S1 召回率見證不代表一般「精確率」搜尋漏失已修復；完整 map／sheets／master 與人工簽核仍待最終版本。預覽已更新 D 真 build，23 個入口 HTTP 200 且 bytes 一致，常駐終端勿關。
+- C12 固定八頁例外（原缺口 8、核可例外 0）、CSV 欄位與 export 契約、自然中文精確率分詞漏失的修復或接受限制，三項均待使用者決定；提案依序見 `tmp/advisor/c12-approval-proposal.md`、`export-approval-proposal.md`、`figure-search-approval-proposal.md`。不變更公式 pending 的直接來源門檻。上述為驗收中快照，接手查 `tmp/scratch/continuation-20261103-current.md`、`tmp/scratch/coordinator-current-state.json` 及實際 Git／Orca／JSON 收據；保持產品來源凍結，已核可工作持續。
