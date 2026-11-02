@@ -27,6 +27,38 @@ export function formulaWitness(result, base) {
   });
 }
 
+// 在頁面中量測實際可見行內連結；透明背景逐層合成，避免拿預設色代替實際底色。
+export function inlineLinkMeasurements(elements) {
+  const rgba = (color) => {
+    const match = color.match(/^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:\s*[,/]\s*([\d.]+))?\s*\)$/);
+    if (!match) throw new Error(`無法量測色彩 ${color}`);
+    return [Number(match[1]), Number(match[2]), Number(match[3]), match[4] === undefined ? 1 : Number(match[4])];
+  };
+  const over = (front, back) => {
+    const alpha = front[3] + back[3] * (1 - front[3]);
+    return alpha ? [0, 1, 2].map((i) => (front[i] * front[3] + back[i] * back[3] * (1 - front[3])) / alpha).concat(alpha) : [0, 0, 0, 0];
+  };
+  const luminance = (rgb) => rgb.slice(0, 3).map((value) => { const c = value / 255; return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; }).reduce((sum, c, i) => sum + c * [0.2126, 0.7152, 0.0722][i], 0);
+  return elements.filter((el) => el.getClientRects().length && getComputedStyle(el).visibility === 'visible').map((el) => {
+    let background = [0, 0, 0, 0];
+    for (let node = el; node && background[3] < .999999; node = node.parentElement) {
+      const style = getComputedStyle(node);
+      if (style.opacity !== '1' || style.backgroundImage !== 'none') throw new Error('無法安全量測透明度或背景圖片');
+      background = over(background, rgba(style.backgroundColor));
+    }
+    if (background[3] < .999999) throw new Error('連結背景不透明度不足，無法量測');
+    const style = getComputedStyle(el), color = rgba(style.color), foreground = over(color, background);
+    const fg = luminance(foreground), bg = luminance(background);
+    return { text: el.textContent.trim(), href: el.getAttribute('href'), color: style.color, background, contrast: (Math.max(fg, bg) + .05) / (Math.min(fg, bg) + .05), decoration: style.textDecorationLine };
+  });
+}
+
+export function assertInlineLinkContrast(measurements) {
+  assert.ok(measurements.length >= 3, '須量測可見 S1 行內連結');
+  for (const text of ['精確率', '召回率', 'F1 分數']) assert.ok(measurements.some((item) => item.text === text), `缺少可見連結 ${text}`);
+  for (const item of measurements) assert.ok(Number.isFinite(item.contrast) && item.contrast >= 4.5, `行內連結對比不足：${item.text} ${item.contrast}`);
+}
+
 export async function verify() {
   assert.ok(process.env.FIGURES_OUTPUT, '請指定獨立 FIGURES_OUTPUT');
   const output = await freshOutput(resolve(process.env.FIGURES_OUTPUT));
@@ -109,14 +141,53 @@ export async function verify() {
     assert.ok(report.searchable, 'Pagefind 的公式小節須命中原句中的召回率');
     if (diagnosticError) throw diagnosticError;
     await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; window.scrollTo({ top: 0, behavior: 'instant' }); });
+    const links = page.locator('.s1-figures > p a');
+    report.inlineLinks = { light: await links.evaluateAll(inlineLinkMeasurements) };
+    assertInlineLinkContrast(report.inlineLinks.light);
     await screenshot('s1-desktop.png');
     await page.setViewportSize({ width: 375, height: 812 });
     report.mobileWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     assert.equal(report.mobileWidth, 375);
     assert.ok(await page.locator('.textbook-figure .figure-scroll').first().evaluate((el) => el.scrollWidth > el.clientWidth));
     await screenshot('s1-mobile.png');
+    report.figureRightEdges = [];
+    const scrollers = page.locator('.textbook-figure > .figure-scroll');
+    assert.equal(await scrollers.count(), 5);
+    for (let i = 0; i < 5; i++) {
+      const scroller = scrollers.nth(i);
+      await scroller.scrollIntoViewIfNeeded();
+      await scroller.focus();
+      const before = await scroller.evaluate((el) => ({ left: el.scrollLeft, max: el.scrollWidth - el.clientWidth, clientWidth: el.clientWidth, scrollWidth: el.scrollWidth, svgWidth: el.querySelector('svg').getBoundingClientRect().width, id: el.closest('figure').dataset.figure, focused: document.activeElement === el }));
+      assert.ok(before.focused && before.max > 0, '圖形容器須可聚焦且可橫捲');
+      for (let key = 0; key < 50; key++) await page.keyboard.press('ArrowRight');
+      await page.waitForFunction((el) => el.scrollLeft >= el.scrollWidth - el.clientWidth - 1, await scroller.elementHandle());
+      await scroller.evaluate((el) => el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }));
+      const after = await scroller.evaluate((el) => ({ left: el.scrollLeft, max: el.scrollWidth - el.clientWidth, focused: document.activeElement === el }));
+      assert.ok(after.focused && after.left > before.left && Math.abs(after.left - after.max) <= 1, '鍵盤須到達圖形右端並保留焦點');
+      const image = `s1-mobile-right-${i + 1}-${before.id}.png`;
+      await page.screenshot({ path: resolve(output, image), animations: 'disabled' });
+      report.figureRightEdges.push({ ...before, scrollLeft: after.left, max: after.max, focused: after.focused, method: 'keyboard ArrowRight', image, viewport: { width: 375, height: 812 } });
+    }
+    await scrollers.evaluateAll((elements) => elements.forEach((el) => { el.scrollLeft = 0; }));
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.evaluate(() => { document.documentElement.dataset.theme = 'dark'; window.scrollTo({ top: 0, behavior: 'instant' }); });
+    report.inlineLinks.dark = await links.evaluateAll(inlineLinkMeasurements);
+    assertInlineLinkContrast(report.inlineLinks.dark);
+    report.inlineLinks.darkInteraction = [];
+    for (let i = 0; i < await links.count(); i++) {
+      const link = links.nth(i);
+      if (!await link.isVisible()) continue;
+      await link.hover();
+      const hover = (await links.evaluateAll(inlineLinkMeasurements))[i];
+      assert.ok(hover && hover.contrast >= 4.5 && hover.decoration.includes('underline'), '深色連結 hover 須清楚可辨');
+      await page.mouse.move(0, 0);
+      await page.keyboard.press('Tab');
+      await link.focus();
+      const focus = await link.evaluate((el) => ({ active: document.activeElement === el, visible: el.matches(':focus-visible'), outlineStyle: getComputedStyle(el).outlineStyle, outlineWidth: getComputedStyle(el).outlineWidth }));
+      assert.ok(focus.active && focus.visible && focus.outlineStyle !== 'none' && parseFloat(focus.outlineWidth) > 0, '深色連結鍵盤焦點須可見');
+      report.inlineLinks.darkInteraction.push({ text: hover.text, hover, focus });
+    }
+    await page.evaluate(() => document.activeElement?.blur());
     const contrast = await page.locator('.textbook-figure').first().evaluate((el) => {
       const luminance = (color) => {
         const rgb = color.match(/[\d.]+/g).slice(0, 3).map(Number).map((value) => { const c = value / 255; return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; });
