@@ -19,7 +19,7 @@ options:
 answer: C
 explanation:
   summary: 官方答案 C；Softmax 保留各位置的權重輸出，但不保留全部原始資訊。
-  correct: C 可成立的部分是 Softmax 對指定軸上的每個輸入位置產生正規化指數權重，而 Max-Pooling 每個視窗只輸出最大值。然而「保留所有輸入資訊」不精確：Softmax(x+c)=Softmax(x)，共同平移量會消失，不能從輸出唯一還原輸入；它也不是直接將原數值等比例縮放。故 C 最接近出題意圖，但嚴格看沒有完全正確選項，待複審。定義見 [PyTorch 官方公式](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Softmax.html)。
+  correct: C 可成立的部分是 Softmax 對指定軸上的每個輸入位置產生正規化指數權重，而 Max-Pooling 每個視窗只輸出最大值。然而「保留所有輸入資訊」不精確：Softmax(x+c)=Softmax(x)，共同平移量會消失，不能從輸出唯一還原輸入；它也不是直接將原數值等比例縮放。故 C 最接近出題意圖，但嚴格看沒有完全正確選項；依官方答案選 C 時，仍須區分保留各位置的輸出與保留全部原始資訊。定義見 [PyTorch 官方公式](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Softmax.html)。
   wrong:
     A: Softmax 通常維持張量形狀；Max-Pooling 則逐區域選最大值，未必把整個張量縮成單一數值。
     B: Max-Pooling 只做區域最大值選取，不會保證非負或總和為一，所以不是機率分佈轉換。

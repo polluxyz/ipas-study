@@ -19,7 +19,7 @@ options:
 answer: A
 explanation:
   summary: 官方答案 A；詞頻放大的解釋必須先限定 TF 與正規化方式。
-  correct: 若 TF 使用原始出現次數，且未適當縮放或正規化，長文中反覆出現的詞可能取得過大的權重，因此 A 是最接近命題意圖的選項。但指引 3-17 採用次數除以文件總詞數的 TF；把一篇文件等比例重複時，這種 TF 不變，不能單憑篇幅推論 A 必然發生。IDF 也會降低跨文件常見詞的相對權重；題幹未交代設定，屬條件不足，待複審。公式與參數可查 [scikit-learn 官方文件](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfTransformer.html)。
+  correct: 若 TF 使用原始出現次數，且未適當縮放或正規化，長文中反覆出現的詞可能取得過大的權重，因此 A 是最接近命題意圖的選項。但指引 3-17 採用次數除以文件總詞數的 TF；把一篇文件等比例重複時，這種 TF 不變，不能單憑篇幅推論 A 必然發生。IDF 也會降低跨文件常見詞的相對權重；題幹未交代設定，A 的解釋須以原始次數及未適當正規化為前提。公式與參數可查 [scikit-learn 官方文件](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfTransformer.html)。
   wrong:
     B: 計算詞頻需要可辨認的詞元，不必先有完整句子邊界；缺乏標點不會使 TF-IDF 原理上無法計算。
     C: IDF 本來就以文件集合的文件頻率計算，TF-IDF 可以同時表示多份文件。

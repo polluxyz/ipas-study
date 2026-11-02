@@ -19,7 +19,7 @@ options:
 answer: B
 explanation:
   summary: 官方答案 B；WGAN 是改善模式崩潰的典型方法，A 也有合理依據。
-  correct: 模式崩潰指不同潛在輸入反覆產生相近結果，缺少應有多樣性。WGAN 以 Wasserstein 目標和受 Lipschitz 約束的 critic 提供較有用的訓練訊號，因此 B 有原始研究支持；並非只更換損失名稱就保證成功。A 的梯度懲罰可與 B 合成 WGAN-GP，不能當成無效選項，也沒有證據支持題目的「最常」比較，需複審。依據為 [WGAN](https://arxiv.org/abs/1701.07875) 與 [WGAN-GP](https://arxiv.org/abs/1704.00028) 原始論文；指引只介紹 GAN 不穩定與模式崩潰，未講這兩種改善法。
+  correct: 模式崩潰指不同潛在輸入反覆產生相近結果，缺少應有多樣性。WGAN 以 Wasserstein 目標和受 Lipschitz 約束的 critic 提供較有用的訓練訊號，因此 B 有原始研究支持；並非只更換損失名稱就保證成功。A 的梯度懲罰可與 B 合成 WGAN-GP，且本身有改善訓練不穩定的研究依據，不能當成無效選項。不過可並用不等於已證明兩者同為「最常」；題幹未提供使用頻率或適用設定的比較基準。依據為 [WGAN](https://arxiv.org/abs/1701.07875) 與 [WGAN-GP](https://arxiv.org/abs/1704.00028) 原始論文；指引只介紹 GAN 不穩定與模式崩潰，未講這兩種改善法。
   wrong:
     A: 這是合理方法，不能斷言錯誤；WGAN-GP 對 critic 的輸入梯度範數加入懲罰，以替代權重裁剪來穩定訓練。選項 A 與 B 可以同時採用。
     C: 潛在向量本來就通常隨機抽樣；若生成器已忽略部分輸入差異，單純再加擾動不會保證產生更多模式。
