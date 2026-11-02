@@ -30,9 +30,9 @@ explanation:
 guide_refs: [guide-3:4-14, guide-3:4-15, guide-3:4-20]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 7
     by: EX-E2-Codex
-  blind_answer: null
-  dispute: null
+  blind_answer: D
+  dispute: 官方答案 D。L1 收縮與稀疏篩選符合出題意圖，但題幹未限定保留線性係數模型；決策樹也可避開同類線性共線性問題。Lasso 對高相關特徵的選取仍可能不穩，不能補入未給的模型限制來唯一排除 A，保留官方 D 與選型條件疑義。

@@ -30,9 +30,9 @@ explanation:
 guide_refs: [guide-1:5-19, guide-1:5-20]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 8
     by: EX-E2-Codex
-  blind_answer: null
-  dispute: null
+  blind_answer: D
+  dispute: 官方答案 D。PSI 可預警輸入分布偏移，但題面未給漂移型態、標籤回流或校準條件，置信度分布也能無標籤計算；沒有足夠條件排定 D 普遍最具預測效力。分布改變不等於品質必降，保留官方 D 與比較判準疑義。
