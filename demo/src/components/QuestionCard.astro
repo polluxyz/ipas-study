@@ -5,14 +5,14 @@ import type { ComponentProps } from 'astro/types';
 import { sourceLabel, type Question } from '../lib/content';
 import JudgmentRule from './JudgmentRule.astro';
 import Sources from './Sources.astro';
-interface Props { question: Question; mode?: string; titles: Record<string, string>; hidden?: boolean; }
-const { question: q, mode = 'question', titles, hidden = false } = Astro.props;
+interface Props { question: Question; mode?: string; titles: Record<string, string>; hidden?: boolean; unit?: { subject: number; guide_section: string }; }
+const { question: q, mode = 'question', titles, hidden = false, unit } = Astro.props;
 const choices = ['A', 'B', 'C', 'D'] as const;
 const language = (q.code_lang ?? 'python') as ComponentProps<typeof Code>['lang'];
 const dispute = typeof q.review.dispute === 'string' ? q.review.dispute : JSON.stringify(q.review.dispute, null, 2);
 ---
 <article class="question-card" data-question data-qid={q.id} data-rev={q.rev} data-answer={q.answer} data-mode={mode} hidden={hidden}>
-  <div class="question-card-meta"><span class="tag">{q.type}</span><span>{sourceLabel(q)}</span>{q.review.status === 'disputed' && <span class="tag amber">有爭議・依官方答案計分</span>}{q.review.status === 'draft' && <span class="tag amber">模擬題・待審查</span>}</div>
+  <div class="question-card-meta"><span class="tag">{q.type}</span><span>{sourceLabel(q)}</span>{q.source === 'mock' && q.review.status === 'draft' && <span class="tag amber">模擬題・待審查</span>}{q.review.status === 'disputed' && <span class="tag amber">有爭議・依官方答案計分</span>}</div>
   <div class="question-stem">{q.stem.split(/\n\s*\n/).map((paragraph) => <p>{paragraph}</p>)}</div>
   {q.code && <div class="question-code"><div class="code-label">{q.code_lang ?? 'python'}<span>題目程式碼</span></div><Code code={q.code} lang={language} themes={{ light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' }} /></div>}
   {q.image && <img class="question-image" src={`/question-assets/${q.image}`} alt={`${sourceLabel(q)} 原題附圖`} />}
@@ -28,7 +28,7 @@ const dispute = typeof q.review.dispute === 'string' ? q.review.dispute : JSON.s
     <h3>其他選項的問題</h3><dl class="wrong-reasons">{choices.filter((choice) => choice !== q.answer).map((choice) => <div><dt>{choice}</dt><dd>{q.explanation.wrong[choice]}</dd></div>)}</dl>
     {q.review.status === 'disputed' && <aside class="dispute"><strong>爭議說明</strong><p>{dispute}</p><small>此題依官方答案 {q.answer} 計分，請一併理解上述實務限制。</small></aside>}
     <JudgmentRule rule={q.explanation.rule} concepts={q.concepts} titles={titles} />
-    <p class="fine-print">評鑑代碼：{q.codes.join('、')}<br />學習指引：{q.guide_refs.length > 0 ? <Sources sources={q.guide_refs} /> : '請參照相關概念頁'}・科目 3 §5.3</p>
+    <p class="fine-print">評鑑代碼：{q.codes.join('、')}<br />學習指引：{q.guide_refs.length > 0 ? <Sources sources={q.guide_refs} /> : '請參照相關概念頁'}{unit && <>・科目 {unit.subject} §{unit.guide_section}</>}</p>
   </section>
 </article>
 <script>
