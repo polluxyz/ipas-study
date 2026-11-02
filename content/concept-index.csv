@@ -373,7 +373,7 @@ random-forest,隨機森林,model,L23202,L21301;L23202,Random Forest;隨機森林
 random-search,隨機搜尋,technique,L23304,L21301;L23304,Random Search;RandomizedSearchCV
 ranking-reconstruction-loss,排序與重建損失,theory,L23103,L23103,Ranking Loss;Reconstruction Loss
 rapid-prototyping,POC 快速迭代與回饋,technique,L21202,L21202,
-react-agent-loop,ReAct 工具查證迴圈,technique,L21103,L21103;L21104,Action Observation;ReAct
+react-agent-loop,ReAct 工具查證迴圈,technique,L21103,L21103;L21104,ReAct;Reasoning and Acting;Thought-Action-Observation
 realtime-feature-pipeline,即時特徵管線與延遲規劃,technique,L21302,L21202;L21302,
 recurrent-gradients,BPTT 與梯度消失、爆炸,problem,L23203,L23203,BPTT;Exploding Gradient;Vanishing Gradient
 regression-tree,迴歸決策樹,model,L23202,L23202,Regression Tree
