@@ -1,0 +1,1321 @@
+{
+  "source": "教學合成資料；沒有訓練或呼叫生成模型，亦沒有平台效能排名。",
+  "domains": [
+    {
+      "domain": "product",
+      "coordinate_meaning": [
+        "教學潛在軸一：瓶身寬度趨勢",
+        "教學潛在軸二：瓶身高度趨勢"
+      ],
+      "cards": [
+        {
+          "sample_id": "P01",
+          "split": "train",
+          "center": [
+            1,
+            -1
+          ],
+          "points": [
+            [
+              0.9,
+              -1
+            ],
+            [
+              1.1,
+              -1
+            ],
+            [
+              1,
+              -0.9
+            ]
+          ],
+          "prompt": "藍色保溫瓶，白色背景，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.35,
+              0.8
+            ],
+            [
+              0.35,
+              0.3
+            ],
+            [
+              0.45,
+              0.3
+            ],
+            [
+              0.45,
+              0.2
+            ],
+            [
+              0.55,
+              0.2
+            ],
+            [
+              0.55,
+              0.3
+            ],
+            [
+              0.65,
+              0.3
+            ],
+            [
+              0.65,
+              0.8
+            ]
+          ],
+          "seed": 42,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白背景換成淺灰，保留瓶身及品牌色",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "P02",
+          "split": "train",
+          "center": [
+            -1,
+            -1
+          ],
+          "points": [
+            [
+              -1.1,
+              -1
+            ],
+            [
+              -0.9,
+              -1
+            ],
+            [
+              -1,
+              -0.9
+            ]
+          ],
+          "prompt": "藍色保溫瓶，白色背景，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.35,
+              0.8
+            ],
+            [
+              0.35,
+              0.3
+            ],
+            [
+              0.45,
+              0.3
+            ],
+            [
+              0.45,
+              0.2
+            ],
+            [
+              0.55,
+              0.2
+            ],
+            [
+              0.55,
+              0.3
+            ],
+            [
+              0.65,
+              0.3
+            ],
+            [
+              0.65,
+              0.8
+            ]
+          ],
+          "seed": 43,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白背景換成淺灰，保留瓶身及品牌色",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "P03",
+          "split": "train",
+          "center": [
+            -1,
+            1
+          ],
+          "points": [
+            [
+              -1.1,
+              1
+            ],
+            [
+              -0.9,
+              1
+            ],
+            [
+              -1,
+              1.1
+            ]
+          ],
+          "prompt": "藍色保溫瓶，白色背景，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.35,
+              0.8
+            ],
+            [
+              0.35,
+              0.3
+            ],
+            [
+              0.45,
+              0.3
+            ],
+            [
+              0.45,
+              0.2
+            ],
+            [
+              0.55,
+              0.2
+            ],
+            [
+              0.55,
+              0.3
+            ],
+            [
+              0.65,
+              0.3
+            ],
+            [
+              0.65,
+              0.8
+            ]
+          ],
+          "seed": 44,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白背景換成淺灰，保留瓶身及品牌色",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "P04",
+          "split": "train",
+          "center": [
+            1,
+            1
+          ],
+          "points": [
+            [
+              0.9,
+              1
+            ],
+            [
+              1.1,
+              1
+            ],
+            [
+              1,
+              1.1
+            ]
+          ],
+          "prompt": "藍色保溫瓶，白色背景，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.35,
+              0.8
+            ],
+            [
+              0.35,
+              0.3
+            ],
+            [
+              0.45,
+              0.3
+            ],
+            [
+              0.45,
+              0.2
+            ],
+            [
+              0.55,
+              0.2
+            ],
+            [
+              0.55,
+              0.3
+            ],
+            [
+              0.65,
+              0.3
+            ],
+            [
+              0.65,
+              0.8
+            ]
+          ],
+          "seed": 45,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白背景換成淺灰，保留瓶身及品牌色",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "P05",
+          "split": "validation",
+          "center": [
+            2,
+            -1
+          ],
+          "points": [
+            [
+              1.9,
+              -1
+            ],
+            [
+              2.1,
+              -1
+            ],
+            [
+              2,
+              -0.9
+            ]
+          ],
+          "prompt": "藍色保溫瓶，白色背景，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.35,
+              0.8
+            ],
+            [
+              0.35,
+              0.3
+            ],
+            [
+              0.45,
+              0.3
+            ],
+            [
+              0.45,
+              0.2
+            ],
+            [
+              0.55,
+              0.2
+            ],
+            [
+              0.55,
+              0.3
+            ],
+            [
+              0.65,
+              0.3
+            ],
+            [
+              0.65,
+              0.8
+            ]
+          ],
+          "seed": 46,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白背景換成淺灰，保留瓶身及品牌色",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "P06",
+          "split": "validation",
+          "center": [
+            -2,
+            -1
+          ],
+          "points": [
+            [
+              -2.1,
+              -1
+            ],
+            [
+              -1.9,
+              -1
+            ],
+            [
+              -2,
+              -0.9
+            ]
+          ],
+          "prompt": "藍色保溫瓶，白色背景，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.35,
+              0.8
+            ],
+            [
+              0.35,
+              0.3
+            ],
+            [
+              0.45,
+              0.3
+            ],
+            [
+              0.45,
+              0.2
+            ],
+            [
+              0.55,
+              0.2
+            ],
+            [
+              0.55,
+              0.3
+            ],
+            [
+              0.65,
+              0.3
+            ],
+            [
+              0.65,
+              0.8
+            ]
+          ],
+          "seed": 47,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白背景換成淺灰，保留瓶身及品牌色",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "P07",
+          "split": "test",
+          "center": [
+            -2,
+            1
+          ],
+          "points": [
+            [
+              -2.1,
+              1
+            ],
+            [
+              -1.9,
+              1
+            ],
+            [
+              -2,
+              1.1
+            ]
+          ],
+          "prompt": "藍色保溫瓶，白色背景，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.35,
+              0.8
+            ],
+            [
+              0.35,
+              0.3
+            ],
+            [
+              0.45,
+              0.3
+            ],
+            [
+              0.45,
+              0.2
+            ],
+            [
+              0.55,
+              0.2
+            ],
+            [
+              0.55,
+              0.3
+            ],
+            [
+              0.65,
+              0.3
+            ],
+            [
+              0.65,
+              0.8
+            ]
+          ],
+          "seed": 48,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白背景換成淺灰，保留瓶身及品牌色",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "P08",
+          "split": "test",
+          "center": [
+            2,
+            1
+          ],
+          "points": [
+            [
+              1.9,
+              1
+            ],
+            [
+              2.1,
+              1
+            ],
+            [
+              2,
+              1.1
+            ]
+          ],
+          "prompt": "藍色保溫瓶，白色背景，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.35,
+              0.8
+            ],
+            [
+              0.35,
+              0.3
+            ],
+            [
+              0.45,
+              0.3
+            ],
+            [
+              0.45,
+              0.2
+            ],
+            [
+              0.55,
+              0.2
+            ],
+            [
+              0.55,
+              0.3
+            ],
+            [
+              0.65,
+              0.3
+            ],
+            [
+              0.65,
+              0.8
+            ]
+          ],
+          "seed": 49,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白背景換成淺灰，保留瓶身及品牌色",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "domain": "game",
+      "coordinate_meaning": [
+        "教學潛在軸一：山峰水平位置趨勢",
+        "教學潛在軸二：山峰高度趨勢"
+      ],
+      "cards": [
+        {
+          "sample_id": "G01",
+          "split": "train",
+          "center": [
+            1,
+            -1
+          ],
+          "points": [
+            [
+              0.9,
+              -1
+            ],
+            [
+              1.1,
+              -1
+            ],
+            [
+              1,
+              -0.9
+            ]
+          ],
+          "prompt": "藍色山城，白色天空，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.1,
+              0.8
+            ],
+            [
+              0.3,
+              0.5
+            ],
+            [
+              0.4,
+              0.65
+            ],
+            [
+              0.65,
+              0.2
+            ],
+            [
+              0.9,
+              0.8
+            ]
+          ],
+          "seed": 42,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白天空換成黃昏，保留山城輪廓及道路",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "G02",
+          "split": "train",
+          "center": [
+            -1,
+            -1
+          ],
+          "points": [
+            [
+              -1.1,
+              -1
+            ],
+            [
+              -0.9,
+              -1
+            ],
+            [
+              -1,
+              -0.9
+            ]
+          ],
+          "prompt": "藍色山城，白色天空，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.1,
+              0.8
+            ],
+            [
+              0.3,
+              0.5
+            ],
+            [
+              0.4,
+              0.65
+            ],
+            [
+              0.65,
+              0.2
+            ],
+            [
+              0.9,
+              0.8
+            ]
+          ],
+          "seed": 43,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白天空換成黃昏，保留山城輪廓及道路",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "G03",
+          "split": "train",
+          "center": [
+            -1,
+            1
+          ],
+          "points": [
+            [
+              -1.1,
+              1
+            ],
+            [
+              -0.9,
+              1
+            ],
+            [
+              -1,
+              1.1
+            ]
+          ],
+          "prompt": "藍色山城，白色天空，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.1,
+              0.8
+            ],
+            [
+              0.3,
+              0.5
+            ],
+            [
+              0.4,
+              0.65
+            ],
+            [
+              0.65,
+              0.2
+            ],
+            [
+              0.9,
+              0.8
+            ]
+          ],
+          "seed": 44,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白天空換成黃昏，保留山城輪廓及道路",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "G04",
+          "split": "train",
+          "center": [
+            1,
+            1
+          ],
+          "points": [
+            [
+              0.9,
+              1
+            ],
+            [
+              1.1,
+              1
+            ],
+            [
+              1,
+              1.1
+            ]
+          ],
+          "prompt": "藍色山城，白色天空，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.1,
+              0.8
+            ],
+            [
+              0.3,
+              0.5
+            ],
+            [
+              0.4,
+              0.65
+            ],
+            [
+              0.65,
+              0.2
+            ],
+            [
+              0.9,
+              0.8
+            ]
+          ],
+          "seed": 45,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白天空換成黃昏，保留山城輪廓及道路",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "G05",
+          "split": "validation",
+          "center": [
+            2,
+            -1
+          ],
+          "points": [
+            [
+              1.9,
+              -1
+            ],
+            [
+              2.1,
+              -1
+            ],
+            [
+              2,
+              -0.9
+            ]
+          ],
+          "prompt": "藍色山城，白色天空，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.1,
+              0.8
+            ],
+            [
+              0.3,
+              0.5
+            ],
+            [
+              0.4,
+              0.65
+            ],
+            [
+              0.65,
+              0.2
+            ],
+            [
+              0.9,
+              0.8
+            ]
+          ],
+          "seed": 46,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白天空換成黃昏，保留山城輪廓及道路",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "G06",
+          "split": "validation",
+          "center": [
+            -2,
+            -1
+          ],
+          "points": [
+            [
+              -2.1,
+              -1
+            ],
+            [
+              -1.9,
+              -1
+            ],
+            [
+              -2,
+              -0.9
+            ]
+          ],
+          "prompt": "藍色山城，白色天空，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.1,
+              0.8
+            ],
+            [
+              0.3,
+              0.5
+            ],
+            [
+              0.4,
+              0.65
+            ],
+            [
+              0.65,
+              0.2
+            ],
+            [
+              0.9,
+              0.8
+            ]
+          ],
+          "seed": 47,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白天空換成黃昏，保留山城輪廓及道路",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "G07",
+          "split": "test",
+          "center": [
+            -2,
+            1
+          ],
+          "points": [
+            [
+              -2.1,
+              1
+            ],
+            [
+              -1.9,
+              1
+            ],
+            [
+              -2,
+              1.1
+            ]
+          ],
+          "prompt": "藍色山城，白色天空，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.1,
+              0.8
+            ],
+            [
+              0.3,
+              0.5
+            ],
+            [
+              0.4,
+              0.65
+            ],
+            [
+              0.65,
+              0.2
+            ],
+            [
+              0.9,
+              0.8
+            ]
+          ],
+          "seed": 48,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白天空換成黃昏，保留山城輪廓及道路",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        },
+        {
+          "sample_id": "G08",
+          "split": "test",
+          "center": [
+            2,
+            1
+          ],
+          "points": [
+            [
+              1.9,
+              1
+            ],
+            [
+              2.1,
+              1
+            ],
+            [
+              2,
+              1.1
+            ]
+          ],
+          "prompt": "藍色山城，白色天空，正面視角，保留左上留白",
+          "color": "#2463A6",
+          "outline": [
+            [
+              0.1,
+              0.8
+            ],
+            [
+              0.3,
+              0.5
+            ],
+            [
+              0.4,
+              0.65
+            ],
+            [
+              0.65,
+              0.2
+            ],
+            [
+              0.9,
+              0.8
+            ]
+          ],
+          "seed": 49,
+          "sampling": {
+            "sampler": "DDIM",
+            "steps": 20,
+            "cfg": 7
+          },
+          "edit_instruction": "只把白天空換成黃昏，保留山城輪廓及道路",
+          "acceptance": {
+            "brand_color": "#2463A6",
+            "color_channel_tolerance": 8,
+            "outline_max_normalized_error": 0.05,
+            "resolution": [
+              512,
+              512
+            ],
+            "human_review": [
+              "輪廓",
+              "留白",
+              "文字與標誌",
+              "修改區域外的一致性"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "vae_probe": {
+    "card_ids": [
+      "P01",
+      "G01"
+    ],
+    "mu": [
+      1,
+      -1
+    ],
+    "sigma": [
+      0.5,
+      0.25
+    ],
+    "seed": 42,
+    "decoder": [
+      [
+        2,
+        1
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  "diffusion_probe": {
+    "card_ids": [
+      "P01",
+      "G01"
+    ],
+    "x0": [
+      1,
+      -1
+    ],
+    "alpha_bar": 0.64,
+    "seed": 42
+  },
+  "comparison": {
+    "card_ids": [
+      "P01",
+      "G01"
+    ],
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "baseline": {
+      "sampler": "DDIM",
+      "steps": 20,
+      "cfg": 7
+    },
+    "variants": [
+      {
+        "sampler": "DDIM",
+        "steps": 40,
+        "cfg": 7
+      },
+      {
+        "sampler": "DDPM",
+        "steps": 20,
+        "cfg": 7
+      },
+      {
+        "sampler": "DDIM",
+        "steps": 20,
+        "cfg": 12
+      }
+    ],
+    "results": null
+  },
+  "label_budget": {
+    "train_card_ids": [
+      "P01",
+      "P02",
+      "P03",
+      "P04"
+    ],
+    "validation_card_ids": [
+      "P05",
+      "P06"
+    ],
+    "test_card_ids": [
+      "P07",
+      "P08"
+    ],
+    "nested_labeled_card_ids": [
+      [
+        "P01",
+        "P02",
+        "P03",
+        "P04"
+      ],
+      [
+        "P01",
+        "P02"
+      ],
+      [
+        "P01"
+      ]
+    ],
+    "repeat_for_game": true,
+    "results": null
+  },
+  "capacity": {
+    "width": 512,
+    "height": 512,
+    "pixel_channels": 3,
+    "downsample": 8,
+    "latent_channels": 4,
+    "bytes_per_value": 4,
+    "weights_parameters": 1000000,
+    "weights_bytes_per_parameter": 2
+  }
+}

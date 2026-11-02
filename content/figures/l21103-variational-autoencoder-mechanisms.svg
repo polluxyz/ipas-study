@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="495" viewBox="0 0 360 495" role="img" aria-labelledby="title desc">
+<title id="title">重建、對抗與去噪三種學習訊號</title>
+<desc id="desc">VAE 以輸入重建與潛在分布約束學習；GAN 生成器接受判別器真假回饋；擴散以加噪資料與噪聲目標訓練去噪器。三者的跨模態條件都須另有設計。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#334155"/></marker></defs>
+<rect width="360" height="495" fill="#f8fafc"/>
+<g font-family="sans-serif" fill="#0f172a" font-size="16" text-anchor="middle">
+<text x="180" y="28" font-size="18" font-weight="bold">比較訓練時的學習訊號</text>
+<rect x="15" y="45" width="330" height="117" rx="8" fill="#dbeafe" stroke="#2563eb"/>
+<text x="180" y="69" font-weight="bold">VAE：重建與分布約束</text><text x="180" y="96">輸入 → 編碼取樣 → 解碼</text><text x="180" y="122">對照原輸入，限制潛在分布</text><text x="180" y="146" font-size="14">學習能解釋輸入的潛在表示</text>
+<rect x="15" y="178" width="330" height="132" rx="8" fill="#fef3c7" stroke="#a16207"/>
+<text x="180" y="202" font-weight="bold">GAN：真偽對抗</text><text x="180" y="230">噪聲 → 生成器 → 假資料</text><text x="180" y="256">真資料、假資料 → 判別器</text><text x="180" y="286">判別器回饋 → 更新生成器</text>
+<rect x="15" y="326" width="330" height="115" rx="8" fill="#dcfce7" stroke="#15803d"/>
+<text x="180" y="350" font-weight="bold">擴散：噪聲目標</text><text x="180" y="378">乾淨資料 → 加噪 → 去噪器</text><text x="180" y="407">預測噪聲，對照已知加噪量</text><text x="180" y="429" font-size="14">生成時從噪聲反覆更新</text>
+<text x="180" y="475" font-size="14">文字與圖像的對齊需要另外設計</text>
+</g></svg>
