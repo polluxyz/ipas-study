@@ -161,6 +161,7 @@ export async function verify() {
       assert.ok(before.focused && before.max > 0, '圖形容器須可聚焦且可橫捲');
       for (let key = 0; key < 50; key++) await page.keyboard.press('ArrowRight');
       await page.waitForFunction((el) => el.scrollLeft >= el.scrollWidth - el.clientWidth - 1, await scroller.elementHandle());
+      await scroller.evaluate((el) => el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'instant' }));
       const after = await scroller.evaluate((el) => ({ left: el.scrollLeft, max: el.scrollWidth - el.clientWidth, focused: document.activeElement === el }));
       assert.ok(after.focused && after.left > before.left && Math.abs(after.left - after.max) <= 1, '鍵盤須到達圖形右端並保留焦點');
       const image = `s1-mobile-right-${i + 1}-${before.id}.png`;
