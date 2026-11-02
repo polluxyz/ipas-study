@@ -341,7 +341,6 @@ await runSmokeWithCleanup({ report, finish: async () => {
   if (process.env.SMOKE_SUPPLEMENT_ONLY === '1') {
     await verifySupplements(false);
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
-    await writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)); console.log(JSON.stringify(report, null, 2));
   } else {
   await gotoSettled(page, base); await screenshot(page, '01-home.png');
   const urls = ['/', '/codes/L23303/', '/concepts/data-leakage/', '/concepts/train-val-test-split/', '/concepts/k-fold-cross-validation/', '/concepts/stratified-k-fold/', '/concepts/sklearn-pipeline/', '/concepts/nested-cross-validation/', '/questions/114-2-S1-Q41/', '/questions/114-2-S3-Q34/', '/questions/115-1-S3-Q44/', '/questions/115-1-S3-Q45/', '/questions/M-L23303-001/', '/quiz/', '/wrong-book/'];
@@ -649,8 +648,8 @@ await runSmokeWithCleanup({ report, finish: async () => {
   assert.deepEqual(errors, []); assert.deepEqual(external, []);
   assert.deepEqual(assets, []);
   assert.deepEqual(errors, []); assert.deepEqual(external, []); assert.deepEqual(assets, []); report.completed = true;
-  await writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)); console.log(JSON.stringify(report, null, 2));
   }
   } });
+console.log(JSON.stringify(report, null, 2));
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) await main();
