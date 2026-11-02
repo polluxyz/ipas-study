@@ -1,4 +1,5 @@
 /** 以概念總表的主責代碼與實際檔案清單建立目錄，純函式不讀檔，讓首頁與目錄共用統計。 */
+import { getRouteLinks } from './navigation';
 export interface CatalogConcept { id: string; title: string; href: string; }
 export interface CatalogGroup {
   code: string;
@@ -90,7 +91,7 @@ function buildTopicOrder(coverageCsv: string, topicsCsv: string): Map<string, Ma
   return byCode;
 }
 
-export function buildConceptCatalog(csv: string, existingIds: Iterable<string>, coverageCsv: string, topicsCsv: string): ConceptCatalog {
+export function buildConceptCatalog(csv: string, existingIds: Iterable<string>, coverageCsv: string, topicsCsv: string, loadedRouteCodes: Iterable<string> = []): ConceptCatalog {
   const definitions = [
     { number: '01', title: '人工智慧技術應用與規劃', name: '科目 1・必考', groups: [
       ['L21101', '自然語言處理技術與應用'], ['L21102', '電腦視覺技術與應用'], ['L21103', '生成式 AI 技術與應用'], ['L21104', '多模態人工智慧應用'],
@@ -108,6 +109,7 @@ export function buildConceptCatalog(csv: string, existingIds: Iterable<string>, 
   const groups = subjects.flatMap((subject) => subject.groups);
   const byCode = new Map(groups.map((group) => [group.code, group]));
   const existing = new Set(existingIds);
+  const routeCodes = new Set(loadedRouteCodes);
   const topicOrder = buildTopicOrder(coverageCsv, topicsCsv);
   for (const concept of parseConceptIndex(csv)) {
     const group = byCode.get(concept.ownerCode);
@@ -129,7 +131,7 @@ export function buildConceptCatalog(csv: string, existingIds: Iterable<string>, 
     group.supplementConcepts = ranked.filter(({ category }) => category === 1).map(({ concept }) => concept);
     group.unmappedConcepts = ranked.filter(({ category }) => category === 2).map(({ concept }) => concept);
     group.writtenCount = group.concepts.length;
-    if (group.writtenCount) group.href = group.code === 'L23303' ? '/codes/L23303/' : `/catalog/#${group.code}`;
+    group.href = getRouteLinks(group.code, routeCodes).routeHref ?? (group.writtenCount ? `/catalog/#${group.code}` : null);
   }
   return {
     subjects,

@@ -13,7 +13,7 @@ textbook: v2
 summary: 巢狀交叉驗證用內層挑設定，再用未參與挑選的外層資料估成效
 goals:
   - id: g1
-    text: 區分內層調參、外層評估，說明最佳調參分數偏樂觀的原因
+    text: 區分內層調參、外層評估，以同一批候選的內外分數說明最佳調參分數偏樂觀的原因與波動
   - id: g2
     text: 算出巢狀流程的擬合次數與外層平均分數
   - id: g3
@@ -21,12 +21,12 @@ goals:
 formula_groups:
   - id: nested-fit-count
     source: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html
-    status: verified
-    checked_by: ctx_cd9265cf39f3
+    status: pending
+    checked_by: null
   - id: outer-mean
-    source: https://inria.github.io/scikit-learn-mooc/python_scripts/cross_validation_nested.html
+    source: https://mathworld.wolfram.com/ArithmeticMean.html
     status: verified
-    checked_by: ctx_cd9265cf39f3
+    checked_by: task_a68af11027de
 self_check:
   - id: c1
     goal: g1
@@ -47,7 +47,7 @@ self_check:
     goal: g2
     type: choice
     prompt: 有 4 組候選設定，內層 3 摺、外層 5 摺，每個外層選完都重訓一次。暫不做全開發資料的最終搜尋，需擬合幾次？
-    options: { A: '60', B: '61', C: '65', D: '75' }
+    options: {A: '60', B: '61', C: '65', D: '75'}
     answer: C
     explain:
       A: 錯。60 只計候選設定在內層的訓練，漏掉各外層的重訓。
@@ -69,6 +69,21 @@ self_check:
       B: 錯。更多摺不會撤回切分前發生的資料洩漏。
       C: 錯。用外層分數選模型會讓外層也成為選模依據。
       D: 對。所有會學習資料的步驟都須受內外層資料邊界約束。
+  - id: c4
+    goal: g1
+    type: choice
+    prompt: 同一批三組候選中選出的內層最佳 MAE 是 0.610 箱，該設定重訓後的獨立外層 MAE 是 10.437 箱；另一摺則是內層 7.267、外層 3.333 箱。哪個判讀合理？
+    options:
+      A: 第一摺可回報 0.610 作獨立成效，因為已經挑出最佳設定
+      B: 內層分數用來選參數，外層評估整個流程；單次高低可因抽樣反轉
+      C: 第二摺外層誤差較小，證明巢狀流程的程式一定切錯資料
+      D: 將每摺內外誤差較小者平均，可以得到更準確的獨立成效
+    answer: B
+    explain:
+      A: 錯。最佳內層誤差已參與挑選，不能再冒充獨立評估。
+      B: 對。兩者角色不同，內層選優有偏差風險，但不保證每摺誤差都較小。
+      C: 錯。外層可能恰好較容易預測，分數反轉本身不是切分錯誤的證據。
+      D: 錯。再挑內外較好者會引入新的選擇，沒有遵守外層固定評估的規則。
 author: codex
 status: draft
 ---
@@ -131,6 +146,25 @@ $s_k$ 是第 $k$ 個外層驗證分數，$\bar{s}_{\mathrm{outer}}$ 是其平均
 
 原檔的 `y_pred` 是指標教材用的既定預測。本頁重新訓練 Ridge 迴歸，所以只取 `x` 與 `y_true`，不沿用那些預測。
 
+### 把內層最佳誤差當成績會發生什麼事
+
+`L23303-M4-A-selection-bias.json` 保留八筆原值、種子與索引。每個外層都搜尋 `alpha=[0.1,1,10]`，選定後在外層訓練資料重訓，再評估另兩筆。
+
+![四個外層各自搜尋相同三個候選；選中的內層最佳 MAE 與獨立外層 MAE 分開列出](figure:l23303-m4-a-nested-selection)
+
+| 外層 | 選出的 alpha | 內層最佳 MAE（箱） | 同設定重訓後外層 MAE（箱） |
+|---|---|---|---|
+| 1 | 1 | 7.267 | 3.333 |
+| 2 | 1 | 7.568 | 3.061 |
+| 3 | 1 | 9.499 | 3.165 |
+| 4 | 0.1 | 0.610 | 10.437 |
+
+第四摺的三組候選內層 MAE 為 0.610、5.000、17.857 箱。錯誤報告把最低的 0.610 當最終成效；正確流程固定選出的 0.1，重訓後用外層索引 4、7 評估，得到 10.437 箱。
+
+MAE 越小越好，第四摺重用內層誤差看起來特別漂亮；前三摺卻相反。外層平均 4.999 箱小於內層最佳誤差平均的 6.236 箱；小樣本的單次高低，不能證明或否定選優偏差。
+
+選優偏差談的是「以同一批含噪估計挑最佳，再重用其分數」的風險；它不等於每次內層都必然高分。兩層的訓練量和驗證難度也不同，內外差值不能直接當成偏差的精確估計。
+
 ## 程式（補充）
 
 第一段準備八筆共用資料與搜尋器。`neg_mean_absolute_error` 把誤差變負，讓搜尋器仍以「越大越好」選參數。
@@ -173,6 +207,38 @@ print("各外層 alpha", [m.best_params_["ridge__alpha"]
 ```
 
 顯示的四個誤差平均約為 4.999 箱；計算使用未四捨五入的值。八筆資料很少，換分摺或套件版本可能改變結果，不應把這個數字當成商業預測成效。
+
+### 同一候選的內層與外層實際輸出
+
+外層回傳的每個搜尋器都保留自己的 `best_score_`。先把負 MAE 轉回正的誤差，再和該外層的獨立評分配對；沒有另換候選或外層切法。
+
+```python
+for k, fitted in enumerate(result["estimator"], 1):
+    inner_mae = -fitted.best_score_
+    candidate_mae = -fitted.cv_results_["mean_test_score"]
+    print("外層", k, "候選MAE", candidate_mae.round(3).tolist())
+    print("選出alpha", fitted.best_params_["ridge__alpha"],
+          f"內層最佳MAE={inner_mae:.3f}，外層MAE={mae[k-1]:.3f}")
+print("評估擬合次數", 4 * (3 * 3 + 1))
+final_search = search.fit(X, y)
+print("全開發資料重搜alpha", final_search.best_params_["ridge__alpha"])
+print("含最後搜尋與重訓次數", 4 * (3 * 3 + 1) + 3 * 3 + 1)
+```
+```text
+外層 1 候選MAE [10.244, 7.267, 24.333]
+選出alpha 1 內層最佳MAE=7.267，外層MAE=3.333
+外層 2 候選MAE [9.23, 7.568, 19.757]
+選出alpha 1 內層最佳MAE=7.568，外層MAE=3.061
+外層 3 候選MAE [13.047, 9.499, 22.437]
+選出alpha 1 內層最佳MAE=9.499，外層MAE=3.165
+外層 4 候選MAE [0.61, 5.0, 17.857]
+選出alpha 0.1 內層最佳MAE=0.610，外層MAE=10.437
+評估擬合次數 40
+全開發資料重搜alpha 1
+含最後搜尋與重訓次數 50
+```
+
+最後的 `search.fit(X, y)` 用全部八筆開發資料重新搜尋與重訓，對應原有成本算例的額外十次。此時仍沒有獨立測試成績；若要另外報交付模型的最後成效，須使用事前封存的測試資料。
 
 :::tip[讀碼重點]
 - `GridSearchCV` 是內層，`cross_validate` 的 `cv=outer` 是外層。
@@ -218,6 +284,8 @@ print("各外層 alpha", [m.best_params_["ridge__alpha"]
 八筆資料只是教學演示；少數離群樣本就足以大幅改變各摺誤差。正式報告要保留外層分數與資料限制，不只報平均。
 
 ### 參考來源
+
+- [Wolfram MathWorld：Arithmetic Mean](https://mathworld.wolfram.com/ArithmeticMean.html) 式（1）（支持：等權平均完整式；此處以外層摺數 $K_o$ 對應來源的 $N$，外層分數 $s_k$ 對應 $x_i$，分母是外層摺數）。
 
 - [scikit-learn：巢狀與非巢狀比較](https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html)（支持：為什麼需要、直覺、常見誤解）。
 - [scikit-learn：GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html)（支持：擬合成本推算、程式、最後建模）。
