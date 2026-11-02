@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應
 pdf_page: 9
 type: 情境
 codes: [ L21203, L21102 ]
-concepts: []
+concepts: [grad-cam, explainable-ai]
 stem: |
   某工程師為一套卷積神經網路（CNN）的醫療影像輔助診斷系統設計模型可解釋性機制。該系統需滿足下列需求：
   1.能向醫師說明影像被判定為異常的原因
@@ -22,13 +22,14 @@ options:
   D: 使用 SHAP TreeExplainer，計算特徵貢獻並以熱力圖呈現
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: "C。CNN 區域熱圖及避免大量擾動採樣的限制，較適合 Grad-CAM。"
+  correct: "C 利用目標類別分數對卷積特徵圖的梯度計算通道權重，再產生關注熱圖，不須對大量擾動影像逐次推論。它提供粗粒度區域定位，並非精確像素因果歸因；能否在 200 毫秒內完成，仍須對實際模型、影像大小與硬體量測。[Grad-CAM 原始論文](https://arxiv.org/abs/1610.02391)"
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: "影像 LIME 擾動超像素並多次呼叫模型以擬合局部代理模型，較不符合禁止大量重複採樣的限制。"
+    B: "KernelExplainer 依模型無關的特徵組合採樣評估貢獻，直接解釋高維影像通常需要較多模型呼叫。"
+    D: "TreeExplainer 利用樹模型結構，不適合直接解釋一般 CNN 的卷積特徵圖。"
+  rule: "影像解釋先核對模型結構與計算預算，時間上限仍須實測。"
+guide_refs: [guide-3:5-15]
 author: codex
 review:
   status: draft

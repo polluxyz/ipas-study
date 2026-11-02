@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應
 pdf_page: 10
 type: 情境
 codes: [ L23102, L23301 ]
-concepts: []
+concepts: [pca, eigenvalue-decomposition]
 stem: |
   某資料科學家正在處理一份包含 200 個感測器特徵的工廠設備監測資料集，為了降低模型複雜度並保留主要變異資訊，他先對資料進行標準化（Standardization），再使用主成分分析（PCA）進行降維。在 PCA 過程中，為了找出能最大化資料變異量的主成分方向，演算法主要依賴哪一項數學操作？
 options:
@@ -18,13 +18,14 @@ options:
   D: 對資料矩陣進行卷積運算（Convolution），擷取特徵之間的局部關係
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: "C。PCA 以特徵向量決定投影方向，以特徵值排序保留變異。"
+  correct: "C 對中心化資料的協方差矩陣做特徵分解，最大特徵值對應的單位特徵向量就是第一主成分方向，再依序取互相正交的方向。實作也常對中心化資料做 SVD，得到等價主成分；先標準化可減少量綱差異主導變異的問題。"
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: "某些變體可用迭代最佳化，但一般 PCA 的主要線性代數依據是特徵分解或等價 SVD，梯度下降不是必要操作。"
+    B: "依目標變數相關性篩選屬監督式特徵選擇；PCA 不需標籤，且產生原特徵的線性組合。"
+    D: "卷積擷取局部結構，並不等同於求最大投影變異方向。"
+  rule: "PCA 的方向看特徵向量，保留的變異量看對應特徵值。"
+guide_refs: [guide-3:3-13, guide-3:3-14, guide-3:4-45]
 author: codex
 review:
   status: draft

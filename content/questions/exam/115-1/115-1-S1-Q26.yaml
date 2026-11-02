@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應
 pdf_page: 8
 type: 情境
 codes: [ L21203 ]
-concepts: []
+concepts: [explainable-ai, responsible-ai-principles]
 stem: |
   某銀行導入一套 AI 授信審核系統，針對貸款申請人進行自動化決策。監理單位要求系統必須符合負責任 AI（Responsible AI）原則，特別是對被拒絕的申請人提供每筆決策的具體理由說明。從技術與合規的角度，此要求的核心能力需求為何？
 options:
@@ -18,13 +18,14 @@ options:
   D: 系統必須具備可解釋性（Explainability）能力，能提供特徵貢獻說明
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: "D。逐筆拒貸理由需要局部可解釋性，不能用資料刪除或準確率取代。"
+  correct: "D 能指出這筆申請中哪些特徵推動拒貸、方向與程度為何，最直接回應申請人的個別理由需求。特徵歸因仍須檢查是否忠於模型、是否容易理解，不能憑一張解釋圖就宣稱滿足全部合規要求。"
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: "資料刪除屬隱私管理；題幹沒有十秒刪除要求，刪除也無法解釋拒貸依據。"
+    B: "隨機更改結果不等於公平，且破壞一致性與可追溯性，沒有提供具體理由。"
+    C: "授信預測存在不確定性，無法保證所有決策都正確；即使高準確率，也仍須解釋拒貸原因。"
+  rule: "要求回答「這一筆為何如此判斷」時，優先檢查局部解釋能力。"
+guide_refs: [guide-1:4-38]
 author: codex
 review:
   status: draft
