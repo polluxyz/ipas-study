@@ -28,8 +28,8 @@ formula_groups:
     checked_by: codex-gpt-6.1-sol:CK-W-L21302-B
   - id: throughput-window
     source: https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/perf_analyzer/genai-perf/README.html#metrics
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK3-W-L21302-B
 self_check:
   - id: c1
     goal: g1
