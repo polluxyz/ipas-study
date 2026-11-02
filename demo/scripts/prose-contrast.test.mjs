@@ -20,6 +20,7 @@ describe('概念頁文字對比', () => {
       { kind: 'tables', text: '盜刷（正類）', foreground: 'rgb(227, 233, 223)', layers: ['rgba(0, 0, 0, 0)', 'rgb(250, 251, 247)'] },
       { kind: 'figureHeaders', foreground: 'rgb(37, 61, 55)', layers: ['rgb(21, 37, 43)'] },
       { kind: 'code', text: '[', foreground: 'rgb(217, 245, 221)', layers: ['rgba(0, 0, 0, 0)', 'rgb(237, 241, 231)'] },
+      { kind: 'output', text: 'AUC', foreground: 'rgb(227, 233, 223)', layers: ['rgba(0, 0, 0, 0)', 'rgb(237, 241, 231)'] },
       // c04d58e 的 ROC 顯示公式，實測可見 KaTeX 分子。
       { kind: 'formula', text: '10.3125', foreground: 'rgb(227, 233, 223)', layers: ['rgba(0, 0, 0, 0)', 'rgb(250, 251, 247)'] },
     ];
