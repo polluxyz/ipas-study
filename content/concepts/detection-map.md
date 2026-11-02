@@ -16,12 +16,12 @@ formula_groups:
     checked_by: codex-gpt-6.1-sol:CK-W-L21102-C
   - id: envelope-ap-map
     source: https://raw.githubusercontent.com/rafaelpadilla/Object-Detection-Metrics/master/lib/Evaluator.py
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK2-W-L21102-C
   - id: class-mean-map
     source: https://raw.githubusercontent.com/rafaelpadilla/Object-Detection-Metrics/master/pascalvoc.py
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK2-W-L21102-C
 self_check:
   - id: c1
     goal: g1
