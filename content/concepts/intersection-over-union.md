@@ -1,10 +1,10 @@
 ---
 id: intersection-over-union
 title: IoU 交集聯集比
-aliases: [ IoU, Intersection over Union, 交並比 ]
+aliases: [IoU, Intersection over Union, 交並比]
 kind: metric
-codes: [ L21102, L23303 ]
-guide_refs: [ guide-1:3-51, guide-1:3-52, guide-1:3-79 ]
+codes: [L21102, L23303]
+guide_refs: [guide-1:3-51, guide-1:3-52, guide-1:3-79]
 gaps:
   - ref: guide-1:3-51
     level: missing
@@ -17,18 +17,26 @@ goals:
   - id: g1
     text: 由框座標算交集、聯集與 IoU，解釋 0 到 1 的意義
   - id: g2
-    text: 區分 IoU 配對門檻與信心分數閾值，判讀門檻變嚴的效果
+    text: 區分 IoU 配對門檻與信心分數閾值，用固定框集判讀門檻變嚴的效果
   - id: g3
-    text: 說明 IoU、類別與一對一配對如何共同決定偵測結果
+    text: 說明 IoU、類別與一對一配對如何共同決定偵測結果，辨別零售任務的指標邊界
 formula_groups:
   - id: iou
     source: guide-1:3-51
     status: verified
-    checked_by: ctx_4f7951475612
+    checked_by: task_5bbc5b6241d1
   - id: box-intersection
     source: https://docs.pytorch.org/vision/main/_modules/torchvision/ops/boxes.html#box_iou
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: task_5bbc5b6241d1
+  - id: m4-iou-cases
+    source: https://docs.pytorch.org/vision/main/_modules/torchvision/ops/boxes.html#box_iou
+    status: verified
+    checked_by: task_5bbc5b6241d1
+  - id: m4-fixed-frame-matching
+    source: https://raw.githubusercontent.com/cocodataset/cocoapi/master/PythonAPI/pycocotools/cocoeval.py
+    status: verified
+    checked_by: task_5bbc5b6241d1
 self_check:
   - id: c1
     goal: g1
@@ -75,6 +83,11 @@ self_check:
       B: 沒有同類配對可成立，因此凹洞預測誤報、刮痕目標漏檢。
       C: 這是錯類預測，不是正確放行的負類；偵測也沒有自然可枚舉的背景 TN。
       D: 高信心不能修正錯誤類別，仍需檢查類別與 IoU。
+  - id: c4
+    goal: g2
+    type: short
+    prompt: 本頁補充匹配例明訂採 IoU≥門檻（含等號）、信心由高到低且一對一。P1對G1的IoU=0.5，後來P3對G1的IoU=1；為何0.5門檻下P3反而是FP？換0.7後呢？
+    key_points: ["0.5時P1已占G1，P3即使IoU=1仍是重複FP", "0.7時P1未達標不占G1，P3可配成TP", "門檻只改配對；本批兩門檻合計TP皆2，不能說每框結果不變"]
 ---
 
 ## 為什麼需要
@@ -144,6 +157,24 @@ max(0, …) 避免不相交時出現負寬高。零面積框應先判為無效�
 
 這三列是替代方案，不是同一張圖同時輸出的三個框。B2 雖然包含整個真實框，仍因額外背景多而得低分。
 
+### 指定面積與座標極端情形（補充）
+
+`L21102-M4-E-iou-matching.json` 的面積例與匹配例各自獨立，均是合成座標。以下固定 G=(0,0,10,10)，面積 100 像素平方；邊界連續、寬高不加 1。
+
+| 預測框 B | 交集 I／面積 B | 聯集／IoU |
+|---|---|---|
+| (6,0,14,10) | (10−6)×10=40／8×10=80 | 100+80−40=140；40/140=2/7≈0.286 |
+| (0,0,10,10) | 10×10=100／100 | 100+100−100=100；100/100=1 |
+| (20,0,28,10) | max(0,10−20)×10=0／80 | 100+80−0=180；0/180=0 |
+
+第一列完整重算 100／80／40；第二列兩框座標完全相同，所以交集等於聯集；第三列不相交，交集為 0。
+
+座標推算依 Torchvision 原始碼的矩形規則，屬補充深度，不倒算為指引已教座標算法。
+
+![上半部G面積100、B面積80、交集40；下半部固定同批框在0.5及0.7門檻下依信心排序一對一配對。](figure:l21102-m4-e-iou-matching)
+
+先看圖上半部的面積與聯集；下半部是另一組固定框的匹配摘要，兩門檻均含等號。請搭配下方[固定框集的兩個匹配門檻](#固定框集的兩個匹配門檻補充)的完整座標及逐框表閱讀，不把兩組案例的框混用。
+
 ## 程式（補充）
 
 以下不用額外套件，按已明示的座標約定計算。程式拒絕零寬或零高的框，避免把無效輸入混入評估。
@@ -179,10 +210,14 @@ for b in [(14, 10, 34, 30), (0, 0, 40, 40), (40, 10, 60, 30)]:
 
 IoU 適合比較分割區域或偵測框的幾何重疊。指引也在零售動線分析中列出這個指標；須先定義要比較的區域，再談重疊程度。
 
-指引列出 0.5、0.7 兩種常見的 IoU 門檻，以 IoU「大於」門檻作為定位成功的條件；本頁正文沿用這個判斷方式。
+科目 1 指引 3-51 用 IoU「大於」0.5 或 0.7 描述常見的定位成功條件，未規定完整匹配演算法。
+
+本頁下方的固定框集是補充匹配例，另採 COCOeval 等工具在這兩個門檻使用的「大於或等於」（≥）規約；兩者須分開閱讀。
 
 :::supplement[來源：COCO 官方 COCOeval 的 evaluateImg 實作]
-COCO 常用實作採 IoU 大於或等於門檻；差別只在剛好等於門檻的邊界，實際評估依所用規約。共用 JSON 採這個實作約定，本頁主例子的 2/3 不等於 0.5 或 0.7，兩種判法結果一致。
+COCOeval 在本例 0.5、0.7 門檻下接受等號；原始碼還有門檻上限、crowd、ignore 等分支，不能概括所有工具與邊界。
+
+本頁固定框 JSON 明訂採 ≥；主例子的 2/3 不等於 0.5 或 0.7，兩種判法結果一致。
 :::
 
 ### 從重疊分數到偵測結果（補充）
@@ -212,6 +247,48 @@ IoU 只看幾何，正確偵測還需要類別吻合。一般一對一評估中�
 指引把邊界模糊或物體重疊列為適用情況，並給予較高的可靠性評價；這不表示標註歧義會自行消失。IoU 只計算給定區域的重疊，仍須先統一標註規則，再比較結果。
 :::
 
+### 固定框集的兩個匹配門檻（補充）
+
+以下五個預測是同一張 I1 影像同時輸出，沒有先依信心刪框，也不是上方 B1–B3 的替代方案。
+
+真值 G1=刮痕(0,0,10,10)、G2=刮痕(20,0,30,10)、G3=凹痕(40,0,50,10)。
+
+依信心由高到低，找同類、未使用且 IoU 最大的真值；採 IoU **大於或等於**門檻，同一真值至多用一次。
+
+本例無 crowd 或忽略區域。
+
+| 預測／信心／框 | 幾何對象及 IoU | 門檻0.5 | 門檻0.7 |
+|---|---|---|---|
+| P1／0.99／(0,0,5,10) | G1：50/100=0.5 | TP→G1，恰等 | FP，未達 |
+| P2／0.95／(20,0,27,10) | G2：70/100=0.7 | TP→G2 | TP→G2，恰等 |
+| P3／0.90／(0,0,10,10) | G1：1 | FP，G1已使用 | TP→G1 |
+| P4／0.85／(60,0,70,10) | 所有真值：0 | FP，無匹配 | FP，無匹配 |
+| P5／0.80／(40,0,50,10) | G3：1，但預測刮痕 | FP，類別錯 | FP，類別錯 |
+
+兩門檻均為 TP=2、FP=3、FN=1，未匹配的 G3 都是 FN。
+
+P1 與 P3 卻互換成敗，說明提高門檻是定位要求更嚴，不保證總分必變或必升；也不能沿用舊配對，須從同一固定框集重新跑一次。
+
+若規約改成嚴格大於，P1 的0.5及P2的0.7邊界都要重判，不能混用。
+
+同類與一對一、等號規則依 COCOeval 的配對機制整理；這只是教學匹配，不宣稱重現完整 COCO AP。AP／mAP 的完整規則請讀 [[detection-map]]。
+
+### 零售任務的指標導讀
+
+沿用[多模態零售的同一案例](../multimodal-application-evaluation/#零售讓每個輸出有對應物件)：影像、銷售用來比較動線熱區與配置，先定義區域再用[IoU](../intersection-over-union/#從框座標求交集補充)。
+
+交易、評論產生推薦清單，先定相關性與清單長度再看[Precision](../precision/#定義與公式)。
+
+評論、社群做情感分類，固定類別與平均方式後看[F1](../f1-score/#多分類的平均方式補充)。
+
+BI 整合影像、POS、評論，應分別驗收各項輸出。
+
+顧客隱私、來源噪聲及處理時效也須另驗：遮蔽或噪聲可能影響區域及分類，離線分數高仍可能回應太慢。
+
+IoU 不能評推薦命中，F1 不能取代幾何定位，Precision 也不能代表整個儀表板品質。
+
+完整跨模態選用由責任頁承接，本頁只是指標導讀；案例索引存於 `L21104-M4-E-metric-links.json`。
+
 ## 常見誤解
 
 - **只要把真實框包住就得高分。** 過大的預測增加聯集，本例 B2 只有 0.25。
@@ -231,6 +308,8 @@ COCO 標準評估還會對 0.50 到 0.95、每隔 0.05 的 IoU 門檻作彙整�
 
 ### 參考來源
 
+- L21102-M4-E-iou-matching.json：本站合成的指定面積、極端座標與同批固定框；算例依上述 Torchvision 幾何與 COCOeval 匹配機制。
+- 科目 1 學習指引，3-79：支持零售指標導讀，完整四任務案例見[多模態應用與評估設計](../multimodal-application-evaluation/)。
 - 學習指引科目 1，3-51～3-52、3-79（支持：基本公式、範圍、分割／偵測場景、常用門檻、零售動線分析；公式已回 PDF 原圖核對）。
 - [Torchvision box_iou API](https://docs.pytorch.org/vision/main/generated/torchvision.ops.box_iou.html)（支持：兩組框的 IoU 與座標格式）。
 - [Torchvision boxes 原始碼](https://docs.pytorch.org/vision/main/_modules/torchvision/ops/boxes.html#box_iou)（支持：交集寬高、聯集公式、連續邊界的面積計算）。

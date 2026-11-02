@@ -1,0 +1,273 @@
+{
+  "source": "作者設定的教學合成資料，非模型訓練或實際業務成效。",
+  "split": "固定留出評估示例，無訓練、無調參；不與其他示例合併估成效。",
+  "seed": null,
+  "generation": "逐筆或依指定計數展開，無隨機抽樣。",
+  "index": "id 為本例內固定索引；排序依各欄位說明。",
+  "units": "計數為筆；比例無單位；分數為人工設定的排序值。",
+  "labels": [
+    "正向",
+    "負向"
+  ],
+  "axes": {
+    "rows": "實際",
+    "columns": "預測"
+  },
+  "note": "兩語言各20句、每類10句，人工合成情感標籤；不是翻譯配對資料，不以語言名稱作因果。",
+  "languages": [
+    {
+      "language": "中文",
+      "matrix": [
+        [
+          8,
+          2
+        ],
+        [
+          1,
+          9
+        ]
+      ],
+      "samples": [
+        {
+          "id": "ZH01",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "ZH02",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "ZH03",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "ZH04",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "ZH05",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "ZH06",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "ZH07",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "ZH08",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "ZH09",
+          "truth": "正向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH10",
+          "truth": "正向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH11",
+          "truth": "負向",
+          "prediction": "正向"
+        },
+        {
+          "id": "ZH12",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH13",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH14",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH15",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH16",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH17",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH18",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH19",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "ZH20",
+          "truth": "負向",
+          "prediction": "負向"
+        }
+      ]
+    },
+    {
+      "language": "英文",
+      "matrix": [
+        [
+          6,
+          4
+        ],
+        [
+          2,
+          8
+        ]
+      ],
+      "samples": [
+        {
+          "id": "EN01",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "EN02",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "EN03",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "EN04",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "EN05",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "EN06",
+          "truth": "正向",
+          "prediction": "正向"
+        },
+        {
+          "id": "EN07",
+          "truth": "正向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN08",
+          "truth": "正向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN09",
+          "truth": "正向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN10",
+          "truth": "正向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN11",
+          "truth": "負向",
+          "prediction": "正向"
+        },
+        {
+          "id": "EN12",
+          "truth": "負向",
+          "prediction": "正向"
+        },
+        {
+          "id": "EN13",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN14",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN15",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN16",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN17",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN18",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN19",
+          "truth": "負向",
+          "prediction": "負向"
+        },
+        {
+          "id": "EN20",
+          "truth": "負向",
+          "prediction": "負向"
+        }
+      ]
+    }
+  ],
+  "counterexamples": [
+    {
+      "id": "baseline",
+      "TP": 8,
+      "FP": 2,
+      "FN": 2,
+      "TN": 8
+    },
+    {
+      "id": "precision_drop",
+      "TP": 8,
+      "FP": 6,
+      "FN": 2,
+      "TN": 4
+    },
+    {
+      "id": "recall_drop",
+      "TP": 5,
+      "FP": 0,
+      "FN": 5,
+      "TN": 10
+    }
+  ],
+  "counterexample_note": "三方案各20筆，實際正負各10；後兩者F1同為2/3，卻是不同P/R變化，不能只憑下降的F1定位原因。"
+}

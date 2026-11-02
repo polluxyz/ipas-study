@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應
 pdf_page: 12
 type: 情境
 codes: [L23301]
-concepts: [outlier-treatment, missing-value-imputation]
+concepts: [outlier-treatment, missing-value-imputation, data-quality]
 stem: |
   某 IoT 平台接收工廠溫度感測器資料，發現在常態分佈（均值 25°C，標準差 2°C）的數萬筆紀錄中，出現數筆「999°C」的極端值，研判為感測器通訊錯誤（網路封包延遲導致數值溢位）所致，且該異常數值在實際情況下不可能發生。在進行模型訓練前的資料清洗階段，針對這類離群值，最適當的處理策略為何？
 options:
