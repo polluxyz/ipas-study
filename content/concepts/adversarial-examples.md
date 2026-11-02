@@ -12,8 +12,8 @@ goals:
 formula_groups:
   - id: bounded-perturbation
     source: https://adversarial-ml-tutorial.org/introduction/#creating-an-adversarial-example
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK2-W-L23401-G
 self_check:
   - id: c1
     goal: g1
