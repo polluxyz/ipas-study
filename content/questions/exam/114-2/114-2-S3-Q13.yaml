@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 3
 type: 觀念
 codes: [ L23402 ]
-concepts: []
+concepts: [label-bias]
 stem: |
   標籤偏差(Label Bias)通常是因為什麼原因造成？
 options:
@@ -18,13 +18,14 @@ options:
   D: 特徵數量設定過多
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 B：標註者的系統性主觀判斷，可能把偏見寫進標籤。
+  correct: 在本題資料標註的語境下，若標註者對某類人或語句持續採用不同標準，模型就可能把這種偏差當作學習目標。指引第 6.2 節將這類標註過程的人為偏差歸在製程偏誤；這裡的 Label Bias 不是在討論序列模型中的同名技術問題。
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: 資料量大不必然造成標註偏見；若標準本來有偏，大量資料也不會自動修正它。
+    C: 模型結構可能影響模型偏見，但不等於標籤在建立時已帶入的主觀偏差。
+    D: 特徵太多可能增加建模或泛化困難，無法直接解釋標註者為何給出有偏標籤。
+  rule: 追查標註偏見時，要檢查標籤產生規則與標註者是否對群體採用一致標準。
+guide_refs: [guide-3:6-15, guide-3:6-16]
 author: codex
 review:
   status: draft

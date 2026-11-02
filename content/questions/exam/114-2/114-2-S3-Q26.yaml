@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 6
 type: 觀念
 codes: [ L23304, L23303 ]
-concepts: []
+concepts: [regularization, dropout, early-stopping]
 stem: |
   在防止監督式學習模型過擬合（Overfitting）時，下列哪一種策略不屬於降低模型複雜度或限制學習能力的作法？
 options:
@@ -18,13 +18,14 @@ options:
   D: 擴增輸入特徵變數以提升模型表達能力
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 D：增加輸入特徵以擴充表達能力，並不是限制學習能力的策略。
+  correct: 題目問的是「不屬於」。加入更多特徵讓模型有更多可用訊號或可擬合方向，沒有直接懲罰權重、限制訓練路徑或縮短訓練；若加入冗餘與噪聲特徵，還可能增加過擬合風險。不過新增有用特徵也可能改善泛化，不能反過來宣稱所有特徵擴充都會過擬合。
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: L1 或 L2 在目標中懲罰權重，限制模型自由擬合訓練資料，屬於正則化策略。
+    B: Dropout 在訓練時隨機遮蔽部分單元輸出，抑制單元間過度依賴，具有正則化作用。
+    C: 早停以驗證表現決定停止時機，避免繼續擬合訓練噪聲；即使沒有刪除參數，也是在限制有效學習程度。
+  rule: 抑制過擬合可限制權重、訓練路徑或訓練時間，單純增加表達能力不屬於這些限制。
+guide_refs: [guide-3:5-43, guide-3:5-45, guide-3:5-46]
 author: codex
 review:
   status: draft

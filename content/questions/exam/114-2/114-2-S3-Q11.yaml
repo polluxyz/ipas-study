@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 3
 type: 觀念
 codes: [ L23304 ]
-concepts: []
+concepts: [random-search, grid-search]
 stem: |
   相較於 Grid Search，Random Search 在超參數調整上具備哪一項主要優勢？
 options:
@@ -18,12 +18,13 @@ options:
   D: 能更有效率搜尋高維參數空間
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 D：固定搜尋預算下，隨機搜尋常較有效利用高維超參數空間。
+  correct: 網格搜尋將預設候選值做笛卡兒積，維度增加時組合數迅速膨脹。隨機搜尋按分布抽取組合，在只有部分超參數特別重要時，常能以相同試驗次數探查更多關鍵參數取值；這是常見優勢而非每個問題的必勝保證。兩科指引未明確教授兩者的效率比較，補充依據為 Bergstra 與 Bengio 的 Random Search for Hyper-Parameter Optimization 原始論文。
   wrong:
-    A: ""
-    B: ""
-    C: ""
+    A: 一般隨機搜尋只在指定的參數空間抽樣；除非另把架構納入空間，否則不會自動產生架構。
+    B: 搜尋策略不會改變可取得的訓練資料量，也不保證單次訓練能容納更大資料。
+    C: 試驗越多仍可能過度適配驗證結果，隨機抽樣本身並不保證避免過擬合。
+  rule: 高維搜尋且試驗次數有限時，可用隨機搜尋分配預算，但仍須獨立驗證結果。
 guide_refs: []
 author: codex
 review:

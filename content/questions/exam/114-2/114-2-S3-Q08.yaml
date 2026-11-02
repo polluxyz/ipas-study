@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 2
 type: 觀念
 codes: [ L23202 ]
-concepts: []
+concepts: [tree-impurity, decision-tree]
 stem: |
   資訊增益（Information Gain）常用於衡量特徵對分類結果的不確定性貢獻程度，並據以進行特徵選擇。此方法主要應用於下列哪一類模型架構中？
 options:
@@ -18,13 +18,14 @@ options:
   D: 透過遞迴分裂方式建立分類規則的決策樹模型
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 D：決策樹可用資訊增益挑選遞迴分裂的特徵與切點。
+  correct: 資訊增益等於父節點的熵，減去各子節點熵依樣本比例加權後的總和。分裂後類別越純，不確定性下降越多；採熵準則的分類樹可據此比較候選切分。決策樹也可用 Gini 等其他準則，並非每棵樹都必用資訊增益。
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: L1 以係數絕對值懲罰促成稀疏化，與比較分裂前後的熵不同。
+    B: 激活函數負責神經網路的非線性轉換，通常不是依資訊增益選擇遞迴規則。
+    C: 核函數描述特徵相似度或隱含映射，常見於 SVM，與樹節點的熵減少不同。
+  rule: 看到分裂前後的熵減少量，應聯想到決策樹的資訊增益準則。
+guide_refs: [guide-3:4-30, guide-3:4-31]
 author: codex
 review:
   status: draft

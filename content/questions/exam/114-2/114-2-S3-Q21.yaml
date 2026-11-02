@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 5
 type: 情境
 codes: [ L23203 ]
-concepts: []
+concepts: [self-attention]
 stem: |
   某語音辨識系統開發團隊採用 Transformer 架構，為了讓模型能同時理解語音片段中的發音特徵、語速變化與語意脈絡等多層次資訊，團隊在設計中導入了多頭注意力（Multi-head Attention）機制。請問下列何者為此機制的主要優點？
 options:
@@ -18,13 +18,14 @@ options:
   D: 避免梯度消失（Gradient Vanishing）問題
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 C：多頭注意力可在不同投影子空間學習多種關聯。
+  correct: 各注意力頭具有不同的 Q、K、V 投影，分別計算加權關聯，再串接並投影成輸出。這讓模型有能力同時表示不同的依賴模式；不能預先保證某一頭一定專門處理發音、語速或語意，也不保證各頭學到的內容完全互異。
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: 多頭的主要目的不是減少參數；頭數與每頭維度如何配置，才決定參數與成本。
+    B: 不同頭可以平行計算，但多頭也有額外運算；相對單頭不保證整體更快，題目重點是表示能力。
+    D: 多頭機制並不保證避免梯度消失；梯度傳遞還與殘差連接、正規化及訓練設定等因素有關。
+  rule: 多頭注意力的核心是多組可學習投影帶來的關聯表示能力，不能直接推論更快或無梯度問題。
+guide_refs: [guide-3:4-80]
 author: codex
 review:
   status: draft

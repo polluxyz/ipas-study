@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 4
 type: 觀念
 codes: [ L23202, L23304 ]
-concepts: []
+concepts: [xgboost]
 stem: |
   下列何者最能同時反映 XGBoost（eXtreme Gradient Boosting）相較於傳統梯度提升決策樹（Gradient Boosting Decision Tree, GBDT）的主要技術改進？
 options:
@@ -18,13 +18,14 @@ options:
   D: 採用批次正規化（Batch Normalization）技術提升模型穩定性
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 A：XGBoost 結合正則化、缺失值分支處理與建樹運算加速。
+  correct: 在本題的樹提升脈絡下，XGBoost 將樹複雜度懲罰納入目標，分裂時可學習缺失值的預設去向，並以資料結構與平行分裂搜尋提升效率。各提升輪次仍依賴目前模型的誤差資訊；並行化不表示所有樹都能像隨機森林一樣獨立訓練。這些是相較傳統實作的代表特色，不表示現代其他 GBDT 實作都缺少它們。
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: XGBoost 在此仍是梯度提升樹，不是以隨機森林取代模型；而隨機森林本身也是樹集成，選項的對比也不精確。
+    C: 題定的 XGBoost 改進沒有把弱學習器改成神經網路，而是改善樹提升的目標與計算方式。
+    D: 批次正規化主要處理神經網路的中間表示，不是 XGBoost 的代表性改進。
+  rule: XGBoost 的重點是提升樹的正則化、稀疏或缺值分裂與高效率實作，提升輪次仍有先後依賴。
+guide_refs: [guide-3:4-23, guide-3:4-24]
 author: codex
 review:
   status: draft

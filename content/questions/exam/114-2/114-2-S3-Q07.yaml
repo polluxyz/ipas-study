@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術�
 pdf_page: 2
 type: 觀念
 codes: [ L23203, L23302 ]
-concepts: []
+concepts: [lstm, sequence-model-selection]
 stem: |
   下列哪一種應用最適合採用長短期記憶網路（Long Short-Term Memory, LSTM）模型？
 options:
@@ -18,13 +18,14 @@ options:
   D: 將高維度的感測器資料壓縮成低維表示
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 A：未來電力需求預測具有時間依賴，適合序列模型 LSTM。
+  correct: 以歷史電力需求與相關變數預測未來七天，需要利用先前時段對後續時段的影響。LSTM 透過細胞狀態與輸入、遺忘、輸出閘控制資訊保留，可學習序列依賴；實務仍須與其他時序模型比較，並按時間切分資料驗證。
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: 一般單張監視影像的物件辨識，較直接對應 CNN 或其他視覺模型；若另有影片時序分析需求，才可能加入序列模型。
+    C: 依相似特徵自動分群屬於非監督式群集任務，沒有題定的時間依賴需求。
+    D: 高維資料壓縮通常先考慮 PCA 或自編碼器；僅有降維需求不足以支持選 LSTM。
+  rule: 選用 LSTM 的主要依據是資料與預測目標具有需保留的時間或序列依賴。
+guide_refs: [guide-3:4-75, guide-3:5-13]
 author: codex
 review:
   status: draft
