@@ -10,6 +10,8 @@
 - 新 Orca repo ID 是 **`555621aa-2814-4352-83be-7ccb05ac7de4`**。worker／worktree 明傳新 repo ID 或精確完整 selector，不靠同名 UI 分組或舊 current 推測；Orca 的 cached remote identity 可能仍顯示 staging 暫名，以實際 Git remote 及 GitHub node ID 為準，不改底層資料庫。
 - Run 沿用 **`run_0668a2365727`**。先 `orca orchestration run-use --id run_0668a2365727 --json`，核對自己的 coordinator handle，再讀信及 worker-list。
 - Windows 腳本使用 **`C:/Program Files/Git/bin/bash.exe`**；PATH 的 bash 指向 WSL。新專案腳本及 tmp 協調工具使用新根目錄。
+- **使用者最新指示：整個資料夾作業都遷過來，舊的關掉。** 已補齊本機工作檔、建立新 `tools/python/.venv`（原鎖檔 138 套件）、搬妥 `tmp/pdf_runtime`，新環境 13 個套件及 PDF runtime 匯入通過。後續不得使用舊根的 Python 或協調工具。
+- 預覽已改在新根，`http://127.0.0.1:4321/` HTTP 200；常駐終端 `term_97348002-6cab-4bb8-bec6-aded72eae95d` 勿關。舊根及工作樹的其他 17 個終端已關；最後舊協調者要由新協調者接手 Run 後關閉，並移除舊 setup `570d4390-9695-4278-96b3-3d05d3962a51` 的 Orca 登錄，本機檔案只留離線備份。
 
 ## 公開遷移界線
 
@@ -27,8 +29,10 @@
 
 - 舊庫最後 PR #98 合併後，共 **73 組**在 main；遷移文件為舊庫 PR #97。原六組 queue 全完成，不可重跑原清單。
 - **12 組交稿尚未合併**，由本機檔案差異重建新歷史分支，不 fetch／merge／cherry-pick 舊分支：W-L23302-B、W-L23304-B、W-L21102-C、W-L21102-D、W-L21103-B、W-L21103-E、W-L21104-B、W-L21302-B、W-L23401-G、W-L23402-C、W-L21101-E、W-L21103-D。
-- 12 組 writer 與 RV 均完成；CK 只剩 W-L21103-D，已派新庫核算。W-L23402-C 的 RR 通過（0 錯誤、7 列 complete），待正常驗收／coverage／PR。
-- W-L23401-G、W-L23304-B、W-L21102-D、W-L23302-B、W-L21103-E 的 FX 完成，協調者驗收後派 RR；部分 pending 公式需 CK2。W-L21302-B、W-L21103-B、W-L21102-C、W-L21104-B、W-L21101-E 已有 RV＋CK，接續 FX。即時 dispatch 與驗收以本機 handles、收據及 Run 為準。
+- 12 組 writer、RV、CK、FX 均完成。已送新庫 PR：#3 W-L23402-C、#4 W-L21102-D、#5 W-L21103-E、#6 W-L23401-G；都跑過協調者 230 項測試、教材／照抄檢查及建置，push guard 敏感命中 0。合併前仍須各自 CI 全綠；#5 曾出現 checks 空集合，必須調查並取得實際成功 CI，不能直接合併。
+- **接手第一步**：綁定 Run、確認新環境與預覽、關閉舊協調者／舊 setup，再立即補上工作波：FX2（W-L21302-B、W-L21103-B、W-L21104-B），RR（W-L21103-D），CK2（W-L21102-C、W-L23302-B）。目前完成 worker 已收尾；讀本機最新 state 與 handles 確認沒有新完成事件漏處理。
+- RR／RR3 通過待整合：W-L21101-E（7 列）、W-L23302-B（12 列、PDP 仍 pending）、W-L21102-C（9 列、AP/mAP 兩群 pending）、W-L23304-B（7 列、兩個推導計數式仍 pending）。W-L23401-G 的 CK2 已確認，可改 verified，協調者已簽核並以 rehash 併入 PR #6。
+- W-L23304-B CK2 數字 79/79、程式 3/3，但兩個指定來源沒有直接列式，0/2 群可改 verified；不能憑「推導正確」繞過來源門檻。後續補直接來源再複核，或如實保留 pending，不稱全數簽核完成。
 - 必須讀完整 review-main／review-calc 並補足 partial，不能以「0 錯誤」省略深度缺口。所有 worker 已改在新庫工作，切換完成後恢復正常新庫 PR，仍禁止引入舊歷史。
 - W-L23402-C 重建時保留乾淨 writer／FX 兩個新提交供 RR 比較。實際 worktree／commit 對照在本機遷移清單；舊 metadata 不進公開庫。
 - 新整合重跑協調者驗收與 CI；舊審查只沿用內容雜湊相同的部分，衝突與新差異重審。reviewed_revision 是教材內容 SHA-256，不是 Git commit SHA。
@@ -49,7 +53,7 @@
 
 - M4 與剩餘建議在本機 `tmp/rollout/m4-backlog.md`：AutoML 17 行程式 T3、術語一致性、深色對比與 pending 公式直接來源。
 - 合併後補 densenet／cnn-architectures／efficient-cnn → cnn 的既定關係；pair-counts 仍 pending。
-- W-L21104-B 重跑設 IPAS_REPO_ROOT；W-L21103-E 設 IPAS_EXAMPLE_FILE。Python 暫可沿用舊本機實測環境，Task 要明寫，不能誤指新根下不存在的 .venv。
+- W-L21104-B 重跑設 IPAS_REPO_ROOT；W-L21103-E 設 IPAS_EXAMPLE_FILE。Python 統一 `UV_PROJECT_ENVIRONMENT=D:/ipas-study/tools/python/.venv`、`UV_NO_SYNC=1`；PDF runtime 統一 `D:/ipas-study/tmp/pdf_runtime`，兩者已建妥。
 - 待使用者決定：正式 site-v1 規格／計畫／todo、正式網站套件、詞表提案。公開不代表部署或擴大網站範圍。
 - 11/03 前回報完工區間；考試 11/14，品質門檻維持，必要取捨交使用者決定。
 
