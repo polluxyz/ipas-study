@@ -5,7 +5,7 @@ import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
-import { loadContent, localUrl, localGet, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses, expectedTextbook404, sourceStageChecks } from './rollout-smoke.mjs';
+import { loadContent, localUrl, localGet, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses, expectedTextbook404, sourceStageChecks, gotoSettled, settlePage } from './rollout-smoke.mjs';
 
 /** 比照手動連結轉換的文字節點及排除區，保留程式、公式與既有連結的原文。 */
 export function hasUnconvertedWikiLink(main) {
@@ -82,6 +82,17 @@ export async function runSmokeWithCleanup({ report, run, finish, evidence, save,
   if (initialError || cleanupError) throw initialError ?? cleanupError;
 }
 
+/** 即使頁面等待失敗，仍封口監測並保留所有收尾錯誤。 */
+export async function finishSmokePages(pages, finish, settle = settlePage) {
+  const failures = [];
+  for (const page of pages) {
+    try { await settle(page); } catch (error) { failures.push(error); }
+  }
+  try { await finish(); } catch (error) { failures.push(error); }
+  if (failures.length === 1) throw failures[0];
+  if (failures.length > 1) throw new AggregateError(failures, '頁面與建置回應收尾失敗');
+}
+
 export async function main() {
 const base = localUrl(process.env.DEMO_URL ?? 'http://127.0.0.1:4321', process.env.DEMO_URL ?? 'http://127.0.0.1:4321').origin;
 const output = process.env.SMOKE_OUTPUT ? resolve(process.env.SMOKE_OUTPUT) : resolve(import.meta.dirname, '../../tmp/demo-shots');
@@ -148,7 +159,7 @@ async function codeContrast(page, theme) {
 }
 async function verifySupplements(checkRealPages = true) {
   await page.setViewportSize({ width: 1440, height: 1050 });
-  const supplementResponse = await page.goto(base + '/dev/supplement/');
+  const supplementResponse = await gotoSettled(page, base + '/dev/supplement/');
   assert.equal(supplementResponse.status(), 200, 'F6 對比頁必須可開啟');
   assert.equal(await page.locator('h1').count(), 1);
   assert.equal(await page.locator('[data-version]').count(), 3);
@@ -224,7 +235,7 @@ async function verifySupplements(checkRealPages = true) {
   }
   // S4 的隔離頁使用正式 Markdown 管線；先固定驗證所有隱藏界線，再抽查正式概念頁。
   await page.setViewportSize({ width: 1440, height: 1050 });
-  await page.goto(base + '/dev/supplement-render/');
+  await gotoSettled(page, base + '/dev/supplement-render/');
   const supplementSwitch = page.getByRole('switch', { name: '只看指引內容' });
   assert.equal(await supplementSwitch.isChecked(), false);
   assert.equal(await page.locator('.textbook-supplement').count(), 1, '相鄰同來源補充應合併');
@@ -296,7 +307,7 @@ async function verifySupplements(checkRealPages = true) {
   await page.setViewportSize({ width: 1440, height: 1050 });
   await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; });
   for (const id of checkRealPages ? ['roc-auc', 'k-fold-cross-validation', 'experiment-tracking', 'ndcg', 'accuracy', 'precision', 'recall'] : []) {
-    await page.goto(base + `/concepts/${id}/`);
+    await gotoSettled(page, base + `/concepts/${id}/`);
     const count = await page.locator('#concept-body [data-supplement]').count();
     const toggle = page.getByRole('switch', { name: '只看指引內容' });
     if (count) {
@@ -316,12 +327,15 @@ async function verifySupplements(checkRealPages = true) {
       report.supplementS4.withoutSupplement = id;
     }
   }
-  await page.goto(base + '/dev/supplement-empty/');
+  await gotoSettled(page, base + '/dev/supplement-empty/');
   assert.equal(await page.locator('[data-supplement-filter]:visible').count(), 0, '無補充驗收頁不顯示開關');
   assert.equal(await page.getByRole('switch', { name: '只看指引內容' }).count(), 0);
   report.supplementS4.emptyFixture = true;
 }
-await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => finishBuildCheck.evidence(),
+await runSmokeWithCleanup({ report, finish: async () => {
+  await finishSmokePages(context.pages(), finishBuildCheck);
+  assert.deepEqual(errors, []); assert.deepEqual(external, []); assert.deepEqual(assets, []);
+}, evidence: () => finishBuildCheck.evidence(),
   save: () => writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)),
   close: () => browser.close(), onFailure: () => page.screenshot({ path: resolve(output, 'failure.png'), fullPage: true }), run: async () => {
   if (process.env.SMOKE_SUPPLEMENT_ONLY === '1') {
@@ -329,25 +343,25 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
     await writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)); console.log(JSON.stringify(report, null, 2));
   } else {
-  await page.goto(base); await screenshot(page, '01-home.png');
+  await gotoSettled(page, base); await screenshot(page, '01-home.png');
   const urls = ['/', '/codes/L23303/', '/concepts/data-leakage/', '/concepts/train-val-test-split/', '/concepts/k-fold-cross-validation/', '/concepts/stratified-k-fold/', '/concepts/sklearn-pipeline/', '/concepts/nested-cross-validation/', '/questions/114-2-S1-Q41/', '/questions/114-2-S3-Q34/', '/questions/115-1-S3-Q44/', '/questions/115-1-S3-Q45/', '/questions/M-L23303-001/', '/quiz/', '/wrong-book/'];
   const links = new Set();
   for (const url of urls) {
-    const response = await page.goto(base + url); assert.equal(response.status(), 200, url); report.pages++;
+    const response = await gotoSettled(page, base + url); assert.equal(response.status(), 200, url); report.pages++;
     assert.equal(await page.locator('h1').count(), 1, `${url} 應只有一個頁面標題`);
     assert.equal(await page.locator('main').evaluate(hasUnconvertedWikiLink), false, `${url} 未轉換概念連結`);
     for (const href of await page.locator('main a[href^="/"]').evaluateAll((anchors) => anchors.map((a) => a.getAttribute('href')))) links.add(href.split('#')[0]);
   }
   for (const href of links) { await localGet(page.request, href, base); report.links++; }
-  await page.goto(base + '/codes/L23303/');
+  await gotoSettled(page, base + '/codes/L23303/');
   assert.equal(await page.locator('main a[href^="/questions/"]').count(), 0, '學習路線不得出現考古題連結');
   assert.equal(await page.locator('.exam-frequency, .session-stats').count(), 0, '學習路線不得出現考試頻率');
-  await page.goto(base + '/practice/L23303/');
+  await gotoSettled(page, base + '/practice/L23303/');
   assert.ok(await page.locator('main a[href^="/questions/"]').count() > 0);
   assert.ok(await page.locator('.exam-frequency').count() > 0);
   assert.ok(await page.locator('.sidebar-content a[href="/practice/L23303/"]').count() > 0);
   assertSessionStats(await page.locator('.session-stats > span').allTextContents(), content.questions, route.code);
-  await page.goto(base + '/codes/L23303/');
+  await gotoSettled(page, base + '/codes/L23303/');
   report.stages = await page.locator('[data-stage]').count(); assert.equal(report.stages, route.stages.length, '章數依原始路線');
   const stageCatalog = JSON.parse(await page.locator('#route-progress-catalog').textContent());
   assert.deepEqual(stageCatalog.map((s) => ({ id: s.id, concepts: s.concepts, checks: s.checks })), route.stages.map((s) => ({ id: s.id, concepts: s.concepts.map((c) => c.id), checks: sourceStageChecks(content, s).map((check) => check.id) })));
@@ -358,7 +372,7 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
   report.conceptNavigationCases = [];
   report.conceptLinks = { pages: [], totalAutomatic: 0, maximumPerPage: 0 };
   for (const id of readingOrder) {
-    await page.goto(base + `/concepts/${id}/`);
+    await gotoSettled(page, base + `/concepts/${id}/`);
     const automatic = await page.locator('.concept-prose a[data-auto-concept-link]').count();
     report.conceptLinks.pages.push({ id, automatic });
     report.conceptLinks.totalAutomatic += automatic;
@@ -373,7 +387,7 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
     report.conceptNavigation++;
     await assertCheckOrder(page.locator('[data-self-check]'), id); report.selfCheckOrdering.conceptPages++;
   }
-  await page.goto(base + '/concepts/data-leakage/');
+  await gotoSettled(page, base + '/concepts/data-leakage/');
   const chapterSummaries = page.locator('.sidebar-content summary').filter({ hasText: /^(?:[一二三四五六七八九十百]+|\d+)、/ });
   report.sidebarChapters = await chapterSummaries.count(); assert.equal(report.sidebarChapters, route.stages.length, '只列目前單元的章節');
   for (let index = 0; index < report.sidebarChapters; index++) {
@@ -388,7 +402,7 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
   await page.locator('.concept-pagination').screenshot({ path: resolve(output, 'concept-prev-next.png'), animations: 'disabled' });
   assert.ok(await page.locator('[data-reading-toggle]').count());
   assert.match(await page.locator('.fine-print').innerText(), /教材對照/);
-  await page.goto(base + '/codes/L23303/');
+  await gotoSettled(page, base + '/codes/L23303/');
   for (const stage of stageCatalog) {
     const section = page.locator(`[data-stage="${stage.id}"]`);
     assert.equal(await section.locator('[data-stage-quiz]').count(), stage.checks.length ? 1 : 0, '無教材檢核題時不應出現測驗連結');
@@ -400,14 +414,14 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
   assert.ok(await page.locator('.route-goal').count() >= 6, '概念應顯示一句學習目標');
   assert.equal(await page.locator('.exam-frequency').count(), 0);
   assert.match(await page.locator(`[data-stage="${leakageStage.id}"] [data-stage-reading]`).innerText(), /已讀 0/);
-  await page.goto(base + '/concepts/data-leakage/');
+  await gotoSettled(page, base + '/concepts/data-leakage/');
   const readingButton = page.locator('[data-reading-toggle] button'); await readingButton.click();
-  assert.equal(await readingButton.getAttribute('aria-pressed'), 'true'); await page.reload(); assert.equal(await readingButton.getAttribute('aria-pressed'), 'true');
-  await page.goto(base + '/codes/L23303/');
+  assert.equal(await readingButton.getAttribute('aria-pressed'), 'true'); await page.reload(); await settlePage(page); assert.equal(await readingButton.getAttribute('aria-pressed'), 'true');
+  await gotoSettled(page, base + '/codes/L23303/');
   assert.match(await page.locator(`[data-stage="${leakageStage.id}"] [data-stage-reading]`).innerText(), /已讀 1/);
   report.readingProgress = true; await screenshot(page, 'route-desktop.png');
   await stageScreenshot(page, 'route-stage-desktop.png');
-  await page.goto(base + '/concepts/data-leakage/');
+  await gotoSettled(page, base + '/concepts/data-leakage/');
   assert.ok(await page.locator('.relation-table tbody tr').count() >= 2);
   if (await page.locator('.study-diagram svg').count()) {
     assert.equal(await page.locator('.study-diagram foreignObject').count(), 0, '流程圖標籤不應受正文段落樣式影響');
@@ -443,7 +457,7 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
     } finally { await svgPage.close(); }
   }
   await screenshot(page, '02-data-leakage.png');
-  await page.goto(base + '/questions/115-1-S3-Q44/');
+  await gotoSettled(page, base + '/questions/115-1-S3-Q44/');
   for (const theme of ['light', 'dark']) {
     const result = await codeContrast(page, theme); report.visuals.codeContrast[theme] = result;
     assert.equal(await page.locator('html').getAttribute('data-theme'), theme);
@@ -460,28 +474,28 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
   assert.notEqual(optionColors[0].border, optionColors[1].border, '錯誤選項與正解的邊框必須不同');
   report.visuals.wrongAndCorrectDistinct = true;
   await screenshot(page, '03-question-answered.png');
-  await page.goto(base + '/wrong-book/'); await page.locator('.wrong-item[data-qid="115-1-S3-Q44"]').waitFor(); report.wrongBook = true;
+  await gotoSettled(page, base + '/wrong-book/'); await page.locator('.wrong-item[data-qid="115-1-S3-Q44"]').waitFor(); report.wrongBook = true;
   const downloadEvent = page.waitForEvent('download'); await page.getByRole('button', { name: '匯出紀錄' }).click(); const download = await downloadEvent;
   const backup = resolve(output, 'attempts-backup.json'); await download.saveAs(backup);
   const payload = JSON.parse(await readFile(backup, 'utf8')); assert.equal(payload.version, 1); assert.equal(payload.attempts.length, 1); assert.equal(payload.readings.length, 1);
-  await page.evaluate(() => localStorage.clear()); await page.reload(); assert.equal(await page.locator('.wrong-item').count(), 0);
+  await page.evaluate(() => localStorage.clear()); await page.reload(); await settlePage(page); assert.equal(await page.locator('.wrong-item').count(), 0);
   await page.locator('#import-attempts').setInputFiles(backup); await page.getByRole('status').filter({ hasText: '新增 2 筆' }).waitFor(); assert.equal(await page.locator('.wrong-item').count(), 1);
   await page.locator('#import-attempts').setInputFiles(backup); await page.getByRole('status').filter({ hasText: '略過重複 2 筆' }).waitFor(); assert.equal(await page.locator('.wrong-item').count(), 1); report.exportImport = true;
   await screenshot(page, '04-wrong-book.png');
-  await page.goto(base + '/codes/L23303/'); assert.match(await page.locator(`[data-stage="${leakageStage.id}"] [data-stage-reading]`).innerText(), /已讀 1/); report.readingBackup = true;
-  await page.goto(base + '/questions/115-1-S3-Q44/'); await page.locator('input[value="B"]').check(); await page.getByRole('button', { name: '確認作答' }).click(); await page.locator('[data-explanation]:visible').waitFor();
-  await page.goto(base + '/wrong-book/'); assert.equal(await page.locator('.wrong-item').count(), 0);
-  await page.goto(base + '/questions/114-2-S3-Q34/'); assert.equal(await page.locator('.dispute').isVisible(), false); await page.locator('input[value="D"]').check(); await page.getByRole('button', { name: '確認作答' }).click(); await page.locator('.dispute:visible').waitFor(); assert.match(await page.locator('.dispute').innerText(), /官方答案 D/);
-  await page.goto(base + '/quiz/'); const cards = await page.locator('[data-question]').count();
+  await gotoSettled(page, base + '/codes/L23303/'); assert.match(await page.locator(`[data-stage="${leakageStage.id}"] [data-stage-reading]`).innerText(), /已讀 1/); report.readingBackup = true;
+  await gotoSettled(page, base + '/questions/115-1-S3-Q44/'); await page.locator('input[value="B"]').check(); await page.getByRole('button', { name: '確認作答' }).click(); await page.locator('[data-explanation]:visible').waitFor();
+  await gotoSettled(page, base + '/wrong-book/'); assert.equal(await page.locator('.wrong-item').count(), 0);
+  await gotoSettled(page, base + '/questions/114-2-S3-Q34/'); assert.equal(await page.locator('.dispute').isVisible(), false); await page.locator('input[value="D"]').check(); await page.getByRole('button', { name: '確認作答' }).click(); await page.locator('.dispute:visible').waitFor(); assert.match(await page.locator('.dispute').innerText(), /官方答案 D/);
+  await gotoSettled(page, base + '/quiz/'); const cards = await page.locator('[data-question]').count();
   for (let index = 0; index < cards; index++) {
     const card = page.locator('[data-question]:visible'); const answer = await card.getAttribute('data-answer'); await card.locator(`input[value="${answer}"]`).check(); await card.getByRole('button', { name: '確認作答' }).click(); await card.locator('[data-explanation]:visible').waitFor(); await page.locator('#next-question').click();
   }
   await page.locator('#quiz-summary:visible').waitFor(); assert.match(await page.locator('#final-score').innerText(), new RegExp(`${cards} / ${cards}.*100 分`)); report.quiz = true;
-  await page.goto(base + '/codes/L23303/');
+  await gotoSettled(page, base + '/codes/L23303/');
   for (const readyStage of stageCatalog.filter((stage) => stage.checks.length)) {
-    await page.goto(base + '/codes/L23303/');
+    await gotoSettled(page, base + '/codes/L23303/');
     const href = await page.locator(`[data-stage="${readyStage.id}"] [data-stage-quiz]`).getAttribute('href'); assert.match(href, /^\/self-check\//);
-    await page.goto(base + href);
+    await gotoSettled(page, base + href);
     const checks = page.locator('[data-check-stage]:visible [data-self-check]');
     assert.equal(await checks.count(), Math.min(5, readyStage.checks.length));
     for (const id of await checks.evaluateAll((cards) => cards.map((card) => card.dataset.checkId))) assert.ok(readyStage.checks.includes(id));
@@ -489,10 +503,10 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
     assert.equal(await page.locator('[data-question]').count(), 0);
   }
   report.stageQuiz = true;
-  await page.goto(base + '/practice/L23303/');
+  await gotoSettled(page, base + '/practice/L23303/');
   assert.match(await page.locator(`[data-practice-stage="${leakageStage.id}"] [data-practice-progress]`).innerText(), /已做 [1-9]\d*.*答對 [1-9]\d* 題/);
-  await page.goto(base + '/self-check/?code=L23303&stage=missing-stage'); assert.equal(await page.locator('#check-empty').isVisible(), true);
-  await page.goto(base + '/concepts/roc-auc/');
+  await gotoSettled(page, base + '/self-check/?code=L23303&stage=missing-stage'); assert.equal(await page.locator('#check-empty').isVisible(), true);
+  await gotoSettled(page, base + '/concepts/roc-auc/');
   assert.equal(await page.locator('.concept-prose a').filter({ hasText: /^recall$/ }).count(), 0, '手動 [[recall]] 必須顯示概念標題');
   const definitionLinks = await page.locator('.concept-prose h2').filter({ hasText: /^定義與公式$/ }).evaluate((heading) => {
     const links = [];
@@ -507,7 +521,7 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
   report.presentationF2 = { asides: 0, tables: [], ticks: {}, contrast: {} };
   const f2 = report.presentationF2;
   for (const [size, width, height] of [['desktop', 1440, 1050], ['mobile', 390, 844]]) {
-    await page.setViewportSize({ width, height }); await page.goto(base + '/concepts/roc-auc/');
+    await page.setViewportSize({ width, height }); await gotoSettled(page, base + '/concepts/roc-auc/');
     const boxes = page.locator('.concept-prose .starlight-aside');
     f2.asides = await boxes.count(); assert.ok(f2.asides >= 1, 'ROC 至少有一個真正的提示框');
     assert.equal(await page.locator('.concept-prose').innerText().then((text) => /:::(tip|note|caution)/.test(text)), false);
@@ -552,7 +566,7 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
       await page.locator('.starlight-aside--caution').first().screenshot({ path: resolve(textbookShots, `f2-roc-aside-${size}-${theme}.png`), animations: 'disabled' });
     }
     await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; });
-    await page.goto(base + '/dev/figures/');
+    await gotoSettled(page, base + '/dev/figures/');
     for (const kind of ['learning-curve', 'residual']) {
       const figure = page.locator(`[data-figure="${kind}"]`);
       const xTicks = await figure.locator('.fig-tick-x').allTextContents(), yTicks = await figure.locator('.fig-tick-y').allTextContents();
@@ -567,7 +581,7 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
   }
   await page.setViewportSize({ width: 1440, height: 1050 });
   await verifySupplements();
-  const fixtureResponse = await page.goto(base + '/test-fixtures/textbook/');
+  const fixtureResponse = await gotoSettled(page, base + '/test-fixtures/textbook/');
   if (process.env.TEXTBOOK_TEST_FIXTURES === '1') assert.equal(fixtureResponse.status(), 200, '驗證建置必須包含假教材頁');
   if (fixtureResponse.status() === 200) {
     assert.equal(await page.locator('.concept-summary').count(), 1);
@@ -593,7 +607,7 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
     await screenshot(page, 's2-self-check-mobile.png');
     await page.screenshot({ path: resolve(textbookShots, 's2-self-check-mobile.png'), fullPage: true, animations: 'disabled' });
-    await page.goto(base + '/self-check/?code=L23303&stage=fixture-stage');
+    await gotoSettled(page, base + '/self-check/?code=L23303&stage=fixture-stage');
     const stageChecks = page.locator('[data-check-stage]:visible [data-self-check]');
     assert.equal(await stageChecks.count(), 3, '階段應只抽所屬概念檢核題');
     await assertCheckOrder(stageChecks, '假教材階段小測驗');
@@ -601,12 +615,12 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
     report.selfCheckOrdering.fixtureStage = true;
     assert.equal(await page.locator('[data-question]').count(), 0);
   } else {
-    await page.goto(base + '/concepts/roc-auc/');
+    await gotoSettled(page, base + '/concepts/roc-auc/');
     const realCheck = page.locator('[data-check-type="choice"]').first();
     if (await realCheck.count()) { assert.equal(await realCheck.locator('[data-check-feedback]').isVisible(), false); await realCheck.locator('input').first().check(); assert.equal(await realCheck.locator('[data-check-feedback]').isVisible(), true); report.selfCheck = true; }
   }
   for (const [label, url] of [['concept', '/concepts/roc-auc/'], ['route', '/codes/L23303/'], ['practice', '/practice/L23303/']]) {
-    await page.setViewportSize({ width: 1440, height: 1050 }); await page.goto(base + url);
+    await page.setViewportSize({ width: 1440, height: 1050 }); await gotoSettled(page, base + url);
     await screenshot(page, `s2-${label}-desktop.png`);
     await page.screenshot({ path: resolve(textbookShots, `s2-${label}-desktop.png`), fullPage: true, animations: 'disabled' });
     await page.setViewportSize({ width: 375, height: 812 });
@@ -615,25 +629,25 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
     await page.screenshot({ path: resolve(textbookShots, `s2-${label}-mobile.png`), fullPage: true, animations: 'disabled' });
   }
   await page.setViewportSize({ width: 1440, height: 1050 });
-  await page.goto(base); await page.locator('site-search button[data-open-modal]').click();
+  await gotoSettled(page, base); await page.locator('site-search button[data-open-modal]').click();
   const search = page.locator('.pagefind-ui__search-input'); await search.fill('資料洩漏');
   const result = page.locator('.pagefind-ui__result-link').first(); await result.waitFor(); report.searchFirst = await result.getAttribute('href'); assert.match(report.searchFirst, /\/concepts\/data-leakage\//);
   await page.keyboard.press('Escape');
   const mobile = await context.newPage();
   await mobile.setViewportSize({ width: 390, height: 844 });
   for (const url of ['/', '/codes/L23303/', '/concepts/data-leakage/', '/questions/115-1-S3-Q44/', '/wrong-book/']) {
-    await mobile.goto(base + url); assert.equal(await mobile.evaluate(() => window.innerWidth), 390); const overflow = await mobile.evaluate(() => document.documentElement.scrollWidth > window.innerWidth); assert.equal(overflow, false, `${url} 手機版水平溢出`); report.mobile.push(url);
+    await gotoSettled(mobile, base + url); assert.equal(await mobile.evaluate(() => window.innerWidth), 390); const overflow = await mobile.evaluate(() => document.documentElement.scrollWidth > window.innerWidth); assert.equal(overflow, false, `${url} 手機版水平溢出`); report.mobile.push(url);
   }
-  await mobile.goto(base + '/codes/L23303/'); await screenshot(mobile, 'route-mobile.png');
+  await gotoSettled(mobile, base + '/codes/L23303/'); await screenshot(mobile, 'route-mobile.png');
   await stageScreenshot(mobile, 'route-stage-mobile.png');
-  await mobile.goto(base);
+  await gotoSettled(mobile, base);
   const searchBox = await mobile.locator('site-search button[data-open-modal]').boundingBox(); const menuBox = await mobile.locator('.sl-menu-button').boundingBox();
   assert.ok(searchBox.x + searchBox.width <= menuBox.x, '手機搜尋與選單按鈕不應重疊');
   await mobile.locator('.sl-menu-button').click(); await mobile.locator('#starlight__sidebar:popover-open').waitFor();
   await mobile.locator('.sl-menu-button').click();
   await screenshot(mobile, '05-home-mobile.png');
   assert.deepEqual(errors, []); assert.deepEqual(external, []);
-  assert.deepEqual(assets, []); await finishBuildCheck(); report.buildResponses = [finishBuildCheck.evidence()];
+  assert.deepEqual(assets, []);
   assert.deepEqual(errors, []); assert.deepEqual(external, []); assert.deepEqual(assets, []); report.completed = true;
   await writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)); console.log(JSON.stringify(report, null, 2));
   }

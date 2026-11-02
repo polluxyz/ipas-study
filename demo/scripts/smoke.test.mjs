@@ -1,6 +1,6 @@
 /** 離線驗證巡檢工具的文字排除區、主責導覽與錯誤收尾。 */
 import { describe, expect, it } from 'vitest';
-import { assertNavigation, assertSessionStats, expectedNavigation, expectedSessionStats, hasUnconvertedWikiLink, runSmokeWithCleanup } from './smoke.mjs';
+import { assertNavigation, assertSessionStats, expectedNavigation, expectedSessionStats, finishSmokePages, hasUnconvertedWikiLink, runSmokeWithCleanup } from './smoke.mjs';
 import { loadContent } from './rollout-smoke.mjs';
 
 // 只模擬巡檢需要的 DOM API；不啟動瀏覽器或修改正式資料。
@@ -107,6 +107,22 @@ describe('主責閱讀路線', () => {
 });
 
 describe('收尾與證據', () => {
+  it('所有頁面等待完成後才封口監測', async () => {
+    const calls = [];
+    await finishSmokePages(['桌面', '手機'], async () => { calls.push('封口'); }, async (page) => { calls.push(page); });
+    expect(calls).toEqual(['桌面', '手機', '封口']);
+  });
+  it('頁面等待與監測封口失敗都要保留，且仍等待其他頁面', async () => {
+    const first = new Error('頁面等待失敗'), last = new Error('封口失敗'), calls = [];
+    let caught;
+    try {
+      await finishSmokePages(['桌面', '手機'], async () => { calls.push('封口'); throw last; }, async (page) => {
+        calls.push(page); if (page === '桌面') throw first;
+      });
+    } catch (error) { caught = error; }
+    expect(calls).toEqual(['桌面', '手機', '封口']);
+    expect(caught).toBeInstanceOf(AggregateError); expect(caught.errors).toEqual([first, last]);
+  });
   async function exercise(initialError, cleanupError) {
     const report = {}; let saved, closed = false, screenshots = 0, caught;
     try {
