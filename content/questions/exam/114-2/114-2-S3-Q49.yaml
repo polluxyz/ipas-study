@@ -1,0 +1,112 @@
+id: 114-2-S3-Q49
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 49
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 18
+type: 程式
+codes: [L23102, L23203]
+concepts: [mlp, keras, activation-functions]
+stem: |
+  使用鐵達尼號(Titanic)資料集進行多層感知機(Multilayer Perceptron, MLP)分類預測分析，其中 survived 為反應變數(1 表示存活，0 表示死亡)。附圖程式碼展示資料載入與處理，請根據此資料回答第 48~50 題。
+
+  ```python
+  import numpy as np
+  import pandas as pd
+  from keras import Sequential
+  from keras.layers import Input, Dense
+
+  np.random.seed(123)
+  df_train = pd.read_csv("titanic_train.csv")
+  df_test = pd.read_csv("titanic_test.csv")
+  ```
+
+  下圖顯示資料集的前 5 筆資料。
+
+  ```python
+  df_train.head()
+  ```
+
+  | | pclass | sex | age | sibsp | parch | fare | embarked_C | embarked_Q | embarked_S | survived |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | 0 | 1 | 1 | 29.0000 | 0 | 0 | 211.3375 | False | False | True | 1 |
+  | 1 | 1 | 1 | 0.9167 | 1 | 2 | 151.5500 | False | False | True | 1 |
+  | 2 | 1 | 1 | 2.0000 | 1 | 2 | 151.5500 | False | False | True | 0 |
+  | 3 | 1 | 0 | 30.0000 | 1 | 2 | 151.5500 | False | False | True | 0 |
+  | 4 | 1 | 1 | 48.0000 | 0 | 0 | 26.5500 | False | False | True | 1 |
+
+  ```python
+  df_test.head()
+  ```
+
+  | | pclass | sex | age | sibsp | parch | fare | embarked_C | embarked_Q | embarked_S | survived |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | 0 | 1 | 1 | 25.000000 | 1 | 2 | 151.5500 | False | False | True | 0 |
+  | 1 | 1 | 1 | 18.000000 | 1 | 0 | 227.5250 | True | False | False | 1 |
+  | 2 | 1 | 0 | 29.881135 | 0 | 0 | 25.9250 | False | False | True | 0 |
+  | 3 | 1 | 1 | 32.000000 | 0 | 0 | 76.2917 | True | False | False | 1 |
+  | 4 | 1 | 1 | 47.000000 | 1 | 1 | 52.5542 | False | False | True | 1 |
+
+  ```python
+  dataset_train = df_train.values.astype('float32')
+  dataset_test = df_test.values.astype('float32')
+
+  X_train = dataset_train[:, 0:9]
+  y_train = dataset_train[:, 9]
+  X_test = dataset_test[:, 0:9]
+  y_test = dataset_test[:, 9]
+  ```
+
+  參考下圖執行結果，下列何者正確？
+
+  ```text
+  Model: "sequential"
+  ```
+
+  | Layer (type) | Output Shape | Param # |
+  |---|---|---|
+  | dense (Dense) | (None, 10) | 空格1 |
+  | dense_1 (Dense) | (None, 10) | 空格2 |
+  | dense_2 (Dense) | (None, 1) | 11 |
+code: |
+  model = Sequential()
+  model.add(Input(shape=(X_train.shape[1],)))
+  model.add(Dense(10, activation="relu"))
+  model.add(Dense(10, activation="relu"))
+  model.add(Dense(1, activation="sigmoid"))
+  model.summary()
+  model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
+code_lang: python
+options:
+  A: |-
+    activation="relu" 其數學式為 $f(x)=\frac{1}{1+e^{-x}}$
+  B: |-
+    空格 1 值為 110，空格 2 值為 100
+  C: |-
+    空格 1 值為 100，空格 2 值為 110
+  D: |-
+    activation="sigmoid" 一般用於多類別分類預測模型
+answer: C
+explanation:
+  summary: 答案：C。9 維輸入接 10 個單元需 100 個參數，接著的 10 到 10 層需 110 個參數。
+  correct: >-
+    `dataset_train[:, 0:9]` 取得第 0～8 欄，所以模型輸入有 9 個特徵；第 9 欄 survived 是標籤，不應另算成輸入。 Dense 預設使用偏差，參數數目是輸入維度×輸出單元數 + 輸出單元數：第一層為 9×10+10=100，第二層為 10×10+10=110。 最後 10 到 1 層則有 10×1+1=11 個，和摘要一致；三層合計 221 個。 `Input` 只指定形狀，ReLU、Sigmoid 激活也不額外增加這些 Dense 層的可訓練參數，參見 [Dense 官方文件](https://keras.io/api/layers/core_layers/dense/)。
+  wrong:
+    A: >-
+      題示公式 1/(1+e^(-x)) 是 Sigmoid；預設 ReLU 是 max(0,x)，負輸入變為 0，正輸入保留。
+    B: >-
+      把兩層的數字顛倒了；第一層只有 9 個輸入，第二層才接收前一層的 10 個輸出。
+    D: >-
+      本題單一 Sigmoid 輸出搭配 binary_crossentropy，用於存活／死亡的二元分類；互斥多類別通常用多個 Softmax 輸出，雖然多標籤任務也可逐標籤用 Sigmoid，但那不是本題設定。
+  rule: Dense 的參數量等於輸入維度乘輸出單元數再加偏差數，計算前先排除標籤欄並沿資料流確認每層維度。
+guide_refs: [guide-3:3-10, guide-3:4-57, guide-3:4-65]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 18
+    by: EX-E4-Codex
+  blind_answer: C
+  dispute: null

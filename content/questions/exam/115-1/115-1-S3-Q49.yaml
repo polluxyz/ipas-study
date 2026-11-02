@@ -35,9 +35,9 @@ explanation:
 guide_refs: [guide-3:4-71, guide-3:5-34]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 17
     by: EX-E8
-  blind_answer: null
+  blind_answer: C
   dispute: null

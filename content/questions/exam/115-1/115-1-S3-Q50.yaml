@@ -43,9 +43,9 @@ explanation:
 guide_refs: [guide-3:3-27]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 18
     by: EX-E8
-  blind_answer: null
+  blind_answer: B
   dispute: null

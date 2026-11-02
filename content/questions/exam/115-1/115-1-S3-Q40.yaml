@@ -38,9 +38,9 @@ explanation:
 guide_refs: [guide-3:4-62, guide-3:4-65, guide-3:5-8]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 11
     by: EX-E8
-  blind_answer: null
+  blind_answer: B
   dispute: null
