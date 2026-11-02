@@ -32,6 +32,56 @@ const searchCases = [
   ['Statistical Parity', 'statistical-parity'], ['NIST AI RMF', 'nist-ai-rmf'],
 ];
 
+/** Pagefind 1.5.2 的完成訊息與有序結果列；前三列各自載入後才能讀取，子結果不算另一頁。 */
+export function searchSnapshot(query) {
+  const input = document.querySelector('.pagefind-ui__search-input');
+  const message = document.querySelector('.pagefind-ui__message')?.textContent?.trim();
+  if (input?.value !== query || !message) return false;
+  const zero = message === `No results for ${query}`;
+  const match = message.match(/^(\d[\d,]*) results? for ([\s\S]*)$/);
+  if (!zero && (!match || match[2] !== query)) return false;
+  const count = zero ? 0 : Number(match[1].replaceAll(',', ''));
+  if (!Number.isSafeInteger(count) || (!zero && count < 1)) return false;
+  const list = document.querySelector('.pagefind-ui__results');
+  if (!list) return false;
+  const rows = Array.from(list.children).slice(0, Math.min(3, count));
+  if (rows.length !== Math.min(3, count)) return false;
+  const results = rows.map((row) => {
+    const link = row.querySelector('.pagefind-ui__result-inner > .pagefind-ui__result-title > a.pagefind-ui__result-link');
+    const excerpt = row.querySelector('.pagefind-ui__result-excerpt');
+    if (!link || !link.getAttribute('href')) return null;
+    return { href: link.getAttribute('href'), path: new URL(link.href).pathname, summary: excerpt?.textContent ?? '', html: excerpt?.innerHTML ?? '' };
+  });
+  if (results.some((result) => !result)) return false;
+  return { query, count, message, results };
+}
+
+/** 僅供受控全新導覽使用：標記本欄已由 QA 使用，並拒絕可見的既有查詢狀態。 */
+export function claimSearchInput(input) {
+  if (input !== document.querySelector('.pagefind-ui__search-input') || input.value !== '' ||
+      input.hasAttribute('data-qa-search-used') || document.querySelector('.pagefind-ui__results-area, .pagefind-ui__results') ||
+      document.querySelector('.pagefind-ui__message')?.textContent?.trim()) {
+    throw new Error('搜尋 QA 需要全新導覽且尚未查詢的乾淨輸入欄與畫面；請重新導覽');
+  }
+  input.setAttribute('data-qa-search-used', '');
+}
+
+/** 每次全新導覽只查一次；無法辨識外部先查詢再清空的歷史，未受控頁面須重新導覽。 */
+export async function waitForSearch(page, input, query) {
+  await input.evaluate(claimSearchInput);
+  await input.fill(query);
+  const handle = await page.waitForFunction(searchSnapshot, query);
+  try { return await handle.jsonValue(); } finally { await handle.dispose(); }
+}
+
+/** 同時核對真實第一筆與前 3 筆，避免相容收件偽造 first 或多塞第 4 筆。 */
+export function assertSearchTop3(first, top, target) {
+  assert.ok(Array.isArray(top) && top.length > 0 && top.length <= 3 && top.every((path) => typeof path === 'string' && path.startsWith('/')), '搜尋前三筆缺失或格式錯誤');
+  assert.equal(typeof first, 'string', '搜尋第一筆缺失');
+  assert.equal(new URL(first, 'http://127.0.0.1').pathname, top[0], '搜尋第一筆與前三筆不一致');
+  assert.ok(top.includes(target), `搜尋前三筆缺少 ${target}：${JSON.stringify(top)}`);
+}
+
 /** 遞迴排序後讀取，讓清單／雜湊能重現；不產生內容或 Astro 索引。 */
 async function filesAt(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -578,7 +628,7 @@ export function assertCompanion(name, envelope, binding, content) {
     for (const flag of ['wrongBook', 'exportImport', 'quiz', 'readingProgress', 'readingBackup', 'stageQuiz', 'selfCheck']) assert.equal(r[flag], true, flag);
     assert.equal(r.stages, content.codes.find((c) => c.code === 'L23303').stages.length);
     assert.equal(r.selfCheckOrdering?.conceptPages, content.codes.find((c) => c.code === 'L23303').concepts.length);
-    assert.equal(r.supplementS4b?.mobile, true); assert.ok(r.mobile?.length >= 5); assert.ok(r.links > 0); assert.ok(r.searchFirst?.includes('/concepts/data-leakage/'));
+    assert.equal(r.supplementS4b?.mobile, true); assert.ok(r.mobile?.length >= 5); assert.ok(r.links > 0); assertSearchTop3(r.searchFirst, r.searchTop3, '/concepts/data-leakage/');
   } else if (name === 'map') {
     for (const flag of ['mobilePan', 'bodyOptIn', 'bodyHiddenByDefault', 'canvasLayersAligned', 'nodeNavigation', 'readingMark', 'edgeHasNoTooltip', 'zoom']) assert.equal(r[flag], true, flag);
     const route = content.codes.find((c) => c.code === 'L23303'), nodes = route.stages.flatMap((s) => s.concepts).length;
@@ -1013,21 +1063,22 @@ export async function runRollout(options) {
     for (const cell of CELLS) for (const [query, id] of searchCases) await attempt('R9', `${query} ${cell.width}/${cell.theme}`, page, async () => {
       await navigate(page, '/', cell);
       const open = page.locator('site-search button[data-open-modal]'); const openTabs = await tabTo(page, open); await page.keyboard.press('Enter');
-      const input = page.locator('.pagefind-ui__search-input'); await input.waitFor({ state: 'visible' }); assert.equal(await input.evaluate((e) => document.activeElement === e), true, '開搜尋後須自然聚焦輸入欄'); await input.fill(query);
-      await page.locator('.pagefind-ui__result-link').first().waitFor();
-      const top = (await page.locator('.pagefind-ui__result-link').evaluateAll((links) => links.slice(0, 3).map((a) => new URL(a.href).pathname)));
-      const summaries = await page.locator('.pagefind-ui__result').evaluateAll((items) => items.slice(0, 3).map((item) => { const excerpt = item.querySelector('.pagefind-ui__result-excerpt'); return { summary: excerpt?.textContent ?? '', html: excerpt?.innerHTML ?? '' }; }));
+      const input = page.locator('.pagefind-ui__search-input'); await input.waitFor({ state: 'visible' }); assert.equal(await input.evaluate((e) => document.activeElement === e), true, '開搜尋後須自然聚焦輸入欄');
+      const snapshot = await waitForSearch(page, input, query);
+      const top = snapshot.results.map((item) => item.path);
+      const summaries = snapshot.results.map(({ summary, html }) => ({ summary, html }));
       assert.equal(summaries.length, top.length); assertSearchSummaries(summaries);
-      report.search.push({ query, ...cell, top, summaries, openTabs });
-      assert.ok(top.includes(`/concepts/${id}/`), JSON.stringify(top));
-      const link = page.locator('.pagefind-ui__result-link').first();
+      const readiness = { count: snapshot.count, message: snapshot.message };
+      report.search.push({ query, ...cell, top, summaries, openTabs, readiness });
+      assertSearchTop3(snapshot.results[0]?.href, top, `/concepts/${id}/`);
+      const link = page.locator('.pagefind-ui__results > .pagefind-ui__result').first().locator('.pagefind-ui__result-inner > .pagefind-ui__result-title > a.pagefind-ui__result-link');
       const resultTabs = await tabTo(page, link); await page.keyboard.press('Shift+Tab'); const returnTabs = await tabTo(page, link);
       await settlePage(page); await page.keyboard.press('Enter'); await page.waitForURL((url) => url.pathname === top[0]); await settlePage(page);
       await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, cell.theme);
       assert.equal(await page.locator('html').getAttribute('data-theme'), cell.theme);
       const reopenTabs = await tabTo(page, open); await page.keyboard.press('Enter'); await page.keyboard.press('Escape'); assert.equal(await page.locator('.pagefind-ui__search-input').isVisible(), false);
       assert.equal(await open.evaluate((e) => document.activeElement === e), true, 'Escape 後焦點須回搜尋按鈕');
-      return { query, top, summaries, keyboard: { openTabs, resultTabs, returnTabs, reopenTabs }, ...cell };
+      return { query, top, summaries, readiness, keyboard: { openTabs, resultTabs, returnTabs, reopenTabs }, ...cell };
     });
     await supplementRegression({ content, page, navigate, attempt });
     await storageRegression({ content, context, navigate, attempt, result, report, output });
