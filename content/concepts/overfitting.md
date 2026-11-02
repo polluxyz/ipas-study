@@ -10,6 +10,7 @@ codes:
   - L23303
   - L23304
 guide_refs:
+  - guide-1:4-31
   - guide-3:4-62
   - guide-3:4-63
   - guide-3:5-16
@@ -24,11 +25,11 @@ textbook: v2
 summary: 過擬合是模型記住訓練細節，讓未見資料的表現落後於訓練表現
 goals:
   - id: g1
-    text: 從雙曲線辨認過擬合線索，區別欠擬合與高變異
+    text: 從雙曲線辨認過擬合線索，區別欠擬合與高變異，並固定評估集換訓練子樣本比對
   - id: g2
     text: 依模型複雜度、資料量與訓練時間選擇改善方向
   - id: g3
-    text: 排除切分與評估模式的干擾，保留獨立評估
+    text: 排除切分與評估模式的干擾，保留獨立評估，並固定種子檢查洩漏、重複及Dropout模式
 formula_groups: []
 self_check:
   - id: c1
@@ -76,6 +77,36 @@ self_check:
       B: 對。時間切分與分布變化可能解釋驗證和部署落差。
       C: 錯。這會失去獨立評估，且不一定已有標籤。
       D: 錯。任意減半無法處理錯誤切分。
+  - id: c4
+    goal: g3
+    type: choice
+    prompt: 同一個含 Dropout 的模型在固定驗證集上重複預測卻不同。哪個檢查最合理？
+    options:
+      A: 只呼叫 no_grad，因為關閉梯度就會關閉隨機屏蔽
+      B: 每次改用新驗證樣本，因為新樣本可抵銷隨機遮罩
+      C: 只保留最低損失的那次，因為偶然改善就是泛化改善
+      D: 先呼叫 eval 再關閉梯度，確認同模式後再比較措施
+    answer: D
+    explain:
+      A: 錯。no_grad 控制梯度記錄，不會把模組切成評估模式。
+      B: 錯。更換驗證樣本會混入資料組成的差異。
+      C: 錯。挑最低一次會美化結果，沒有排除模式干擾。
+      D: 對。一般評估應關閉 Dropout，並固定資料及權重版本。
+  - id: c5
+    goal: g1
+    type: choice
+    prompt: 團隊想觀察模型對訓練資料變動的敏感度。哪種實驗最直接？
+    options:
+      A: 固定已訓練模型，換五份驗證集後直接稱為模型變異
+      B: 只比較一次訓練與驗證差距，再直接稱為跨樣本波動
+      C: 固定同一評估集，只換訓練子樣本重訓後比較各預測
+      D: 同時更換資料、容量及種子，再用最低分判斷穩定性
+    answer: C
+    explain:
+      A: 錯。這混入評估集的組成變化，沒有重新訓練。
+      B: 錯。單次落差與更換訓練資料後的波動是不同證據。
+      C: 對。把預測對齊相同輸入，才能觀察重訓的敏感度。
+      D: 錯。多項設定同時改變，無法隔離訓練資料的作用。
 ---
 
 ## 為什麼需要
@@ -130,6 +161,130 @@ self_check:
 
 第 5 到 10 輪訓練下降 0.30，驗證卻上升 0.11。先標為過擬合線索，再查切分、損失計算與資料品質，最後比較改善措施。
 
+### 固定評估集，更換訓練子樣本（補充）
+
+另用 60 筆合成製程校正資料：輸入均勻排列於 −1～1，目標是平滑訊號加標準差 0.18 的常態雜訊，NumPy 種子 31。輸入、目標與 MSE 均無單位。
+
+完整數值及索引在 `L23303-M4-B-dropout-evaluation.json`；這份資料與原影像曲線分開，不是原模型的改善成績。
+
+先固定 36 筆訓練池、12 筆驗證與 12 筆封存測試；列 ID 全部寫在 JSON。只從訓練池以種子 101～105 各抽 20 筆、不放回；相同 12 筆驗證輸入與標籤一直不變。
+
+各子樣本重訓線性及九次模型，用 Ridge 的 Cholesky 求解、alpha=0.000001，沒有隨機初值。家族內只改訓練子樣本；下圖是驗證分數波動，種子不是時間。
+
+![同12筆固定驗證集下，九次模型隨訓練子樣本的分數波動較大；連線只引導比較，並非訓練曲線](figure:l23303-m4-b-resampling-variation)
+
+| 訓練子樣本種子 | 線性驗證MSE | 九次驗證MSE |
+|---|---|---|
+| 101 | 0.060910 | 0.030271 |
+| 102 | 0.049045 | 0.030385 |
+| 103 | 0.049284 | 0.065659 |
+| 104 | 0.051476 | 0.030712 |
+| 105 | 0.047614 | 0.062775 |
+
+固定各驗證輸入，算五次預測的母體變異，再對 12 點平均：線性 0.001815，九次 0.018666。這只反映五份相依子樣本，不能外推未來，也非複雜模型必然高變異。
+
+相對地，只看種子 103 的九次模型，訓練 MSE 0.013136、驗證 0.065659，是**單次切分落差**。它可提示過擬合，卻不能單獨提供上面的跨訓練樣本波動，也不能證明落差只由容量造成。
+
+### 從已知訊號看模型怎麼學到雜訊（補充）
+
+這份合成資料明訂平滑訊號為 `s(x)=0.7x+0.3sin(3x)`，觀測值是訊號加上每筆獨立抽到的常態雜訊；這些隨機偏移不是希望模型學會的製程規律。
+
+沿用種子 103 的訓練 ID、九次特徵、alpha=0.000001 與 Cholesky 求解，重新擬合後看訓練點 ID 44（x=0.457627，計算用 JSON 完整精度）：
+
+| 同一訓練點的對照 | 數值 |
+|---|---|
+| 已知平滑訊號 s(x) | 0.614483 |
+| 帶雜訊觀測值 y | 0.540584 |
+| 原帶雜訊標籤訓練的預測 | 0.546015 |
+| 改用乾淨訊號標籤重訓的預測 | 0.614530 |
+
+此點的雜訊是 `y−s(x)=−0.073899`；原預測相對訊號偏移 −0.068467，方向跟著雜訊往下，因而更貼近這筆觀測值。
+
+乾淨對照保持相同 20 個 x、特徵、alpha 與求解法，只把訓練標籤換成由原生成式算出的 s(x)，沒有另抽資料。
+
+對這 20 點的已知訊號計算預測 MSE，原模型為 0.020303，乾淨對照約為 0.00000000370；這把此固定模型因訓練標籤雜訊而產生的偏移具體呈現出來。
+
+重算時從 JSON 的 `dataset` 取 x、y，依 `resampling.runs` 中種子 103 的 `train_ids` 選列。
+
+以 `PolynomialFeatures(9, include_bias=False)` 展開特徵。
+
+用 `Ridge(alpha=0.000001, solver="cholesky")` 分別擬合 y 與 s(x)，即可得到表中兩個預測。
+
+此例原訓練 MSE 0.013136 雖低於理論雜訊變異 0.0324，但有限樣本的實現值會變，不能只靠這個比較證明雜訊擬合。
+
+上面的已知訊號對照支持本合成例學到訓練雜訊的觀察，仍不能把所有單次訓練／驗證落差都歸因於雜訊，也不能取代前述跨子樣本波動實驗。
+
+### 固定切分比較改善方向（補充）
+
+沿用種子 103 的 20 筆訓練及 12 筆驗證，固定九次特徵與求解法，只改 Ridge 的 alpha。此例已用於教材診斷，並非事前登記的效能研究，也不是 Dropout 實驗。
+
+先在兩個候選中，以驗證結果選定 alpha=0.1、凍結兩組設定，再對原封存的 12 筆測試報分；測試不參與選擇。下表三種 MSE 都不含權重懲罰，避免把不同目標直接混比。
+
+| 設定 | 訓練MSE | 固定驗證MSE | 凍結後測試MSE |
+|---|---|---|---|
+| alpha=0.000001 | 0.013136 | 0.065659 | 0.040910 |
+| alpha=0.1 | 0.024171 | 0.037243 | 0.022711 |
+
+懲罰較強後，訓練誤差上升，此例驗證與獨立測試誤差下降。這只支持此合成資料的觀察，不能保證部署成績；看過測試後不能再依它改 alpha，否則要另留新的獨立評估資料。
+
+本例三集合 ID 交集為 0，沒有集合內或跨集合的重複輸入；前處理與模型只用訓練資料擬合，特徵不含事後資訊。這仍不能排除真實資料的語意近重複或群組洩漏，須依來源追查。
+
+## 程式
+
+### 重算固定切分的前後對照（補充）
+
+把 `IPAS_REPO_ROOT` 設為目前工作樹；程式從 JSON 讀固定列 ID，兩次只改 alpha。完整子樣本與逐筆預測也在同一 JSON，方便獨立重算。
+
+```python
+import json, os, numpy as np
+from pathlib import Path
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Ridge
+root = Path(os.environ["IPAS_REPO_ROOT"])
+d = json.loads((root / "content/examples/L23303-M4-B-dropout-evaluation.json").read_text(encoding="utf-8"))
+x = np.array([r["x"] for r in d["dataset"]])[:, None]
+y = np.array([r["y"] for r in d["dataset"]])
+for row in d["regularization_comparison"]["rows"]:
+    tr, va, te = (np.array(row[k])-1 for k in ("train_ids", "validation_ids", "test_ids"))
+    model = make_pipeline(PolynomialFeatures(9, include_bias=False), Ridge(alpha=row["alpha"], solver="cholesky"))
+    model.fit(x[tr], y[tr])
+    print(row["alpha"], f"{np.mean((model.predict(x[tr])-y[tr])**2):.6f}",
+          f"{np.mean((model.predict(x[va])-y[va])**2):.6f}", f"{np.mean((model.predict(x[te])-y[te])**2):.6f}")
+```
+```text
+1e-06 0.013136 0.065659 0.040910
+0.1 0.024171 0.037243 0.022711
+```
+
+### Dropout 的 train 與 eval 實測（補充）
+
+另外固定同一個 `Dropout(p=0.5)`、八個 1 的輸入與 CPU 種子 7；沒有重訓、沒有可學權重。訓練模式抽遮罩，保留的 1 會縮放為 2；評估模式則直接保留輸入。
+
+```python
+import torch
+torch.manual_seed(7)
+drop = torch.nn.Dropout(p=0.5)
+x = torch.ones(8)
+drop.train()
+a, b = drop(x), drop(x)
+print("train", a.tolist(), b.tolist())
+drop.eval()
+with torch.no_grad():
+    c, d = drop(x), drop(x)
+print("eval", c.tolist(), d.tolist())
+print("相同輸出", torch.equal(a, b), torch.equal(c, d))
+```
+```text
+train [2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0] [0.0, 0.0, 2.0, 2.0, 2.0, 2.0, 2.0, 0.0]
+eval [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0] [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+相同輸出 False True
+```
+
+遮罩輸出是在 PyTorch 2.15.0+cpu 實測；相同版本與 CPU 種子可重現，跨版本或裝置不保證完全相同。一次抽到相同遮罩也有可能，不能把兩次不同當定理。
+
+`eval()` 控制隨機層，`no_grad()` 控制梯度記錄。比較措施時，兩個模型都先切成 `eval()`，使用同一評估集與損失定義；續訓前切回 `train()`。
+
 ## 怎麼用、怎麼判讀
 
 | 主要風險 | 可採取的方向 | 代價或限制 |
@@ -146,12 +301,12 @@ self_check:
 
 ### 換個場景
 
-指引的適用條件是容量大、資料少或訓練太久，沒有在過擬合段落指定某個產業。先用這三項檢查，再依任務安排驗證。
+科目 3 指引列容量大、資料少、訓練太久；科目 1 的 4-31 舉製造瑕疵辨識失準。仍須區分記住訓練細節或產線改動造成分布／關係變化，不能只憑上線退步就認定過擬合。
 
 | 場景或條件 | 可能問題 | 處理方向 |
 |---|---|---|
 | 模型複雜且樣本不足 | 記住訓練細節 | 限制容量與補足多樣資料 |
-| 製造影像（補充） | 記住同一批零件背景 | 依零件分組驗證、檢查背景差異 |
+| 製造瑕疵辨識 | 記住原資料細節或產線改動 | 先核對樣本代表性與分布變化 |
 | 商店需求預測（補充） | 記住短期促銷事件 | 依時間驗證，檢查不同季節 |
 | 客服文字分類（補充） | 記住少量客戶的用語 | 以新客戶驗證，檢查樣本代表性 |
 
@@ -174,10 +329,16 @@ self_check:
 ### 參考來源
 
 - 學習指引科目 3，4-62～4-64、5-16、5-43～5-46（支持：定義、成因、對策與適用條件）。
+- 學習指引科目 1，4-31（支持：過擬合與製造瑕疵辨識情境；同頁另列概念漂移，兩者須分開查證）。
 - [Google Machine Learning Crash Course：Overfitting](https://developers.google.com/machine-learning/crash-course/overfitting/overfitting)（支持：曲線診斷與資料代表性）。
 - [scikit-learn：Validation curves](https://scikit-learn.org/stable/modules/learning_curve.html)（支持：高變異區別與選模限制）。
 - [scikit-learn：Nested versus non-nested cross-validation](https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html)（支持：常見誤解中的巢狀交叉驗證可評估完整選模流程）。
 - [Keras FAQ](https://keras.io/getting_started/faq/#why-is-my-training-loss-much-higher-than-my-testing-loss)（支持：評估模式與時點）。
+- [scikit-learn：Bias-variance decomposition](https://scikit-learn.org/stable/auto_examples/ensemble/plot_bias_variance.html)（支持：固定輸入比較重訓預測的變異；本頁資料及五份子樣本自行合成）。
+- [scikit-learn Ridge](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html)（支持：alpha 控制權重懲罰與確定性求解設定）。
+- [PyTorch Dropout](https://docs.pytorch.org/docs/2.9/generated/torch.nn.Dropout.html)（支持：訓練遮罩、保留值縮放與評估行為）。
+- [PyTorch Reproducibility](https://docs.pytorch.org/docs/2.9/notes/randomness.html)（支持：種子與跨版本可重現限制）。
+- [Dive into Deep Learning 5.5](https://d2l.ai/chapter_multilayer-perceptrons/generalization-deep.html)（支持：泛化診斷及單次觀察的限制）。
 
 ## 小結
 

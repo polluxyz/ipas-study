@@ -29,28 +29,36 @@ textbook: v2
 summary: 學習率調整依訓練進度或驗證表現改變參數更新的步長
 goals:
   - id: g1
-    text: 比較固定、階梯、指數、平臺調降與預熱，算出指定輪次步長
+    text: 比較固定、階梯、指數、餘弦、平臺調降與預熱，算出指定輪次步長
   - id: g2
     text: 依監控方向、門檻與容忍次數，判定平臺調降的觸發輪次
   - id: g3
-    text: 分辨調整前後的使用時序，並與早停、批次大小配合
+    text: 分辨調整前後的使用時序，並與早停、批次大小配合，以同一目標的三條軌跡比較步長
 formula_groups:
   - id: gradient-step
-    source: https://d2l.ai/chapter_optimization/lr-scheduler.html
+    source: https://d2l.ai/chapter_optimization/gd.html#multivariate-gradient-descent（式12.3.7直接列負梯度更新；修正來源後待非作者重簽）
     status: verified
-    checked_by: ctx_81ecdebd9e83
+    checked_by: task_e3bba14a08df
   - id: step-decay
-    source: https://docs.pytorch.org/docs/2.9/generated/torch.optim.lr_scheduler.StepLR.html（封閉式由每隔固定輪數乘衰減比例的規則展開）
+    source: https://github.com/pytorch/pytorch/blob/v2.9.1/torch/optim/lr_scheduler.py#L483-L487
     status: verified
-    checked_by: ctx_81ecdebd9e83
+    checked_by: task_e3bba14a08df
   - id: exponential-warmup
-    source: https://d2l.ai/chapter_optimization/lr-scheduler.html（指數式由固定比例遞推展開；線性預熱公式為本頁明訂）
-    status: verified
-    checked_by: ctx_81ecdebd9e83
+    source: https://d2l.ai/chapter_optimization/lr-scheduler.html（支持比例遞推及預熱概念；未直接列本頁從t+1起算、預熱後固定的完整式，來源待補）
+    status: pending
+    checked_by: null
   - id: plateau
-    source: https://docs.pytorch.org/docs/2.9/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html
+    source: https://github.com/pytorch/pytorch/blob/v2.9.1/torch/optim/lr_scheduler.py#L1238-L1288
     status: verified
-    checked_by: ctx_81ecdebd9e83
+    checked_by: task_e3bba14a08df
+  - id: cosine-schedule
+    source: https://docs.pytorch.org/docs/2.9/generated/torch.optim.lr_scheduler.CosineAnnealingLR.html
+    status: verified
+    checked_by: task_e3bba14a08df
+  - id: controlled-objective
+    source: https://d2l.ai/chapter_optimization/gd.html（支持負梯度更新；八筆平方目標及其遞推解為本頁自行設定與推導）
+    status: pending
+    checked_by: null
 self_check:
   - id: c1
     goal: g1
@@ -97,6 +105,21 @@ self_check:
       B: 錯。呼叫次數就是此設定的排程進度。
       C: 錯。種子不能抵銷更新時序改變。
       D: 對。每輪呼叫次數大增，需重新設定衰減間隔。
+  - id: c4
+    goal: g3
+    type: choice
+    prompt: 同一平方目標的參數在零點兩側交替，但每步損失下降。哪個說法合理？
+    options:
+      A: 已能確定梯度爆炸，必須把梯度裁剪後才可繼續
+      B: 參數震盪仍可能收斂，應一併看振幅及實際損失
+      C: 已能確定過擬合，必須立刻還原上一輪的權重
+      D: 損失下降表示步長必定最佳，不需再作其他對照
+    answer: B
+    explain:
+      A: 錯。跨零本身不能證明梯度失控，也不能直接決定裁剪。
+      B: 對。縮小的振幅與下降的損失支持收斂，不能只看符號。
+      C: 錯。此觀察未提供訓練與未見資料的泛化落差。
+      D: 錯。尚須比較相同預算、其他步長及任務驗證表現。
 ---
 
 ## 為什麼需要
@@ -151,6 +174,19 @@ $$
 
 $w$ 是預熱輪數，本例為 3；第 1 輪是 $0.1/3\approx0.033333$。這裡預熱後固定在 0.1；實務也能再接衰減。
 
+### 餘弦排程的輪次定義（補充）
+
+餘弦退火（Cosine Annealing）按預定進度平滑調整，不讀驗證損失。本例初始步長 0.1，`T_max=10`、`eta_min=0.0125`；$t$ 為已完成的輪末呼叫次數：
+
+$$
+\eta_t=\eta_{\min}+\frac{\eta_0-\eta_{\min}}{2}
+\left(1+\cos\frac{\pi t}{T_{\max}}\right)
+$$
+
+$\eta_0$ 為初始值，$\eta_{\min}$ 為下限，$T_{\max}$ 為下降區段長度。第 6 輪 $t=5$，餘弦為 0，得到 $0.0125+0.0875/2=0.05625$。
+
+本例只走 $0\le t\le10$ 的下降區段，不含重新啟動。第 10 輪用的是 $t=9$；輪末才到 $t=10$ 的下限。若超過設定長度繼續呼叫，要再查實作行為，不能假設會永遠固定下限。
+
 ### 平臺調降的判定（補充）
 
 損失最小化、絕對門檻模式下，只有本輪驗證損失小於「最佳參考值減 threshold」才算改善。未改善次數超過 patience 才調降。
@@ -183,6 +219,66 @@ PyTorch 另有 `eps=1e-8` 的最小調降幅度判斷，變化太小就不更新
 例如第 5 輪的 $t=4$：階梯為 $0.1\times0.5^{\lfloor4/2\rfloor}=0.025$，指數為 $0.1\times0.5^4=0.00625$。
 
 平臺策略共用影像曲線：第 5 輪最佳參考值為 0.58。設定絕對門檻 0.02、patience=1，則 0.575、0.570 都不算改善，第 7 輪結束才首次調降。
+
+### 同一輪軸看三種排程（補充）
+
+新增紀錄在 `L23303-M4-B-controlled-training.json` 的 `scheduler_api_only`，各設定沿用本頁定義：
+
+- Step：間隔 2 輪、比例 0.5。
+- Cosine：下降區段 10 次呼叫、下限 0.0125。
+- Plateau：絕對門檻 0.02、patience=1、比例 0.5、下限 0.0125、cooldown=0。
+
+![三條線只畫該epoch實際使用的學習率；Step與Cosine依輪次，Plateau依固定人工驗證序列](figure:l23303-m4-b-scheduler-timeline)
+
+呼叫時序如下，輪末調整留給下一輪：
+
+1. 讀本輪學習率，執行訓練的 `optimizer.step()`。
+2. 評估驗證資料。
+3. Step、Cosine 呼叫 `step()`；Plateau 呼叫 `step(validation_loss)`。
+
+下表每格為「本輪使用 → 輪末改完、下輪使用」，保留六位小數：
+
+| epoch | Step | Cosine | Plateau |
+|---|---|---|---|
+| 1 | 0.100000→0.100000 | 0.100000→0.097859 | 0.100000→0.100000 |
+| 2 | 0.100000→0.050000 | 0.097859→0.091644 | 0.100000→0.100000 |
+| 3 | 0.050000→0.050000 | 0.091644→0.081966 | 0.100000→0.100000 |
+| 4 | 0.050000→0.025000 | 0.081966→0.069769 | 0.100000→0.100000 |
+| 5 | 0.025000→0.025000 | 0.069769→0.056250 | 0.100000→0.100000 |
+
+接續相同實驗的後五輪：
+
+| epoch | Step | Cosine | Plateau |
+|---|---|---|---|
+| 6 | 0.025000→0.012500 | 0.056250→0.042731 | 0.100000→0.100000 |
+| 7 | 0.012500→0.012500 | 0.042731→0.030534 | 0.100000→0.050000 |
+| 8 | 0.012500→0.006250 | 0.030534→0.020856 | 0.050000→0.050000 |
+| 9 | 0.006250→0.006250 | 0.020856→0.014641 | 0.050000→0.025000 |
+| 10 | 0.006250→0.003125 | 0.014641→0.012500 | 0.025000→0.025000 |
+
+Plateau 第 7 輪驗證 0.570 未低於 0.56，輪末才降，第 8 輪才用 0.05。三策略只共用輪次及人工驗證輸入，不能把此圖當提升準確度的實測。
+
+### 同一目標的三條更新軌跡（補充）
+
+另固定八筆目標 −1、+1 交替，模型只預測常數 $w$。平均平方損失除以 2，得到自訂目標 $F(w)=(w^2+1)/2$，梯度為 $w$；參數與損失無單位。
+
+每組初值 2、全批八筆、CPU float64，做滿 12 步。固定列序、不洗牌，不加動量、正則化或隨機層；每步後用同八筆評估。
+
+$$
+w_{k+1}=w_k-\eta w_k=(1-\eta)w_k
+$$
+
+$k$ 是更新次數，$\eta$ 是固定學習率。以 1.8 為例：第一步 $2-1.8\times2=-1.6$，第二步得到 1.28；每步損失由新參數代回 $F$，不使用人工驗證值。
+
+![同一目標初值與12次全量更新；參數跨零不一定發散，損失縱軸使用對數尺度以容納大幅差異](figure:l23303-m4-b-learning-rate-control)
+
+| 學習率 | 前兩步參數 | 第12步參數 | 第12步損失 |
+|---|---|---|---|
+| 0.25 | 1.5→1.125 | 0.063353 | 0.502007 |
+| 1.8 | −1.6→1.28 | 0.137439 | 0.509445 |
+| 2.2 | −2.4→2.88 | 17.832201 | 159.493694 |
+
+此例 1.8 振幅縮小且損失下降，2.2 才發散；較大不一定較快，跨零震盪也不等於梯度爆炸。資料、初值、步數與評估固定，只改步長；不能把結果當所有模型的門檻或泛化比較。
 
 ## 程式
 
@@ -221,9 +317,64 @@ for epoch, loss in enumerate(values, 1):
 - 調降後計數歸零；第 8、9 輪再各一次未改善，所以第 9 輪末再降到 0.025。這段輸出尚未到達 `min_lr=0.0125` 下限。
 :::
 
+### 實際跑三種排程的呼叫順序（補充）
+
+接續上一段，沿用已匯入的 `torch` 與十輪驗證序列 `values`。以下以單一參數演練 API，驗證值仍是人工序列。
+
+`used` 必須在輪末呼叫前取得。輸出只節錄第 1、7、10 輪，完整十輪在新 JSON。
+
+```python
+for name in ("Step", "Cosine", "Plateau"):
+    p = torch.nn.Parameter(torch.tensor([1.0], dtype=torch.float64))
+    opt = torch.optim.SGD([p], lr=0.1)
+    if name == "Step":
+        sch = torch.optim.lr_scheduler.StepLR(opt, step_size=2, gamma=0.5)
+    elif name == "Cosine":
+        sch = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=10, eta_min=0.0125)
+    else:
+        sch = torch.optim.lr_scheduler.ReduceLROnPlateau(opt, mode="min", factor=0.5,
+            patience=1, threshold=0.02, threshold_mode="abs", min_lr=0.0125, cooldown=0)
+    for epoch, loss in enumerate(values, 1):
+        used = opt.param_groups[0]["lr"]
+        opt.zero_grad(); p.square().sum().backward(); opt.step()
+        if name == "Plateau":
+            sch.step(loss)
+        else:
+            sch.step()
+        if epoch in (1, 7, 10): print(name, epoch, f"{used:.6f}", f"{opt.param_groups[0]['lr']:.6f}")
+```
+```text
+Step 1 0.100000 0.100000
+Step 7 0.012500 0.012500
+Step 10 0.006250 0.003125
+Cosine 1 0.100000 0.097859
+Cosine 7 0.042731 0.030534
+Cosine 10 0.014641 0.012500
+Plateau 1 0.100000 0.100000
+Plateau 7 0.100000 0.050000
+Plateau 10 0.025000 0.025000
+```
+
+### 重算實際軌跡而非人工驗證值（補充）
+
+```python
+for rate in (0.25, 1.8, 2.2):
+    w = 2.0
+    for step in range(12):
+        w -= rate * w
+    print(rate, f"{w:.6f}", f"{(w*w+1)/2:.6f}")
+```
+```text
+0.25 0.063353 0.502007
+1.8 0.137439 0.509445
+2.2 17.832201 159.493694
+```
+
 ## 怎麼用、怎麼判讀
 
 固定值可當簡單基準；已知訓練階段可用階梯或指數；改善時間不確定時可監控驗證表現。預熱處理起步階段，不能代替後期策略。
+
+先訂總訓練預算、希望平滑降率時，可考慮餘弦。連續發散則先查步長、尺度與梯度；若只想在驗證停滯時降率，Plateau 更直接，但小驗證集的波動會影響觸發。
 
 學習率太大造成的震盪，與訓練持續變好、驗證持續變差的過擬合不同。要連同批次大小與學習曲線檢查，不能看一個點就斷定原因。
 
@@ -256,7 +407,7 @@ Plateau 與早停的 patience 各自計數；要留足調降後的觀察時間�
 
 排程的時間單位要明訂。若把原本每輪呼叫一次的 StepLR 改成每批呼叫，衰減會加快；調整批次大小也會改變每輪的更新次數。
 
-本頁沒有圖：目標是比較明確規則與觸發時點，六輪表格及程式輸出已能逐項驗算，不要求曲線形狀的視覺推理。
+日程圖用來對齊輪次與本輪使用值；參數／損失圖則用實際更新核對收斂。兩者分開，避免把人工驗證輸入誤當因果實驗。
 
 ### 參考來源
 
@@ -264,6 +415,8 @@ Plateau 與早停的 patience 各自計數；要留足調降後的觀察時間�
 - [PyTorch StepLR](https://docs.pytorch.org/docs/2.9/generated/torch.optim.lr_scheduler.StepLR.html)（支持：階梯公式與呼叫時序）。
 - [PyTorch ReduceLROnPlateau](https://docs.pytorch.org/docs/2.9/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html)（支持：門檻、計數、下限與程式）。
 - [Dive into Deep Learning 12.11](https://d2l.ai/chapter_optimization/lr-scheduler.html)（支持：更新直覺、衰減與預熱算例）。
+- [PyTorch CosineAnnealingLR](https://docs.pytorch.org/docs/2.9/generated/torch.optim.lr_scheduler.CosineAnnealingLR.html)（支持：餘弦公式、T_max 與輪末呼叫）。
+- [Dive into Deep Learning 12.3](https://d2l.ai/chapter_optimization/gd.html)（支持：負梯度法；本頁平方目標與遞推式為自行設定及推導）。
 
 ## 小結
 
