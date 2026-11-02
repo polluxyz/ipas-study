@@ -1,0 +1,36 @@
+id: 114-2-S3-Q04
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 4
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 1
+type: 觀念
+codes: [L23202]
+concepts: [dbscan]
+stem: |
+  在執行 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）群集分析時，若某資料點鄰域內的樣本數不足以形成核心點（Core Point），且該點未被任何核心點的鄰域所包含，也未與其他群集形成密度可達關係（Density Reachability），此資料點最終將被歸類為哪一種類型？
+options:
+  A: 鄰近點（Neighbor Point）
+  B: 雜訊點（Noise Point）
+  C: 邊界點（Border Point）
+  D: 潛在點（Potential Point）
+answer: B
+explanation:
+  summary: 答案 B：既非核心點、也無法歸入核心點群集的點，最後是雜訊點。
+  correct: DBSCAN 先以鄰域半徑與最低點數辨認核心點。非核心點若落在核心點鄰域內，仍可能成為邊界點；本題又排除核心點鄰域與密度可達關係，因此完成分群後應列為雜訊。不要把掃描時暫標的雜訊與最後分類混為一談。
+  wrong:
+    A: 鄰近只描述空間關係，不是 DBSCAN 與核心點、邊界點、雜訊點並列的標準最終類別。
+    C: 邊界點雖自身鄰域樣本不足，仍須位於某個核心點的鄰域中；題幹已排除這個條件。
+    D: 潛在點不是 DBSCAN 的標準點類型，不能用它取代雜訊點。
+  rule: DBSCAN 的非核心點須接上核心點群集才能成為邊界點，否則最終列為雜訊。
+guide_refs: [guide-3:4-43, guide-3:4-44]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E3-codex
+  blind_answer: B
+  dispute: null

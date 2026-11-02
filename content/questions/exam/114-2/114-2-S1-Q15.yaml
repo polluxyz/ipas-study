@@ -1,0 +1,36 @@
+id: 114-2-S1-Q15
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 15
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 4
+type: 情境
+codes: [L21302, L23303]
+concepts: [model-registry]
+stem: |
+  在企業導入的 MLOps（Machine Learning Operations）流程中，Model Registry 最常用於哪一個階段？
+options:
+  A: 用於設定運算資源與執行環境以確保訓練穩定；
+  B: 用於建立可重複使用的資料與特徵版本；
+  C: 用於集中管理模型版本、訓練紀錄與部署狀態；
+  D: 用於追蹤模型上線後的表現與漂移情況
+answer: C
+explanation:
+  summary: 答案 C；Model Registry 集中管理可追溯的模型版本及狀態。
+  correct: 登錄系統以模型版本為管理對象，保存或連結模型產物、來源訓練執行、評估資訊與發布狀態。C 的訓練紀錄可透過來源連結取得，不表示登錄系統必須獨自儲存所有實驗日誌；登錄的發布狀態也須與服務實際載入版本核對。指引介紹 MLflow 與版本控管，Registry 的具體職責另見 [MLflow 官方文件](https://mlflow.org/docs/latest/ml/model-registry/)。
+  wrong:
+    A: 設定 CPU、GPU、容器及執行環境屬於基礎設施或工作負載管理，不是模型登錄的主要工作。
+    B: 建立資料與特徵版本主要屬於資料版本系統或特徵平台；Registry 可記錄其參照，但核心管理對象仍是模型。
+    D: 上線效能與漂移由監控系統持續量測；Registry 保存模型版本與生命週期資訊，不會因此自動完成線上監測。
+  rule: 看 MLOps 元件管理的主要對象，將模型登錄、實驗追蹤、資料版本與線上監控分開判斷。
+guide_refs: [guide-1:5-19]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 4
+    by: EX-E1-Codex
+  blind_answer: C
+  dispute: null

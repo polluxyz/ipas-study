@@ -1,0 +1,36 @@
+id: 114-2-S3-Q09
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 9
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 2
+type: 觀念
+codes: [L23301]
+concepts: [feature-scaling]
+stem: |
+  在建構以距離為基礎的機器學習模型（如 KNN、SVM）時，下列哪一項資料前處理方式最為關鍵？
+options:
+  A: 進行特徵縮放（Feature Scaling），使各特徵變數具有相似的數值範圍
+  B: 將連續型特徵變數轉換為類別型變數
+  C: 以平均值或中位數進行缺失值補齊
+  D: 進行隨機抽樣以平衡資料筆數
+answer: A
+explanation:
+  summary: 答案 A：距離或核相似度會受到特徵尺度影響，應先考慮縮放。
+  correct: 例如金額以千元計、次數只在個位數時，未縮放的平方距離容易由金額主導。標準化或其他適當縮放可使各欄位的尺度較可比較，對 KNN 與常見 SVM 設定很重要。縮放所需的平均、標準差或範圍應只由訓練資料估計，避免洩漏驗證資訊。
+  wrong:
+    B: 將連續值分箱會改變表示並可能流失資訊，並不是距離式模型普遍必須採取的處理。
+    C: 有缺失值時確實要處理，但題目沒有給缺值問題；補值也無法自行消除欄位尺度差異。
+    D: 抽樣處理的是樣本組成或數量，不能解決數值較大的欄位主導距離的問題。
+  rule: 模型依賴距離或對尺度敏感時，先檢查特徵縮放，並只在訓練資料擬合縮放器。
+guide_refs: [guide-3:4-33, guide-3:5-10]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 2
+    by: EX-E3-codex
+  blind_answer: A
+  dispute: null

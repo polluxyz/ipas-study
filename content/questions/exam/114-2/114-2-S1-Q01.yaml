@@ -1,0 +1,36 @@
+id: 114-2-S1-Q01
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 1
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 1
+type: 情境
+codes: [L21101]
+concepts: [sentiment-analysis]
+stem: |
+  某電商企業希望利用自然語言處理（NLP）技術，分析顧客在社群平台與商品評論中的文字內容，以即時掌握顧客對產品的滿意度變化。若採用情感分析（Sentiment Analysis）模型，其主要目的為何？
+options:
+  A: 預測顧客使用的語言風格與語氣；
+  B: 判斷文本中所表達的情感傾向；
+  C: 將顧客留言自動翻譯成企業內部指定語言；
+  D: 產生顧客評論的自動化摘要內容
+answer: B
+explanation:
+  summary: 答案 B；情感分析辨識評論所表達的情緒或評價方向。
+  correct: 顧客說「品質很好」或「使用後很失望」，傳達的是不同的評價傾向。情感模型可將文字判為正向、負向或中性，再彙整不同時段的結果，協助追蹤滿意度。個別情緒標籤仍只是滿意度的觀察訊號，不能直接代表所有顧客。
+  wrong:
+    A: 語言風格或語氣描述表達方式，與判斷對產品的正負評價並非同一任務；禮貌的句子也可能表達不滿。
+    C: 將留言轉成另一種語言是機器翻譯，不是情感分類的主要輸出。
+    D: 摘要用來濃縮評論內容，未必會標出正向、負向或中性的情感。
+  rule: 先辨認任務要輸出情感標籤、翻譯文字還是摘要，再選對應的 NLP 方法。
+guide_refs: [guide-1:3-30]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E1-Codex
+  blind_answer: B
+  dispute: null

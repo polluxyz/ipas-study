@@ -1,0 +1,36 @@
+id: 114-2-S3-Q06
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 6
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 2
+type: 情境
+codes: [L23203]
+concepts: [convolution-layer, cnn-tensor-shapes]
+stem: |
+  某智慧城市團隊開發一套交通監控系統，用於即時辨識路口監視器影像中的車輛與行人。團隊比較後發現，卷積神經網路（Convolutional Neural Network, CNN）在訓練與推論效率上，明顯優於傳統的全連接神經網路（Fully Connected Neural Network, FCNN）。請問下列何者為主要原因？
+options:
+  A: CNN 能自動學習影像的旋轉與比例不變性
+  B: CNN 可直接跳過人工特徵提取步驟進行分類
+  C: CNN 透過區域感知（Local Receptive Field）與參數共享（Parameter Sharing）機制，降低模型參數量與運算複雜度
+  D: CNN 捨棄激勵函數（Activation Function），以加快運算速度
+answer: C
+explanation:
+  summary: 答案 C：局部連接與跨位置共享權重，是卷積節省參數的重要原因。
+  correct: 全連接層會為每個輸入與輸出連結配置權重；卷積只連接局部區域，且同一組卷積核權重可在不同位置重複使用，因此在常見影像架構中能減少參數與計算負擔。實際速度仍取決於影像大小、通道數、層數與硬體，並非所有 CNN 都必然更快。
+  wrong:
+    A: 一般卷積對平移具有結構上的規律，但不天然保證旋轉與尺度不變；這也不是相較全連接層省參數的直接原因。
+    B: 全連接神經網路也能從輸入學特徵；免去人工特徵設計不能充分解釋這裡的效率差異。
+    D: CNN 通常保留 ReLU 等非線性激活函數，不能以捨棄激活函數解釋其效率。
+  rule: 比較影像卷積與全連接的參數成本，先看局部連接和權重是否跨位置共享。
+guide_refs: [guide-3:4-68, guide-3:4-70]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 2
+    by: EX-E3-codex
+  blind_answer: C
+  dispute: null
