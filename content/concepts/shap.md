@@ -16,20 +16,20 @@ goals:
 formula_groups:
   - id: additive-output
     source: https://arxiv.org/html/1705.07874v2
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L23302-B
   - id: linear-attribution
     source: https://shap.readthedocs.io/en/latest/generated/shap.LinearExplainer.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L23302-B
   - id: sigmoid-scale
     source: https://scikit-learn.org/stable/modules/linear_model.html#binary-case
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L23302-B
   - id: global-absolute
     source: https://christophm.github.io/interpretable-ml-book/shap.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L23302-B
 self_check:
   - id: c1
     goal: g1
@@ -138,7 +138,9 @@ $z$是log-odds，$p$是違約機率，$\sigma$是Sigmoid。$z=1.8$得$p\approx0.
 
 ### 個案與整體使用同80筆（補充）
 
-授信個案是月收入40千元、負債比0.6、55歲；編碼規則見共用例子README。收入低於背景平均，所以即使收入係數為負，本個案的收入貢獻仍為正。
+授信個案是月收入40千元、負債比0.6、55歲；編碼規則見共用例子README。
+
+收入係數為負，且本個案收入低於背景平均；兩個負號相乘，所以收入貢獻為正，推高違約分數。
 
 | 欄位 | 個案編碼 | 係數 | 單筆貢獻 |
 |---|---|---|---|

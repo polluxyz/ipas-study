@@ -14,8 +14,8 @@ goals:
 formula_groups:
   - id: local-surrogate
     source: https://arxiv.org/abs/1602.04938
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L23302-B
 self_check:
   - id: c1
     goal: g1
@@ -38,13 +38,13 @@ self_check:
     prompt: 兩個種子各擾動120筆，個案原預測0.8581；替代模型在個案為0.8592、0.8596。可以先得出什麼結論？
     options:
       A: 兩個種子的中心差都小，足以證明整個輸入空間的預測準確率高
-      B: 兩個種子的中心差都小，足以證明兩組係數就是穩定的疾病因果
+      B: 兩個種子的中心差都小，足以證明兩組係數就是穩定的違約因果
       C: 兩個種子的中心差都小，足以證明任意鄰域寬度都會產生同樣解釋
       D: 兩個種子的中心差都小，仍需查獨立鄰域誤差、係數方向與波動
     answer: D
     explain:
       A: 單一位置接近不能證明全域模型準確率或忠實度。
-      B: 局部替代模型近似的是原模型，沒有建立疾病因果。
+      B: 局部替代模型近似的是原模型，沒有建立違約因果。
       C: 鄰域與取樣改變可能改變局部近似，中心相近不足以排除。
       D: 中心差是起點，還須檢查鄰域品質與多次取樣結果。
   - id: c3

@@ -71,6 +71,8 @@ guide_refs: [guide-1:4-10, guide-1:4-11, guide-1:4-38, guide-1:4-39, guide-3:5-1
 
 可解釋 AI（Explainable AI，XAI）協助理解模型如何使用輸入做判斷。指引把醫療、金融、招聘及公部門列為需要理解依據、審查偏誤與追究責任的場域。
 
+指引列出三個目的：增進信任、理解模型行為與潛在偏誤，以及支援合規審核。
+
 ## 直覺
 
 先把問題拆成三件事：使用者是否知道用了AI、是否理解這次決策、出了問題誰處理。公開「本服務使用AI」只完成第一件事。
@@ -81,6 +83,8 @@ guide_refs: [guide-1:4-10, guide-1:4-11, guide-1:4-38, guide-1:4-39, guide-3:5-1
 | 個案解釋 | 說明這次主要依據 | 被拒者、審核員 |
 | 可追責 | 明確責任人與修正職責 | 主管、稽核者 |
 
+透明度還包含說明運作邏輯、採用的資料、用途與可能影響；告知使用AI只是其中一部分。
+
 :::supplement[來源：Molnar〈Interpretability〉]
 可理解性要用受眾檢查：請申請人用自己的話重述主要理由，請審核員核對輸入有無錯誤。若只展示難懂的參數清單，即使資訊很多，也可能沒有回答對方的問題。
 :::
@@ -89,6 +93,8 @@ guide_refs: [guide-1:4-10, guide-1:4-11, guide-1:4-38, guide-1:4-39, guide-3:5-1
 
 內在可解釋模型的結構本身可供理解；事後解釋則在模型建立後，另提供簡化的觀察角度。模型越複雜，單靠閱讀全部參數通常越困難。
 
+指引以「高解釋性模型」描述線性模型與淺樹等較容易理解的結構，以「低解釋性模型」描述集成與深度模型等較難直接理解的結構。
+
 | 模型 | 可直接查看什麼 | 限制 |
 |---|---|---|
 | 線性／邏輯迴歸 | 係數與輸入的關係 | 仍需理解特徵意義 |
@@ -96,8 +102,8 @@ guide_refs: [guide-1:4-10, guide-1:4-11, guide-1:4-38, guide-1:4-39, guide-3:5-1
 | 森林／梯度提升樹 | 多棵樹及重要性摘要 | 難直觀看完共同決策 |
 | 深度模型 | 大量層與權重 | 通常需其他解釋工具 |
 
-:::supplement[來源：SHAP原始論文；LIME原始論文；scikit-learn Partial Dependence]
-特徵重要性表示模型依賴，不能證明因果。例如歷史資料中郵遞區號與還款風險相關，模型可能利用區號；這不能推出搬家就能改變人的還款能力。
+:::supplement[來源：SHAP官方文件〈Be careful when interpreting predictive models in search of causal insights〉]
+特徵重要性表示模型依賴，不能證明因果。以下是自編反例：歷史資料中郵遞區號與還款風險相關，模型可能利用區號；這不能推出搬家就能改變人的還款能力。
 :::
 
 ## 走一次流程
@@ -161,7 +167,8 @@ LIME通常要多次呼叫原模型，SHAP的成本則依演算法與模型而異
 - [Molnar：Interpretability](https://christophm.github.io/interpretable-ml-book/interpretability.html)：參考受眾與可理解性檢查的教學安排。
 - [SHAP原始論文](https://arxiv.org/html/1705.07874v2)：支持單筆加法歸因與方法範圍。
 - [LIME原始論文](https://arxiv.org/abs/1602.04938)：支持局部近似與解釋成本。
-- [scikit-learn Partial Dependence](https://scikit-learn.org/stable/modules/partial_dependence.html)：支持整體平均與非因果解讀界線。
+- [scikit-learn Partial Dependence](https://scikit-learn.org/stable/modules/partial_dependence.html)：支持整體平均與相關特徵的限制。
+- [SHAP官方文件：預測解釋與因果](https://shap.readthedocs.io/en/latest/example_notebooks/overviews/Be%20careful%20when%20interpreting%20predictive%20models%20in%20search%20of%20causal%20insights.html)：支持模型依賴不等於介入效果；區號反例為自編。
 
 ## 小結
 
