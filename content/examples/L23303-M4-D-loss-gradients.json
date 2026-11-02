@@ -1,0 +1,60 @@
+{
+  "source": "本站合成教學資料；逐筆沿用唯讀 L23303-regression.json 的實際與預測值，另加零點邊界案例。",
+  "unit": "箱",
+  "index": "sample_id 1–8；非時間軸",
+  "split": "直接評估固定預測，不訓練、不切分",
+  "seed": null,
+  "parameters": {
+    "reduction": "mean",
+    "n": 8,
+    "residual": "y_true-y_pred"
+  },
+  "samples": [
+    {
+      "sample_id": 1,
+      "y_true": 10,
+      "y_pred": 11
+    },
+    {
+      "sample_id": 2,
+      "y_true": 20,
+      "y_pred": 19
+    },
+    {
+      "sample_id": 3,
+      "y_true": 30,
+      "y_pred": 31
+    },
+    {
+      "sample_id": 4,
+      "y_true": 40,
+      "y_pred": 39
+    },
+    {
+      "sample_id": 5,
+      "y_true": 50,
+      "y_pred": 51
+    },
+    {
+      "sample_id": 6,
+      "y_true": 60,
+      "y_pred": 59
+    },
+    {
+      "sample_id": 7,
+      "y_true": 70,
+      "y_pred": 71
+    },
+    {
+      "sample_id": 8,
+      "y_true": 100,
+      "y_pred": 80
+    }
+  ],
+  "zero_boundary": {
+    "y_true": 10,
+    "y_pred": 10,
+    "n": 8,
+    "note": "獨立邊界示範，不加入前八筆的平均"
+  }
+}

@@ -27,14 +27,18 @@ goals:
   - id: g1
     text: 計算實際減預測的殘差，讀出圖上座標與低估方向
   - id: g2
-    text: 辨認離群點、漏斗形與曲線型態，提出下一步診斷
+    text: 辨認離群點、漏斗形與曲線型態，對照零線隨機與時間規律，提出下一步診斷
   - id: g3
-    text: 區分常態、變異齊一、時間依賴與共線性的檢查方式
+    text: 區分常態、變異齊一、時間依賴與共線性的檢查方式，讀殘差 ACF 並分清預測與推論影響
 formula_groups:
   - id: residual
     source: https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd44.htm
     status: verified
-    checked_by: ctx_0e5a928bd662
+    checked_by: task_438e98e2097f
+  - id: residual-acf
+    source: https://www.itl.nist.gov/div898/handbook/eda/section3/autocopl.htm
+    status: verified
+    checked_by: task_438e98e2097f
 self_check:
   - id: c1
     goal: g1
@@ -96,6 +100,14 @@ self_check:
       B: 單一總分無法保證殘差沒有規律。
       C: 中心彎曲提示關係可能不是目前形式能描述，需要進一步查證。
       D: 圖形是線索而非唯一病因，不能直接指定某欄資料有錯。
+  - id: c5
+    goal: g3
+    type: short
+    prompt: 48筆逐小時殘差的 ACF 在 lag 1、12 都明顯非零，但輸入負載不是常態。能直接決定 ARIMA 的 p、q 或宣稱線性迴歸不可用嗎？請分開說明假設、檢查與下一步。
+    key_points:
+      - 輸入特徵不必常態；誤差常態是條件於特徵的誤差分布，主要關係傳統小樣本推論與區間。
+      - 時間圖與 ACF 提示仍有時間結構；無自相關也不等於證明獨立或全部假設成立。
+      - p、q 或季節項只能形成候選設定，須搭配資料頻率、ACF與PACF、時間切分驗證及修改後殘差診斷，不由一張殘差ACF唯一決定。
 textbook: v2
 ---
 
@@ -167,6 +179,20 @@ R² 約 0.932，卻仍有 +20 箱的遠點。總分與殘差圖回答不同問�
 
 ![殘差在低負載和高負載偏正、中段偏負，中心形成 U 形，應檢查非線性關係。](figure:l23303-residual-analysis-load-curve)
 
+### 同尺度比較零隨機、非線性與時間規律（補充）
+
+新資料 `L23303-M4-D-residual-time.json` 合成三種電力情境，各48筆。殘差均為實際減預測，三圖縱軸同為 −6～+6 MW。
+
+![A在零線附近無明顯規律，B中心呈U形，C以小時為橫軸反覆連續同號；三圖殘差單位與縱軸範圍相同。](figure:l23303-m4-d-residual-structures)
+
+A、B橫軸為預測負載40～134 MW；A是固定種子的隨機散布，B兩端偏正、中段偏負，提示均值關係可能遺漏非線性。A看似無規律只能說尚未發現這種問題，不能證明全部假設成立。
+
+C橫軸是時間：2026年1月1日00時起，$t=0,1,\ldots,47$，每格一小時。合成殘差每12小時反覆起伏；連續低估再高估，提示遺漏時間資訊。
+
+三種情境都是固定預測加上合成殘差來建立實際值，沒有訓練或切分。生成器是 NumPy PCG64、seed=42；先抽A的常態擾動，再抽B、C的擾動，參數與取三位小數的規則記在JSON。
+
+這個種子用於清楚對照圖形，不是效能評估抽樣。A近似零中心、固定變異的白噪音實現；有限48筆仍會有偶然起伏，不能把任意一段平滑或一個遠點當成規律證明。
+
 ## 程式
 
 :::supplement[來源：scikit-learn PredictionErrorDisplay API；本站教學模擬資料]
@@ -224,16 +250,23 @@ print(f"最大絕對殘差的樣本: {np.argmax(np.abs(residual)) + 1}")
 
 常態性主要影響傳統線性模型的部分推論與預測區間做法；計算 MAE、MSE 或 R² 本身並不要求常態。殘差圖看起來隨機，也只能說尚未發現明顯問題。
 
-## 常見誤解
+### 假設、檢查與影響對照（補充）
 
-:::supplement[來源：NIST/SEMATECH e-Handbook 4.4.4.1～4.4.4.5；Hyndman、Athanasopoulos，第 5 章]
-- **「正殘差代表高估。」** 本頁用實際減預測，正值代表預測太小。
-- **「漏斗形代表誤差不獨立。」** 漏斗形首先指向變異不齊；獨立性要另查觀測順序。
-- **「一個 +20 的點就證明有漏斗形。」** 漏斗形是散布隨尺度改變的整體型態，需要多筆支持。
-- **「R² 很高，或殘差平均為零，就不必檢查。」** 平均與總分會隱藏彎曲和散布改變。
-:::
+以下針對傳統線性迴歸。誤差項 $\varepsilon$ 是母體模型中不可直接觀察的量，殘差 $e_i$ 是用已估計模型算出的差距；我們藉殘差檢查線索，不能把兩者完全等同。
 
-## 進階
+表中的OLS指普通最小平方法（Ordinary Least Squares）；推論是估計係數的不確定性或進行檢定，與算出一個點預測不同。
+
+| 假設／條件 | 怎麼檢查 | 對點預測的影響 | 對係數推論／區間的影響 |
+|---|---|---|---|
+| 條件平均的形式正確、誤差條件平均為零 | 看[同尺度圖](#同尺度比較零隨機非線性與時間規律補充)的B與各特徵對殘差圖 | 遺漏曲線可能造成特定區間持續偏差 | 形式錯誤會使係數解釋及檢定失去依據 |
+| 等變異：不同特徵下誤差變異相同 | 看[漏斗形](#再看一張電力負載的漏斗形補充)，並依區間比較散布 | 不必然讓OLS點預測有偏；效率與不同群誤差可能改變 | 傳統同變異標準誤、固定寬度區間可能錯估；考慮穩健標準誤或合適變異模型 |
+| 不同觀測的誤差獨立 | 保留順序看時間圖與[殘差ACF](#時間序列殘差與白噪音補充) | 可預測的時間結構未利用；隨機切分的驗證也可能樂觀 | 傳統獨立假設下的標準誤可能失真；需考慮時間依賴 |
+| 沒有完全共線性；高度共線性也要診斷 | 查設計矩陣秩、特徵相關與變異膨脹因子（VIF） | 完全共線使係數不唯一；高度相關可能仍能在相似輸入下預測，外推須小心 | 高度相關讓個別係數不穩、標準誤變大；殘差圖不能單獨確認 |
+| 誤差條件分布近似常態（特定推論方法需要） | 先查形式與變異，再看殘差Q-Q圖、直方圖 | 非常態仍可計算OLS與點預測；大誤差或偏態需另評估 | 傳統小樣本t／F推論及常態預測區間可能不準；採適合的推論方法 |
+
+**輸入特徵不必常態分布。** 例如房屋面積右偏，不會只因此禁止線性迴歸。誤差常態描述的是給定特徵後、實際值偏離條件平均的分布；既不是面積常態，也不是要求全部房價混在一起呈常態。
+
+表中無偏、效率等說法還依賴形式正確及誤差條件平均為零，不能由等變異或常態單獨推出。常態檢查也不能修補遺漏變數；這些診斷更不能直接證明因果關係。
 
 ### 時間序列殘差與白噪音（補充）
 
@@ -245,6 +278,58 @@ print(f"最大絕對殘差的樣本: {np.argmax(np.abs(residual)) + 1}")
 
 本頁的網店廣告費 `x` 不是時間索引，不能直接對它做時間自相關判讀。
 
+改用上述48筆真正逐小時的A、C情境。令 $\bar e$ 是同一序列全部殘差的平均，$k$ 是時滯（Lag），本頁使用去平均、固定全序列平方和作分母的樣本ACF：
+
+$$
+r_k=\frac{\sum_{t=k}^{N-1}(e_t-\bar e)(e_{t-k}-\bar e)}
+{\sum_{t=0}^{N-1}(e_t-\bar e)^2},\qquad k=1,\ldots,12
+$$
+
+$N=48$，$t$從0起算；分母須大於0，全相同殘差無法用這式求相關。$k=12$表示相隔12小時，不是第12筆的殘差；lag 0必為1，本圖省略它以聚焦時間依賴。
+
+![兩圖使用同一時間JSON的A與C，橫軸lag1到12小時；隨機例落在參考線內，週期例在多個lag呈現大幅正負相關。](figure:l23303-m4-d-residual-acf)
+
+白噪音假設下，虛線為單一lag約95%的近似範圍 $\pm1.96/\sqrt{48}\approx\pm0.283$。偶爾超線可能是抽樣波動；多lag與擬合後檢定須另考量。
+
+隨機例的lag1約−0.001、lag12約+0.079，未見大幅相關；週期例見程式輸出。白噪音為零平均、固定變異且無自相關；落在帶內僅表示未見明顯依賴，不證明獨立或常態。
+
+```python
+import json, os
+from pathlib import Path
+import numpy as np
+data = json.loads((Path(os.environ["IPAS_REPO_ROOT"]) /
+    "content/examples/L23303-M4-D-residual-time.json").read_text(encoding="utf-8"))
+for name in ["random", "periodic"]:
+    rows = data["series"][name]
+    e = np.array([r["y_true"] - r["y_pred"] for r in rows])
+    z = e - e.mean()
+    acf = [float(z[k:] @ z[:-k] / (z @ z)) for k in range(1, 13)]
+    print(name, "ACF lag1–12:", [round(v, 3) for v in acf])
+print("參考範圍:", round(1.96 / np.sqrt(48), 3))
+```
+```text
+random ACF lag1–12: [-0.001, -0.23, -0.127, 0.138, 0.088, -0.059, -0.206, 0.074, -0.168, 0.001, 0.078, 0.079]
+periodic ACF lag1–12: [0.854, 0.497, 0.029, -0.426, -0.75, -0.864, -0.751, -0.452, -0.051, 0.348, 0.635, 0.741]
+參考範圍: 0.283
+```
+
+這段從JSON的實際值減預測值重算，與圖共用同一數列；不是對廣告費或負載值做ACF。
+
+先核對頻率、事件與遺漏特徵，再考慮ARIMA的自迴歸階數 $p$、移動平均階數 $q$ 或季節項。它們只是候選處置；**殘差**ACF不能唯一決定 $p/q$，lag12也不等於p=12。
+
+還需搭配原序列、差分後的ACF與偏自相關函數（PACF）、候選模型比較，以及按時間往後的留出驗證。修改後再次檢查殘差；不要一邊以最終測試集挑參數，一邊宣稱它是獨立評估。
+
+## 常見誤解
+
+:::supplement[來源：NIST/SEMATECH e-Handbook 4.4.4.1～4.4.4.5；Hyndman、Athanasopoulos，第 5 章]
+- **「正殘差代表高估。」** 本頁用實際減預測，正值代表預測太小。
+- **「漏斗形代表誤差不獨立。」** 漏斗形首先指向變異不齊；獨立性要另查觀測順序。
+- **「一個 +20 的點就證明有漏斗形。」** 漏斗形是散布隨尺度改變的整體型態，需要多筆支持。
+- **「R² 很高，或殘差平均為零，就不必檢查。」** 平均與總分會隱藏彎曲和散布改變。
+:::
+
+## 進階
+
 ### 參考來源
 
 - 學習指引科目 3，4.2、4-13～4-14；5.3、5-24（支持：線性迴歸條件、適用場景；殘差圖判讀為補充）。
@@ -255,6 +340,10 @@ print(f"最大絕對殘差的樣本: {np.argmax(np.abs(residual)) + 1}")
 - [NIST/SEMATECH：4.4.4.4 Independence](https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd444.htm)（支持：順序依賴診斷）。
 - [NIST/SEMATECH：4.4.4.5 Normality](https://www.itl.nist.gov/div898/handbook/pmd/section4/pmd445.htm)（支持：常態檢查須另外進行）。
 - [Hyndman、Athanasopoulos：Forecasting: Principles and Practice，第 5 章](https://otexts.com/fpp3/toolbox.html#residual-diagnostics)（支持：自相關、白噪音與診斷限制）。
+- [NIST：Autocorrelation Plot](https://www.itl.nist.gov/div898/handbook/eda/section3/autocopl.htm)（支持：ACF定義、lag軸、單一lag近似參考線與不相關的界線）。
+- [Hyndman、Athanasopoulos：第9章 ARIMA models](https://otexts.com/fpp3/arima.html)（支持：候選階數、ACF與PACF及季節項，不能由殘差ACF唯一決定設定）。
+- [Hyndman、Athanasopoulos：第7章 Time series regression models](https://otexts.com/fpp3/regression.html#assumptions)（支持：假設表的誤差條件、預測與推論區別）。
+- [statsmodels：variance_inflation_factor](https://www.statsmodels.org/stable/generated/statsmodels.stats.outliers_influence.variance_inflation_factor.html)（支持：VIF針對設計矩陣共線性及係數變異的診斷）。
 
 ## 小結
 
