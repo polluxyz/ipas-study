@@ -1,27 +1,30 @@
 /** 驗證自己的隔離建置與離線輸出，留下桌面、窄螢幕、深色截圖及可重查的數字。 */
 import { chromium } from 'playwright';
-import { mkdir, writeFile } from 'node:fs/promises';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { writeFile } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
+import { freshOutput, localUrl, readBuildReceipt, verifyBuildReceipt, guardBuildContext, routeLocalOnly } from '../rollout-smoke.mjs';
 
 export async function verify() {
-  const base = process.env.DEMO_URL ?? 'http://127.0.0.1:4322';
-  const output = fileURLToPath(new URL('../../../tmp/textbook/shots/', import.meta.url));
-  await mkdir(output, { recursive: true });
-  const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE });
-  const errors = [], external = [], failed = [], fontRequests = [];
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
-  await context.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-    if (['http:', 'https:'].includes(url.protocol) && !['127.0.0.1', 'localhost'].includes(url.hostname)) { external.push(url.href); return route.abort(); }
-    return route.continue();
-  });
-  const page = await context.newPage();
-  page.on('pageerror', (error) => errors.push(error.message));
-  page.on('requestfailed', (request) => failed.push(request.url()));
-  page.on('request', (request) => { if (/\.(woff2?|ttf)(?:\?|$)/.test(request.url())) fontRequests.push(request.url()); });
-  const report = { figures: 0, formulas: 0, mathml: 0, searchable: false, collapsed: false, mobileWidth: 0, fonts: fontRequests, errors, external, failed };
+  assert.ok(process.env.FIGURES_OUTPUT, '請指定獨立 FIGURES_OUTPUT');
+  const output = await freshOutput(resolve(process.env.FIGURES_OUTPUT));
+  const errors = [], external = [], failed = [], assets = [], fontRequests = [];
+  const report = { completed: false, figures: 0, formulas: 0, mathml: 0, searchable: false, collapsed: false, mobileWidth: 0, fonts: fontRequests, errors, external, failed, browserErrors: errors, externalRequests: external, assetFailures: assets, buildResponses: [] };
+  const checks = [];
+  let browser, page, binding, failure;
+  const setupContext = async (options, base) => {
+    const context = await browser.newContext({ ...options, serviceWorkers: 'block' });
+    checks.push(guardBuildContext(context, binding, base, report));
+    context.on('page', (target) => target.on('pageerror', (error) => errors.push(error.message)));
+    context.on('requestfailed', (request) => {
+      failed.push(request.url());
+      assets.push({ url: request.url(), error: request.failure()?.errorText ?? 'request failed' });
+    });
+    context.on('request', (request) => { if (/\.(woff2?|ttf)(?:\?|$)/.test(request.url())) fontRequests.push(request.url()); });
+    await routeLocalOnly(context, base, external, assets);
+    return context;
+  };
   const screenshot = async (name) => {
     await page.evaluate(() => { window.scrollTo({ top: 0, behavior: 'instant' }); });
     await page.waitForFunction(() => window.scrollY === 0);
@@ -29,6 +32,14 @@ export async function verify() {
     await page.screenshot({ path: resolve(output, name), fullPage: true, animations: 'disabled' });
   };
   try {
+    assert.ok(process.env.DEMO_URL, '請指定 DEMO_URL');
+    const base = localUrl(process.env.DEMO_URL, process.env.DEMO_URL).origin;
+    assert.ok(process.env.BUILD_RECEIPT, '請指定 BUILD_RECEIPT');
+    binding = await readBuildReceipt(process.env.BUILD_RECEIPT);
+    report.sha = binding.receipt.sha; report.buildSha = binding.receipt.sha; report.receiptDigest = binding.receiptDigest;
+    browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE });
+    const context = await setupContext({ viewport: { width: 1440, height: 1000 } }, base);
+    page = await context.newPage();
     await page.goto(`${base}/dev/figures/`);
     await page.evaluate(async () => { await document.fonts.ready; });
     report.figures = await page.locator('.textbook-figure').count(); assert.equal(report.figures, 5);
@@ -72,13 +83,26 @@ export async function verify() {
     await screenshot('s1-dark.png');
     assert.ok(fontRequests.some((url) => url.includes('KaTeX')));
     assert.deepEqual(errors, []); assert.deepEqual(external, []); assert.deepEqual(failed, []);
-    const noJs = await browser.newContext({ javaScriptEnabled: false });
+    const noJs = await setupContext({ javaScriptEnabled: false }, base);
     const staticPage = await noJs.newPage(); await staticPage.goto(`${base}/dev/figures/`);
     assert.equal(await staticPage.locator('.textbook-figure svg').count(), 5);
     assert.equal(await staticPage.locator('math').count(), 3);
     await noJs.close();
-    await writeFile(resolve(output, 's1-verification.json'), JSON.stringify(report, null, 2));
-    console.log(JSON.stringify(report, null, 2));
-  } finally { await browser.close(); }
+  } catch (error) { failure = error; }
+  finally {
+    const results = await Promise.allSettled(checks.map((finish) => finish()));
+    const closeErrors = results.filter((result) => result.status === 'rejected').map((result) => result.reason);
+    if (browser) { try { await browser.close(); } catch (error) { closeErrors.push(error); } }
+    if (binding) { try { await verifyBuildReceipt(binding); } catch (error) { closeErrors.push(error); } }
+    try { assert.deepEqual(errors, []); assert.deepEqual(external, []); assert.deepEqual(failed, []); assert.deepEqual(assets, []); }
+    catch (error) { closeErrors.push(error); }
+    if (closeErrors.length) failure = new AggregateError([...(failure ? [failure] : []), ...closeErrors], 'figures 驗收或收尾失敗');
+    if (failure) report.failure = String(failure) + (failure.errors ? '\n' + failure.errors.map(String).join('\n') : '');
+    else report.completed = true;
+    await writeFile(resolve(output, 's1-verification.json'), JSON.stringify(report, null, 2), { flag: 'wx' });
+  }
+  if (failure) throw failure;
+  console.log(JSON.stringify(report, null, 2));
+  return report;
 }
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) await verify();
