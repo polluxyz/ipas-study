@@ -7,6 +7,7 @@ const { questions, concepts, codes } = await getData();
 const items = questions;
 const catalog = { codes: codes.map((entry) => ({ code: entry.data.code, title: entry.data.title, stages: entry.data.stages ?? [] })), questions: questions.map((q) => ({ id: q.id, codes: q.codes, concepts: q.concepts })) };
 const titles = Object.fromEntries(concepts.map((c) => [c.data.id, c.data.title]));
+const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
 ---
 <StudyPage title="用幾道題，確認你真的懂了。" section="單元小測驗">
   <p class="lead" id="quiz-description">正在準備測驗題目…</p>
@@ -14,7 +15,7 @@ const titles = Object.fromEntries(concepts.map((c) => [c.data.id, c.data.title])
   <p id="quiz-empty" class="empty-state" hidden>這個階段尚無題目，請回到學習路線繼續閱讀。</p>
   <div id="quiz" hidden>
     <div class="quiz-progress"><div><span id="quiz-position">第 1 / {items.length} 題</span><span id="quiz-score">已答對 0 題</span></div><progress id="quiz-progress-bar" max={items.length} value="0" aria-label="測驗進度"></progress></div>
-    <div class="quiz-questions">{items.map((question) => <QuestionCard question={question} titles={titles} mode="code:L23303" hidden />)}</div>
+    <div class="quiz-questions">{items.map((question) => <QuestionCard question={question} titles={titles} unit={units.get(question.codes[0])} mode="code:L23303" hidden />)}</div>
     <div class="quiz-next"><button id="next-question" class="button primary" type="button" disabled>下一題 →</button></div>
     <section id="quiz-summary" class="quiz-summary" hidden tabindex="-1"><div class="summary-icon">✓</div><span class="eyebrow">PRACTICE COMPLETE</span><h2>又多理解了一點。</h2><p id="final-score"></p><p id="final-message"></p><div class="button-row"><a class="button primary" href="/wrong-book/">回看我的錯題 →</a><a href="/quiz/" id="quiz-retry" class="button secondary">再練一次</a></div><a class="text-link" id="quiz-route" href="/codes/L23303/">回到學習路線</a></section>
   </div>

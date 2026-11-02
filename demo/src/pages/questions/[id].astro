@@ -3,13 +3,18 @@
 import StudyPage from '../../components/StudyPage.astro';
 import QuestionCard from '../../components/QuestionCard.astro';
 import { getData, sourceLabel } from '../../lib/content';
+import { getRouteLinks } from '../../lib/navigation';
 export async function getStaticPaths() { const { questions } = await getData(); return questions.map((question) => ({ params: { id: question.id }, props: { question } })); }
 const { question } = Astro.props;
-const { concepts } = await getData();
+const { concepts, codes } = await getData();
 const titles = Object.fromEntries(concepts.map((c) => [c.data.id, c.data.title]));
+const primaryCode = question.codes[0];
+const unit = codes.find((entry) => entry.data.code === primaryCode)?.data;
+const links = getRouteLinks(primaryCode, codes.map((entry) => entry.data.code));
+const catalogHref = `/catalog/#${primaryCode}`;
 ---
 <StudyPage title={sourceLabel(question)} section="考題練習">
-  <div class="metadata"><a href="/codes/L23303/">← L23303 學習單元</a><span>{question.id}</span><span>第 {question.rev} 版</span></div>
-  <QuestionCard question={question} titles={titles} />
-  <div class="reading-end"><a href="/codes/L23303/#questions">← 返回題目清單</a><a class="text-link" href="/quiz/">練習整個單元 →</a></div>
+  <div class="metadata"><a href={links.routeHref ?? catalogHref}>← {primaryCode} {links.routeHref ? '學習單元' : '概念目錄'}</a><span>{question.id}</span><span>第 {question.rev} 版</span></div>
+  <QuestionCard question={question} titles={titles} unit={unit} />
+  <div class="reading-end"><a href={links.practiceHref ? `${links.practiceHref}#questions` : catalogHref}>← {links.practiceHref ? '返回題目清單' : '返回本單元概念'}</a><a class="text-link" href={links.routeHref ? `/quiz/?code=${primaryCode}` : catalogHref}>{links.routeHref ? '練習整個單元' : '閱讀本單元概念'} →</a></div>
 </StudyPage>

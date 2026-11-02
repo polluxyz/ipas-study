@@ -6,5 +6,5 @@ const { questions } = Astro.props;
 ---
 <div class="question-list">
   {questions.map((q) => <a href={questionUrl(q.id)} class="question-row"><span class="question-number">{String(q.number ?? '練').padStart(2, '0')}</span><span class="question-text"><strong>{sourceLabel(q)}</strong><span>{q.stem.replace(/\s+/g, ' ').slice(0, 78)}{q.stem.length > 78 ? '…' : ''}</span></span><span class="tag">{q.type}</span><span class="row-arrow" aria-hidden="true">↗</span></a>)}
-  {questions.length === 0 && <p class="empty-copy">範例題目尚在準備中。</p>}
+  {questions.length === 0 && <p class="empty-copy">目前載入題庫中沒有本單元題目。</p>}
 </div>
