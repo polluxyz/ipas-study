@@ -14,7 +14,7 @@ export function collectProseSamples() {
     let kind;
     if (el.closest('.textbook-figure .figure-values th')) kind = 'figureHeaders';
     else if (el.closest('.textbook-figure')) continue;
-    else if (el.closest('pre')) kind = 'code';
+    else if (el.closest('pre')) kind = el.closest('pre').dataset.language === 'text' ? 'output' : 'code';
     else if (el.closest('table')) kind = 'tables';
     else if (el.closest('.starlight-aside, .katex')) continue;
     else if (el.closest('p, li, h2, h3, h4, summary')) kind = 'prose';
@@ -53,7 +53,7 @@ export function contrastOf(sample) {
 }
 export function assertProseContrast(samples) {
   const result = {};
-  for (const kind of ['prose', 'tables', 'figureHeaders', 'code']) {
+  for (const kind of ['prose', 'tables', 'figureHeaders', 'code', 'output']) {
     const values = samples.filter((sample) => sample.kind === kind).map((sample) => ({ ...sample, ratio: contrastOf(sample) }));
     assert.ok(values.length, `${kind} 沒有可見文字`);
     const worst = values.reduce((a, b) => a.ratio < b.ratio ? a : b);

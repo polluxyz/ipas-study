@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { assertProseContrast, contrastOf } from './prose-contrast.mjs';
 const good = (kind) => ({ kind, text: '可讀', foreground: 'rgb(37, 61, 55)', layers: ['rgba(0, 0, 0, 0)', 'rgb(255, 254, 250)'], opacity: 1 });
-const kinds = ['prose', 'tables', 'figureHeaders', 'code'];
+const kinds = ['prose', 'tables', 'figureHeaders', 'code', 'output'];
 describe('概念頁文字對比', () => {
   it('透明祖先與 alpha 前景須在實際背景上合成', () => {
     expect(contrastOf({ ...good('prose'), foreground: 'rgba(0, 0, 0, 0.5)', layers: ['rgba(255, 0, 0, 0.5)', 'rgba(0, 0, 0, 0)', 'rgb(255, 255, 255)'] })).toBeCloseTo(3.18, 2);
@@ -10,7 +10,7 @@ describe('概念頁文字對比', () => {
   });
   it('四類都有文字且配對色可讀時通過，缺類不得通過', () => {
     expect(() => assertProseContrast(kinds.map(good))).not.toThrow();
-    expect(() => assertProseContrast(kinds.slice(0, 3).map(good))).toThrow('code 沒有可見文字');
+    expect(() => assertProseContrast(kinds.slice(0, 4).map(good))).toThrow('output 沒有可見文字');
   });
   it('拒絕淺色背景上淡字及深色圖卡上的深色表頭', () => {
     const cases = [
