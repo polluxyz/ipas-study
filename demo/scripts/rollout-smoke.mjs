@@ -1022,7 +1022,7 @@ export async function runRollout(options) {
       assert.ok(top.includes(`/concepts/${id}/`), JSON.stringify(top));
       const link = page.locator('.pagefind-ui__result-link').first();
       const resultTabs = await tabTo(page, link); await page.keyboard.press('Shift+Tab'); const returnTabs = await tabTo(page, link);
-      await page.keyboard.press('Enter'); await page.waitForURL((url) => url.pathname === top[0]);
+      await settlePage(page); await page.keyboard.press('Enter'); await page.waitForURL((url) => url.pathname === top[0]); await settlePage(page);
       await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, cell.theme);
       assert.equal(await page.locator('html').getAttribute('data-theme'), cell.theme);
       const reopenTabs = await tabTo(page, open); await page.keyboard.press('Enter'); await page.keyboard.press('Escape'); assert.equal(await page.locator('.pagefind-ui__search-input').isVisible(), false);
