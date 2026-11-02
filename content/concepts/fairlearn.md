@@ -18,8 +18,8 @@ guide_refs:
 formula_groups:
   - id: between-group-gap
     source: https://fairlearn.org/main/api_reference/generated/fairlearn.metrics.MetricFrame.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L23402-C
 self_check:
   - id: c1
     goal: g1
@@ -60,7 +60,7 @@ status: draft
 
 兩個模型的總體準確率接近，可能對不同群體造成不同的漏選或誤選。Fairlearn把分群衡量與降低落差接在一起，協助團隊比較公平性和預測效能。
 
-指引介紹Fairlearn可計算群體指標，並支援公平約束下的模型再訓練。它與scikit-learn生態相容，適合接入既有機器學習流程。
+指引介紹Fairlearn是由微軟開發的Python工具，可計算群體指標，並支援公平約束下的模型再訓練。它與scikit-learn生態相容，適合接入既有機器學習流程。
 
 ## 直覺
 
@@ -89,6 +89,8 @@ $m_g$是群體$g$的指定純量指標，$D_m$是群體間極差。先固定指�
 ### 用同一40筆重核（補充）
 
 兩頁工具共用前置組招聘、信貸各40筆、相同索引與種子23402。以下是固定候選輸出算出的分群表，沒有使用Fairlearn訓練或挑選模型。
+
+招聘與信貸的計數刻意相同，下表適用兩者；面試與核准的決策意義仍要分別判讀。
 
 | 版本 | A選取率／TPR／FPR | B選取率／TPR／FPR | 準確率 |
 |---|---|---|---|
@@ -142,8 +144,10 @@ strict-v3: acc=0.60 gap=0.00
 
 指引將AI Fairness 360定位為多指標、三階段方法的工具包；Fairlearn則強調分群衡量、公平約束重訓及Python流程整合。選工具時看所需方法和輸入，不只比較功能數量。
 
+依指引的比較，Fairlearn可選的去偏方法較AIF360少，較適合規模較小、需求較精簡的專案。指引也列出可解釋性分析的支援。
+
 :::supplement[來源：Fairlearn Performing a Fairness Assessment；Reductions]
-分群表有助定位哪群承受更多傷害，並不是特徵貢獻解釋器。指引提到可解釋性分析，應理解為協助解讀群體結果，不能把Fairlearn等同SHAP。
+分群表有助定位哪群承受更多傷害；這種解讀群體結果的能力不能等同SHAP的特徵貢獻解釋。
 
 也不能把「適合中小型專案」當成大型專案的硬性禁令。仍應依版本、方法、訓練成本及部署需求測試可行性。
 :::
