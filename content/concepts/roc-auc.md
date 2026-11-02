@@ -10,7 +10,7 @@ gaps:
   - ref: guide-3:5-22
     level: shallow
     ability: 指引只寫兩軸名稱與「AUC 越接近 1 越好」；考題要判斷 ROC 的座標意義、為什麼無法由單一混淆矩陣算出，以及 AUC 高不等於線上成效好
-author: claude
+author: codex
 status: draft
 textbook: v2
 summary: ROC 曲線把每個閾值下的真正率與假正率連成線，AUC 是這條線下的面積
@@ -18,22 +18,26 @@ goals:
   - id: g1
     text: 算得出指定閾值下的 TPR 與 FPR，並在 ROC 座標上標出該點
   - id: g2
-    text: 把一批分數掃過所有閾值畫出 ROC、算出 AUC，並處理同分
+    text: 把一批分數掃過所有閾值畫出 ROC、算出 AUC，並處理同分及同矩陣不同排序的反例
   - id: g3
     text: 比較 AUC、固定閾值指標與 PR 曲線在正類很少時各自看得到什麼
 formula_groups:
   - id: tpr-fpr
     source: https://doi.org/10.1016/j.patrec.2005.10.010
     status: verified
-    checked_by: coordinator-term_b08e717c
+    checked_by: task_5bbc5b6241d1
   - id: auc-area
-    source: https://scikit-learn.org/stable/modules/model_evaluation.html
+    source: https://www.math.ucdavis.edu/~saito/data/roc/fawcett-roc.pdf#page=9
     status: verified
-    checked_by: coordinator-term_b08e717c
+    checked_by: task_5bbc5b6241d1
   - id: auc-pairs
     source: https://doi.org/10.1016/j.patrec.2005.10.010
+    status: pending
+    checked_by: null
+  - id: m4-same-matrix-ranking
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html
     status: verified
-    checked_by: coordinator-term_b08e717c
+    checked_by: task_5bbc5b6241d1
 self_check:
   - id: c1
     goal: g1
@@ -194,7 +198,7 @@ TPR 的分母是實際正類的筆數，FPR 的分母是實際負類的筆數。
 
 AUC（Area Under the Curve）是 ROC 曲線下的面積，範圍在 0 到 1。
 
-:::supplement[來源：Fawcett（2006）〈An introduction to ROC analysis〉第 5、7 節]
+:::supplement[來源：Fawcett（2006）〈An introduction to ROC analysis〉Algorithm 2，印刷頁 869]
 曲線上的點很多時，用梯形法把相鄰兩點圍出的面積加起來：
 
 $$
@@ -204,6 +208,12 @@ $$
 $k$ 是曲線上由左到右的第 $k$ 個點。每項是一個梯形：寬是 FPR 的增加量，高是兩端 TPR 的平均。
 
 垂直段的寬是 0，面積也是 0。下一節會逐項加總這份資料的 12 個寬度。
+
+Algorithm 2 的梯形 helper 以寬乘平均高計算面積，第 22 行再除以正、負類筆數乘積；上式將這兩步寫成 FPR、TPR 的正規化座標。原文第 21 行把最後梯形的 TP 終點印為 N，應為 P，否則正、負類筆數不同時可能算錯；本頁採用正確終點，不照用該誤植。
+:::
+
+:::supplement[來源：Fawcett 第 5、7 節的同分與排序說明；完整雙重求和為本站自行推導]
+Fawcett 第 7 節說明 AUC 的排序機率，第 5 節討論同分取平均；以下含半分同分項的完整雙重求和由本頁整理推導，目前沒有在所列來源中找到直接列出全式的段落，對應公式群保留待核。
 
 AUC 還有一種不用畫圖的讀法：隨機各抽一筆盜刷與一筆正常，盜刷分數較高的機率，加上兩筆同分的機率的一半。
 
@@ -347,6 +357,65 @@ ROC 的兩個比率都在各自類別內計算，曲線與 AUC 完全不變，�
 - **「AUC 高就代表上線後有成效。」** 不一定。AUC 不含誤報與漏報各自的成本，也不保證上線後的資料分布與離線時相同。要搭配線上指標一起看。（補充）
 - **「AUC 是 Accuracy 的升級版。」** 兩者回答不同的問題。Accuracy 要先定閾值，AUC 把所有閾值一起看，不能互相取代。（補充）
 
+### 同一矩陣，兩個 AUC（補充）
+
+新例 `L23303-M4-E-same-confusion-ranking.json` 固定 R1–R6 六筆評估交易，盜刷=1，分數 ≥ 閾值判正類；A、B 是人工設定分數，沒有訓練或調參。
+
+它們不與原 20 筆合算。
+
+| 索引／真值 | A 分數 | B 分數 |
+|---|---:|---:|
+| R1／1 | 0.9 | 0.7 |
+| R2／1 | 0.8 | 0.6 |
+| R3／0 | 0.7 | 0.9 |
+| R4／1 | 0.4 | 0.3 |
+| R5／0 | 0.3 | 0.4 |
+| R6／0 | 0.2 | 0.3 |
+
+在同一閾值 0.5，兩組都是 R1、R2、R3 判正；所以同為 TP=2、FP=1、FN=1、TN=2，TPR=2/3、FPR=1/3。單點完全相同，排序卻不同。
+
+從大於所有分數的閾值開始，兩條曲線都先在 (0,0)。下表各點均寫成 (FPR,TPR)，可按真值與分數逐列重算。
+
+| A 閾值 | A 座標 | B 閾值 | B 座標 |
+|---|---|---|---|
+| 0.9 | (0,1/3) | 0.9 | (1/3,0) |
+| 0.8 | (0,2/3) | 0.7 | (1/3,1/3) |
+| 0.7 | (1/3,2/3) | 0.6 | (1/3,2/3) |
+| 0.4 | (1/3,1) | 0.4 | (2/3,2/3) |
+| 0.3 | (2/3,1) | 0.3 | (1,1) |
+| 0.2 | (1,1) | 無新分數 | 已到終點 |
+
+B 的 0.3 含 R4 正類與 R6 負類，必須整批加入，不能任意排序。
+
+按本頁梯形公式，A 面積為 (1/3)×(2/3)+(2/3)×1=8/9；B 面積為 0+2/9+(1/3)×(2/3+1)/2=1/2。
+
+配對核對也相同：三正三負共 9 對，A 為 8 勝、0 同分、1 負；B 為 4 勝、1 同分、4 負，(4+0.5)/9=0.5。
+
+![兩曲線共享閾值0.5的點，但AUC為8/9與1/2；B的0.3同分整批加入形成斜段。](figure:l23303-m4-e-same-confusion-roc)
+
+因此單一混淆矩陣不能唯一決定 ROC-AUC。
+
+這與前述「排序不變、AUC 相同但固定閾值矩陣改變」是兩個方向的限制，兩例都保留。
+
+閾值與同分規則依 scikit-learn roc_curve，AUC 由本頁公式推算並以 roc_auc_score 核對。
+
+```python
+from sklearn.metrics import confusion_matrix, roc_auc_score, roc_curve
+y_pair = [1, 1, 0, 1, 0, 0]
+for name, score in [("A", [.9,.8,.7,.4,.3,.2]),
+                    ("B", [.7,.6,.9,.3,.4,.3])]:
+    pred = [int(v >= .5) for v in score]
+    print(name, confusion_matrix(y_pair, pred, labels=[1,0]).tolist())
+    x, y_roc, _ = roc_curve(y_pair, score, drop_intermediate=False)
+    print(f"AUC={roc_auc_score(y_pair, score):.6f}; 點數={len(x)}")
+```
+```text
+A [[2, 1], [1, 2]]
+AUC=0.888889; 點數=7
+B [[2, 1], [1, 2]]
+AUC=0.500000; 點數=6
+```
+
 ## 進階
 
 ### AUC 與 Mann–Whitney U、同分處理（補充）
@@ -359,8 +428,11 @@ ROC 點的取法有一個細節：同分的樣本要整組加入。這樣梯形�
 
 ### 參考來源
 
+- L23303-M4-E-same-confusion-ranking.json：本站六筆合成評估資料，支持同一矩陣不同 AUC 的新反例。
+
+- 閾值及同分規則依已列出的 scikit-learn API。
 - 科目 3 學習指引 5-20～5-22、5-25：混淆矩陣、兩軸、曲線下面積、閾值與綜合評估。（支持：定義與公式、怎麼用、怎麼判讀）
-- [Fawcett（2006）〈An introduction to ROC analysis〉](https://www.math.ucdavis.edu/~saito/data/roc/fawcett-roc.pdf) 第 2–7 節；DOI 10.1016/j.patrec.2005.10.010。（支持：為什麼需要、直覺、定義與公式、AUC 的兩種讀法、算一次、怎麼用、怎麼判讀、和 PR 曲線怎麼選、換個場景、常見誤解、小結）
+- [Fawcett（2006）〈An introduction to ROC analysis〉](https://www.math.ucdavis.edu/~saito/data/roc/fawcett-roc.pdf) 第 2–7 節；DOI 10.1016/j.patrec.2005.10.010。第 2 節支持兩軸比率；第 5 節支持同分取平均；[Algorithm 2，印刷頁 869](https://www.math.ucdavis.edu/~saito/data/roc/fawcett-roc.pdf#page=9) 的梯形 helper 與第 22 行直接支持面積與正規化；第 21 行 TP 終點的 N／P 誤植及本站採用方式已在公式下說明。第 7 節支持排序機率解讀，未直接列本頁含半分同分項的完整雙重求和；該式標為本站自行推導，保留待核。
 - scikit-learn 使用者指南 [3.4「Metrics and scoring」的 ROC 小節](https://scikit-learn.org/stable/modules/model_evaluation.html#roc-metrics) 與 [roc_curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html)、[roc_auc_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html) API 頁面。（支持：直覺、定義與公式、AUC 的兩種讀法、算一次、怎麼用、怎麼判讀）
 - [Google Developers「Measuring success」](https://developers.google.com/machine-learning/managing-ml-projects/success)，Connection between model metrics and business metrics。（支持：怎麼用、怎麼判讀的模型指標與業務成效界線、常見誤解）
 - Hanley 與 McNeil（1982），〈The Meaning and Use of the Area under a Receiver Operating Characteristic (ROC) Curve〉，Radiology 143(1)，第 29–31 頁。（支持：AUC 與 Mann–Whitney U、同分處理）

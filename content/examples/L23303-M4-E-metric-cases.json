@@ -1,0 +1,221 @@
+{
+  "source": "作者設定的教學合成資料，非模型訓練或實際業務成效。",
+  "split": "固定留出評估示例，無訓練、無調參；不與其他示例合併估成效。",
+  "seed": null,
+  "generation": "逐筆或依指定計數展開，無隨機抽樣。",
+  "index": "id 為本例內固定索引；排序依各欄位說明。",
+  "units": "計數為筆；比例無單位；分數為人工設定的排序值。",
+  "threshold": 0.5,
+  "rule": "score >= threshold",
+  "credit": {
+    "path": "content/examples/L23303-classification.json",
+    "sha256": "sha256:f73ea272b820a9b07828a8842e3171a5602115f0e7f5dcffc10e542122f49cea",
+    "positive": 1,
+    "order": "C01–C20"
+  },
+  "medical": {
+    "path": "content/examples/L23303-A2-screening.json",
+    "sha256": "sha256:4590950b014086129423a1400a4a024a9b7281ac69c19dbce20afbee67ca55e7",
+    "score_key": "score",
+    "order": "M001–M100",
+    "positive": 1,
+    "hypothetical_burden_points": {
+      "FP": 1,
+      "FN": 20,
+      "TP": 0,
+      "TN": 0
+    },
+    "costs_note": "任意教學負擔點，非臨床風險量化或治療建議。"
+  },
+  "manufacturing": {
+    "path": "content/examples/L23303-A2-manufacturing.json",
+    "sha256": "sha256:fb18d9d7837368d732041493d5dbfdc6c4afa9f75e66955482ff061efc077b85",
+    "score_keys": [
+      "score_a",
+      "score_b"
+    ],
+    "order": "D01–D20",
+    "positive": 1,
+    "costs": "沿用原檔 costs_ntd：FP=50、FN=1000，其餘0；教學假設新臺幣／件。"
+  },
+  "multiclass": {
+    "labels": [
+      "刮痕",
+      "凹痕",
+      "良品"
+    ],
+    "axes": {
+      "rows": "實際",
+      "columns": "預測"
+    },
+    "matrix": [
+      [
+        7,
+        3,
+        0
+      ],
+      [
+        2,
+        7,
+        1
+      ],
+      [
+        0,
+        1,
+        9
+      ]
+    ],
+    "samples": [
+      {
+        "id": "V01",
+        "truth": "刮痕",
+        "prediction": "刮痕"
+      },
+      {
+        "id": "V02",
+        "truth": "刮痕",
+        "prediction": "刮痕"
+      },
+      {
+        "id": "V03",
+        "truth": "刮痕",
+        "prediction": "刮痕"
+      },
+      {
+        "id": "V04",
+        "truth": "刮痕",
+        "prediction": "刮痕"
+      },
+      {
+        "id": "V05",
+        "truth": "刮痕",
+        "prediction": "刮痕"
+      },
+      {
+        "id": "V06",
+        "truth": "刮痕",
+        "prediction": "刮痕"
+      },
+      {
+        "id": "V07",
+        "truth": "刮痕",
+        "prediction": "刮痕"
+      },
+      {
+        "id": "V08",
+        "truth": "刮痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V09",
+        "truth": "刮痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V10",
+        "truth": "刮痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V11",
+        "truth": "凹痕",
+        "prediction": "刮痕"
+      },
+      {
+        "id": "V12",
+        "truth": "凹痕",
+        "prediction": "刮痕"
+      },
+      {
+        "id": "V13",
+        "truth": "凹痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V14",
+        "truth": "凹痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V15",
+        "truth": "凹痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V16",
+        "truth": "凹痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V17",
+        "truth": "凹痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V18",
+        "truth": "凹痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V19",
+        "truth": "凹痕",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V20",
+        "truth": "凹痕",
+        "prediction": "良品"
+      },
+      {
+        "id": "V21",
+        "truth": "良品",
+        "prediction": "凹痕"
+      },
+      {
+        "id": "V22",
+        "truth": "良品",
+        "prediction": "良品"
+      },
+      {
+        "id": "V23",
+        "truth": "良品",
+        "prediction": "良品"
+      },
+      {
+        "id": "V24",
+        "truth": "良品",
+        "prediction": "良品"
+      },
+      {
+        "id": "V25",
+        "truth": "良品",
+        "prediction": "良品"
+      },
+      {
+        "id": "V26",
+        "truth": "良品",
+        "prediction": "良品"
+      },
+      {
+        "id": "V27",
+        "truth": "良品",
+        "prediction": "良品"
+      },
+      {
+        "id": "V28",
+        "truth": "良品",
+        "prediction": "良品"
+      },
+      {
+        "id": "V29",
+        "truth": "良品",
+        "prediction": "良品"
+      },
+      {
+        "id": "V30",
+        "truth": "良品",
+        "prediction": "良品"
+      }
+    ]
+  }
+}

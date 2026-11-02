@@ -1,15 +1,15 @@
 ---
 id: precision
 title: 精確率
-aliases: [ Precision, 精準率, 查準率 ]
+aliases: [Precision, 精準率, 查準率]
 kind: metric
-codes: [ L23303 ]
-requires: [ confusion-matrix ]
+codes: [L23303]
+requires: [confusion-matrix]
 contrasts:
   - target: recall
     note: Precision 的分母是「預測為正」的數量，管誤報；Recall 的分母是「實際為正」的數量，管漏報。調高閾值通常 Precision 升、Recall 降
-    source: [ guide-3:5-21, 115-1-S3-Q32 ]
-guide_refs: [ guide-3:5-21, guide-3:4-26 ]
+    source: [guide-3:5-21, 115-1-S3-Q32]
+guide_refs: [guide-3:5-21, guide-3:4-26]
 gaps:
   - ref: guide-3:5-21
     level: shallow
@@ -24,12 +24,16 @@ goals:
   - id: g2
     text: 正確處理沒有預測正類時的精確率
   - id: g3
-    text: 依誤報成本判讀精確率，並用分數重算閾值取捨
+    text: 依誤報成本判讀精確率，並用分數重算閾值取捨，分清零售各輸出的評估對象
 formula_groups:
   - id: precision
     source: guide-3:5-21
     status: verified
-    checked_by: ctx_4f7951475612
+    checked_by: task_5bbc5b6241d1
+  - id: m4-precision-cases
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html
+    status: verified
+    checked_by: task_5bbc5b6241d1
 self_check:
   - id: c1
     goal: g1
@@ -76,6 +80,11 @@ self_check:
       B: 閾值 0.5 時 TP=3、FP=1；0.75 時 TP=2、FP=0，實際正類都是 3 筆，所以兩比例分別變為 1 與 2/3。
       C: "移出一正一負不會維持原比例，精確率由 3/4 變為 2/2；實際正類仍有三筆，召回率為 2/3。"
       D: 提高後只保留兩筆真正盜刷，精確率是 1，且仍有一筆盜刷漏掉。
+  - id: c4
+    goal: g3
+    type: short
+    prompt: 同批瑕疵 A 的 P=0.6、R=0.75；B 的 P=0.5、R=1，兩者 F1 都是 2/3。若 FP 每件 50 元、FN 每件 1000 元，應怎麼選？
+    key_points: ["A為FP2、FN1，成本1100元；B為FP4、FN0，成本200元", "此假設下B較合適，相同F1不等於相同成本", "仍核對資料、正類、閾值與成本假設"]
 ---
 
 ## 為什麼需要
@@ -123,6 +132,18 @@ TP 是實際正類且預測正類的筆數，FP 是實際負類卻預測正類�
 | 0.20 | 8／5 | 8/13≈0.615 | 8/8=1.000 |
 
 ![看標示閾值的三個點：降低閾值可提高召回率，本例同時帶進更多誤報。](figure:l23303-precision-threshold-tradeoff)
+
+### 同批四指標與成本（補充）
+
+沿用 C01–C20、正類盜刷、分數 ≥ 0.5 的同一批資料。
+
+先在[混淆矩陣](../confusion-matrix/#算一次補充)核對 TP=6、FP=2、FN=2、TN=10，再讀[準確率](../accuracy/#算一次補充)的 16/20=0.80、[精確率](../precision/#算一次補充)與[召回率](../recall/#算一次補充)的 6/8=0.75，最後讀[F1](../f1-score/#四格計數與零分母補充)的 12/16=0.75。
+
+誤報成本高，先查 Precision 及 FP；漏報成本高，先查 Recall 及 FN；要兼顧兩者可並列 F1，但成本不等時仍看實際代價。
+
+Accuracy 包含 TN，適合作整體摘要，無法替代前述取捨。
+
+資料索引與唯讀來源版本記在 `L23303-M4-E-metric-cases.json`。
 
 ## 程式（補充）
 
@@ -178,6 +199,38 @@ pos_label=1 指定盜刷為正類。最後一列沒有警報，顯示的 0.000 �
 因此不同資料集的精確率不能不看正類比例就比較。這個複製操作只是說明分母如何變化，不是建議用它改善模型。
 :::
 
+### 醫療與瑕疵的同資料比較（補充）
+
+完整四格、三指標及成本集中在[F1 共用案例](../f1-score/#醫療與瑕疵共用案例補充)，沿用各領域同一份資料。
+
+醫療 TP=4、FP=5、FN=1、TN=90，所以 P=4/9、R=4/5、F1=8/14。
+
+瑕疵 A 為 3、2、1、14，P=3/5、R=3/4、F1=6/9。
+
+B 為 4、4、0、12，P=4/8、R=1、F1=8/12。
+
+醫療 FP 增加複檢，FN 漏轉介；製造 FP 誤攔良品，FN 放行瑕疵。
+
+依成本選用，不能只取較高的一個比例。
+
+全判健康仍有 95% Accuracy、全判良品仍有 80%，卻都 Recall=0、F1=0、Precision 未定義；高整體分數未證明能偵測少數類。
+
+### 零售任務的指標導讀
+
+沿用[多模態零售的同一案例](../multimodal-application-evaluation/#零售讓每個輸出有對應物件)：影像、銷售用來比較動線熱區與配置，先定義區域再用[IoU](../intersection-over-union/#從框座標求交集補充)。
+
+交易、評論產生推薦清單，先定相關性與清單長度再看[Precision](../precision/#定義與公式)。
+
+評論、社群做情感分類，固定類別與平均方式後看[F1](../f1-score/#多分類的平均方式補充)。
+
+BI 整合影像、POS、評論，應分別驗收各項輸出。
+
+顧客隱私、來源噪聲及處理時效也須另驗：遮蔽或噪聲可能影響區域及分類，離線分數高仍可能回應太慢。
+
+IoU 不能評推薦命中，F1 不能取代幾何定位，Precision 也不能代表整個儀表板品質。
+
+完整跨模態選用由責任頁承接，本頁只是指標導讀；案例索引存於 `L21104-M4-E-metric-links.json`。
+
 ## 常見誤解
 
 - **精確率就是全部交易的準確率。** 精確率只看預測正類；準確率看全部交易。
@@ -193,6 +246,8 @@ pos_label=1 指定盜刷為正類。最後一列沒有警報，顯示的 0.000 �
 
 ### 參考來源
 
+- 科目 1 學習指引，3-79：支持零售動線、推薦、情感、BI 任務與限制，完整案例見[多模態應用與評估設計](../multimodal-application-evaluation/)。
+- [scikit-learn f1_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)：支持共用醫療／瑕疵的 F1 計數重算；實際資料索引為 L23303-M4-E-metric-cases.json。
 - 學習指引科目 3，5-21（支持：定義與公式、垃圾郵件與醫療誤診的場景）。
 - [scikit-learn precision_score API](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html)（支持：零分母、程式、正類設定）。
 - [scikit-learn Metrics and scoring](https://scikit-learn.org/stable/modules/model_evaluation.html)（支持：PR 指標與正類比例、相鄰指標）。

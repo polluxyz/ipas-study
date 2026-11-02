@@ -1,11 +1,11 @@
 ---
 id: recall
 title: 召回率
-aliases: [ Recall, 敏感度, Sensitivity, 真陽率, TPR, 查全率 ]
+aliases: [Recall, 敏感度, Sensitivity, 真陽率, TPR, 查全率]
 kind: metric
-codes: [ L23303 ]
-requires: [ confusion-matrix ]
-guide_refs: [ guide-3:5-21, guide-3:5-22, guide-3:4-26 ]
+codes: [L23303]
+requires: [confusion-matrix]
+guide_refs: [guide-3:5-21, guide-3:5-22, guide-3:4-26]
 gaps:
   - ref: guide-3:5-22
     level: shallow
@@ -25,7 +25,11 @@ formula_groups:
   - id: recall
     source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html
     status: verified
-    checked_by: ctx_4f7951475612
+    checked_by: task_5bbc5b6241d1
+  - id: m4-recall-cases
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html
+    status: verified
+    checked_by: task_5bbc5b6241d1
 self_check:
   - id: c1
     goal: g1
@@ -72,6 +76,11 @@ self_check:
       B: 新納入的樣本可能是負類，因此 FP 也可能增加。
       C: 已抓到的正類不會被移出，TP 不減；同時可能納入更多負類。
       D: 改決策閾值不會重訓模型，也不會更新權重。
+  - id: c4
+    goal: g3
+    type: short
+    prompt: 同批瑕疵 A 的 P=0.6、R=0.75；B 的 P=0.5、R=1，兩者 F1 都是 2/3。若 FP 每件 50 元、FN 每件 1000 元，應怎麼選？
+    key_points: ["A為FP2、FN1，成本1100元；B為FP4、FN0，成本200元", "此假設下B較合適，相同F1不等於相同成本", "仍核對資料、正類、閾值與成本假設"]
 ---
 
 ## 為什麼需要
@@ -121,6 +130,18 @@ TP 是實際正類且被正確判成正類的筆數，FN 是實際正類卻被�
 降低到 0.20，兩筆漏掉的盜刷都抓到了，也多出三次誤報。精確率由 6/8=0.75 變成 8/13≈0.615，這是同一批分數上的實際取捨。
 
 ![沿著標示的閾值由 0.75 降到 0.20，召回率提高，但警報中的誤報占比也改變。](figure:l23303-precision-threshold-tradeoff)
+
+### 同批四指標與成本（補充）
+
+沿用 C01–C20、正類盜刷、分數 ≥ 0.5 的同一批資料。
+
+先在[混淆矩陣](../confusion-matrix/#算一次補充)核對 TP=6、FP=2、FN=2、TN=10，再讀[準確率](../accuracy/#算一次補充)的 16/20=0.80、[精確率](../precision/#算一次補充)與[召回率](../recall/#算一次補充)的 6/8=0.75，最後讀[F1](../f1-score/#四格計數與零分母補充)的 12/16=0.75。
+
+誤報成本高，先查 Precision 及 FP；漏報成本高，先查 Recall 及 FN；要兼顧兩者可並列 F1，但成本不等時仍看實際代價。
+
+Accuracy 包含 TN，適合作整體摘要，無法替代前述取捨。
+
+資料索引與唯讀來源版本記在 `L23303-M4-E-metric-cases.json`。
 
 ## 程式（補充）
 
@@ -172,6 +193,22 @@ t=1.00, recall=0.000
 
 指引的兩個場景都以「漏報正類代價高」為共同條件。新場景也應先指定正類，再判斷漏報造成的實際後果。
 
+### 醫療與瑕疵的同資料比較（補充）
+
+完整四格、三指標及成本集中在[F1 共用案例](../f1-score/#醫療與瑕疵共用案例補充)，沿用各領域同一份資料。
+
+醫療 TP=4、FP=5、FN=1、TN=90，所以 P=4/9、R=4/5、F1=8/14。
+
+瑕疵 A 為 3、2、1、14，P=3/5、R=3/4、F1=6/9。
+
+B 為 4、4、0、12，P=4/8、R=1、F1=8/12。
+
+醫療 FP 增加複檢，FN 漏轉介；製造 FP 誤攔良品，FN 放行瑕疵。
+
+依成本選用，不能只取較高的一個比例。
+
+全判健康仍有 95% Accuracy、全判良品仍有 80%，卻都 Recall=0、F1=0、Precision 未定義；高整體分數未證明能偵測少數類。
+
 ## 常見誤解
 
 - **分母是全部預測正類。** 那是精確率；召回率要沿實際正類找 TP 與 FN。
@@ -187,6 +224,7 @@ t=1.00, recall=0.000
 
 ### 參考來源
 
+- [scikit-learn f1_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)：支持共用醫療／瑕疵的 F1 計數重算；資料及成本為合成教學設定，索引見 L23303-M4-E-metric-cases.json。
 - 學習指引科目 3，5-21～5-22（支持：文字定義、癌症與詐騙場景、ROC 縱軸名稱；5-21 印刷分母已回圖核對並勘誤）。
 - [scikit-learn recall_score API](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html)（支持：正確公式、分母為零、正類設定與程式）。
 - [Google 機器學習速成課：分類指標](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall)（支持：Recall 與 TPR 同義、漏報成本與指標限制；取實際正類視角的教學思路）。
