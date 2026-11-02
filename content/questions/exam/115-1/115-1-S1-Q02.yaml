@@ -1,0 +1,38 @@
+id: 115-1-S1-Q02
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 2
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 1
+type: 情境
+codes:
+  - L21103
+  - L23304
+concepts: [lora]
+stem: |
+  一家新創公司希望對 Llama3 70B 模型進行領域微調（Domain Fine-Tuning）以建立企業專用助理，但 GPU 記憶體有限，無法支撐完整模型的反向傳播梯度計算。工程師希望凍結（freeze）原模型權重、僅訓練少量額外參數的前提下，評估採用 LoRA（Low-Rank Adaptation）方案。請問 LoRA 在此場景下的主要優勢為何？
+options:
+  A: 透過知識蒸餾（Knowledge Distillation）將 70B 模型壓縮為較小的學生模型；
+  B: 對原始模型各層權重進行剪枝（Pruning），移除低重要性參數後再進行微調；
+  C: 凍結原始預訓練權重，僅在各層加入低秩分解的可訓練矩陣，大幅降低可訓練參數量與 GPU 記憶體需求；
+  D: 將模型中的注意力機制改為稀疏注意力（Sparse Attention），以降低長序列計算成本
+answer: C
+explanation:
+  summary: "答案 C。LoRA 以少量低秩更新參數完成微調，節省訓練記憶體。"
+  correct: "C 正確：保留基底權重 W，只訓練權重增量的兩個低秩矩陣；若 W 為 m×n、秩為 r，可訓練參數由 mn 改為 r(m+n)。因此梯度及最佳化器狀態所需空間降低。科目 1 指引 3.1 有 LoRA 概述；低秩機制可參見 [LoRA 原論文](https://arxiv.org/abs/2106.09685)。基底權重與前向運算仍占記憶體，不能據此保證任意 GPU 都能容納 70B 模型。"
+  wrong:
+    A: "知識蒸餾由教師模型指導較小學生模型；LoRA 的核心是對原模型加入可訓練增量，沒有必然建立小學生模型。"
+    B: "剪枝移除權重或結構；LoRA 保留原權重並學習低秩增量，不靠刪除低重要性參數。"
+    D: "稀疏注意力改變序列位置之間的注意力計算範圍；LoRA 改的是參數更新方式，無須改成稀疏注意力。"
+  rule: "LoRA 節省的是微調參數與相關訓練狀態，並不自動縮小基底模型。"
+guide_refs: [guide-1:3-29]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E5
+  blind_answer: C
+  dispute: null

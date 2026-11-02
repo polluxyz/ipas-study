@@ -1,0 +1,38 @@
+id: 115-1-S1-Q15
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 15
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 4
+type: 情境
+codes:
+  - L21103
+  - L21302
+concepts: [multi-agent-orchestration]
+stem: |
+  某企業建置一套多代理人（Multi-Agent）系統，由一個 Orchestrator Agent 負責任務分配，多個 Worker Agent 分別執行網路搜尋、程式撰寫與結果彙整。若 Orchestrator 發現某 Worker Agent 回傳結果品質不符合預期，從系統容錯與任務可靠性角度，下列哪一項機制最能確保整體任務仍能正確完成？
+options:
+  A: 直接採用該 Worker Agent 的輸出，避免重試機制造成延遲；
+  B: Orchestrator 具備結果評估能力，對不合格結果觸發重試（Retry）或重新分配給不同 Worker，並記錄失敗原因供後續改善；
+  C: 強制所有 Worker Agent 統一使用相同的 LLM 模型，以減少輸出差異；
+  D: 當任何一個 Worker 失敗時，整個 Multi-Agent 任務直接中止並通知使用者重新啟動
+answer: B
+explanation:
+  summary: "答案 B。協調者要驗收輸出，才能針對失敗重試或改派。"
+  correct: "B 正確：先用明確標準檢查工作結果，再對不合格項目重試或交給另一個工作代理，並留下失敗原因，形成可恢復的任務流程。重試也應有次數或成本上限，持續失敗時交由上層處置。科目 1 指引 3.3 僅概述代理式發展，未直接教授多代理驗收、重試與改派機制，故 guide_refs 留空。"
+  wrong:
+    A: "省去重試的延遲卻直接接受不合格結果，無法滿足整體任務正確性的要求。"
+    C: "統一模型不會自動增加結果驗收能力，還可能讓多個代理重複相同錯誤；容錯須有偵測與恢復機制。"
+    D: "遇任何局部失敗就全面中止，未利用可重試或可改派的工作；不可恢復時才可能需要停止或升級處理。"
+  rule: "多代理可靠性需要明確驗收、受控重試或改派，以及可追蹤的失敗紀錄。"
+guide_refs: []
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 4
+    by: EX-E5
+  blind_answer: B
+  dispute: null

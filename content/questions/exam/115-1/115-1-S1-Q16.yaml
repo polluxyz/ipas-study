@@ -1,0 +1,51 @@
+id: 115-1-S1-Q16
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 16
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 4
+type: 情境
+codes:
+  - L21103
+concepts: [react-agent-loop, ai-agent]
+stem: |
+  一位工程師正在實作一個 ReAct 框架的 AI Agent，該 Agent 需要回答「台灣目前最大的電動車充電站營運商是哪間公司，以及其充電樁總數」。
+  Agent 的工具清單如下：
+  •web_search(query)：回傳搜尋結果摘要
+  •get_webpage(url)：回傳網頁內文
+  •calculator(expression)：回傳計算結果
+  •get_current_date()：回傳今日日期
+  工程師設計了以下的 System Prompt 與 ReAct Loop，請問此 Agent 設計存在哪些問題？應如何改善？
+  [System Prompt]
+  你是一個資料查詢助理。
+  每次只能使用一個工具。
+  當你知道答案時，直接輸出最終答案。
+  [第一輪 Agent 輸出]
+  Thought: 我已經知道台灣電動車市場的概況，不需要搜尋，可以直接回答。
+  Action: 無
+  Answer: 台灣最大充電站營運商是 XX 公司，共有 500 個充電樁。
+options:
+  A: System Prompt 未要求 Agent 在回答前使用工具驗證，導致直接依賴既有知識產生幻覺（Hallucination）；應明確規定即時性問題需先執行 web_search；
+  B: 工具清單提供了 calculator 與 get_current_date，屬於多餘工具，可能增加 Agent 的選擇複雜度；
+  C: ReAct 框架的核心問題在於 Thought 步驟佔用過多 token，應移除 Thought 欄位，直接讓 Agent 輸出 Action，以提升推理效率；
+  D: Agent 應在第一輪就呼叫所有可用工具並彙整結果，避免多輪 Loop 造成的延遲
+answer: A
+explanation:
+  summary: "答案 A。即時性問題須先取用外部證據，再形成答案。"
+  correct: "A 正確：題目的「目前」及營運商數量可能變動，原迴圈卻在取得任何工具觀察前直接回答，缺少查證。應先搜尋，再視結果讀取原網頁，確認資料日期、營運商及充電樁的統計口徑；來源不足時如實標示不確定。題示 web_search 回摘要、get_webpage 取內文，後者的網址通常依前者結果選取，故是有相依的資料流。科目 1 指引未直接教授 ReAct，依 [ReAct 原論文](https://arxiv.org/abs/2210.03629)的行動與觀察互動原理補充，guide_refs 留空。"
+  wrong:
+    B: "日期工具可協助確認時間，計算工具也可能處理總量；刪除它們並不能修正尚未查證就作答的缺陷。"
+    C: "刪掉一個輸出欄位不能取得新證據，也不是對幻覺的直接修正；核心是讓工具結果實際進入後續判斷。"
+    D: "每輪依需要選工具即可；網頁讀取常須等待搜尋取得網址，一次呼叫所有工具既浪費資源，也可能缺少有效輸入。"
+  rule: "對時效性事實，先取得並核對工具證據，再作答或明示資料不足。"
+guide_refs: []
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 4
+    by: EX-E5
+  blind_answer: A
+  dispute: null

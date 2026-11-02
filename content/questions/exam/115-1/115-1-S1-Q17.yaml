@@ -1,0 +1,38 @@
+id: 115-1-S1-Q17
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 17
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 5
+type: 情境
+codes:
+  - L21104
+  - L23302
+concepts: [multimodal-ai, task-model-matching]
+stem: |
+  某醫療新創公司正在開發一套「多模態患者風險評估系統」，需同時處理三種異質資料來源：胸腔 X 光影像（影像模態）、臨床診斷筆記（文字模態），以及心率與血氧的時序感測資料（數值時序模態）。工程師在進行各模態的特徵擷取模型選擇時，需為每種模態挑選最適合的模型架構。下列哪一組模型配置最符合三種模態各自的資料特性？
+options:
+  A: 影像模態用 LSTM、文字模態用 CNN、時序模態用 BERT；
+  B: 影像模態用 TF-IDF、文字模態用 ResNet、時序模態用 Word2Vec；
+  C: 三種模態統一使用 BERT，因為 Transformer 架構具備通用性，可處理任意形式的輸入資料；
+  D: 影像模態用 CNN、文字模態用 Transformer、時序模態用 LSTM 或 Temporal CNN
+answer: D
+explanation:
+  summary: "答案 D。先按影像、文字及時序資料的結構配置編碼模型。"
+  correct: "D 正確：CNN 擷取 X 光的局部空間模式，文字 Transformer 建模診斷筆記的上下文，LSTM 或時序卷積處理心率、血氧沿時間的變化，再交給融合模組。這是科目 1 指引 3.4 的模態專屬網路思路，序列門控另見科目 3 指引 4.3。它是本題合理配置，不表示各模態只能使用這些架構。"
+  wrong:
+    A: "CNN 可以處理文字、LSTM 也能用於經適當編碼的影像序列，但題目未提供這類轉換；相較 D，此配置缺少對各原始資料結構的直接配合。"
+    B: "TF-IDF 與 Word2Vec 是文字表示方法，ResNet 是影像網路，此組把主要適用資料對錯位置。"
+    C: "Transformer 架構可擴展至多種模態，但原始文字 BERT 不會自動理解 X 光與連續感測數值；仍需適當的輸入編碼與訓練。"
+  rule: "跨模態選型先配合各資料的空間、語言或時間結構，再設計融合。"
+guide_refs: [guide-1:3-75, guide-3:4-75]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 5
+    by: EX-E5
+  blind_answer: D
+  dispute: null
