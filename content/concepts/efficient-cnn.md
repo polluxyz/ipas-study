@@ -5,6 +5,7 @@ kind: model
 codes: [L23203]
 aliases: [Depthwise Separable Convolution, EfficientNet, MobileNet]
 summary: MobileNet 拆分卷積工作，EfficientNet 協調模型縮放，以符合品質與資源限制
+is_a: [cnn]
 requires: [convolution-layer]
 guide_refs: [guide-3:4-72, guide-1:3-58, guide-1:3-81]
 textbook: v2
