@@ -52,7 +52,7 @@ const html = normalizeCheatsheetLinks(entry.rendered?.html ?? '', conceptHeading
     .cheatsheet :global(.lead) { color: #333 !important; }
     .cheatsheet-body :global(.textbook-table-scroll) { overflow: visible; }
     .cheatsheet-body :global(table) { min-width: 0; width: 100%; font-size: 9pt; }
-    .cheatsheet-body :global(.table-short-cell), .cheatsheet-body :global(.table-long-cell) { min-width: 0; white-space: normal; }
+    .cheatsheet-body :global(.textbook-table-scroll .table-short-cell), .cheatsheet-body :global(.textbook-table-scroll .table-long-cell) { min-width: 0; white-space: normal; }
     .cheatsheet-body :global(tr) { break-inside: avoid; }
     .cheatsheet-body :global(thead) { display: table-header-group; }
     .cheatsheet-body :global(h2), .cheatsheet-body :global(h3) { break-after: avoid; }
