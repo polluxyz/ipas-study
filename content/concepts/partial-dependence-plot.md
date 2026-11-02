@@ -14,8 +14,8 @@ goals:
 formula_groups:
   - id: marginal-average
     source: https://scikit-learn.org/stable/modules/partial_dependence.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK2-W-L23302-B
 self_check:
   - id: c1
     goal: g1
