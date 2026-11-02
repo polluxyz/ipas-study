@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import { collectProseSamples, assertProseContrast } from './prose-contrast.mjs';
 import { loadContent, localUrl, localGet, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses, expectedTextbook404, sourceStageChecks, gotoSettled, settlePage, waitForSearch, assertSearchTop3 } from './rollout-smoke.mjs';
 
 /** 比照手動連結轉換的文字節點及排除區，保留程式、公式與既有連結的原文。 */
@@ -578,6 +579,28 @@ await runSmokeWithCleanup({ report, finish: async () => {
     }
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `圖表 ${size} 溢出`);
   }
+  // ROC 的正文與數值表、程式在實際頁面逐一取文字及合成背景；橫捲內容也量測。
+  report.conceptReadingContrast = [];
+  for (const [width, height] of [[1440, 1050], [375, 812]]) {
+    for (const theme of ['light', 'dark']) {
+      await page.setViewportSize({ width, height });
+      await gotoSettled(page, base + '/concepts/roc-auc/');
+      await page.evaluate((value) => {
+        document.documentElement.dataset.theme = value;
+        for (const details of document.querySelectorAll('#concept-body details')) details.open = true;
+      }, theme);
+      for (const id of ['l23303-roc', 'l23303-roc-pr-imbalance']) {
+        assert.ok(await page.locator(`.textbook-figure[data-figure="${id}"] .figure-values th`).count() > 0, `${id} 數值表頭必須存在`);
+      }
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth || document.body.scrollWidth > innerWidth), false, `ROC ${width} ${theme} 溢出`);
+      await screenshot(page, `roc-reading-${width}-${theme}.png`);
+      const samples = await page.evaluate(collectProseSamples);
+      const evidence = { width, theme, samples };
+      report.conceptReadingContrast.push(evidence);
+      evidence.summary = assertProseContrast(samples);
+    }
+  }
+  await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; });
   await page.setViewportSize({ width: 1440, height: 1050 });
   await verifySupplements();
   const fixtureResponse = await gotoSettled(page, base + '/test-fixtures/textbook/');
