@@ -133,3 +133,5 @@
   - Python 在 worktree 用共用環境：`UV_PROJECT_ENVIRONMENT=D:/AI_test/tools/python/.venv UV_NO_SYNC=1`（實測可用）。
   - 寫作組 85 組。無前置組的只有 7 組，已全部派出（xhigh，`--search`）：W-L23102-A、W-L23101-A、W-L21302-A、W-L21101-A、W-L21201-A、W-L21102-A、W-L21201-B。
   - W-L21201-B 提問財務圖格式。決定：不在圖表 schema 的數據圖，用腳本從例子 JSON 產生 SVG，腳本留在組資料夾。已補進 W-common-v2。
+
+- 2026-11-02：公開同名遷移完成後，協調者generation 7在D:/ipas-study接管；關閉最後舊終端並移除舊Orca setup，離線備份保留。新庫PR #3–#15中12個教材PR通過協調者檢查、230測試、build與非空成功CI後合併，85/85組在main（6e12639）。保留5群公式pending的直接來源門檻；171題原題草稿全交齊，續跑隔離盲解／解析／非作者複審及25頁M4補強。20份路線與20份速查仍待完成，不將85組等同全站驗收。
