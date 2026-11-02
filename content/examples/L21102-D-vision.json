@@ -1,0 +1,2494 @@
+{
+  "source": "教學合成資料；4×4 灰階示意，沒有真實商品或零件照片。",
+  "seed": 21102,
+  "previous_example": "L23301-E-images.json：沿用原圖不覆寫、來源先切分的慣例；本檔是另一份資料，不沿用其數字。",
+  "split_indices": {
+    "train": [
+      0,
+      1,
+      2,
+      3,
+      6,
+      7
+    ],
+    "validation": [
+      4,
+      8
+    ],
+    "test": [
+      5,
+      9
+    ]
+  },
+  "event_interval_ms": [
+    450,
+    650
+  ],
+  "frame_stride_ms": [
+    400,
+    200
+  ],
+  "processing": {
+    "gamma": 0.5,
+    "median_kernel": 3,
+    "padding": "edge",
+    "gaussian_kernel": [
+      [
+        1,
+        2,
+        1
+      ],
+      [
+        2,
+        4,
+        2
+      ],
+      [
+        1,
+        2,
+        1
+      ]
+    ],
+    "gaussian_divisor": 16
+  },
+  "grad_cam_model": {
+    "conv_kernel": 2,
+    "conv_stride": 2,
+    "conv_weights": [
+      [
+        0.25,
+        0.25
+      ],
+      [
+        0.25,
+        0.25
+      ]
+    ],
+    "bias": 0,
+    "target": "positive_brightness_score",
+    "head": "mean of four activations; other logit is its negative",
+    "trained": false
+  },
+  "domains": {
+    "retail": {
+      "class_meaning": {
+        "0": "包裝正常",
+        "1": "封口異常"
+      },
+      "images": [
+        {
+          "index": 0,
+          "sample_id": "RD01",
+          "domain": "retail",
+          "group_id": "RD-object-0",
+          "timestamp_ms": 0,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              64,
+              64,
+              16,
+              16
+            ],
+            [
+              64,
+              64,
+              16,
+              16
+            ],
+            [
+              16,
+              16,
+              255,
+              16
+            ],
+            [
+              16,
+              16,
+              16,
+              16
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": true
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 1,
+          "sample_id": "RD02",
+          "domain": "retail",
+          "group_id": "RD-object-1",
+          "timestamp_ms": 1000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              68,
+              68,
+              17,
+              17
+            ],
+            [
+              68,
+              68,
+              17,
+              17
+            ],
+            [
+              17,
+              17,
+              17,
+              17
+            ],
+            [
+              17,
+              17,
+              17,
+              17
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 2,
+          "sample_id": "RD03",
+          "domain": "retail",
+          "group_id": "RD-object-2",
+          "timestamp_ms": 2000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 3,
+          "sample_id": "RD04",
+          "domain": "retail",
+          "group_id": "RD-object-3",
+          "timestamp_ms": 3000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              76,
+              76,
+              19,
+              19
+            ],
+            [
+              76,
+              76,
+              19,
+              19
+            ],
+            [
+              19,
+              19,
+              19,
+              19
+            ],
+            [
+              19,
+              19,
+              19,
+              19
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 4,
+          "sample_id": "RD05",
+          "domain": "retail",
+          "group_id": "RD-object-4",
+          "timestamp_ms": 4000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              80,
+              80,
+              20,
+              20
+            ],
+            [
+              80,
+              80,
+              20,
+              20
+            ],
+            [
+              20,
+              20,
+              20,
+              20
+            ],
+            [
+              20,
+              20,
+              20,
+              20
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "validation",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 5,
+          "sample_id": "RD06",
+          "domain": "retail",
+          "group_id": "RD-object-5",
+          "timestamp_ms": 5000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              84,
+              84,
+              21,
+              21
+            ],
+            [
+              84,
+              84,
+              21,
+              21
+            ],
+            [
+              21,
+              21,
+              21,
+              21
+            ],
+            [
+              21,
+              21,
+              21,
+              21
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "test",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 6,
+          "sample_id": "RD07",
+          "domain": "retail",
+          "group_id": "RD-object-6",
+          "timestamp_ms": 6000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              88,
+              88,
+              22,
+              22
+            ],
+            [
+              88,
+              88,
+              22,
+              22
+            ],
+            [
+              22,
+              22,
+              22,
+              22
+            ],
+            [
+              22,
+              22,
+              22,
+              22
+            ]
+          ],
+          "class_label": 1,
+          "reviewed_label": 1,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 7,
+          "sample_id": "RD08",
+          "domain": "retail",
+          "group_id": "RD-object-7",
+          "timestamp_ms": 7000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              92,
+              92,
+              23,
+              23
+            ],
+            [
+              92,
+              92,
+              23,
+              23
+            ],
+            [
+              23,
+              23,
+              23,
+              23
+            ],
+            [
+              23,
+              23,
+              23,
+              23
+            ]
+          ],
+          "class_label": 1,
+          "reviewed_label": 1,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 8,
+          "sample_id": "RD09",
+          "domain": "retail",
+          "group_id": "RD-object-8",
+          "timestamp_ms": 8000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              96,
+              96,
+              24,
+              24
+            ],
+            [
+              96,
+              96,
+              24,
+              24
+            ],
+            [
+              24,
+              24,
+              24,
+              24
+            ],
+            [
+              24,
+              24,
+              24,
+              24
+            ]
+          ],
+          "class_label": 1,
+          "reviewed_label": 1,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "validation",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 9,
+          "sample_id": "RD10",
+          "domain": "retail",
+          "group_id": "RD-object-9",
+          "timestamp_ms": 9000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              100,
+              100,
+              25,
+              25
+            ],
+            [
+              100,
+              100,
+              25,
+              25
+            ],
+            [
+              25,
+              25,
+              25,
+              25
+            ],
+            [
+              25,
+              25,
+              25,
+              25
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 1,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "test",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 10,
+          "sample_id": "RD11",
+          "domain": "retail",
+          "group_id": "RD-object-10",
+          "timestamp_ms": 10000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              28,
+              28,
+              28,
+              28
+            ],
+            [
+              28,
+              28,
+              28,
+              28
+            ],
+            [
+              28,
+              28,
+              28,
+              28
+            ],
+            [
+              28,
+              28,
+              28,
+              28
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.1,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "excluded",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "index": 11,
+          "sample_id": "RD12",
+          "domain": "retail",
+          "group_id": "RD-object-0",
+          "timestamp_ms": 11000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              64,
+              64,
+              16,
+              16
+            ],
+            [
+              64,
+              64,
+              16,
+              16
+            ],
+            [
+              16,
+              16,
+              255,
+              16
+            ],
+            [
+              16,
+              16,
+              16,
+              16
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": true
+          },
+          "duplicate_of": "RD01",
+          "split": "excluded",
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        }
+      ],
+      "frames": [
+        {
+          "frame_id": "RD-video-01-f00",
+          "index": 0,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 0,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f01",
+          "index": 1,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 100,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f02",
+          "index": 2,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 200,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f03",
+          "index": 3,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 300,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f04",
+          "index": 4,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 400,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f05",
+          "index": 5,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 500,
+          "event_present": true,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              220,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 1,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f06",
+          "index": 6,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 600,
+          "event_present": true,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              220,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 1,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f07",
+          "index": 7,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 700,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f08",
+          "index": 8,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 800,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f09",
+          "index": 9,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 900,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f10",
+          "index": 10,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 1000,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        {
+          "frame_id": "RD-video-01-f11",
+          "index": 11,
+          "video_id": "RD-video-01",
+          "group_id": "RD-video-01",
+          "split": "train",
+          "timestamp_ms": 1100,
+          "event_present": false,
+          "pixel_array": [
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              72,
+              72,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            0,
+            0,
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    "manufacturing": {
+      "class_meaning": {
+        "0": "表面正常",
+        "1": "表面異常"
+      },
+      "images": [
+        {
+          "index": 0,
+          "sample_id": "MD01",
+          "domain": "manufacturing",
+          "group_id": "MD-object-0",
+          "timestamp_ms": 0,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              16,
+              16,
+              16,
+              16
+            ],
+            [
+              16,
+              255,
+              16,
+              16
+            ],
+            [
+              16,
+              16,
+              64,
+              64
+            ],
+            [
+              16,
+              16,
+              64,
+              64
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": true
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 1,
+          "sample_id": "MD02",
+          "domain": "manufacturing",
+          "group_id": "MD-object-1",
+          "timestamp_ms": 1000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              17,
+              17,
+              17,
+              17
+            ],
+            [
+              17,
+              17,
+              17,
+              17
+            ],
+            [
+              17,
+              17,
+              68,
+              68
+            ],
+            [
+              17,
+              17,
+              68,
+              68
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 2,
+          "sample_id": "MD03",
+          "domain": "manufacturing",
+          "group_id": "MD-object-2",
+          "timestamp_ms": 2000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 3,
+          "sample_id": "MD04",
+          "domain": "manufacturing",
+          "group_id": "MD-object-3",
+          "timestamp_ms": 3000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              19,
+              19,
+              19,
+              19
+            ],
+            [
+              19,
+              19,
+              19,
+              19
+            ],
+            [
+              19,
+              19,
+              76,
+              76
+            ],
+            [
+              19,
+              19,
+              76,
+              76
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 4,
+          "sample_id": "MD05",
+          "domain": "manufacturing",
+          "group_id": "MD-object-4",
+          "timestamp_ms": 4000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              20,
+              20,
+              20,
+              20
+            ],
+            [
+              20,
+              20,
+              20,
+              20
+            ],
+            [
+              20,
+              20,
+              80,
+              80
+            ],
+            [
+              20,
+              20,
+              80,
+              80
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "validation",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 5,
+          "sample_id": "MD06",
+          "domain": "manufacturing",
+          "group_id": "MD-object-5",
+          "timestamp_ms": 5000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              21,
+              21,
+              21,
+              21
+            ],
+            [
+              21,
+              21,
+              21,
+              21
+            ],
+            [
+              21,
+              21,
+              84,
+              84
+            ],
+            [
+              21,
+              21,
+              84,
+              84
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "test",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 6,
+          "sample_id": "MD07",
+          "domain": "manufacturing",
+          "group_id": "MD-object-6",
+          "timestamp_ms": 6000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              22,
+              22,
+              22,
+              22
+            ],
+            [
+              22,
+              22,
+              22,
+              22
+            ],
+            [
+              22,
+              22,
+              88,
+              88
+            ],
+            [
+              22,
+              22,
+              88,
+              88
+            ]
+          ],
+          "class_label": 1,
+          "reviewed_label": 1,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 7,
+          "sample_id": "MD08",
+          "domain": "manufacturing",
+          "group_id": "MD-object-7",
+          "timestamp_ms": 7000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              23,
+              23,
+              23,
+              23
+            ],
+            [
+              23,
+              23,
+              23,
+              23
+            ],
+            [
+              23,
+              23,
+              92,
+              92
+            ],
+            [
+              23,
+              23,
+              92,
+              92
+            ]
+          ],
+          "class_label": 1,
+          "reviewed_label": 1,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "train",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 8,
+          "sample_id": "MD09",
+          "domain": "manufacturing",
+          "group_id": "MD-object-8",
+          "timestamp_ms": 8000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              24,
+              24,
+              24,
+              24
+            ],
+            [
+              24,
+              24,
+              24,
+              24
+            ],
+            [
+              24,
+              24,
+              96,
+              96
+            ],
+            [
+              24,
+              24,
+              96,
+              96
+            ]
+          ],
+          "class_label": 1,
+          "reviewed_label": 1,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "validation",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 9,
+          "sample_id": "MD10",
+          "domain": "manufacturing",
+          "group_id": "MD-object-9",
+          "timestamp_ms": 9000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              25,
+              25,
+              25,
+              25
+            ],
+            [
+              25,
+              25,
+              25,
+              25
+            ],
+            [
+              25,
+              25,
+              100,
+              100
+            ],
+            [
+              25,
+              25,
+              100,
+              100
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 1,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "test",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 10,
+          "sample_id": "MD11",
+          "domain": "manufacturing",
+          "group_id": "MD-object-10",
+          "timestamp_ms": 10000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              28,
+              28,
+              28,
+              28
+            ],
+            [
+              28,
+              28,
+              28,
+              28
+            ],
+            [
+              28,
+              28,
+              28,
+              28
+            ],
+            [
+              28,
+              28,
+              28,
+              28
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.1,
+            "impulse_noise": false
+          },
+          "duplicate_of": null,
+          "split": "excluded",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "index": 11,
+          "sample_id": "MD12",
+          "domain": "manufacturing",
+          "group_id": "MD-object-0",
+          "timestamp_ms": 11000,
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "pixel_array": [
+            [
+              16,
+              16,
+              16,
+              16
+            ],
+            [
+              16,
+              255,
+              16,
+              16
+            ],
+            [
+              16,
+              16,
+              64,
+              64
+            ],
+            [
+              16,
+              16,
+              64,
+              64
+            ]
+          ],
+          "class_label": 0,
+          "reviewed_label": 0,
+          "quality": {
+            "low_light": true,
+            "blur_score": 0.9,
+            "impulse_noise": true
+          },
+          "duplicate_of": "MD01",
+          "split": "excluded",
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        }
+      ],
+      "frames": [
+        {
+          "frame_id": "MD-video-01-f00",
+          "index": 0,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 0,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f01",
+          "index": 1,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 100,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f02",
+          "index": 2,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 200,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f03",
+          "index": 3,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 300,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f04",
+          "index": 4,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 400,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f05",
+          "index": 5,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 500,
+          "event_present": true,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              220
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 1,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f06",
+          "index": 6,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 600,
+          "event_present": true,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              220
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 1,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f07",
+          "index": 7,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 700,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f08",
+          "index": 8,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 800,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f09",
+          "index": 9,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 900,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f10",
+          "index": 10,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 1000,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        },
+        {
+          "frame_id": "MD-video-01-f11",
+          "index": 11,
+          "video_id": "MD-video-01",
+          "group_id": "MD-video-01",
+          "split": "train",
+          "timestamp_ms": 1100,
+          "event_present": false,
+          "pixel_array": [
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              18,
+              18
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ],
+            [
+              18,
+              18,
+              72,
+              72
+            ]
+          ],
+          "width": 4,
+          "height": 4,
+          "channels": 1,
+          "quality": {
+            "blur_score": 0.9,
+            "low_light": true
+          },
+          "class_label": 0,
+          "fixed_region": [
+            2,
+            2,
+            4,
+            4
+          ]
+        }
+      ]
+    }
+  }
+}
