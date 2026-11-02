@@ -1,0 +1,45 @@
+id: 115-1-S3-Q41
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 41
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 11
+type: 程式
+codes: [L23301, L23304]
+concepts: []
+stem: |
+  工程師使用 PyTorch 建立 OCR 訓練 pipeline，並對手寫字母資料集套用下圖程式進行資料增強（Transform）。模型在訓練過程中顯示驗證損失（Validation Loss）持續下降，但實際部署後，系統在辨識「b/d/p/q」類字母錯誤率異常偏高。下列何者為最可能的根本原因？
+code: |
+  import torchvision.transforms as transforms
+
+  transform = transforms.Compose([
+      transforms.RandomHorizontalFlip(p=0.5),
+      transforms.RandomRotation(15),
+      transforms.ColorJitter(brightness=0.3),
+      transforms.ToTensor(),
+  ])
+code_lang: python
+options:
+  A: RandomRotation(15)角度過大導致特徵變形，應降至 5 度以內
+  B: RandomHorizontalFlip 破壞字母方向語義，使模型以 50%機率學到鏡像錯誤標籤
+  C: ColorJitter 改變筆畫灰階，導致邊緣偵測特徵失真
+  D: ToTensor( )應放在所有幾何變換之前才能保持座標對應正確
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 11
+    by: EX-E8
+  blind_answer: null
+  dispute: null

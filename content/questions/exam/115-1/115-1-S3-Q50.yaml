@@ -1,0 +1,50 @@
+id: 115-1-S3-Q50
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 50
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 18
+type: 程式
+codes: [L23304, L23103]
+concepts: []
+stem: |
+  某人工智慧團隊正在開發一套自動光學檢測（Automated Optical Inspection, AOI）系統，目標是透過機械手臂上的相機，自動辨識晶圓表面是否存在「劃傷（Scratch）」或「污點（Spot）」等瑕疵。目前系統開發面臨以下挑戰：
+  ● 資料極度不平衡，正常晶圓影像約佔 99%，有瑕疵影像僅佔 1%。
+  ● 輸入影像品質不一致，包含不同解析度，且部分影像因機械手臂震動而出現模糊。
+  ● 在使用深層卷積神經網路（CNN）訓練時，Loss 曲線震盪劇烈，甚至偶爾出現數值溢出（NaN）情形。
+
+  請根據上述情境，回答第 49~50 題。
+
+  為了修復訓練過程中 Loss 突然變成 NaN 的問題，工程師考慮在 PyTorch 訓練迴圈中加入梯度裁剪（Gradient Clipping）機制，例如 torch.nn.utils.clip_grad_norm_。若要正確加入梯度裁剪，最適合插入於哪個位置？其主要作用為何？
+code: |
+  for images, labels in train_loader:
+      optimizer.zero_grad()             # 位置 1
+      outputs = model(images)           # 位置 2
+      loss = criterion(outputs, labels) # 位置 3
+      loss.backward()                   # 位置 4
+      optimizer.step()                  # 位置 5
+code_lang: python
+options:
+  A: 插入於位置 3 與位置 4 之間；用以限制 Loss 數值大小，避免梯度消失
+  B: 插入於位置 4 與位置 5 之間；用以限制梯度範數過大，避免更新步幅失控導致數值不穩
+  C: 插入於位置 5 之後；用以將更新後的權重強制壓縮回正常範圍
+  D: 插入於位置 1 與位置 2 之間；用以對輸入影像進行批次標準化
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 18
+    by: EX-E8
+  blind_answer: null
+  dispute: null

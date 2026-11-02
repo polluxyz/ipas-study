@@ -1,0 +1,49 @@
+id: 115-1-S3-Q43
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 43
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 12
+type: 程式
+codes: [L23302, L23304]
+concepts: []
+stem: |
+  下圖為使用 ResNet 進行遷移學習（Transfer Learning）的 Python 程式片段。請回答第 42~43 題。
+
+  在進行遷移學習微調（Fine-Tuning）時，通常會將優化器的學習率（Learning Rate）設得非常小（如 1e-4），下列何者為主要的原因？
+code: |
+  import torch
+  import torch.nn as nn
+  import torchvision
+
+  model = torchvision.models.resnet50(pretrained=True)
+  for param in model.parameters():
+      param.requires_grad = False  # 行(A)
+
+  model.fc = nn.Linear(2048, 2)
+  optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-4)
+code_lang: python
+options:
+  A: 為了避免記憶體耗盡（OOM）
+  B: 為了加速模型整體的收斂時間
+  C: 為了讓損失函數強制歸零
+  D: 為了避免更新步伐過大，破壞預訓練模型原本已學好的良好特徵表示
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 12
+    by: EX-E8
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,79 @@
+id: 115-1-S3-Q46
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 46
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 15
+type: 程式
+codes: [L23301, L23203]
+concepts: []
+stem: |
+  請依據下方資訊回答第 46~48 題。
+  使用 CIFAR-10 資料集以建立卷積神經網路（CNN），進行彩色影像之分類與辨識分析。CIFAR-10 為一常用之影像分類基準資料集，內容包含 10 個類別，共計 60000 張彩色影像，其中訓練集含 50000 張影像，測試集則含 10000 張影像。每張影像解析度為 32 × 32 像素，並具有三個通道（channel），分別對應紅、綠、藍三原色。以下程式碼片段示範資料載入與處理流程。
+
+  下圖顯示資料集的第 1 筆部分資料。
+
+  ```text
+  >>> x_train[0]
+  array([[[ 59,  62,  63],
+          [ 43,  46,  45],
+          [ 50,  48,  43],
+          ...,
+          [158, 132, 108],
+          [152, 125, 102],
+          [148, 124, 103]],
+
+         [[ 16,  20,  20],
+          [  0,   0,   0],
+          [ 18,   8,   0],
+          ...,
+  ```
+
+  ```text
+  >>> y_train[0]
+  array([6], dtype=uint8)
+  ```
+
+  參考下圖資料處理，下列哪一項描述組合正確？
+
+  描述 A：x_train, x_test 將影像範圍壓縮到 0~31 範圍
+  描述 B：可以增加模型的泛化能力
+  描述 C：x_train, x_test 資料轉換結果相當於 z-score 標準化
+  描述 D：資料轉換目的是避免梯度爆炸或梯度消失
+  描述 E：y_train 將 label 轉換為獨熱編碼（One-hot Encoding）
+  描述 F：y_train 適合輸出層使用 softmax 函數
+code: |
+  import tensorflow as tf
+  from tensorflow.keras import datasets, layers, models
+  import matplotlib.pyplot as plt
+
+  (x_train, y_train), (x_test, y_test) = datasets.cifar10.load_data()
+
+  x_train, x_test = x_train / 255.0, x_test / 255.0
+  y_train = tf.keras.utils.to_categorical(y_train, 10)
+  y_test = tf.keras.utils.to_categorical(y_test, 10)
+code_lang: python
+options:
+  A: 描述 A、描述 C、描述 F
+  B: 描述 B、描述 D、描述 E、描述 F
+  C: 描述 B、描述 C、描述 E、描述 F
+  D: 描述 A、描述 B、描述 D、描述 E、描述 F
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 15
+    by: EX-E8
+  blind_answer: null
+  dispute: null
