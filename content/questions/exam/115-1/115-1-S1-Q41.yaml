@@ -1,0 +1,36 @@
+id: 115-1-S1-Q41
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 41
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 12
+type: 情境
+codes: [L21302]
+concepts: [gpu-inference-scheduling]
+stem: |
+  某 AI 影像辨識平台以單一 GPU 伺服器提供多租戶推論服務，系統長期觀察到 GPU 使用率約維持在 60%左右，且在執行過程中可觀察到 GPU kernel 之間存在明顯閒置間隔，單次推論多以小批次方式執行。然而，在尖峰時段時，請求延遲會出現明顯波動甚至突增。同時，CPU 與記憶體資源使用率均未達瓶頸，且系統團隊已排除硬體、網路與請求併發控制異常。在此情境下，請判斷最可能造成問題的原因為何？
+options:
+  A: GPU 排程策略與批次大小設定不當，導致 GPU 運算單元未被有效利用；
+  B: 請求併發控制機制不佳，導致多個請求同時搶占 GPU Context 資源造成延遲；
+  C: GPU 硬體效能不足，無法支撐推論負載；
+  D: 模型未進行量化優化，導致推論計算成本過高
+answer: A
+explanation:
+  summary: "A。合看小批次、kernel 閒置與排除條件，較指向 GPU 排程問題。"
+  correct: "A 最符合全部線索：小批次可能放大啟動開銷及閒置，尖峰時排隊又使尾端延遲增加。須以追蹤工具查排程、批次與等待時間，再評估有延遲上限的動態湊批；單看 60% 使用率不能定位根因。[NVIDIA Triton 批次文件](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/batcher.html)"
+  wrong:
+    B: "題幹明示已排除請求併發控制異常，不能忽略此條件再選它。"
+    C: "硬體問題已排除，kernel 又有閒置，應先查軟體如何使用 GPU，不能僅由延遲推論算力不足。"
+    D: "量化可能加速，但未量化不必然造成 kernel 間閒置，沒有直接解釋本題的批次與排程線索。"
+  rule: "GPU 診斷合看排隊、kernel 時間與批次，不只看平均使用率。"
+guide_refs: [guide-1:5-15]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 12
+    by: EX-E6-codex
+  blind_answer: A
+  dispute: null

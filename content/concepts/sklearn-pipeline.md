@@ -12,7 +12,7 @@ textbook: v2
 summary: Pipeline 把前處理與模型串成一個物件，交叉驗證時每摺一起重新擬合
 goals:
   - id: g1
-    text: 說明 Pipeline 在訓練與預測時各步驟的 fit、transform 與 predict
+    text: 說明含補值、縮放與 LDA 的 Pipeline 在每摺訓練與預測時各步驟的 fit、transform 與 predict
   - id: g2
     text: 對照切分前選特徵與摺內 Pipeline，找出資料洩漏並修正
   - id: g3
@@ -64,6 +64,21 @@ self_check:
       B: 錯。參數分隔符號是雙底線，加入病人編號不等於依病人分組。
       C: 對。參數用雙底線定位步驟，資料群組則由切分策略另外控制。
       D: 錯。Pipeline 管理前處理與模型，不能自動防止同病人跨摺。
+  - id: c4
+    goal: g1
+    type: choice
+    prompt: SimpleImputer→StandardScaler→LDA→分類器放入三摺交叉驗證。哪一組資料使用方式正確？
+    options:
+      A: 每摺用訓練 X、y 擬合全流程；驗證 X 只轉換與預測，驗證 y 只評分
+      B: 每摺先用訓練 X 補值縮放，再用驗證 X、y 擬合 LDA，最後分類
+      C: 先以全部 X 補值縮放；每摺再以訓練 X、y 擬合 LDA 與分類器
+      D: 每摺以訓練 X、y 擬合全流程；驗證端重學補值縮放，再沿用 LDA
+    answer: A
+    explain:
+      A: 對。LDA 使用訓練標籤學方向；驗證只沿用前處理與方向，不參與擬合。
+      B: 錯。驗證特徵與答案影響判別方向，已越過當摺訓練邊界。
+      C: 錯。切摺前的補值與尺度已使用驗證分布，後段正確仍不能撤回洩漏。
+      D: 錯。驗證端重學前處理同樣越界，也改變了分類器所預期的座標。
 author: codex
 status: draft
 ---
@@ -113,6 +128,22 @@ Pipeline（scikit-learn Pipeline；也稱管線）把這些步驟串成一個物
 5. 下一摺複製全新流程，重新學尺度、特徵清單與分類器。
 
 這裡每人只有一列，才能用一般分層切法。若每人有多列紀錄，就還要依病人分組；Pipeline 不會替你完成這件事。
+
+### 補值、縮放與 LDA 的逐摺順序
+
+另用資料洩漏頁的十二列設備合成資料，完整值存於 `L23303-M4-A-fold-boundaries.json`。不是前面百人醫療資料的新成效；三個特徵的單位任意，各列視為獨立設備。
+
+![第一摺八列訓練資料學各轉換；四列驗證只能沿用，PCA 與 LDA 都遵守相同邊界](figure:l23303-m4-a-fit-boundaries)
+
+1. `SimpleImputer` 只在訓練 X 學各欄平均，補好訓練空白。
+2. `StandardScaler` 只在補好的訓練 X 學平均與尺度，再轉換訓練資料。
+3. `LDA` 用轉換後的訓練 X **及同摺訓練 y** 學判別方向，再轉換訓練資料。
+4. 分類器用降維後的訓練 X 與訓練 y 擬合。
+5. 驗證 X 依序只做補值、縮放、LDA 的 `transform`，再 `predict`；驗證 y 只拿來評分。
+
+Pipeline 會將 `fit(X_train, y_train)` 的訓練 y 傳給需要它的步驟。LDA 雖然也能當分類器，本例將它放在中間作監督式降維；二元標籤最多只產生一個判別成分。
+
+下一摺重新複製整條流程，上一摺學得的補值、尺度、方向與模型都不沿用。若改用 PCA，改的是降維方法，不能改成全資料 fit。
 
 ## 程式（補充）
 
@@ -174,6 +205,90 @@ print("模型 C", pipe.get_params()["model__C"])
 - `set_params` 只改設定，不會自動重新擬合；正式使用新設定前要再訓練。
 :::
 
+### 最小的補值、縮放、LDA 實測
+
+下列是與 JSON 完全相同的十二列數值。第二欄索引 1、7 缺值，`np.nan` 不代表 0；標籤前六列為 0、後六列為 1。
+
+```python
+from sklearn.impute import SimpleImputer
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn.model_selection import cross_validate
+num_X = np.array([[1,10,2],[2,np.nan,4],[3,12,1],[4,9,5],
+    [5,11,3],[6,13,2],[8,20,8],[9,np.nan,7],
+    [10,19,9],[11,24,6],[12,22,10],[18,30,5]], dtype=float)
+num_y = np.repeat([0, 1], 6)
+numeric_pipe = Pipeline([("impute", SimpleImputer(strategy="mean")),
+    ("scale", StandardScaler()), ("lda", LDA(n_components=1)),
+    ("model", LogisticRegression(solver="liblinear", random_state=0))])
+folds = list(StratifiedKFold(n_splits=3, shuffle=True,
+                            random_state=17).split(num_X, num_y))
+print(num_X.shape, np.bincount(num_y).tolist())
+```
+```text
+(12, 3) [6, 6]
+```
+
+真正交給交叉驗證的是原始 `num_X`、`num_y` 與完整流程。`return_estimator=True` 取回每摺新擬合的模型，輸出其索引和參數；不是先在全資料 fit 再把結果切摺。
+
+```python
+audit = cross_validate(numeric_pipe, num_X, num_y, cv=folds,
+    scoring="accuracy", return_estimator=True, error_score="raise")
+for k, ((tr, va), fitted) in enumerate(zip(folds, audit["estimator"]), 1):
+    print("摺", k, "train", tr.tolist(), "validation", va.tolist())
+    print("補值", fitted["impute"].statistics_.round(6).tolist())
+    print("縮放平均", fitted["scale"].mean_.round(6).tolist())
+    print("縮放尺度", fitted["scale"].scale_.round(6).tolist())
+    print("LDA類別中心", fitted["lda"].means_.round(6).tolist())
+    print("LDA方向", fitted["lda"].scalings_.round(6).ravel().tolist())
+print("各摺準確率", audit["test_score"].tolist())
+```
+```text
+摺 1 train [0, 1, 2, 4, 6, 7, 10, 11] validation [3, 5, 8, 9]
+補值 [7.25, 17.5, 5.0]
+縮放平均 [7.25, 17.5, 5.0]
+縮放尺度 [5.379359, 6.239992, 2.915476]
+LDA類別中心 [[-0.836531, -0.781251, -0.857493], [0.836531, 0.781251, 0.857493]]
+LDA方向 [1.803347, -0.154537, 1.860311]
+摺 2 train [2, 3, 4, 5, 8, 9, 10, 11] validation [0, 1, 6, 7]
+補值 [8.625, 17.5, 5.125]
+縮放平均 [8.625, 17.5, 5.125]
+縮放尺度 [4.741769, 6.946222, 2.97647]
+LDA類別中心 [[-0.869928, -0.89977, -0.797925], [0.869928, 0.89977, 0.797925]]
+LDA方向 [-4.997317, 10.387304, 4.401996]
+摺 3 train [0, 1, 3, 5, 6, 7, 8, 9] validation [2, 4, 10, 11]
+補值 [6.375, 15.833333, 5.375]
+縮放平均 [6.375, 15.833333, 5.375]
+縮放尺度 [3.497767, 4.780603, 2.446298]
+LDA類別中心 [[-0.893427, -0.810567, -0.868659], [0.893427, 0.810567, 0.868659]]
+LDA方向 [1.390822, 0.808072, 1.517182]
+各摺準確率 [1.0, 0.75, 1.0]
+```
+
+第一摺補值的第二欄平均是 17.5，和資料洩漏頁的手算一致。LDA 類別中心列依 `classes_` 的 0、1 排列，數字是標準化後的座標；方向整體反號仍可表示同一投影軸。
+
+這裡每摺只用八列訓練、四列評分，準確率只教流程，沒有設備部署效能的意義。完整分類器參數、各筆預測與每摺 `lda_fit_y_indices` 也保存在 JSON。
+
+### 同一數值資料改走 PCA
+
+為核對不讀 y 的轉換，另在每摺相同補值、縮放後的訓練資料上 fit PCA。這是替代 LDA 的路線；下面只檢查投影，不另外訓練分類器。
+
+```python
+from sklearn.decomposition import PCA
+for k, ((tr, va), fitted) in enumerate(zip(folds, audit["estimator"]), 1):
+    pre = fitted[:2]
+    pca = PCA(n_components=1, svd_solver="full").fit(pre.transform(num_X[tr]))
+    projected = pca.transform(pre.transform(num_X[va]))
+    print("摺", k, "PCA方向", pca.components_.round(6).ravel().tolist(),
+          "驗證形狀", projected.shape)
+```
+```text
+摺 1 PCA方向 [0.605849, 0.606614, 0.514749] 驗證形狀 (4, 1)
+摺 2 PCA方向 [0.626103, 0.616412, 0.477526] 驗證形狀 (4, 1)
+摺 3 PCA方向 [0.599209, 0.571736, 0.560417] 驗證形狀 (4, 1)
+```
+
+PCA 只讀訓練 X，LDA 讀訓練 X、y；兩者驗證時都只 transform。不能以「PCA 不用答案」為理由，先把全部十二列放進 PCA。
+
 ## 怎麼用、怎麼判讀（補充）
 
 本例故意沒有疾病訊號，正確流程的分數應在隨機基準附近波動。切分前的特徵選擇看過全部標籤，才會出現好看的假象。
@@ -216,6 +331,9 @@ print("模型 C", pipe.get_params()["model__C"])
 連續值與類別欄位常需要不同前處理，可先用 `ColumnTransformer` 分欄轉換，再接最後模型。這仍需整體放在交叉驗證內，原則沒有改變。
 
 ### 參考來源
+
+- [scikit-learn：SimpleImputer](https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html)、[StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)、[LDA](https://scikit-learn.org/stable/modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html)、[PCA](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)（支持：新增逐摺例子的參數屬性、訓練標籤與替代投影）。
+- [scikit-learn：cross_validate](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html)（支持：實際交叉驗證、逐摺估計器與評分輸出）。
 
 - [scikit-learn：Pipelines and composite estimators](https://scikit-learn.org/stable/modules/compose.html)（支持：直覺、流程、調參、分欄處理）。
 - [scikit-learn：Pipeline API](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html)（支持：呼叫順序、步驟限制、雙底線參數）。

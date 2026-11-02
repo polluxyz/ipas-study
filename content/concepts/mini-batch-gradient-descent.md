@@ -12,6 +12,7 @@ codes:
   - L23303
   - L23103
 guide_refs:
+  - guide-3:3-23
   - guide-3:3-24
   - guide-3:5-18
   - guide-3:5-19
@@ -28,18 +29,18 @@ goals:
   - id: g1
     text: 比較全批次、單樣本與小批次的穩定性、記憶體及吞吐量
   - id: g2
-    text: 算出每輪更新次數，說明保留或捨棄尾批的條件
+    text: 算出每輪更新次數，說明保留或捨棄尾批的條件，依記憶體與梯度變異選批次並重查學習率
   - id: g3
     text: 逐批計算平均梯度與權重更新，檢查尾批與學習率
 formula_groups:
   - id: batch-gradient
     source: https://d2l.ai/chapter_optimization/minibatch-sgd.html
     status: verified
-    checked_by: ctx_81ecdebd9e83
+    checked_by: task_e3bba14a08df
   - id: update-count
-    source: https://docs.pytorch.org/docs/2.9/data.html
+    source: https://github.com/pytorch/pytorch/blob/v2.9.1/torch/utils/data/sampler.py#L330-L338
     status: verified
-    checked_by: ctx_81ecdebd9e83
+    checked_by: task_e3bba14a08df
 self_check:
   - id: c1
     goal: g1
@@ -174,6 +175,32 @@ $$
 4. 尾批只有 2 筆，平均時要除以 2，不能仍除以 3。
 5. 三批做完才算一輪，再決定是否洗牌、進入下一輪。
 
+### 同八筆資料的三種取樣（補充）
+
+另用八筆合成校正值教取樣：索引 1～8 的目標依序為 −1、+1 交替，與上面的出貨資料分開。每個框先算平均梯度，再更新一次；全批是 1 次、單筆是 8 次、小批保留尾批是 3 次。
+
+![框代表一次梯度平均與更新；同八筆資料分成全批、單筆與小批，捨棄尾批時略過索引7、8](figure:l23303-m4-b-batch-sampling)
+
+圖上保留尾批時共三框，捨棄時只剩兩框，所以是 2 次。更新數看框數，不是框內樣本數。
+
+完整索引在 `L23303-M4-B-controlled-training.json` 的 `sampling_one_epoch`，後面的梯度變異也由同八筆資料計算。
+
+### 把梯度雜訊與記憶體分開比較（補充）
+
+固定參數為 2，單筆平方損失除以 2 後的梯度是「參數減目標」。八筆中四個梯度為 3、四個為 1。枚舉所有等機率、不放回的批次，再比較各批平均梯度的變異：
+
+| 批次大小 | 候選批次數 | 平均梯度的變異 | 批次相關記憶體 |
+|---|---|---|---|
+| 1 | 8 | 1.000000 | 較少 |
+| 3 | 56 | 0.238095 | 居中 |
+| 8 | 1 | 0.000000 | 較多 |
+
+這裡各批平均梯度的總平均都為 2。變異是固定參數下枚舉所得的母體變異，不是把已更新參數的一整輪梯度混在一起估計；也不代表實際 GPU 記憶體已量測。
+
+批次變大通常會降低梯度的取樣變異；固定樣本數與尾批規則時，同一 epoch 的更新次數也會減少。因此在記憶體內選批次後，要共同重新選擇學習率，再用控制實驗確認。
+
+這不表示學習率一律隨批次線性放大。框架的 `SGD` 通常也能接收小批次，不宜只靠 API 名稱認定一次只用一筆。
+
 ## 程式
 
 ### NumPy 最小更新迴圈（補充）
@@ -235,11 +262,11 @@ for start in range(0, len(x), batch_size):
 
 上面的更新次數假設單一資料迴圈、每批更新一次。若每幾批才更新、限制每輪步數，或分散式取樣加入補齊樣本，必須依實作重算。
 
-本頁沒有圖：目標是比較批次取捨與驗算更新次數，三批表格及實際輸出已能逐步核對，不需要額外空間示意。
+新增取樣圖用同一八筆資料核對框數；原出貨需求程式仍保留，用來練逐批梯度及尾批平均。
 
 ### 參考來源
 
-- 學習指引科目 3，5-18～5-19、5-32～5-33（支持：三種更新、資源與適用場景）。
+- 學習指引科目 3，3-23～3-24、5-18～5-19、5-32～5-33（支持：三種更新、資源與適用場景；最小化依本頁負梯度更新式）。
 - [Dive into Deep Learning 12.5](https://d2l.ai/chapter_optimization/minibatch-sgd.html)（支持：平均梯度、向量化與最小更新流程）。
 - [PyTorch torch.utils.data](https://docs.pytorch.org/docs/2.9/data.html)（支持：尾批、取樣與分散式界線）。
 - [Keras FAQ：sample、batch、epoch](https://keras.io/getting_started/faq/#what-do-sample-batch-and-epoch-mean)（支持：輪次與批次的區分）。

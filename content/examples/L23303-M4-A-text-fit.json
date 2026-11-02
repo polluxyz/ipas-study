@@ -1,0 +1,152 @@
+{
+  "source": "教學合成客服文字；不是實際客服成效",
+  "units": {
+    "text": "空白分詞後的詞",
+    "idf": "無單位"
+  },
+  "index_base": 0,
+  "seed": null,
+  "seed_note": "語料與切分手工固定，不抽樣；分類器random_state=0",
+  "samples": [
+    {
+      "index": 0,
+      "id": "T00",
+      "text": "退款 延遲",
+      "label": 1
+    },
+    {
+      "index": 1,
+      "id": "T01",
+      "text": "帳單 錯誤",
+      "label": 0
+    },
+    {
+      "index": 2,
+      "id": "T02",
+      "text": "退款 帳單",
+      "label": 1
+    },
+    {
+      "index": 3,
+      "id": "T03",
+      "text": "物流 延遲",
+      "label": 0
+    },
+    {
+      "index": 4,
+      "id": "T04",
+      "text": "火星 退款",
+      "label": 1
+    },
+    {
+      "index": 5,
+      "id": "T05",
+      "text": "火星 物流",
+      "label": 0
+    }
+  ],
+  "label_meaning": {
+    "0": "一般處理",
+    "1": "優先處理"
+  },
+  "train": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "validation": [
+    4,
+    5
+  ],
+  "settings": {
+    "tokenizer": "str.split",
+    "token_pattern": null,
+    "lowercase": false,
+    "smooth_idf": true,
+    "norm": null,
+    "tf": "原始出現次數",
+    "classifier": "LogisticRegression(solver=liblinear, random_state=0)"
+  },
+  "formula": "idf=ln((1+N)/(1+df))+1",
+  "comparison": [
+    {
+      "term": "帳單",
+      "df_full": 2,
+      "idf_full": 1.8472978603872037,
+      "df_train": 2,
+      "idf_train": 1.5108256237659907
+    },
+    {
+      "term": "延遲",
+      "df_full": 2,
+      "idf_full": 1.8472978603872037,
+      "df_train": 2,
+      "idf_train": 1.5108256237659907
+    },
+    {
+      "term": "火星",
+      "df_full": 2,
+      "idf_full": 1.8472978603872037,
+      "df_train": 0,
+      "idf_train": null
+    },
+    {
+      "term": "物流",
+      "df_full": 2,
+      "idf_full": 1.8472978603872037,
+      "df_train": 1,
+      "idf_train": 1.916290731874155
+    },
+    {
+      "term": "退款",
+      "df_full": 3,
+      "idf_full": 1.5596157879354227,
+      "df_train": 2,
+      "idf_train": 1.5108256237659907
+    },
+    {
+      "term": "錯誤",
+      "df_full": 1,
+      "idf_full": 2.252762968495368,
+      "df_train": 1,
+      "idf_train": 1.916290731874155
+    }
+  ],
+  "vocabulary_full": {
+    "退款": 4,
+    "延遲": 1,
+    "帳單": 0,
+    "錯誤": 5,
+    "物流": 3,
+    "火星": 2
+  },
+  "vocabulary_train": {
+    "退款": 3,
+    "延遲": 1,
+    "帳單": 0,
+    "錯誤": 4,
+    "物流": 2
+  },
+  "validation_transformed_train_only": [
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.5108256237659907,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.916290731874155,
+      0.0,
+      0.0
+    ]
+  ],
+  "validation_predictions": [
+    1,
+    0
+  ],
+  "sklearn_version": "1.9.1"
+}

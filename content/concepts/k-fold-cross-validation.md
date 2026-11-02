@@ -34,17 +34,17 @@ goals:
     text: 做得到每一摺的前處理只用訓練摺、保留最終測試集，並分辨 K-fold 與其他切法
 formula_groups:
   - id: fold-mean
-    source: guide-3:5-26
+    source: https://mathworld.wolfram.com/ArithmeticMean.html
     status: verified
-    checked_by: coordinator-term_b08e717c
+    checked_by: task_a68af11027de
   - id: fold-spread
-    source: https://scikit-learn.org/stable/modules/cross_validation.html
+    source: https://numpy.org/doc/stable/reference/generated/numpy.std.html#notes
     status: verified
-    checked_by: coordinator-term_b08e717c
+    checked_by: task_a68af11027de
   - id: fit-count
     source: guide-3:5-27
-    status: verified
-    checked_by: coordinator-term_b08e717c
+    status: pending
+    checked_by: null
 self_check:
   - id: c1
     goal: g1
@@ -406,6 +406,9 @@ $n$ 除以 $K$ 有餘數時，scikit-learn 會讓前 $n \bmod K$ 摺多 1 筆。
 官方取哪一邊不確定，可寫信給執行單位（ipas@itri.org.tw）查證。
 
 ### 參考來源
+
+- [Wolfram MathWorld：Arithmetic Mean](https://mathworld.wolfram.com/ArithmeticMean.html) 式（1）（支持：等權平均完整式；此處以摺數 $K$ 對應來源的 $N$，分數 $s_k$ 對應 $x_i$）。
+- [NumPy：std Notes](https://numpy.org/doc/stable/reference/generated/numpy.std.html#notes)（支持：分母為 $N$ 的標準差完整式；此處 $N=K$、`ddof=0`，輸入為實數摺分數；不代表平均估計的標準誤）。
 
 - 科目 3 學習指引 5-17、5-18、5-26～5-29：切分、平均、重訓與常見 K 值。（支持：為什麼需要、直覺、定義與公式、走一次流程、怎麼選 K、和相近切法怎麼選、教材表述差異、小結）
 - scikit-learn 使用者指南 [3.1「Cross-validation」](https://scikit-learn.org/stable/modules/cross_validation.html) 的 3.1.1、3.1.2.1、3.1.2.2、3.1.2.4、3.1.2.6 節，以及 [KFold API 的 Notes](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html)。（支持：定義與公式、走一次流程、程式、怎麼判讀 K 個分數、和相近切法怎麼選、換個場景、常見誤解、摺大小不一、小結）

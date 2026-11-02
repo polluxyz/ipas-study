@@ -5,9 +5,13 @@ import coverageCsv from '../../../content/guide-coverage.csv?raw';
 import topicsCsv from '../../../content/guide-topics.csv?raw';
 import StudyPage from '../components/StudyPage.astro';
 import { buildConceptCatalog } from '../lib/concept-catalog';
+import { getData } from '../lib/content';
+import { getRouteLinks } from '../lib/navigation';
 
 const conceptFiles = Object.keys(import.meta.glob('../../../content/concepts/*.md'));
-const catalog = buildConceptCatalog(indexCsv, conceptFiles.map((file) => file.split('/').at(-1)!.slice(0, -3)), coverageCsv, topicsCsv);
+const { codes } = await getData();
+const routeCodes = new Set(codes.map((entry) => entry.data.code));
+const catalog = buildConceptCatalog(indexCsv, conceptFiles.map((file) => file.split('/').at(-1)!.slice(0, -3)), coverageCsv, topicsCsv, routeCodes);
 const headings = catalog.subjects.flatMap((subject) => subject.groups.map((group) => ({ depth: 2, slug: group.code, text: `${group.code} ${group.title}` })));
 ---
 <StudyPage title="概念目錄" description="依科目與評鑑代碼，閱讀已完成的概念頁。" section="概念目錄" headings={headings}>
@@ -35,7 +39,7 @@ const headings = catalog.subjects.flatMap((subject) => subject.groups.map((group
         <ul class="catalog-concepts">{group.unmappedConcepts.map((concept) => <li><a href={concept.href}>{concept.title}<span aria-hidden="true">→</span></a></li>)}</ul>
       </div>}
       {!group.concepts.length && <p class="empty-copy">概念頁撰寫中，完成後會列在這裡。</p>}
-      {group.code === 'L23303' && <div class="catalog-unit"><a class="text-link" href="/codes/L23303/">依學習路線閱讀本單元 →</a></div>}
+      {getRouteLinks(group.code, routeCodes).routeHref && <div class="catalog-unit"><a class="text-link" href={group.href!}>依學習路線閱讀本單元 →</a></div>}
     </section>)}</div>
   </section>)}
 </StudyPage>

@@ -1,0 +1,38 @@
+id: 115-1-S1-Q04
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 4
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 1
+type: 情境
+codes:
+  - L21101
+  - L23201
+concepts: [transformer-model-families]
+stem: |
+  某金融科技公司的工程師正在準備內部客服對話與交易紀錄文本，進行 BERT 模型的預訓練，以提升模型對金融語境的理解能力，並採用遮蔽語言建模（Masked Language Model, MLM）作為訓練任務。請問 MLM 的核心訓練目標為何？
+options:
+  A: 讓模型自左至右逐 token 生成句子，學習自迴歸語言模型（Autoregressive LM）能力；
+  B: 透過對抗訓練（Adversarial Training）縮小真實句與生成句之間的語意差異；
+  C: 隨機遮蔽輸入序列中部分 token，訓練模型根據雙向上下文預測被遮蔽的原始內容；
+  D: 透過遮蔽低頻詞來減少詞彙表大小，降低 Embedding 的記憶體使用
+answer: C
+explanation:
+  summary: "答案 C。MLM 由可見的左右語境重建被選中的原始 token。"
+  correct: "C 正確：遮蔽語言建模先挑選部分位置，讓 BERT 利用兩側可見資訊預測原 token，學習上下文表示。科目 1 指引 3.1 說明 BERT 的雙向預訓練；[BERT 原論文](https://arxiv.org/abs/1810.04805)的實作還包含隨機替換或保留部分被選中 token，故不是所有訓練位置都必須變成遮罩。"
+  wrong:
+    A: "這是因果語言建模的典型方向，只能依前文預測後文，與此處雙向重建目標不同。"
+    B: "這是以對抗學習為核心的敘述；MLM 的監督目標是原 token，不需要生成器與判別器競爭。"
+    D: "遮蔽是製造訓練預測任務，不是刪除詞彙表中的低頻詞，詞嵌入表的大小不會因此自然縮小。"
+  rule: "MLM 看兩側語境補原詞，因果語言建模依前文預測後文。"
+guide_refs: [guide-1:3-23]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E5
+  blind_answer: C
+  dispute: null

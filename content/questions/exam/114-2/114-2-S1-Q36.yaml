@@ -1,0 +1,38 @@
+id: 114-2-S1-Q36
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 36
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 9
+type: 情境
+codes:
+  - L23304
+  - L23303
+concepts: [grid-search, k-fold-cross-validation]
+stem: |
+  某資料科學團隊在開發預測模型時，針對多種模型設定（如學習率、樹深度、正則化係數等）進行系統化測試，希望找出在驗證資料上表現最穩定的組合。此過程最可能採用下列哪一種方法？
+options:
+  A: 使用交叉驗證（Cross Validation）反覆評估模型以降低過擬合風險；
+  B: 透過網格搜尋（Grid Search）在多組超參數設定中進行系統化搜尋與評估；
+  C: 以隨機搜尋（Random Search）快速探索部分參數空間以提升搜尋效率；
+  D: 採用貝葉斯優化（Bayesian Optimization）根據歷次結果動態調整搜尋方向
+answer: B
+explanation:
+  summary: "答案 B。對預定候選超參數組合逐一評估，最符合網格搜尋。"
+  correct: "B 將各超參數的候選值組成網格，逐一訓練並在相同驗證規則下比較。若要判斷穩定性，還應搭配交叉驗證並看分數波動；網格搜尋本身只是產生候選組合，不保證避免過擬合或找到候選範圍以外的最佳設定。題幹只說系統化測試，未明說枚舉全部組合，因此這是依選項描述作最佳判斷。指引有超參數與驗證觀念，未明確比較這幾種搜尋法。"
+  wrong:
+    A: "交叉驗證決定如何分割資料並估計表現，可搭配各種搜尋策略，但它本身沒有規定要測試哪些超參數組合。"
+    C: "隨機搜尋從指定分布或候選空間抽樣，通常只評估部分組合；若題目指預定網格的系統性枚舉，網格搜尋較符合。"
+    D: "貝葉斯優化會利用已完成試驗選擇後續候選，重點是自適應探索；題幹未描述根據歷次結果改變搜尋方向。"
+  rule: "搜尋法決定試哪些設定，交叉驗證決定如何評分，兩者可以搭配使用。"
+guide_refs: [guide-3:5-30, guide-3:5-27]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 9
+    by: EX-E2-Codex
+  blind_answer: B
+  dispute: null

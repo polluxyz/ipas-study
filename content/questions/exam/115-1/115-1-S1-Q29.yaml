@@ -1,0 +1,40 @@
+id: 115-1-S1-Q29
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 29
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 9
+type: 情境
+codes: [L21203, L21102]
+concepts: [grad-cam, explainable-ai]
+stem: |
+  某工程師為一套卷積神經網路（CNN）的醫療影像輔助診斷系統設計模型可解釋性機制。該系統需滿足下列需求：
+  1.能向醫師說明影像被判定為異常的原因
+  2.支援近即時推論，每次解釋須於 200 毫秒內完成，且不可進行大量重複採樣計算
+  3.解釋結果須以影像中具代表性的視覺化像素區域呈現
+  在此情境下，下列何種方法最為適合？
+options:
+  A: 使用 LIME，透過超像素擾動取樣分析影像區塊對預測的影響；
+  B: 使用 SHAP KernelExplainer，計算各像素的 Shapley 值並疊加於原始影像；
+  C: 使用 Grad-CAM（Class Activation Map），透過梯度反向傳播生成類別關注區域；
+  D: 使用 SHAP TreeExplainer，計算特徵貢獻並以熱力圖呈現
+answer: C
+explanation:
+  summary: "C。CNN 區域熱圖及避免大量擾動採樣的限制，較適合 Grad-CAM。"
+  correct: "C 利用目標類別分數對卷積特徵圖的梯度計算通道權重，再產生關注熱圖，不須對大量擾動影像逐次推論。它提供粗粒度區域定位，並非精確像素因果歸因；能否在 200 毫秒內完成，仍須對實際模型、影像大小與硬體量測。[Grad-CAM 原始論文](https://arxiv.org/abs/1610.02391)"
+  wrong:
+    A: "影像 LIME 擾動超像素並多次呼叫模型以擬合局部代理模型，較不符合禁止大量重複採樣的限制。"
+    B: "KernelExplainer 依模型無關的特徵組合採樣評估貢獻，直接解釋高維影像通常需要較多模型呼叫。"
+    D: "TreeExplainer 利用樹模型結構，不適合直接解釋一般 CNN 的卷積特徵圖。"
+  rule: "影像解釋先核對模型結構與計算預算，時間上限仍須實測。"
+guide_refs: [guide-3:5-15]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 9
+    by: EX-E6-codex
+  blind_answer: C
+  dispute: null

@@ -9,14 +9,14 @@ textbook: v2
 summary: 訓練集學參數、驗證集挑設定，測試集留到最後評估未見資料上的表現
 goals:
   - id: g1
-    text: 說得出三份資料各自能參與的決策，走完訓練、選模到最後測試
+    text: 說得出三份資料各自能參與的決策，配對分類與迴歸指標，走完訓練、選模到最後測試
   - id: g2
     text: 做出可重現的切分，指出前處理、時間與群組造成的洩漏風險
 formula_groups:
   - id: split-size
     source: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
-    status: verified
-    checked_by: ctx_2f4741389715
+    status: pending
+    checked_by: null
 self_check:
   - id: c1
     goal: g1
@@ -78,6 +78,21 @@ self_check:
       B: 訓練月份早於驗證與測試，轉換參數也只從訓練資料學得。
       C: 全部月份參與標準化擬合，未來資料的統計量已進入開發流程。
       D: 同時引入較晚月份與評估資料的統計量，兩種洩漏都存在。
+  - id: c5
+    goal: g1
+    type: choice
+    prompt: 團隊同時做盜刷分類與出貨箱數預測，測試集已封存。哪種指標與選模安排合理？
+    options:
+      A: 分類用 MAE；箱數用 Accuracy；反覆比較測試集來挑設定
+      B: 分類依漏報成本看 Recall；箱數看 MAE；用驗證比較設定、測試留最後
+      C: 分類只看整體 Accuracy；箱數只看 AUC；用訓練分數代替最終測試
+      D: 分類依漏報成本看 Recall；箱數看 MAE；每次調參後都看測試再決定
+    answer: B
+    explain:
+      A: 兩種任務的指標配錯，且測試參與挑設定後便不再獨立。
+      B: 分類關注漏報可看召回率，數量誤差可看平均絕對誤差；資料分工也正確。
+      C: AUC 衡量分類排序，訓練分數也不能取代未見資料評估。
+      D: 指標配對合理，但把測試結果拿來挑設定仍破壞最後評估的界線。
 author: codex
 status: draft
 ---
@@ -146,6 +161,35 @@ $n$ 是總筆數，三個下標依序表示訓練、驗證、測試筆數。共�
 5. 最後才轉換並評估 2 筆測試資料，回報成績與評估限制。
 
 測試集只有 2 筆，準確率只能是 0、0.5 或 1。這足以教流程，卻不足以支持可靠的金融風險結論；資料漂移也可能讓日後表現改變。
+
+### 三份資料共用同一任務指標
+
+先定義「預測什麼、錯了有何代價」，再固定評估指標。分類的輸出是類別或分數，迴歸的輸出是數值；不能把迴歸數量硬當成分類正確率。
+
+| 分類指標 | 看什麼 | 教材 |
+|---|---|---|
+| Accuracy | 整體判對比例；類別懸殊時可能掩蓋漏報 | [[accuracy]] |
+| Precision | 判為正類者有多少真的為正，關注誤報 | [[precision]] |
+| Recall | 真正正類有多少被找出，關注漏報 | [[recall]] |
+| F1 | 同時考慮 Precision 與 Recall 的平衡 | [[f1-score]] |
+| AUC（此處指 ROC-AUC） | 分類分數對正負樣本的排序能力 | [[roc-auc]] |
+
+:::supplement[來源：scikit-learn Metrics and scoring；Google ML Crash Course 分類指標]
+二元分類的 Accuracy、Precision、Recall、F1 通常針對固定閾值；AUC 看跨閾值排序，不保證漏報可接受。評估資料只有單一類別時，不能定義二元 ROC-AUC。
+:::
+
+| 迴歸指標 | 看什麼 | 教材 |
+|---|---|---|
+| MAE | 平均絕對誤差，和目標同單位，越小越好 | [[mean-absolute-error]] |
+| MSE | 平均平方誤差，大誤差代價較重，單位平方 | [[mean-squared-error]] |
+| RMSE | 平方誤差平均後開根號，回到目標單位 | [[root-mean-squared-error]] |
+| R² | 相對於以評估資料平均值作常數預測的比較 | [[r-squared]] |
+
+:::supplement[來源：scikit-learn Metrics and scoring；Google ML Crash Course 分類指標]
+盜刷偵測可優先比較驗證 Recall，並監看 Precision；出貨箱數可用驗證 MAE 選設定。指標、正類、閾值與報告規則在開發階段決定，最後對測試集沿用。
+
+測試成績不能再拿來挑指標或重調閾值。MAE、MSE、RMSE 越小越好；R² 可為負，目標為常數時另有定義問題，詳見指標頁。
+:::
 
 ## 程式
 
@@ -223,6 +267,9 @@ K-fold 交叉驗證在資料有限時最有幫助，可以減少單次驗證集�
 可以修正模型，但若根據測試結果修改，就要把這份測試資料視為開發資訊。記下修改原因，另找未參與決策的資料進行新的最終評估。
 
 ### 參考來源
+
+- 科目 3 學習指引 4.1，4-5（支持：分類／迴歸任務區分）；5.3，5-25（支持：分類／迴歸指標配對）；4.2 線性迴歸、5.3 模型評估（支持：RMSE 與 AUC 等指標的延伸清單）。
+- [scikit-learn：Metrics and scoring](https://scikit-learn.org/stable/modules/model_evaluation.html)、[Google ML Crash Course：分類指標](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall)（支持：指標用途與限制；閾值、獨立評估導讀標為補充）。
 
 - 科目 3 學習指引 5.3，5-17～5-18（支持：為什麼需要、三份資料角色）。
 - [scikit-learn train_test_split API](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html)（支持：定義與公式、兩次切分程式）。

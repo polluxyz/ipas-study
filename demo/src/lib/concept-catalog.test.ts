@@ -80,7 +80,7 @@ describe('概念目錄', () => {
   });
 
   it('只算檔案清單中存在且列在總表的頁，分別計算規劃與已寫頁數', () => {
-    const catalog = buildConceptCatalog(csv, new Set(['first', 'sample', 'unlisted']), emptyCoverage, emptyTopics);
+    const catalog = buildConceptCatalog(csv, new Set(['first', 'sample', 'unlisted']), emptyCoverage, emptyTopics, ['L23303']);
     expect(catalog).toMatchObject({ plannedCount: 4, writtenCount: 2, availableCodeCount: 2 });
     expect(catalog.subjects[0].groups.find((group) => group.code === 'L21201')).toMatchObject({ plannedCount: 2, writtenCount: 1, href: '/catalog/#L21201' });
     expect(catalog.subjects[1].groups.find((group) => group.code === 'L23302')).toMatchObject({ plannedCount: 1, writtenCount: 0, href: null });
@@ -92,6 +92,25 @@ describe('概念目錄', () => {
     expect(catalog.subjects.map((subject) => subject.groups.length)).toEqual([9, 12]);
     expect(catalog).toMatchObject({ plannedCount: 0, writtenCount: 0, availableCodeCount: 0 });
     expect(catalog.subjects.flatMap((subject) => subject.groups).every((group) => group.href === null)).toBe(true);
+  });
+
+  it('實際 route 集合決定入口，未合併的 L23303 也只回目錄，不影響 owner、排序或計數', () => {
+    const existing = ['first', 'second', 'sample'];
+    const withRoute = buildConceptCatalog(csv, existing, emptyCoverage, emptyTopics, new Set(['L21201']));
+    const withoutRoute = buildConceptCatalog(csv, existing, emptyCoverage, emptyTopics);
+    const groups = withRoute.subjects.flatMap((subject) => subject.groups);
+    expect(groups.find(({ code }) => code === 'L21201')?.href).toBe('/codes/L21201/');
+    expect(groups.find(({ code }) => code === 'L23303')?.href).toBe('/catalog/#L23303');
+    expect(groups.find(({ code }) => code === 'L23302')?.href).toBeNull();
+    expect(withoutRoute.subjects[0].groups.find(({ code }) => code === 'L21201')?.href).toBe('/catalog/#L21201');
+    expect(withRoute).toMatchObject({ writtenCount: 3, plannedCount: 4, availableCodeCount: 2 });
+    expect(groups.map(({ href, ...group }) => group)).toEqual(withoutRoute.subjects.flatMap((subject) => subject.groups).map(({ href, ...group }) => group));
+  });
+
+  it('有載入路線時可連入，即使目前概念頁還沒寫；有概念頁也不虛構練習路線', () => {
+    const catalog = buildConceptCatalog(csv, ['sample'], emptyCoverage, emptyTopics, ['L23302']);
+    expect(catalog.subjects[1].groups.find(({ code }) => code === 'L23302')).toMatchObject({ writtenCount: 0, href: '/codes/L23302/' });
+    expect(catalog.subjects[1].groups.find(({ code }) => code === 'L23303')?.href).toBe('/catalog/#L23303');
   });
 
   it('解析 BOM、CRLF、含逗號的 aliases、引號跳脫及欄位內換行', () => {

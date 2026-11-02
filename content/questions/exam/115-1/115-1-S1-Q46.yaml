@@ -1,0 +1,36 @@
+id: 115-1-S1-Q46
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 46
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 14
+type: 情境
+codes: [L23401, L21302]
+concepts: [federated-learning, hipaa]
+stem: |
+  某醫院計劃建立混合雲 AI 平台：使用公有雲 GPU 叢集進行 CT 影像模型訓練，但基於 HIPAA（Health Insurance Portability and Accountability Act）法規要求，患者影像原始資料不得離開醫院院內環境。下列何者最符合「利用公有雲算力訓練模型」與「不傳輸原始患者資料」雙重限制的技術方案？
+options:
+  A: 將患者影像資料以 AES-256 加密後上傳至公有雲，並於雲端解密後進行模型訓練；
+  B: 在院內部署同態加密（Homomorphic Encryption）模組，對推論請求進行加密處理；
+  C: 採用聯邦學習（Federated Learning）於院內訓練模型，僅傳送模型更新至雲端聚合，原始資料不外流；
+  D: 建立專線 VPN 連接醫院與雲端，以網路層安全保護資料傳輸
+answer: C
+explanation:
+  summary: "C。院內訓練與雲端聚合共同建立模型，在原始資料留院的限制下最符合題意。"
+  correct: "C 讓原始 CT 影像留在院內，由本地訓練產生模型更新，再由雲端聚合，兩者共同構成模型學習過程，因此是四個選項中最符合要求的方向。主要前向與反向訓練運算仍在院內；若實務目標是大量外包這些運算至公有雲 GPU，僅採此方案仍不足，不能把雲端聚合當成集中式影像訓練。模型更新本身仍有隱私風險。HIPAA 並非一概要求資料留院；HHS 指引允許在簽訂合規 BAA 並遵守其他 HIPAA 要求下，以雲端處理或儲存電子受保護健康資訊，留院是本題明示限制。[聯邦學習原論文](https://arxiv.org/abs/1602.05629)；[HHS 雲端指引](https://www.hhs.gov/hipaa/for-professionals/special-topics/health-information-technology/cloud-computing/index.html)"
+  wrong:
+    A: "此方案在雲端解密處理原始影像，違反題目明定的留院要求；不能因此概括所有雲端處理均違反 HIPAA。"
+    B: "選項只描述加密推論請求，沒有提供公有雲訓練 CT 模型的流程；同態加密名稱不會自動補上訓練設計。"
+    D: "VPN 保護通道而非改變目的地，經安全連線傳出患者原始影像仍違反留院限制。"
+  rule: "分別檢查原始資料、模型更新與主要訓練運算位置，安全傳輸不等於資料留院。"
+guide_refs: [guide-3:6-10]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 14
+    by: EX-E6-codex
+  blind_answer: C
+  dispute: null

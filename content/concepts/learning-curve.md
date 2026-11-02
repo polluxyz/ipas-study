@@ -27,14 +27,18 @@ goals:
   - id: g1
     text: 判讀雙曲線，分辨正常學習、過擬合與疑似欠擬合
   - id: g2
-    text: 依座標與連續趨勢解讀落差，說明單點不能證明原因
+    text: 依座標與連續趨勢解讀落差、穩定、震盪與發散，以學習率及批次控制驗證假說，說明單點不能證明原因
   - id: g3
     text: 用逐輪紀錄找出值得保留與進一步檢查的模型
 formula_groups:
   - id: loss-gap
-    source: https://developers.google.com/machine-learning/crash-course/overfitting/overfitting
-    status: verified
-    checked_by: ctx_81ecdebd9e83
+    source: https://developers.google.com/machine-learning/crash-course/overfitting/overfitting（支持雙曲線診斷；未直接定義本頁G差值，直接列式來源待補）
+    status: pending
+    checked_by: null
+  - id: controlled-objective
+    source: https://d2l.ai/chapter_optimization/gd.html（支持梯度更新；八筆平方目標與展開式為本頁自行設定及推導）
+    status: pending
+    checked_by: null
 self_check:
   - id: c1
     goal: g1
@@ -81,6 +85,21 @@ self_check:
       B: 錯。訓練損失不直接代表未見資料表現。
       C: 錯。完成時間不能證明品質。
       D: 錯。反覆用測試集選模會破壞獨立評估。
+  - id: c4
+    goal: g2
+    type: choice
+    prompt: 工程師要確認曲線反彈是否受批次影響。哪組比較最能隔離這項設定？
+    options:
+      A: 同時換批次及學習率，再比較各自最好的驗證分數
+      B: 同時換資料及評估模式，再比較最後一輪的損失
+      C: 固定資料、初值、步長及評估方式，只改批次大小
+      D: 固定批次，換模型及資料後只比較一個最低損失點
+    answer: C
+    explain:
+      A: 錯。兩項同時變動，不能分辨哪一項造成差異。
+      B: 錯。評估條件不同會混入其他來源。
+      C: 對。先明訂控制條件，並說明比較相同步數或相同輪次。
+      D: 錯。單點與不同模型、資料無法隔離批次效果。
 ---
 
 ## 為什麼需要
@@ -119,6 +138,17 @@ $G_e$ 是第 $e$ 輪的觀察落差；$L_{\mathrm{val},e}$、$L_{\mathrm{train},
 
 第 5 輪為 $0.58-0.56=0.02$；第 10 輪為 $0.69-0.26=0.43$。落差增大且驗證本身惡化，比單純「有間距」更值得警覺。
 
+### 控制實驗的共同目標（補充）
+
+另用八筆合成數值，目標 $y_i$ 為 −1、+1 交替，只有一個參數 $w$，初值為 2。以下是自行設定的平方目標；梯度下降方法參考 d2l 12.3。
+
+$$
+F(w)=\frac{1}{8}\sum_{i=1}^{8}\frac{(w-y_i)^2}{2}
+=\frac{w^2+1}{2},\qquad F'(w)=w
+$$
+
+$i$ 是樣本索引，$F$ 是固定八筆的平均損失。參數、目標及損失均無單位；初始 $F(2)=2.5$，全量梯度為 2。學習率 0.25 的第一步得到 $w=1.5$、$F=1.625$。
+
 ## 走一次流程
 
 ### 逐步讀圖（補充）
@@ -132,6 +162,30 @@ $G_e$ 是第 $e$ 輪的觀察落差；$L_{\mathrm{val},e}$、$L_{\mathrm{train},
 5. 保存切分、曲線與權重版本，再用早停規則決定採哪輪。
 
 只看數值最低點，是第 7 輪的 0.57。加入最小改善幅度後，選擇可能不同，具體計數見早停。
+
+### 穩定、震盪與發散的實際點（補充）
+
+三組都從相同 $w=2$ 開始，做 12 次更新，每步後用同一八筆算 $F$。穩定組用全批、步長 0.25；震盪組用單筆、步長 0.25；發散組用全批、步長 2.2。
+
+![三個分面顯示固定全量損失的穩定下降、反彈與發散；前兩圖同尺度，發散圖縱軸另標到170](figure:l23303-m4-b-stability-curves)
+
+橫軸是更新步數，沒有驗證集。震盪組第 3→4 步損失為 0.705→0.767，發散組第 12 步到 159.494。這些點只教優化診斷，不能取代訓練／驗證雙曲線或證明泛化。
+
+### 一次只改一項設定（補充）
+
+第一組固定全批八筆，只改學習率 0.25、1.8、2.2。CPU float64、初值、資料、列序、12 步與全量評估完全相同，不加動量、正則化或隨機層。
+
+![全批時只改三種學習率；上圖為參數軌跡，下圖損失用對數尺度，1.8雖跨零震盪但仍收斂](figure:l23303-m4-b-learning-rate-control)
+
+參數跨零震盪不等於損失一定回升。本例步長 1.8 的參數正負交替，但損失仍下降；2.2 的參數振幅與損失才持續放大。因此「學習率大」也不能直接改稱「梯度爆炸」。
+
+第二組固定學習率 0.25，只改批次 8、1、3。資料依索引循環，不洗牌；小批為 [1,2,3]、[4,5,6]、[7,8] 並保留尾批，所有組都做 12 步。
+
+![上圖比較同12步的固定全量損失；下圖放大第6至12步，可看見單筆及小批的局部反彈](figure:l23303-m4-b-batch-control)
+
+12 步對全批、單筆、小批分別相當於 12、1.5、4 輪，資料使用量與時間並不相等。這裡控制的是更新預算；若要比較相同樣本處理量，必須另設實驗，不能直接把這張圖當吞吐量或泛化排行榜。
+
+原始點在 `L23303-M4-B-controlled-training.json`；種子 7，此處不抽隨機數。未知曲線只能提示步長、批次或評估等假說；本實驗不能倒推其他模型的原因。
 
 ## 程式
 
@@ -151,6 +205,24 @@ print("最低驗證損失輪次", validation.index(min(validation)) + 1)
 5 0.56 0.58 0.02
 10 0.26 0.69 0.43
 最低驗證損失輪次 7
+```
+
+### 重算三種學習率的終點（補充）
+
+這裡的損失直接由參數計算，與人工驗證序列無關；第 0 步是共同初值，迴圈做滿 12 次更新。
+
+```python
+for rate in (0.25, 1.8, 2.2):
+    w = 2.0
+    for step in range(12):
+        w -= rate * w
+    loss = (w * w + 1) / 2
+    print(rate, f"{w:.6f}", f"{loss:.6f}")
+```
+```text
+0.25 0.063353 0.502007
+1.8 0.137439 0.509445
+2.2 17.832201 159.493694
 ```
 
 ## 怎麼用、怎麼判讀
@@ -202,6 +274,8 @@ scikit-learn 的 `learning_curve` 以訓練樣本數為橫軸，回答「多收�
 - [Keras FAQ](https://keras.io/getting_started/faq/#why-is-my-training-loss-much-higher-than-my-testing-loss)（支持：評估時點與 Dropout 限制）。
 - [Keras RandomFlip](https://keras.io/api/layers/preprocessing_layers/image_augmentation/random_flip/)（支持：形狀判讀中的資料增強只在訓練啟用的例子）。
 - [scikit-learn：Validation curves and learning curves](https://scikit-learn.org/stable/modules/learning_curve.html)（支持：進階的資料量曲線）。
+- [Dive into Deep Learning 12.3](https://d2l.ai/chapter_optimization/gd.html)（支持：負梯度更新及步長風險；本頁平方目標為自行設定與推導）。
+- [Dive into Deep Learning 12.5](https://d2l.ai/chapter_optimization/minibatch-sgd.html)（支持：批次控制與雜訊判讀）。
 
 ## 小結
 
