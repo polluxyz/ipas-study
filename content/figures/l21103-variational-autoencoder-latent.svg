@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="440" viewBox="0 0 360 440" role="img" aria-labelledby="title desc">
+<title id="title">VAE 的編碼、分布取樣與解碼</title>
+<desc id="desc">重建讀入圖像，編碼成潛在分布，再取樣解碼。新生成另從先驗取樣後送入相同解碼器，沒有指定重建原圖。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#334155"/></marker></defs>
+<rect width="360" height="440" fill="#f8fafc"/>
+<g font-family="sans-serif" fill="#0f172a" font-size="16" text-anchor="middle">
+<text x="180" y="28" font-size="19" font-weight="bold">VAE：重建與新生成</text>
+<rect x="45" y="48" width="270" height="43" rx="7" fill="#dbeafe" stroke="#2563eb"/><text x="180" y="75">輸入圖像</text>
+<path d="M180 92V116" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="45" y="120" width="270" height="55" rx="7" fill="#dbeafe" stroke="#2563eb"/><text x="180" y="143">編碼器</text><text x="180" y="165" font-size="14">描述潛在分布</text>
+<path d="M180 176V199" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="45" y="203" width="270" height="43" rx="7" fill="#fef3c7" stroke="#a16207"/><text x="180" y="231">從輸入的潛在分布取樣</text>
+<path d="M180 247V271" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="45" y="275" width="270" height="43" rx="7" fill="#dcfce7" stroke="#15803d"/><text x="180" y="303">解碼器 → 重建圖像</text>
+<rect x="20" y="347" width="320" height="72" rx="7" fill="#fff" stroke="#64748b" stroke-dasharray="5 3"/><text x="180" y="374">新生成：先驗取樣 → 解碼器</text><text x="180" y="399" font-size="14">沒有指定原圖可逐張重建比較</text>
+</g></svg>
