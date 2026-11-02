@@ -7,7 +7,7 @@ number: 5
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 1
 type: 情境
-codes: [ L23203 ]
+codes: [L23203]
 concepts: [convolution-layer, cnn]
 stem: |
   某智慧製造公司開發一套影像辨識系統，用於自動檢測生產線上的瑕疵產品。系統採用卷積神經網路（Convolutional Neural Network, CNN）作為主要模型架構，其中第一層卷積層（Convolutional Layer）主要負責的功能為下列何者？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-68, guide-3:4-69]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 1
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: A
   dispute: null

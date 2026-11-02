@@ -7,7 +7,7 @@ number: 13
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 3
 type: 觀念
-codes: [ L23402 ]
+codes: [L23402]
 concepts: [label-bias]
 stem: |
   標籤偏差(Label Bias)通常是因為什麼原因造成？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:6-15, guide-3:6-16]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 3
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: B
   dispute: null

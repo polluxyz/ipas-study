@@ -7,7 +7,7 @@ number: 27
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 6
 type: 情境
-codes: [ L23203, L23302 ]
+codes: [L23203, L23302]
 concepts: [activation-functions, relu]
 stem: |
   某智慧製造團隊在開發瑕疵影像檢測模型時，發現使用線性激活函數（Activation Function）後，模型的訓練準確率長期停滯，懷疑模型無法學習到足夠複雜的特徵表達。若要改善此問題，下列哪一項調整方案最為合適？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-55, guide-3:4-68, guide-3:5-35]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 6
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: D
   dispute: null

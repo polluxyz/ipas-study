@@ -7,7 +7,7 @@ number: 28
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 7
 type: 情境
-codes: [ L23402, L23301 ]
+codes: [L23402, L23301]
 concepts: [sampling-bias]
 stem: |
   一家零售電商公司希望建立顧客流失預測模型，用以判斷哪些會員可能在三個月內不再消費。團隊以去年會員資料進行訓練，並僅採用「曾經購買三次以上」的活躍顧客紀錄作為樣本。模型上線後，對整體會員進行預測時，發現模型對於新註冊會員與低消費會員的預測準確率明顯偏低。下列何者為造成此現象最可能的原因？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:6-15]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 7
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

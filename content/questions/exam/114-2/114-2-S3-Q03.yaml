@@ -7,7 +7,7 @@ number: 3
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 1
 type: 觀念
-codes: [ L23103 ]
+codes: [L23103]
 concepts: [convex-optimization]
 stem: |
   在訓練非線性模型時，若目標函數為非凸函數（Non-convex Function），演算法在參數更新過程中可能出現多個極值點，導致最佳化結果不穩定。請問此時最可能發生下列哪一種情況？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:3-21]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 1
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

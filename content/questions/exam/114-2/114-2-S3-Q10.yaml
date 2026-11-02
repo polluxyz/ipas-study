@@ -7,7 +7,7 @@ number: 10
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 3
 type: 情境
-codes: [ L23302, L23304 ]
+codes: [L23302, L23304]
 concepts: [automl]
 stem: |
   下列哪一種應用情境最適合導入 AutoML，以提升模型開發效率？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:5-6, guide-1:5-7]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 3
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

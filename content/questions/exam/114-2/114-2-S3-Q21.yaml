@@ -7,7 +7,7 @@ number: 21
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 5
 type: 情境
-codes: [ L23203 ]
+codes: [L23203]
 concepts: [self-attention]
 stem: |
   某語音辨識系統開發團隊採用 Transformer 架構，為了讓模型能同時理解語音片段中的發音特徵、語速變化與語意脈絡等多層次資訊，團隊在設計中導入了多頭注意力（Multi-head Attention）機制。請問下列何者為此機制的主要優點？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-80]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 5
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

@@ -7,7 +7,7 @@ number: 9
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 2
 type: 觀念
-codes: [ L23301 ]
+codes: [L23301]
 concepts: [feature-scaling]
 stem: |
   在建構以距離為基礎的機器學習模型（如 KNN、SVM）時，下列哪一項資料前處理方式最為關鍵？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-33, guide-3:5-10]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 2
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: A
   dispute: null

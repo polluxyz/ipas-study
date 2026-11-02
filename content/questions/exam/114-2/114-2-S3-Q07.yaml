@@ -7,7 +7,7 @@ number: 7
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 2
 type: 觀念
-codes: [ L23203, L23302 ]
+codes: [L23203, L23302]
 concepts: [lstm, sequence-model-selection]
 stem: |
   下列哪一種應用最適合採用長短期記憶網路（Long Short-Term Memory, LSTM）模型？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-75, guide-3:5-13]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 2
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: A
   dispute: null

@@ -7,7 +7,7 @@ number: 17
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 4
 type: 觀念
-codes: [ L23103 ]
+codes: [L23103]
 concepts: [adam, momentum, optimizer-selection]
 stem: |
   下列哪一種優化演算法內建動量（Momentum）的設計機制？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:3-24, guide-3:3-25]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 4
     by: EX-E3-codex
-  blind_answer: null
-  dispute: null
+  blind_answer: B
+  dispute: 官方答案 B。Adam 的一階矩含動量，A 已明寫 SGD 加 Momentum，也具有動量設計；題面未給能排除 A 的條件，保留官方 B 與多解疑義。

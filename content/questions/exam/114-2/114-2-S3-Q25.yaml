@@ -7,7 +7,7 @@ number: 25
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 6
 type: 情境
-codes: [ L23301, L23303 ]
+codes: [L23301, L23303]
 concepts: [scorecard-feature-screening, population-stability-index]
 stem: |
   某金融機構正在建立傳統信用評分卡模型，採用邏輯迴歸（Logistic Regression）作為建模方法，並依循監理機關建議的標準化流程進行模型開發。下列哪一項不是傳統信用評分卡模型開發流程中的常見步驟？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 6
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: A
   dispute: null

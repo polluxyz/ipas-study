@@ -7,7 +7,7 @@ number: 11
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 3
 type: 觀念
-codes: [ L23304 ]
+codes: [L23304]
 concepts: [random-search, grid-search]
 stem: |
   相較於 Grid Search，Random Search 在超參數調整上具備哪一項主要優勢？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 3
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: D
   dispute: null

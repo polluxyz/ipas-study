@@ -7,7 +7,7 @@ number: 12
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 3
 type: 情境
-codes: [ L23103, L23304 ]
+codes: [L23103, L23304]
 concepts: [learning-rate-schedule, hyperparameter-tuning]
 stem: |
   某智慧製造公司開發一套設備故障預測系統，利用感測器資料訓練深度神經網路（Deep Neural Network, DNN）模型，以提前偵測異常運作跡象。在訓練過程中，團隊發現模型收斂速度不穩定：有時過快導致過擬合，有時又遲遲無法達到最佳準確率。開發團隊可以藉由調整下列哪一項超參數（Hyperparameter）以改善此問題？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:5-31, guide-3:5-32]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 3
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

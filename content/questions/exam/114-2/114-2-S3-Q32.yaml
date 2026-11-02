@@ -7,7 +7,7 @@ number: 32
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 8
 type: 情境
-codes: [ L23304, L23301 ]
+codes: [L23304, L23301]
 concepts: [regularization, lasso]
 stem: |
   某電信公司開發客戶流失預測模型，使用大量顧客行為特徵，例如通話時長、上網頻率、帳單金額、客服聯絡次數等。在訓練過程中，團隊發現部分特徵彼此高度相關，但同時也懷疑有些特徵對流失預測的貢獻度有限。若希望模型在避免過擬合（Overfitting）的同時，能自動篩選出較具代表性的特徵，採用下列哪一種方法最為合適？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-15, guide-3:4-16, guide-3:5-43]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 8
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: D
   dispute: null

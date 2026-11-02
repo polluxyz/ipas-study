@@ -7,7 +7,7 @@ number: 36
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 9
 type: 情境
-codes: [ L23401 ]
+codes: [L23401]
 concepts: [homomorphic-encryption]
 stem: |
   某銀行計畫與多家合作機構共同訓練一個 AI 信用風險預測模型，為避免客戶交易資料在傳輸與運算過程中外洩，技術團隊評估使用同態加密（Homomorphic Encryption）技術。下列何者最能正確描述同態加密在此應用中的關鍵特性？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:6-11]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 9
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: D
   dispute: null

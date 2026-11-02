@@ -7,7 +7,7 @@ number: 6
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 2
 type: 情境
-codes: [ L23203 ]
+codes: [L23203]
 concepts: [convolution-layer, cnn-tensor-shapes]
 stem: |
   某智慧城市團隊開發一套交通監控系統，用於即時辨識路口監視器影像中的車輛與行人。團隊比較後發現，卷積神經網路（Convolutional Neural Network, CNN）在訓練與推論效率上，明顯優於傳統的全連接神經網路（Fully Connected Neural Network, FCNN）。請問下列何者為主要原因？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-68, guide-3:4-70]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 2
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

@@ -7,7 +7,7 @@ number: 33
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 8
 type: 情境
-codes: [ L23201 ]
+codes: [L23201]
 concepts: [neighbor-search-index]
 stem: |
   某資料科學團隊正在開發一個客戶相似度比對系統，用於計算所有客戶之間的相似度分數。若系統需逐一比對每一位客戶與其他所有客戶的資料組合，此時演算法的時間複雜度最可能為哪一種？其代表意義為何？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 8
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: B
   dispute: null

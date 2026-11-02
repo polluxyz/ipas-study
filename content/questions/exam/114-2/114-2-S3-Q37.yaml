@@ -7,7 +7,7 @@ number: 37
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 9
 type: 情境
-codes: [ L23401 ]
+codes: [L23401]
 concepts: [homomorphic-encryption, secure-communication]
 stem: |
   某跨銀行風控平台希望整合多家銀行的用戶行為資料，用於訓練信用風險預測模型。由於競爭與法規限制，各銀行僅願意提供加密後資料，且資料在任何時間不得被平台解密。同時，平台需建立安全通訊協議以確保資料在傳輸過程未被竄改或重放。
@@ -29,9 +29,9 @@ explanation:
 guide_refs: [guide-3:6-11]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 9
     by: EX-E3-codex
-  blind_answer: null
-  dispute: null
+  blind_answer: C
+  dispute: 官方答案 B，獨立盲解 C。B 仍需受認證的金鑰安排、訊息完整性及拒絕重放機制；C 的簽章也不自帶新鮮性，兩者都不能由技術名稱直接保證題設安全需求。題面條件不足，保留原盲解及官方計分。

@@ -7,7 +7,7 @@ number: 35
 pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
 pdf_page: 9
 type: 計算
-codes: [ L23102, L23301 ]
+codes: [L23102, L23301]
 concepts: [pca]
 stem: |
   某公司針對製程感測器資料進行主成分分析（PCA），經標準化與協方差矩陣分解後，得到三個主成分的特徵值如下：λ1=6.0, λ2=3.0, λ3=1.0。若團隊決定僅保留能解釋至少 80% 總變異量的主成分，以進行後續模型建構，下列哪一項敘述最合理且數據解讀正確？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:3-14, guide-3:4-45]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 9
     by: EX-E3-codex
-  blind_answer: null
+  blind_answer: A
   dispute: null
