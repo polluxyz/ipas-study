@@ -5,7 +5,7 @@ import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
-import { loadContent, localUrl, localGet, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses, expectedTextbook404, sourceStageChecks, gotoSettled, settlePage } from './rollout-smoke.mjs';
+import { loadContent, localUrl, localGet, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses, expectedTextbook404, sourceStageChecks, gotoSettled, settlePage, waitForSearch, assertSearchTop3 } from './rollout-smoke.mjs';
 
 /** 比照手動連結轉換的文字節點及排除區，保留程式、公式與既有連結的原文。 */
 export function hasUnconvertedWikiLink(main) {
@@ -116,7 +116,7 @@ page.on('pageerror', (error) => errors.push(error.message));
 context.on('response', (response) => { if (response.status() !== 200 && !(process.env.TEXTBOOK_TEST_FIXTURES !== '1' && expectedTextbook404(response, base))) assets.push({ url: response.url(), status: response.status() }); });
 context.on('requestfailed', (request) => assets.push({ url: request.url(), error: request.failure()?.errorText }));
 await routeLocalOnly(context, base, external, assets);
-const report = { pages: 0, links: 0, wrongBook: false, exportImport: false, quiz: false, stages: 0, readingProgress: false, readingBackup: false, stageQuiz: false, searchFirst: null, mobile: [], visuals: { diagramLabelsInsideNodes: 0, wrongAndCorrectDistinct: false, codeContrast: {} }, browserErrors: errors, externalRequests: external };
+const report = { pages: 0, links: 0, wrongBook: false, exportImport: false, quiz: false, stages: 0, readingProgress: false, readingBackup: false, stageQuiz: false, searchFirst: null, searchTop3: [], mobile: [], visuals: { diagramLabelsInsideNodes: 0, wrongAndCorrectDistinct: false, codeContrast: {} }, browserErrors: errors, externalRequests: external };
 report.sha = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: resolve(import.meta.dirname, '../..'), encoding: 'utf8' }).trim();
 report.buildSha = process.env.BUILD_SHA ?? null;
 report.buildSha = binding.receipt.sha; report.receiptDigest = binding.receiptDigest;
@@ -629,8 +629,11 @@ await runSmokeWithCleanup({ report, finish: async () => {
   }
   await page.setViewportSize({ width: 1440, height: 1050 });
   await gotoSettled(page, base); await page.locator('site-search button[data-open-modal]').click();
-  const search = page.locator('.pagefind-ui__search-input'); await search.fill('資料洩漏');
-  const result = page.locator('.pagefind-ui__result-link').first(); await result.waitFor(); report.searchFirst = await result.getAttribute('href'); assert.match(report.searchFirst, /\/concepts\/data-leakage\//);
+  const search = page.locator('.pagefind-ui__search-input');
+  const snapshot = await waitForSearch(page, search, '資料洩漏');
+  report.searchFirst = snapshot.results[0]?.href ?? null; report.searchTop3 = snapshot.results.map((result) => result.path);
+  report.searchReady = { query: snapshot.query, count: snapshot.count, message: snapshot.message };
+  assertSearchTop3(report.searchFirst, report.searchTop3, '/concepts/data-leakage/');
   await page.keyboard.press('Escape');
   const mobile = await context.newPage();
   await mobile.setViewportSize({ width: 390, height: 844 });
