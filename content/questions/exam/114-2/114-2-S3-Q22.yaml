@@ -1,0 +1,36 @@
+id: 114-2-S3-Q22
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 22
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 5
+type: 情境
+codes: [L23101, L23202]
+concepts: [bayes-theorem]
+stem: |
+  某電商平台希望預測顧客是否會購買特定商品。系統蒐集顧客的瀏覽紀錄、停留時間、商品類別偏好與過去購買行為，並以此推估「在觀察到這些行為特徵的情況下，該顧客會購買的機率」。若模型採用貝氏定理（Bayes’ Theorem）進行推論，下列敘述何者最符合其核心運作機制？
+options:
+  A: 根據歷史樣本自動分群，找出行為相似的顧客群
+  B: 以條件機率方式計算顧客屬於「會購買」或「不會購買」的分類機率
+  C: 以最小平方誤差（Mean Squared Error）為損失函數，預測顧客的購買金額
+  D: 依據回饋信號（Feedback Signal）透過強化學習（Reinforcement Learning）動態調整推薦策略
+answer: B
+explanation:
+  summary: 答案 B：貝氏推論將已觀察的行為轉成購買類別的後驗機率。
+  correct: 令 Y 表示是否購買、X 表示觀察到的行為，貝氏定理給出 P(Y|X)=P(X|Y)P(Y)/P(X)。它把類別先驗與行為在各類別下的似然結合，再正規化為後驗機率。本題只需條件推論，沒有要求樸素貝氏額外的特徵條件獨立假設。
+  wrong:
+    A: 自動分群依相似度探索未標記結構，與計算觀察行為後的購買類別機率不同。
+    C: 購買金額是連續數值的迴歸目標，並不是題目要求的是否購買後驗機率。
+    D: 強化學習以行動、回饋與累積報酬調整策略；這不是貝氏定理更新條件機率的核心步驟。
+  rule: 貝氏更新以先驗乘上似然，再經正規化得到給定證據下的後驗機率。
+guide_refs: [guide-3:3-5, guide-3:3-6]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 5
+    by: EX-E3-codex
+  blind_answer: B
+  dispute: null

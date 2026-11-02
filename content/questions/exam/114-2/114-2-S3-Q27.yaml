@@ -1,0 +1,36 @@
+id: 114-2-S3-Q27
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 27
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 6
+type: 情境
+codes: [L23203, L23302]
+concepts: [activation-functions, relu]
+stem: |
+  某智慧製造團隊在開發瑕疵影像檢測模型時，發現使用線性激活函數（Activation Function）後，模型的訓練準確率長期停滯，懷疑模型無法學習到足夠複雜的特徵表達。若要改善此問題，下列哪一項調整方案最為合適？
+options:
+  A: 增加卷積層（Convolutional Layer）數量，使網路更深以強化特徵提取
+  B: 將輸入影像先進行灰階化處理，降低運算量
+  C: 使用 Sigmoid 激活函數，以將輸出壓縮至[0,1]範圍
+  D: 改用 ReLU（Rectified Linear Unit）激活函數，以引入非線性並提升模型表達能力
+answer: D
+explanation:
+  summary: 答案 D：改用 ReLU 可引入非線性，是所列 CNN 隱藏層方案中的最佳選擇。
+  correct: 在缺少其他非線性運算的前提下，多層線性或仿射轉換仍可合併成單一仿射轉換，堆深無法單靠這些層增加非線性表示能力。ReLU 以 max(0,x) 引入非線性，常用於 CNN 隱藏層。這支持 D 的選型，但實際準確率仍須驗證；題幹也不足以保證線性激活是唯一瓶頸。
+  wrong:
+    A: 若新增的卷積與激活仍全是線性，且沒有其他非線性運算，多層組合仍受同樣限制；單純堆深沒有直接解決題述問題。
+    B: 灰階化降低色彩通道資訊與部分計算量，卻沒有引入模型欠缺的非線性表達。
+    C: Sigmoid 其實也能引入非線性，不能說它完全無效；但壓縮到 [0,1] 不是修復 CNN 隱藏表示的充分理由，且飽和區容易讓梯度變小，所以在所列方案中通常優先選 ReLU。
+  rule: 線性層堆疊要靠非線性運算擴充表達能力，選激活函數時也須考慮飽和與梯度傳遞。
+guide_refs: [guide-3:4-55, guide-3:4-68, guide-3:5-35]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 6
+    by: EX-E3-codex
+  blind_answer: D
+  dispute: null

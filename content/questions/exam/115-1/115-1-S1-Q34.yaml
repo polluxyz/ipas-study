@@ -1,0 +1,36 @@
+id: 115-1-S1-Q34
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 34
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 11
+type: 情境
+codes: [L23302, L23201]
+concepts: [incremental-learning]
+stem: |
+  某廣告技術公司的點擊率（CTR）預測系統每天新增數百個用戶行為特徵（如新廣告位、新設備類型），特徵空間持續動態擴展。若採用傳統靜態模型每週批次重訓一次，會導致嚴重的模型過期問題。為在特徵空間頻繁變化的情況下維持模型即時準確度，最適合的模型架構方向為何？
+options:
+  A: 採用傳統靜態羅吉斯迴歸（Logistic Regression），縮短批次重訓週期從每週改為每日；
+  B: 採用支援增量學習（Incremental Learning）的模型，使模型能隨新資料即時更新並適應新增特徵，而不需重新訓練整個模型；
+  C: 採用固定架構的深度神經網路（DNN），每次有新特徵時重新定義輸入層後全量重訓；
+  D: 改用預訓練圖神經網路（GNN），透過圖結構建立特徵間的關聯，自動應對新增特徵
+answer: B
+explanation:
+  summary: "B。增量更新參數之外，還須另具備可處理動態特徵的表示方式。"
+  correct: "B 是最適合的方向，但能增量學新樣本不保證能新增輸入維度。須搭配特徵雜湊、可擴充字典或明確支援新特徵的架構，才能隨新資料與新行為更新；一般 partial_fit 估計器仍可能要求固定特徵數。[scikit-learn 擴展策略](https://scikit-learn.org/stable/computing/scaling_strategies.html)"
+  wrong:
+    A: "每日重訓只縮短過期時間，仍須等待批次與反覆全量處理，未直接滿足持續更新需求；羅吉斯迴歸本身也可採增量實作，問題是此處指定的靜態流程。"
+    C: "每遇新特徵都重建輸入層並全量重訓，更新成本高且仍有延遲。"
+    D: "GNN 不會自動支援任意新增欄位或即時參數更新，題幹也未提供合適的圖資料設定。"
+  rule: "分開檢查模型能否持續更新參數，以及能否接納變動的輸入特徵。"
+guide_refs: [guide-1:5-21]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 11
+    by: EX-E6-codex
+  blind_answer: B
+  dispute: null

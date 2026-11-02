@@ -1,0 +1,36 @@
+id: 114-2-S1-Q03
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 3
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 1
+type: 情境
+codes: [L21101, L23203]
+concepts: [transformer-model-families]
+stem: |
+  某企業計畫應用 BERT（Bidirectional Encoder Representations from Transformers）模型分析大量顧客意見，以強化客服自動回覆系統。在 BERT 的預訓練過程中，「遮罩語言模型（Masked Language Model, MLM）」的主要訓練策略為何？
+options:
+  A: 依序遮罩句尾詞語，讓模型從左到右逐步生成完整句子；
+  B: 隨機遮罩部分詞語，並讓模型根據雙向上下文（Bidirectional Context）預測被遮罩的詞；
+  C: 透過對抗訓練（Adversarial Training）生成語意相似的擾動樣本以提升泛化性；
+  D: 以未遮罩的詞為條件，使用解碼器（Decoder）結構重建整句內容
+answer: B
+explanation:
+  summary: 答案 B；BERT 的 MLM 以左右語境預測抽中的詞元。
+  correct: MLM 隨機挑選部分詞元作為預測目標，利用雙向 Transformer 編碼器恢復原詞。B 是策略的簡化描述，不表示每個被選位置都必須換成遮罩符號；原始 BERT 也會隨機替換或保留其中部分詞元，但仍對這些位置計算預測損失。
+  wrong:
+    A: 從左往右生成屬於自迴歸語言建模；MLM 的選取位置不只在句尾，且可利用目標詞兩側資訊。
+    C: 生成惡意擾動並訓練防禦能力屬於對抗訓練，不是原始 BERT 的 MLM 定義。
+    D: BERT 採編碼器架構，MLM 主要預測被選中的位置；不是用解碼器重建整段輸入。
+  rule: 區分語言模型時，同時看可見的上下文方向與實際需要預測的位置。
+guide_refs: [guide-1:3-9, guide-1:3-27]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E1-Codex
+  blind_answer: B
+  dispute: null

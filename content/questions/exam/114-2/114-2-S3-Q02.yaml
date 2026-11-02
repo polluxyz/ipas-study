@@ -1,0 +1,36 @@
+id: 114-2-S3-Q02
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 2
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 1
+type: 觀念
+codes: [L23304, L23301]
+concepts: [regularization, lasso]
+stem: |
+  在建立迴歸或分類模型時，若希望避免模型過度擬合（Overfitting），可透過加入正則化項以限制模型的複雜度。其中，L1 正則化（Lasso）的主要效果為何？
+options:
+  A: 增加模型參數的數量，以提升表現靈活度
+  B: 強化梯度穩定性，避免參數更新過度震盪
+  C: 產生稀疏模型（Sparse Model），使部分參數權重收斂為零
+  D: 提高學習率（Learning Rate），加速模型收斂速度
+answer: C
+explanation:
+  summary: 答案 C：L1 懲罰可讓部分係數變成零，形成稀疏模型。
+  correct: L1 在原損失上加上 λΣ|w|，使模型必須在擬合資料與保留係數之間取捨；正則化強度適當時，部分係數可恰為零，因此兼具特徵篩選效果。這是促進稀疏性的機制，並非保證任何資料與 λ 都會得到相同數量的零係數。
+  wrong:
+    A: 增加參數會擴大可擬合範圍；L1 是懲罰既有係數，沒有增加模型參數。
+    B: L1 的辨識重點是稀疏係數；減少更新方向震盪通常會討論動量或學習率，不能以此取代 L1 的主要作用。
+    D: 學習率決定更新步長，L1 則改變最佳化目標，兩者是不同設定。
+  rule: 需要以懲罰項把部分係數壓至零時，優先辨認 L1 正則化。
+guide_refs: [guide-3:5-43, guide-3:4-15]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E3-codex
+  blind_answer: C
+  dispute: null

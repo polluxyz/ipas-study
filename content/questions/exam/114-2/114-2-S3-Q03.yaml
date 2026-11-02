@@ -1,0 +1,36 @@
+id: 114-2-S3-Q03
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 3
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 1
+type: 觀念
+codes: [L23103]
+concepts: [convex-optimization]
+stem: |
+  在訓練非線性模型時，若目標函數為非凸函數（Non-convex Function），演算法在參數更新過程中可能出現多個極值點，導致最佳化結果不穩定。請問此時最可能發生下列哪一種情況？
+options:
+  A: 梯度消失
+  B: 資料過少
+  C: 局部最優解
+  D: 過擬合
+answer: C
+explanation:
+  summary: 答案 C：非凸目標可能讓訓練停在不同的局部最優解。
+  correct: 題幹強調多個極值與更新結果不穩定，對應到不同初始值或更新路徑可能進入不同的局部極小值附近。非凸問題也可能含鞍點，不能由非凸直接推論一定存在多個局部極小值，或每次一定無法找到全域最優。
+  wrong:
+    A: 梯度消失是梯度傳遞或局部斜率很小的問題；非凸本身不足以推出梯度消失，且未直接回答多個極值的線索。
+    B: 資料量是資料條件，不是目標函數非凸所導致的結果。
+    D: 過擬合是訓練表現與泛化表現之間的落差；局部極值問題屬於最佳化，不能直接等同過擬合。
+  rule: 題幹若強調非凸、多個極值與初始值敏感，先判斷局部最優或鞍點問題。
+guide_refs: [guide-3:3-21]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: EX-E3-codex
+  blind_answer: C
+  dispute: null

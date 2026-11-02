@@ -1,0 +1,50 @@
+id: 115-1-S3-Q43
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 43
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 12
+type: 程式
+codes: [L23302, L23304]
+concepts: [transfer-learning, gradient-descent]
+stem: |
+  下圖為使用 ResNet 進行遷移學習（Transfer Learning）的 Python 程式片段。請回答第 42~43 題。
+
+  在進行遷移學習微調（Fine-Tuning）時，通常會將優化器的學習率（Learning Rate）設得非常小（如 1e-4），下列何者為主要的原因？
+code: |
+  import torch
+  import torch.nn as nn
+  import torchvision
+
+  model = torchvision.models.resnet50(pretrained=True)
+  for param in model.parameters():
+      param.requires_grad = False  # 行(A)
+
+  model.fc = nn.Linear(2048, 2)
+  optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-4)
+code_lang: python
+options:
+  A: 為了避免記憶體耗盡（OOM）
+  B: 為了加速模型整體的收斂時間
+  C: 為了讓損失函數強制歸零
+  D: 為了避免更新步伐過大，破壞預訓練模型原本已學好的良好特徵表示
+answer: D
+explanation:
+  summary: 官方答案為 D；解凍預訓練層進行微調時，小學習率可降低既有表示被大幅改動的風險，但圖中程式只更新新分類頭。
+  correct: 若題幹的「微調」指解凍部分或全部預訓練參數，小學習率會縮小更新尺度，讓既有特徵逐步適應新任務，D 是這個前提下的最佳答案。可是圖中骨幹 requires_grad=False，Adam 也只更新 model.fc，新分類頭的 1e-4 不會透過參數更新破壞已凍結的骨幹。因此應區分一般微調原理與本程式的實際行為，不能把 D 的理由直接套在這段凍結設定；若要更新骨幹，須解凍並將相應參數交給優化器。
+  wrong:
+    A: 學習率控制更新尺度，不會直接減少模型參數、活化值或優化器狀態的記憶體需求；降低它並非避免 OOM 的主要方法。
+    B: 小學習率可能改善穩定性，卻也可能需要更多更新步數；沒有保證縮短整體收斂時間，不能作為主要理由。
+    C: 學習率不會強制損失等於零，能否降低損失仍取決於資料、模型、梯度及訓練設定。
+  rule: 以小學習率保護預訓練表示的理由，適用於那些實際解凍且會被優化器更新的參數。
+guide_refs: [guide-3:3-27, guide-3:4-82]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 12
+    by: EX-E8
+  blind_answer: D
+  dispute: null
