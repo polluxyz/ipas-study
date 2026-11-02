@@ -118,7 +118,7 @@ export async function localGet(request, value, base) {
 // 每個 context 的封口狀態只在明確安裝時建立，import 不觸發 I/O。
 const buildContexts = new WeakMap();
 function buildContextState(context) {
-  if (!buildContexts.has(context)) buildContexts.set(context, { accepting: true, routes: new Set(), responses: new Map(), failures: [], expected: [] });
+  if (!buildContexts.has(context)) buildContexts.set(context, { accepting: true, routes: new Set(), responses: new Map(), failures: [], expected: [], changed: () => {} });
   return buildContexts.get(context);
 }
 /** 唯一容許的故障回應：舊 smoke 明確探測不存在的教材 fixture；不放寬其他 404。 */
@@ -159,7 +159,7 @@ export async function routeLocalOnly(context, base, external, failures) {
       } finally { await response?.dispose(); }
     }).catch((error) => { failures.push({ url: value, error: String(error) }); state.failures.push(String(error)); });
     state.routes.add(task);
-    task.finally(() => state.routes.delete(task));
+    task.finally(() => { state.routes.delete(task); state.changed(); });
     return task;
   });
 }
@@ -233,11 +233,62 @@ export async function verifyResponseBytes(response, binding, base) {
   assert.equal(hash(await response.body()), expected.sha256, `preview 不是收據產物：${url.pathname}`);
   return path;
 }
+
+/** 換頁或關閉前完成舊頁的延後搜尋初始化、字體與真請求；逾時是失敗，不能視為取消。 */
+export async function settlePage(page, { timeout = 10000 } = {}) {
+  const state = buildContexts.get(page.context());
+  assert.ok(state?.settle, '頁面未安裝建置 watcher');
+  let timer;
+  try {
+    await Promise.race([
+      (async () => {
+        await page.waitForLoadState('load', { timeout });
+        // Starlight 的搜尋 import 在 idle callback 才開始，load 並不代表它已完成。
+        // 停用 JS 的頁面按鈕維持 disabled；啟用後必須等真正 input 掛載，不能略過缺資產。
+        await page.waitForFunction(() => !document.querySelector('site-search button[data-open-modal]:not(:disabled)') || !!document.querySelector('#starlight__search input'), undefined, { timeout });
+        await page.evaluate(async () => { await document.fonts.ready; });
+        await state.settle(timeout);
+      })(),
+      new Promise((_resolve, reject) => { timer = setTimeout(() => reject(new Error(`頁面請求排空逾時：${page.url()}`)), timeout); }),
+    ]);
+  } catch (error) {
+    state.failures.push(`頁面排空失敗：${error}`);
+    throw error;
+  } finally { clearTimeout(timer); }
+}
+
+/** 保留 Playwright 的原 Response 與 goto options，前後都以可觀察載入完成作屏障。 */
+export async function gotoSettled(page, url, gotoOptions) {
+  await settlePage(page);
+  const response = await page.goto(url, gotoOptions);
+  await settlePage(page);
+  return response;
+}
+
 export function watchBuildResponses(context, binding, base, options = {}) {
   const state = buildContextState(context);
   assert.ok(!state.binding, '同一 context 不得重複安裝建置 watcher');
   state.binding = binding; state.allowTextbook404 = options.allowTextbook404 === true;
-  const pending = new Set(), failures = [], seen = new Set();
+  const pending = new Set(), failures = [], seen = new Set(), requests = new Set(), waiters = new Set();
+  state.changed = () => { for (const notify of [...waiters]) notify(); };
+  context.on('request', (request) => { if (/^https?:/i.test(request.url())) requests.add(request); state.changed(); });
+  context.on('requestfinished', (request) => { requests.delete(request); state.changed(); });
+  context.on('requestfailed', (request) => {
+    requests.delete(request);
+    failures.push(`HTTP 請求失敗：${request.url()} ${request.failure()?.errorText ?? '缺少失敗原因'}`);
+    state.changed();
+  });
+  // Request 終態與 response 身份證據各自排空；URL 相同不代表可借用別人的終態。
+  state.settle = (timeout) => new Promise((resolveSettled, reject) => {
+    let timer;
+    const done = (error) => { clearTimeout(timer); waiters.delete(check); if (error) reject(error); else resolveSettled(); };
+    const check = () => {
+      if (state.failures.length || failures.length) return done(new Error([...state.failures, ...failures].join('\n')));
+      if (!state.routes.size && !pending.size && !state.responses.size && !requests.size) done();
+    };
+    timer = setTimeout(() => done(new Error(`真請求尚未排空：requests=${requests.size}, routes=${state.routes.size}, responses=${state.responses.size}, bodies=${pending.size}`)), timeout);
+    waiters.add(check); check();
+  });
   let sealed = false, finalized = false, finalizing, snapshot;
   const listener = (response) => {
     if (finalized) { failures.push(`封口後出現回應：${response.url()}`); return; }
@@ -257,7 +308,7 @@ export function watchBuildResponses(context, binding, base, options = {}) {
       }
       seen.add(await verifyResponseBytes(captured, binding, base));
     })().catch((error) => failures.push(String(error)));
-    pending.add(task); task.finally(() => pending.delete(task));
+    pending.add(task); task.finally(() => { pending.delete(task); state.changed(); });
   };
   context.on('response', listener);
   const drain = async () => { while (pending.size) await Promise.all([...pending]); };
@@ -265,11 +316,12 @@ export function watchBuildResponses(context, binding, base, options = {}) {
     assert.equal(state.routes.size, 0, 'route handler 尚未排空');
     assert.equal(pending.size, 0, 'response body 尚未排空');
     assert.equal(state.responses.size, 0, '已 fulfill 的真 HTTP 證據缺少 browser 回應核對');
+    assert.equal(requests.size, 0, 'HTTP 請求缺少 requestfinished／requestfailed 終態');
     assert.equal(sealed, true, 'context 尚未確認關閉封口');
     assert.deepEqual([...state.failures, ...failures], []);
     assert.ok(seen.has('index.html') || [...seen].some((path) => path.endsWith('/index.html')), '沒有核對 HTML 回應');
   };
-  const evidence = () => ({ seen: [...seen].sort(), failures: [...state.failures, ...failures], pending: pending.size, routes: state.routes.size, sealed, expectedNon200: state.expected.map((entry) => ({ ...entry })) });
+  const evidence = () => ({ seen: [...seen].sort(), failures: [...state.failures, ...failures], pending: pending.size, routes: state.routes.size, responses: state.responses.size, requests: requests.size, sealed, expectedNon200: state.expected.map((entry) => ({ ...entry })) });
   const frozenEvidence = () => {
     const current = evidence();
     Object.freeze(current.seen); Object.freeze(current.failures);
@@ -281,9 +333,12 @@ export function watchBuildResponses(context, binding, base, options = {}) {
     // 只共用進行中的收尾；已完成後仍重新斷言，不能快取成功掩蓋晚到失敗。
     if (finalized) { assertComplete(); return snapshot; }
     if (finalizing) return finalizing;
-    state.accepting = false;
     finalizing = (async () => {
       const errors = [];
+      // 排空期間仍接受延後 import／字體請求；先封口會使合法載入被工具自己 abort。
+      try { await Promise.all((context.pages?.() ?? []).filter((page) => !page.isClosed()).map((page) => settlePage(page))); }
+      catch (error) { errors.push(error); }
+      state.accepting = false;
       try {
         while (state.routes.size) await Promise.all([...state.routes]);
         await drain();
