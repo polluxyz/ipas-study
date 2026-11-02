@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="380" viewBox="0 0 360 380" role="img" aria-labelledby="title desc" lang="zh-Hant">
+<title id="title">三條合成文字分類路線的標註量與 macro-F1</title>
+<desc id="desc">固定600筆測試、400筆驗證；訓練200、1000、2000筆。實線圓點是詞級邏輯迴歸，虛線方點是字元線性SVM，點線三角是詞級多項式朴素貝氏。點是五輪平均，短線是描述性標準差，不是信賴區間。2000筆時三線重合。橫軸線性，縱軸截斷為0.72到0.90。完整數值見正文與JSON。</desc>
+<style>:root{color-scheme:light dark;--bg:#f9fbf9;--ink:#263a45;--grid:#d4dfe1;--a:#006b66;--b:#9a3c00;--c:#6840a0}@media(prefers-color-scheme:dark){:root{--bg:#14242c;--ink:#e4eeee;--grid:#40525b;--a:#75d6c9;--b:#ffc194;--c:#cfafff}}text{font-family:"Microsoft JhengHei",sans-serif;font-size:14px;fill:var(--ink)}</style>
+<rect width="360" height="380" rx="8" fill="var(--bg)"/>
+<text x="18" y="26" style="font-size:17px;font-weight:bold">同一測試集，比較標註量</text>
+<text x="18" y="49">macro-F1（五輪平均 ± 描述標準差）</text>
+<text x="18" y="72" style="font-size:13px">縱軸截斷；2000 筆時三線重合</text>
+<line x1="54" y1="235" x2="334" y2="235" stroke="var(--grid)"/><text x="46" y="240" text-anchor="end">0.72</text>
+<line x1="54" y1="186.66666666666663" x2="334" y2="186.66666666666663" stroke="var(--grid)"/><text x="46" y="191.66666666666663" text-anchor="end">0.78</text>
+<line x1="54" y1="138.33333333333334" x2="334" y2="138.33333333333334" stroke="var(--grid)"/><text x="46" y="143.33333333333334" text-anchor="end">0.84</text>
+<line x1="54" y1="89.99999999999997" x2="334" y2="89.99999999999997" stroke="var(--grid)"/><text x="46" y="94.99999999999997" text-anchor="end">0.90</text>
+<text x="60" y="260" text-anchor="middle">200</text>
+<text x="177.33333333333331" y="260" text-anchor="middle">1000</text>
+<text x="324" y="260" text-anchor="middle">2000</text>
+<polyline data-route="word-nb" points="60,139.95579114384657 177.33333333333331,109.87159811687621 324,108.79740021802715" fill="none" stroke="var(--c)" stroke-width="2.3" stroke-dasharray="2 4"/>
+<path d="M60,153.56220680498268V126.3493754827105 M55,153.56220680498268H65 M55,126.3493754827105H65" fill="none" stroke="var(--c)" stroke-width="1.4"/><path d="M60,131.95579114384657L53,145.95579114384657H67Z" fill="none" stroke="var(--c)" stroke-width="1.7"/>
+<path d="M177.33333333333331,110.87634374075843V108.866852492994 M172.33333333333331,110.87634374075843H182.33333333333331 M172.33333333333331,108.866852492994H182.33333333333331" fill="none" stroke="var(--c)" stroke-width="1.4"/><path d="M177.33333333333331,101.87159811687621L170.33333333333331,115.87159811687621H184.33333333333331Z" fill="none" stroke="var(--c)" stroke-width="1.7"/>
+<path d="M324,108.79740021802715V108.79740021802715 M319,108.79740021802715H329 M319,108.79740021802715H329" fill="none" stroke="var(--c)" stroke-width="1.4"/><path d="M324,100.79740021802715L317,114.79740021802715H331Z" fill="none" stroke="var(--c)" stroke-width="1.7"/>
+<polyline data-route="char-svm" points="60,176.25929530046193 177.33333333333331,113.63128852841993 324,108.79740021802715" fill="none" stroke="var(--b)" stroke-width="2.3" stroke-dasharray="6 4"/>
+<path d="M60,195.85587495682776V156.66271564409612 M55,195.85587495682776H65 M55,156.66271564409612H65" fill="none" stroke="var(--b)" stroke-width="1.4"/><rect x="55.5" y="171.75929530046193" width="9" height="9" fill="none" stroke="var(--b)" stroke-width="1.7"/>
+<path d="M177.33333333333331,116.76410534810918V110.49847170873068 M172.33333333333331,116.76410534810918H182.33333333333331 M172.33333333333331,110.49847170873068H182.33333333333331" fill="none" stroke="var(--b)" stroke-width="1.4"/><rect x="172.83333333333331" y="109.13128852841993" width="9" height="9" fill="none" stroke="var(--b)" stroke-width="1.7"/>
+<path d="M324,108.79740021802715V108.79740021802715 M319,108.79740021802715H329 M319,108.79740021802715H329" fill="none" stroke="var(--b)" stroke-width="1.4"/><rect x="319.5" y="104.29740021802715" width="9" height="9" fill="none" stroke="var(--b)" stroke-width="1.7"/>
+<polyline data-route="word-lr" points="60,170.572140827069 177.33333333333331,110.94627041174301 324,108.79740021802715" fill="none" stroke="var(--a)" stroke-width="2.3" stroke-dasharray=""/>
+<path d="M60,194.01126688236735V147.13301477177063 M55,194.01126688236735H65 M55,147.13301477177063H65" fill="none" stroke="var(--a)" stroke-width="1.4"/><circle cx="60" cy="170.572140827069" r="3" fill="var(--a)"/>
+<path d="M177.33333333333331,113.28812195476678V108.60441886871925 M172.33333333333331,113.28812195476678H182.33333333333331 M172.33333333333331,108.60441886871925H182.33333333333331" fill="none" stroke="var(--a)" stroke-width="1.4"/><circle cx="177.33333333333331" cy="110.94627041174301" r="3" fill="var(--a)"/>
+<path d="M324,108.79740021802715V108.79740021802715 M319,108.79740021802715H329 M319,108.79740021802715H329" fill="none" stroke="var(--a)" stroke-width="1.4"/><circle cx="324" cy="108.79740021802715" r="3" fill="var(--a)"/>
+<text x="190" y="284" text-anchor="middle">訓練標註數（筆）</text>
+<line x1="20" y1="307" x2="46" y2="307" stroke="var(--a)" stroke-width="2.3" stroke-dasharray=""/><circle cx="33" cy="307" r="3" fill="var(--a)"/><text x="56" y="312">詞級 TF-IDF＋邏輯迴歸</text>
+<line x1="20" y1="332" x2="46" y2="332" stroke="var(--b)" stroke-width="2.3" stroke-dasharray="6 4"/><rect x="28.5" y="327.5" width="9" height="9" fill="none" stroke="var(--b)" stroke-width="1.7"/><text x="56" y="337">字元 TF-IDF＋線性 SVM</text>
+<line x1="20" y1="357" x2="46" y2="357" stroke="var(--c)" stroke-width="2.3" stroke-dasharray="2 4"/><path d="M33,349L26,363H40Z" fill="none" stroke="var(--c)" stroke-width="1.7"/><text x="56" y="362">詞級 TF-IDF＋朴素貝氏</text>
+</svg>

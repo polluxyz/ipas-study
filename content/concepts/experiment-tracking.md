@@ -12,13 +12,13 @@ gaps:
   - ref: guide-1:5-20
     level: shallow
     ability: 指引分系統、應用、業務三層指標，沒有說哪些屬於訓練階段的實驗紀錄；考題要把學習率曲線、超參數軌跡歸到離線實驗追蹤，把延遲、漂移歸到線上監控
-author: claude
+author: codex
 status: draft
 textbook: v2
 summary: 實驗追蹤把每次訓練的輸入與結果存成可查的紀錄，讓結果能重現、比較、回溯
 goals:
   - id: g1
-    text: 說得出重現一次訓練所需記錄的資料、程式、環境、隨機種子與模型版本
+    text: 說得出重現一次訓練所需記錄的資料、程式、環境、隨機種子與模型版本，區分 MLflow 與 DVC 的追蹤分工
   - id: g2
     text: 讀得懂兩次實驗的訓練與驗證損失曲線，並用可追溯的紀錄選出較好的一次
   - id: g3
@@ -69,6 +69,21 @@ self_check:
       B: "同一驗證集只能固定評估條件；資料增強也同時改變，不能直接量出學習率的個別貢獻。"
       C: "對。這次可比較整體設定的驗證結果；要辨識個別改動的影響，需控制其餘條件，並用多個種子重複比較。"
       D: "兩項合用的改善不表示兩者各自有效；可能只有其中一項有效，也可能存在交互作用。"
+  - id: c5
+    goal: g1
+    type: choice
+    prompt: MLflow 已存下 run 的參數和 F1，團隊要重現它，卻發現同名資料夾內容改過。哪個補救方向能建立來源鏈？
+    options:
+      A: "只保存最高 F1 的截圖，以分數當作原資料的唯一身分"
+      B: "保留相同的模型檔名，就能推回資料、程式與模型內容"
+      C: "只記下隨機種子，便能自動取回已被覆寫的訓練資料"
+      D: "把 DVC 資料指標、程式、切分及模型雜湊連回同一 run"
+    answer: D
+    explain:
+      A: "相同分數可能來自不同資料，截圖也不能還原實際內容。"
+      B: "檔名不保證內容相同，且無法唯一推回訓練輸入。"
+      C: "種子控制隨機選擇，無法還原未保存的資料內容。"
+      D: "仍須保存可取回的資料及產物；識別碼與雜湊把它們串成可核對來源。"
   - id: c3
     goal: g3
     type: short
@@ -366,6 +381,57 @@ TensorBoard 側重即時視覺化；MLflow 可自行架設，並把 run 與模�
 選哪個要看用途，不看名氣。工具不同，要記的輸入與輸出都一樣。
 :::
 
+### MLflow 與 DVC 接起同一個 run
+
+MLflow 記下參數、指標與附件；資料版本控制工具 DVC（Data Version Control）管理可取回的資料或模型版本。兩者能力有重疊，本流程按責任分工。
+
+| 工具／紀錄 | 本流程保存什麼 | 如何連到同一 run |
+|---|---|---|
+| MLflow | 參數、逐輪指標、模型與輸入清單附件 | 用 run ID 查回設定與成果 |
+| DVC | 資料／模型版本的描述與可取回物件 | 把資料指標檔版本與內容指紋記進 run |
+| Git（補充） | 程式及 DVC 描述檔 | run 記 commit；有未提交修改另存差異或檔案雜湊 |
+
+科目 1 指引 5-19 已介紹 MLflow 與 DVC。完整的資料、程式與模型版本證據見資料、程式與模型版本追溯；本頁負責把工具接回實驗筆記，沒有另開 DVC 操作課。
+
+#### 一筆可核對的來源鏈（補充）
+
+改用模型比較與綜合評估頁的合成客服／製造文字實驗，**與模擬 run-a 不同**。下表是歷史作者在本機建立的真實 MLflow run；DVC 描述檔則是設計示範，沒有執行 DVC 或啟動登錄服務。
+
+歷史作者來源清單：`content/examples/L23303-M4-C-run-lineage.json`。其中 dataset_retrieval、script_path、model_path 指向作者當時的 ignored tmp；原腳本、模型與 SQLite store 沒有隨教材交付，讀者不能憑舊 run ID 查回原 run 或原模型。
+
+同一份資料的完整文字、標籤、固定切分及五種子子集已保存在 `content/examples/L23303-M4-C-label-efficiency.json`，因此資料內容可以取回。
+
+[M4-C 完整重現程式](https://github.com/polluxyz/ipas-study/blob/main/content/examples/L23303-M4-C-README.md)提供可複製的 Python 與命令，從這份教材重建資料、重訓並建立讀者自己的新 run，不需要作者 tmp。
+
+| 歷史證據 | 清單中的值（雜湊只顯示前 12 碼） | 可核對範圍 |
+|---|---|---|
+| 資料版本 | m4-c-synthetic-v1；SHA-256 56208dde31d6 | 可由教材重建同一 canonical 內容與指紋 |
+| 程式與切分 | commit 4da58a5；腳本 6712c4f1a8bd；切分 5204cf17df5b | 原腳本未交付；切分可重建；基線 commit 不包含原暫存腳本或新 README |
+| 實驗 run | 1705be744a7f4e6f88b0a95bac79a87f | 歷史參數為 n=1000、seed=11、C=1，macro-F1=0.871663；不是讀者可查詢的 store |
+| 模型版本 | m4-c-word-lr-v1；模型 SHA-256 dec08fba07f3 | 原模型未交付；新訓練模型須記自己的雜湊並比較預測／指標 |
+
+描述指標對應 `dataset-canonical.json`，含 path、size 及 MD5，後者前 12 碼為 cd55040621b4。另用 SHA-256 核對內容，兩種雜湊不可混填。
+
+真實專案須把描述檔放入 Git，保存快取或遠端實際物件及存取權限。只有名稱與指紋，仍取不回被覆寫的內容。
+
+追溯鏈是「資料內容與指標 → 程式及切分 → run → 模型版本與內容」。同一 run 的標籤保存各雜湊，附件保存輸入清單與實際模型。
+
+原作者當時已用 MLflow API 回讀資料標籤及分數，並下載模型核對雜湊；這項歷史驗證不表示讀者可取得原 store。版本名只是本機清單標記，尚未在 Model Registry 註冊。
+
+#### 從教材建立可回讀的新 run（補充）
+
+README 程式把 `records` 與 `base_split` 組成 `{"records": records, "split": base_split}`，用 UTF-8、`ensure_ascii=False`、`sort_keys=True`、`separators=(',', ':')` 序列化，重建 489723 位元組；完整 SHA-256 為 `56208dde31d6123e81592a099da588425b1b750ff89bd025ac0dc298b124edbd`、MD5 為 `cd55040621b4ccbf46df1c0544427c70`。這是從教材取回資料，不是由雜湊反推內容。
+
+程式先檢查三切分互斥、200⊂1000⊂2000、400 驗證／600 測試及五個種子，再真正執行三路線×三筆數×五種子×三格的 135 次 fit。只依驗證 macro-F1 選參數，最後記錄 45 組全部測試預測、分數及平均／波動。
+
+其中 word-lr／n1000／seed11 寫進**新的本機 MLflow run**：保存參數、兩個指標、canonical 指紋、切分、實際執行腳本及模型雜湊，附件包含資料、切分、程式、輸入清單與模型。關閉 run 後用 API 回讀，再下載五個附件核對 SHA-256，載入自己的模型比較預測。
+
+全部產物寫到使用者指定的全新 `tmp/` 輸出目錄，不修改教材 JSON 或原作者證據。新 run ID 另產生，模型 pickle 位元組也可能不同；程式如實記錄當次 hash，預測與指標一致不代表模型 hash 相同。歷史 Python 3.12.13、scikit-learn 1.9.1 的環境資訊供比對，新執行另記自己的版本與 checkout／程式指紋。
+
+README 僅重測搜尋秒數，原 JSON 中 RSS、延遲仍是歷史量測，沒有宣稱重新量到它們。DVC 仍未執行，也沒有 cache／remote 回復驗收；本教材的取回能力由保存完整資料的 JSON 與重現程式提供。
+
+來源：[MLflow Tracking](https://mlflow.org/docs/latest/ml/tracking/)、[MLflow Python API](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.html)、[DVC 描述檔](https://doc.dvc.org/user-guide/project-structure/dvc-files)、[DVC 入門教學](https://doc.dvc.org/start)；流程設計與完整示範另見資料、程式與模型版本追溯。
+
 ### 和模型版本管理、線上監控的分工
 
 實驗追蹤記下訓練階段的設定與結果。科目 1 指引也介紹模型版本管理，以及上線後的效能與漂移監控，可按產生紀錄的階段區分。
@@ -437,6 +503,7 @@ Model Registry 的名稱與用法參考 [MLflow 官方文件的 Model Registry �
 
 - 科目 1 學習指引 5-19、5-20：資料版本、MLflow、模型版本與線上效能／漂移監控。（支持：直覺、步驟 1、工具的定位、和模型版本管理、線上監控的分工、常見誤解、小結）
 - 科目 3 學習指引 5-17～5-20：驗證與測試分工、早停、曲線與超參數／結構／權重紀錄、資源追蹤。（支持：為什麼需要、步驟 1、步驟 2、步驟 3、讀資源紀錄、工具的定位）
+- [DVC 描述檔](https://doc.dvc.org/user-guide/project-structure/dvc-files)與 [DVC 入門教學](https://doc.dvc.org/start)。（支持：MLflow 與 DVC 接起同一個 run；描述檔與實際物件的分工）
 - [MLflow 官方文件「MLflow Tracking」](https://mlflow.org/docs/latest/ml/tracking/) 的 Concepts、Tracking Runs 章節與 [Python mlflow API](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.html)、[MlflowClient API](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.client.html)。（支持：直覺、步驟 1～4、程式、比較兩個 run、工具的定位、換個場景、常見誤解、小結）
 - [PyTorch 官方文件「Reproducibility」](https://docs.pytorch.org/docs/stable/notes/randomness.html) 的 Controlling sources of randomness、Avoiding nondeterministic algorithms 章節與 [Saving And Loading A General Checkpoint 教學](https://docs.pytorch.org/tutorials/recipes/recipes/saving_and_loading_a_general_checkpoint.html)。（支持：步驟 1、步驟 4、程式、比較兩個 run、為什麼重現只能「接近」、常見誤解、小結）
 - [NVIDIA 官方文件 nvidia-smi 的 Utilization 章節](https://docs.nvidia.com/deploy/nvidia-smi/index.html) 與 [PyTorch 官方教學「Performance Tuning Guide」](https://docs.pytorch.org/tutorials/recipes/recipes/tuning_guide.html)。（支持：讀資源紀錄、使用率的定義、常見誤解、小結）

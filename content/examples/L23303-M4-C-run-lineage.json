@@ -1,0 +1,48 @@
+{
+  "kind": "歷史作者本機MLflow run；原tmp腳本、模型與SQLite store未交付；同資料可由L23303-M4-C-label-efficiency.json及L23303-M4-C-README.md重建並建立新run；DVC僅描述設計示範，未執行DVC或模型登錄服務",
+  "dataset_version": "m4-c-synthetic-v1",
+  "dataset_sha256": "56208dde31d6123e81592a099da588425b1b750ff89bd025ac0dc298b124edbd",
+  "dataset_retrieval": "tmp/rollout/m4/work/M4-C/dataset-canonical.json",
+  "dvc_pointer_example": {
+    "outs": [
+      {
+        "path": "dataset-canonical.json",
+        "hash": "md5",
+        "md5": "cd55040621b4ccbf46df1c0544427c70",
+        "size": 489723
+      }
+    ]
+  },
+  "dvc_pointer_status": "歷史示範描述；不是已提交.dvc檔，未驗證cache/remote取回；資料由教材JSON重建，不是DVC取回；真實專案須把指標檔與程式納入Git並保存cache/remote物件",
+  "git_commit": "4da58a58186068365ae11c58b21ecd964469c760",
+  "script_sha256": "6712c4f1a8bd03c0cda0ae2ca49fef333ae51591b20e1f1272c8031c582fa923",
+  "script_path": "tmp/rollout/m4/work/M4-C/measure.py",
+  "uncommitted_script": true,
+  "split_sha256": "5204cf17df5bd73737ac5c7f35e87d798fc7f3121c92908873170de1f46aa441",
+  "train_ids_sha256": "664168d5ff7ed608a832b9ad89de734d295a26a3575f5aa0e1751cd839034c6a",
+  "seed": 11,
+  "n": 1000,
+  "route": "word-lr",
+  "selected_parameter": 1.0,
+  "environment": {
+    "python": "3.12.13",
+    "sklearn": "1.9.1",
+    "numpy": "2.5.4",
+    "os": "Windows-11-10.0.26100-SP0",
+    "cpu": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+    "logical_cpus": 24,
+    "blas_threads": 1,
+    "gpu": false
+  },
+  "model_version": "m4-c-word-lr-v1",
+  "model_version_status": "本機清單標記；不是MLflow Registry已註冊版本",
+  "model_path": "tmp/rollout/m4/work/M4-C/models/word-lr-1000-11.pkl",
+  "model_sha256": "dec08fba07f37137e35926c318e6fa2d99b944e7ba6813ceb05d132b3231687d",
+  "test_macro_f1": 0.8716634582531231,
+  "mlflow_run_id": "1705be744a7f4e6f88b0a95bac79a87f",
+  "readback_verified": {
+    "dataset": true,
+    "model": true,
+    "metric": true
+  }
+}

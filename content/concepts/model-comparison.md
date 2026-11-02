@@ -21,7 +21,7 @@ textbook: v2
 summary: 模型比較要同時查看多項指標、錯誤成本與驗證波動
 goals:
   - id: g1
-    text: 在相同評估條件下，綜合分類與迴歸指標判斷模型取捨
+    text: 在相同評估條件下，綜合分類與迴歸指標、標註量及部署資源限制判斷模型取捨
   - id: g2
     text: 由四格計數算出誤判成本與自訂淨收益，說明業務假設
   - id: g3
@@ -29,20 +29,20 @@ goals:
 formula_groups:
   - id: total-cost
     source: https://scikit-learn.org/stable/auto_examples/model_selection/plot_cost_sensitive_learning.html
-    status: verified
-    checked_by: ctx_ce650b18e31c
+    status: pending
+    checked_by: null
   - id: custom-profit
     source: https://scikit-learn.org/stable/auto_examples/model_selection/plot_cost_sensitive_learning.html
-    status: verified
-    checked_by: ctx_ce650b18e31c
+    status: pending
+    checked_by: null
   - id: mean-spread
     source: https://numpy.org/doc/stable/reference/generated/numpy.std.html
-    status: verified
-    checked_by: ctx_ce650b18e31c
+    status: pending
+    checked_by: null
   - id: mean-rank
-    source: https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rankdata.html
+    source: https://jmlr.org/papers/volume7/demsar06a/demsar06a.pdf
     status: verified
-    checked_by: ctx_ce650b18e31c
+    checked_by: task_28ef2491f268
 self_check:
   - id: c1
     goal: g1
@@ -63,7 +63,7 @@ self_check:
     goal: g2
     type: choice
     prompt: 瑕疵模型有 TP=4、FP=4、FN=0、TN=12；漏放成本每件 1000 元、誤攔每件 50 元，判對成本為零。總誤判成本多少？
-    options: { A: '200 元', B: '400 元', C: '4000 元', D: '4200 元' }
+    options: {A: '200 元', B: '400 元', C: '4000 元', D: '4200 元'}
     answer: A
     explain:
       A: 4 件誤攔乘 50 元，沒有漏放，總計 200 元。
@@ -100,6 +100,21 @@ self_check:
       B: 訓練資料量不同，無法公平比較相同低資源條件。
       C: 固定資料條件與預算，才能把差異較合理歸於模型方案。
       D: 反覆用測試集調參會造成對測試集的選擇偏差。
+  - id: c5
+    goal: g1
+    type: choice
+    prompt: 固定訓練池 2000 筆，團隊只負擔 200 筆訓練標註，成果檔上限 32 KiB。甲乙共用切分與搜尋預算，驗證 F1 都達標；甲檔案 30 KiB、乙 68 KiB。哪個判斷較合適？
+    options:
+      A: "200 筆是 20%；乙 F1 達標即可直接忽略儲存上限"
+      B: "200 筆是 10%；先讓符合儲存限制的甲進入部署量測"
+      C: "200 筆是 10%；只要成果小於上限就能保證推論記憶體"
+      D: "200 筆是 20%；各模型換自己的測試集即可公平比較"
+    answer: B
+    explain:
+      A: "2000 筆的 20% 是 400 筆，且效能過關不能取代儲存限制。"
+      B: "比例與資源限制都須符合；甲仍需在目標設備實測記憶體與延遲。"
+      C: "磁碟成果大小不等於載入後的記憶體，更不能涵蓋推論尖峰。"
+      D: "比例算錯，且不同測試集會把資料難度混入模型差異。"
 ---
 
 ## 為什麼需要
@@ -144,6 +159,8 @@ $$
 
 $C$ 是總成本，$c$ 是每件成本，TP、FP、FN、TN 是件數。模型 A 的四格為 3、2、1、14，故 $C_A=50\times2+1000\times1=1100$ 元。
 
+此式由本例四格定價加總而得，要求每一格內的單件成本固定。scikit-learn 教學提供矩陣逐格乘積加總的程式，沒有直接列出這個一般四項符號式；直接式來源仍待補核。若每筆交易代價不同，不能只用四格件數乘固定價格。
+
 ### 收益指標必須先定義（補充）
 
 指引提及 Profit Score，但它沒有一個放諸各業皆準的公式。另訂一個收益方案：每攔到一件瑕疵回收 500 元價值，每次攔檢花 50 元；未攔到與放行良品的收益設零。
@@ -155,6 +172,8 @@ $$
 $\Pi$ 是本例淨收益，單位為元；$\mathrm{TP}+\mathrm{FP}$ 是全部攔檢件數。模型 A 得 $500\times3-50\times(3+2)=1250$ 元。
 
 這個收益方案與上一個誤判成本方案是兩個獨立假設，不可相加後重複計入損失。預期收益、成本及評估期間都需先由業務定義。
+
+這是依本頁單價自訂的定義；外部教學支持自訂業務指標的方法，並未給出此處 500／50 元的精確式。其直接來源核對保留待確認，不把自行代入算對當成外部來源已驗證。
 
 ## 算一次
 
@@ -218,7 +237,7 @@ R² 定義為 $1-\mathrm{SSE}/\mathrm{SST}$，SSE 是殘差平方和，SST 是�
 | 4 | 0.84 | 0.81 |
 | 5 | 0.88 | 0.82 |
 
-:::supplement[來源：NumPy：std]
+:::supplement[來源：NumPy：mean、std]
 $$
 \bar s=\frac{1}{m}\sum_{j=1}^{m}s_j,\qquad
 \sigma_{\mathrm{desc}}=\sqrt{\frac{1}{m}\sum_{j=1}^{m}(s_j-\bar s)^2}
@@ -226,10 +245,155 @@ $$
 
 $s_j$ 是第 $j$ 輪分數，$m$ 是輪數；$\sigma_{\mathrm{desc}}$ 是本頁用分母 $m$ 的描述性標準差，不是以 $m-1$ 估計的樣本標準差。
 
+[NumPy mean 的 Notes](https://numpy.org/doc/stable/reference/generated/numpy.mean.html)直接說明加總後除以個數；[std 的 Notes](https://numpy.org/doc/stable/reference/generated/numpy.std.html)給出平方差加總、分母與開根號，並區分 ddof=0 與 1。本頁五個有限實數只作描述，不假設五輪獨立。
+
 兩者平均皆為 4/5=0.80。A 的離均差平方和為 0.016，除以 5 再開根號得 0.05657；B 為 0.001，依樣計算得 0.01414。
 :::
 
+### 固定資料才能看資料效率（補充）
+
+任務是把客服訊息或製造工單分成「優先處理」與「一般處理」。兩領域各有 1500 筆**教學合成文字**，共 3000 筆；每筆索引唯一、文字不重複，並以約 10% 語意翻轉模擬歧義。
+
+這些文字由共用模板生成，不代表真實客戶對話，也沒有驗證未知句型或大型語言模型的能力。
+
+以下實測三條 NLP 建模路線，NLP 指自然語言處理。先懂資料如何轉成特徵，再比較分類器；向量化細節見詞頻與逆文件頻率，分類決策見邏輯迴歸。
+
+| 路線 | 文字表示 | 分類與預測規則 |
+|---|---|---|
+| 詞級 TF-IDF＋邏輯迴歸 | 合成文字已用空白斷詞，取單詞與相鄰雙詞 | liblinear，最多 1000 次迭代，原生 predict |
+| 字元 TF-IDF＋線性支持向量機（SVM） | 取長度 2～4 的連續字元片段，不另斷詞 | LinearSVC，dual=False，最多 2000 次迭代，原生 predict |
+| 詞級 TF-IDF＋多項式朴素貝氏（NB） | 與詞級邏輯迴歸同樣的單詞及相鄰雙詞 | MultinomialNB，類別先驗與條件特徵模型，原生 predict |
+
+朴素貝氏以類別條件分布 P(x\|y) 及先驗 P(y) 建模，再依貝氏規則分類，屬生成式分類路線；這裡 x 是 TF-IDF 特徵，不是直接生成自然語句。邏輯迴歸直接建模 P(y\|x)，屬鑑別式；線性 SVM 則學分類邊界，也屬鑑別式，但不直接輸出校準機率。
+
+本例可比較生成式分類與鑑別式分類在少標註條件下的取捨，**不能替代 VAE、BERT 或生成式 AI 微調的實測**。遷移到 VAE／BERT 時，只借用「同比例子集、同評估條件」的設計，不把 NB 的分數當作它們的成績。
+
+分類方法依據見 [Naive Bayes](https://scikit-learn.org/stable/modules/naive_bayes.html)及 [Logistic regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression)。
+
+TF-IDF 只在該輪訓練子集擬合，min_df=1，其餘用 scikit-learn 1.9.1 預設；不可先用全部文字建詞彙表或算 IDF。比較的是整條路線，不能把差異單獨歸因給分類器。
+
+#### 把實驗條件先鎖住
+
+| 控制項 | 本例固定值 | 防止哪種混淆 |
+|---|---|---|
+| 原始訓練池 | 2000 筆；客服／製造各 1000，類別各半 | 分母改變卻仍宣稱相同比例 |
+| 留出資料 | 驗證 400、測試 600 筆；兩領域與兩類各半，索引全程固定 | 用測試選參數或偷偷換難度 |
+| 訓練量 | 2000／1000／200 筆，即 100%／50%／10% | 20% 實為 400 筆，不是 200 筆 |
+| 重複抽樣 | 種子 11、22、33、44、55，共 5 輪；按領域×類別分層，子集逐級包含 | 三路線抽到不同的訓練例子 |
+| 調參預算 | 每路線、每筆數、每種子各試三格；LR／SVM 為 C=0.1、1、10，NB 為 alpha=0.1、1、10；只用驗證 macro-F1 選一次，同分取前者 | 一邊多試設定取得不公平優勢 |
+| 指標與閾值 | labels=[0,1]、average="macro"、zero_division=0；不在測試調閾值 | 混用正類 F1、加權平均與類別比例 |
+
+macro-F1 先各算一個類別的 F1 再等權平均，不是先平均精確率與召回率。正類 1 是優先處理，所有條件共用測試樣本；JSON 保存資料、抽樣索引、參數與逐筆預測供回算。
+
+生成種子為 2330304。選定參數後保留該模型，不把驗證併回重訓，訓練標註量也不包含驗證 400 筆；先固定整個比較設計，最後彙報全部測試結果，不再據排名追加搜尋。
+
+C 控制 LR／SVM 的正則化強度（數值越小，正則化越強），alpha 控制 NB 平滑；三格搜尋次數相同，不代表參數意義或計算成本相同。
+
+三路線×三筆數×五種子共 45 組、135 次 fit。[完整重現程式](https://github.com/polluxyz/ipas-study/blob/main/content/examples/L23303-M4-C-README.md)從教材內的 records、base_split、subsets 重訓全部條件，並建立可回讀的新 MLflow run。
+
+#### 三種資料量的實測
+
+| 訓練筆數／占訓練池 | 詞級＋邏輯迴歸 macro-F1 | 字元＋線性 SVM macro-F1 | 詞級＋朴素貝氏 macro-F1 |
+|---|---|---|---|
+| 2000／100% | 0.8767 ± 0.0000 | 0.8767 ± 0.0000 | 0.8767 ± 0.0000 |
+| 1000／50% | 0.8740 ± 0.0029 | 0.8707 ± 0.0039 | 0.8753 ± 0.0012 |
+| 200／10% | 0.8000 ± 0.0291 | 0.7929 ± 0.0243 | 0.8380 ± 0.0169 |
+
+表中是五輪平均 ± 描述性標準差，分母用 5，不是信賴區間。各輪訓練集重疊、測試也相同，不能當成五組獨立證據。
+
+2000 筆時每輪都用完整訓練池，三個確定性路線各自預測相同，標準差因此為零。這沒有量到新資料、時間漂移或部署環境的不確定性。
+
+![三條 NLP 路線在相同測試集上的標註量曲線；圓點為詞級 LR、方點為字元 SVM、三角為詞級 NB；短線為描述性標準差，並非信賴區間](figure:l23303-m4-c-label-efficiency)
+
+本例從 200 增到 1000 筆改善較明顯，再增到 2000 筆的增幅較小。這只適用於本組資料、路線及預算，不能推論增加標註必定有效，也不能外推生成式模型微調的成效。
+
+NB 在本例 200 筆時的平均較高、波動較小；不是所有小樣本都必定適合 NB，也不能由相依的五輪分數宣稱顯著勝出。完整程式會重新訓練 NB 的 45 次 fit，再核對全部三路線預測；不是只讀歷史平均當作重訓結果。
+
+#### 成本與分數要一起讀
+
+**以下單價是假設，秒數是原作者當次本機歷史量測。** 假設每筆訓練標註新臺幣 2 元、運算每分鐘 0.5 元；運算費依未取整的歷史搜尋秒數計，與正式雲端帳單不同。重跑不要求秒數逐位相同，也不替換原紀錄。
+
+| 訓練標註費（三路線共用） | 詞級 LR：搜尋耗時／假設運算費 | 字元 SVM：搜尋耗時／假設運算費 | 詞級 NB：搜尋耗時／假設運算費 |
+|---|---|---|---|
+| 2000 筆：4000 元 | 0.121 秒／0.001009 元 | 0.481 秒／0.004009 元 | 0.107 秒／0.000892 元 |
+| 1000 筆：2000 元 | 0.077 秒／0.000642 元 | 0.271 秒／0.002257 元 | 0.076 秒／0.000633 元 |
+| 200 筆：400 元 | 0.026 秒／0.000213 元 | 0.068 秒／0.000564 元 | 0.026 秒／0.000218 元 |
+
+耗時是五輪每輪平均，包含三次訓練與驗證預測，不含最終測試及計時探測。每輪從頭執行，五輪合計運算費是表中金額的五份；三路線共用的標註不重複收費。
+
+標註費是取得**單份 n 筆子集**的假設，不是五輪不同子集的總價。本例 200／1000 筆的五輪聯集各有 831／1935 筆，依假設需 1662／3870 元；合成文字沒有實際標註支出。
+
+按此單價，固定驗證另需 800 元、測試另需 1200 元，所有條件共用；未含收集、開發與維運。前面品檢的誤判成本是業務風險，與標註、訓練及部署資源分開計算。
+
+來源：[scikit-learn 文字分類教學](https://scikit-learn.org/stable/auto_examples/text/plot_document_classification_20newsgroups.html)、[F1 API](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)及 [Google 資料切分課程](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets)。本批合成實測記錄：`L23303-M4-C-label-efficiency.json`。
+
+### 把需求限制對回三個候選
+
+科目 3 指引 5-11 起要求一起考慮任務、資料、解釋與資源；科目 1 指引 5-2 的「數據準備與模型選擇」也要求兼看實際用途。分數過門檻後，還須確認模型能在預定設備運行；先建立候選的方法見任務辨識與模型選擇。
+
+#### 本例需求（補充）
+
+以下是用實測結果演示選型的**教學需求假設**，並非產品驗收計畫。實務上應先訂需求再選模，不能為了特定候選通過而改門檻；三者均使用上節的同資料與預算流程。
+
+成果檔占用磁碟；行程常駐記憶體（Resident Set Size，RSS）則是載入與執行時占用的記憶體。p95 是延遲的第 95 百分位；本例 KiB、MiB 分別以 1024、1048576 位元組計。
+
+| 面向 | 需求限制 | 驗證方法 |
+|---|---|---|
+| 效能 | 驗證平均 macro-F1 至少 0.87；凍結後測試檢查至少 0.85 | 五輪配對平均，另看 Accuracy 與優先類 Recall |
+| 資料 | 每輪最多使用 1000 筆訓練標註，另留固定驗證與測試；五輪聯集需 1935 筆 | 共用四層抽樣索引，禁止擬合留出文字 |
+| 解釋 | 能列出完整詞或詞組的貢獻 | 檢查特徵與係數／條件機率；不當成因果證明 |
+| 複雜度 | 單層線性分類器或條件機率基線，無 GPU | 看實際結構與特徵維度，不只看演算法名稱 |
+| 記憶體及儲存 | 共享行程取樣 RSS 不超過 512 MiB；序列化成果不超過 32 KiB | 看五輪最差值；兩者不可互相代替 |
+| 延遲與訓練 | 單筆端到端 predict 的 p95 不超過 5 ms；每輪搜尋不超過 5 秒 | 同設備單執行緒，包含文字向量化 |
+
+#### 三候選的效能（補充）
+
+這裡取上節三條路線各用 1000 筆的結果。朴素貝氏沿用詞級特徵，alpha 只試 0.1、1、10，以相同驗證規則選參數，並共用每輪的訓練索引。
+
+此處 1000 筆是**單輪使用上限**，不是全專案總標註預算：五輪共需 1935 筆不同訓練標註。若專案總共只能取得 1000 筆，三候選的這個五輪設計全都不符合，不能沿用下方選型結論。資源 JSON 的 `train_labels_max=1000` 亦按這個每輪定義解讀。
+
+| 1000 筆候選 | 驗證／測試 macro-F1 | 測試 Accuracy／優先類 Recall |
+|---|---|---|
+| 詞級 TF-IDF＋邏輯迴歸 | 0.8774／0.8740 | 0.8740／0.8780 |
+| 字元 TF-IDF＋線性 SVM | 0.8759／0.8707 | 0.8707／0.8740 |
+| 詞級 TF-IDF＋多項式朴素貝氏 | 0.8795／0.8753 | 0.8753／0.8787 |
+
+1000 筆時，詞級路線在客服／製造的平均 F1 為 0.8940／0.8540，字元路線為 0.8947／0.8467。混合分數會掩蓋領域差異；若要求各領域都達標，須另訂門檻。
+
+這是五輪平均，0.001 等級差距不能直接當成顯著優勢。macro-F1 看兩類的平衡，Recall 看是否漏掉優先訊息；若改求高召回，須用驗證資料重訂門檻及誤判代價。
+
+#### 結構、解釋與資源（補充）
+
+| 候選 | 特徵與複雜度 | 解釋需求的判斷 |
+|---|---|---|
+| 詞級＋邏輯迴歸 | 約 798 個詞／雙詞特徵；一組線性係數 | 能列出完整詞組的加分或扣分；相關特徵會影響係數解讀 |
+| 字元＋線性 SVM | 約 2222 個字元片段；一組線性係數 | 能解釋片段權重，卻不直接滿足本例完整詞組要求 |
+| 詞級＋朴素貝氏 | 約 798 個詞／雙詞特徵；兩類條件機率 | 可列出詞的類別傾向；獨立性假設可能失真 |
+
+下表採五輪最差觀測值。成果大小是 pickle protocol 5 的完整 pipeline；RSS 是同一量測行程每 5 ms 取樣，含函式庫與之前配置，並非隔離後單模型記憶體需求。
+
+| 候選 | 成果 KiB／行程 RSS MiB | 單筆 p95 ms／搜尋秒 |
+|---|---|---|
+| 詞級 TF-IDF＋邏輯迴歸 | 30.0／170.9 | 1.21／0.082 |
+| 字元 TF-IDF＋線性 SVM | 67.6／174.2 | 1.29／0.277 |
+| 詞級 TF-IDF＋多項式朴素貝氏 | 48.6／170.9 | 0.99／0.081 |
+
+單筆預測含向量化與分類，暖身 20 筆後，量固定測試的前 100 筆取 p95。重跑的時間、RSS 與延遲會變，不能用模型檔大小推算記憶體。
+
+量測環境是 Windows 11，CPU 為 Intel Family 6 Model 151（24 個邏輯核心）。Python 3.12.13、scikit-learn 1.9.1，BLAS 單執行緒且無 GPU。
+
+先讓詞級＋邏輯迴歸進入隔離部署驗收：效能足夠、完整詞特徵符合解釋要求且成果最小。朴素貝氏雖略高分，卻超過 32 KiB；字元 SVM 也超標，解釋單位亦不符。
+
+共享行程量測不能保證部署達標，須在目標容器量冷啟動、真正記憶體尖峰、併發與含網路的服務延遲。放寬儲存或改用不同文字分布後，應重新比較。
+
+需求與數值另存於 `content/examples/L23303-M4-C-candidate-resources.json`，供重算核對。
+
+來源：[scikit-learn 多指標選模教學](https://scikit-learn.org/stable/auto_examples/model_selection/plot_grid_search_digits.html)、[文字分類與計算資源比較](https://scikit-learn.org/stable/auto_examples/text/plot_document_classification_20newsgroups.html)及本批合成實測；需求門檻由本例自行設定。
+
+
 ## 程式
+
+前三段沿用同一個 Python 執行環境，依序執行以共用 NumPy。後兩段各自列出匯入與 JSON 載入；完整 135 次 fit 與新 run 的獨立入口見 [M4-C README](https://github.com/polluxyz/ipas-study/blob/main/content/examples/L23303-M4-C-README.md)。
 
 ### 從同批品檢分數算到成本（補充）
 
@@ -304,13 +468,80 @@ B各輪名次： [1.0, 1.0, 1.5, 2.0, 2.0]
 `ddof=0` 明定描述性標準差的分母；`method="linear"` 明定四分位數算法。排名是每輪內比較，不能先把兩欄各自排序後再配對。
 :::
 
+### 重算資料效率的配對分數（補充）
+
+下面從 JSON 的逐筆預測重算 F1，需把 IPAS_REPO_ROOT 指向專案根目錄。它核對實測輸出，沒有重新訓練；同檔保存切分、參數與預測，可供另行重訓。
+
+```python
+import os, json
+import numpy as np
+from pathlib import Path
+from sklearn.metrics import f1_score
+root = Path(os.environ["IPAS_REPO_ROOT"])
+data = json.loads((root / "content/examples/L23303-M4-C-label-efficiency.json").read_text(encoding="utf-8"))
+truth = [data["records"][i]["label"] for i in data["base_split"]["test"]]
+for n in [2000, 1000, 200]:
+    means = []
+    for route in ["word-lr", "char-svm", "word-nb"]:
+        runs = [r for r in data["runs"] if r["n"] == n and r["route"] == route]
+        scores = [f1_score(truth, r["test_predictions"], average="macro", labels=[0,1], zero_division=0) for r in runs]
+        means.append(f"{np.mean(scores):.4f}±{np.std(scores, ddof=0):.4f}")
+    print(n, *means)
+```
+```text
+2000 0.8767±0.0000 0.8767±0.0000 0.8767±0.0000
+1000 0.8740±0.0029 0.8707±0.0039 0.8753±0.0012
+200 0.8000±0.0291 0.7929±0.0243 0.8380±0.0169
+```
+
+### 重訓一輪 NLP 路線（補充）
+
+下段重新載入相同 JSON，重訓 n=1000、種子 11 的兩路線。所需 np、data、f1_score 都在本段建立，不依賴前段變數；IPAS_REPO_ROOT 仍須指向 repo 根目錄。資料索引、三個 C 與驗證選參數都明寫；各路線用原生 predict，不用測試選模型。NB 與全部條件的重訓在 README。
+
+```python
+import os, json
+import numpy as np
+from pathlib import Path
+from sklearn.metrics import f1_score
+from sklearn.pipeline import make_pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
+from threadpoolctl import threadpool_limits
+root = Path(os.environ["IPAS_REPO_ROOT"])
+data = json.loads((root / "content/examples/L23303-M4-C-label-efficiency.json").read_text(encoding="utf-8"))
+ids = data["subsets"]["11"]["1000"]
+texts = [r["text"] for r in data["records"]]; labels = np.array([r["label"] for r in data["records"]])
+val_ids = data["base_split"]["val"]; test_ids = data["base_split"]["test"]
+with threadpool_limits(limits=1):
+    for route in ["word-lr", "char-svm"]:
+        trials = []
+        for c in [0.1, 1., 10.]:
+            vector = TfidfVectorizer(tokenizer=str.split, token_pattern=None, ngram_range=(1,2)) if route == "word-lr" else TfidfVectorizer(analyzer="char", ngram_range=(2,4))
+            model = LogisticRegression(C=c, solver="liblinear", max_iter=1000, random_state=11) if route == "word-lr" else LinearSVC(C=c, dual=False, max_iter=2000, random_state=11)
+            pipe = make_pipeline(vector, model).fit([texts[i] for i in ids], labels[ids])
+            score = f1_score(labels[val_ids], pipe.predict([texts[i] for i in val_ids]), average="macro", labels=[0,1], zero_division=0)
+            trials.append((score, c, pipe))
+        best_val, c, pipe = max(trials, key=lambda row: row[0])
+        test = f1_score(labels[test_ids], pipe.predict([texts[i] for i in test_ids]), average="macro", labels=[0,1], zero_division=0)
+        print(f"{route} C={c:.1f} val={best_val:.6f} test={test:.6f}")
+```
+```text
+word-lr C=1.0 val=0.874950 test=0.871663
+char-svm C=0.1 val=0.877462 test=0.873332
+```
+
+:::tip[讀碼重點]
+三個 C 各自重建整條 pipeline，詞彙表與 IDF 不會碰到驗證或測試資料。`max` 只看驗證分數，同分保留先出現的參數；完整兩路線控制流程保留在同一段，供逐步核對。
+:::
+
 ## 怎麼用、怎麼判讀
 
 ### 箱型圖與平均排名圖
 
 箱型圖呈現各輪分數分布，平均排名圖則呈現各輪相對先後。前者看波動與分數範圍，後者讓不同模型的勝負次序容易比較。
 
-:::supplement[來源：NumPy：percentile；SciPy：rankdata]
+:::supplement[來源：NumPy：percentile；SciPy：rankdata；Demšar 2006 §3.2.2]
 本頁箱體下緣、中央線、上緣分別是第 25、50、75 百分位，記為 Q1、中位數、Q3。四分位距 IQR 是 Q3−Q1；鬚延伸至 1.5 IQR 內最外的觀察值。
 
 模型 A 的箱體為 0.76～0.84，模型 B 為 0.79～0.81；中位數都是 0.80，模型 B 的分數比較集中。
@@ -324,6 +555,8 @@ $$
 $$
 
 $r_j$ 是該模型第 $j$ 輪的名次，$m=5$。模型 A 為 $(2+2+1.5+1+1)/5=1.5$，模型 B 也為 1.5；平均排名相同不代表每輪分數相同。
+
+[Demšar 2006，§3.2.2、印刷第 11 頁](https://jmlr.org/papers/volume7/demsar06a/demsar06a.pdf)直接列出平均名次為各次名次加總除以次數，並規定最佳排 1、同分平均。原論文跨多個資料集作檢定；本頁相依的五輪只借用描述排名，不套用其 Friedman／Nemenyi 顯著性結論。
 :::
 
 ![兩模型平均 F1 相同，模型 B 箱體較窄；平均名次同為 1.5，圖不提供顯著性結論](figure:l23303-model-comparison-box-rank)
@@ -363,10 +596,6 @@ Profit Score 則必須先定義收益與成本。本頁已示範一個具體淨�
 
 ## 進階
 
-### 固定資料才能看資料效率（補充）
-
-若研究標註資料不足的影響，可讓兩模型分別在相同的 100%、50%、20% 訓練子集比較。評估資料保持固定，訓練預算及選模規則也保持一致，才較能辨認資料利用效率。
-
 ### 離線評估與線上確認
 
 科目 1 指引 5-20 要求同時追蹤技術與業務指標，5-21 提及金絲雀部署以降低更新風險。因此離線比較之後，仍需要確認真實使用情境的表現。
@@ -380,15 +609,18 @@ Profit Score 則必須先定義收益與成本。本頁已示範一個具體淨�
 ### 參考來源
 
 - 學習指引科目 3，5-24～5-26；科目 1，5-20～5-21（支持：多指標組合、業務成本、多輪視覺化、換個場景及雙軌評估）。
-- [scikit-learn：成本敏感決策教學](https://scikit-learn.org/stable/auto_examples/model_selection/plot_cost_sensitive_learning.html)（支持：總成本、業務自訂收益及分類算例）。
+- [scikit-learn：成本敏感決策教學](https://scikit-learn.org/stable/auto_examples/model_selection/plot_cost_sensitive_learning.html)（支持：矩陣加總算法與自訂收益的方法；不直接提供本頁一般四項式或 500／50 元精確式）。
+- 學習指引科目 3，5-11 起；科目 1，5-2（支持：按任務、資料及資源選型）。
+- [scikit-learn：文字分類與計算資源比較](https://scikit-learn.org/stable/auto_examples/text/plot_document_classification_20newsgroups.html)、[F1 API](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)（支持：比較設計與 macro-F1，非本例合成實測的原始資料）。
+- [scikit-learn：Naive Bayes](https://scikit-learn.org/stable/modules/naive_bayes.html)、[Logistic regression](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression)（支持：先驗與條件模型、鑑別式條件機率模型）。
 - [scikit-learn：多指標選模教學](https://scikit-learn.org/stable/auto_examples/model_selection/plot_grid_search_digits.html)（支持：固定評估規則、多指標取捨）。
 - [scikit-learn：交叉驗證](https://scikit-learn.org/stable/modules/cross_validation.html)（支持：公平比較、相依性與保留測試資料）。
 - [Google 機器學習速成課程：資料集切分](https://developers.google.com/machine-learning/crash-course/overfitting/dividing-datasets)（支持：固定評估條件，避免反覆以測試集選模）。
 - [scikit-learn：模型評估指標](https://scikit-learn.org/stable/modules/model_evaluation.html)（支持：迴歸比較與 R² 的限制校正）。
 - [scikit-learn：r2_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html)（支持：R² 定義、常數基準與負值的解讀）。
 - [scikit-learn：模型統計比較教學](https://scikit-learn.org/stable/auto_examples/model_selection/plot_grid_search_stats.html)（支持：交叉驗證相依性與修正 t 檢定的選讀方向）。
-- [NumPy：std](https://numpy.org/doc/stable/reference/generated/numpy.std.html)、[percentile](https://numpy.org/doc/stable/reference/generated/numpy.percentile.html)（支持：描述性標準差、四分位數與程式）。
-- [SciPy：rankdata](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rankdata.html)（支持：同分名次與平均排名）。
+- [NumPy：mean](https://numpy.org/doc/stable/reference/generated/numpy.mean.html)、[std](https://numpy.org/doc/stable/reference/generated/numpy.std.html)、[percentile](https://numpy.org/doc/stable/reference/generated/numpy.percentile.html)（支持：平均、描述性標準差與四分位數）。
+- [SciPy：rankdata](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.rankdata.html)（支持：同分取平均名次）；[Demšar 2006 §3.2.2，p.11](https://jmlr.org/papers/volume7/demsar06a/demsar06a.pdf)（直接支持跨次平均排名式；本頁只作描述）。
 - [Google：Rules of Machine Learning](https://developers.google.com/machine-learning/guides/rules-of-ml)（支持：離線指標與實際產品成效的差異）。
 - [Microsoft Learn：安全釋出線上端點](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-safely-rollout-online-endpoints?view=azureml-api-2)（支持：小流量驗證與影子流量的限制）。
 
