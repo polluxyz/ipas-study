@@ -1,0 +1,47 @@
+id: 114-2-S3-Q39
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 39
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 10
+type: 程式
+codes: [L23304, L23203]
+concepts: []
+stem: |
+  附圖程式碼實現的是哪一種正則化技術？
+code: |
+  def forward(x, p, training=True):
+      if training:
+          mask = np.random.binomial(1, p, size=x.shape)
+          return x * mask / p
+      else:
+          return x
+code_lang: python
+options:
+  A: |-
+    L1 正則化
+  B: |-
+    L2 正則化
+  C: |-
+    Dropout
+  D: |-
+    Batch Normalization
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 10
+    by: EX-E4-Codex
+  blind_answer: null
+  dispute: null

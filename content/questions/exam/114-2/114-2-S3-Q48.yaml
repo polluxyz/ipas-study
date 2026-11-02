@@ -1,0 +1,101 @@
+id: 114-2-S3-Q48
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 48
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 17
+type: 程式
+codes: [L23301, L23303]
+concepts: []
+stem: |
+  使用鐵達尼號(Titanic)資料集進行多層感知機(Multilayer Perceptron, MLP)分類預測分析，其中 survived 為反應變數(1 表示存活，0 表示死亡)。附圖程式碼展示資料載入與處理，請根據此資料回答第 48~50 題。
+
+  ```python
+  import numpy as np
+  import pandas as pd
+  from keras import Sequential
+  from keras.layers import Input, Dense
+
+  np.random.seed(123)
+  df_train = pd.read_csv("titanic_train.csv")
+  df_test = pd.read_csv("titanic_test.csv")
+  ```
+
+  下圖顯示資料集的前 5 筆資料。
+
+  ```python
+  df_train.head()
+  ```
+
+  | | pclass | sex | age | sibsp | parch | fare | embarked_C | embarked_Q | embarked_S | survived |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | 0 | 1 | 1 | 29.0000 | 0 | 0 | 211.3375 | False | False | True | 1 |
+  | 1 | 1 | 1 | 0.9167 | 1 | 2 | 151.5500 | False | False | True | 1 |
+  | 2 | 1 | 1 | 2.0000 | 1 | 2 | 151.5500 | False | False | True | 0 |
+  | 3 | 1 | 0 | 30.0000 | 1 | 2 | 151.5500 | False | False | True | 0 |
+  | 4 | 1 | 1 | 48.0000 | 0 | 0 | 26.5500 | False | False | True | 1 |
+
+  ```python
+  df_test.head()
+  ```
+
+  | | pclass | sex | age | sibsp | parch | fare | embarked_C | embarked_Q | embarked_S | survived |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | 0 | 1 | 1 | 25.000000 | 1 | 2 | 151.5500 | False | False | True | 0 |
+  | 1 | 1 | 1 | 18.000000 | 1 | 0 | 227.5250 | True | False | False | 1 |
+  | 2 | 1 | 0 | 29.881135 | 0 | 0 | 25.9250 | False | False | True | 0 |
+  | 3 | 1 | 1 | 32.000000 | 0 | 0 | 76.2917 | True | False | False | 1 |
+  | 4 | 1 | 1 | 47.000000 | 1 | 1 | 52.5542 | False | False | True | 1 |
+
+  ```python
+  dataset_train = df_train.values.astype('float32')
+  dataset_test = df_test.values.astype('float32')
+
+  X_train = dataset_train[:, 0:9]
+  y_train = dataset_train[:, 9]
+  X_test = dataset_test[:, 0:9]
+  y_test = dataset_test[:, 9]
+  ```
+
+  參考下圖程式碼，下列何者正確？
+
+  A：X_train -= X_train.mean(axis=0) 將每個訓練集特徵的平均值調整為 0
+  B：X_train /= X_train.std(axis=0) 將每個訓練集特徵的標準差調整為 0
+  C：X_train 處理結果會將資料壓縮到 0 和 1 之間
+  D：標準化結果防止梯度爆炸或消失
+  E：標準化是屬於特徵選擇(Feature Selection)方法
+  F：X_train 程式碼應修正為 X_train = X_train.std(axis=0)，X_test 程式碼應修正為 X_test = X_test.std(axis=0)
+code: |
+  X_train -= X_train.mean(axis=0)
+  X_train /= X_train.std(axis=0)
+  X_test -= X_test.mean(axis=0)
+  X_test /= X_test.std(axis=0)
+code_lang: python
+options:
+  A: |-
+    A、B、C、D
+  B: |-
+    A、E
+  C: |-
+    A、D
+  D: |-
+    A、C、F
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 17
+    by: EX-E4-Codex
+  blind_answer: null
+  dispute: null

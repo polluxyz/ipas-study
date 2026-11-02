@@ -1,0 +1,133 @@
+id: 114-2-S3-Q45
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 45
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 13
+type: 程式
+codes: [L23302, L23203]
+concepts: []
+stem: |
+  VGG16 是由牛津大學 Visual Geometry Group(VGG)在 2014 年提出的經典卷積神經網路（Convolutional Neural Network, CNN）架構。該模型以簡潔且規則的層堆疊設計聞名，廣泛應用於影像分類、特徵提取及遷移學習等任務。附圖程式碼載入了預訓練的 VGG16 模型，並輸出其完整層級結構及參數統計摘要（如附表）。請根據此資訊回答 42~45 題。
+
+  ```text
+  ----------------------------------------------------------------
+  Layer (type)                 Output Shape              Param #
+  ================================================================
+  Conv2d-1                     [-1, 64, 150, 150]         1,792
+  ReLU-2                       [-1, 64, 150, 150]         0
+  Conv2d-3                     [-1, 64, 150, 150]         36,928
+  ReLU-4                       [-1, 64, 150, 150]         0
+  MaxPool2d-5                   [-1, 64, 75, 75]           0
+  Conv2d-6                     [-1, 128, 75, 75]          73,856
+  ReLU-7                       [-1, 128, 75, 75]          0
+  Conv2d-8                     [-1, 128, 75, 75]          147,584
+  ReLU-9                       [-1, 128, 75, 75]          0
+  MaxPool2d-10                  [-1, 128, 37, 37]          0
+  Conv2d-11                    [-1, 256, 37, 37]          295,168
+  ReLU-12                      [-1, 256, 37, 37]          0
+  Conv2d-13                    [-1, 256, 37, 37]          590,080
+  ReLU-14                      [-1, 256, 37, 37]          0
+  Conv2d-15                    [-1, 256, 37, 37]          590,080
+  ReLU-16                      [-1, 256, 37, 37]          0
+  MaxPool2d-17                  [-1, 256, 18, 18]          0
+  Conv2d-18                    [-1, 512, 18, 18]          1,180,160
+  ReLU-19                      [-1, 512, 18, 18]          0
+  Conv2d-20                    [-1, 512, 18, 18]          2,359,808
+  ReLU-21                      [-1, 512, 18, 18]          0
+  Conv2d-22                    [-1, 512, 18, 18]          2,359,808
+  ReLU-23                      [-1, 512, 18, 18]          0
+  MaxPool2d-24                  [-1, 512, 9, 9]            0
+  Conv2d-25                    [-1, 512, 9, 9]            2,359,808
+  ReLU-26                      [-1, 512, 9, 9]            0
+  Conv2d-27                    [-1, 512, 9, 9]            2,359,808
+  ReLU-28                      [-1, 512, 9, 9]            0
+  Conv2d-29                    [-1, 512, 9, 9]            2,359,808
+  ReLU-30                      [-1, 512, 9, 9]            0
+  MaxPool2d-31                  [-1, 512, 4, 4]            0
+  AdaptiveAvgPool2d-32          [-1, 512, 7, 7]            0
+  Linear-33                    [-1, 4096]                 102,764,544
+  ReLU-34                      [-1, 4096]                 0
+  Dropout-35                   [-1, 4096]                 0
+  Linear-36                    [-1, 4096]                 16,781,312
+  ReLU-37                      [-1, 4096]                 0
+  Dropout-38                   [-1, 4096]                 0
+  Linear-39                    [-1, 1000]                 4,097,000
+  ================================================================
+  Total params: 138,357,544
+  Trainable params: 138,357,544
+  Non-trainable params: 0
+  ----------------------------------------------------------------
+  Input size (MB): 0.26
+  Forward/backward pass size (MB): 96.93
+  Params size (MB): 527.79
+  Estimated Total Size (MB): 624.98
+  ----------------------------------------------------------------
+  ```
+
+  在實務應用中，我們常使用遷移學習(transfer learning)技巧，即載入預訓練模型（如 VGG16），凍結部分層的參數，只針對特定任務重新訓練最後幾層，這種做法可節省訓練時間並提升模型效能。假設你要對 VGG16 進行遷移學習(transfer learning)，希望凍結卷積層的參數，只訓練最後全連接層(classifier)。下列哪段程式碼寫法正確？
+code: |
+  from torchsummary import summary
+  from torchvision import models
+  model = models.vgg16(weights='IMAGENET1K_V1')
+  summary(model, (3,150,150))
+code_lang: python
+options:
+  A: |-
+    ```python
+    import torch
+    import torchvision.models as models
+
+    model = models.vgg16(pretrained=True)
+    for param in model.parameters():
+        param.requires_grad = False
+    model.classifier[6] = torch.nn.Linear(4096, 10)
+    ```
+  B: |-
+    ```python
+    import torch
+    import torchvision.models as models
+
+    model = models.vgg16(pretrained=True)
+    for param in model.features.parameters():
+        param.requires_grad = False
+    model.classifier[6] = torch.nn.Linear(4096, 10)
+    ```
+  C: |-
+    ```python
+    import torch
+    import torchvision.models as models
+
+    model = models.vgg16(pretrained=True)
+    for param in model.classifier.parameters():
+        param.requires_grad = False
+    model.classifier[6] = torch.nn.Linear(4096, 10)
+    ```
+  D: |-
+    ```python
+    import torch
+    import torchvision.models as models
+
+    model = models.vgg16(pretrained=True)
+    model.requires_grad = False
+    model.classifier[6] = torch.nn.Linear(4096, 10)
+    ```
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 13
+    by: EX-E4-Codex
+  blind_answer: null
+  dispute: null
