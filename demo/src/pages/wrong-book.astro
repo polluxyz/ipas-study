@@ -2,31 +2,46 @@
 /** 錯題本由最近一次目前版本作答推導，匯入與匯出沿用同一儲存介面。 */
 import StudyPage from '../components/StudyPage.astro';
 import { getData, sourceLabel } from '../lib/content';
+import { summarizeProgress } from '../lib/progress';
 const { questions } = await getData();
-const catalog = questions.map((q) => ({ id: q.id, rev: q.rev, title: sourceLabel(q), stem: q.stem, codes: q.codes }));
+const catalog = questions.map((q) => ({ id: q.id, rev: q.rev, title: sourceLabel(q), stem: q.stem, codes: q.codes, source: q.source }));
+const codeStats = summarizeProgress(catalog, []).byCode;
 ---
 <StudyPage title="把錯題，變成下一次的把握。" section="我的錯題本">
   <p class="lead">答錯的題目會留在這裡。重新答對後，就從待複習清單移出。<br />紀錄只存在此瀏覽器，換裝置前記得匯出備份。</p>
-  <div class="stat-grid"><div class="stat-card"><span>待複習題目</span><strong id="wrong-count">0<small> 題</small></strong><span>最近一次作答答錯</span></div><div class="stat-card"><span>累積作答</span><strong id="attempt-count">0<small> 次</small></strong><span>持續練習，就會有進步</span></div><div class="stat-card"><span>L23303 正確率</span><strong id="wrong-accuracy">—</strong><span>以目前題目版本的所有作答計算</span></div></div>
+  <div class="stat-grid"><div class="stat-card"><span>待複習題目</span><strong id="wrong-count">0<small> 題</small></strong><span>最近答錯或僅有舊版本紀錄</span></div><div class="stat-card"><span>累積作答</span><strong id="attempt-count">0<small> 次</small></strong><span>含舊版本與未收錄題目</span></div><div class="stat-card"><span>全題庫正確率</span><strong id="wrong-accuracy">—</strong><span id="wrong-accuracy-detail">目前版本作答 0 次</span></div></div>
+  <section aria-label="各代碼正確率">
+    <div class="section-heading"><div><span class="eyebrow">PRACTICE BY CODE</span><h2>各代碼正確率</h2></div></div>
+    <p class="muted">以已載入題庫目前版本的所有作答計算，含考古題、指引題與模擬題；跨碼題分別計入各碼，全題庫只計一次。未作答顯示 —。</p>
+    <div class="stat-grid">{codeStats.map((group) => <div class="stat-card" data-code-stat={group.code}><span>{group.code} 正確率</span><strong data-code-accuracy>—</strong><span data-code-detail>{group.totalQuestions} 題・目前版本作答 0 次</span></div>)}</div>
+  </section>
   <section class="backup-bar" aria-label="學習紀錄備份"><div><strong>讓學習紀錄跟著你</strong><p>備份包含作答與已讀紀錄；匯入自動略過重複，舊版作答備份也能使用。</p></div><div class="button-row"><button class="button secondary" id="export-attempts" type="button">↓ 匯出紀錄</button><label class="button secondary import-button" for="import-attempts">↑ 匯入紀錄</label><input type="file" id="import-attempts" accept="application/json,.json" class="sr-only" /></div></section>
   <p id="import-status" role="status" class="import-status"></p>
-  <div class="section-heading"><div><span class="eyebrow">REVISIT & UNDERSTAND</span><h2>我的待複習清單</h2></div><a class="text-link" href="/quiz/">練習整個單元 ↗</a></div>
+  <div class="section-heading"><div><span class="eyebrow">REVISIT & UNDERSTAND</span><h2>我的待複習清單</h2></div><a class="text-link" href="/quiz/">繼續練題 ↗</a></div>
   <div id="wrong-list" class="wrong-list"></div>
   <div id="wrong-empty" class="empty-state"><span class="empty-icon">✓</span><h3>目前沒有待複習的錯題</h3><p>從小測驗開始，讓每一次作答都有收穫。</p><a href="/quiz/" class="button primary">開始小測驗 →</a></div>
   <noscript><p>錯題本需要 JavaScript 才能讀取此瀏覽器的作答紀錄。</p></noscript>
-  <script type="application/json" id="wrong-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\u003c')}></script>
+  <script type="application/json" id="wrong-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\\u003c')}></script>
 </StudyPage>
 <script>
   import { getAttempts, getWrongBook, exportAttempts, importAttempts } from '../lib/attempts';
-  interface CatalogItem { id: string; rev: number; title: string; stem: string; codes: string[]; }
+  import { summarizeProgress, type ProgressQuestion } from '../lib/progress';
+  interface CatalogItem extends ProgressQuestion { title: string; stem: string; }
   const catalog: CatalogItem[] = JSON.parse(document.getElementById('wrong-catalog')?.textContent ?? '[]');
   const status = document.getElementById('import-status');
   function setStat(id: string, value: number, unit: string) { const element = document.getElementById(id); if (element) { element.textContent = String(value); const small = document.createElement('small'); small.textContent = ` ${unit}`; element.append(small); } }
   function refresh() {
     const attempts = getAttempts(); const wrong = getWrongBook();
     setStat('wrong-count', wrong.length, '題'); setStat('attempt-count', attempts.length, '次');
-    const current = attempts.filter((a) => catalog.some((q) => q.id === a.qid && q.rev === a.rev && q.codes.includes('L23303')));
-    const accuracy = document.getElementById('wrong-accuracy'); if (accuracy) accuracy.textContent = current.length ? `${Math.round(current.filter((a) => a.correct).length / current.length * 100)}%` : '—';
+    const summary = summarizeProgress(catalog, attempts);
+    const accuracy = document.getElementById('wrong-accuracy'); if (accuracy) accuracy.textContent = summary.accuracy === null ? '—' : `${summary.accuracy}%`;
+    const detail = document.getElementById('wrong-accuracy-detail'); if (detail) detail.textContent = `目前版本答對 ${summary.correctCount} / ${summary.attemptCount} 次`;
+    const byCode = new Map(summary.byCode.map((group) => [group.code, group]));
+    for (const card of document.querySelectorAll<HTMLElement>('[data-code-stat]')) {
+      const group = byCode.get(card.dataset.codeStat ?? ''); if (!group) continue;
+      const value = card.querySelector('[data-code-accuracy]'); if (value) value.textContent = group.accuracy === null ? '—' : `${group.accuracy}%`;
+      const detail = card.querySelector('[data-code-detail]'); if (detail) detail.textContent = `${group.totalQuestions} 題・目前版本答對 ${group.correctCount} / ${group.attemptCount} 次`;
+    }
     const list = document.getElementById('wrong-list'); if (!list) return;
     list.replaceChildren();
     const empty = document.getElementById('wrong-empty'); if (empty) empty.hidden = wrong.length > 0;
@@ -35,7 +50,7 @@ const catalog = questions.map((q) => ({ id: q.id, rev: q.rev, title: sourceLabel
       const row = document.createElement('article'); row.className = 'wrong-item'; row.dataset.qid = item.qid;
       const badge = document.createElement('span'); badge.className = `tag ${item.outdated ? 'amber' : 'rose'}`; badge.textContent = item.outdated ? '題目已更新' : '待複習';
       const title = document.createElement('h3'); title.textContent = q?.title ?? item.qid;
-      const text = document.createElement('p'); text.textContent = q?.stem.slice(0, 130) ?? '此題不在目前的範例題庫，紀錄已保留。';
+      const text = document.createElement('p'); text.textContent = q?.stem.slice(0, 130) ?? '此題未收錄於目前題庫，紀錄已保留。';
       const meta = document.createElement('small'); meta.textContent = `${new Date(item.lastAttempt.ts).toLocaleString('zh-TW')}・${item.outdated ? '舊版本紀錄，不判定對錯' : `上次選擇 ${item.lastAttempt.choice}`}`;
       row.append(badge, title, text, meta);
       if (q) { const link = document.createElement('a'); link.className = 'text-link'; link.href = `/questions/${q.id}/`; link.textContent = '重新作答 →'; row.append(link); }
