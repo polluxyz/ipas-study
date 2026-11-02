@@ -1,0 +1,36 @@
+id: 114-2-S1-Q20
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 20
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 5
+type: 情境
+codes: [L21103, L23304]
+concepts: [gan, mode-collapse]
+stem: |
+  在使用生成對抗網路（GAN）進行人臉影像生成時，若出現「模式崩潰」（Mode Collapse）現象，下列哪一種方法最常被用來有效解決此問題？
+options:
+  A: 在鑑別器中加入梯度懲罰（Gradient Penalty）以穩定訓練過程；
+  B: 採用 Wasserstein 距離（WGAN 損失）替代原始的 GAN 損失函數；
+  C: 對生成器輸入的潛在向量加入隨機擾動；
+  D: 使用多尺度鑑別器架構以提高對多樣性的判別能力
+answer: B
+explanation:
+  summary: 官方答案 B；WGAN 是改善模式崩潰的典型方法，A 也有合理依據。
+  correct: 模式崩潰指不同潛在輸入反覆產生相近結果，缺少應有多樣性。WGAN 以 Wasserstein 目標和受 Lipschitz 約束的 critic 提供較有用的訓練訊號，因此 B 有原始研究支持；並非只更換損失名稱就保證成功。A 的梯度懲罰可與 B 合成 WGAN-GP，且本身有改善訓練不穩定的研究依據，不能當成無效選項。不過可並用不等於已證明兩者同為「最常」；題幹未提供使用頻率或適用設定的比較基準。依據為 [WGAN](https://arxiv.org/abs/1701.07875) 與 [WGAN-GP](https://arxiv.org/abs/1704.00028) 原始論文；指引只介紹 GAN 不穩定與模式崩潰，未講這兩種改善法。
+  wrong:
+    A: 這是合理方法，不能斷言錯誤；WGAN-GP 對 critic 的輸入梯度範數加入懲罰，以替代權重裁剪來穩定訓練。選項 A 與 B 可以同時採用。
+    C: 潛在向量本來就通常隨機抽樣；若生成器已忽略部分輸入差異，單純再加擾動不會保證產生更多模式。
+    D: 多尺度鑑別器可檢查不同尺度的影像品質，但多尺度與涵蓋更多資料模式不是同一概念，不能單靠架構名稱保證解除崩潰。
+  rule: GAN 的多樣性問題要檢查訓練目標、critic 約束與生成器是否使用潛在訊息，並留意改善方法能否並用。
+guide_refs: [guide-1:3-63]
+author: codex
+review:
+  status: disputed
+  answer_checked:
+    pdf_page: 5
+    by: EX-E1-Codex
+  blind_answer: B
+  dispute: 官方答案 B。Wasserstein 目標與 critic 梯度懲罰可並用，兩者各有訓練穩定的依據；題面未給「最常」的比較設定，不能僅憑能並用證明同等最常，保留此比較判準疑義。

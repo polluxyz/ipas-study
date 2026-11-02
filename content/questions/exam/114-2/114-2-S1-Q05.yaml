@@ -1,0 +1,36 @@
+id: 114-2-S1-Q05
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 5
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 2
+type: 情境
+codes: [L21101, L23301]
+concepts: [tf-idf]
+stem: |
+  某企業以詞頻–逆文件頻率（Term Frequency–Inverse Document Frequency, TF-IDF）方法分析顧客意見內容，但發現模型在處理篇幅較長的回饋文本時，無法準確反映關鍵詞的重要性。下列何者為造成此現象的主要原因？
+options:
+  A: 長文本中的詞頻偏高，導致常見詞權重被過度放大；
+  B: 長文本中缺乏明確句子邊界，造成 TF-IDF 無法計算詞頻；
+  C: TF-IDF 無法同時處理多份文件；
+  D: 長文本會改變 IDF（Inverse Document Frequency）的計算，使所有詞權重趨於相近
+answer: A
+explanation:
+  summary: 官方答案 A；詞頻放大的解釋必須先限定 TF 與正規化方式。
+  correct: 若 TF 使用原始出現次數，且未適當縮放或正規化，長文中反覆出現的詞可能取得過大的權重，因此 A 是最接近命題意圖的選項。但指引 3-17 採用次數除以文件總詞數的 TF；把一篇文件等比例重複時，這種 TF 不變，不能單憑篇幅推論 A 必然發生。IDF 也會降低跨文件常見詞的相對權重；題幹未交代設定，A 的解釋須以原始次數及未適當正規化為前提。公式與參數可查 [scikit-learn 官方文件](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfTransformer.html)。
+  wrong:
+    B: 計算詞頻需要可辨認的詞元，不必先有完整句子邊界；缺乏標點不會使 TF-IDF 原理上無法計算。
+    C: IDF 本來就以文件集合的文件頻率計算，TF-IDF 可以同時表示多份文件。
+    D: 固定語料庫時，IDF 由文件總數及各詞出現於多少文件決定；單篇篇幅增加不會使所有詞的 IDF 自動相等。
+  rule: 判讀 TF-IDF 的長度效應前，先確認詞頻定義、向量正規化及 IDF 的文件頻率基準。
+guide_refs: [guide-1:3-17, guide-1:3-18]
+author: codex
+review:
+  status: disputed
+  answer_checked:
+    pdf_page: 2
+    by: EX-E1-Codex
+  blind_answer: A
+  dispute: 官方答案 A。A 的長文件權重放大解釋須以原始次數且未適當正規化為前提；相對 TF 或向量正規化會改變結果，指引採相對 TF。題面未限定此定義，保留官方計分與條件疑義。

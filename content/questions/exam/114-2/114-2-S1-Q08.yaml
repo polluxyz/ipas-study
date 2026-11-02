@@ -1,0 +1,36 @@
+id: 114-2-S1-Q08
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 8
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 2
+type: 觀念
+codes: [L23203]
+concepts: [softmax, pooling]
+stem: |
+  關於 Softmax 與 Max-Pooling，下列敘述何者正確？
+options:
+  A: Softmax 與 Max-Pooling 都會將特徵張量壓縮為單一最大值；
+  B: Max-Pooling 會對輸入進行機率分佈的轉換；
+  C: Softmax 會保留所有輸入資訊，但以比例表示；Max-Pooling 只保留區域最大值；
+  D: Softmax 主要用於特徵降維，而 Max-Pooling 用於分類輸出
+answer: C
+explanation:
+  summary: 官方答案 C；Softmax 保留各位置的權重輸出，但不保留全部原始資訊。
+  correct: C 可成立的部分是 Softmax 對指定軸上的每個輸入位置產生正規化指數權重，而 Max-Pooling 每個視窗只輸出最大值。然而「保留所有輸入資訊」不精確：Softmax(x+c)=Softmax(x)，共同平移量會消失，不能從輸出唯一還原輸入；它也不是直接將原數值等比例縮放。故 C 最接近出題意圖，但嚴格看沒有完全正確選項；依官方答案選 C 時，仍須區分保留各位置的輸出與保留全部原始資訊。定義見 [PyTorch 官方公式](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Softmax.html)。
+  wrong:
+    A: Softmax 通常維持張量形狀；Max-Pooling 則逐區域選最大值，未必把整個張量縮成單一數值。
+    B: Max-Pooling 只做區域最大值選取，不會保證非負或總和為一，所以不是機率分佈轉換。
+    D: 兩者的典型用途被對調；Softmax 常用於互斥類別輸出，池化則常用於縮減特徵圖的空間尺寸。
+  rule: 比較運算時分別檢查輸出形狀、是否正規化，以及能否還原原輸入。
+guide_refs: [guide-1:3-48, guide-3:4-69, guide-3:5-35]
+author: codex
+review:
+  status: disputed
+  answer_checked:
+    pdf_page: 2
+    by: EX-E1-Codex
+  blind_answer: C
+  dispute: 官方答案 C。Softmax 給各位置輸出不等於保留所有原始輸入資訊；全部 logits 加同一常數仍得相同機率，因此不能教成無損轉換。官方答案保留，選項的資訊保留措辭有疑義。
