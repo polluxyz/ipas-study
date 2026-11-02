@@ -7,6 +7,55 @@ import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { loadContent, localUrl, localGet, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses, expectedTextbook404, sourceStageChecks } from './rollout-smoke.mjs';
 
+/** 比照手動連結轉換的文字節點及排除區，保留程式、公式與既有連結的原文。 */
+export function hasUnconvertedWikiLink(main) {
+  const walker = main.ownerDocument.createTreeWalker(main, 4);
+  while (walker.nextNode()) {
+    const node = walker.currentNode, parent = node.parentElement;
+    if (!parent || parent.closest('pre, code, math, .katex, a') || !parent.checkVisibility({ visibilityProperty: true })) continue;
+    if (/\[\[([^\]]+)\]\]/.test(node.textContent)) return true;
+  }
+  return false;
+}
+
+/** 依主責路線及實際存在的頁面求相鄰頁；跨碼路線不得接管。 */
+export function expectedNavigation(id, content) {
+  const concept = content.concepts.find((item) => item.id === id);
+  assert.ok(concept, `缺少概念：${id}`);
+  const owner = concept.codes[0];
+  const route = content.codes.find((item) => item.code === owner);
+  const existing = new Set(content.concepts.map((item) => item.id));
+  const order = route ? (route.stages ? route.stages.flatMap((stage) => stage.concepts.map((item) => item.id)) : route.concepts).filter((item) => existing.has(item)) : [];
+  const index = order.indexOf(id);
+  return { owner, listed: index >= 0, previous: index > 0 ? order[index - 1] : undefined, next: index >= 0 ? order[index + 1] : undefined };
+}
+
+export async function assertNavigation(previous, next, expected, id) {
+  for (const [link, target, label] of [[previous, expected.previous, '上一節'], [next, expected.next, '下一節']]) {
+    assert.equal(await link.count(), target ? 1 : 0, `${id} ${label}邊界`);
+    if (target) assert.equal(await link.getAttribute('href'), `/concepts/${target}/`, `${id} ${label}主責路線`);
+  }
+}
+
+/** 保留主流程與收尾錯誤，再以非零結果交給呼叫端。 */
+export async function runSmokeWithCleanup({ report, run, finish, evidence, save, close, onFailure }) {
+  let initialError, cleanupError;
+  try { await run(); }
+  catch (error) {
+    initialError = error; report.completed = false; report.failure = error.message ?? String(error); report.initialFailure = String(error); report.initialFailureStack = error.stack ?? null;
+    await onFailure().catch(() => undefined);
+  }
+  try { await finish(); }
+  catch (error) {
+    cleanupError = error; report.completed = false; report.cleanupFailure = String(error); report.cleanupFailureStack = error.stack ?? null;
+    if (!initialError) report.failure = String(error);
+  }
+  try { report.buildResponses = [evidence()]; await save(); }
+  finally { await close(); }
+  if (initialError && cleanupError) throw new AggregateError([initialError, cleanupError], '驗收主流程與收尾均失敗');
+  if (initialError || cleanupError) throw initialError ?? cleanupError;
+}
+
 export async function main() {
 const base = localUrl(process.env.DEMO_URL ?? 'http://127.0.0.1:4321', process.env.DEMO_URL ?? 'http://127.0.0.1:4321').origin;
 const output = process.env.SMOKE_OUTPUT ? resolve(process.env.SMOKE_OUTPUT) : resolve(import.meta.dirname, '../../tmp/demo-shots');
@@ -246,7 +295,9 @@ async function verifySupplements(checkRealPages = true) {
   assert.equal(await page.getByRole('switch', { name: '只看指引內容' }).count(), 0);
   report.supplementS4.emptyFixture = true;
 }
-try {
+await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => finishBuildCheck.evidence(),
+  save: () => writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)),
+  close: () => browser.close(), onFailure: () => page.screenshot({ path: resolve(output, 'failure.png'), fullPage: true }), run: async () => {
   if (process.env.SMOKE_SUPPLEMENT_ONLY === '1') {
     await verifySupplements(false);
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
@@ -258,7 +309,7 @@ try {
   for (const url of urls) {
     const response = await page.goto(base + url); assert.equal(response.status(), 200, url); report.pages++;
     assert.equal(await page.locator('h1').count(), 1, `${url} 應只有一個頁面標題`);
-    assert.equal(await page.locator('main').innerText().then((text) => text.includes('[[')), false, `${url} 未轉換概念連結`);
+    assert.equal(await page.locator('main').evaluate(hasUnconvertedWikiLink), false, `${url} 未轉換概念連結`);
     for (const href of await page.locator('main a[href^="/"]').evaluateAll((anchors) => anchors.map((a) => a.getAttribute('href')))) links.add(href.split('#')[0]);
   }
   for (const href of links) { await localGet(page.request, href, base); report.links++; }
@@ -280,8 +331,9 @@ try {
   assert.deepEqual(stageTitles.map((s) => s.trim()), route.stages.map((s) => s.title));
   const readingOrder = route.stages.flatMap((stage) => stage.concepts.map((c) => c.id));
   report.conceptNavigation = 0;
+  report.conceptNavigationCases = [];
   report.conceptLinks = { pages: [], totalAutomatic: 0, maximumPerPage: 0 };
-  for (const [index, id] of readingOrder.entries()) {
+  for (const id of readingOrder) {
     await page.goto(base + `/concepts/${id}/`);
     const automatic = await page.locator('.concept-prose a[data-auto-concept-link]').count();
     report.conceptLinks.pages.push({ id, automatic });
@@ -291,10 +343,9 @@ try {
     assert.equal(await page.locator('.concept-prose :is(h2, h3, pre, code, .katex, .starlight-aside__title) a[data-auto-concept-link]').count(), 0, `${id} 排除區域不應自動連結`);
     const previous = page.locator('.concept-pagination a[rel="prev"]');
     const next = page.locator('.concept-pagination a[rel="next"]');
-    assert.equal(await previous.count(), index > 0 ? 1 : 0, `${id} 上一節邊界`);
-    assert.equal(await next.count(), index < readingOrder.length - 1 ? 1 : 0, `${id} 下一節邊界`);
-    if (index > 0) assert.equal(await previous.getAttribute('href'), `/concepts/${readingOrder[index - 1]}/`);
-    if (index < readingOrder.length - 1) assert.equal(await next.getAttribute('href'), `/concepts/${readingOrder[index + 1]}/`);
+    const expected = expectedNavigation(id, content);
+    await assertNavigation(previous, next, expected, id);
+    report.conceptNavigationCases.push({ id, owner: expected.owner, crossOwner: expected.owner !== route.code, listed: expected.listed });
     report.conceptNavigation++;
     await assertCheckOrder(page.locator('[data-self-check]'), id); report.selfCheckOrdering.conceptPages++;
   }
@@ -562,11 +613,6 @@ try {
   assert.deepEqual(errors, []); assert.deepEqual(external, []); assert.deepEqual(assets, []); report.completed = true;
   await writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)); console.log(JSON.stringify(report, null, 2));
   }
-} catch (error) { report.failure = error.message; await page.screenshot({ path: resolve(output, 'failure.png'), fullPage: true }).catch(() => undefined); throw error; }
-finally {
-  try { await finishBuildCheck(); }
-  catch (error) { report.completed = false; report.failure = String(error); throw error; }
-  finally { report.buildResponses = [finishBuildCheck.evidence()]; await writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)); await browser.close(); }
-}
+  } });
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) await main();
