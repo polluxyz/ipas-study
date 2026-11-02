@@ -16,3 +16,11 @@
 本機已驗證：教材檢查 0 錯誤、801/801 映射列有效、照抄 0 片段、230/230 測試通過、472 頁建置成功；50 條既有 T3 警告照實保留。新 repo 的 PR／main CI 也必須全綠後才公開。實際 runs、node ID、來源對照、備份與刪舊收據留在本機私有驗收包；即時階段以本機 control.json 與 GitHub 回應為準。
 
 舊 PR／Actions 及私人 metadata 不匯入。12 組未合併交稿從本機檔案差異恢復，繼續獨立審查與 PR，不能把舊歷史合併回新庫。
+
+## 完成結果（2026-11-02）
+
+- 唯一正式 repo：[polluxyz/ipas-study](https://github.com/polluxyz/ipas-study)，公開；node ID `R_kgDOVfp2dg`。
+- 新庫 PR #1 與合併後 main 的 CI 全綠；公開前 3 份 Actions logs 共 45 項的個人 email／秘密命中 0。
+- 不帶認證的 API 與網頁均 HTTP 200；獨立 clone 只有 2 個新提交，tree 與已驗收候選一致，與舊提交交集 0。舊 main／根提交在新庫查詢均為「No commit found」。
+- 舊 node ID `R_kgDOVev-fQ` 已刪除，DELETE HTTP 204、舊 numeric ID 查詢 HTTP 404；沒有保留第二個 GitHub repo。本機私有備份保留。
+- 新工作根目錄 `D:/ipas-study`；12 組未合併成果在新工作樹恢復，137 個 tracked 檔案無位元組差異。此遷移沒有部署網站。
