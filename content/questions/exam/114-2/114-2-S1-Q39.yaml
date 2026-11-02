@@ -1,0 +1,36 @@
+id: 114-2-S1-Q39
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 39
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 10
+type: 情境
+codes: [L23303, L23302]
+concepts: [residual-analysis]
+stem: |
+  某企業的資料科學團隊利用 ARIMA 模型（AutoRegressive Integrated Moving Average Model）預測每週產品銷售量。模型建立完成後，分析人員發現預測誤差隨時間呈現週期性波動，且自相關函數（ACF）顯示殘差在多個時滯（Lag）上仍顯著不為零。根據上述現象，最合理的模型診斷結論為何？
+options:
+  A: 模型殘差符合白噪音（White Noise）假設，預測表現穩定
+  B: 模型殘差雖有輕微異常，但可視為隨機誤差忽略不計
+  C: 模型存在配適不足（Underfitting）問題，需重新調整 p 或 q 參數以捕捉時間依賴性
+  D: 殘差特性不影響預測結果，無須進一步修正
+answer: C
+explanation:
+  summary: 殘差仍有週期與顯著自相關，代表時間結構尚未被模型充分捕捉。
+  correct: 若殘差在多個時滯上仍有系統性關聯，就表示模型留下可解釋的時間依賴，C 是四個選項中最合理的診斷。重新檢查自迴歸階數 p 與移動平均階數 q 是可能的改善方向；若週期來自季節性，也應考慮季節項或季節差分，不能保證只調 p 或 q 即可解決。學習指引 5.2（5-13 頁）僅介紹 ARIMA 的適用情境，未教授殘差 ACF 診斷；相關缺口見殘差分析概念頁。
+  wrong:
+    A: 白噪音要求不同時間的誤差不相關；題目給出的週期波動與多個顯著 ACF 值不支持這項判斷。
+    B: 單一時滯偶然顯著需要審慎判讀，但本題同時有週期及多個顯著時滯，不能直接當成無規律雜訊忽略。
+    D: 殘差診斷能揭露尚未建模的結構，會影響對模型充分性及預測不確定性的判斷，應進一步檢查。
+  rule: 殘差仍有自相關時，要檢查未捕捉的時間結構。
+guide_refs: [guide-3:5-13]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 10
+    by: QA
+  blind_answer: C
+  dispute: null

@@ -1,0 +1,10 @@
+[
+  { "x": 1, "y_true": 10, "y_pred": 11 },
+  { "x": 2, "y_true": 20, "y_pred": 19 },
+  { "x": 3, "y_true": 30, "y_pred": 31 },
+  { "x": 4, "y_true": 40, "y_pred": 39 },
+  { "x": 5, "y_true": 50, "y_pred": 51 },
+  { "x": 6, "y_true": 60, "y_pred": 59 },
+  { "x": 7, "y_true": 70, "y_pred": 71 },
+  { "x": 8, "y_true": 100, "y_pred": 80 }
+]

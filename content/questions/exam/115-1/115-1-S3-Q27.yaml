@@ -1,0 +1,36 @@
+id: 115-1-S3-Q27
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 27
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 7
+type: 情境
+codes: [L23303]
+concepts: [time-series-split]
+stem: |
+  某工程師建立零售商品銷量預測模型，初期以第 1 至 52 週資料作為訓練集、第 53 週作為測試集（固定時間切分）。半年後重新評估，發現模型對最新資料（如第 80 週）的預測明顯衰退，推測為時間演進導致行為模式改變。若重新設計驗證策略，應採用下列哪種方法，使每次訓練皆基於最新時間區間資料？
+options:
+  A: K-fold 交叉驗證（K-fold Cross-Validation）
+  B: 分層 K-fold（Stratified K-fold）
+  C: 滾動窗口驗證（Rolling Window Validation / Time Series Split）
+  D: 留一驗證法（Leave-One-Out Cross-Validation）
+answer: C
+explanation:
+  summary: 時間序列的驗證須保留先後順序，並隨時間推進更新訓練區間。
+  correct: 滾動窗口以近期的一段歷史訓練，再預測其後的資料，之後將窗口向前移動，可評估模型面對近期模式的表現。例如用第 28 至 79 週預測第 80 週。要注意 TimeSeriesSplit 預設會擴張訓練集；若只保留固定長度的近期資料，須另外設定 max_train_size。可參考 [scikit-learn 官方文件](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html)。
+  wrong:
+    A: 一般 K-fold 不限制訓練資料必須早於驗證資料，可能用較晚的資料預測較早的資料，也沒有要求每輪只保留近期區間。
+    B: 分層處理的是各類別比例，不會建立時間先後限制，也無法直接處理行為模式隨時間改變的需求。
+    D: 留一法通常以其餘所有樣本訓練，可能包含被驗證時點之後的資料，且不是以近期連續區間建立訓練窗口。
+  rule: 時序驗證要先訓練後驗證，並依模式變化選擇窗口。
+guide_refs: []
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 7
+    by: QC
+  blind_answer: C
+  dispute: null

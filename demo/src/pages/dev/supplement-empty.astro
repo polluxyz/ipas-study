@@ -1,0 +1,9 @@
+---
+/** 固定的無補充驗收頁，避免教材陸續改寫後失去開關隱藏的對照組。 */
+import StudyPage from '../../components/StudyPage.astro';
+import SupplementFilter from '../../components/SupplementFilter.astro';
+---
+<StudyPage title="指引內容呈現驗收" section="開發示範">
+  <SupplementFilter target="guide-only-fixture" />
+  <div class="concept-prose prose" id="guide-only-fixture"><p>本頁只有一般正文，不顯示補充開關。</p></div>
+</StudyPage>

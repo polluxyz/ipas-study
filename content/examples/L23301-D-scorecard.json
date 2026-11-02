@@ -1,0 +1,74 @@
+{
+  "source": "獨立的12筆授信教學資料，非36筆資料的縮減版",
+  "positive": "default=1，違約",
+  "cutpoints": [
+    40,
+    60
+  ],
+  "boundary_rule": "低：income<40；中：40<=income<60；高：income>=60",
+  "development": [
+    {
+      "income": 25,
+      "default": 0
+    },
+    {
+      "income": 30,
+      "default": 1
+    },
+    {
+      "income": 32,
+      "default": 1
+    },
+    {
+      "income": 35,
+      "default": 1
+    },
+    {
+      "income": 42,
+      "default": 0
+    },
+    {
+      "income": 45,
+      "default": 0
+    },
+    {
+      "income": 50,
+      "default": 1
+    },
+    {
+      "income": 55,
+      "default": 1
+    },
+    {
+      "income": 62,
+      "default": 0
+    },
+    {
+      "income": 65,
+      "default": 0
+    },
+    {
+      "income": 70,
+      "default": 0
+    },
+    {
+      "income": 75,
+      "default": 1
+    }
+  ],
+  "current_income": [
+    25,
+    30,
+    32,
+    34,
+    36,
+    38,
+    42,
+    45,
+    50,
+    55,
+    65,
+    70
+  ],
+  "note": "每箱開發4筆，未違約計數1/2/3，違約3/2/1；當期箱計數6/4/2。當期標籤刻意不提供。"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "l23303-overfitting-divergence",
+  "kind": "learning-curve",
+  "title": "持續分離的訓練與驗證曲線",
+  "description": "橫軸是訓練輪次 epoch，縱軸是交叉熵損失（無單位、越低越好）；兩線用同一輪結束時的推論模式評估。",
+  "source": {
+    "type": "synthetic",
+    "note": "由 content/examples/L23303-D-training-history.json 的明示規則產生；教學模擬曲線，非實測。"
+  },
+  "metric": "交叉熵損失",
+  "unit": "無單位",
+  "points": [
+    {
+      "epoch": 1,
+      "train": 0.8,
+      "validation": 0.9
+    },
+    {
+      "epoch": 2,
+      "train": 0.74,
+      "validation": 0.82
+    },
+    {
+      "epoch": 3,
+      "train": 0.68,
+      "validation": 0.74
+    },
+    {
+      "epoch": 4,
+      "train": 0.62,
+      "validation": 0.66
+    },
+    {
+      "epoch": 5,
+      "train": 0.56,
+      "validation": 0.58
+    },
+    {
+      "epoch": 6,
+      "train": 0.5,
+      "validation": 0.575
+    },
+    {
+      "epoch": 7,
+      "train": 0.44,
+      "validation": 0.57
+    },
+    {
+      "epoch": 8,
+      "train": 0.38,
+      "validation": 0.61
+    },
+    {
+      "epoch": 9,
+      "train": 0.32,
+      "validation": 0.65
+    },
+    {
+      "epoch": 10,
+      "train": 0.26,
+      "validation": 0.69
+    }
+  ]
+}

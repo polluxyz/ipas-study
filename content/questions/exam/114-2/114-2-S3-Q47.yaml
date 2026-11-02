@@ -1,0 +1,88 @@
+id: 114-2-S3-Q47
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 47
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 15
+type: 程式
+codes: [L23303, L23202]
+concepts: [stratified-k-fold, accuracy, f1-score, k-fold-cross-validation]
+stem: |
+  在郵遞區號自動辨識的研究中，研究人員收集了一份手寫數字影像資料集，每一張影像為 8×8 的灰階圖片，共包含多個手寫數字樣本。這份資料集來自 UCI Machine Learning Repository，常被用於數字辨識與機器學習方法的教學與實驗。
+  在過程中，研究人員發現資料中可能存在雜訊，例如筆跡模糊或影像中附加的干擾點，這會影響後續分類模型的效能。因此，他們希望透過資料降噪的方法，提升後續分類的準確度。同時，他們也想透過 KNN (K-Nearest Neighbors) 搭配交叉驗證來評估模型表現，確保模型在不同資料切割下都能有穩定的預測能力。
+
+  部分樣本經繪製後的外觀如下圖所示：
+  根據這份資料來回答 46~47 題。
+
+  研究人員在對 digits 資料集進行分類時，決定使用 KNN 並搭配交叉驗證來評估模型準確率。他們撰寫了四組不同的程式碼來進行 KNN 訓練與交叉驗證，但不確定哪幾組程式碼能正確執行並輸出準確率。每組程式碼在資料切割、模型訓練、交叉驗證函數的使用上略有差異，研究人員希望找出可以正確完成任務的程式碼組合，以確保模型評估的可靠性。
+
+  請問哪幾組程式碼能正確使用 KNN 搭配交叉驗證，對 digits 資料集進行訓練並輸出準確率？
+code: |
+  from sklearn.datasets import load_digits
+  digits = load_digits()
+  digits.data.shape
+
+  # 程式碼 A：
+  from sklearn.model_selection import StratifiedKFold, cross_val_score
+  from sklearn.neighbors import KNeighborsClassifier
+
+  X, y = digits.data, digits.target
+  model = KNeighborsClassifier(n_neighbors=3)
+  cv = StratifiedKFold(n_splits=5, shuffle=True)
+  scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy")
+  print(scores.mean())
+
+  # 程式碼 B：
+  from sklearn.model_selection import StratifiedKFold, cross_val_score
+  from sklearn.neighbors import KNeighborsClassifier
+
+  X, y = digits.data, digits.target
+  model = KNeighborsClassifier(n_neighbors=3)
+  cv = StratifiedKFold(n_splits=5, shuffle=True)
+  scores = cross_val_score(model, X, y, cv=cv, scoring="f1")
+  print(scores.mean())
+
+  # 程式碼 C：
+  from sklearn.model_selection import StratifiedKFold, cross_val_score
+  from sklearn.neighbors import KNeighborsClassifier
+
+  X, y = digits.data, digits.target
+  model = KNeighborsClassifier(n_neighbors=3)
+  scores = cross_val_score(model, X, y, cv=5, scoring="accuracy")
+  print(scores.mean())
+
+  # 程式碼 D：
+  from sklearn.model_selection import StratifiedKFold, cross_val_score
+  from sklearn.neighbors import KNeighborsClassifier
+
+  X, y = digits.data, digits.target
+  model = KNeighborsClassifier(n_neighbors=3)
+  scores = cross_val_score(model, X, y, cv=5, scoring="f1")
+  print(scores.mean())
+code_lang: python
+options:
+  A: 程式碼 A、程式碼 B、程式碼 C、程式碼 D
+  B: 程式碼 A、程式碼 C
+  C: 程式碼 A、程式碼 B
+  D: 程式碼 C、程式碼 D
+answer: B
+explanation:
+  summary: 判斷 KNN 交叉驗證能否正確輸出準確率，並區分 accuracy 與多類別 F1。
+  correct: 程式碼 A 明確指定分層 5 折，程式碼 C 則以 cv=5 搭配分類器及多類別標籤，採用預設的分層切分。兩者皆用 scoring="accuracy"，由 cross_val_score 在各摺重新訓練並評分，再取平均，因此選 B。
+  wrong:
+    A: 多列了程式碼 B 與 D。兩者要求的是 F1 而非準確率，且 scoring="f1" 預設以二元分類計算，不能直接處理 digits 的十類標籤；評分會失敗，預設可留下警告與 NaN。若要算多類別 F1，須另選 f1_macro 等評分方式。
+    C: 程式碼 B 的 scoring="f1" 不符合多類別資料與準確率需求，且這個選項漏掉同樣可用的程式碼 C。
+    D: 程式碼 D 使用不適用此任務的二元 F1 評分，並漏掉正確的程式碼 A。
+  rule: 多分類評分要核對指標與平均方式，二元 F1 不能直接套用。
+guide_refs: [guide-3:5-21, guide-3:5-27, guide-3:5-26]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 15
+    by: QB2
+  blind_answer: B
+  dispute: null
+image: 114-2-S3-Q47.png

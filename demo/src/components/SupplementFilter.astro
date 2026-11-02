@@ -1,0 +1,15 @@
+---
+/** 與正文分開的原生核取開關；無補充時保持隱藏，不儲存閱讀偏好。 */
+import '../styles/supplement-reading.css';
+interface Props { target: string; }
+const { target } = Astro.props;
+const descriptionId = `${target}-filter-description`;
+---
+<div class="supplement-filter" data-supplement-filter hidden data-pagefind-ignore>
+  <div class="supplement-filter-heading"><label class="supplement-filter-label"><input type="checkbox" role="switch" data-guide-only aria-controls={target} aria-describedby={descriptionId} /><span class="supplement-switch" aria-hidden="true"></span><span>只看指引內容</span></label><p class="supplement-filter-description" id={descriptionId}>僅篩正文；頁首目標、關係表與檢核小題照常顯示。</p></div>
+  <p data-filter-status role="status" aria-live="polite">目前顯示：指引＋補充</p>
+</div>
+<script>
+  import { bindSupplementFilter } from '../lib/supplement-filter';
+  for (const control of document.querySelectorAll<HTMLElement>('[data-supplement-filter]')) bindSupplementFilter(control);
+</script>

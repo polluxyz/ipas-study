@@ -1,0 +1,18 @@
+{
+  "id": "l23303-tracking-run-a",
+  "kind": "learning-curve",
+  "title": "run-a（學習率 0.001）的訓練與驗證損失",
+  "description": "學習率 0.001 的一次訓練：訓練損失持續下降，驗證損失在第 6 輪最低（0.35，最佳輪次，不是停止時間），之後回升。",
+  "source": { "type": "synthetic", "note": "教學模擬訓練紀錄，非真實模型測量；與 run-b 共用資料版本、程式版本與隨機種子" },
+  "metric": "交叉熵損失", "unit": "無單位",
+  "points": [
+    {"epoch":1,"train":0.68,"validation":0.70},
+    {"epoch":2,"train":0.52,"validation":0.55},
+    {"epoch":3,"train":0.41,"validation":0.45},
+    {"epoch":4,"train":0.33,"validation":0.39},
+    {"epoch":5,"train":0.27,"validation":0.36},
+    {"epoch":6,"train":0.22,"validation":0.35},
+    {"epoch":7,"train":0.18,"validation":0.37},
+    {"epoch":8,"train":0.14,"validation":0.41}
+  ]
+}

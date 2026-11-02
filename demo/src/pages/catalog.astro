@@ -1,0 +1,50 @@
+---
+/** 依學習指引順序呈現概念，將考題延伸分開，讓讀者先建立正文基礎。 */
+import indexCsv from '../../../content/concept-index.csv?raw';
+import coverageCsv from '../../../content/guide-coverage.csv?raw';
+import topicsCsv from '../../../content/guide-topics.csv?raw';
+import StudyPage from '../components/StudyPage.astro';
+import { buildConceptCatalog } from '../lib/concept-catalog';
+
+const conceptFiles = Object.keys(import.meta.glob('../../../content/concepts/*.md'));
+const catalog = buildConceptCatalog(indexCsv, conceptFiles.map((file) => file.split('/').at(-1)!.slice(0, -3)), coverageCsv, topicsCsv);
+const headings = catalog.subjects.flatMap((subject) => subject.groups.map((group) => ({ depth: 2, slug: group.code, text: `${group.code} ${group.title}` })));
+---
+<StudyPage title="概念目錄" description="依科目與評鑑代碼，閱讀已完成的概念頁。" section="概念目錄" headings={headings}>
+  <p class="lead">從評鑑代碼找到想讀的觀念。<br />兩科共 {catalog.writtenCount} 頁可讀，規劃 {catalog.plannedCount} 頁。</p>
+  <nav class="catalog-jump" aria-label="跳至評鑑代碼">
+    {catalog.subjects.map((subject) => <div><strong>{subject.name}</strong><div class="link-chips">{subject.groups.map((group) => <a href={`#${group.code}`}>{group.code}<span> {group.writtenCount}/{group.plannedCount}</span></a>)}</div></div>)}
+  </nav>
+  {catalog.subjects.map((subject) => <section class="catalog-subject" aria-label={subject.name}>
+    <div class="section-heading"><div><span class="eyebrow">{subject.name}</span><h2>{subject.title}</h2></div></div>
+    <div class="catalog-groups">{subject.groups.map((group) => <section class="subject-card catalog-group" aria-labelledby={group.code}>
+      <div class="subject-header"><div><span class="eyebrow">{group.code}</span><h2 id={group.code}>{group.title}</h2></div><span class="tag green">{group.writtenCount}/{group.plannedCount} 頁</span></div>
+      {group.guideConcepts.length > 0 && <div class="catalog-reading-section">
+        <h3>學習指引正文</h3>
+        <p class="catalog-reading-note">依學習指引主題順序閱讀。</p>
+        <ul class="catalog-concepts">{group.guideConcepts.map((concept) => <li><a href={concept.href}>{concept.title}<span aria-hidden="true">→</span></a></li>)}</ul>
+      </div>}
+      {group.supplementConcepts.length > 0 && <div class="catalog-reading-section catalog-supplement">
+        <h3>考題補充／延伸</h3>
+        <p class="catalog-reading-note">以下為指引正文以外的考題補充與延伸概念，可在讀完正文後接著學。</p>
+        <ul class="catalog-concepts">{group.supplementConcepts.map((concept) => <li><a href={concept.href}>{concept.title}<span aria-hidden="true">→</span></a></li>)}</ul>
+      </div>}
+      {group.unmappedConcepts.length > 0 && <div class="catalog-reading-section">
+        <h3>其他概念</h3>
+        <p class="catalog-reading-note">尚無對應的學習指引主題，依概念總表順序列出。</p>
+        <ul class="catalog-concepts">{group.unmappedConcepts.map((concept) => <li><a href={concept.href}>{concept.title}<span aria-hidden="true">→</span></a></li>)}</ul>
+      </div>}
+      {!group.concepts.length && <p class="empty-copy">概念頁撰寫中，完成後會列在這裡。</p>}
+      {group.code === 'L23303' && <div class="catalog-unit"><a class="text-link" href="/codes/L23303/">依學習路線閱讀本單元 →</a></div>}
+    </section>)}</div>
+  </section>)}
+</StudyPage>
+
+<style>
+  .catalog-reading-section { margin-top: 1.25rem; padding-top: 1rem; }
+  .catalog-reading-section h3 { margin: 0; font-size: 1rem; }
+  .catalog-reading-section > h3, .catalog-reading-note { padding-inline: 1.3rem; }
+  .catalog-reading-note { margin: .4rem 0 .75rem; font-size: .875rem; color: var(--sl-color-gray-2); }
+  .catalog-supplement { padding: 1rem; border: 1px dashed var(--sl-color-gray-4); border-radius: .75rem; background: var(--sl-color-gray-6); }
+  .catalog-supplement > h3, .catalog-supplement > .catalog-reading-note { padding-inline: 0; }
+</style>

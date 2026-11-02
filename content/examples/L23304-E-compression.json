@@ -1,0 +1,1758 @@
+{
+  "source": "教學合成資料；logits、品質與延遲卡為刻意設定的教學值，非真實訓練或硬體測量",
+  "seed": 23203,
+  "split_rule": "固定索引0–35訓練、36–47驗證、48–59測試；量化校準只取訓練0–11；各策略不改切分",
+  "upstream_layers": "content/examples/L23203-C-frameworks.json#dense_layers",
+  "teacher_layers": [
+    {
+      "name": "hidden",
+      "input": 4,
+      "output": 5,
+      "bias": true,
+      "activation": "relu"
+    },
+    {
+      "name": "head",
+      "input": 5,
+      "output": 3,
+      "bias": true,
+      "activation": "linear"
+    }
+  ],
+  "student_layers": [
+    {
+      "name": "hidden",
+      "input": 4,
+      "output": 2,
+      "bias": true
+    },
+    {
+      "name": "head",
+      "input": 2,
+      "output": 3,
+      "bias": true
+    }
+  ],
+  "pruned_layers": [
+    {
+      "name": "hidden",
+      "input": 4,
+      "output": 3,
+      "bias": true
+    },
+    {
+      "name": "head",
+      "input": 3,
+      "output": 3,
+      "bias": true
+    }
+  ],
+  "network": {
+    "W1": [
+      [
+        0.01,
+        0.02,
+        0.03,
+        0.04
+      ],
+      [
+        0.05,
+        0.06,
+        0.07,
+        0.08
+      ],
+      [
+        0.09,
+        0.1,
+        0.11,
+        0.12
+      ],
+      [
+        0.13,
+        0.14,
+        0.15,
+        0.16
+      ],
+      [
+        0.17,
+        0.18,
+        0.19,
+        0.2
+      ]
+    ],
+    "b1": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5
+    ],
+    "W2": [
+      [
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5
+      ],
+      [
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1
+      ],
+      [
+        1.1,
+        1.2,
+        1.3,
+        1.4,
+        1.5
+      ]
+    ],
+    "b2": [
+      0.1,
+      0.2,
+      0.3
+    ]
+  },
+  "vision": [
+    {
+      "index": 0,
+      "image_id": "IMG00",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 1,
+      "image_id": "IMG01",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 2,
+      "image_id": "IMG02",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 3,
+      "image_id": "IMG03",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 4,
+      "image_id": "IMG04",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 5,
+      "image_id": "IMG05",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 6,
+      "image_id": "IMG06",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 7,
+      "image_id": "IMG07",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 8,
+      "image_id": "IMG08",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 9,
+      "image_id": "IMG09",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 10,
+      "image_id": "IMG10",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 11,
+      "image_id": "IMG11",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 12,
+      "image_id": "IMG12",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 13,
+      "image_id": "IMG13",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 14,
+      "image_id": "IMG14",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 15,
+      "image_id": "IMG15",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 16,
+      "image_id": "IMG16",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        2,
+        4
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 17,
+      "image_id": "IMG17",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 18,
+      "image_id": "IMG18",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 19,
+      "image_id": "IMG19",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 20,
+      "image_id": "IMG20",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 21,
+      "image_id": "IMG21",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 22,
+      "image_id": "IMG22",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 23,
+      "image_id": "IMG23",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 24,
+      "image_id": "IMG24",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 25,
+      "image_id": "IMG25",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 26,
+      "image_id": "IMG26",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 27,
+      "image_id": "IMG27",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 28,
+      "image_id": "IMG28",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 29,
+      "image_id": "IMG29",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 30,
+      "image_id": "IMG30",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 31,
+      "image_id": "IMG31",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 32,
+      "image_id": "IMG32",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        2,
+        0,
+        1
+      ]
+    },
+    {
+      "index": 33,
+      "image_id": "IMG33",
+      "class_id": 0,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        4,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 34,
+      "image_id": "IMG34",
+      "class_id": 1,
+      "split": "train",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 35,
+      "image_id": "IMG35",
+      "class_id": 2,
+      "split": "train",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 36,
+      "image_id": "IMG36",
+      "class_id": 0,
+      "split": "validation",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 37,
+      "image_id": "IMG37",
+      "class_id": 1,
+      "split": "validation",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 38,
+      "image_id": "IMG38",
+      "class_id": 2,
+      "split": "validation",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 39,
+      "image_id": "IMG39",
+      "class_id": 0,
+      "split": "validation",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 40,
+      "image_id": "IMG40",
+      "class_id": 1,
+      "split": "validation",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 41,
+      "image_id": "IMG41",
+      "class_id": 2,
+      "split": "validation",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 42,
+      "image_id": "IMG42",
+      "class_id": 0,
+      "split": "validation",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 43,
+      "image_id": "IMG43",
+      "class_id": 1,
+      "split": "validation",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "index": 44,
+      "image_id": "IMG44",
+      "class_id": 2,
+      "split": "validation",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 45,
+      "image_id": "IMG45",
+      "class_id": 0,
+      "split": "validation",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 46,
+      "image_id": "IMG46",
+      "class_id": 1,
+      "split": "validation",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 47,
+      "image_id": "IMG47",
+      "class_id": 2,
+      "split": "validation",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 48,
+      "image_id": "IMG48",
+      "class_id": 0,
+      "split": "test",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 49,
+      "image_id": "IMG49",
+      "class_id": 1,
+      "split": "test",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 50,
+      "image_id": "IMG50",
+      "class_id": 2,
+      "split": "test",
+      "teacher_logits_3": [
+        4,
+        0,
+        2
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 51,
+      "image_id": "IMG51",
+      "class_id": 0,
+      "split": "test",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 52,
+      "image_id": "IMG52",
+      "class_id": 1,
+      "split": "test",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 53,
+      "image_id": "IMG53",
+      "class_id": 2,
+      "split": "test",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 54,
+      "image_id": "IMG54",
+      "class_id": 0,
+      "split": "test",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        1,
+        2,
+        0
+      ]
+    },
+    {
+      "index": 55,
+      "image_id": "IMG55",
+      "class_id": 1,
+      "split": "test",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 56,
+      "image_id": "IMG56",
+      "class_id": 2,
+      "split": "test",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "index": 57,
+      "image_id": "IMG57",
+      "class_id": 0,
+      "split": "test",
+      "teacher_logits_3": [
+        4,
+        2,
+        0
+      ],
+      "student_logits_3": [
+        2,
+        1,
+        0
+      ]
+    },
+    {
+      "index": 58,
+      "image_id": "IMG58",
+      "class_id": 1,
+      "split": "test",
+      "teacher_logits_3": [
+        0,
+        4,
+        2
+      ],
+      "student_logits_3": [
+        0,
+        2,
+        1
+      ]
+    },
+    {
+      "index": 59,
+      "image_id": "IMG59",
+      "class_id": 2,
+      "split": "test",
+      "teacher_logits_3": [
+        2,
+        0,
+        4
+      ],
+      "student_logits_3": [
+        1,
+        0,
+        2
+      ]
+    }
+  ],
+  "legal": [
+    {
+      "index": 0,
+      "doc_id": "DOC00",
+      "split": "train",
+      "token_count": 256,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 1,
+      "doc_id": "DOC01",
+      "split": "train",
+      "token_count": 320,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 2,
+      "doc_id": "DOC02",
+      "split": "train",
+      "token_count": 384,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 3,
+      "doc_id": "DOC03",
+      "split": "train",
+      "token_count": 448,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 4,
+      "doc_id": "DOC04",
+      "split": "train",
+      "token_count": 512,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 5,
+      "doc_id": "DOC05",
+      "split": "train",
+      "token_count": 256,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 6,
+      "doc_id": "DOC06",
+      "split": "train",
+      "token_count": 320,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 7,
+      "doc_id": "DOC07",
+      "split": "train",
+      "token_count": 384,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 8,
+      "doc_id": "DOC08",
+      "split": "train",
+      "token_count": 448,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 9,
+      "doc_id": "DOC09",
+      "split": "train",
+      "token_count": 512,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 10,
+      "doc_id": "DOC10",
+      "split": "train",
+      "token_count": 256,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 11,
+      "doc_id": "DOC11",
+      "split": "train",
+      "token_count": 320,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 12,
+      "doc_id": "DOC12",
+      "split": "train",
+      "token_count": 384,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 13,
+      "doc_id": "DOC13",
+      "split": "train",
+      "token_count": 448,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 14,
+      "doc_id": "DOC14",
+      "split": "train",
+      "token_count": 512,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 15,
+      "doc_id": "DOC15",
+      "split": "train",
+      "token_count": 256,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 16,
+      "doc_id": "DOC16",
+      "split": "train",
+      "token_count": 320,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 17,
+      "doc_id": "DOC17",
+      "split": "train",
+      "token_count": 384,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 18,
+      "doc_id": "DOC18",
+      "split": "train",
+      "token_count": 448,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 19,
+      "doc_id": "DOC19",
+      "split": "train",
+      "token_count": 512,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 20,
+      "doc_id": "DOC20",
+      "split": "train",
+      "token_count": 256,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 21,
+      "doc_id": "DOC21",
+      "split": "train",
+      "token_count": 320,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 22,
+      "doc_id": "DOC22",
+      "split": "train",
+      "token_count": 384,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 23,
+      "doc_id": "DOC23",
+      "split": "train",
+      "token_count": 448,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 24,
+      "doc_id": "DOC24",
+      "split": "train",
+      "token_count": 512,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 25,
+      "doc_id": "DOC25",
+      "split": "train",
+      "token_count": 256,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 26,
+      "doc_id": "DOC26",
+      "split": "train",
+      "token_count": 320,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 27,
+      "doc_id": "DOC27",
+      "split": "train",
+      "token_count": 384,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 28,
+      "doc_id": "DOC28",
+      "split": "train",
+      "token_count": 448,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 29,
+      "doc_id": "DOC29",
+      "split": "train",
+      "token_count": 512,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 30,
+      "doc_id": "DOC30",
+      "split": "train",
+      "token_count": 256,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 31,
+      "doc_id": "DOC31",
+      "split": "train",
+      "token_count": 320,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 32,
+      "doc_id": "DOC32",
+      "split": "train",
+      "token_count": 384,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 33,
+      "doc_id": "DOC33",
+      "split": "train",
+      "token_count": 448,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 34,
+      "doc_id": "DOC34",
+      "split": "train",
+      "token_count": 512,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 35,
+      "doc_id": "DOC35",
+      "split": "train",
+      "token_count": 256,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 36,
+      "doc_id": "DOC36",
+      "split": "validation",
+      "token_count": 320,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 37,
+      "doc_id": "DOC37",
+      "split": "validation",
+      "token_count": 384,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 38,
+      "doc_id": "DOC38",
+      "split": "validation",
+      "token_count": 448,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 39,
+      "doc_id": "DOC39",
+      "split": "validation",
+      "token_count": 512,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 40,
+      "doc_id": "DOC40",
+      "split": "validation",
+      "token_count": 256,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 41,
+      "doc_id": "DOC41",
+      "split": "validation",
+      "token_count": 320,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 42,
+      "doc_id": "DOC42",
+      "split": "validation",
+      "token_count": 384,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 43,
+      "doc_id": "DOC43",
+      "split": "validation",
+      "token_count": 448,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 44,
+      "doc_id": "DOC44",
+      "split": "validation",
+      "token_count": 512,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 45,
+      "doc_id": "DOC45",
+      "split": "validation",
+      "token_count": 256,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 46,
+      "doc_id": "DOC46",
+      "split": "validation",
+      "token_count": 320,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 47,
+      "doc_id": "DOC47",
+      "split": "validation",
+      "token_count": 384,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 48,
+      "doc_id": "DOC48",
+      "split": "test",
+      "token_count": 448,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 49,
+      "doc_id": "DOC49",
+      "split": "test",
+      "token_count": 512,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 50,
+      "doc_id": "DOC50",
+      "split": "test",
+      "token_count": 256,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 51,
+      "doc_id": "DOC51",
+      "split": "test",
+      "token_count": 320,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 52,
+      "doc_id": "DOC52",
+      "split": "test",
+      "token_count": 384,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 53,
+      "doc_id": "DOC53",
+      "split": "test",
+      "token_count": 448,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 54,
+      "doc_id": "DOC54",
+      "split": "test",
+      "token_count": 512,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    },
+    {
+      "index": 55,
+      "doc_id": "DOC55",
+      "split": "test",
+      "token_count": 256,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 120,
+      "student_latency_ms": 70
+    },
+    {
+      "index": 56,
+      "doc_id": "DOC56",
+      "split": "test",
+      "token_count": 320,
+      "teacher_quality_score": 90,
+      "student_quality_score": 86,
+      "teacher_latency_ms": 130,
+      "student_latency_ms": 80
+    },
+    {
+      "index": 57,
+      "doc_id": "DOC57",
+      "split": "test",
+      "token_count": 384,
+      "teacher_quality_score": 89,
+      "student_quality_score": 85,
+      "teacher_latency_ms": 140,
+      "student_latency_ms": 90
+    },
+    {
+      "index": 58,
+      "doc_id": "DOC58",
+      "split": "test",
+      "token_count": 448,
+      "teacher_quality_score": 88,
+      "student_quality_score": 84,
+      "teacher_latency_ms": 150,
+      "student_latency_ms": 100
+    },
+    {
+      "index": 59,
+      "doc_id": "DOC59",
+      "split": "test",
+      "token_count": 512,
+      "teacher_quality_score": 87,
+      "student_quality_score": 83,
+      "teacher_latency_ms": 160,
+      "student_latency_ms": 110
+    }
+  ],
+  "distillation": {
+    "row_index": 0,
+    "temperature": 2,
+    "hard_weight": 0.5
+  },
+  "pruning": {
+    "unstructured_remove_count": 8,
+    "keep_hidden": [
+      0,
+      1,
+      2
+    ]
+  },
+  "quantization": {
+    "bits": [
+      32,
+      16,
+      8
+    ],
+    "scale": 0.007874015748031496,
+    "zero_point": 0,
+    "qmin": -127,
+    "qmax": 127,
+    "probe_weights": [
+      -1,
+      -0.51,
+      0.03,
+      0.49,
+      1,
+      1.5
+    ],
+    "calibration_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "amp": {
+    "activation_elements": 120,
+    "gradient": 1e-8,
+    "scale": 1024,
+    "clip_norm": 1,
+    "learning_rate": 0.1
+  },
+  "latency_cards": {
+    "description": "同裝置、batch=1、固定輸入、暖機後同步計時的假設中位延遲；只供驗收練習，非量測結果",
+    "vision": {
+      "baseline_fp32_ms": 20,
+      "unstructured_dense_ms": 20,
+      "structured_ms": 16,
+      "int8_supported_ms": 12,
+      "int8_fallback_ms": 23,
+      "teacher_ms": 20,
+      "student_ms": 12
+    },
+    "legal": {
+      "baseline_fp32_ms": 140,
+      "student_ms": 90
+    },
+    "release_thresholds": {
+      "vision_accuracy_min": 0.9,
+      "vision_latency_max_ms": 15,
+      "legal_quality_mean_min": 85,
+      "legal_latency_mean_max_ms": 100
+    }
+  }
+}

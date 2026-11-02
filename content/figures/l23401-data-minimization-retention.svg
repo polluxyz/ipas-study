@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="548" viewBox="0 0 360 548" role="img" aria-labelledby="title desc">
+<title id="title">最小化後仍要管理副本期限</title><desc id="desc">客服分析副本先移除非必要內容；到期停止使用並處置工作副本；備份隔離後依教學政策輪替清除；留下處置證據。不同資料資產另定期限。</desc>
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#375a70"/></marker></defs>
+<rect width="360" height="548" rx="12" fill="#f8fafc"/>
+<g font-family="Microsoft JhengHei,Noto Sans TC,sans-serif" text-anchor="middle">
+<text x="180" y="31" font-size="17" font-weight="700" fill="#17364b">最小化後仍要管理副本期限</text>
+<rect x="16" y="53" width="328" height="80" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<text x="180" y="83" font-size="16" font-weight="700" fill="#17364b">先限縮：意圖與清理後語句</text>
+<text x="180" y="110" font-size="15" fill="#25465c">不帶非必要姓名、健康與地區</text>
+<path d="M180 136 V159" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="165" width="328" height="80" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="180" y="195" font-size="16" font-weight="700" fill="#17364b">到期：停止使用並處置副本</text>
+<text x="180" y="222" font-size="15" fill="#25465c">本例分析副本：30 日／15 日</text>
+<path d="M180 248 V271" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="277" width="328" height="80" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<text x="180" y="307" font-size="16" font-weight="700" fill="#17364b">備份：先隔離，再輪替清除</text>
+<text x="180" y="334" font-size="15" fill="#25465c">7 日內完成；還原前套刪除名單</text>
+<path d="M180 360 V383" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="389" width="328" height="80" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="180" y="419" font-size="16" font-weight="700" fill="#17364b">驗收：追到每個接收者</text>
+<text x="180" y="446" font-size="15" fill="#25465c">保存執行人、時間及處置證據</text>
+<text x="180" y="528" font-size="14" fill="#25465c">本圖期限為教學政策，並非法定年限</text></g></svg>

@@ -1,0 +1,529 @@
+{
+  "source": "教學模擬資料，非臨床實測；篩檢評估集與假設訓練集獨立。",
+  "positive": "需進一步確認的疾病個案",
+  "threshold": 0.5,
+  "samples": [
+    {
+      "id": "M001",
+      "label": 1,
+      "score": 0.9
+    },
+    {
+      "id": "M002",
+      "label": 1,
+      "score": 0.9
+    },
+    {
+      "id": "M003",
+      "label": 1,
+      "score": 0.9
+    },
+    {
+      "id": "M004",
+      "label": 1,
+      "score": 0.9
+    },
+    {
+      "id": "M005",
+      "label": 1,
+      "score": 0.2
+    },
+    {
+      "id": "M006",
+      "label": 0,
+      "score": 0.7
+    },
+    {
+      "id": "M007",
+      "label": 0,
+      "score": 0.7
+    },
+    {
+      "id": "M008",
+      "label": 0,
+      "score": 0.7
+    },
+    {
+      "id": "M009",
+      "label": 0,
+      "score": 0.7
+    },
+    {
+      "id": "M010",
+      "label": 0,
+      "score": 0.7
+    },
+    {
+      "id": "M011",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M012",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M013",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M014",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M015",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M016",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M017",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M018",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M019",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M020",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M021",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M022",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M023",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M024",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M025",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M026",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M027",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M028",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M029",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M030",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M031",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M032",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M033",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M034",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M035",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M036",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M037",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M038",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M039",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M040",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M041",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M042",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M043",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M044",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M045",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M046",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M047",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M048",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M049",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M050",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M051",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M052",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M053",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M054",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M055",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M056",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M057",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M058",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M059",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M060",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M061",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M062",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M063",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M064",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M065",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M066",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M067",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M068",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M069",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M070",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M071",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M072",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M073",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M074",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M075",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M076",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M077",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M078",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M079",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M080",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M081",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M082",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M083",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M084",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M085",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M086",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M087",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M088",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M089",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M090",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M091",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M092",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M093",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M094",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M095",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M096",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M097",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M098",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M099",
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "id": "M100",
+      "label": 0,
+      "score": 0.1
+    }
+  ],
+  "training": {
+    "positive_count": 5,
+    "negative_count": 95,
+    "per_sample_loss": 0.2,
+    "positive_weight": 19,
+    "negative_weight": 1
+  },
+  "smote": {
+    "feature_names": [
+      "已標準化檢驗值一",
+      "已標準化檢驗值二"
+    ],
+    "origin": [
+      2,
+      4
+    ],
+    "neighbor": [
+      4,
+      6
+    ],
+    "lambda": 0.25
+  }
+}

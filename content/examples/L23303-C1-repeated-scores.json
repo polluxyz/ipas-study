@@ -1,0 +1,18 @@
+{
+  "description": "十天切分共用資料的實測基準：DummyClassifier(strategy='most_frequent') 忽略特徵，依訓練摺多數類預測；平手時預測 0。只示範切分與描述性統計，不是金融效能。",
+  "source": "content/examples/L23303-splits.json",
+  "splitter": { "name": "RepeatedKFold", "n_splits": 5, "n_repeats": 2, "random_state": 42 },
+  "metric": "accuracy",
+  "folds": [
+    { "repeat": 1, "fold": 1, "validationIndices": [2, 9], "score": 0.0 },
+    { "repeat": 1, "fold": 2, "validationIndices": [1, 6], "score": 0.5 },
+    { "repeat": 1, "fold": 3, "validationIndices": [3, 8], "score": 0.5 },
+    { "repeat": 1, "fold": 4, "validationIndices": [5, 10], "score": 0.0 },
+    { "repeat": 1, "fold": 5, "validationIndices": [4, 7], "score": 0.5 },
+    { "repeat": 2, "fold": 1, "validationIndices": [1, 2], "score": 0.0 },
+    { "repeat": 2, "fold": 2, "validationIndices": [6, 9], "score": 0.5 },
+    { "repeat": 2, "fold": 3, "validationIndices": [4, 5], "score": 0.0 },
+    { "repeat": 2, "fold": 4, "validationIndices": [8, 10], "score": 0.0 },
+    { "repeat": 2, "fold": 5, "validationIndices": [3, 7], "score": 0.0 }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "source": "教學合成資料；只核算運算、形狀及資源，不代表模型實測品質",
+  "seed": 23203,
+  "upstream": {
+    "file": "content/examples/L23203-D-images.json",
+    "purpose": "沿用製造瑕疵與交通標誌兩領域、同領域索引及切分；不複製影像",
+    "input_order": "NHWC",
+    "input_shape": [16, 8, 8, 3],
+    "conv": {"kernel": 3, "stride": 1, "padding": 0, "in_channels": 3, "out_channels": 2, "bias": true},
+    "split": {"train": [0,1,2,3,4,5,6,7,8,9,10,11], "validation": [12,13], "test": [14,15]},
+    "limitation": "原例驗證及測試影像在訓練集有相同像素，只示範索引；不可作泛化評估"
+  },
+  "tensor_order": "NCHW",
+  "tensor_note": "以下是獨立設計的中間特徵小張量，不宣稱由上游影像訓練或擷取而來",
+  "manufacturing": {"x": [[[[1,2],[3,4]],[[4,3],[2,1]]]], "meaning": "產線特徵運算示意"},
+  "traffic": {"x": [[[[0,1],[1,0]],[[2,0],[0,2]]]], "meaning": "交通標誌特徵運算示意"},
+  "residual": {"scale": 0.5, "kernel": 1, "bias": false, "weights": [[0.5,0],[0,0.5]], "transformer_shape": [2,4,8]},
+  "dense": {"growth_rate": 2, "first_weights": [[0.5,0],[0,0.5]], "second_weights": [[0.5,0.5,0.5,0.5],[0.5,0.5,0.5,0.5]], "kernel": 1, "bias": false},
+  "lightweight": {
+    "x": [[[[1,2,3],[4,5,6],[7,8,9]],[[1,1,1],[1,1,1],[1,1,1]],[[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]]]],
+    "kernel": 3, "stride": 1, "padding": 0, "in_channels": 3, "out_channels": 2,
+    "depth_multiplier": 1, "depthwise_weight": 1,
+    "pointwise_weights": [[1,1,1],[1,0,-1]], "bias": false
+  },
+  "resource_cards": {
+    "comparison_input_nchw": [1,3,8,8],
+    "comparison_bias": false,
+    "cost_convention": "只計卷積權重與單張前向 MAC；排除偏置、激活、正規化、資料搬移、訓練緩存與延遲；FP32 每值4 bytes",
+    "vgg_demo": {"in_channels": 2, "out_channels": 2, "large_kernel": 5, "stacked_kernel": 3, "stacked_layers": 2, "stride": 1, "dilation": 1, "bias": false},
+    "inception_demo": {"input_chw": [6,6,2], "branches": ["1×1卷積", "1×1→3×3卷積", "1×1→5×5卷積", "3×3池化→1×1卷積"], "output_channels": [2,2,1,1], "padding": "各分支保留6×6"},
+    "scaling_demo": {"depth_multiplier": 1.2, "width_multiplier": 1.1, "resolution_multiplier": 1.15, "note": "連續倍率的理論近似，不是整數化模型或裝置延遲"},
+    "deployment_constraints": {"manufacturing": "產線控制器有固定記憶體與回應預算", "traffic": "路側裝置有功耗與小標誌解析度限制"}
+  }
+}

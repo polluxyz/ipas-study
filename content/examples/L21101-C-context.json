@@ -1,0 +1,568 @@
+{
+  "source": "教學合成資料；霧嶼坪是虛構地名；全部向量為手設，不是真實模型輸出",
+  "seed": 42,
+  "tokenization": "英文以空白切詞，保留大小寫；目標 bank 小寫；索引從零開始；不跨句",
+  "documents": [
+    {
+      "id": "B01",
+      "domain": "銀行客服",
+      "text": "The bank approved my loan",
+      "tokens": [
+        "The",
+        "bank",
+        "approved",
+        "my",
+        "loan"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "銀行",
+      "intent": "貸款查詢",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Please contact customer service",
+      "split": "train"
+    },
+    {
+      "id": "B02",
+      "domain": "銀行客服",
+      "text": "The bank rejected my loan",
+      "tokens": [
+        "The",
+        "bank",
+        "rejected",
+        "my",
+        "loan"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "銀行",
+      "intent": "貸款申訴",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Please contact customer service",
+      "split": "train"
+    },
+    {
+      "id": "B03",
+      "domain": "銀行客服",
+      "text": "I called the bank about fees",
+      "tokens": [
+        "I",
+        "called",
+        "the",
+        "bank",
+        "about",
+        "fees"
+      ],
+      "target": "bank",
+      "target_index": 3,
+      "sense": "銀行",
+      "intent": "費用查詢",
+      "entity": null,
+      "mask_position": 3,
+      "continuation_reference": "Please contact customer service",
+      "split": "train"
+    },
+    {
+      "id": "B04",
+      "domain": "銀行客服",
+      "text": "Our bank opened a branch in 霧嶼坪",
+      "tokens": [
+        "Our",
+        "bank",
+        "opened",
+        "a",
+        "branch",
+        "in",
+        "霧嶼坪"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "銀行",
+      "intent": "分行查詢",
+      "entity": {
+        "text": "霧嶼坪",
+        "type": "虛構地名",
+        "token_index": 6
+      },
+      "mask_position": 1,
+      "continuation_reference": "Please contact customer service",
+      "split": "train"
+    },
+    {
+      "id": "B05",
+      "domain": "銀行客服",
+      "text": "The bank blocked my card",
+      "tokens": [
+        "The",
+        "bank",
+        "blocked",
+        "my",
+        "card"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "銀行",
+      "intent": "卡片解鎖",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Please contact customer service",
+      "split": "train"
+    },
+    {
+      "id": "B06",
+      "domain": "銀行客服",
+      "text": "This bank accepts cash deposits",
+      "tokens": [
+        "This",
+        "bank",
+        "accepts",
+        "cash",
+        "deposits"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "銀行",
+      "intent": "存款查詢",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Please contact customer service",
+      "split": "train"
+    },
+    {
+      "id": "B07",
+      "domain": "銀行客服",
+      "text": "The bank sent a payment notice",
+      "tokens": [
+        "The",
+        "bank",
+        "sent",
+        "a",
+        "payment",
+        "notice"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "銀行",
+      "intent": "繳款查詢",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Please contact customer service",
+      "split": "validation"
+    },
+    {
+      "id": "B08",
+      "domain": "銀行客服",
+      "text": "The bank raised the transfer fee",
+      "tokens": [
+        "The",
+        "bank",
+        "raised",
+        "the",
+        "transfer",
+        "fee"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "銀行",
+      "intent": "費用申訴",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Please contact customer service",
+      "split": "validation"
+    },
+    {
+      "id": "B09",
+      "domain": "銀行客服",
+      "text": "The bank confirmed my account",
+      "tokens": [
+        "The",
+        "bank",
+        "confirmed",
+        "my",
+        "account"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "銀行",
+      "intent": "帳戶查詢",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Please contact customer service",
+      "split": "test"
+    },
+    {
+      "id": "B10",
+      "domain": "銀行客服",
+      "text": "The bank refunded the fee today",
+      "tokens": [
+        "The",
+        "bank",
+        "refunded",
+        "the",
+        "fee",
+        "today"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "銀行",
+      "intent": "退款查詢",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Please contact customer service",
+      "split": "test"
+    },
+    {
+      "id": "R01",
+      "domain": "河川教育",
+      "text": "The bank collapsed after rain",
+      "tokens": [
+        "The",
+        "bank",
+        "collapsed",
+        "after",
+        "rain"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "河岸",
+      "intent": "侵蝕說明",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Observe the river safely",
+      "split": "train"
+    },
+    {
+      "id": "R02",
+      "domain": "河川教育",
+      "text": "The bank supports tall reeds",
+      "tokens": [
+        "The",
+        "bank",
+        "supports",
+        "tall",
+        "reeds"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "河岸",
+      "intent": "生態觀察",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Observe the river safely",
+      "split": "train"
+    },
+    {
+      "id": "R03",
+      "domain": "河川教育",
+      "text": "We measured the bank near 霧嶼坪",
+      "tokens": [
+        "We",
+        "measured",
+        "the",
+        "bank",
+        "near",
+        "霧嶼坪"
+      ],
+      "target": "bank",
+      "target_index": 3,
+      "sense": "河岸",
+      "intent": "地形測量",
+      "entity": {
+        "text": "霧嶼坪",
+        "type": "虛構地名",
+        "token_index": 5
+      },
+      "mask_position": 3,
+      "continuation_reference": "Observe the river safely",
+      "split": "train"
+    },
+    {
+      "id": "R04",
+      "domain": "河川教育",
+      "text": "The bank flooded last night",
+      "tokens": [
+        "The",
+        "bank",
+        "flooded",
+        "last",
+        "night"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "河岸",
+      "intent": "洪水記錄",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Observe the river safely",
+      "split": "train"
+    },
+    {
+      "id": "R05",
+      "domain": "河川教育",
+      "text": "The bank eroded during the storm",
+      "tokens": [
+        "The",
+        "bank",
+        "eroded",
+        "during",
+        "the",
+        "storm"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "河岸",
+      "intent": "侵蝕說明",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Observe the river safely",
+      "split": "train"
+    },
+    {
+      "id": "R06",
+      "domain": "河川教育",
+      "text": "We planted trees along the bank",
+      "tokens": [
+        "We",
+        "planted",
+        "trees",
+        "along",
+        "the",
+        "bank"
+      ],
+      "target": "bank",
+      "target_index": 5,
+      "sense": "河岸",
+      "intent": "護岸說明",
+      "entity": null,
+      "mask_position": 5,
+      "continuation_reference": "Observe the river safely",
+      "split": "train"
+    },
+    {
+      "id": "R07",
+      "domain": "河川教育",
+      "text": "The bank curves beside the bridge",
+      "tokens": [
+        "The",
+        "bank",
+        "curves",
+        "beside",
+        "the",
+        "bridge"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "河岸",
+      "intent": "地形觀察",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Observe the river safely",
+      "split": "validation"
+    },
+    {
+      "id": "R08",
+      "domain": "河川教育",
+      "text": "The bank shelters nesting birds",
+      "tokens": [
+        "The",
+        "bank",
+        "shelters",
+        "nesting",
+        "birds"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "河岸",
+      "intent": "生態觀察",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Observe the river safely",
+      "split": "validation"
+    },
+    {
+      "id": "R09",
+      "domain": "河川教育",
+      "text": "The bank became muddy after rain",
+      "tokens": [
+        "The",
+        "bank",
+        "became",
+        "muddy",
+        "after",
+        "rain"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "河岸",
+      "intent": "土壤觀察",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Observe the river safely",
+      "split": "test"
+    },
+    {
+      "id": "R10",
+      "domain": "河川教育",
+      "text": "The bank remained stable this week",
+      "tokens": [
+        "The",
+        "bank",
+        "remained",
+        "stable",
+        "this",
+        "week"
+      ],
+      "target": "bank",
+      "target_index": 1,
+      "sense": "河岸",
+      "intent": "穩定性記錄",
+      "entity": null,
+      "mask_position": 1,
+      "continuation_reference": "Observe the river safely",
+      "split": "test"
+    }
+  ],
+  "subword_demo": {
+    "word": "霧嶼坪",
+    "boundary_start": "<",
+    "boundary_end": ">",
+    "n": 3,
+    "known_word": false,
+    "fragment_vectors": {
+      "<霧嶼": [
+        1,
+        0
+      ],
+      "霧嶼坪": [
+        0,
+        2
+      ],
+      "嶼坪>": [
+        2,
+        1
+      ]
+    },
+    "missing_fragment_policy": "缺任一已學片段就中止本教學計算，不用隨機值冒充"
+  },
+  "contextual_demo": {
+    "space": "獨立的二維教學空間，同模型同層同切分",
+    "static_bank": [
+      1,
+      1
+    ],
+    "occurrence_vectors": {
+      "B01": [
+        0.9,
+        0.1
+      ],
+      "R01": [
+        0.2,
+        0.8
+      ]
+    },
+    "resource_assumptions": {
+      "static_ms": 2,
+      "contextual_ms": 18,
+      "max_ms": 10,
+      "source": "假設單次請求實測值，只用於選型演練"
+    }
+  },
+  "elmo_demo": {
+    "space": "獨立的四維 ELMo 混層教學空間；非真實 LSTM 狀態",
+    "direction_width": 2,
+    "layer_weights": [
+      0.2,
+      0.3,
+      0.5
+    ],
+    "scale": 1,
+    "layers": {
+      "B01": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0.8,
+          0.2,
+          0.6,
+          0.4
+        ],
+        [
+          0.9,
+          0.1,
+          0.8,
+          0.2
+        ]
+      ],
+      "R01": [
+        [
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          0.8,
+          0.2,
+          0.3,
+          0.7
+        ],
+        [
+          0.9,
+          0.1,
+          0.2,
+          0.8
+        ]
+      ]
+    }
+  },
+  "pragmatic_cases": [
+    {
+      "id": "P01",
+      "context": "客服立刻退回重複扣款",
+      "utterance": "效率真好",
+      "interpretation": "真誠肯定",
+      "alternative": "缺乏語氣時也可能是反語"
+    },
+    {
+      "id": "P02",
+      "context": "客服讓我等了兩小時仍未退款",
+      "utterance": "效率真好",
+      "interpretation": "反語抱怨",
+      "alternative": "單看句面容易誤判為肯定"
+    },
+    {
+      "id": "P03",
+      "context": "河川導覽結束，遊客稱讚行程精彩",
+      "utterance": "有夠讚",
+      "interpretation": "口語肯定",
+      "alternative": "陌生口語不應直接當成錯字"
+    },
+    {
+      "id": "P04",
+      "context": "沒有前後文的導覽留言",
+      "utterance": "有夠讚",
+      "interpretation": "資訊不足；可真誠也可反語",
+      "alternative": "不能只靠讚字保證情緒"
+    },
+    {
+      "id": "P05",
+      "context": "銀行客戶誤按查詢按鈕，用台語詞混合華語留言",
+      "utterance": "歹勢，我按錯了",
+      "interpretation": "道歉",
+      "alternative": "只把歹字當負面，可能誤判為服務抱怨"
+    },
+    {
+      "id": "P06",
+      "context": "導覽員邀請不習慣受注目的遊客上台，遊客用台語詞回應",
+      "utterance": "我會歹勢",
+      "interpretation": "害羞、難為情",
+      "alternative": "若一律當成道歉，可能誤解遊客意圖"
+    }
+  ]
+}

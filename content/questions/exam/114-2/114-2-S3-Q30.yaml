@@ -1,0 +1,36 @@
+id: 114-2-S3-Q30
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 30
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 7
+type: 情境
+codes: [L23303, L21101]
+concepts: [f1-score, recall, precision]
+stem: |
+  某情感分析模型在英文資料集上取得 macro F1-score = 0.91。當該模型部署於西班牙文資料集時，F1-score 驟降至 0.58。下列哪一項解釋最合理，且與 F1-score 變化相關？
+options:
+  A: macro F1-score 本身波動性高，建議改用 micro-average F1-score 評估
+  B: 模型在西班牙文語料上過度擬合，導致評估結果偏高
+  C: 語言轉移造成召回率（Recall）下降，模型無法正確辨識關鍵情緒詞彙
+  D: 以均方誤差（MSE）取代 F1-score 評估可獲得更準確的結果
+answer: C
+explanation:
+  summary: 跨語言的泛化落差可能增加漏判，進而降低 F1。
+  correct: 英文訓練得到的詞彙與語意線索，未必能直接用於西班牙文。若模型漏掉更多實際屬於某情感類別的樣本，該類 Recall 下降，就可能使 F1 及各類 F1 的平均值 macro F1 降低，故 C 是選項中最合理的可能解釋。但僅憑兩個 F1 數字無法斷定 Recall 已下降，Precision 下降也可能造成相同現象，仍須檢查各類指標與混淆矩陣。
+  wrong:
+    A: macro F1 對各類別同等加權，micro F1 則先彙整各類計數。改用另一種平均方式不能修復跨語言的辨識落差，也不能直接把分數下降歸因於 macro 指標波動。
+    B: 題目未說模型曾在西班牙文資料上訓練，無法據此認定對該語料過擬合；而「評估結果偏高」也不能解釋分數驟降。
+    D: MSE 通常衡量連續值預測誤差，不能直接取代情感分類的 F1，也不會因更換指標而提高跨語言預測能力。
+  rule: F1 下降時，要分查精確率與召回率，不能單憑總分定位原因。
+guide_refs: [guide-3:5-21]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 7
+    by: QB1
+  dispute: null
+  blind_answer: C

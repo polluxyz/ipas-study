@@ -1,0 +1,96 @@
+{
+  "id": "l23303-pr-auc-shared",
+  "kind": "pr",
+  "title": "共同二十筆交易的 PR 曲線",
+  "description": "橫軸為召回率、縱軸為精確率；標示閾值 0.5。正類比例 0.4 是無資訊基準線，階梯面積為 AP，與梯形 PR AUC 不同。",
+  "source": {
+    "type": "synthetic",
+    "note": "L23303-classification.json 的原始標籤與分數；八筆盜刷、十二筆正常。"
+  },
+  "samples": [
+    {
+      "label": 1,
+      "score": 0.95
+    },
+    {
+      "label": 1,
+      "score": 0.9
+    },
+    {
+      "label": 0,
+      "score": 0.85
+    },
+    {
+      "label": 1,
+      "score": 0.8
+    },
+    {
+      "label": 1,
+      "score": 0.75
+    },
+    {
+      "label": 1,
+      "score": 0.65
+    },
+    {
+      "label": 0,
+      "score": 0.65
+    },
+    {
+      "label": 1,
+      "score": 0.5
+    },
+    {
+      "label": 0,
+      "score": 0.4
+    },
+    {
+      "label": 1,
+      "score": 0.35
+    },
+    {
+      "label": 0,
+      "score": 0.3
+    },
+    {
+      "label": 0,
+      "score": 0.25
+    },
+    {
+      "label": 1,
+      "score": 0.2
+    },
+    {
+      "label": 0,
+      "score": 0.18
+    },
+    {
+      "label": 0,
+      "score": 0.15
+    },
+    {
+      "label": 0,
+      "score": 0.12
+    },
+    {
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "label": 0,
+      "score": 0.08
+    },
+    {
+      "label": 0,
+      "score": 0.05
+    },
+    {
+      "label": 0,
+      "score": 0.02
+    }
+  ],
+  "thresholds": [
+    0.5,
+    0.65
+  ]
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "U1",
+    "y_true": 16,
+    "y_pred": 10
+  },
+  {
+    "id": "U2",
+    "y_true": 21,
+    "y_pred": 20
+  },
+  {
+    "id": "U3",
+    "y_true": 28,
+    "y_pred": 30
+  },
+  {
+    "id": "U4",
+    "y_true": 35,
+    "y_pred": 40
+  },
+  {
+    "id": "U5",
+    "y_true": 45,
+    "y_pred": 50
+  },
+  {
+    "id": "U6",
+    "y_true": 58,
+    "y_pred": 60
+  },
+  {
+    "id": "U7",
+    "y_true": 71,
+    "y_pred": 70
+  },
+  {
+    "id": "U8",
+    "y_true": 86,
+    "y_pred": 80
+  }
+]

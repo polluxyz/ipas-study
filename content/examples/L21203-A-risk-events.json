@@ -1,0 +1,518 @@
+{
+  "source": "教學合成風險事件；機率及控制效果為情境假設，非真實估計或模型實測",
+  "horizon": "接下來30日，同一部署範圍內至少發生一次事件",
+  "seed": null,
+  "split": null,
+  "index_rule": "授信 C1–C6、製造 M1–M6；全組固定索引，不做隨機抽樣、模型訓練或資料切分",
+  "money_unit": "萬元",
+  "likelihood_scale": [
+    {
+      "level": 1,
+      "range": "0<p<=0.10"
+    },
+    {
+      "level": 2,
+      "range": "0.10<p<=0.20"
+    },
+    {
+      "level": 3,
+      "range": "0.20<p<=1"
+    }
+  ],
+  "impact_scale": [
+    {
+      "level": 1,
+      "rule": "短暫可逆且不影響重大權益或安全"
+    },
+    {
+      "level": 2,
+      "rule": "業務中斷或可補救的重大決策錯誤"
+    },
+    {
+      "level": 3,
+      "rule": "可能重大侵害權益、違規或危害人身安全"
+    }
+  ],
+  "priority_rule": "1–2低；3–4中；6–9高；衝擊3或法律不允許須另行升級，不能只按分數放行",
+  "control_note": "residual 是措施完成並驗證後的教學假設；尚未驗證時沿用控制前風險",
+  "events": [
+    {
+      "id": "C1",
+      "domain": "授信",
+      "event": "收入欄位遺漏",
+      "cause": "資料擷取漏欄",
+      "probability": 0.3,
+      "likelihood": 3,
+      "impact": 2,
+      "affected": "收入資料不完整的申請人",
+      "owner": "資料主管",
+      "approver": "信貸主管",
+      "budget": 18,
+      "control_cost": 12,
+      "strategy": "緩解",
+      "control": "回來源補件、缺失旗標及人工覆核",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.12,
+        "likelihood": 2,
+        "impact": 2
+      },
+      "intervention": "資料進件前",
+      "due": "第7日",
+      "trigger": "缺失超過5%或逾期",
+      "followup": "每日查缺失；每週報信貸主管",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "C2",
+      "domain": "授信",
+      "event": "青年申請人代表不足",
+      "cause": "樣本以資深客戶為主",
+      "probability": 0.15,
+      "likelihood": 2,
+      "impact": 3,
+      "affected": "青年及薄信用申請人",
+      "owner": "模型主管",
+      "approver": "風險委員會",
+      "budget": 10,
+      "control_cost": 8,
+      "strategy": "緩解",
+      "control": "補樣並分群驗證與申訴覆核",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.08,
+        "likelihood": 1,
+        "impact": 3
+      },
+      "intervention": "採樣與測試前",
+      "due": "第14日",
+      "trigger": "群體錯拒差距超過5個百分點",
+      "followup": "每週查群體差距；報風險委員會",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "C3",
+      "domain": "授信",
+      "event": "還款標籤錯置",
+      "cause": "帳務欄位映射錯誤",
+      "probability": 0.08,
+      "likelihood": 1,
+      "impact": 2,
+      "affected": "曾還款的申請人",
+      "owner": "標註主管",
+      "approver": "模型主管",
+      "budget": 5,
+      "control_cost": 3,
+      "strategy": "緩解",
+      "control": "帳務對照及雙人覆核",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.03,
+        "likelihood": 1,
+        "impact": 2
+      },
+      "intervention": "訓練前",
+      "due": "第5日",
+      "trigger": "抽查錯標超過1%",
+      "followup": "每批抽查；每週報模型主管",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "C4",
+      "domain": "授信",
+      "event": "景氣變動後失準",
+      "cause": "還款關係改變",
+      "probability": 0.25,
+      "likelihood": 3,
+      "impact": 3,
+      "affected": "新申請人及銀行",
+      "owner": "模型主管",
+      "approver": "風險委員會",
+      "budget": 15,
+      "control_cost": 10,
+      "strategy": "緩解",
+      "control": "暫停自動拒貸、人工處理並做近期驗證",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.1,
+        "likelihood": 1,
+        "impact": 3
+      },
+      "intervention": "決策送出前",
+      "due": "第10日",
+      "trigger": "近期錯拒率超過8%",
+      "followup": "每日監測；超標即升級",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "C5",
+      "domain": "授信",
+      "event": "未確認授權即傳雲端",
+      "cause": "資料用途不符核准範圍",
+      "probability": 0.15,
+      "likelihood": 2,
+      "impact": 3,
+      "affected": "所有被傳輸資料的客戶",
+      "owner": "法遵主管",
+      "approver": "法遵主管",
+      "budget": 8,
+      "control_cost": 5,
+      "strategy": "迴避",
+      "control": "取消該雲端傳輸路徑，改評估本地方案",
+      "residual": {
+        "state": "撤銷該活動，不放入部署中矩陣；其他路徑另評",
+        "probability": null,
+        "likelihood": null,
+        "impact": null
+      },
+      "intervention": "資料傳輸前",
+      "due": "第1日",
+      "trigger": "核准用途、契約或地區改變",
+      "followup": "禁止傳輸；每週查替代方案",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "C6",
+      "domain": "授信",
+      "event": "非關鍵報表延遲",
+      "cause": "夜間彙整短暫延後",
+      "probability": 0.08,
+      "likelihood": 1,
+      "impact": 1,
+      "affected": "內部報表使用者",
+      "owner": "營運主管",
+      "approver": "營運主管",
+      "budget": 1,
+      "control_cost": 2,
+      "strategy": "接受",
+      "control": "保留人工查詢備援與日常監控",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.08,
+        "likelihood": 1,
+        "impact": 1
+      },
+      "intervention": "報表發佈前",
+      "due": "第30日",
+      "trigger": "延遲超過10分鐘或影響客戶決策",
+      "followup": "每日記延遲；第30日重評",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "M1",
+      "domain": "製造",
+      "event": "感測值缺失",
+      "cause": "設備斷線",
+      "probability": 0.3,
+      "likelihood": 3,
+      "impact": 2,
+      "affected": "現場作業員及品保",
+      "owner": "設備主管",
+      "approver": "廠長",
+      "budget": 12,
+      "control_cost": 8,
+      "strategy": "緩解",
+      "control": "缺失警報、備援量測與人工檢驗",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.08,
+        "likelihood": 1,
+        "impact": 2
+      },
+      "intervention": "輸入檢查時",
+      "due": "第7日",
+      "trigger": "缺失超過5%",
+      "followup": "每日巡檢；每週報廠長",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "M2",
+      "domain": "製造",
+      "event": "罕見瑕疵代表不足",
+      "cause": "多數樣本皆正常",
+      "probability": 0.15,
+      "likelihood": 2,
+      "impact": 3,
+      "affected": "產品使用者與品保",
+      "owner": "品保主管",
+      "approver": "廠長",
+      "budget": 10,
+      "control_cost": 7,
+      "strategy": "緩解",
+      "control": "補瑕疵樣本並分缺陷類型驗證",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.08,
+        "likelihood": 1,
+        "impact": 3
+      },
+      "intervention": "放行前",
+      "due": "第14日",
+      "trigger": "罕見瑕疵漏判超過5%",
+      "followup": "每日抽檢；重大漏判即升級",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "M3",
+      "domain": "製造",
+      "event": "瑕疵標籤錯置",
+      "cause": "標註尺度不一致",
+      "probability": 0.08,
+      "likelihood": 1,
+      "impact": 2,
+      "affected": "品保及下游客戶",
+      "owner": "標註主管",
+      "approver": "品保主管",
+      "budget": 5,
+      "control_cost": 3,
+      "strategy": "緩解",
+      "control": "標準樣本與爭議雙人覆核",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.04,
+        "likelihood": 1,
+        "impact": 2
+      },
+      "intervention": "訓練前",
+      "due": "第5日",
+      "trigger": "抽查錯標超過1%",
+      "followup": "每批抽查；每週報品保主管",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "M4",
+      "domain": "製造",
+      "event": "新材料上線後失準",
+      "cause": "材質紋理改變",
+      "probability": 0.25,
+      "likelihood": 3,
+      "impact": 3,
+      "affected": "下游產品使用者",
+      "owner": "品保主管",
+      "approver": "廠長",
+      "budget": 15,
+      "control_cost": 10,
+      "strategy": "緩解",
+      "control": "停用自動放行、人工全檢並重新驗證",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.12,
+        "likelihood": 2,
+        "impact": 3
+      },
+      "intervention": "產品放行前",
+      "due": "第10日",
+      "trigger": "新材料漏判超過5%",
+      "followup": "每批監測；超標停用",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    },
+    {
+      "id": "M5",
+      "domain": "製造",
+      "event": "AI服務故障停工",
+      "cause": "第三方服務中斷",
+      "probability": 0.15,
+      "likelihood": 2,
+      "impact": 2,
+      "affected": "作業員、工廠及客戶",
+      "owner": "營運主管",
+      "approver": "廠長",
+      "budget": 1,
+      "control_cost": 0.6,
+      "strategy": "轉移",
+      "control": "合格故障保險搭配復原SLA",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.15,
+        "likelihood": 2,
+        "impact": 2
+      },
+      "intervention": "採購及事故後",
+      "due": "第30日",
+      "trigger": "保險到期、拒賠或SLA違約",
+      "followup": "每週查保單；每日查可用性",
+      "contract": {
+        "insured_loss": 10,
+        "deductible": 1,
+        "cap": 6,
+        "premium": 0.6,
+        "covered": "合約定義的AI服務故障停工，假設已符合承保條件",
+        "excluded": "未申報用途、資料侵害、罰款與人身損害不在本教學保單內",
+        "sla": "一小時內回應、四小時內復原；僅賠約定服務額度",
+        "outsourcing": "供應商修復及事故報告；企業維持停機、通報與客戶處置責任"
+      }
+    },
+    {
+      "id": "M6",
+      "domain": "製造",
+      "event": "非關鍵看板延遲",
+      "cause": "彙整批次短暫落後",
+      "probability": 0.08,
+      "likelihood": 1,
+      "impact": 1,
+      "affected": "內部班別主管",
+      "owner": "營運主管",
+      "approver": "廠長",
+      "budget": 1,
+      "control_cost": 2,
+      "strategy": "接受",
+      "control": "保留現場原始紀錄與日常監控",
+      "residual": {
+        "state": "控制完成且驗證後的情境假設",
+        "probability": 0.08,
+        "likelihood": 1,
+        "impact": 1
+      },
+      "intervention": "看板發佈前",
+      "due": "第30日",
+      "trigger": "延遲超過10分鐘或影響安全",
+      "followup": "每日記延遲；第30日重評",
+      "contract": {
+        "insurance": "未購買；不假設自動承保",
+        "outsourcing": "即使委外，資料用途、驗收與通報仍由企業確認"
+      }
+    }
+  ],
+  "audit": {
+    "credit": {
+      "total": 100,
+      "income_missing": 12,
+      "young_count": 10,
+      "target_young_count": 40,
+      "wrong_labels": 4,
+      "eligible": 60,
+      "sensitive_input": {
+        "before": 0.49,
+        "after": 0.51,
+        "boundary": 0.5
+      },
+      "recent": {
+        "reviewed": 100,
+        "wrong_rejections": 9,
+        "limit": 0.08
+      }
+    },
+    "manufacturing": {
+      "total": 100,
+      "sensor_missing": 8,
+      "rare_count": 5,
+      "target_rare_count": 20,
+      "wrong_labels": 3,
+      "new_material": {
+        "reviewed": 100,
+        "missed_defects": 7,
+        "limit": 0.05
+      }
+    }
+  },
+  "acceptance": {
+    "id": "C6",
+    "residual_score": 1,
+    "approver": "營運主管",
+    "deadline": "第30日",
+    "monitor": "每日最大延遲",
+    "threshold_minutes": 10,
+    "trigger": "延遲超過10分鐘、影響客戶決策、用途或控制成本改變即重評",
+    "legal_gate": "先確認不涉及違法、重大權益或安全風險"
+  },
+  "weekly_report": {
+    "week": 1,
+    "id": "C1",
+    "previous_missing": 12,
+    "current_missing": 6,
+    "total": 100,
+    "remaining": "來源補件尚未完成",
+    "action_owner": "資料主管",
+    "due": "第7日",
+    "escalation": "第7日仍超過5%即報信貸主管，暫停自動拒貸；不能先套用控制後分數"
+  },
+  "human_reviews": [
+    {
+      "id": "C4-H1",
+      "domain": "授信",
+      "risk": "C4",
+      "information": "收入缺失旗標、模型版本、近期錯拒率9/100",
+      "available_minutes": 20,
+      "review_minutes": 15,
+      "capacity_per_hour": 4,
+      "arrivals_per_hour": 6,
+      "action": "先暫停自動拒貸、降低進件量並加派人員；超時保留待審，不預設拒貸",
+      "approver": "信貸主管"
+    },
+    {
+      "id": "H1",
+      "domain": "臨床",
+      "risk": "診斷證據不足",
+      "information": "原始影像、症狀、模型限制",
+      "available_minutes": 2,
+      "review_minutes": 5,
+      "action": "無法在2分鐘內覆核，改走既有急救流程並呼叫值班醫師，不等待AI",
+      "approver": "值班醫師"
+    },
+    {
+      "id": "M4-H1",
+      "domain": "製造",
+      "risk": "M4",
+      "information": "新材料批次、原始影像、近期漏判7/100",
+      "available_minutes": 10,
+      "review_minutes": 6,
+      "action": "人工全檢；覆核能否推翻結果與停止放行須先演練",
+      "approver": "品保主管"
+    }
+  ],
+  "strategy_comparison": {
+    "event_id": "M5",
+    "budget": 1,
+    "avoid": {
+      "opportunity_cost": 8,
+      "restart": "用途、控制及替代流程重新驗證後由廠長核准"
+    },
+    "mitigate": {
+      "backup_cost": 4,
+      "effect": "待驗，不能預先降分"
+    },
+    "transfer": {
+      "premium": 0.6,
+      "required": "承保事故、除外、上限及復原SLA確認後廠長有條件核准"
+    },
+    "accept": {
+      "allowed": false,
+      "reason": "中風險且非低衝擊，不符合本例低分低衝擊接受政策"
+    }
+  },
+  "clinical_avoidance": {
+    "case": "診斷資料不足而暫緩",
+    "opportunity_cost": "延後效率效益並增加人工負擔，需依實際資料評估金額",
+    "restart": "資料補齊、部署條件驗證及必要核准完成後重新評估"
+  }
+}

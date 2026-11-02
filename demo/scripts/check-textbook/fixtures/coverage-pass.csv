@@ -1,0 +1,4 @@
+topic_id,goal_id,concept_id,section_anchor,evidence_refs,coverage_state,reviewer,reviewed_revision,review_note
+T01-G01,sample#g1,sample,算一次,guide-3:5-22,complete,reviewer-1,sha256:8b38b495ecef38ca94bc91bd0f6590aa643162be356f4c42085407175c19cea2,已核對
+T01-G02,sample#g1,sample,直覺,guide-3:5-22,mentioned,,,
+T02-G01,,,,,unmapped,,,

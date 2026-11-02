@@ -1,0 +1,11 @@
+---
+/** 只為已有速查內容的代碼建頁，避免學習路線出現空白入口。 */
+import { getCollection } from 'astro:content';
+import Cheatsheet from '../../../components/Cheatsheet.astro';
+export async function getStaticPaths() {
+  const sheets = await getCollection(process.env.TEXTBOOK_TEST_FIXTURES === '1' ? 'cheatsheetFixtures' : 'cheatsheets');
+  return sheets.map((entry) => ({ params: { id: entry.data.code }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+<Cheatsheet entry={entry} />

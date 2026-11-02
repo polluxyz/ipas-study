@@ -1,0 +1,362 @@
+{
+  "source": "教學合成資料；非真實客服紀錄",
+  "seed": 42,
+  "label_definition": {
+    "0": "一般服務",
+    "1": "需人工安全升級"
+  },
+  "feature_definition": [
+    "人工連續描述值一（無單位）",
+    "人工連續描述值二（無單位）"
+  ],
+  "group_definition": "A、B 是教學來源群；不對應真實身分，不能插值群體代碼",
+  "split_rule": "索引1–16訓練，17–20驗證，21–24測試；同一原始資料與其所有衍生樣本不得跨集合",
+  "rows": [
+    {
+      "index": 1,
+      "id": "C01",
+      "split": "train",
+      "text": "Q7 已冒煙，我不想退款，請立即停用檢查。",
+      "label": 1,
+      "group": "A",
+      "features": [
+        2,
+        2
+      ]
+    },
+    {
+      "index": 2,
+      "id": "C02",
+      "split": "train",
+      "text": "Q7 漏電，請立即安排安全檢測。",
+      "label": 1,
+      "group": "A",
+      "features": [
+        4,
+        2
+      ]
+    },
+    {
+      "index": 3,
+      "id": "C03",
+      "split": "train",
+      "text": "我不想退款，只想查 Q7 的配送。",
+      "label": 0,
+      "group": "A",
+      "features": [
+        1,
+        8
+      ]
+    },
+    {
+      "index": 4,
+      "id": "C04",
+      "split": "train",
+      "text": "請問 Q7 的包裹何時送到？",
+      "label": 0,
+      "group": "A",
+      "features": [
+        2,
+        9
+      ]
+    },
+    {
+      "index": 5,
+      "id": "C05",
+      "split": "train",
+      "text": "Q7 有燒焦味，請立即安排檢查。",
+      "label": 1,
+      "group": "B",
+      "features": [
+        8,
+        8
+      ]
+    },
+    {
+      "index": 6,
+      "id": "C06",
+      "split": "train",
+      "text": "Q7 插電就跳電，請轉安全專員。",
+      "label": 1,
+      "group": "B",
+      "features": [
+        10,
+        8
+      ]
+    },
+    {
+      "index": 7,
+      "id": "C07",
+      "split": "train",
+      "text": "請幫我修改收件地址。",
+      "label": 0,
+      "group": "A",
+      "features": [
+        3,
+        8
+      ]
+    },
+    {
+      "index": 8,
+      "id": "C08",
+      "split": "train",
+      "text": "我想確認保固到期日。",
+      "label": 0,
+      "group": "A",
+      "features": [
+        4,
+        9
+      ]
+    },
+    {
+      "index": 9,
+      "id": "C09",
+      "split": "train",
+      "text": "Q7 的說明書可以補寄嗎？",
+      "label": 0,
+      "group": "A",
+      "features": [
+        5,
+        8
+      ]
+    },
+    {
+      "index": 10,
+      "id": "C10",
+      "split": "train",
+      "text": "請問發票能否改成電子版？",
+      "label": 0,
+      "group": "A",
+      "features": [
+        6,
+        9
+      ]
+    },
+    {
+      "index": 11,
+      "id": "C11",
+      "split": "train",
+      "text": "我想取消重複下單的商品。",
+      "label": 0,
+      "group": "A",
+      "features": [
+        7,
+        2
+      ]
+    },
+    {
+      "index": 12,
+      "id": "C12",
+      "split": "train",
+      "text": "可以查詢 Q7 的維修進度嗎？",
+      "label": 0,
+      "group": "A",
+      "features": [
+        8,
+        3
+      ]
+    },
+    {
+      "index": 13,
+      "id": "C13",
+      "split": "train",
+      "text": "請問週末能否配送？",
+      "label": 0,
+      "group": "A",
+      "features": [
+        9,
+        2
+      ]
+    },
+    {
+      "index": 14,
+      "id": "C14",
+      "split": "train",
+      "text": "客服可以協助查訂單狀態嗎？",
+      "label": 0,
+      "group": "A",
+      "features": [
+        10,
+        3
+      ]
+    },
+    {
+      "index": 15,
+      "id": "C15",
+      "split": "train",
+      "text": "我只想下載 Q7 的安裝說明。",
+      "label": 0,
+      "group": "B",
+      "features": [
+        11,
+        2
+      ]
+    },
+    {
+      "index": 16,
+      "id": "C16",
+      "split": "train",
+      "text": "請問配件會另外出貨嗎？",
+      "label": 0,
+      "group": "B",
+      "features": [
+        12,
+        3
+      ]
+    },
+    {
+      "index": 17,
+      "id": "C17",
+      "split": "validation",
+      "text": "Q7 電池膨脹，請立即協助處理。",
+      "label": 1,
+      "group": "A",
+      "features": [
+        3,
+        2
+      ]
+    },
+    {
+      "index": 18,
+      "id": "C18",
+      "split": "validation",
+      "text": "請問本月有沒有折扣？",
+      "label": 0,
+      "group": "A",
+      "features": [
+        1,
+        9
+      ]
+    },
+    {
+      "index": 19,
+      "id": "C19",
+      "split": "validation",
+      "text": "我想查退貨申請的進度。",
+      "label": 0,
+      "group": "B",
+      "features": [
+        6,
+        8
+      ]
+    },
+    {
+      "index": 20,
+      "id": "C20",
+      "split": "validation",
+      "text": "請幫我更改聯絡電話。",
+      "label": 0,
+      "group": "A",
+      "features": [
+        11,
+        3
+      ]
+    },
+    {
+      "index": 21,
+      "id": "C21",
+      "split": "test",
+      "text": "Q7 插頭過熱，請安排安全檢查。",
+      "label": 1,
+      "group": "A",
+      "features": [
+        9,
+        8
+      ]
+    },
+    {
+      "index": 22,
+      "id": "C22",
+      "split": "test",
+      "text": "請問贈品何時寄出？",
+      "label": 0,
+      "group": "A",
+      "features": [
+        2,
+        8
+      ]
+    },
+    {
+      "index": 23,
+      "id": "C23",
+      "split": "test",
+      "text": "我不需要退貨，只想補寄配件。",
+      "label": 0,
+      "group": "B",
+      "features": [
+        7,
+        3
+      ]
+    },
+    {
+      "index": 24,
+      "id": "C24",
+      "split": "test",
+      "text": "請問能否預約到店取貨？",
+      "label": 0,
+      "group": "A",
+      "features": [
+        12,
+        2
+      ]
+    }
+  ],
+  "augmentation": {
+    "base_index": 3,
+    "variants": [
+      {
+        "method": "同義替換",
+        "text": "我不想退款，只想查 Q7 的運送。",
+        "keep": true,
+        "reason": "配送改成運送，服務需求不變"
+      },
+      {
+        "method": "插入",
+        "text": "我不想退款，只想查 Q7 的配送，謝謝。",
+        "keep": true,
+        "reason": "只增加禮貌語"
+      },
+      {
+        "method": "刪除",
+        "text": "我想退款，只想查 Q7 的配送。",
+        "keep": false,
+        "reason": "刪掉不，意圖發生衝突"
+      },
+      {
+        "method": "交換",
+        "text": "我只想退款，不想查 Q7 的配送。",
+        "keep": false,
+        "reason": "否定修飾的對象改變"
+      }
+    ],
+    "round_trips": [
+      {
+        "index": 3,
+        "pivot": "I do not want a refund; I only want to check delivery for Q7.",
+        "back": "我不需要退款，只想查詢 Q7 的配送進度。",
+        "keep": true,
+        "reason": "否定、型號與需求不變"
+      },
+      {
+        "index": 1,
+        "pivot": "Q7 is smoking. I do not want a refund; please stop using it and inspect it immediately.",
+        "back": "Q7 已冒煙，我想退款，請立即停用檢查。",
+        "keep": false,
+        "reason": "否定遺失；安全升級標籤雖未改，完整語意已失真"
+      },
+      {
+        "index": 2,
+        "pivot": "Q7 is leaking electricity; please arrange a safety inspection immediately.",
+        "back": "Q1 漏電，請立即安排安全檢測。",
+        "keep": false,
+        "reason": "專有型號 Q7 變成 Q1"
+      }
+    ],
+    "pseudo_parallel": {
+      "training_direction": "English -> Chinese",
+      "target_index": 3,
+      "synthetic_source": "I do not want a refund; I only want to check delivery for Q7.",
+      "target_is_original": true
+    }
+  }
+}

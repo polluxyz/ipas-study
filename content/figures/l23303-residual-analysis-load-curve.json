@@ -1,0 +1,45 @@
+{
+  "id": "l23303-residual-analysis-load-curve",
+  "kind": "residual",
+  "title": "電力負載的曲線型殘差",
+  "description": "殘差中心低負載偏正、中間偏負、高負載再偏正，呈 U 形。",
+  "source": {
+    "type": "synthetic",
+    "note": "教學模擬資料；由 content/examples/L23303-B-load-curve.json 逐筆映射，非真實電力資料。"
+  },
+  "unit": "MW",
+  "samples": [
+    {
+      "actual": 16,
+      "predicted": 10
+    },
+    {
+      "actual": 21,
+      "predicted": 20
+    },
+    {
+      "actual": 28,
+      "predicted": 30
+    },
+    {
+      "actual": 35,
+      "predicted": 40
+    },
+    {
+      "actual": 45,
+      "predicted": 50
+    },
+    {
+      "actual": 58,
+      "predicted": 60
+    },
+    {
+      "actual": 71,
+      "predicted": 70
+    },
+    {
+      "actual": 86,
+      "predicted": 80
+    }
+  ]
+}

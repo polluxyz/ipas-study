@@ -1,0 +1,92 @@
+{
+  "source": "教學合成資源卡；金額為試辦估計，效益為待驗假設；measured_network_ms 是不含影像酬載的網路往返時間，須另加原圖序列化時間下限；處理順序為傳完原圖、前處理、推論、寫回",
+  "resource_cap": {
+    "budget_twd": 300000,
+    "person_days": 40,
+    "duration_weeks": 6
+  },
+  "projects": [
+    {
+      "id": "P1",
+      "name": "零售工單輔助分流",
+      "budget_twd": 180000,
+      "person_days": 24,
+      "duration_weeks": 4,
+      "maturity": "CRM 可匯出；標籤與通路代表性待補",
+      "readiness": "補齊標籤、補抽線上工單後可試辦",
+      "benefit_hypothesis": "同口徑工單平均人工成本 48 元降至 30 元",
+      "risk_control": "先由客服確認，不自動拒絕申訴",
+      "owner": "客服主管"
+    },
+    {
+      "id": "P2",
+      "name": "製造影像輔助檢驗",
+      "budget_twd": 260000,
+      "person_days": 36,
+      "duration_weeks": 6,
+      "maturity": "ERP 有批次鍵；12 張影像缺檔，設備 B 樣本不足",
+      "readiness": "補影像與產線介接證據",
+      "benefit_hypothesis": "平均人工成本 24 元降至 12 元；不得增加缺陷漏放",
+      "risk_control": "AI 建議後仍由品保放行",
+      "owner": "品保主管"
+    },
+    {
+      "id": "P3",
+      "name": "智慧倉儲自主調度",
+      "budget_twd": 450000,
+      "person_days": 60,
+      "duration_weeks": 10,
+      "maturity": "部分紙本；缺行動回饋與安全試驗環境",
+      "readiness": "先補數位紀錄與安全環境",
+      "benefit_hypothesis": "搬運等待下降，尚無可核對基準",
+      "risk_control": "未有安全探索及回復機制",
+      "owner": "倉儲主管"
+    }
+  ],
+  "infrastructure": {
+    "training": "共用 CPU 8 核、記憶體 16 GB；影像訓練容量尚待量測",
+    "serving_peak_requests_per_second": 8,
+    "measured_cpu_requests_per_second": 5,
+    "network_megabits_per_second": 20,
+    "image_size_megabytes": 2,
+    "image_request_rate_per_second": 2,
+    "reserved_storage_gb": 10,
+    "maximum_total_latency_ms": 300,
+    "measured_network_ms": 60,
+    "measured_preprocess_ms": 50,
+    "measured_inference_ms": 180,
+    "measured_writeback_ms": 40,
+    "source_update_minutes": 5,
+    "maximum_feature_age_minutes": 10
+  },
+  "skills": [
+    {
+      "skill": "流程與成效驗收",
+      "current": "客服主管、品保主管可獨立完成",
+      "target": "各有主責並簽核",
+      "action": "零售案由客服主管、製造案由品保主管擔任窗口；數位轉型小組統籌兩案",
+      "backup": "副主管"
+    },
+    {
+      "skill": "資料工程與更新",
+      "current": "IT 一人需指導才可執行",
+      "target": "一名可獨立排錯，另有一名備援",
+      "action": "招募一名資料工程師並安排 IT 配對實作",
+      "backup": "尚未驗收"
+    },
+    {
+      "skill": "模型驗證",
+      "current": "分析師一人可做離線分析",
+      "target": "能依通路與設備覆核錯誤",
+      "action": "內訓並與領域人員共審",
+      "backup": "第二名分析師待培訓"
+    },
+    {
+      "skill": "部署與復原",
+      "current": "外部顧問能部署，內部無人可復原",
+      "target": "內部主責與備援均能依手冊演練",
+      "action": "合作契約納入知識移轉與復原驗收",
+      "backup": "IT 備援待演練"
+    }
+  ]
+}

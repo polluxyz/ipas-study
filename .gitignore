@@ -1,0 +1,12 @@
+# 暫存與本機工具（不進版控）
+tmp/
+
+# Node
+node_modules/
+dist/
+.astro/
+test-results/
+
+# 本機個人設定
+.claude/settings.local.json
+.venv/

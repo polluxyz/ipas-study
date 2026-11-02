@@ -1,0 +1,763 @@
+{
+  "source": "教學合成資料；無真實個資、密文或正式憑證",
+  "dataset_version": "teaching-v0",
+  "seed": 23401,
+  "learning_rate": 0.4,
+  "initial_weight": 0,
+  "domains": [
+    {
+      "domain": "hospital",
+      "purpose": "跨院疾病風險建模",
+      "records": [
+        {
+          "record_id": "H01",
+          "site": "A",
+          "local_index": 0,
+          "x": 1,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "H02",
+          "site": "A",
+          "local_index": 1,
+          "x": 2,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "H03",
+          "site": "A",
+          "local_index": 2,
+          "x": 1,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "H04",
+          "site": "A",
+          "local_index": 3,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H05",
+          "site": "A",
+          "local_index": 4,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H06",
+          "site": "A",
+          "local_index": 5,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H07",
+          "site": "A",
+          "local_index": 6,
+          "x": 1,
+          "y": 0,
+          "split": "validation"
+        },
+        {
+          "record_id": "H08",
+          "site": "A",
+          "local_index": 7,
+          "x": 2,
+          "y": 1,
+          "split": "validation"
+        },
+        {
+          "record_id": "H09",
+          "site": "B",
+          "local_index": 0,
+          "x": 1,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "H10",
+          "site": "B",
+          "local_index": 1,
+          "x": 2,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "H11",
+          "site": "B",
+          "local_index": 2,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H12",
+          "site": "B",
+          "local_index": 3,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H13",
+          "site": "B",
+          "local_index": 4,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H14",
+          "site": "B",
+          "local_index": 5,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H15",
+          "site": "B",
+          "local_index": 6,
+          "x": 1,
+          "y": 0,
+          "split": "validation"
+        },
+        {
+          "record_id": "H16",
+          "site": "B",
+          "local_index": 7,
+          "x": 2,
+          "y": 1,
+          "split": "validation"
+        },
+        {
+          "record_id": "H17",
+          "site": "C",
+          "local_index": 0,
+          "x": 1,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "H18",
+          "site": "C",
+          "local_index": 1,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H19",
+          "site": "C",
+          "local_index": 2,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H20",
+          "site": "C",
+          "local_index": 3,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H21",
+          "site": "C",
+          "local_index": 4,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H22",
+          "site": "C",
+          "local_index": 5,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "H23",
+          "site": "C",
+          "local_index": 6,
+          "x": 1,
+          "y": 0,
+          "split": "validation"
+        },
+        {
+          "record_id": "H24",
+          "site": "C",
+          "local_index": 7,
+          "x": 2,
+          "y": 1,
+          "split": "validation"
+        }
+      ]
+    },
+    {
+      "domain": "bank",
+      "purpose": "跨銀行風控",
+      "records": [
+        {
+          "record_id": "B01",
+          "site": "A",
+          "local_index": 0,
+          "x": 1,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "B02",
+          "site": "A",
+          "local_index": 1,
+          "x": 2,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "B03",
+          "site": "A",
+          "local_index": 2,
+          "x": 1,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "B04",
+          "site": "A",
+          "local_index": 3,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B05",
+          "site": "A",
+          "local_index": 4,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B06",
+          "site": "A",
+          "local_index": 5,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B07",
+          "site": "A",
+          "local_index": 6,
+          "x": 1,
+          "y": 0,
+          "split": "validation"
+        },
+        {
+          "record_id": "B08",
+          "site": "A",
+          "local_index": 7,
+          "x": 2,
+          "y": 1,
+          "split": "validation"
+        },
+        {
+          "record_id": "B09",
+          "site": "B",
+          "local_index": 0,
+          "x": 1,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "B10",
+          "site": "B",
+          "local_index": 1,
+          "x": 2,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "B11",
+          "site": "B",
+          "local_index": 2,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B12",
+          "site": "B",
+          "local_index": 3,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B13",
+          "site": "B",
+          "local_index": 4,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B14",
+          "site": "B",
+          "local_index": 5,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B15",
+          "site": "B",
+          "local_index": 6,
+          "x": 1,
+          "y": 0,
+          "split": "validation"
+        },
+        {
+          "record_id": "B16",
+          "site": "B",
+          "local_index": 7,
+          "x": 2,
+          "y": 1,
+          "split": "validation"
+        },
+        {
+          "record_id": "B17",
+          "site": "C",
+          "local_index": 0,
+          "x": 1,
+          "y": 0,
+          "split": "train"
+        },
+        {
+          "record_id": "B18",
+          "site": "C",
+          "local_index": 1,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B19",
+          "site": "C",
+          "local_index": 2,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B20",
+          "site": "C",
+          "local_index": 3,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B21",
+          "site": "C",
+          "local_index": 4,
+          "x": 1,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B22",
+          "site": "C",
+          "local_index": 5,
+          "x": 2,
+          "y": 1,
+          "split": "train"
+        },
+        {
+          "record_id": "B23",
+          "site": "C",
+          "local_index": 6,
+          "x": 1,
+          "y": 0,
+          "split": "validation"
+        },
+        {
+          "record_id": "B24",
+          "site": "C",
+          "local_index": 7,
+          "x": 2,
+          "y": 1,
+          "split": "validation"
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "domain": "hospital",
+      "sender": "coordinator",
+      "receiver": "A",
+      "payload": "global-model-v0",
+      "key_owner": "A+coordinator:channel",
+      "nonce": "hospital-A-model-1",
+      "round": 1
+    },
+    {
+      "domain": "hospital",
+      "sender": "A",
+      "receiver": "coordinator",
+      "payload": "local-update-A-v0",
+      "key_owner": "A+coordinator:channel",
+      "nonce": "hospital-A-update-1",
+      "round": 1
+    },
+    {
+      "domain": "hospital",
+      "sender": "A",
+      "receiver": "cloud",
+      "payload": "Enc(count-A)",
+      "key_owner": "research-owner:HE-private-key",
+      "nonce": "hospital-A-he-1",
+      "round": 1
+    },
+    {
+      "domain": "hospital",
+      "sender": "coordinator",
+      "receiver": "B",
+      "payload": "global-model-v0",
+      "key_owner": "B+coordinator:channel",
+      "nonce": "hospital-B-model-1",
+      "round": 1
+    },
+    {
+      "domain": "hospital",
+      "sender": "B",
+      "receiver": "coordinator",
+      "payload": "local-update-B-v0",
+      "key_owner": "B+coordinator:channel",
+      "nonce": "hospital-B-update-1",
+      "round": 1
+    },
+    {
+      "domain": "hospital",
+      "sender": "B",
+      "receiver": "cloud",
+      "payload": "Enc(count-B)",
+      "key_owner": "research-owner:HE-private-key",
+      "nonce": "hospital-B-he-1",
+      "round": 1
+    },
+    {
+      "domain": "hospital",
+      "sender": "coordinator",
+      "receiver": "C",
+      "payload": "global-model-v0",
+      "key_owner": "C+coordinator:channel",
+      "nonce": "hospital-C-model-1",
+      "round": 1
+    },
+    {
+      "domain": "hospital",
+      "sender": "C",
+      "receiver": "coordinator",
+      "payload": "local-update-C-v0",
+      "key_owner": "C+coordinator:channel",
+      "nonce": "hospital-C-update-1",
+      "round": 1
+    },
+    {
+      "domain": "hospital",
+      "sender": "C",
+      "receiver": "cloud",
+      "payload": "Enc(count-C)",
+      "key_owner": "research-owner:HE-private-key",
+      "nonce": "hospital-C-he-1",
+      "round": 1
+    },
+    {
+      "domain": "bank",
+      "sender": "coordinator",
+      "receiver": "A",
+      "payload": "global-model-v0",
+      "key_owner": "A+coordinator:channel",
+      "nonce": "bank-A-model-1",
+      "round": 1
+    },
+    {
+      "domain": "bank",
+      "sender": "A",
+      "receiver": "coordinator",
+      "payload": "local-update-A-v0",
+      "key_owner": "A+coordinator:channel",
+      "nonce": "bank-A-update-1",
+      "round": 1
+    },
+    {
+      "domain": "bank",
+      "sender": "A",
+      "receiver": "cloud",
+      "payload": "Enc(count-A)",
+      "key_owner": "research-owner:HE-private-key",
+      "nonce": "bank-A-he-1",
+      "round": 1
+    },
+    {
+      "domain": "bank",
+      "sender": "coordinator",
+      "receiver": "B",
+      "payload": "global-model-v0",
+      "key_owner": "B+coordinator:channel",
+      "nonce": "bank-B-model-1",
+      "round": 1
+    },
+    {
+      "domain": "bank",
+      "sender": "B",
+      "receiver": "coordinator",
+      "payload": "local-update-B-v0",
+      "key_owner": "B+coordinator:channel",
+      "nonce": "bank-B-update-1",
+      "round": 1
+    },
+    {
+      "domain": "bank",
+      "sender": "B",
+      "receiver": "cloud",
+      "payload": "Enc(count-B)",
+      "key_owner": "research-owner:HE-private-key",
+      "nonce": "bank-B-he-1",
+      "round": 1
+    },
+    {
+      "domain": "bank",
+      "sender": "coordinator",
+      "receiver": "C",
+      "payload": "global-model-v0",
+      "key_owner": "C+coordinator:channel",
+      "nonce": "bank-C-model-1",
+      "round": 1
+    },
+    {
+      "domain": "bank",
+      "sender": "C",
+      "receiver": "coordinator",
+      "payload": "local-update-C-v0",
+      "key_owner": "C+coordinator:channel",
+      "nonce": "bank-C-update-1",
+      "round": 1
+    },
+    {
+      "domain": "bank",
+      "sender": "C",
+      "receiver": "cloud",
+      "payload": "Enc(count-C)",
+      "key_owner": "research-owner:HE-private-key",
+      "nonce": "bank-C-he-1",
+      "round": 1
+    }
+  ],
+  "signature_evidence": [
+    {
+      "domain": "hospital",
+      "sender": "A",
+      "receiver": "coordinator",
+      "round": 1,
+      "nonce": "hospital-A-update-1",
+      "input_version": "teaching-v0",
+      "output_ref": "local-update-A-v0",
+      "update_artifact": {
+        "base_model": "v0",
+        "site": "A",
+        "training_count": 6,
+        "weight_fraction": "1/30"
+      },
+      "signed_manifest": {
+        "domain": "hospital",
+        "sender": "A",
+        "receiver": "coordinator",
+        "payload": "local-update-A-v0",
+        "key_owner": "A+coordinator:channel",
+        "nonce": "hospital-A-update-1",
+        "round": 1,
+        "input_version": "teaching-v0",
+        "model_version": "v0",
+        "output_sha256": "75652c6cc738e0e7ab97ce74778928f8eaf4c5915e4b1308696f9b45c95e78ca"
+      },
+      "signed_manifest_sha256": "b422ecea6a8b8b0af07fe43fea1c96abf994bb2867fa02e54e270416d68bc0f8",
+      "signer_key_id": "hospital-A-sign-1",
+      "signature_ref": "sig-hospital-A-1",
+      "signature_status": "illustrative_not_generated",
+      "verification_status": "not_executed"
+    },
+    {
+      "domain": "hospital",
+      "sender": "B",
+      "receiver": "coordinator",
+      "round": 1,
+      "nonce": "hospital-B-update-1",
+      "input_version": "teaching-v0",
+      "output_ref": "local-update-B-v0",
+      "update_artifact": {
+        "base_model": "v0",
+        "site": "B",
+        "training_count": 6,
+        "weight_fraction": "1/10"
+      },
+      "signed_manifest": {
+        "domain": "hospital",
+        "sender": "B",
+        "receiver": "coordinator",
+        "payload": "local-update-B-v0",
+        "key_owner": "B+coordinator:channel",
+        "nonce": "hospital-B-update-1",
+        "round": 1,
+        "input_version": "teaching-v0",
+        "model_version": "v0",
+        "output_sha256": "e63b913b8cd75e5d74cce2f608c28e100a8667c48e45be4888c27ad007fb75d4"
+      },
+      "signed_manifest_sha256": "6728555a9d79d06505422af486d8be57490f1bfb71c99eac7bb6b2b1a62407eb",
+      "signer_key_id": "hospital-B-sign-1",
+      "signature_ref": "sig-hospital-B-1",
+      "signature_status": "illustrative_not_generated",
+      "verification_status": "not_executed"
+    },
+    {
+      "domain": "hospital",
+      "sender": "C",
+      "receiver": "coordinator",
+      "round": 1,
+      "nonce": "hospital-C-update-1",
+      "input_version": "teaching-v0",
+      "output_ref": "local-update-C-v0",
+      "update_artifact": {
+        "base_model": "v0",
+        "site": "C",
+        "training_count": 6,
+        "weight_fraction": "7/30"
+      },
+      "signed_manifest": {
+        "domain": "hospital",
+        "sender": "C",
+        "receiver": "coordinator",
+        "payload": "local-update-C-v0",
+        "key_owner": "C+coordinator:channel",
+        "nonce": "hospital-C-update-1",
+        "round": 1,
+        "input_version": "teaching-v0",
+        "model_version": "v0",
+        "output_sha256": "473d8d129f0e1468759a3956bbe4019027c23509404229e708c6cf41dedb670e"
+      },
+      "signed_manifest_sha256": "cbb1c726fec28957564d0d175f7b28d7aa7d16b56d5c8e382ca4a0b090c98668",
+      "signer_key_id": "hospital-C-sign-1",
+      "signature_ref": "sig-hospital-C-1",
+      "signature_status": "illustrative_not_generated",
+      "verification_status": "not_executed"
+    },
+    {
+      "domain": "bank",
+      "sender": "A",
+      "receiver": "coordinator",
+      "round": 1,
+      "nonce": "bank-A-update-1",
+      "input_version": "teaching-v0",
+      "output_ref": "local-update-A-v0",
+      "update_artifact": {
+        "base_model": "v0",
+        "site": "A",
+        "training_count": 6,
+        "weight_fraction": "1/30"
+      },
+      "signed_manifest": {
+        "domain": "bank",
+        "sender": "A",
+        "receiver": "coordinator",
+        "payload": "local-update-A-v0",
+        "key_owner": "A+coordinator:channel",
+        "nonce": "bank-A-update-1",
+        "round": 1,
+        "input_version": "teaching-v0",
+        "model_version": "v0",
+        "output_sha256": "75652c6cc738e0e7ab97ce74778928f8eaf4c5915e4b1308696f9b45c95e78ca"
+      },
+      "signed_manifest_sha256": "69e64955b149ee6fba48ba5ac622165484442aeda2f0be1bc3d6866fb1a6c776",
+      "signer_key_id": "bank-A-sign-1",
+      "signature_ref": "sig-bank-A-1",
+      "signature_status": "illustrative_not_generated",
+      "verification_status": "not_executed"
+    },
+    {
+      "domain": "bank",
+      "sender": "B",
+      "receiver": "coordinator",
+      "round": 1,
+      "nonce": "bank-B-update-1",
+      "input_version": "teaching-v0",
+      "output_ref": "local-update-B-v0",
+      "update_artifact": {
+        "base_model": "v0",
+        "site": "B",
+        "training_count": 6,
+        "weight_fraction": "1/10"
+      },
+      "signed_manifest": {
+        "domain": "bank",
+        "sender": "B",
+        "receiver": "coordinator",
+        "payload": "local-update-B-v0",
+        "key_owner": "B+coordinator:channel",
+        "nonce": "bank-B-update-1",
+        "round": 1,
+        "input_version": "teaching-v0",
+        "model_version": "v0",
+        "output_sha256": "e63b913b8cd75e5d74cce2f608c28e100a8667c48e45be4888c27ad007fb75d4"
+      },
+      "signed_manifest_sha256": "c3317212bf33d96f05872a64c33a59290a468a1da738701c2c8e3eecae14caed",
+      "signer_key_id": "bank-B-sign-1",
+      "signature_ref": "sig-bank-B-1",
+      "signature_status": "illustrative_not_generated",
+      "verification_status": "not_executed"
+    },
+    {
+      "domain": "bank",
+      "sender": "C",
+      "receiver": "coordinator",
+      "round": 1,
+      "nonce": "bank-C-update-1",
+      "input_version": "teaching-v0",
+      "output_ref": "local-update-C-v0",
+      "update_artifact": {
+        "base_model": "v0",
+        "site": "C",
+        "training_count": 6,
+        "weight_fraction": "7/30"
+      },
+      "signed_manifest": {
+        "domain": "bank",
+        "sender": "C",
+        "receiver": "coordinator",
+        "payload": "local-update-C-v0",
+        "key_owner": "C+coordinator:channel",
+        "nonce": "bank-C-update-1",
+        "round": 1,
+        "input_version": "teaching-v0",
+        "model_version": "v0",
+        "output_sha256": "473d8d129f0e1468759a3956bbe4019027c23509404229e708c6cf41dedb670e"
+      },
+      "signed_manifest_sha256": "38ed352553aa403583d4ac37f8f04799d7d82d29cb9ebb2586940c409dcc4d1e",
+      "signer_key_id": "bank-C-sign-1",
+      "signature_ref": "sig-bank-C-1",
+      "signature_status": "illustrative_not_generated",
+      "verification_status": "not_executed"
+    }
+  ]
+}

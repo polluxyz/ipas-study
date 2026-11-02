@@ -1,0 +1,563 @@
+{
+  "source": "教學合成資料；能源與客服共用期別，並不代表彼此存在因果關係",
+  "seed": 231013,
+  "records": [
+    {
+      "period_id": "P01",
+      "split": "train",
+      "temperature_c": 14.5,
+      "energy_kwh": 76.0,
+      "meter_wh": 76000.0,
+      "hvac_kwh": 90.5,
+      "wait_min": 1
+    },
+    {
+      "period_id": "P02",
+      "split": "train",
+      "temperature_c": 15.5,
+      "energy_kwh": 80.0,
+      "meter_wh": 80000.0,
+      "hvac_kwh": 70.5,
+      "wait_min": 2
+    },
+    {
+      "period_id": "P03",
+      "split": "train",
+      "temperature_c": 16.5,
+      "energy_kwh": 84.0,
+      "meter_wh": 84000.0,
+      "hvac_kwh": 54.5,
+      "wait_min": 2
+    },
+    {
+      "period_id": "P04",
+      "split": "train",
+      "temperature_c": 17.5,
+      "energy_kwh": 88.0,
+      "meter_wh": 88000.0,
+      "hvac_kwh": 42.5,
+      "wait_min": 3
+    },
+    {
+      "period_id": "P05",
+      "split": "train",
+      "temperature_c": 18.5,
+      "energy_kwh": 92.0,
+      "meter_wh": 92000.0,
+      "hvac_kwh": 34.5,
+      "wait_min": 3
+    },
+    {
+      "period_id": "P06",
+      "split": "train",
+      "temperature_c": 19.5,
+      "energy_kwh": 96.0,
+      "meter_wh": 96000.0,
+      "hvac_kwh": 30.5,
+      "wait_min": 4
+    },
+    {
+      "period_id": "P07",
+      "split": "train",
+      "temperature_c": 20.5,
+      "energy_kwh": 100.0,
+      "meter_wh": 100000.0,
+      "hvac_kwh": 30.5,
+      "wait_min": 4
+    },
+    {
+      "period_id": "P08",
+      "split": "train",
+      "temperature_c": 21.5,
+      "energy_kwh": 104.0,
+      "meter_wh": 104000.0,
+      "hvac_kwh": 34.5,
+      "wait_min": 5
+    },
+    {
+      "period_id": "P09",
+      "split": "train",
+      "temperature_c": 22.5,
+      "energy_kwh": 108.0,
+      "meter_wh": 108000.0,
+      "hvac_kwh": 42.5,
+      "wait_min": 6
+    },
+    {
+      "period_id": "P10",
+      "split": "train",
+      "temperature_c": 23.5,
+      "energy_kwh": 112.0,
+      "meter_wh": 112000.0,
+      "hvac_kwh": 54.5,
+      "wait_min": 8
+    },
+    {
+      "period_id": "P11",
+      "split": "train",
+      "temperature_c": 24.5,
+      "energy_kwh": 116.0,
+      "meter_wh": 116000.0,
+      "hvac_kwh": 70.5,
+      "wait_min": 12
+    },
+    {
+      "period_id": "P12",
+      "split": "train",
+      "temperature_c": 25.5,
+      "energy_kwh": 120.0,
+      "meter_wh": 120000.0,
+      "hvac_kwh": 90.5,
+      "wait_min": 30
+    },
+    {
+      "period_id": "P13",
+      "split": "train",
+      "temperature_c": 14.5,
+      "energy_kwh": 78.0,
+      "meter_wh": 78000.0,
+      "hvac_kwh": 90.5,
+      "wait_min": 1
+    },
+    {
+      "period_id": "P14",
+      "split": "train",
+      "temperature_c": 15.5,
+      "energy_kwh": 82.0,
+      "meter_wh": 82000.0,
+      "hvac_kwh": 70.5,
+      "wait_min": 2
+    },
+    {
+      "period_id": "P15",
+      "split": "train",
+      "temperature_c": 16.5,
+      "energy_kwh": 86.0,
+      "meter_wh": 86000.0,
+      "hvac_kwh": 54.5,
+      "wait_min": 2
+    },
+    {
+      "period_id": "P16",
+      "split": "train",
+      "temperature_c": 17.5,
+      "energy_kwh": 90.0,
+      "meter_wh": 90000.0,
+      "hvac_kwh": 42.5,
+      "wait_min": 3
+    },
+    {
+      "period_id": "P17",
+      "split": "train",
+      "temperature_c": 18.5,
+      "energy_kwh": 94.0,
+      "meter_wh": 94000.0,
+      "hvac_kwh": 34.5,
+      "wait_min": 3
+    },
+    {
+      "period_id": "P18",
+      "split": "train",
+      "temperature_c": 19.5,
+      "energy_kwh": 98.0,
+      "meter_wh": 98000.0,
+      "hvac_kwh": 30.5,
+      "wait_min": 4
+    },
+    {
+      "period_id": "P19",
+      "split": "train",
+      "temperature_c": 20.5,
+      "energy_kwh": 102.0,
+      "meter_wh": 102000.0,
+      "hvac_kwh": 30.5,
+      "wait_min": 4
+    },
+    {
+      "period_id": "P20",
+      "split": "train",
+      "temperature_c": 21.5,
+      "energy_kwh": 106.0,
+      "meter_wh": 106000.0,
+      "hvac_kwh": 34.5,
+      "wait_min": 5
+    },
+    {
+      "period_id": "P21",
+      "split": "train",
+      "temperature_c": 22.5,
+      "energy_kwh": 110.0,
+      "meter_wh": 110000.0,
+      "hvac_kwh": 42.5,
+      "wait_min": 6
+    },
+    {
+      "period_id": "P22",
+      "split": "train",
+      "temperature_c": 23.5,
+      "energy_kwh": 114.0,
+      "meter_wh": 114000.0,
+      "hvac_kwh": 54.5,
+      "wait_min": 8
+    },
+    {
+      "period_id": "P23",
+      "split": "train",
+      "temperature_c": 24.5,
+      "energy_kwh": 118.0,
+      "meter_wh": 118000.0,
+      "hvac_kwh": 70.5,
+      "wait_min": 12
+    },
+    {
+      "period_id": "P24",
+      "split": "train",
+      "temperature_c": 25.5,
+      "energy_kwh": 122.0,
+      "meter_wh": 122000.0,
+      "hvac_kwh": 90.5,
+      "wait_min": 30
+    },
+    {
+      "period_id": "P25",
+      "split": "train",
+      "temperature_c": 14.5,
+      "energy_kwh": 80.0,
+      "meter_wh": 80000.0,
+      "hvac_kwh": 90.5,
+      "wait_min": 1
+    },
+    {
+      "period_id": "P26",
+      "split": "train",
+      "temperature_c": 15.5,
+      "energy_kwh": 84.0,
+      "meter_wh": 84000.0,
+      "hvac_kwh": 70.5,
+      "wait_min": 2
+    },
+    {
+      "period_id": "P27",
+      "split": "train",
+      "temperature_c": 16.5,
+      "energy_kwh": 88.0,
+      "meter_wh": 88000.0,
+      "hvac_kwh": 54.5,
+      "wait_min": 2
+    },
+    {
+      "period_id": "P28",
+      "split": "train",
+      "temperature_c": 17.5,
+      "energy_kwh": 92.0,
+      "meter_wh": 92000.0,
+      "hvac_kwh": 42.5,
+      "wait_min": 3
+    },
+    {
+      "period_id": "P29",
+      "split": "train",
+      "temperature_c": 18.5,
+      "energy_kwh": 96.0,
+      "meter_wh": 96000.0,
+      "hvac_kwh": 34.5,
+      "wait_min": 3
+    },
+    {
+      "period_id": "P30",
+      "split": "train",
+      "temperature_c": 19.5,
+      "energy_kwh": 100.0,
+      "meter_wh": 100000.0,
+      "hvac_kwh": 30.5,
+      "wait_min": 4
+    },
+    {
+      "period_id": "P31",
+      "split": "train",
+      "temperature_c": 20.5,
+      "energy_kwh": 104.0,
+      "meter_wh": 104000.0,
+      "hvac_kwh": 30.5,
+      "wait_min": 4
+    },
+    {
+      "period_id": "P32",
+      "split": "train",
+      "temperature_c": 21.5,
+      "energy_kwh": 108.0,
+      "meter_wh": 108000.0,
+      "hvac_kwh": 34.5,
+      "wait_min": 5
+    },
+    {
+      "period_id": "P33",
+      "split": "train",
+      "temperature_c": 22.5,
+      "energy_kwh": 112.0,
+      "meter_wh": 112000.0,
+      "hvac_kwh": 42.5,
+      "wait_min": 6
+    },
+    {
+      "period_id": "P34",
+      "split": "train",
+      "temperature_c": 23.5,
+      "energy_kwh": 116.0,
+      "meter_wh": 116000.0,
+      "hvac_kwh": 54.5,
+      "wait_min": 8
+    },
+    {
+      "period_id": "P35",
+      "split": "train",
+      "temperature_c": 24.5,
+      "energy_kwh": 120.0,
+      "meter_wh": 120000.0,
+      "hvac_kwh": 70.5,
+      "wait_min": 12
+    },
+    {
+      "period_id": "P36",
+      "split": "train",
+      "temperature_c": 25.5,
+      "energy_kwh": 124.0,
+      "meter_wh": 124000.0,
+      "hvac_kwh": 90.5,
+      "wait_min": 30
+    },
+    {
+      "period_id": "P37",
+      "split": "holdout",
+      "temperature_c": 14.5,
+      "energy_kwh": 78.0,
+      "meter_wh": 78000.0,
+      "hvac_kwh": 90.5,
+      "wait_min": 1
+    },
+    {
+      "period_id": "P38",
+      "split": "holdout",
+      "temperature_c": 15.5,
+      "energy_kwh": 82.0,
+      "meter_wh": 82000.0,
+      "hvac_kwh": 70.5,
+      "wait_min": 2
+    },
+    {
+      "period_id": "P39",
+      "split": "holdout",
+      "temperature_c": 16.5,
+      "energy_kwh": 86.0,
+      "meter_wh": 86000.0,
+      "hvac_kwh": 54.5,
+      "wait_min": 2
+    },
+    {
+      "period_id": "P40",
+      "split": "holdout",
+      "temperature_c": 17.5,
+      "energy_kwh": 90.0,
+      "meter_wh": 90000.0,
+      "hvac_kwh": 42.5,
+      "wait_min": 3
+    },
+    {
+      "period_id": "P41",
+      "split": "holdout",
+      "temperature_c": 18.5,
+      "energy_kwh": 94.0,
+      "meter_wh": 94000.0,
+      "hvac_kwh": 34.5,
+      "wait_min": 3
+    },
+    {
+      "period_id": "P42",
+      "split": "holdout",
+      "temperature_c": 19.5,
+      "energy_kwh": 98.0,
+      "meter_wh": 98000.0,
+      "hvac_kwh": 30.5,
+      "wait_min": 4
+    },
+    {
+      "period_id": "P43",
+      "split": "holdout",
+      "temperature_c": 20.5,
+      "energy_kwh": 102.0,
+      "meter_wh": 102000.0,
+      "hvac_kwh": 30.5,
+      "wait_min": 4
+    },
+    {
+      "period_id": "P44",
+      "split": "holdout",
+      "temperature_c": 21.5,
+      "energy_kwh": 106.0,
+      "meter_wh": 106000.0,
+      "hvac_kwh": 34.5,
+      "wait_min": 5
+    },
+    {
+      "period_id": "P45",
+      "split": "holdout",
+      "temperature_c": 22.5,
+      "energy_kwh": 110.0,
+      "meter_wh": 110000.0,
+      "hvac_kwh": 42.5,
+      "wait_min": 6
+    },
+    {
+      "period_id": "P46",
+      "split": "holdout",
+      "temperature_c": 23.5,
+      "energy_kwh": 114.0,
+      "meter_wh": 114000.0,
+      "hvac_kwh": 54.5,
+      "wait_min": 8
+    },
+    {
+      "period_id": "P47",
+      "split": "holdout",
+      "temperature_c": 24.5,
+      "energy_kwh": 118.0,
+      "meter_wh": 118000.0,
+      "hvac_kwh": 70.5,
+      "wait_min": 12
+    },
+    {
+      "period_id": "P48",
+      "split": "holdout",
+      "temperature_c": 25.5,
+      "energy_kwh": 210,
+      "meter_wh": 210000,
+      "hvac_kwh": 90.5,
+      "wait_min": 90
+    }
+  ],
+  "hand_examples": {
+    "center_before": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "center_after": [
+      1,
+      2,
+      3,
+      4,
+      100
+    ],
+    "same_mean_narrow": [
+      2,
+      3,
+      4
+    ],
+    "same_mean_wide": [
+      1,
+      3,
+      5
+    ],
+    "variance": [
+      1,
+      2,
+      3
+    ],
+    "expected_values": [
+      1,
+      3,
+      8
+    ],
+    "expected_probabilities": [
+      0.5,
+      0.3,
+      0.2
+    ],
+    "shape_values": [
+      -1,
+      0,
+      1
+    ],
+    "shape_probabilities": [
+      0.25,
+      0.5,
+      0.25
+    ],
+    "pearson_x": [
+      1,
+      2,
+      3
+    ],
+    "pearson_y": [
+      2,
+      4,
+      5
+    ],
+    "transform_counterexample": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16,
+      16
+    ]
+  },
+  "simulation": {
+    "draws": 10000,
+    "checkpoints": [
+      10,
+      100,
+      1000,
+      10000
+    ],
+    "energy_threshold_kwh": 120,
+    "wait_threshold_min": 10,
+    "die_seed": 231013,
+    "resampling_seed": 231013,
+    "note": "每次從48列等機率、有放回抽一期；保留能源與客服同列配對"
+  }
+}

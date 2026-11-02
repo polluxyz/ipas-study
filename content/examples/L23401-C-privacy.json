@@ -1,0 +1,337 @@
+{
+  "source": "教學合成資料，沒有真實個資",
+  "seed": 42,
+  "quasi_identifiers": [
+    "age_band",
+    "district_group"
+  ],
+  "record_unit": "一人一列；index 僅供教材追蹤，不是釋出欄位",
+  "split": "完整釋出表，不作訓練測試切分，不抽樣",
+  "variants": {
+    "homogeneous": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2
+    ],
+    "skewed": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      2,
+      2
+    ],
+    "balanced": [
+      0,
+      0,
+      1,
+      2,
+      0,
+      0,
+      1,
+      2,
+      0,
+      0,
+      1,
+      2
+    ]
+  },
+  "domains": [
+    {
+      "id": "medical",
+      "prefix": "M",
+      "sensitive_field": "disease",
+      "labels": [
+        "氣喘",
+        "糖尿病",
+        "偏頭痛"
+      ],
+      "records": [
+        {
+          "index": "M01",
+          "age_band": "30–39",
+          "district_group": "北區",
+          "sensitive": {
+            "homogeneous": "氣喘",
+            "skewed": "氣喘",
+            "balanced": "氣喘"
+          }
+        },
+        {
+          "index": "M02",
+          "age_band": "30–39",
+          "district_group": "北區",
+          "sensitive": {
+            "homogeneous": "氣喘",
+            "skewed": "氣喘",
+            "balanced": "氣喘"
+          }
+        },
+        {
+          "index": "M03",
+          "age_band": "30–39",
+          "district_group": "北區",
+          "sensitive": {
+            "homogeneous": "氣喘",
+            "skewed": "氣喘",
+            "balanced": "糖尿病"
+          }
+        },
+        {
+          "index": "M04",
+          "age_band": "30–39",
+          "district_group": "北區",
+          "sensitive": {
+            "homogeneous": "氣喘",
+            "skewed": "糖尿病",
+            "balanced": "偏頭痛"
+          }
+        },
+        {
+          "index": "M05",
+          "age_band": "40–49",
+          "district_group": "中區",
+          "sensitive": {
+            "homogeneous": "糖尿病",
+            "skewed": "氣喘",
+            "balanced": "氣喘"
+          }
+        },
+        {
+          "index": "M06",
+          "age_band": "40–49",
+          "district_group": "中區",
+          "sensitive": {
+            "homogeneous": "糖尿病",
+            "skewed": "氣喘",
+            "balanced": "氣喘"
+          }
+        },
+        {
+          "index": "M07",
+          "age_band": "40–49",
+          "district_group": "中區",
+          "sensitive": {
+            "homogeneous": "糖尿病",
+            "skewed": "氣喘",
+            "balanced": "糖尿病"
+          }
+        },
+        {
+          "index": "M08",
+          "age_band": "40–49",
+          "district_group": "中區",
+          "sensitive": {
+            "homogeneous": "糖尿病",
+            "skewed": "糖尿病",
+            "balanced": "偏頭痛"
+          }
+        },
+        {
+          "index": "M09",
+          "age_band": "50–59",
+          "district_group": "南區",
+          "sensitive": {
+            "homogeneous": "偏頭痛",
+            "skewed": "糖尿病",
+            "balanced": "氣喘"
+          }
+        },
+        {
+          "index": "M10",
+          "age_band": "50–59",
+          "district_group": "南區",
+          "sensitive": {
+            "homogeneous": "偏頭痛",
+            "skewed": "糖尿病",
+            "balanced": "氣喘"
+          }
+        },
+        {
+          "index": "M11",
+          "age_band": "50–59",
+          "district_group": "南區",
+          "sensitive": {
+            "homogeneous": "偏頭痛",
+            "skewed": "偏頭痛",
+            "balanced": "糖尿病"
+          }
+        },
+        {
+          "index": "M12",
+          "age_band": "50–59",
+          "district_group": "南區",
+          "sensitive": {
+            "homogeneous": "偏頭痛",
+            "skewed": "偏頭痛",
+            "balanced": "偏頭痛"
+          }
+        }
+      ]
+    },
+    {
+      "id": "finance",
+      "prefix": "F",
+      "sensitive_field": "credit_status",
+      "labels": [
+        "正常繳款",
+        "延遲繳款",
+        "債務協商"
+      ],
+      "records": [
+        {
+          "index": "F01",
+          "age_band": "30–39",
+          "district_group": "北區",
+          "sensitive": {
+            "homogeneous": "正常繳款",
+            "skewed": "正常繳款",
+            "balanced": "正常繳款"
+          }
+        },
+        {
+          "index": "F02",
+          "age_band": "30–39",
+          "district_group": "北區",
+          "sensitive": {
+            "homogeneous": "正常繳款",
+            "skewed": "正常繳款",
+            "balanced": "正常繳款"
+          }
+        },
+        {
+          "index": "F03",
+          "age_band": "30–39",
+          "district_group": "北區",
+          "sensitive": {
+            "homogeneous": "正常繳款",
+            "skewed": "正常繳款",
+            "balanced": "延遲繳款"
+          }
+        },
+        {
+          "index": "F04",
+          "age_band": "30–39",
+          "district_group": "北區",
+          "sensitive": {
+            "homogeneous": "正常繳款",
+            "skewed": "延遲繳款",
+            "balanced": "債務協商"
+          }
+        },
+        {
+          "index": "F05",
+          "age_band": "40–49",
+          "district_group": "中區",
+          "sensitive": {
+            "homogeneous": "延遲繳款",
+            "skewed": "正常繳款",
+            "balanced": "正常繳款"
+          }
+        },
+        {
+          "index": "F06",
+          "age_band": "40–49",
+          "district_group": "中區",
+          "sensitive": {
+            "homogeneous": "延遲繳款",
+            "skewed": "正常繳款",
+            "balanced": "正常繳款"
+          }
+        },
+        {
+          "index": "F07",
+          "age_band": "40–49",
+          "district_group": "中區",
+          "sensitive": {
+            "homogeneous": "延遲繳款",
+            "skewed": "正常繳款",
+            "balanced": "延遲繳款"
+          }
+        },
+        {
+          "index": "F08",
+          "age_band": "40–49",
+          "district_group": "中區",
+          "sensitive": {
+            "homogeneous": "延遲繳款",
+            "skewed": "延遲繳款",
+            "balanced": "債務協商"
+          }
+        },
+        {
+          "index": "F09",
+          "age_band": "50–59",
+          "district_group": "南區",
+          "sensitive": {
+            "homogeneous": "債務協商",
+            "skewed": "延遲繳款",
+            "balanced": "正常繳款"
+          }
+        },
+        {
+          "index": "F10",
+          "age_band": "50–59",
+          "district_group": "南區",
+          "sensitive": {
+            "homogeneous": "債務協商",
+            "skewed": "延遲繳款",
+            "balanced": "正常繳款"
+          }
+        },
+        {
+          "index": "F11",
+          "age_band": "50–59",
+          "district_group": "南區",
+          "sensitive": {
+            "homogeneous": "債務協商",
+            "skewed": "債務協商",
+            "balanced": "延遲繳款"
+          }
+        },
+        {
+          "index": "F12",
+          "age_band": "50–59",
+          "district_group": "南區",
+          "sensitive": {
+            "homogeneous": "債務協商",
+            "skewed": "債務協商",
+            "balanced": "債務協商"
+          }
+        }
+      ]
+    }
+  ],
+  "distance": {
+    "name": "等距類別 EMD（等於總變差距離）",
+    "off_diagonal_cost": 1,
+    "threshold": 0.3
+  },
+  "dp": {
+    "variant": "skewed",
+    "target_label_index": 0,
+    "adjacency": "新增或刪除一人的一列",
+    "removed_indices": [
+      "M01",
+      "F01"
+    ],
+    "epsilon": 0.5,
+    "second_epsilon": 0.3,
+    "laplace_seed": 42
+  }
+}

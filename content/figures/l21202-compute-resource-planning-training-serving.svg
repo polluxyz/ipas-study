@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="586" viewBox="0 0 360 586" role="img" aria-labelledby="title desc">
+<title id="title">訓練與推論資源分開規劃</title><desc id="desc">離線訓練由資料版本經 GPU 或 CPU 訓練後交付通過審查的模型。線上推論從相機或網店經資料前處理、API 到推論節點與人員操作，與訓練區分開。製造資料留在廠內，零售資料須先經用途與存取審查。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#334155"/></marker></defs>
+<rect width="360" height="586" rx="12" fill="#f8fafc"/>
+<g font-family="sans-serif" fill="#0f172a" text-anchor="middle"><text x="180" y="28" font-size="18" font-weight="700">分開資源，保留模型交接點</text>
+<rect x="14" y="44" width="332" height="218" rx="8" fill="#e0f2fe" stroke="#0369a1"/>
+<text x="180" y="69" font-size="16" font-weight="700">離線訓練區：看耗時與記憶體</text>
+<g fill="#fff" stroke="#64748b"><rect x="35" y="82" width="290" height="38" rx="6"/><rect x="35" y="141" width="290" height="38" rx="6"/><rect x="35" y="200" width="290" height="42" rx="6"/></g>
+<g font-size="15"><text x="180" y="107">資料版本 → 固定訓練／驗證切分</text><text x="180" y="166">製造用地端 GPU；零售可用 CPU</text><text x="180" y="225">通過品質審查的模型版本</text></g>
+<text x="180" y="291" font-size="14">交接模型；訓練與線上資源分開</text>
+<rect x="14" y="310" width="332" height="228" rx="8" fill="#f0fdf4" stroke="#15803d"/>
+<text x="180" y="335" font-size="16" font-weight="700">線上推論區：看流量與端到端延遲</text>
+<g fill="#fff" stroke="#64748b"><rect x="35" y="348" width="290" height="38" rx="6"/><rect x="35" y="407" width="290" height="38" rx="6"/><rect x="35" y="466" width="290" height="48" rx="6"/></g>
+<g font-size="15"><text x="180" y="373">相機／網店 → 前處理 → API</text><text x="180" y="432">推論節點：載入核准的模型版本</text><text x="180" y="487">結果 → 操作介面／推薦區</text><text x="180" y="506">失敗 → 人員覆核／熱門品備案</text></g>
+<text x="180" y="559" font-size="13">製造資料留廠內；零售先通過用途審查</text><text x="180" y="578" font-size="13">依指引重繪；分區及備案為教學補充</text></g>
+<g fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"><path d="M180 120V139"/><path d="M180 179V198"/><path d="M325 221H338V302H330V426H327" stroke-dasharray="5 4"/><path d="M180 386V405"/><path d="M180 445V464"/></g>
+</svg>

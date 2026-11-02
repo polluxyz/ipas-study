@@ -1,0 +1,59 @@
+---
+/** 開發用補充標示對比頁：獨立於正式教材，保留三版同文與可逆的閱讀篩選。 */
+import SupplementExcerpt from '../../components/dev/SupplementExcerpt.astro';
+import SupplementFilter from '../../components/SupplementFilter.astro';
+import '../../styles/supplement.css';
+const versions = [
+  { id: 'a', letter: 'A', title: '現狀', description: '只在整個補充小節的標題加「（補充）」，段落沿用一般正文。' },
+  { id: 'b', letter: 'B', title: '兩層標示', description: '補充小節保留標題註記；補充段落加色線、標籤與段尾來源。' },
+  { id: 'c', letter: 'C', title: '兩層標示（低調）', description: '以淡色線與小標籤提示，另可切換成只讀指引原有的內容。' },
+] as const;
+---
+<!doctype html>
+<html lang="zh-Hant" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23315f4b'/%3E%3Cpath d='M18 32h28M32 18v28' stroke='white' stroke-width='5'/%3E%3C/svg%3E" />
+    <title>補充內容標示比較｜AI 學習手札</title>
+    <meta name="description" content="同一段 K-fold 教材的三種標示方式，對比補充段落的辨識與閱讀感受。" />
+  </head>
+  <body class="supplement-demo">
+    <a class="skip-link" href="#comparison">跳到三版比較</a>
+    <header class="demo-header">
+      <a href="/concepts/k-fold-cross-validation/" class="back-link">← 回 K-fold 教材</a>
+      <label class="theme-control">閱讀主題
+        <select data-preview-theme aria-label="閱讀主題"><option value="light">淺色</option><option value="dark">深色</option></select>
+      </label>
+    </header>
+    <main>
+      <div class="intro">
+        <p class="eyebrow">教材閱讀實驗 <span>F6</span></p>
+        <h1>補充內容，要多明顯？</h1>
+        <p class="intro-copy">同一段 K-fold 教材，三種閱讀方式。比較「看得出補充」與「讀起來順暢」之間的取捨。</p>
+        <p class="context-note">對比素材：〈怎麼選 K〉與〈換個場景〉。三版文字與順序相同；指引原有內容依科目 3 學習指引 5-26、5-27 分類。</p>
+        <p class="context-note">連續補充合成一個區塊，來源統一列在末尾；中間插入指引內容或來源不同時才分開。多個來源在區塊末尾一起列出。</p>
+      </div>
+      <div class="comparison-grid" id="comparison" data-pagefind-ignore>
+        {versions.map((version) => (
+          <article class={`version version-${version.id}`} data-version={version.id} aria-labelledby={`version-${version.id}`}>
+            <header class="version-header">
+              <div class="version-title"><span class="version-letter">{version.letter}</span><h2 id={`version-${version.id}`}>{version.title}</h2></div>
+              <p>{version.description}</p>
+              {version.id === 'c' ? (
+                <SupplementFilter target="excerpt-c" />
+              ) : <div class="version-mode">{version.id === 'a' ? '小節層標示' : '小節＋段落層標示'}</div>}
+            </header>
+            <div class="version-body" id={`excerpt-${version.id}`}><SupplementExcerpt version={version.id} /></div>
+          </article>
+        ))}
+      </div>
+      <footer class="comparison-footer">此頁保留三版比較；C 版與正式概念頁共用閱讀篩選邏輯。<a href="/dev/supplement-render/">查看正式 Markdown 呈現</a></footer>
+    </main>
+    <script>
+      const theme = document.querySelector<HTMLSelectElement>('[data-preview-theme]');
+      theme?.addEventListener('change', () => { document.documentElement.dataset.theme = theme.value; });
+    </script>
+  </body>
+</html>

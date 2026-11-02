@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 620" width="360" height="620" role="img" aria-labelledby="title desc">
+  <title id="title">受控且有代表性的 POC 試點</title>
+  <desc id="desc">兩個替換的教學領域都在沙盒提供建議，由人員最終確認。納入一般與複雜案件，排除新通路、臨床診斷及全面自動處理；圖不呈現模型實測。</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#40546b"/></marker></defs>
+  <rect width="360" height="620" rx="12" fill="#f5f8fc"/>
+  <g font-family="'Microsoft JhengHei','Noto Sans TC',sans-serif" fill="#142d47" text-anchor="middle">
+    <text x="180" y="31" font-size="20" font-weight="700">先畫出試點邊界</text>
+    <text x="180" y="56" font-size="14">教學情境；兩領域分開驗證</text>
+    <rect x="16" y="77" width="328" height="355" rx="12" fill="#e9f3fb" stroke="#30648a" stroke-width="2"/>
+    <text x="180" y="106" font-size="17" font-weight="700">納入：測試沙盒</text>
+    <rect x="33" y="124" width="294" height="70" rx="8" fill="#fff" stroke="#7994ac"/>
+    <text x="180" y="151" font-size="16">醫療文件核對／客服分流</text>
+    <text x="180" y="178" font-size="15">一般與複雜案件都要有</text>
+    <path d="M180 194V217" stroke="#40546b" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="33" y="223" width="294" height="62" rx="8" fill="#fff" stroke="#7994ac"/>
+    <text x="180" y="250" font-size="16">AI 提供建議</text>
+    <text x="180" y="273" font-size="14">留下版本、工時與錯誤紀錄</text>
+    <path d="M180 285V308" stroke="#40546b" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="33" y="314" width="294" height="62" rx="8" fill="#fff" stroke="#30648a" stroke-width="2"/>
+    <text x="180" y="340" font-size="16" font-weight="700">人員最終確認</text>
+    <text x="180" y="363" font-size="14">更正、拒用與例外回人工皆記錄</text>
+    <text x="180" y="406" font-size="15">前提：資料權限、IT 與參與人員到位</text>
+    <rect x="16" y="451" width="328" height="115" rx="10" fill="#fff7ed" stroke="#985d21" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="180" y="480" font-size="17" font-weight="700">排除：本輪不作結論</text>
+    <text x="180" y="508" font-size="15">新通路、臨床診斷、全面自動處理</text>
+    <text x="180" y="536" font-size="15">正式環境與大規模服務仍須另驗</text>
+    <text x="180" y="599" font-size="14">圖意：小範圍也要保留重要挑戰</text>
+  </g>
+</svg>

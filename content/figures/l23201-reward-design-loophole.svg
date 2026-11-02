@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="410" viewBox="0 0 360 410" role="img" aria-labelledby="title desc">
+  <title id="title">交付路徑與反覆抓取漏洞</title>
+  <desc id="desc">兩條路徑都從A經B開始。交付路徑抓取搬運至C後交付到D；漏洞路徑抓取到C、放回B、再抓取，持續得抓取分數卻沒有完成交付。教學示意圖。</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#334155"/></marker></defs>
+  <rect width="360" height="410" rx="12" fill="#f8fafc"/>
+  <g font-family="system-ui, sans-serif" fill="#172033" text-anchor="middle">
+    <text x="180" y="30" font-size="19" font-weight="700">同起點，兩種行為</text>
+    <text x="180" y="59" font-size="16">都由A前進到B取貨格</text>
+    <rect x="22" y="84" width="316" height="107" rx="12" fill="#dcfce7" stroke="#15803d"/>
+    <text x="180" y="111" font-size="17" font-weight="700">交付：完成任務</text>
+    <text x="62" y="151" font-size="20">B</text><text x="180" y="151" font-size="20">C</text><text x="295" y="151" font-size="20">D</text>
+    <path d="M76 145H162" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M195 145H279" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="119" y="176" font-size="15">抓取搬運</text><text x="238" y="176" font-size="15">交付</text>
+    <rect x="22" y="216" width="316" height="137" rx="12" fill="#fff7ed" stroke="#c2410c"/>
+    <text x="180" y="244" font-size="17" font-weight="700">漏洞：重複動作有分</text>
+    <text x="80" y="285" font-size="20">B</text><text x="280" y="285" font-size="20">C</text>
+    <path d="M96 274H263" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M265 292H97" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+    <text x="180" y="268" font-size="15">抓取搬運：再加分</text>
+    <text x="180" y="316" font-size="15">放回：回到可抓取狀態</text>
+    <text x="180" y="340" font-size="15">貨物尚未交付</text>
+    <text x="180" y="384" font-size="15" fill="#475569">教學示意；分數高須再核對任務達成</text>
+  </g>
+</svg>

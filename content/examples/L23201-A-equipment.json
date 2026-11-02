@@ -1,0 +1,2550 @@
+{
+  "source": "教學合成資料，非真實業務規律",
+  "seed": 42,
+  "domain": "equipment",
+  "feature_names": [
+    "溫度（°C）",
+    "振動（mm/s）"
+  ],
+  "class_meanings": [
+    "正常",
+    "需檢修"
+  ],
+  "numeric_target_unit": "剩餘運作小時",
+  "rows": [
+    {
+      "id": "equipment-000",
+      "index": 0,
+      "features": [
+        40,
+        0.0
+      ],
+      "class_label": 1,
+      "numeric_target": 240
+    },
+    {
+      "id": "equipment-001",
+      "index": 1,
+      "features": [
+        45,
+        0.0
+      ],
+      "class_label": 0,
+      "numeric_target": 236
+    },
+    {
+      "id": "equipment-002",
+      "index": 2,
+      "features": [
+        50,
+        0.0
+      ],
+      "class_label": 0,
+      "numeric_target": 232
+    },
+    {
+      "id": "equipment-003",
+      "index": 3,
+      "features": [
+        55,
+        0.0
+      ],
+      "class_label": 0,
+      "numeric_target": 228
+    },
+    {
+      "id": "equipment-004",
+      "index": 4,
+      "features": [
+        60,
+        0.0
+      ],
+      "class_label": 0,
+      "numeric_target": 224
+    },
+    {
+      "id": "equipment-005",
+      "index": 5,
+      "features": [
+        65,
+        0.0
+      ],
+      "class_label": 0,
+      "numeric_target": 220
+    },
+    {
+      "id": "equipment-006",
+      "index": 6,
+      "features": [
+        70,
+        0.0
+      ],
+      "class_label": 0,
+      "numeric_target": 216
+    },
+    {
+      "id": "equipment-007",
+      "index": 7,
+      "features": [
+        75,
+        0.0
+      ],
+      "class_label": 0,
+      "numeric_target": 212
+    },
+    {
+      "id": "equipment-008",
+      "index": 8,
+      "features": [
+        80,
+        0.0
+      ],
+      "class_label": 0,
+      "numeric_target": 208
+    },
+    {
+      "id": "equipment-009",
+      "index": 9,
+      "features": [
+        85,
+        0.0
+      ],
+      "class_label": 0,
+      "numeric_target": 204
+    },
+    {
+      "id": "equipment-010",
+      "index": 10,
+      "features": [
+        90,
+        0.0
+      ],
+      "class_label": 1,
+      "numeric_target": 200
+    },
+    {
+      "id": "equipment-011",
+      "index": 11,
+      "features": [
+        95,
+        0.0
+      ],
+      "class_label": 1,
+      "numeric_target": 196
+    },
+    {
+      "id": "equipment-012",
+      "index": 12,
+      "features": [
+        40,
+        0.2
+      ],
+      "class_label": 0,
+      "numeric_target": 234
+    },
+    {
+      "id": "equipment-013",
+      "index": 13,
+      "features": [
+        45,
+        0.2
+      ],
+      "class_label": 0,
+      "numeric_target": 230
+    },
+    {
+      "id": "equipment-014",
+      "index": 14,
+      "features": [
+        50,
+        0.2
+      ],
+      "class_label": 0,
+      "numeric_target": 226
+    },
+    {
+      "id": "equipment-015",
+      "index": 15,
+      "features": [
+        55,
+        0.2
+      ],
+      "class_label": 0,
+      "numeric_target": 222
+    },
+    {
+      "id": "equipment-016",
+      "index": 16,
+      "features": [
+        60,
+        0.2
+      ],
+      "class_label": 0,
+      "numeric_target": 218
+    },
+    {
+      "id": "equipment-017",
+      "index": 17,
+      "features": [
+        65,
+        0.2
+      ],
+      "class_label": 0,
+      "numeric_target": 214
+    },
+    {
+      "id": "equipment-018",
+      "index": 18,
+      "features": [
+        70,
+        0.2
+      ],
+      "class_label": 0,
+      "numeric_target": 210
+    },
+    {
+      "id": "equipment-019",
+      "index": 19,
+      "features": [
+        75,
+        0.2
+      ],
+      "class_label": 1,
+      "numeric_target": 206
+    },
+    {
+      "id": "equipment-020",
+      "index": 20,
+      "features": [
+        80,
+        0.2
+      ],
+      "class_label": 0,
+      "numeric_target": 202
+    },
+    {
+      "id": "equipment-021",
+      "index": 21,
+      "features": [
+        85,
+        0.2
+      ],
+      "class_label": 1,
+      "numeric_target": 198
+    },
+    {
+      "id": "equipment-022",
+      "index": 22,
+      "features": [
+        90,
+        0.2
+      ],
+      "class_label": 1,
+      "numeric_target": 194
+    },
+    {
+      "id": "equipment-023",
+      "index": 23,
+      "features": [
+        95,
+        0.2
+      ],
+      "class_label": 1,
+      "numeric_target": 190
+    },
+    {
+      "id": "equipment-024",
+      "index": 24,
+      "features": [
+        40,
+        0.4
+      ],
+      "class_label": 0,
+      "numeric_target": 228
+    },
+    {
+      "id": "equipment-025",
+      "index": 25,
+      "features": [
+        45,
+        0.4
+      ],
+      "class_label": 0,
+      "numeric_target": 224
+    },
+    {
+      "id": "equipment-026",
+      "index": 26,
+      "features": [
+        50,
+        0.4
+      ],
+      "class_label": 0,
+      "numeric_target": 220
+    },
+    {
+      "id": "equipment-027",
+      "index": 27,
+      "features": [
+        55,
+        0.4
+      ],
+      "class_label": 0,
+      "numeric_target": 216
+    },
+    {
+      "id": "equipment-028",
+      "index": 28,
+      "features": [
+        60,
+        0.4
+      ],
+      "class_label": 0,
+      "numeric_target": 212
+    },
+    {
+      "id": "equipment-029",
+      "index": 29,
+      "features": [
+        65,
+        0.4
+      ],
+      "class_label": 0,
+      "numeric_target": 208
+    },
+    {
+      "id": "equipment-030",
+      "index": 30,
+      "features": [
+        70,
+        0.4
+      ],
+      "class_label": 0,
+      "numeric_target": 204
+    },
+    {
+      "id": "equipment-031",
+      "index": 31,
+      "features": [
+        75,
+        0.4
+      ],
+      "class_label": 0,
+      "numeric_target": 200
+    },
+    {
+      "id": "equipment-032",
+      "index": 32,
+      "features": [
+        80,
+        0.4
+      ],
+      "class_label": 1,
+      "numeric_target": 196
+    },
+    {
+      "id": "equipment-033",
+      "index": 33,
+      "features": [
+        85,
+        0.4
+      ],
+      "class_label": 1,
+      "numeric_target": 192
+    },
+    {
+      "id": "equipment-034",
+      "index": 34,
+      "features": [
+        90,
+        0.4
+      ],
+      "class_label": 1,
+      "numeric_target": 188
+    },
+    {
+      "id": "equipment-035",
+      "index": 35,
+      "features": [
+        95,
+        0.4
+      ],
+      "class_label": 1,
+      "numeric_target": 184
+    },
+    {
+      "id": "equipment-036",
+      "index": 36,
+      "features": [
+        40,
+        0.6
+      ],
+      "class_label": 0,
+      "numeric_target": 222
+    },
+    {
+      "id": "equipment-037",
+      "index": 37,
+      "features": [
+        45,
+        0.6
+      ],
+      "class_label": 0,
+      "numeric_target": 218
+    },
+    {
+      "id": "equipment-038",
+      "index": 38,
+      "features": [
+        50,
+        0.6
+      ],
+      "class_label": 1,
+      "numeric_target": 214
+    },
+    {
+      "id": "equipment-039",
+      "index": 39,
+      "features": [
+        55,
+        0.6
+      ],
+      "class_label": 0,
+      "numeric_target": 210
+    },
+    {
+      "id": "equipment-040",
+      "index": 40,
+      "features": [
+        60,
+        0.6
+      ],
+      "class_label": 0,
+      "numeric_target": 206
+    },
+    {
+      "id": "equipment-041",
+      "index": 41,
+      "features": [
+        65,
+        0.6
+      ],
+      "class_label": 0,
+      "numeric_target": 202
+    },
+    {
+      "id": "equipment-042",
+      "index": 42,
+      "features": [
+        70,
+        0.6
+      ],
+      "class_label": 0,
+      "numeric_target": 198
+    },
+    {
+      "id": "equipment-043",
+      "index": 43,
+      "features": [
+        75,
+        0.6
+      ],
+      "class_label": 1,
+      "numeric_target": 194
+    },
+    {
+      "id": "equipment-044",
+      "index": 44,
+      "features": [
+        80,
+        0.6
+      ],
+      "class_label": 1,
+      "numeric_target": 190
+    },
+    {
+      "id": "equipment-045",
+      "index": 45,
+      "features": [
+        85,
+        0.6
+      ],
+      "class_label": 1,
+      "numeric_target": 186
+    },
+    {
+      "id": "equipment-046",
+      "index": 46,
+      "features": [
+        90,
+        0.6
+      ],
+      "class_label": 1,
+      "numeric_target": 182
+    },
+    {
+      "id": "equipment-047",
+      "index": 47,
+      "features": [
+        95,
+        0.6
+      ],
+      "class_label": 1,
+      "numeric_target": 178
+    },
+    {
+      "id": "equipment-048",
+      "index": 48,
+      "features": [
+        40,
+        0.8
+      ],
+      "class_label": 0,
+      "numeric_target": 216
+    },
+    {
+      "id": "equipment-049",
+      "index": 49,
+      "features": [
+        45,
+        0.8
+      ],
+      "class_label": 0,
+      "numeric_target": 212
+    },
+    {
+      "id": "equipment-050",
+      "index": 50,
+      "features": [
+        50,
+        0.8
+      ],
+      "class_label": 0,
+      "numeric_target": 208
+    },
+    {
+      "id": "equipment-051",
+      "index": 51,
+      "features": [
+        55,
+        0.8
+      ],
+      "class_label": 0,
+      "numeric_target": 204
+    },
+    {
+      "id": "equipment-052",
+      "index": 52,
+      "features": [
+        60,
+        0.8
+      ],
+      "class_label": 0,
+      "numeric_target": 200
+    },
+    {
+      "id": "equipment-053",
+      "index": 53,
+      "features": [
+        65,
+        0.8
+      ],
+      "class_label": 0,
+      "numeric_target": 196
+    },
+    {
+      "id": "equipment-054",
+      "index": 54,
+      "features": [
+        70,
+        0.8
+      ],
+      "class_label": 1,
+      "numeric_target": 192
+    },
+    {
+      "id": "equipment-055",
+      "index": 55,
+      "features": [
+        75,
+        0.8
+      ],
+      "class_label": 1,
+      "numeric_target": 188
+    },
+    {
+      "id": "equipment-056",
+      "index": 56,
+      "features": [
+        80,
+        0.8
+      ],
+      "class_label": 1,
+      "numeric_target": 184
+    },
+    {
+      "id": "equipment-057",
+      "index": 57,
+      "features": [
+        85,
+        0.8
+      ],
+      "class_label": 0,
+      "numeric_target": 180
+    },
+    {
+      "id": "equipment-058",
+      "index": 58,
+      "features": [
+        90,
+        0.8
+      ],
+      "class_label": 1,
+      "numeric_target": 176
+    },
+    {
+      "id": "equipment-059",
+      "index": 59,
+      "features": [
+        95,
+        0.8
+      ],
+      "class_label": 1,
+      "numeric_target": 172
+    },
+    {
+      "id": "equipment-060",
+      "index": 60,
+      "features": [
+        40,
+        1.0
+      ],
+      "class_label": 0,
+      "numeric_target": 210
+    },
+    {
+      "id": "equipment-061",
+      "index": 61,
+      "features": [
+        45,
+        1.0
+      ],
+      "class_label": 0,
+      "numeric_target": 206
+    },
+    {
+      "id": "equipment-062",
+      "index": 62,
+      "features": [
+        50,
+        1.0
+      ],
+      "class_label": 0,
+      "numeric_target": 202
+    },
+    {
+      "id": "equipment-063",
+      "index": 63,
+      "features": [
+        55,
+        1.0
+      ],
+      "class_label": 0,
+      "numeric_target": 198
+    },
+    {
+      "id": "equipment-064",
+      "index": 64,
+      "features": [
+        60,
+        1.0
+      ],
+      "class_label": 0,
+      "numeric_target": 194
+    },
+    {
+      "id": "equipment-065",
+      "index": 65,
+      "features": [
+        65,
+        1.0
+      ],
+      "class_label": 1,
+      "numeric_target": 190
+    },
+    {
+      "id": "equipment-066",
+      "index": 66,
+      "features": [
+        70,
+        1.0
+      ],
+      "class_label": 1,
+      "numeric_target": 186
+    },
+    {
+      "id": "equipment-067",
+      "index": 67,
+      "features": [
+        75,
+        1.0
+      ],
+      "class_label": 1,
+      "numeric_target": 182
+    },
+    {
+      "id": "equipment-068",
+      "index": 68,
+      "features": [
+        80,
+        1.0
+      ],
+      "class_label": 1,
+      "numeric_target": 178
+    },
+    {
+      "id": "equipment-069",
+      "index": 69,
+      "features": [
+        85,
+        1.0
+      ],
+      "class_label": 1,
+      "numeric_target": 174
+    },
+    {
+      "id": "equipment-070",
+      "index": 70,
+      "features": [
+        90,
+        1.0
+      ],
+      "class_label": 1,
+      "numeric_target": 170
+    },
+    {
+      "id": "equipment-071",
+      "index": 71,
+      "features": [
+        95,
+        1.0
+      ],
+      "class_label": 1,
+      "numeric_target": 166
+    },
+    {
+      "id": "equipment-072",
+      "index": 72,
+      "features": [
+        40,
+        1.2
+      ],
+      "class_label": 0,
+      "numeric_target": 204
+    },
+    {
+      "id": "equipment-073",
+      "index": 73,
+      "features": [
+        45,
+        1.2
+      ],
+      "class_label": 0,
+      "numeric_target": 200
+    },
+    {
+      "id": "equipment-074",
+      "index": 74,
+      "features": [
+        50,
+        1.2
+      ],
+      "class_label": 0,
+      "numeric_target": 196
+    },
+    {
+      "id": "equipment-075",
+      "index": 75,
+      "features": [
+        55,
+        1.2
+      ],
+      "class_label": 0,
+      "numeric_target": 192
+    },
+    {
+      "id": "equipment-076",
+      "index": 76,
+      "features": [
+        60,
+        1.2
+      ],
+      "class_label": 0,
+      "numeric_target": 188
+    },
+    {
+      "id": "equipment-077",
+      "index": 77,
+      "features": [
+        65,
+        1.2
+      ],
+      "class_label": 1,
+      "numeric_target": 184
+    },
+    {
+      "id": "equipment-078",
+      "index": 78,
+      "features": [
+        70,
+        1.2
+      ],
+      "class_label": 1,
+      "numeric_target": 180
+    },
+    {
+      "id": "equipment-079",
+      "index": 79,
+      "features": [
+        75,
+        1.2
+      ],
+      "class_label": 1,
+      "numeric_target": 176
+    },
+    {
+      "id": "equipment-080",
+      "index": 80,
+      "features": [
+        80,
+        1.2
+      ],
+      "class_label": 1,
+      "numeric_target": 172
+    },
+    {
+      "id": "equipment-081",
+      "index": 81,
+      "features": [
+        85,
+        1.2
+      ],
+      "class_label": 1,
+      "numeric_target": 168
+    },
+    {
+      "id": "equipment-082",
+      "index": 82,
+      "features": [
+        90,
+        1.2
+      ],
+      "class_label": 1,
+      "numeric_target": 164
+    },
+    {
+      "id": "equipment-083",
+      "index": 83,
+      "features": [
+        95,
+        1.2
+      ],
+      "class_label": 1,
+      "numeric_target": 160
+    },
+    {
+      "id": "equipment-084",
+      "index": 84,
+      "features": [
+        40,
+        1.4
+      ],
+      "class_label": 0,
+      "numeric_target": 198
+    },
+    {
+      "id": "equipment-085",
+      "index": 85,
+      "features": [
+        45,
+        1.4
+      ],
+      "class_label": 0,
+      "numeric_target": 194
+    },
+    {
+      "id": "equipment-086",
+      "index": 86,
+      "features": [
+        50,
+        1.4
+      ],
+      "class_label": 0,
+      "numeric_target": 190
+    },
+    {
+      "id": "equipment-087",
+      "index": 87,
+      "features": [
+        55,
+        1.4
+      ],
+      "class_label": 1,
+      "numeric_target": 186
+    },
+    {
+      "id": "equipment-088",
+      "index": 88,
+      "features": [
+        60,
+        1.4
+      ],
+      "class_label": 1,
+      "numeric_target": 182
+    },
+    {
+      "id": "equipment-089",
+      "index": 89,
+      "features": [
+        65,
+        1.4
+      ],
+      "class_label": 1,
+      "numeric_target": 178
+    },
+    {
+      "id": "equipment-090",
+      "index": 90,
+      "features": [
+        70,
+        1.4
+      ],
+      "class_label": 1,
+      "numeric_target": 174
+    },
+    {
+      "id": "equipment-091",
+      "index": 91,
+      "features": [
+        75,
+        1.4
+      ],
+      "class_label": 1,
+      "numeric_target": 170
+    },
+    {
+      "id": "equipment-092",
+      "index": 92,
+      "features": [
+        80,
+        1.4
+      ],
+      "class_label": 1,
+      "numeric_target": 166
+    },
+    {
+      "id": "equipment-093",
+      "index": 93,
+      "features": [
+        85,
+        1.4
+      ],
+      "class_label": 1,
+      "numeric_target": 162
+    },
+    {
+      "id": "equipment-094",
+      "index": 94,
+      "features": [
+        90,
+        1.4
+      ],
+      "class_label": 1,
+      "numeric_target": 158
+    },
+    {
+      "id": "equipment-095",
+      "index": 95,
+      "features": [
+        95,
+        1.4
+      ],
+      "class_label": 0,
+      "numeric_target": 154
+    },
+    {
+      "id": "equipment-096",
+      "index": 96,
+      "features": [
+        40,
+        1.6
+      ],
+      "class_label": 0,
+      "numeric_target": 192
+    },
+    {
+      "id": "equipment-097",
+      "index": 97,
+      "features": [
+        45,
+        1.6
+      ],
+      "class_label": 0,
+      "numeric_target": 188
+    },
+    {
+      "id": "equipment-098",
+      "index": 98,
+      "features": [
+        50,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 184
+    },
+    {
+      "id": "equipment-099",
+      "index": 99,
+      "features": [
+        55,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 180
+    },
+    {
+      "id": "equipment-100",
+      "index": 100,
+      "features": [
+        60,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 176
+    },
+    {
+      "id": "equipment-101",
+      "index": 101,
+      "features": [
+        65,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 172
+    },
+    {
+      "id": "equipment-102",
+      "index": 102,
+      "features": [
+        70,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 168
+    },
+    {
+      "id": "equipment-103",
+      "index": 103,
+      "features": [
+        75,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 164
+    },
+    {
+      "id": "equipment-104",
+      "index": 104,
+      "features": [
+        80,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 160
+    },
+    {
+      "id": "equipment-105",
+      "index": 105,
+      "features": [
+        85,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 156
+    },
+    {
+      "id": "equipment-106",
+      "index": 106,
+      "features": [
+        90,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 152
+    },
+    {
+      "id": "equipment-107",
+      "index": 107,
+      "features": [
+        95,
+        1.6
+      ],
+      "class_label": 1,
+      "numeric_target": 148
+    },
+    {
+      "id": "equipment-108",
+      "index": 108,
+      "features": [
+        40,
+        1.8
+      ],
+      "class_label": 0,
+      "numeric_target": 186
+    },
+    {
+      "id": "equipment-109",
+      "index": 109,
+      "features": [
+        45,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 182
+    },
+    {
+      "id": "equipment-110",
+      "index": 110,
+      "features": [
+        50,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 178
+    },
+    {
+      "id": "equipment-111",
+      "index": 111,
+      "features": [
+        55,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 174
+    },
+    {
+      "id": "equipment-112",
+      "index": 112,
+      "features": [
+        60,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 170
+    },
+    {
+      "id": "equipment-113",
+      "index": 113,
+      "features": [
+        65,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 166
+    },
+    {
+      "id": "equipment-114",
+      "index": 114,
+      "features": [
+        70,
+        1.8
+      ],
+      "class_label": 0,
+      "numeric_target": 162
+    },
+    {
+      "id": "equipment-115",
+      "index": 115,
+      "features": [
+        75,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 158
+    },
+    {
+      "id": "equipment-116",
+      "index": 116,
+      "features": [
+        80,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 154
+    },
+    {
+      "id": "equipment-117",
+      "index": 117,
+      "features": [
+        85,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 150
+    },
+    {
+      "id": "equipment-118",
+      "index": 118,
+      "features": [
+        90,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 146
+    },
+    {
+      "id": "equipment-119",
+      "index": 119,
+      "features": [
+        95,
+        1.8
+      ],
+      "class_label": 1,
+      "numeric_target": 142
+    }
+  ],
+  "split": {
+    "train": [
+      2,
+      46,
+      37,
+      78,
+      25,
+      84,
+      71,
+      3,
+      0,
+      45,
+      69,
+      82,
+      88,
+      20,
+      56,
+      92,
+      93,
+      24,
+      89,
+      113,
+      114,
+      55,
+      18,
+      105,
+      28,
+      33,
+      99,
+      119,
+      70,
+      80,
+      27,
+      4,
+      83,
+      59,
+      21,
+      38,
+      98,
+      50,
+      52,
+      51,
+      95,
+      7,
+      76,
+      63,
+      26,
+      73,
+      104,
+      81,
+      10,
+      29,
+      111,
+      117,
+      94,
+      17,
+      39,
+      102,
+      110,
+      109,
+      75,
+      40,
+      116,
+      42,
+      79,
+      5,
+      85,
+      1,
+      68,
+      72,
+      86,
+      101,
+      112,
+      43
+    ],
+    "validation": [
+      91,
+      32,
+      61,
+      57,
+      96,
+      23,
+      115,
+      87,
+      15,
+      48,
+      60,
+      9,
+      62,
+      31,
+      90,
+      16,
+      44,
+      100,
+      67,
+      34,
+      30,
+      58,
+      74,
+      106
+    ],
+    "test": [
+      118,
+      54,
+      49,
+      6,
+      108,
+      11,
+      103,
+      41,
+      22,
+      19,
+      35,
+      64,
+      47,
+      12,
+      53,
+      107,
+      14,
+      13,
+      66,
+      36,
+      97,
+      65,
+      77,
+      8
+    ]
+  },
+  "seed_labeled_indices": [
+    2,
+    78,
+    71,
+    45,
+    88,
+    92,
+    89,
+    55,
+    28,
+    119,
+    27,
+    59,
+    98,
+    51,
+    76,
+    73,
+    10,
+    117,
+    39,
+    109,
+    116,
+    5,
+    68,
+    101
+  ],
+  "unlabeled_train_view": [
+    {
+      "index": 46,
+      "features": [
+        90,
+        0.6
+      ]
+    },
+    {
+      "index": 37,
+      "features": [
+        45,
+        0.6
+      ]
+    },
+    {
+      "index": 25,
+      "features": [
+        45,
+        0.4
+      ]
+    },
+    {
+      "index": 84,
+      "features": [
+        40,
+        1.4
+      ]
+    },
+    {
+      "index": 3,
+      "features": [
+        55,
+        0.0
+      ]
+    },
+    {
+      "index": 0,
+      "features": [
+        40,
+        0.0
+      ]
+    },
+    {
+      "index": 69,
+      "features": [
+        85,
+        1.0
+      ]
+    },
+    {
+      "index": 82,
+      "features": [
+        90,
+        1.2
+      ]
+    },
+    {
+      "index": 20,
+      "features": [
+        80,
+        0.2
+      ]
+    },
+    {
+      "index": 56,
+      "features": [
+        80,
+        0.8
+      ]
+    },
+    {
+      "index": 93,
+      "features": [
+        85,
+        1.4
+      ]
+    },
+    {
+      "index": 24,
+      "features": [
+        40,
+        0.4
+      ]
+    },
+    {
+      "index": 113,
+      "features": [
+        65,
+        1.8
+      ]
+    },
+    {
+      "index": 114,
+      "features": [
+        70,
+        1.8
+      ]
+    },
+    {
+      "index": 18,
+      "features": [
+        70,
+        0.2
+      ]
+    },
+    {
+      "index": 105,
+      "features": [
+        85,
+        1.6
+      ]
+    },
+    {
+      "index": 33,
+      "features": [
+        85,
+        0.4
+      ]
+    },
+    {
+      "index": 99,
+      "features": [
+        55,
+        1.6
+      ]
+    },
+    {
+      "index": 70,
+      "features": [
+        90,
+        1.0
+      ]
+    },
+    {
+      "index": 80,
+      "features": [
+        80,
+        1.2
+      ]
+    },
+    {
+      "index": 4,
+      "features": [
+        60,
+        0.0
+      ]
+    },
+    {
+      "index": 83,
+      "features": [
+        95,
+        1.2
+      ]
+    },
+    {
+      "index": 21,
+      "features": [
+        85,
+        0.2
+      ]
+    },
+    {
+      "index": 38,
+      "features": [
+        50,
+        0.6
+      ]
+    },
+    {
+      "index": 50,
+      "features": [
+        50,
+        0.8
+      ]
+    },
+    {
+      "index": 52,
+      "features": [
+        60,
+        0.8
+      ]
+    },
+    {
+      "index": 95,
+      "features": [
+        95,
+        1.4
+      ]
+    },
+    {
+      "index": 7,
+      "features": [
+        75,
+        0.0
+      ]
+    },
+    {
+      "index": 63,
+      "features": [
+        55,
+        1.0
+      ]
+    },
+    {
+      "index": 26,
+      "features": [
+        50,
+        0.4
+      ]
+    },
+    {
+      "index": 104,
+      "features": [
+        80,
+        1.6
+      ]
+    },
+    {
+      "index": 81,
+      "features": [
+        85,
+        1.2
+      ]
+    },
+    {
+      "index": 29,
+      "features": [
+        65,
+        0.4
+      ]
+    },
+    {
+      "index": 111,
+      "features": [
+        55,
+        1.8
+      ]
+    },
+    {
+      "index": 94,
+      "features": [
+        90,
+        1.4
+      ]
+    },
+    {
+      "index": 17,
+      "features": [
+        65,
+        0.2
+      ]
+    },
+    {
+      "index": 102,
+      "features": [
+        70,
+        1.6
+      ]
+    },
+    {
+      "index": 110,
+      "features": [
+        50,
+        1.8
+      ]
+    },
+    {
+      "index": 75,
+      "features": [
+        55,
+        1.2
+      ]
+    },
+    {
+      "index": 40,
+      "features": [
+        60,
+        0.6
+      ]
+    },
+    {
+      "index": 42,
+      "features": [
+        70,
+        0.6
+      ]
+    },
+    {
+      "index": 79,
+      "features": [
+        75,
+        1.2
+      ]
+    },
+    {
+      "index": 85,
+      "features": [
+        45,
+        1.4
+      ]
+    },
+    {
+      "index": 1,
+      "features": [
+        45,
+        0.0
+      ]
+    },
+    {
+      "index": 72,
+      "features": [
+        40,
+        1.2
+      ]
+    },
+    {
+      "index": 86,
+      "features": [
+        50,
+        1.4
+      ]
+    },
+    {
+      "index": 112,
+      "features": [
+        60,
+        1.8
+      ]
+    },
+    {
+      "index": 43,
+      "features": [
+        75,
+        0.6
+      ]
+    }
+  ],
+  "all_unlabeled_view": [
+    {
+      "index": 0,
+      "features": [
+        40,
+        0.0
+      ]
+    },
+    {
+      "index": 1,
+      "features": [
+        45,
+        0.0
+      ]
+    },
+    {
+      "index": 2,
+      "features": [
+        50,
+        0.0
+      ]
+    },
+    {
+      "index": 3,
+      "features": [
+        55,
+        0.0
+      ]
+    },
+    {
+      "index": 4,
+      "features": [
+        60,
+        0.0
+      ]
+    },
+    {
+      "index": 5,
+      "features": [
+        65,
+        0.0
+      ]
+    },
+    {
+      "index": 6,
+      "features": [
+        70,
+        0.0
+      ]
+    },
+    {
+      "index": 7,
+      "features": [
+        75,
+        0.0
+      ]
+    },
+    {
+      "index": 8,
+      "features": [
+        80,
+        0.0
+      ]
+    },
+    {
+      "index": 9,
+      "features": [
+        85,
+        0.0
+      ]
+    },
+    {
+      "index": 10,
+      "features": [
+        90,
+        0.0
+      ]
+    },
+    {
+      "index": 11,
+      "features": [
+        95,
+        0.0
+      ]
+    },
+    {
+      "index": 12,
+      "features": [
+        40,
+        0.2
+      ]
+    },
+    {
+      "index": 13,
+      "features": [
+        45,
+        0.2
+      ]
+    },
+    {
+      "index": 14,
+      "features": [
+        50,
+        0.2
+      ]
+    },
+    {
+      "index": 15,
+      "features": [
+        55,
+        0.2
+      ]
+    },
+    {
+      "index": 16,
+      "features": [
+        60,
+        0.2
+      ]
+    },
+    {
+      "index": 17,
+      "features": [
+        65,
+        0.2
+      ]
+    },
+    {
+      "index": 18,
+      "features": [
+        70,
+        0.2
+      ]
+    },
+    {
+      "index": 19,
+      "features": [
+        75,
+        0.2
+      ]
+    },
+    {
+      "index": 20,
+      "features": [
+        80,
+        0.2
+      ]
+    },
+    {
+      "index": 21,
+      "features": [
+        85,
+        0.2
+      ]
+    },
+    {
+      "index": 22,
+      "features": [
+        90,
+        0.2
+      ]
+    },
+    {
+      "index": 23,
+      "features": [
+        95,
+        0.2
+      ]
+    },
+    {
+      "index": 24,
+      "features": [
+        40,
+        0.4
+      ]
+    },
+    {
+      "index": 25,
+      "features": [
+        45,
+        0.4
+      ]
+    },
+    {
+      "index": 26,
+      "features": [
+        50,
+        0.4
+      ]
+    },
+    {
+      "index": 27,
+      "features": [
+        55,
+        0.4
+      ]
+    },
+    {
+      "index": 28,
+      "features": [
+        60,
+        0.4
+      ]
+    },
+    {
+      "index": 29,
+      "features": [
+        65,
+        0.4
+      ]
+    },
+    {
+      "index": 30,
+      "features": [
+        70,
+        0.4
+      ]
+    },
+    {
+      "index": 31,
+      "features": [
+        75,
+        0.4
+      ]
+    },
+    {
+      "index": 32,
+      "features": [
+        80,
+        0.4
+      ]
+    },
+    {
+      "index": 33,
+      "features": [
+        85,
+        0.4
+      ]
+    },
+    {
+      "index": 34,
+      "features": [
+        90,
+        0.4
+      ]
+    },
+    {
+      "index": 35,
+      "features": [
+        95,
+        0.4
+      ]
+    },
+    {
+      "index": 36,
+      "features": [
+        40,
+        0.6
+      ]
+    },
+    {
+      "index": 37,
+      "features": [
+        45,
+        0.6
+      ]
+    },
+    {
+      "index": 38,
+      "features": [
+        50,
+        0.6
+      ]
+    },
+    {
+      "index": 39,
+      "features": [
+        55,
+        0.6
+      ]
+    },
+    {
+      "index": 40,
+      "features": [
+        60,
+        0.6
+      ]
+    },
+    {
+      "index": 41,
+      "features": [
+        65,
+        0.6
+      ]
+    },
+    {
+      "index": 42,
+      "features": [
+        70,
+        0.6
+      ]
+    },
+    {
+      "index": 43,
+      "features": [
+        75,
+        0.6
+      ]
+    },
+    {
+      "index": 44,
+      "features": [
+        80,
+        0.6
+      ]
+    },
+    {
+      "index": 45,
+      "features": [
+        85,
+        0.6
+      ]
+    },
+    {
+      "index": 46,
+      "features": [
+        90,
+        0.6
+      ]
+    },
+    {
+      "index": 47,
+      "features": [
+        95,
+        0.6
+      ]
+    },
+    {
+      "index": 48,
+      "features": [
+        40,
+        0.8
+      ]
+    },
+    {
+      "index": 49,
+      "features": [
+        45,
+        0.8
+      ]
+    },
+    {
+      "index": 50,
+      "features": [
+        50,
+        0.8
+      ]
+    },
+    {
+      "index": 51,
+      "features": [
+        55,
+        0.8
+      ]
+    },
+    {
+      "index": 52,
+      "features": [
+        60,
+        0.8
+      ]
+    },
+    {
+      "index": 53,
+      "features": [
+        65,
+        0.8
+      ]
+    },
+    {
+      "index": 54,
+      "features": [
+        70,
+        0.8
+      ]
+    },
+    {
+      "index": 55,
+      "features": [
+        75,
+        0.8
+      ]
+    },
+    {
+      "index": 56,
+      "features": [
+        80,
+        0.8
+      ]
+    },
+    {
+      "index": 57,
+      "features": [
+        85,
+        0.8
+      ]
+    },
+    {
+      "index": 58,
+      "features": [
+        90,
+        0.8
+      ]
+    },
+    {
+      "index": 59,
+      "features": [
+        95,
+        0.8
+      ]
+    },
+    {
+      "index": 60,
+      "features": [
+        40,
+        1.0
+      ]
+    },
+    {
+      "index": 61,
+      "features": [
+        45,
+        1.0
+      ]
+    },
+    {
+      "index": 62,
+      "features": [
+        50,
+        1.0
+      ]
+    },
+    {
+      "index": 63,
+      "features": [
+        55,
+        1.0
+      ]
+    },
+    {
+      "index": 64,
+      "features": [
+        60,
+        1.0
+      ]
+    },
+    {
+      "index": 65,
+      "features": [
+        65,
+        1.0
+      ]
+    },
+    {
+      "index": 66,
+      "features": [
+        70,
+        1.0
+      ]
+    },
+    {
+      "index": 67,
+      "features": [
+        75,
+        1.0
+      ]
+    },
+    {
+      "index": 68,
+      "features": [
+        80,
+        1.0
+      ]
+    },
+    {
+      "index": 69,
+      "features": [
+        85,
+        1.0
+      ]
+    },
+    {
+      "index": 70,
+      "features": [
+        90,
+        1.0
+      ]
+    },
+    {
+      "index": 71,
+      "features": [
+        95,
+        1.0
+      ]
+    },
+    {
+      "index": 72,
+      "features": [
+        40,
+        1.2
+      ]
+    },
+    {
+      "index": 73,
+      "features": [
+        45,
+        1.2
+      ]
+    },
+    {
+      "index": 74,
+      "features": [
+        50,
+        1.2
+      ]
+    },
+    {
+      "index": 75,
+      "features": [
+        55,
+        1.2
+      ]
+    },
+    {
+      "index": 76,
+      "features": [
+        60,
+        1.2
+      ]
+    },
+    {
+      "index": 77,
+      "features": [
+        65,
+        1.2
+      ]
+    },
+    {
+      "index": 78,
+      "features": [
+        70,
+        1.2
+      ]
+    },
+    {
+      "index": 79,
+      "features": [
+        75,
+        1.2
+      ]
+    },
+    {
+      "index": 80,
+      "features": [
+        80,
+        1.2
+      ]
+    },
+    {
+      "index": 81,
+      "features": [
+        85,
+        1.2
+      ]
+    },
+    {
+      "index": 82,
+      "features": [
+        90,
+        1.2
+      ]
+    },
+    {
+      "index": 83,
+      "features": [
+        95,
+        1.2
+      ]
+    },
+    {
+      "index": 84,
+      "features": [
+        40,
+        1.4
+      ]
+    },
+    {
+      "index": 85,
+      "features": [
+        45,
+        1.4
+      ]
+    },
+    {
+      "index": 86,
+      "features": [
+        50,
+        1.4
+      ]
+    },
+    {
+      "index": 87,
+      "features": [
+        55,
+        1.4
+      ]
+    },
+    {
+      "index": 88,
+      "features": [
+        60,
+        1.4
+      ]
+    },
+    {
+      "index": 89,
+      "features": [
+        65,
+        1.4
+      ]
+    },
+    {
+      "index": 90,
+      "features": [
+        70,
+        1.4
+      ]
+    },
+    {
+      "index": 91,
+      "features": [
+        75,
+        1.4
+      ]
+    },
+    {
+      "index": 92,
+      "features": [
+        80,
+        1.4
+      ]
+    },
+    {
+      "index": 93,
+      "features": [
+        85,
+        1.4
+      ]
+    },
+    {
+      "index": 94,
+      "features": [
+        90,
+        1.4
+      ]
+    },
+    {
+      "index": 95,
+      "features": [
+        95,
+        1.4
+      ]
+    },
+    {
+      "index": 96,
+      "features": [
+        40,
+        1.6
+      ]
+    },
+    {
+      "index": 97,
+      "features": [
+        45,
+        1.6
+      ]
+    },
+    {
+      "index": 98,
+      "features": [
+        50,
+        1.6
+      ]
+    },
+    {
+      "index": 99,
+      "features": [
+        55,
+        1.6
+      ]
+    },
+    {
+      "index": 100,
+      "features": [
+        60,
+        1.6
+      ]
+    },
+    {
+      "index": 101,
+      "features": [
+        65,
+        1.6
+      ]
+    },
+    {
+      "index": 102,
+      "features": [
+        70,
+        1.6
+      ]
+    },
+    {
+      "index": 103,
+      "features": [
+        75,
+        1.6
+      ]
+    },
+    {
+      "index": 104,
+      "features": [
+        80,
+        1.6
+      ]
+    },
+    {
+      "index": 105,
+      "features": [
+        85,
+        1.6
+      ]
+    },
+    {
+      "index": 106,
+      "features": [
+        90,
+        1.6
+      ]
+    },
+    {
+      "index": 107,
+      "features": [
+        95,
+        1.6
+      ]
+    },
+    {
+      "index": 108,
+      "features": [
+        40,
+        1.8
+      ]
+    },
+    {
+      "index": 109,
+      "features": [
+        45,
+        1.8
+      ]
+    },
+    {
+      "index": 110,
+      "features": [
+        50,
+        1.8
+      ]
+    },
+    {
+      "index": 111,
+      "features": [
+        55,
+        1.8
+      ]
+    },
+    {
+      "index": 112,
+      "features": [
+        60,
+        1.8
+      ]
+    },
+    {
+      "index": 113,
+      "features": [
+        65,
+        1.8
+      ]
+    },
+    {
+      "index": 114,
+      "features": [
+        70,
+        1.8
+      ]
+    },
+    {
+      "index": 115,
+      "features": [
+        75,
+        1.8
+      ]
+    },
+    {
+      "index": 116,
+      "features": [
+        80,
+        1.8
+      ]
+    },
+    {
+      "index": 117,
+      "features": [
+        85,
+        1.8
+      ]
+    },
+    {
+      "index": 118,
+      "features": [
+        90,
+        1.8
+      ]
+    },
+    {
+      "index": 119,
+      "features": [
+        95,
+        1.8
+      ]
+    }
+  ]
+}

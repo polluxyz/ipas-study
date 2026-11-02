@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 675" role="img" aria-labelledby="title desc">
+<title id="title">同一批授信開發資料的 PCA 與 LDA 投影</title>
+<desc id="desc">二十四個帶標籤的點。橫軸收入座標的兩類重疊，縱軸負債比座標的兩類分開。下方以相同座標刻度畫兩種一維投影，不以顏色作為唯一標籤。</desc>
+<rect width="360" height="675" rx="8" fill="#fff"/>
+<style>text{font:14px sans-serif;fill:#142b40} .small{font-size:13px}.axis{stroke:#506477;stroke-width:1.5}.grid{stroke:#e0e6ec}</style>
+<text x="18" y="26" text-anchor="start" class="">授信開發資料：24 筆</text>
+<circle cx="24.000" cy="48.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<text x="36" y="53" text-anchor="start" class="">未違約</text>
+<rect x="126.200" y="44.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<text x="142" y="53" text-anchor="start" class="">違約</text>
+<text x="18" y="79" text-anchor="start" class="small">負債比座標（固定單位）</text>
+<line x1="50.000" y1="102.000" x2="50.000" y2="322.000" stroke="#506477" stroke-width="1.4" stroke-dasharray=""/>
+<line x1="50.000" y1="322.000" x2="320.000" y2="322.000" stroke="#506477" stroke-width="1.4" stroke-dasharray=""/>
+<line x1="77.000" y1="102.000" x2="77.000" y2="322.000" stroke="#e0e6ec" stroke-width="1.4" stroke-dasharray=""/>
+<text x="77.0" y="342" text-anchor="middle" class="small">-5</text>
+<line x1="131.000" y1="102.000" x2="131.000" y2="322.000" stroke="#e0e6ec" stroke-width="1.4" stroke-dasharray=""/>
+<text x="131.0" y="342" text-anchor="middle" class="small">-3</text>
+<line x1="239.000" y1="102.000" x2="239.000" y2="322.000" stroke="#e0e6ec" stroke-width="1.4" stroke-dasharray=""/>
+<text x="239.0" y="342" text-anchor="middle" class="small">1</text>
+<line x1="293.000" y1="102.000" x2="293.000" y2="322.000" stroke="#e0e6ec" stroke-width="1.4" stroke-dasharray=""/>
+<text x="293.0" y="342" text-anchor="middle" class="small">3</text>
+<line x1="50.000" y1="285.333" x2="320.000" y2="285.333" stroke="#e0e6ec" stroke-width="1.4" stroke-dasharray=""/>
+<text x="41" y="290.3333333333333" text-anchor="end" class="small">-2</text>
+<line x1="50.000" y1="212.000" x2="320.000" y2="212.000" stroke="#e0e6ec" stroke-width="1.4" stroke-dasharray=""/>
+<text x="41" y="217.0" text-anchor="end" class="small">0</text>
+<line x1="50.000" y1="138.667" x2="320.000" y2="138.667" stroke="#e0e6ec" stroke-width="1.4" stroke-dasharray=""/>
+<text x="41" y="143.66666666666666" text-anchor="end" class="small">2</text>
+<circle cx="77.000" cy="300.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="73.200" y="149.533" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="131.000" cy="300.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="127.200" y="149.533" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="239.000" cy="300.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="235.200" y="149.533" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="293.000" cy="300.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="289.200" y="149.533" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="77.000" cy="285.333" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="73.200" y="134.867" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="131.000" cy="285.333" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="127.200" y="134.867" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="239.000" cy="285.333" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="235.200" y="134.867" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="293.000" cy="285.333" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="289.200" y="134.867" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="77.000" cy="270.667" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="73.200" y="120.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="131.000" cy="270.667" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="127.200" y="120.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="239.000" cy="270.667" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="235.200" y="120.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<circle cx="293.000" cy="270.667" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="289.200" y="120.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<line x1="65.000" y1="212.000" x2="310.000" y2="212.000" stroke="#3569ad" stroke-width="1.4" stroke-dasharray="5 3"/>
+<line x1="212.000" y1="310.000" x2="212.000" y2="112.000" stroke="#8a3d91" stroke-width="1.4" stroke-dasharray="3 3"/>
+<text x="307" y="204.0" text-anchor="end" class="">PCA</text>
+<text x="220.0" y="127" text-anchor="start" class="">LDA</text>
+<text x="185" y="366" text-anchor="middle" class="small">收入座標（固定單位）</text>
+<text x="18" y="392" text-anchor="start" class="small">下圖沿橫軸讀投影值，堆疊只顯示筆數。</text>
+<text x="18" y="416" text-anchor="start" class="">PCA：兩類仍重疊</text>
+<line x1="50.000" y1="476.000" x2="320.000" y2="476.000" stroke="#506477" stroke-width="1.4" stroke-dasharray=""/>
+<circle cx="67.609" cy="460.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="67.609" cy="454.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="67.609" cy="448.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="126.304" cy="460.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="126.304" cy="454.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="126.304" cy="448.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="243.696" cy="460.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="243.696" cy="454.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="243.696" cy="448.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="302.391" cy="460.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="302.391" cy="454.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="302.391" cy="448.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="63.809" y="440.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="63.809" y="434.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="63.809" y="428.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="122.504" y="440.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="122.504" y="434.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="122.504" y="428.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="239.896" y="440.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="239.896" y="434.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="239.896" y="428.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="298.591" y="440.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="298.591" y="434.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="298.591" y="428.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<text x="67.6086956521739" y="496" text-anchor="middle" class="small">-5</text>
+<text x="302.3913043478261" y="496" text-anchor="middle" class="small">3</text>
+<text x="185" y="516" text-anchor="middle" class="small">投影座標（單位方向，未作模型縮放）</text>
+<text x="18" y="538" text-anchor="start" class="">LDA：兩類分開</text>
+<line x1="50.000" y1="598.000" x2="320.000" y2="598.000" stroke="#506477" stroke-width="1.4" stroke-dasharray=""/>
+<circle cx="77.000" cy="582.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="77.000" cy="576.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="77.000" cy="570.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="77.000" cy="564.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="95.000" cy="582.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="95.000" cy="576.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="95.000" cy="570.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="95.000" cy="564.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="113.000" cy="582.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="113.000" cy="576.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="113.000" cy="570.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<circle cx="113.000" cy="564.000" r="3.8" fill="#fff" stroke="#145b8e" stroke-width="1.7"/>
+<rect x="253.200" y="562.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="253.200" y="556.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="253.200" y="550.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="253.200" y="544.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="271.200" y="562.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="271.200" y="556.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="271.200" y="550.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="271.200" y="544.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="289.200" y="562.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="289.200" y="556.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="289.200" y="550.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<rect x="289.200" y="544.200" width="7.6" height="7.6" fill="#a84b16" stroke="#572600"/>
+<text x="77.0" y="618" text-anchor="middle" class="small">-2.4</text>
+<text x="293.0" y="618" text-anchor="middle" class="small">2.4</text>
+<text x="185" y="638" text-anchor="middle" class="small">投影座標（單位方向，未作模型縮放）</text>
+<text x="18" y="664" text-anchor="start" class="small">教學合成資料；只用開發列學習方向。</text>
+</svg>

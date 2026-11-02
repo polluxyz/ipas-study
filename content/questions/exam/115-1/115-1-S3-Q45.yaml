@@ -1,0 +1,55 @@
+id: 115-1-S3-Q45
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 45
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 14
+type: 程式
+codes: [L23303]
+concepts: [stratified-k-fold, k-fold-cross-validation]
+stem: |
+  （題組背景同第44題：Iris 資料集三類各 50 筆，用 KNN 分類並以交叉驗證評估。）
+
+  研究人員在程式（下圖）中使用 cross_val_score 進行交叉驗證，但目前尚未設定 cv 參數。他們希望確保在每次資料分割時，訓練集與測試集的類別比例與原始資料一致，以免影響模型的準確率估計。目前有以下幾段候選程式碼可供選擇。請問為了確保在交叉驗證時每個分割中的類別比例與原始資料一致，上面哪幾段程式碼插入在原始程式中 [# 填入程式碼] 的部分比較合適？
+
+  程式碼 A：cv = KFold(n_splits=5, shuffle=True)
+  程式碼 B：cv = StratifiedKFold(n_splits=5, shuffle=True)
+  程式碼 C：cv = 5
+  程式碼 D：cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=2)
+code: |
+  from sklearn.model_selection import cross_val_score
+  from sklearn.neighbors import KNeighborsClassifier
+  from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
+  model = KNeighborsClassifier(n_neighbors=3)
+
+  # 填入程式碼
+
+  scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy")
+  scores.mean()
+code_lang: python
+options:
+  A: 程式碼 B、程式碼 C、程式碼 D
+  B: 程式碼 A、程式碼 C
+  C: 程式碼 A、程式碼 B、程式碼 D
+  D: 程式碼 C、程式碼 D
+answer: A
+explanation:
+  summary: 哪些 cv 設定會做分層切分。
+  correct: 程式碼 B 明確使用分層切分；程式碼 D 是重複多次的分層切分；程式碼 C 的 cv=5 搭配分類器時，scikit-learn 預設使用 StratifiedKFold。三者都能維持類別比例。整數 cv 的分層預設限於分類器搭配二元或多類別標籤；類別筆數不能整除摺數時，各摺比例只會盡量接近。分層決定資料如何分配，Pipeline 則讓前處理只在各訓練摺擬合，兩者用途不同。
+  wrong:
+    B: 包含程式碼 A。KFold 不做分層，各摺的類別比例可能和整體不同。shuffle 只改變順序，不會強制維持類別比例。
+    C: 同樣包含程式碼 A。
+    D: 漏掉程式碼 B。StratifiedKFold 是最直接的分層寫法。
+  rule: 要維持類別比例，須確認分層切分，只有洗牌並不足夠。
+guide_refs: [guide-3:5-27]
+author: claude
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 14
+    by: coordinator
+  blind_answer: A
+  dispute: null

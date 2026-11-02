@@ -1,0 +1,8 @@
+---
+/** 教材來源只顯示指引印刷頁碼；考題依據集中在頁尾，避免閱讀時洩露題目資訊。 */
+import { splitSources } from '../lib/relation-sources';
+interface Props { sources: string[]; }
+const { sources } = Astro.props;
+const { guideSources, questionIds } = splitSources(sources);
+---
+<span class="sources">{guideSources.length ? guideSources.map((source, index) => <>{index > 0 && '、'}<span>{source.replace(/^guide-(\d):/, '指引科$1 p.')}</span></>) : questionIds.length ? '見考古題區' : '尚無指引來源'}</span>

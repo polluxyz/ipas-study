@@ -1,0 +1,22 @@
+[
+  { "id": "C01", "label": 1, "score": 0.95 },
+  { "id": "C02", "label": 1, "score": 0.90 },
+  { "id": "C03", "label": 0, "score": 0.85 },
+  { "id": "C04", "label": 1, "score": 0.80 },
+  { "id": "C05", "label": 1, "score": 0.75 },
+  { "id": "C06", "label": 1, "score": 0.65 },
+  { "id": "C07", "label": 0, "score": 0.65 },
+  { "id": "C08", "label": 1, "score": 0.50 },
+  { "id": "C09", "label": 0, "score": 0.40 },
+  { "id": "C10", "label": 1, "score": 0.35 },
+  { "id": "C11", "label": 0, "score": 0.30 },
+  { "id": "C12", "label": 0, "score": 0.25 },
+  { "id": "C13", "label": 1, "score": 0.20 },
+  { "id": "C14", "label": 0, "score": 0.18 },
+  { "id": "C15", "label": 0, "score": 0.15 },
+  { "id": "C16", "label": 0, "score": 0.12 },
+  { "id": "C17", "label": 0, "score": 0.10 },
+  { "id": "C18", "label": 0, "score": 0.08 },
+  { "id": "C19", "label": 0, "score": 0.05 },
+  { "id": "C20", "label": 0, "score": 0.02 }
+]

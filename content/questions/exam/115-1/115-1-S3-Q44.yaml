@@ -1,0 +1,51 @@
+id: 115-1-S3-Q44
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 44
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 13
+type: 程式
+codes: [L23303]
+concepts: [data-leakage, sklearn-pipeline, k-fold-cross-validation]
+stem: |
+  （題組背景）Iris 資料集有三種鳶尾花，每類各 50 筆，每筆有 4 個特徵。研究人員先用線性判別分析（LDA）降維，再用 K 最近鄰（KNN）分類，並用交叉驗證評估準確率。
+
+  研究人員撰寫的程式中（下圖），先用整體資料進行 LDA（Linear Discriminant Analysis）降維，接著再用 KNN（K-Nearest Neighbors）進行分類，並用交叉驗證來評估準確率。請問下列敘述何者正確？
+code: |
+  from sklearn.model_selection import cross_val_score
+  from sklearn.neighbors import KNeighborsClassifier
+  from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
+  lda = LinearDiscriminantAnalysis()
+  X_new = lda.fit_transform(X,y)
+
+  model = KNeighborsClassifier(n_neighbors=3)
+  scores = cross_val_score(model, X_new, y, cv=5, scoring="accuracy")
+  scores.mean()
+  # 輸出：0.9733333333333334
+code_lang: python
+options:
+  A: 此寫法完全正確，因為先以整體資料進行 LDA 降維，再以交叉驗證測試 KNN，是標準流程
+  B: 此寫法存在資料洩漏（Data Leakage）問題，應將 LDA 納入交叉驗證流程中一併進行
+  C: 雖然流程不夠嚴謹，但結果仍然能夠代表模型真實的泛化能力
+  D: 如果只想驗證 KNN 的分類效果，可以直接跳過 LDA 步驟，以簡化流程
+answer: B
+explanation:
+  summary: 前處理（LDA）在交叉驗證外面用全部資料 fit，造成資料洩漏。
+  correct: LDA 是監督式降維，fit 時會用到 X 與 y。在切分前用全部資料 fit，驗證摺的資訊已經進入投影方向，交叉驗證分數因此偏高。正確做法是把 LDA 和 KNN 包進 Pipeline，讓每一摺只用訓練摺 fit LDA。驗證摺僅使用該訓練摺學得的投影做 transform，不重新擬合。
+  wrong:
+    A: 先用全部資料做會學習的前處理，再做交叉驗證，正是資料洩漏的典型寫法，不是標準流程。
+    C: 有洩漏的分數會高估泛化能力，0.973 不能代表模型面對新資料的表現。
+    D: 題目要評估的是「LDA 加 KNN」這個流程。跳過 LDA 會改變要評估的模型，沒有解決洩漏問題。
+  rule: 會學習資料的前處理要在各訓練摺擬合，再轉換驗證摺。
+guide_refs: [guide-3:5-18]
+author: claude
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 13
+    by: coordinator
+  blind_answer: B
+  dispute: null

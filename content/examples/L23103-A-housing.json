@@ -1,0 +1,55 @@
+{
+  "domain": "housing",
+  "feature_center": 30,
+  "feature_scale": 10,
+  "target_center": 1000,
+  "target_scale": 100,
+  "units": [
+    "坪",
+    "萬元"
+  ],
+  "rows": [
+    {
+      "id": 0,
+      "raw_feature": 20,
+      "x": -1,
+      "raw_target": 900,
+      "y": -1
+    },
+    {
+      "id": 1,
+      "raw_feature": 30,
+      "x": 0,
+      "raw_target": 1100,
+      "y": 1
+    },
+    {
+      "id": 2,
+      "raw_feature": 40,
+      "x": 1,
+      "raw_target": 1300,
+      "y": 3
+    },
+    {
+      "id": 3,
+      "raw_feature": 20,
+      "x": -1,
+      "raw_target": 900,
+      "y": -1
+    },
+    {
+      "id": 4,
+      "raw_feature": 30,
+      "x": 0,
+      "raw_target": 1100,
+      "y": 1
+    },
+    {
+      "id": 5,
+      "raw_feature": 40,
+      "x": 1,
+      "raw_target": 1300,
+      "y": 3
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+---
+/** 單題閱讀與測驗使用同一作答元件，確保答案揭露與儲存行為一致。 */
+import StudyPage from '../../components/StudyPage.astro';
+import QuestionCard from '../../components/QuestionCard.astro';
+import { getData, sourceLabel } from '../../lib/content';
+export async function getStaticPaths() { const { questions } = await getData(); return questions.map((question) => ({ params: { id: question.id }, props: { question } })); }
+const { question } = Astro.props;
+const { concepts } = await getData();
+const titles = Object.fromEntries(concepts.map((c) => [c.data.id, c.data.title]));
+---
+<StudyPage title={sourceLabel(question)} section="考題練習">
+  <div class="metadata"><a href="/codes/L23303/">← L23303 學習單元</a><span>{question.id}</span><span>第 {question.rev} 版</span></div>
+  <QuestionCard question={question} titles={titles} />
+  <div class="reading-end"><a href="/codes/L23303/#questions">← 返回題目清單</a><a class="text-link" href="/quiz/">練習整個單元 →</a></div>
+</StudyPage>

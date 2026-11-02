@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 535" role="img" aria-labelledby="title desc"><title id="title">正則化強度與訓練、驗證誤差</title><desc id="desc">固定合成資料、切分及訓練方式，從原始樣本重訓 Lasso 產生各點；未使用測試集。</desc>
+<rect width="360" height="535" fill="#fff"/>
+<g font-family="system-ui, Microsoft JhengHei, sans-serif" fill="#17233a" font-size="14">
+<text x="16" y="26" font-size="17" text-anchor="start">限制增強，誤差不一定變好</text>
+<path d="M 18 46 H 48" stroke="#245cb8" stroke-width="2.5"/>
+<text x="55" y="51" font-size="13" text-anchor="start">訓練</text>
+<path d="M 119 46 H 149" stroke="#9a4d00" stroke-dasharray="6 4" stroke-width="2.5"/>
+<text x="155" y="51" font-size="13" text-anchor="start">驗證</text>
+<text x="16" y="77" font-size="15" text-anchor="start">房價：MSE（目標單位平方）</text>
+<path d="M 58 230.0 H 300" stroke="#e1e6ef"/>
+<text x="45" y="234.0" font-size="12" text-anchor="end">0</text>
+<path d="M 58 191.42857142857144 H 300" stroke="#e1e6ef"/>
+<text x="45" y="195.42857142857144" font-size="12" text-anchor="end">1</text>
+<path d="M 58 152.85714285714286 H 300" stroke="#e1e6ef"/>
+<text x="45" y="156.85714285714286" font-size="12" text-anchor="end">2</text>
+<path d="M 58 114.28571428571429 H 300" stroke="#e1e6ef"/>
+<text x="45" y="118.28571428571429" font-size="12" text-anchor="end">3</text>
+<path d="M 58 90 V 230 H 300" stroke="#64748b" fill="none"/>
+<polyline points="58,171.010 179,167.711 300,119.605" stroke="#245cb8" stroke-width="2.5" fill="none"/>
+<circle cx="58" cy="171.010" r="3.5" fill="#245cb8"/>
+<circle cx="179" cy="167.711" r="3.5" fill="#245cb8"/>
+<circle cx="300" cy="119.605" r="3.5" fill="#245cb8"/>
+<polyline points="58,181.071 179,178.499 300,123.505" stroke="#9a4d00" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+<rect x="54.5" y="177.571" width="7" height="7" fill="#9a4d00"/>
+<rect x="175.5" y="174.999" width="7" height="7" fill="#9a4d00"/>
+<rect x="296.5" y="120.005" width="7" height="7" fill="#9a4d00"/>
+<text x="58" y="249" font-size="13" text-anchor="middle">0.02</text>
+<text x="179" y="249" font-size="13" text-anchor="middle">0.2</text>
+<text x="300" y="249" font-size="13" text-anchor="middle">2.0</text>
+<text x="180" y="269" font-size="13" text-anchor="middle">正則化係數 λ（對數間距）</text>
+<text x="16" y="298" font-size="15" text-anchor="start">客服情緒：MSE（目標單位平方）</text>
+<path d="M 58 451.0 H 300" stroke="#e1e6ef"/>
+<text x="45" y="455.0" font-size="12" text-anchor="end">0</text>
+<path d="M 58 412.42857142857144 H 300" stroke="#e1e6ef"/>
+<text x="45" y="416.42857142857144" font-size="12" text-anchor="end">1</text>
+<path d="M 58 373.8571428571429 H 300" stroke="#e1e6ef"/>
+<text x="45" y="377.8571428571429" font-size="12" text-anchor="end">2</text>
+<path d="M 58 335.2857142857143 H 300" stroke="#e1e6ef"/>
+<text x="45" y="339.2857142857143" font-size="12" text-anchor="end">3</text>
+<path d="M 58 311 V 451 H 300" stroke="#64748b" fill="none"/>
+<polyline points="58,389.955 179,385.426 300,352.091" stroke="#245cb8" stroke-width="2.5" fill="none"/>
+<circle cx="58" cy="389.955" r="3.5" fill="#245cb8"/>
+<circle cx="179" cy="385.426" r="3.5" fill="#245cb8"/>
+<circle cx="300" cy="352.091" r="3.5" fill="#245cb8"/>
+<polyline points="58,422.133 179,407.973 300,333.057" stroke="#9a4d00" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+<rect x="54.5" y="418.633" width="7" height="7" fill="#9a4d00"/>
+<rect x="175.5" y="404.473" width="7" height="7" fill="#9a4d00"/>
+<rect x="296.5" y="329.557" width="7" height="7" fill="#9a4d00"/>
+<text x="58" y="470" font-size="13" text-anchor="middle">0.02</text>
+<text x="179" y="470" font-size="13" text-anchor="middle">0.2</text>
+<text x="300" y="470" font-size="13" text-anchor="middle">2.0</text>
+<text x="180" y="490" font-size="13" text-anchor="middle">正則化係數 λ（對數間距）</text>
+<text x="16" y="523" font-size="12" text-anchor="start">教學合成資料；72 筆訓練、24 筆驗證。</text>
+</g></svg>

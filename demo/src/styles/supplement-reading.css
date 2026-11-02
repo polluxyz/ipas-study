@@ -1,0 +1,26 @@
+/* 正式頁沿用 C 版的淡底與小標籤；局部變數同時適用 Starlight 與對比頁。 */
+.textbook-supplement, .textbook-supplement-section, .supplement-filter {
+  --supp-ink: #293d35; --supp-muted: #5f6d62; --supp-bg: #f6f5ed; --supp-line: #c5c8b9; --supp-accent: #315f4b; --supp-surface: #fffefa;
+}
+[data-theme='dark'] :is(.textbook-supplement, .textbook-supplement-section, .supplement-filter) {
+  --supp-ink: #e3e9df; --supp-muted: #b0beb1; --supp-bg: #242e28; --supp-line: #647263; --supp-accent: #bcdbc1; --supp-surface: #1e2924;
+}
+.textbook-supplement { color: var(--supp-ink); background: var(--supp-bg); border-inline-start: 2px solid var(--supp-line); border-radius: 0 .3rem .3rem 0; padding: .8rem 1rem; margin-block: 1.25rem; min-width: 0; overflow-wrap: anywhere; }
+.textbook-supplement-section { --ink: var(--supp-ink); --green: var(--supp-accent); color: var(--supp-ink); }
+.study-content .textbook-supplement a:not(.button) { color: var(--supp-accent); }
+.textbook-supplement pre { padding: .8rem 1rem; font-size: .82rem; }
+.textbook-supplement pre code { padding: 0; background: transparent; font-size: inherit; overflow-wrap: normal; }
+.textbook-supplement > .supplement-label { margin: 0 0 .65rem; color: var(--supp-muted); font-size: .75rem; font-weight: 400; }
+.textbook-supplement > .supplement-source { color: var(--supp-muted); border-top: 1px solid var(--supp-line); padding-top: .6rem; margin-top: .85rem; font-size: .75rem; line-height: 1.7; }
+.supplement-filter { border-block: 1px solid var(--supp-line); padding: .65rem 0; margin-block: 1rem; color: var(--supp-ink); }
+.supplement-filter-heading { display: flex; flex-wrap: wrap; align-items: center; gap: .15rem 1rem; min-width: 0; }
+.supplement-filter-description { flex: 1 1 16rem; min-width: 0; margin: 0 !important; color: var(--supp-muted); font-size: .75rem; line-height: 1.7; overflow-wrap: anywhere; }
+.supplement-filter-label { display: inline-flex; align-items: center; gap: .6rem; min-height: 2.75rem; font-size: .85rem; cursor: pointer; position: relative; }
+.supplement-filter-label input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.supplement-switch { width: 2.35rem; height: 1.35rem; flex-shrink: 0; border-radius: 1rem; background: var(--supp-line); border: 1px solid var(--supp-muted); pointer-events: none; }
+.supplement-switch::after { content: ''; display: block; width: .9rem; height: .9rem; border-radius: 50%; background: var(--supp-muted); margin: .15rem; }
+.supplement-filter-label input:checked + .supplement-switch { background: var(--supp-accent); border-color: var(--supp-accent); }
+.supplement-filter-label input:checked + .supplement-switch::after { background: var(--supp-surface); transform: translateX(.95rem); }
+.supplement-filter-label input:focus-visible + .supplement-switch { outline: 3px solid var(--supp-accent); outline-offset: 4px; }
+.supplement-filter [data-filter-status] { margin: .15rem 0 0; font-size: .75rem; color: var(--supp-muted); }
+[data-supplement][hidden], [data-supplement-filter][hidden], starlight-toc [hidden], mobile-starlight-toc [hidden], [data-supplement-toc] [hidden] { display: none !important; }

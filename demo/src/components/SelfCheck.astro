@@ -1,0 +1,23 @@
+---
+/** 檢核題只在本頁回饋；選擇後揭示逐項理由，簡答先思考再展開關鍵點。 */
+import { optionFeedback, orderSelfChecks, type SelfCheck } from '../lib/textbook';
+interface Props { checks: SelfCheck[]; prefix: string; }
+const { checks, prefix } = Astro.props;
+---
+<div class="self-check-list">
+  {orderSelfChecks(checks).map((check, index) => <article class="self-check" data-self-check data-check-id={check.id} data-check-type={check.type}>
+    <span class="eyebrow">檢核 {index + 1}・{check.type === 'choice' ? '選擇題' : '簡答題'}</span>
+    {check.type === 'choice' ? <fieldset><legend>{check.prompt}</legend><p class="muted">先選一個答案，再看各選項的理由。</p><div class="self-check-options">{Object.entries(check.options).map(([id, text]) => <label><input type="radio" name={`${prefix}-${check.id}`} value={id} /><span><b>{id}</b> {text}</span></label>)}</div>
+      <div data-check-feedback hidden aria-live="polite"><p><strong>參考答案：{check.answer}</strong></p><dl>{optionFeedback(check, check.answer).map((feedback) => <div><dt>{feedback.id}{feedback.correct ? ' ✓' : ''}</dt><dd>{feedback.text}</dd></div>)}</dl></div>
+    </fieldset> : <><h3>{check.prompt}</h3><p class="muted">先想好或寫下你的答案，再對照關鍵點。</p><label class="sr-only" for={`${prefix}-${check.id}`}>你的筆記（不儲存）</label><textarea id={`${prefix}-${check.id}`} rows="3" placeholder="可在這裡寫下想法，離開頁面後不保留。"></textarea><details data-short-answer><summary>我想好了，展開關鍵點</summary><ul>{check.key_points.map((point) => <li>{point}</li>)}</ul></details></>}
+  </article>)}
+</div>
+<script>
+  for (const card of document.querySelectorAll<HTMLElement>('[data-self-check]')) {
+    card.addEventListener('change', () => {
+      if (!card.querySelector('input:checked')) return;
+      const feedback = card.querySelector<HTMLElement>('[data-check-feedback]');
+      if (feedback) feedback.hidden = false;
+    });
+  }
+</script>

@@ -1,0 +1,79 @@
+---
+/** 概念本文保持連續閱讀，前置在頁首，對策與比較在正文後集中呈現並保留來源。 */
+import { render } from 'astro:content';
+import StudyPage from '../../components/StudyPage.astro';
+import Sources from '../../components/Sources.astro';
+import SelfCheck from '../../components/SelfCheck.astro';
+import ConceptIntro from '../../components/ConceptIntro.astro';
+import SupplementFilter from '../../components/SupplementFilter.astro';
+import { conceptLearning } from '../../lib/textbook';
+import Diagrams from '../../components/Diagrams.astro';
+import ReadingToggle from '../../components/ReadingToggle.astro';
+import { getData, conceptUrl, questionUrl, sourceLabel, prerequisiteOrder, categoryPaths } from '../../lib/content';
+import { flattenStages } from '../../lib/learning-route';
+import { relatedPastQuestionIds } from '../../lib/relation-sources';
+export async function getStaticPaths() { const { concepts } = await getData(); return concepts.map((entry) => ({ params: { id: entry.data.id }, props: { entry } })); }
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const { concepts, questions, byId, codes } = await getData();
+const data = entry.data;
+const learning = conceptLearning(data);
+const route = codes.find((code) => code.data.code === 'L23303');
+const readingOrder = flattenStages(route?.data.stages ?? []).filter((id) => byId.has(id));
+const readingIndex = readingOrder.indexOf(data.id);
+const previousId = readingIndex > 0 ? readingOrder[readingIndex - 1] : undefined;
+const nextId = readingIndex >= 0 ? readingOrder[readingIndex + 1] : undefined;
+const required = prerequisiteOrder(data.id, concepts);
+const paths = categoryPaths(data.id, concepts);
+const solutions = concepts.flatMap((c) => c.data.mitigates.filter((r) => r.target === data.id).map((r) => ({ concept: c, ...r })));
+const comparisons = concepts.flatMap((c) => c.data.contrasts.filter((r) => c.data.id === data.id || r.target === data.id).map((r) => ({ a: c.data.id, b: r.target, ...r })));
+const reverse = concepts.filter((c) => c.data.requires.includes(data.id));
+const kinds = concepts.filter((c) => c.data.is_a.includes(data.id));
+const parts = concepts.filter((c) => c.data.part_of.includes(data.id));
+const backlinks = concepts.filter((c) => c.data.id !== data.id && ((c.body ?? '').match(/\[\[([^\]]+)\]\]/g) ?? []).some((token) => [data.id, data.title, ...data.aliases].includes(token.slice(2, -2))));
+const related = questions.filter((q) => q.source === 'exam' && q.concepts.includes(data.id));
+const pastQuestionIds = relatedPastQuestionIds(data.id, concepts.map((c) => c.data), related.map((q) => q.id), data.guide_refs);
+const questionById = new Map(questions.filter((q) => q.source === 'exam').map((q) => [q.id, q]));
+const labels: Record<string, string> = { problem: '常見問題', technique: '方法與技巧', tool: '工具與 API', theory: '基礎原理', metric: '評估指標', model: '模型', component: '組成元件', regulation: '治理與規範' };
+const titleOf = (id: string) => byId.get(id)?.data.title ?? id;
+const toc = [...headings, { depth: 2, slug: 'connections', text: '把觀念串起來' }, ...(learning.checks.length ? [{ depth: 2, slug: 'self-check', text: '檢核小題' }] : [])];
+---
+<StudyPage title={data.title} section="概念手札" headings={toc}>
+  <div class="metadata"><span class="pill">{labels[data.kind] ?? data.kind}</span>{data.codes.map((code) => code === 'L23303' ? <a href="/codes/L23303/">{code}</a> : <span>{code}</span>)}<span class="draft-badge">範例內容・{data.status === 'reviewed' ? '已審查' : '待審查'}</span></div>
+  <div class="aliases">{data.aliases.join(' ／ ')}</div>
+  <ConceptIntro data={data} />
+  {paths.some((path) => path.length > 1) && <nav class="classification" aria-label="概念分類">{paths.map((path) => <div>{path.map((c, i) => <>{i > 0 && <span aria-hidden="true"> › </span>}<a href={conceptUrl(c.data.id)}>{c.data.title}</a></>)}</div>)}</nav>}
+  {required.length > 0 && <aside class="prerequisites" aria-label="建議先讀"><span class="aside-symbol">↳</span><div><strong>建議先讀</strong><p>依前置觀念排好順序，從左往右讀。</p><ol>{required.map((c) => <li><a href={conceptUrl(c.data.id)}>{c.data.title}</a></li>)}</ol></div></aside>}
+  <SupplementFilter target="concept-body" />
+  <div class="concept-prose prose" id="concept-body"><Content /></div>
+  <Diagrams />
+  <section class="connection-section" aria-labelledby="connections"><div class="section-heading"><div><span class="eyebrow">CONNECT THE DOTS</span><h2 id="connections">把觀念串起來</h2></div></div>
+    {solutions.length > 0 && <><h3>對策：如何防止{data.title}？</h3><div class="table-scroll"><table class="relation-table"><thead><tr><th>可以採取的做法</th><th>適用條件與提醒</th><th>來源</th></tr></thead><tbody>{solutions.map((r) => <tr><td><a href={conceptUrl(r.concept.data.id)}>{r.concept.data.title}</a></td><td>{r.note ?? '請參閱概念頁的適用情境。'}</td><td><Sources sources={r.source} /></td></tr>)}</tbody></table></div></>}
+    {data.mitigates.length > 0 && <><h3>用來處理</h3><div class="table-scroll"><table class="relation-table"><thead><tr><th>問題</th><th>適用條件與提醒</th><th>來源</th></tr></thead><tbody>{data.mitigates.map((r) => <tr><td><a href={conceptUrl(r.target)}>{titleOf(r.target)}</a></td><td>{r.note ?? '請參閱正文說明。'}</td><td><Sources sources={r.source} /></td></tr>)}</tbody></table></div></>}
+    {comparisons.length > 0 && <><h3>容易混淆：差別在哪裡？</h3><div class="table-scroll"><table class="relation-table"><thead><tr><th>比較的概念</th><th>關鍵差異</th><th>來源</th></tr></thead><tbody>{comparisons.map((r) => <tr><td><a href={conceptUrl(r.a)}>{titleOf(r.a)}</a><span class="versus">vs.</span><a href={conceptUrl(r.b)}>{titleOf(r.b)}</a></td><td>{r.note}</td><td><Sources sources={r.source} /></td></tr>)}</tbody></table></div></>}
+    {data.part_of.length > 0 && <div class="related-block"><h3>屬於</h3><div class="link-chips">{data.part_of.map((id) => <a href={conceptUrl(id)}>{titleOf(id)} ↗</a>)}</div></div>}
+    {parts.length > 0 && <div class="related-block"><h3>組成元件</h3><div class="link-chips">{parts.map((c) => <a href={conceptUrl(c.data.id)}>{c.data.title} ↗</a>)}</div></div>}
+    {kinds.length > 0 && <div class="related-block"><h3>種類</h3><div class="link-chips">{kinds.map((c) => <a href={conceptUrl(c.data.id)}>{c.data.title} ↗</a>)}</div></div>}
+    {reverse.length > 0 && <div class="related-block"><h3>讀完可以接著讀</h3><div class="link-chips">{reverse.map((c) => <a href={conceptUrl(c.data.id)}>{c.data.title} →</a>)}</div></div>}
+    <div class="related-block"><h3>連到這頁的概念</h3>{backlinks.length ? <div class="link-chips">{backlinks.map((c) => <a href={conceptUrl(c.data.id)}>{c.data.title} ↗</a>)}</div> : <p class="muted">目前沒有其他概念在正文連到這頁。</p>}</div>
+  </section>
+  {learning.checks.length > 0 && <section aria-labelledby="self-check"><h2 id="self-check">檢核小題</h2><p class="muted">確認理解即可，本輪不儲存作答。</p><SelfCheck checks={learning.checks} prefix={data.id} /></section>}
+  <ReadingToggle conceptId={data.id} />
+  <nav class="concept-pagination" aria-label="概念閱讀順序">
+    {previousId && <a class="concept-previous" rel="prev" href={conceptUrl(previousId)}><small>← 上一節</small><span>{titleOf(previousId)}</span></a>}
+    {nextId && <a class="concept-next" rel="next" href={conceptUrl(nextId)}><small>下一節 →</small><span>{titleOf(nextId)}</span></a>}
+  </nav>
+  <p class="fine-print">{data.guide_refs.length > 0 ? <>教材對照：<Sources sources={data.guide_refs} />。</> : '本頁尚無學習指引對應頁碼。'}範例筆記與解析仍需內容審查。</p>
+  <details class="past-question-links"><summary>相關考古題</summary>{pastQuestionIds.length ? <ul>{pastQuestionIds.map((id) => { const q = questionById.get(id); return <li>{q ? <a href={questionUrl(id)}>{sourceLabel(q)}</a> : <span>{id}（題目尚未收錄）</span>}</li>; })}</ul> : <p class="muted">目前尚無相關考古題。</p>}</details>
+</StudyPage>
+<script>
+  // 保留作者正文與錨點，把進階到下一節之間的內容收進選讀區。
+  for (const heading of document.querySelectorAll<HTMLElement>('.concept-prose h2')) {
+    if (!heading.textContent?.trim().startsWith('進階')) continue;
+    const details = document.createElement('details'); details.className = 'advanced-reading';
+    const summary = document.createElement('summary'); summary.textContent = heading.textContent; summary.id = heading.id;
+    let next = heading.nextElementSibling;
+    heading.replaceWith(details); details.append(summary);
+    while (next && next.tagName !== 'H2') { const current = next; next = current.nextElementSibling; details.append(current); }
+  }
+</script>

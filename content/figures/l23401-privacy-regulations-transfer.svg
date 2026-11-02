@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="660" viewBox="0 0 360 660" role="img" aria-labelledby="title desc">
+<title id="title">三條用途資料流與跨境待查</title><desc id="desc">F1 服務流向臺北客服；F2 擬供臺北模型組使用；F3 擬交美國另一法人驗證，尚未傳送。須查接收方、再轉交及跨境保障。</desc>
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#375a70"/></marker></defs>
+<rect width="360" height="660" rx="12" fill="#f8fafc"/>
+<g font-family="Microsoft JhengHei,Noto Sans TC,sans-serif" text-anchor="middle">
+<text x="180" y="31" font-size="17" font-weight="700" fill="#17364b">三條用途資料流與跨境待查</text>
+<rect x="16" y="53" width="328" height="80" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<text x="180" y="83" font-size="16" font-weight="700" fill="#17364b">兩平台表單及對話來源</text>
+<text x="180" y="110" font-size="15" fill="#25465c">服務地區：臺灣、EEA、加州</text>
+<path d="M180 136 V159" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="165" width="328" height="80" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="180" y="195" font-size="16" font-weight="700" fill="#17364b">F1：臺北平台客服組</text>
+<text x="180" y="222" font-size="15" fill="#25465c">目的：處理本次服務請求</text>
+<path d="M180 248 V271" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="277" width="328" height="80" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<text x="180" y="307" font-size="16" font-weight="700" fill="#17364b">F2：臺北內部模型組</text>
+<text x="180" y="334" font-size="15" fill="#25465c">新目的：內部意圖分類</text>
+<path d="M180 360 V383" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="389" width="328" height="80" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="180" y="419" font-size="16" font-weight="700" fill="#17364b">F3（擬議）：美國另一法人</text>
+<text x="180" y="446" font-size="15" fill="#25465c">俄勒岡州雲端驗證，尚未傳送</text>
+<path d="M180 472 V495" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="501" width="328" height="80" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<text x="180" y="531" font-size="16" font-weight="700" fill="#17364b">繼續追查：次處理商與刪除</text>
+<text x="180" y="558" font-size="15" fill="#25465c">機制、契約、接收地與再轉交</text>
+<text x="180" y="640" font-size="14" fill="#25465c">每條箭頭：查目的、依據與接收者</text></g></svg>

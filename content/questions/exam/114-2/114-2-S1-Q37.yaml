@@ -1,0 +1,36 @@
+id: 114-2-S1-Q37
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 37
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 10
+type: 情境
+codes: [L23303, L23304]
+concepts: [mini-batch-gradient-descent]
+stem: |
+  某公司正在訓練一個大型語音合成模型，開發團隊使用多台 GPU 進行訓練，但經常出現 GPU 記憶體不足問題。由於模型架構已固定且無法更換硬體，團隊希望在維持模型效能與收斂品質的前提下，下列哪一種方法最有效降低單張 GPU 的記憶體壓力？
+options:
+  A: 減少訓練資料量以降低記憶體使用
+  B: 採用較小的批次大小（Batch Size）並搭配資料分片（Data Sharding）分散訓練負載
+  C: 增加學習率（Learning Rate）以加快收斂速度
+  D: 改用測試資料集（Test Set）進行部分訓練以節省空間
+answer: B
+explanation:
+  summary: 每張 GPU 處理的小批次大小會影響訓練時需要保留的中間張量與記憶體用量。
+  correct: 縮小每張 GPU 的批次，可降低同時保存的樣本與中間活化值數量；資料分片則讓不同 GPU 處理不同資料部分，B 因此最合理。一般資料平行訓練仍在各卡保留模型副本，資料分片本身不會切分模型參數；改動批次後也應重新驗證收斂品質。
+  wrong:
+    A: 在按批載入資料的流程中，資料集總筆數不是單次 GPU 記憶體用量的主要決定因素，刪減資料還可能犧牲模型品質。
+    C: 學習率控制參數更新步幅，不會直接減少必須保存的模型或活化值；設得過高也可能使訓練不穩。
+    D: 測試資料一旦參與訓練，就失去獨立評估的用途；更換資料來源也沒有解決每批記憶體需求。
+  rule: 顯存不足時，要先縮小每卡批次。
+guide_refs: [guide-3:5-18, guide-3:5-19]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 10
+    by: QA
+  blind_answer: B
+  dispute: null

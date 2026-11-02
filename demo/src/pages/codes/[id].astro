@@ -1,0 +1,62 @@
+﻿---
+/** 學習路線集中閱讀目標與進度，教材檢核題與考古題分開進入。 */
+import { getCollection, render } from 'astro:content';
+import StudyPage from '../../components/StudyPage.astro';
+import RouteConcept from '../../components/RouteConcept.astro';
+import { getData } from '../../lib/content';
+import { stageChecks } from '../../lib/textbook';
+export async function getStaticPaths() { const { codes } = await getData(); return codes.map((entry) => ({ params: { id: entry.data.code }, props: { entry } })); }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { concepts, byId } = await getData();
+const hasCheatsheet = (await getCollection(process.env.TEXTBOOK_TEST_FIXTURES === '1' ? 'cheatsheetFixtures' : 'cheatsheets')).some((sheet) => sheet.data.code === entry.data.code);
+const stages = (entry.data.stages ?? []).map((stage) => ({ ...stage, checks: stageChecks(stage.concepts.map((item) => item.id), concepts.map((item) => item.data)) }));
+const progressCatalog = stages.map((stage) => ({ id: stage.id, concepts: stage.concepts.map((concept) => concept.id), checks: stage.checks.map((check) => check.id) }));
+---
+<StudyPage title={entry.data.title} section={entry.data.code} headings={[{ depth: 2, slug: 'route', text: '分階段學習路線' }, ...stages.map((stage) => ({ depth: 2, slug: `stage-${stage.id}`, text: stage.title }))]}>
+  <div class="metadata"><span class="pill">{entry.data.code}</span><span>科目 {entry.data.subject}</span><span>學習指引 §{entry.data.guide_section}</span></div>
+  <p class="lead">把一個單元，拆成每天走得完的一小段。<br />讀懂目標、標記已讀，再用階段小測驗確認理解。</p>
+  <div class="unit-summary"><div><strong>{entry.data.concepts.length}</strong><span>個概念</span></div><div><strong>{stages.length}</strong><span>個階段</span></div><a class="button secondary" href={`/practice/${entry.data.code}/`}>前往練習 →</a></div>
+  {hasCheatsheet && <aside class="cheatsheet-entry"><div><strong>考前快速複習</strong><p>公式、指標怎麼選、模型診斷，一頁回想。</p></div><a class="button secondary" href={`/codes/${entry.data.code}/cheatsheet/`}>開啟速查 →</a></aside>}
+  <div class="prose"><Content /></div>
+  <section aria-labelledby="route">
+    <div class="section-heading"><div><span class="eyebrow">STEP BY STEP</span><h2 id="route">{stages.length ? '分階段學習路線' : '建議閱讀順序'}</h2></div></div>
+    <p class="route-note">依序讀完概念，再用教材檢核題確認理解。已讀紀錄保留在此瀏覽器；檢核題不儲存答案。</p>
+    <p id="route-storage-status" role="status" class="reading-feedback" data-pagefind-ignore></p>
+    {stages.length ? <>
+      <nav class="stage-jump" aria-label="學習階段">{stages.map((stage, index) => <a href={`#stage-${stage.id}`}><span>{String(index + 1).padStart(2, '0')}</span>{stage.title}</a>)}</nav>
+      <div class="stage-list">{stages.map((stage, index) => <section class="route-stage" data-stage={stage.id} aria-labelledby={`stage-${stage.id}`}>
+        <header class="stage-header"><span class="stage-number">{String(index + 1).padStart(2, '0')}</span><div><span class="eyebrow">階段 {index + 1}</span><h2 id={`stage-${stage.id}`}>{stage.title}</h2></div><span class="stage-size">{stage.concepts.length} 個概念</span></header>
+        <div class="stage-overview">{stage.intro && <p class="stage-intro">{stage.intro}</p>}<div class="stage-progress" data-pagefind-ignore><span data-stage-reading>已讀 — / {stage.concepts.length}</span><progress data-reading-progress max={Math.max(1, stage.concepts.length)} value="0" aria-label={`${stage.title} 閱讀進度`}></progress></div></div>
+        <ol class="learning-route staged-route">{stage.concepts.map((concept, conceptIndex) => <RouteConcept id={concept.id} goal={concept.goal} index={conceptIndex} concept={byId.get(concept.id)} />)}</ol>
+        <footer class="stage-footer"><span>先讀完，再試著不看筆記回答。</span>{stage.checks.length ? <a class="button secondary" data-stage-quiz href={`/self-check/?code=${entry.data.code}&stage=${stage.id}`}>階段小測驗・{Math.min(5, stage.checks.length)} 題 →</a> : <span class="tag">檢核小題準備中</span>}</footer>
+      </section>)}</div>
+    </> : <ol class="learning-route">{entry.data.concepts.map((id, index) => <RouteConcept id={id} index={index} concept={byId.get(id)} />)}</ol>}
+  </section>
+  <script type="application/json" id="route-progress-catalog" set:html={JSON.stringify(progressCatalog).replace(/</g, '\u003c')}></script>
+</StudyPage>
+<script>
+  import { getReadings } from '../../lib/attempts';
+  interface ProgressStage { id: string; concepts: string[]; }
+  const catalog: ProgressStage[] = JSON.parse(document.getElementById('route-progress-catalog')?.textContent ?? '[]');
+  function refreshRoute() {
+    try {
+      const read = new Set(getReadings().map((reading) => reading.conceptId));
+      for (const element of document.querySelectorAll<HTMLElement>('[data-route-concept]')) {
+        const state = element.querySelector('[data-reading-state]'); const isRead = read.has(element.dataset.routeConcept!);
+        element.classList.toggle('is-read', isRead); if (state) state.textContent = isRead ? '✓ 已讀' : '未讀';
+      }
+      for (const element of document.querySelectorAll<HTMLElement>('[data-stage]')) {
+        const stage = catalog.find((stage) => stage.id === element.dataset.stage); if (!stage) continue;
+        const count = stage.concepts.filter((id) => read.has(id)).length;
+        const label = element.querySelector('[data-stage-reading]'); if (label) label.textContent = `已讀 ${count} / ${stage.concepts.length}`;
+        const bar = element.querySelector<HTMLProgressElement>('[data-reading-progress]'); if (bar) bar.value = count;
+      }
+    } catch (error) { const status = document.getElementById('route-storage-status'); if (status) status.textContent = `無法載入閱讀進度：${error instanceof Error ? error.message : String(error)}`; }
+  }
+  refreshRoute(); window.addEventListener('pageshow', refreshRoute); window.addEventListener('storage', refreshRoute);
+</script>
+<style>
+  .cheatsheet-entry { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; border: 1px solid var(--line); border-inline-start: 3px solid var(--green); background: var(--paper); border-radius: .5rem; padding: 1rem 1.2rem; margin-block: 0 1.8rem !important; }
+  .cheatsheet-entry p { font-size: .85rem; color: var(--muted); margin-top: .3rem; }
+</style>

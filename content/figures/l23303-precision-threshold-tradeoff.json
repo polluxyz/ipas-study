@@ -1,0 +1,97 @@
+{
+  "id": "l23303-precision-threshold-tradeoff",
+  "kind": "pr",
+  "title": "同一批交易的精確率與召回率",
+  "description": "橫軸召回率、縱軸精確率；標示 0.75、0.5、0.2 三個閾值，注意同一條曲線上的警報取捨。",
+  "source": {
+    "type": "synthetic",
+    "note": "教學模擬資料；逐筆來自 content/examples/L23303-classification.json，盜刷為正類。"
+  },
+  "samples": [
+    {
+      "label": 1,
+      "score": 0.95
+    },
+    {
+      "label": 1,
+      "score": 0.9
+    },
+    {
+      "label": 0,
+      "score": 0.85
+    },
+    {
+      "label": 1,
+      "score": 0.8
+    },
+    {
+      "label": 1,
+      "score": 0.75
+    },
+    {
+      "label": 1,
+      "score": 0.65
+    },
+    {
+      "label": 0,
+      "score": 0.65
+    },
+    {
+      "label": 1,
+      "score": 0.5
+    },
+    {
+      "label": 0,
+      "score": 0.4
+    },
+    {
+      "label": 1,
+      "score": 0.35
+    },
+    {
+      "label": 0,
+      "score": 0.3
+    },
+    {
+      "label": 0,
+      "score": 0.25
+    },
+    {
+      "label": 1,
+      "score": 0.2
+    },
+    {
+      "label": 0,
+      "score": 0.18
+    },
+    {
+      "label": 0,
+      "score": 0.15
+    },
+    {
+      "label": 0,
+      "score": 0.12
+    },
+    {
+      "label": 0,
+      "score": 0.1
+    },
+    {
+      "label": 0,
+      "score": 0.08
+    },
+    {
+      "label": 0,
+      "score": 0.05
+    },
+    {
+      "label": 0,
+      "score": 0.02
+    }
+  ],
+  "thresholds": [
+    0.75,
+    0.5,
+    0.2
+  ]
+}

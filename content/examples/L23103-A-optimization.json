@@ -1,0 +1,110 @@
+{
+  "source": "教學合成資料，沒有實測或因果意涵",
+  "seed": 23103,
+  "train_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "validation_indices": [],
+  "feature_transform": "x=(raw_feature-center)/scale",
+  "target_transform": "y=(raw_target-center)/scale",
+  "model": "y_hat=w*x+b",
+  "objective": "mean((y_hat-y)^2)",
+  "initial_parameters": [
+    0,
+    0
+  ],
+  "learning_rates": [
+    0.25,
+    1,
+    1.1
+  ],
+  "box_constraints": {
+    "w": [
+      0,
+      3
+    ],
+    "b": [
+      0,
+      0.5
+    ]
+  },
+  "mixture_candidates": [
+    [
+      0.2,
+      0.8
+    ],
+    [
+      -0.1,
+      1.1
+    ],
+    [
+      0.2,
+      0.7
+    ],
+    [
+      0,
+      1
+    ]
+  ],
+  "candidates": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      2,
+      1
+    ]
+  ],
+  "slice": {
+    "fixed_w": 2,
+    "initial_b": 2,
+    "steps": 4
+  },
+  "geometry": {
+    "u_range": [
+      -1.6,
+      1.6
+    ],
+    "v_range": [
+      -1.6,
+      1.6
+    ],
+    "tilt": 0.3
+  },
+  "stopping": {
+    "eta": 0.25,
+    "updates": 12,
+    "loss_delta": 0.01,
+    "consecutive": 2,
+    "gradient_norm": 0.05,
+    "budget_steps": 6,
+    "patience": 2,
+    "min_delta": 0.001,
+    "validation_loss": [
+      3.6,
+      1.5,
+      0.7,
+      0.4,
+      0.31,
+      0.3,
+      0.305,
+      0.31,
+      0.315,
+      0.32,
+      0.325,
+      0.33,
+      0.335
+    ],
+    "validation_note": "獨立的教學觀測序列，非訓練六筆資料的重算；沒有宣稱由另一組六筆線性資料推得"
+  }
+}

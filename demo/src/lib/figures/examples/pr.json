@@ -1,0 +1,6 @@
+{
+  "id": "pr", "kind": "pr", "title": "精確率與召回率", "description": "降低閾值可以找回更多正例，也可能增加誤報。",
+  "source": { "type": "synthetic", "note": "四筆教學模擬資料，與 ROC 範例相同" },
+  "samples": [{"label":0,"score":0.1},{"label":0,"score":0.4},{"label":1,"score":0.35},{"label":1,"score":0.8}],
+  "thresholds": [0.35]
+}

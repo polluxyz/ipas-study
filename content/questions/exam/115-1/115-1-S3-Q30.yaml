@@ -1,0 +1,37 @@
+id: 115-1-S3-Q30
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 30
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 8
+type: 情境
+codes: [L23303, L23201]
+concepts: [overfitting, k-fold-cross-validation, roc-auc]
+stem: |
+  某信用風險模型：訓練 AUC=0.97、驗證 AUC=0.72、少數違約樣本預測波動極大及不同 K-fold 切分結果差異明顯。下列何者為最可能的問題？
+options:
+  A: 高偏差
+  B: 高變異
+  C: 過擬合
+  D: 資料漂移
+answer: B
+explanation:
+  summary: 由不同資料切分造成的預測與評估波動，辨識模型對訓練樣本過度敏感的高變異現象。
+  correct: 官方答案為 B。模型在不同 K-fold 切分下表現差異大，且少數樣本的預測不穩定，最直接對應高變異，也就是訓練資料稍有改變，模型輸出就明顯變動。訓練與驗證 AUC 的大幅落差亦顯示泛化不佳；但這同時支持選項 C，因此需保留爭議。重複交叉驗證可量測這種波動，卻不會自動降低模型對訓練樣本的敏感度。
+  wrong:
+    A: 高偏差通常表示模型無法充分學到資料規律，連訓練表現也不理想。此處訓練 AUC 已達 0.97，較不符合這種描述。
+    C: 此選項不能嚴格判為錯誤。訓練表現很好而驗證表現較差，確實符合過擬合的典型徵兆；官方以跨切分波動指向較具體的高變異，但兩者並非互斥。
+    D: 資料漂移需有輸入分布或資料關係改變的證據。題目只描述切分間的不穩定及訓練、驗證落差，沒有提供時間或分布變動資訊。
+  rule: 跨切分波動要看高變異，訓練驗證落差看過擬合，兩者可並存。
+guide_refs: [guide-3:5-22, guide-3:5-26, guide-3:5-16]
+author: codex
+review:
+  status: disputed
+  answer_checked:
+    pdf_page: 8
+    by: QC
+  blind_answer: B
+  dispute: |
+    官方答案 B。支持 B 的依據是不同 K-fold 切分造成明顯差異，並且少數違約樣本的預測劇烈波動，符合高變異對訓練樣本變動敏感的特性。爭議在於訓練 AUC=0.97、驗證 AUC=0.72 也支持 C「過擬合」，而高變異與過擬合可以同時存在，不能把 C 視為概念上錯誤。判定：保留官方 B 作為計分答案，學習時同時理解其過擬合徵兆與跨切分穩定性問題。高變異的定義可參考 [scikit-learn 官方偏差與變異示例](https://scikit-learn.org/stable/auto_examples/ensemble/plot_bias_variance.html)。

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="420" viewBox="0 0 360 420" role="img" aria-labelledby="title desc">
+<title id="title">同一機率下的兩種成本決策</title>
+<desc id="desc">複檢能避免全部漏檢損失，正常品放行損失為零。 教學合成模型示意，非觀測頻數。</desc>
+<rect width="360" height="420" fill="white"/>
+<g font-family="Microsoft JhengHei, Noto Sans TC, sans-serif">
+<text x="180" y="27" font-size="18" text-anchor="middle" fill="#182b40">特徵 → 機率 → 成本決策</text>
+<rect x="30" y="48" width="300" height="65" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="180" y="74" font-size="16" text-anchor="middle" fill="#182b40">觀察：日班、厚度12 mm</text>
+<text x="180" y="99" font-size="15" text-anchor="middle" fill="#182b40">輸入特徵 x</text>
+<path d="M180 113 L180 130" fill="none" stroke="#182b40" stroke-width="2"/>
+<text x="180" y="130" font-size="14" text-anchor="middle" fill="#182b40">▼</text>
+<rect x="30" y="134" width="300" height="65" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="180" y="160" font-size="16" text-anchor="middle" fill="#182b40">模型：瑕疵機率0.2</text>
+<text x="180" y="185" font-size="15" text-anchor="middle" fill="#182b40">正常機率0.8</text>
+<path d="M180 199 L180 216" fill="none" stroke="#182b40" stroke-width="2"/>
+<text x="180" y="216" font-size="14" text-anchor="middle" fill="#182b40">▼</text>
+<rect x="30" y="220" width="300" height="65" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="180" y="246" font-size="16" text-anchor="middle" fill="#182b40">放行預期損失20元</text>
+<text x="180" y="271" font-size="15" text-anchor="middle" fill="#182b40">0.2 × 100 + 0.8 × 0</text>
+<rect x="20" y="315" width="150" height="70" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<rect x="190" y="315" width="150" height="70" rx="5" fill="#fff0df" stroke="#a34c00"/>
+<text x="95" y="343" font-size="16" text-anchor="middle" fill="#182b40">複檢8元</text>
+<text x="95" y="369" font-size="16" text-anchor="middle" fill="#182b40">選擇複檢</text>
+<text x="265" y="343" font-size="16" text-anchor="middle" fill="#182b40">複檢30元</text>
+<text x="265" y="369" font-size="16" text-anchor="middle" fill="#182b40">選擇放行</text>
+<path d="M180 285 L95 315" fill="none" stroke="#182b40" stroke-width="2"/>
+<path d="M180 285 L265 315" fill="none" stroke="#182b40" stroke-width="2"/>
+<text x="12" y="408" font-size="13" text-anchor="start" fill="#182b40">來源：教學合成模型示意</text>
+</g>
+</svg>

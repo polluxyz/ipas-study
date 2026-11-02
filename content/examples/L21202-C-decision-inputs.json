@@ -1,0 +1,3956 @@
+{
+  "source": "教學合成的方案與 token 帳；沒有模型/API 實測，沒有真實個資，所有單價均為自訂新臺幣假設。",
+  "seed": 212013,
+  "dataset_version": "L21202-C-v1",
+  "upstream": {
+    "file": "content/examples/L21201-C-poc-records.json",
+    "sha256": "ec32a9cd2dc1957d977882a9bd60a7f578142f0d514f0e05db7b738770f747fb",
+    "rule": "案件、兩輪版本、工時、採用、問卷與訪談均讀原檔；本檔不複製或改寫原流程成效。"
+  },
+  "split": {
+    "exploration_indices": [
+      41,
+      63,
+      93,
+      1,
+      73,
+      51,
+      14,
+      22,
+      92,
+      0,
+      43,
+      87,
+      75,
+      94,
+      13,
+      33,
+      34,
+      39,
+      69,
+      95,
+      59,
+      46,
+      91,
+      53,
+      60,
+      10,
+      12,
+      2,
+      84,
+      67,
+      66,
+      99,
+      40,
+      61,
+      16,
+      4,
+      3,
+      57,
+      32,
+      11,
+      31,
+      47,
+      83,
+      9,
+      48,
+      64,
+      29,
+      72,
+      74,
+      70,
+      86,
+      96,
+      50,
+      62,
+      19,
+      78,
+      82,
+      23,
+      27,
+      37,
+      68,
+      85,
+      90,
+      65,
+      49,
+      35,
+      26,
+      54,
+      17,
+      44,
+      45,
+      30,
+      58,
+      79,
+      42,
+      6,
+      20,
+      28,
+      8,
+      15
+    ],
+    "confirmation_indices": [
+      18,
+      7,
+      98,
+      88,
+      52,
+      38,
+      24,
+      71,
+      80,
+      21,
+      97,
+      25,
+      77,
+      81,
+      55,
+      89,
+      56,
+      5,
+      76,
+      36
+    ],
+    "rule": "每領域各100筆；探索80筆(一般64、複雜16)，確認20筆(一般16、複雜4)；相同索引跨頁沿用，兩領域不合併計算。"
+  },
+  "pricing": {
+    "unit_tokens": 1000,
+    "input_twd": 0.02,
+    "output_twd": 0.04,
+    "cache_read_twd": 0.002,
+    "cache_write_twd": 0.025,
+    "assumption": "假設服務允許本例前綴長度快取，無額外最低長度限制；未命中都建立快取，沒有其他費用；不是特定模型的費用預測或現行產品報價。"
+  },
+  "domains": [
+    {
+      "id": "medical",
+      "name": "醫療文件輔助核對",
+      "requirements": {
+        "next_phase_weeks": 6,
+        "next_phase_six_month_budget_twd": 200000,
+        "available_engineers": 2,
+        "data_boundary": "本案文件與處理均留在核准的院內環境。",
+        "goal": "僅文件核對，不做診斷；兩名工程師及已預留運算資源。"
+      },
+      "token_profile": {
+        "prefix": 1000,
+        "question": 200,
+        "history": 2400,
+        "retrieval": 2400,
+        "output": 600,
+        "short_history": 1200,
+        "selected_retrieval": 1600,
+        "daily_requests": 2000,
+        "daily_budget_twd": 220,
+        "context_limit": 8000,
+        "output_reserve": 1000,
+        "cache_hit_fraction": 0.5
+      },
+      "requests": [
+        {
+          "case_id": "M001",
+          "index": 0,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M002",
+          "index": 1,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M003",
+          "index": 2,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M004",
+          "index": 3,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M005",
+          "index": 4,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M006",
+          "index": 5,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M007",
+          "index": 6,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M008",
+          "index": 7,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M009",
+          "index": 8,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M010",
+          "index": 9,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M011",
+          "index": 10,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M012",
+          "index": 11,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M013",
+          "index": 12,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M014",
+          "index": 13,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M015",
+          "index": 14,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M016",
+          "index": 15,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M017",
+          "index": 16,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M018",
+          "index": 17,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M019",
+          "index": 18,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M020",
+          "index": 19,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M021",
+          "index": 20,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M022",
+          "index": 21,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M023",
+          "index": 22,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M024",
+          "index": 23,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M025",
+          "index": 24,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M026",
+          "index": 25,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M027",
+          "index": 26,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M028",
+          "index": 27,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M029",
+          "index": 28,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M030",
+          "index": 29,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M031",
+          "index": 30,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M032",
+          "index": 31,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M033",
+          "index": 32,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M034",
+          "index": 33,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M035",
+          "index": 34,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M036",
+          "index": 35,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M037",
+          "index": 36,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M038",
+          "index": 37,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M039",
+          "index": 38,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M040",
+          "index": 39,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M041",
+          "index": 40,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M042",
+          "index": 41,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M043",
+          "index": 42,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M044",
+          "index": 43,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M045",
+          "index": 44,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M046",
+          "index": 45,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M047",
+          "index": 46,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M048",
+          "index": 47,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M049",
+          "index": 48,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M050",
+          "index": 49,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M051",
+          "index": 50,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M052",
+          "index": 51,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M053",
+          "index": 52,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M054",
+          "index": 53,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M055",
+          "index": 54,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M056",
+          "index": 55,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M057",
+          "index": 56,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M058",
+          "index": 57,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M059",
+          "index": 58,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M060",
+          "index": 59,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M061",
+          "index": 60,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M062",
+          "index": 61,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M063",
+          "index": 62,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M064",
+          "index": 63,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M065",
+          "index": 64,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M066",
+          "index": 65,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M067",
+          "index": 66,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M068",
+          "index": 67,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M069",
+          "index": 68,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M070",
+          "index": 69,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M071",
+          "index": 70,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M072",
+          "index": 71,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M073",
+          "index": 72,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M074",
+          "index": 73,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M075",
+          "index": 74,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M076",
+          "index": 75,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M077",
+          "index": 76,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M078",
+          "index": 77,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M079",
+          "index": 78,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M080",
+          "index": 79,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M081",
+          "index": 80,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M082",
+          "index": 81,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M083",
+          "index": 82,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M084",
+          "index": 83,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M085",
+          "index": 84,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M086",
+          "index": 85,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M087",
+          "index": 86,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M088",
+          "index": 87,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M089",
+          "index": 88,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M090",
+          "index": 89,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M091",
+          "index": 90,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M092",
+          "index": 91,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M093",
+          "index": 92,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M094",
+          "index": 93,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M095",
+          "index": 94,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M096",
+          "index": 95,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M097",
+          "index": 96,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M098",
+          "index": 97,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M099",
+          "index": 98,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "M100",
+          "index": 99,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "M-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "M-v2",
+              "token_profile": "base"
+            }
+          }
+        }
+      ],
+      "token_quality_scenarios": {
+        "scope": "固定 v2 的探索80筆，只比較輸入策略的合成假設；不是獨立確認，也不代表實際生成結果。",
+        "base_correct_ids": [
+          "M001",
+          "M002",
+          "M003",
+          "M004",
+          "M005",
+          "M007",
+          "M009",
+          "M010",
+          "M011",
+          "M012",
+          "M013",
+          "M014",
+          "M015",
+          "M016",
+          "M017",
+          "M018",
+          "M020",
+          "M021",
+          "M023",
+          "M024",
+          "M027",
+          "M028",
+          "M029",
+          "M030",
+          "M031",
+          "M033",
+          "M034",
+          "M035",
+          "M036",
+          "M038",
+          "M040",
+          "M041",
+          "M043",
+          "M044",
+          "M045",
+          "M046",
+          "M047",
+          "M048",
+          "M049",
+          "M050",
+          "M051",
+          "M052",
+          "M054",
+          "M055",
+          "M058",
+          "M059",
+          "M061",
+          "M062",
+          "M063",
+          "M064",
+          "M065",
+          "M066",
+          "M067",
+          "M068",
+          "M070",
+          "M071",
+          "M073",
+          "M074",
+          "M075",
+          "M076",
+          "M079",
+          "M080",
+          "M083",
+          "M084",
+          "M085",
+          "M086",
+          "M087",
+          "M088",
+          "M091",
+          "M092",
+          "M093",
+          "M094",
+          "M095",
+          "M096",
+          "M097",
+          "M100"
+        ],
+        "summary_correct_ids": [
+          "M001",
+          "M002",
+          "M003",
+          "M004",
+          "M005",
+          "M007",
+          "M009",
+          "M010",
+          "M011",
+          "M012",
+          "M013",
+          "M014",
+          "M015",
+          "M016",
+          "M017",
+          "M018",
+          "M020",
+          "M021",
+          "M023",
+          "M024",
+          "M027",
+          "M028",
+          "M029",
+          "M030",
+          "M031",
+          "M033",
+          "M034",
+          "M035",
+          "M036",
+          "M038",
+          "M040",
+          "M041",
+          "M043",
+          "M044",
+          "M045",
+          "M046",
+          "M047",
+          "M048",
+          "M049",
+          "M050",
+          "M051",
+          "M052",
+          "M054",
+          "M055",
+          "M058",
+          "M059",
+          "M061",
+          "M062",
+          "M063",
+          "M064",
+          "M065",
+          "M066",
+          "M067",
+          "M068",
+          "M070",
+          "M071",
+          "M073",
+          "M074",
+          "M075",
+          "M076",
+          "M079",
+          "M080",
+          "M083",
+          "M084",
+          "M085",
+          "M086",
+          "M087",
+          "M088",
+          "M091",
+          "M092",
+          "M093",
+          "M094",
+          "M095",
+          "M096",
+          "M097",
+          "M100"
+        ],
+        "selected_retrieval_correct_ids": [
+          "M001",
+          "M002",
+          "M003",
+          "M004",
+          "M005",
+          "M007",
+          "M009",
+          "M010",
+          "M011",
+          "M012",
+          "M013",
+          "M014",
+          "M015",
+          "M016",
+          "M017",
+          "M018",
+          "M020",
+          "M021",
+          "M023",
+          "M024",
+          "M027",
+          "M028",
+          "M029",
+          "M030",
+          "M031",
+          "M033",
+          "M034",
+          "M035",
+          "M036",
+          "M038",
+          "M040",
+          "M041",
+          "M043",
+          "M044",
+          "M045",
+          "M046",
+          "M047",
+          "M048",
+          "M049",
+          "M050",
+          "M051",
+          "M052",
+          "M054",
+          "M055",
+          "M058",
+          "M059",
+          "M061",
+          "M062",
+          "M063",
+          "M064",
+          "M065",
+          "M066",
+          "M067",
+          "M068",
+          "M070",
+          "M071",
+          "M073",
+          "M074",
+          "M075",
+          "M076",
+          "M079",
+          "M080",
+          "M083",
+          "M084",
+          "M085",
+          "M086",
+          "M087",
+          "M088",
+          "M091",
+          "M092",
+          "M093",
+          "M094",
+          "M095",
+          "M096",
+          "M097",
+          "M100"
+        ],
+        "combined_correct_ids": [
+          "M001",
+          "M002",
+          "M003",
+          "M004",
+          "M005",
+          "M007",
+          "M009",
+          "M010",
+          "M011",
+          "M012",
+          "M013",
+          "M014",
+          "M015",
+          "M016",
+          "M017",
+          "M018",
+          "M020",
+          "M021",
+          "M023",
+          "M024",
+          "M027",
+          "M028",
+          "M029",
+          "M030",
+          "M031",
+          "M033",
+          "M034",
+          "M035",
+          "M036",
+          "M038",
+          "M040",
+          "M041",
+          "M043",
+          "M044",
+          "M045",
+          "M046",
+          "M047",
+          "M048",
+          "M049",
+          "M050",
+          "M051",
+          "M052",
+          "M054",
+          "M055",
+          "M058",
+          "M059",
+          "M061",
+          "M062",
+          "M063",
+          "M064",
+          "M065",
+          "M066",
+          "M067",
+          "M068",
+          "M070",
+          "M071",
+          "M073",
+          "M074",
+          "M075",
+          "M076",
+          "M079",
+          "M080",
+          "M083",
+          "M084",
+          "M085",
+          "M086",
+          "M087",
+          "M088",
+          "M091",
+          "M092",
+          "M093",
+          "M094",
+          "M095",
+          "M096",
+          "M097",
+          "M100"
+        ],
+        "aggressive_summary_correct_ids": [
+          "M005",
+          "M007",
+          "M009",
+          "M010",
+          "M011",
+          "M012",
+          "M013",
+          "M014",
+          "M015",
+          "M016",
+          "M017",
+          "M018",
+          "M020",
+          "M021",
+          "M023",
+          "M024",
+          "M027",
+          "M028",
+          "M029",
+          "M030",
+          "M031",
+          "M033",
+          "M034",
+          "M035",
+          "M036",
+          "M038",
+          "M040",
+          "M041",
+          "M043",
+          "M044",
+          "M045",
+          "M046",
+          "M047",
+          "M048",
+          "M049",
+          "M050",
+          "M051",
+          "M052",
+          "M054",
+          "M055",
+          "M058",
+          "M059",
+          "M061",
+          "M062",
+          "M063",
+          "M064",
+          "M065",
+          "M066",
+          "M067",
+          "M068",
+          "M070",
+          "M071",
+          "M073",
+          "M074",
+          "M075",
+          "M076",
+          "M079",
+          "M080",
+          "M083",
+          "M084",
+          "M085",
+          "M086",
+          "M087",
+          "M088",
+          "M091",
+          "M092",
+          "M093",
+          "M094",
+          "M095",
+          "M096",
+          "M097",
+          "M100"
+        ],
+        "minimum_correct": 76
+      }
+    },
+    {
+      "id": "support",
+      "name": "客服工單輔助分流",
+      "requirements": {
+        "next_phase_weeks": 6,
+        "next_phase_six_month_budget_twd": 200000,
+        "available_engineers": 1,
+        "data_boundary": "僅經審查的合成或去識別資料可交給候選雲服務；仍須核對用途、保存與權限。",
+        "goal": "保留人工覆核及既有通路，六週內試下一階段流程。"
+      },
+      "token_profile": {
+        "prefix": 800,
+        "question": 200,
+        "history": 2000,
+        "retrieval": 2000,
+        "output": 500,
+        "short_history": 800,
+        "selected_retrieval": 1200,
+        "daily_requests": 10000,
+        "daily_budget_twd": 900,
+        "context_limit": 6000,
+        "output_reserve": 800,
+        "cache_hit_fraction": 0.75
+      },
+      "requests": [
+        {
+          "case_id": "S001",
+          "index": 0,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S002",
+          "index": 1,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S003",
+          "index": 2,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S004",
+          "index": 3,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S005",
+          "index": 4,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S006",
+          "index": 5,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S007",
+          "index": 6,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S008",
+          "index": 7,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S009",
+          "index": 8,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S010",
+          "index": 9,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S011",
+          "index": 10,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S012",
+          "index": 11,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S013",
+          "index": 12,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S014",
+          "index": 13,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S015",
+          "index": 14,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S016",
+          "index": 15,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S017",
+          "index": 16,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S018",
+          "index": 17,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S019",
+          "index": 18,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S020",
+          "index": 19,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S021",
+          "index": 20,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S022",
+          "index": 21,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S023",
+          "index": 22,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S024",
+          "index": 23,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S025",
+          "index": 24,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S026",
+          "index": 25,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S027",
+          "index": 26,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S028",
+          "index": 27,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S029",
+          "index": 28,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S030",
+          "index": 29,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S031",
+          "index": 30,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S032",
+          "index": 31,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S033",
+          "index": 32,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S034",
+          "index": 33,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S035",
+          "index": 34,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S036",
+          "index": 35,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S037",
+          "index": 36,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S038",
+          "index": 37,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S039",
+          "index": 38,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S040",
+          "index": 39,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S041",
+          "index": 40,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S042",
+          "index": 41,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S043",
+          "index": 42,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S044",
+          "index": 43,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S045",
+          "index": 44,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S046",
+          "index": 45,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S047",
+          "index": 46,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S048",
+          "index": 47,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S049",
+          "index": 48,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S050",
+          "index": 49,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S051",
+          "index": 50,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S052",
+          "index": 51,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S053",
+          "index": 52,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S054",
+          "index": 53,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S055",
+          "index": 54,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S056",
+          "index": 55,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S057",
+          "index": 56,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S058",
+          "index": 57,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S059",
+          "index": 58,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S060",
+          "index": 59,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S061",
+          "index": 60,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S062",
+          "index": 61,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S063",
+          "index": 62,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S064",
+          "index": 63,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S065",
+          "index": 64,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S066",
+          "index": 65,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S067",
+          "index": 66,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S068",
+          "index": 67,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S069",
+          "index": 68,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S070",
+          "index": 69,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S071",
+          "index": 70,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S072",
+          "index": 71,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S073",
+          "index": 72,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S074",
+          "index": 73,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S075",
+          "index": 74,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S076",
+          "index": 75,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S077",
+          "index": 76,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S078",
+          "index": 77,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S079",
+          "index": 78,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S080",
+          "index": 79,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S081",
+          "index": 80,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S082",
+          "index": 81,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S083",
+          "index": 82,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S084",
+          "index": 83,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S085",
+          "index": 84,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S086",
+          "index": 85,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S087",
+          "index": 86,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S088",
+          "index": 87,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S089",
+          "index": 88,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S090",
+          "index": 89,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S091",
+          "index": 90,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S092",
+          "index": 91,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S093",
+          "index": 92,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S094",
+          "index": 93,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S095",
+          "index": 94,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S096",
+          "index": 95,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S097",
+          "index": 96,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S098",
+          "index": 97,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S099",
+          "index": 98,
+          "split": "confirmation",
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        },
+        {
+          "case_id": "S100",
+          "index": 99,
+          "split": "exploration",
+          "rounds": {
+            "r1": {
+              "flow_version": "S-v1",
+              "token_profile": "base"
+            },
+            "r2": {
+              "flow_version": "S-v2",
+              "token_profile": "base"
+            }
+          }
+        }
+      ],
+      "token_quality_scenarios": {
+        "scope": "固定 v2 的探索80筆，只比較輸入策略的合成假設；不是獨立確認，也不代表實際生成結果。",
+        "base_correct_ids": [
+          "S001",
+          "S002",
+          "S003",
+          "S004",
+          "S005",
+          "S007",
+          "S009",
+          "S010",
+          "S011",
+          "S012",
+          "S013",
+          "S014",
+          "S015",
+          "S016",
+          "S017",
+          "S018",
+          "S020",
+          "S021",
+          "S023",
+          "S024",
+          "S027",
+          "S028",
+          "S029",
+          "S030",
+          "S031",
+          "S033",
+          "S034",
+          "S035",
+          "S036",
+          "S038",
+          "S040",
+          "S041",
+          "S043",
+          "S044",
+          "S045",
+          "S046",
+          "S047",
+          "S048",
+          "S049",
+          "S050",
+          "S051",
+          "S052",
+          "S054",
+          "S055",
+          "S058",
+          "S059",
+          "S061",
+          "S062",
+          "S063",
+          "S064",
+          "S065",
+          "S066",
+          "S067",
+          "S068",
+          "S070",
+          "S071",
+          "S073",
+          "S074",
+          "S075",
+          "S076",
+          "S079",
+          "S080",
+          "S083",
+          "S084",
+          "S085",
+          "S086",
+          "S087",
+          "S088",
+          "S091",
+          "S092",
+          "S093",
+          "S094",
+          "S095",
+          "S096",
+          "S097",
+          "S100"
+        ],
+        "summary_correct_ids": [
+          "S001",
+          "S002",
+          "S003",
+          "S004",
+          "S005",
+          "S007",
+          "S009",
+          "S010",
+          "S011",
+          "S012",
+          "S013",
+          "S014",
+          "S015",
+          "S016",
+          "S017",
+          "S018",
+          "S020",
+          "S021",
+          "S023",
+          "S024",
+          "S027",
+          "S028",
+          "S029",
+          "S030",
+          "S031",
+          "S033",
+          "S034",
+          "S035",
+          "S036",
+          "S038",
+          "S040",
+          "S041",
+          "S043",
+          "S044",
+          "S045",
+          "S046",
+          "S047",
+          "S048",
+          "S049",
+          "S050",
+          "S051",
+          "S052",
+          "S054",
+          "S055",
+          "S058",
+          "S059",
+          "S061",
+          "S062",
+          "S063",
+          "S064",
+          "S065",
+          "S066",
+          "S067",
+          "S068",
+          "S070",
+          "S071",
+          "S073",
+          "S074",
+          "S075",
+          "S076",
+          "S079",
+          "S080",
+          "S083",
+          "S084",
+          "S085",
+          "S086",
+          "S087",
+          "S088",
+          "S091",
+          "S092",
+          "S093",
+          "S094",
+          "S095",
+          "S096",
+          "S097",
+          "S100"
+        ],
+        "selected_retrieval_correct_ids": [
+          "S001",
+          "S002",
+          "S003",
+          "S004",
+          "S005",
+          "S007",
+          "S009",
+          "S010",
+          "S011",
+          "S012",
+          "S013",
+          "S014",
+          "S015",
+          "S016",
+          "S017",
+          "S018",
+          "S020",
+          "S021",
+          "S023",
+          "S024",
+          "S027",
+          "S028",
+          "S029",
+          "S030",
+          "S031",
+          "S033",
+          "S034",
+          "S035",
+          "S036",
+          "S038",
+          "S040",
+          "S041",
+          "S043",
+          "S044",
+          "S045",
+          "S046",
+          "S047",
+          "S048",
+          "S049",
+          "S050",
+          "S051",
+          "S052",
+          "S054",
+          "S055",
+          "S058",
+          "S059",
+          "S061",
+          "S062",
+          "S063",
+          "S064",
+          "S065",
+          "S066",
+          "S067",
+          "S068",
+          "S070",
+          "S071",
+          "S073",
+          "S074",
+          "S075",
+          "S076",
+          "S079",
+          "S080",
+          "S083",
+          "S084",
+          "S085",
+          "S086",
+          "S087",
+          "S088",
+          "S091",
+          "S092",
+          "S093",
+          "S094",
+          "S095",
+          "S096",
+          "S097",
+          "S100"
+        ],
+        "combined_correct_ids": [
+          "S001",
+          "S002",
+          "S003",
+          "S004",
+          "S005",
+          "S007",
+          "S009",
+          "S010",
+          "S011",
+          "S012",
+          "S013",
+          "S014",
+          "S015",
+          "S016",
+          "S017",
+          "S018",
+          "S020",
+          "S021",
+          "S023",
+          "S024",
+          "S027",
+          "S028",
+          "S029",
+          "S030",
+          "S031",
+          "S033",
+          "S034",
+          "S035",
+          "S036",
+          "S038",
+          "S040",
+          "S041",
+          "S043",
+          "S044",
+          "S045",
+          "S046",
+          "S047",
+          "S048",
+          "S049",
+          "S050",
+          "S051",
+          "S052",
+          "S054",
+          "S055",
+          "S058",
+          "S059",
+          "S061",
+          "S062",
+          "S063",
+          "S064",
+          "S065",
+          "S066",
+          "S067",
+          "S068",
+          "S070",
+          "S071",
+          "S073",
+          "S074",
+          "S075",
+          "S076",
+          "S079",
+          "S080",
+          "S083",
+          "S084",
+          "S085",
+          "S086",
+          "S087",
+          "S088",
+          "S091",
+          "S092",
+          "S093",
+          "S094",
+          "S095",
+          "S096",
+          "S097",
+          "S100"
+        ],
+        "aggressive_summary_correct_ids": [
+          "S005",
+          "S007",
+          "S009",
+          "S010",
+          "S011",
+          "S012",
+          "S013",
+          "S014",
+          "S015",
+          "S016",
+          "S017",
+          "S018",
+          "S020",
+          "S021",
+          "S023",
+          "S024",
+          "S027",
+          "S028",
+          "S029",
+          "S030",
+          "S031",
+          "S033",
+          "S034",
+          "S035",
+          "S036",
+          "S038",
+          "S040",
+          "S041",
+          "S043",
+          "S044",
+          "S045",
+          "S046",
+          "S047",
+          "S048",
+          "S049",
+          "S050",
+          "S051",
+          "S052",
+          "S054",
+          "S055",
+          "S058",
+          "S059",
+          "S061",
+          "S062",
+          "S063",
+          "S064",
+          "S065",
+          "S066",
+          "S067",
+          "S068",
+          "S070",
+          "S071",
+          "S073",
+          "S074",
+          "S075",
+          "S076",
+          "S079",
+          "S080",
+          "S083",
+          "S084",
+          "S085",
+          "S086",
+          "S087",
+          "S088",
+          "S091",
+          "S092",
+          "S093",
+          "S094",
+          "S095",
+          "S096",
+          "S097",
+          "S100"
+        ],
+        "minimum_correct": 76
+      }
+    }
+  ],
+  "sourcing_options": [
+    {
+      "domain": "support",
+      "mode": "commercial",
+      "setup_twd": 30000,
+      "monthly_twd": 12000,
+      "weeks": 2,
+      "resources": "一名整合人員可承接；只能用已審查資料",
+      "limitation": "不能改底層模型結構，需確認匯出及退訂條件"
+    },
+    {
+      "domain": "support",
+      "mode": "internal",
+      "setup_twd": 120000,
+      "monthly_twd": 6000,
+      "weeks": 6,
+      "resources": "需兩名工程師及維運能力；本案只有一名",
+      "limitation": "人員前提不符，六週估期不能直接採信"
+    },
+    {
+      "domain": "support",
+      "mode": "outsourced",
+      "setup_twd": 90000,
+      "monthly_twd": 9000,
+      "weeks": 4,
+      "resources": "供應商承作；內部仍須派人驗收",
+      "limitation": "資料邊界、交付、維運及移交條款未完成"
+    },
+    {
+      "domain": "medical",
+      "mode": "commercial",
+      "setup_twd": 30000,
+      "monthly_twd": 12000,
+      "weeks": 2,
+      "resources": "候選方案只提供院外雲端處理",
+      "limitation": "與本案院內處理條件衝突"
+    },
+    {
+      "domain": "medical",
+      "mode": "internal",
+      "setup_twd": 150000,
+      "monthly_twd": 7000,
+      "weeks": 6,
+      "resources": "兩名已到位工程師及預留算力；院內介接已可驗",
+      "limitation": "仍須驗收、維運及新的確認資料"
+    },
+    {
+      "domain": "medical",
+      "mode": "outsourced",
+      "setup_twd": 120000,
+      "monthly_twd": 12000,
+      "weeks": 8,
+      "resources": "供應商可院內承作",
+      "limitation": "超出六週窗口，須改期或改範圍後重評"
+    }
+  ],
+  "communication_actions": [
+    {
+      "id": "C01",
+      "evidence": "I09",
+      "domain": "support",
+      "issue": "拒用建議影響考核的疑慮",
+      "owner": "部門主管",
+      "action": "說明人工最終責任與拒用回饋用途，安排操作人員共同檢視",
+      "status": "下一階段提案，成效尚待量測"
+    },
+    {
+      "id": "C02",
+      "evidence": "I03;I08",
+      "issue": "版本與來源不清",
+      "owner": "資料與產品負責人",
+      "action": "顯示版本、來源與失敗例，帶使用者練習覆核",
+      "status": "前兩輪已有部分修改；不可宣稱單一措施造成全部進步"
+    },
+    {
+      "id": "C03",
+      "evidence": "I05;I07",
+      "issue": "重複填寫與交接摩擦",
+      "owner": "流程負責人及 IT",
+      "action": "共同改重填步驟、指定問題受理者與期限",
+      "status": "客服已有修改，醫療仍需補驗"
+    }
+  ],
+  "external_feedback_plan": [
+    {
+      "id": "F01",
+      "domain": "support",
+      "concern": "退費規範引用版本過舊",
+      "owner": "客服主管及文件維護者",
+      "action": "核對有效版本、修正來源、以原情境重測並回覆",
+      "status": "流程演練提案，尚未實測"
+    },
+    {
+      "id": "F02",
+      "domain": "medical",
+      "concern": "文件核對是否由 AI 作最後決定",
+      "owner": "院方窗口及流程負責人",
+      "action": "解釋輔助範圍與人工責任，修訂說明，測試外部讀者能否理解",
+      "status": "流程演練提案，尚未實測"
+    }
+  ],
+  "counterexamples": [
+    {
+      "domain": "support",
+      "original": "只接受簽收後七日內申請；已拆封耗材不受理。",
+      "bad_summary": "七日內可以退貨。",
+      "lost": "起算日及已拆封耗材例外"
+    },
+    {
+      "domain": "medical",
+      "original": "文件中的藥物過敏欄記載無，不代表病人無任何過敏；仍須人工核對。",
+      "bad_summary": "病人沒有過敏。",
+      "lost": "文件欄位範圍、否定條件及人工確認"
+    }
+  ]
+}

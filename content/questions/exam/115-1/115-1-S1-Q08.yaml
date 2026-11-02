@@ -1,0 +1,36 @@
+id: 115-1-S1-Q08
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 8
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 2
+type: 觀念
+codes: [L23303]
+concepts: [roc-auc, recall]
+stem: |
+  某工程師訓練了一個皮膚病變二元分類模型（惡性/良性），在向臨床醫師報告模型效能時，使用 ROC 曲線（Receiver Operating Characteristic Curve）進行呈現。請問 ROC 曲線的橫軸（X 軸）與縱軸（Y 軸）分別代表哪些指標，且在醫療情境中代表哪一種意義？
+options:
+  A: X 軸為準確率（Accuracy），Y 軸為召回率（Recall），表示模型整體分類正確比例與偵測能力
+  B: X 軸為假陽率（False Positive Rate, FPR），Y 軸為真陽率（True Positive Rate, TPR），反映誤診健康個體的風險與正確識別病患的能力
+  C: X 軸為精確率（Precision），Y 軸為召回率（Recall），表示預測為陽性樣本的準確性與完整性
+  D: X 軸為 IoU 閾值，Y 軸為 mAP，反映物件偵測模型在不同重疊條件下的表現
+answer: B
+explanation:
+  summary: ROC 以假陽率為橫軸、真陽率為縱軸，呈現不同分類門檻的取捨。
+  correct: 將惡性視為正類時，FPR = FP / (FP + TN)，是良性個案被誤判為惡性的比例；TPR = TP / (TP + FN)，是惡性個案被成功找出的比例，也就是敏感度或召回率。ROC 將各個門檻的這兩個比例畫成曲線，因此選 B。
+  wrong:
+    A: Accuracy 同時納入正類與負類的分類結果，並非 ROC 的橫軸。
+    C: 選項 C 使用 Precision 與 Recall，並不是 ROC 的假陽率與真陽率；標準 PR 曲線則以 Recall 為橫軸、Precision 為縱軸。C 把兩者反置，因此不是 ROC，也不是標準 PR 曲線的軸序。
+    D: IoU 與 mAP 用於物件偵測的框配對與偵測品質評估，和此處二元分類的 ROC 兩軸不同。
+  rule: 辨認 ROC 時，要核對橫軸是假陽率、縱軸是真陽率。
+guide_refs: [guide-3:5-21, guide-3:5-22]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 2
+    by: QA
+  blind_answer: B
+  dispute: null

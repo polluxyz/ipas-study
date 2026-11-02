@@ -1,0 +1,113 @@
+{
+  "source": "另外設計的四筆教學微型例子，並非100筆資料的子集或驗證成績",
+  "regression": {
+    "X": [
+      20,
+      25,
+      40,
+      45
+    ],
+    "y": [
+      100.0,
+      120.0,
+      180.0,
+      200.0
+    ],
+    "initial": 150,
+    "learning_rate": 0.5,
+    "rounds": [
+      {
+        "residual": [
+          -50.0,
+          -30.0,
+          30.0,
+          50.0
+        ],
+        "tree_prediction": [
+          -40.0,
+          -40.0,
+          40.0,
+          40.0
+        ],
+        "prediction": [
+          130.0,
+          130.0,
+          170.0,
+          170.0
+        ],
+        "mse": 500.0
+      },
+      {
+        "residual": [
+          -30.0,
+          -10.0,
+          10.0,
+          30.0
+        ],
+        "tree_prediction": [
+          -20.0,
+          -20.0,
+          20.0,
+          20.0
+        ],
+        "prediction": [
+          120.0,
+          120.0,
+          180.0,
+          180.0
+        ],
+        "mse": 200.0
+      }
+    ]
+  },
+  "classification": {
+    "y": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "initial_score": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "first_tree_score": [
+      -0.5,
+      -0.5,
+      0.5,
+      0.5
+    ],
+    "learning_rate": 1
+  },
+  "xgboost_leaf": {
+    "gradients": [
+      -2,
+      -1
+    ],
+    "hessians": [
+      1,
+      1
+    ],
+    "lambda_": 1,
+    "gamma": 0.2,
+    "weight": 1,
+    "leaf_count": 2
+  },
+  "growth": {
+    "leaf_budget": 4,
+    "depthwise_leaves": [
+      "LL",
+      "LR",
+      "RL",
+      "RR"
+    ],
+    "leafwise_leaves": [
+      "LLL",
+      "LLR",
+      "LR",
+      "R"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 420" role="img" aria-labelledby="title desc">
+<title id="title">列刪除與欄刪除</title><desc id="desc">刪列減少樣本，刪欄減少特徵；刪備註欄不會清除溫度缺值。</desc>
+<rect width="360" height="420" fill="#f8fafc"/>
+<g font-family="sans-serif" font-size="15" fill="#0f172a"><rect x="15" y="12" width="330" height="74" rx="8" fill="#e0f2fe" stroke="#64748b"/><text x="28" y="39">同一訓練表：24列</text><text x="28" y="62">溫度缺8列；備註缺18列</text><rect x="15" y="130" width="330" height="97" rx="8" fill="#fee2e2" stroke="#64748b"/><text x="28" y="157">刪列：只按溫度欄判斷</text><text x="28" y="180">保留16列及所有原欄位</text><text x="28" y="203">代價：被刪樣本不再參與訓練</text><rect x="15" y="275" width="330" height="97" rx="8" fill="#e0f2fe" stroke="#64748b"/><text x="28" y="302">刪欄：整個備註欄拿掉</text><text x="28" y="325">保留24列；其他欄的缺值仍在</text><text x="28" y="348">代價：備註資訊全部失去</text></g></svg>

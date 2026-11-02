@@ -1,0 +1,65 @@
+{
+  "id": "L21201-B-cashflows",
+  "source": "教學合成資料，金額皆為新臺幣萬元；不是企業實績或投資建議",
+  "unit": "新臺幣萬元",
+  "horizon_years": 4,
+  "seed": 21201,
+  "comparison_rule": "所有頁使用相同專案索引與第1至4年資料；不抽樣、不切訓練集、無隨機生成",
+  "assumptions": {
+    "initial_time": 0,
+    "operating_cashflow_timing": "各年年底；回收期年內插值另假設當年淨流入均勻發生",
+    "cashflow_basis": "相對不導入AI的新增現金流；收益尚未扣本案維運與培訓",
+    "tax_inflation_financing_terminal_value": "教學簡化：均不另計；第4年後無現金流與殘值",
+    "discount_rate_basis": "年折現率，與未另計通膨的現金流口徑一致"
+  },
+  "projects": [
+    {
+      "id": "retail",
+      "domain": "零售客服",
+      "initial_investment": 120,
+      "initial_breakdown": {"人力與模型開發": 70, "資料清理": 20, "系統整合": 20, "初期培訓": 5, "初期授權": 5},
+      "discount_rate": 0.08,
+      "funding_source": "內部專案預算；未假設補助收入",
+      "years": [
+        {"year": 1, "benefit": 70, "maintenance": 15, "training": 5},
+        {"year": 2, "benefit": 70, "maintenance": 15, "training": 5},
+        {"year": 3, "benefit": 70, "maintenance": 15, "training": 5},
+        {"year": 4, "benefit": 70, "maintenance": 15, "training": 5}
+      ],
+      "readiness": {
+        "initial_budget_approved": 120,
+        "annual_budget_approved": 20,
+        "staff_required_person_days": 40,
+        "staff_available_person_days": 24,
+        "pilot_weeks": 8,
+        "test_environment": true,
+        "test_data": true,
+        "dedicated_owner": false
+      }
+    },
+    {
+      "id": "maintenance",
+      "domain": "製造預測維護",
+      "initial_investment": 150,
+      "initial_breakdown": {"人力與模型開發": 85, "資料清理": 25, "系統整合": 25, "初期培訓": 5, "初期授權": 10},
+      "discount_rate": 0.08,
+      "funding_source": "內部設備改善預算；未假設補助收入",
+      "years": [
+        {"year": 1, "benefit": 45, "maintenance": 15, "training": 5},
+        {"year": 2, "benefit": 75, "maintenance": 18, "training": 7},
+        {"year": 3, "benefit": 95, "maintenance": 20, "training": 5},
+        {"year": 4, "benefit": 105, "maintenance": 22, "training": 3}
+      ]
+    }
+  ],
+  "retail_scenarios": [
+    {"id": "base", "label": "基準", "benefit_multiplier": 1, "maintenance_multiplier": 1, "discount_rate": 0.08},
+    {"id": "conservative", "label": "保守", "benefit_multiplier": 0.7, "maintenance_multiplier": 1.2, "discount_rate": 0.12},
+    {"id": "optimistic", "label": "樂觀", "benefit_multiplier": 1.1, "maintenance_multiplier": 0.9, "discount_rate": 0.06}
+  ],
+  "rate_grid": [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22, 0.24, 0.26, 0.28, 0.3],
+  "boundaries": [
+    {"id": "zero-cost", "benefit": 10, "total_cost": 0, "expected": "ROI未定義"},
+    {"id": "no-recovery", "initial_investment": 120, "net_cashflows": [0, -5, 10, 20], "expected": "4年內未回收"}
+  ]
+}

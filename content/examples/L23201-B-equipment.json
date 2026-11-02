@@ -1,0 +1,630 @@
+{
+  "source": "教學合成資料；參考群、監督標籤與候選輸出均由固定規則設定，不能證明業務效果。",
+  "seed": 42,
+  "domain": "equipment",
+  "feature_note": "特徵為(溫度-50)/5與(振動-0.5)/0.1；固定工程換算，不由全資料估參。",
+  "offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      1,
+      0
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      3
+    ]
+  ],
+  "centers": [
+    [
+      1,
+      1
+    ],
+    [
+      7,
+      1
+    ],
+    [
+      4,
+      7
+    ]
+  ],
+  "splits": {
+    "train": [
+      16,
+      15,
+      18,
+      19,
+      9,
+      7,
+      17,
+      23,
+      6,
+      10,
+      3,
+      0,
+      20,
+      12,
+      5,
+      11
+    ],
+    "validation": [
+      14,
+      22,
+      2,
+      4
+    ],
+    "test": [
+      21,
+      1,
+      13,
+      8
+    ]
+  },
+  "hand_indices": [
+    0,
+    1,
+    8,
+    9
+  ],
+  "loss_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "rows": [
+    {
+      "id": "M01",
+      "index": 0,
+      "features": [
+        1,
+        1
+      ],
+      "observed": {
+        "temperature_c": 55,
+        "vibration_mm_s": 0.6
+      },
+      "reference_group": 0,
+      "binary_target": 0,
+      "positive_probability_A": 0.1,
+      "positive_probability_B": 0.4,
+      "numeric_target": 105,
+      "prediction_A": 106,
+      "prediction_B": 107,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M02",
+      "index": 1,
+      "features": [
+        1,
+        3
+      ],
+      "observed": {
+        "temperature_c": 55,
+        "vibration_mm_s": 0.8
+      },
+      "reference_group": 0,
+      "binary_target": 1,
+      "positive_probability_A": 0.8,
+      "positive_probability_B": 0.6,
+      "numeric_target": 111,
+      "prediction_A": 112,
+      "prediction_B": 113,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M03",
+      "index": 2,
+      "features": [
+        2,
+        1
+      ],
+      "observed": {
+        "temperature_c": 60,
+        "vibration_mm_s": 0.6
+      },
+      "reference_group": 0,
+      "binary_target": 0,
+      "positive_probability_A": 0.2,
+      "positive_probability_B": 0.4,
+      "numeric_target": 107,
+      "prediction_A": 108,
+      "prediction_B": 109,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M04",
+      "index": 3,
+      "features": [
+        2,
+        3
+      ],
+      "observed": {
+        "temperature_c": 60,
+        "vibration_mm_s": 0.8
+      },
+      "reference_group": 0,
+      "binary_target": 1,
+      "positive_probability_A": 0.7,
+      "positive_probability_B": 0.6,
+      "numeric_target": 113,
+      "prediction_A": 114,
+      "prediction_B": 115,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M05",
+      "index": 4,
+      "features": [
+        1,
+        2
+      ],
+      "observed": {
+        "temperature_c": 55,
+        "vibration_mm_s": 0.7
+      },
+      "reference_group": 0,
+      "binary_target": 0,
+      "positive_probability_A": 0.3,
+      "positive_probability_B": 0.4,
+      "numeric_target": 108,
+      "prediction_A": 109,
+      "prediction_B": 110,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M06",
+      "index": 5,
+      "features": [
+        2,
+        2
+      ],
+      "observed": {
+        "temperature_c": 60,
+        "vibration_mm_s": 0.7
+      },
+      "reference_group": 0,
+      "binary_target": 1,
+      "positive_probability_A": 0.6,
+      "positive_probability_B": 0.6,
+      "numeric_target": 110,
+      "prediction_A": 116,
+      "prediction_B": 112,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M07",
+      "index": 6,
+      "features": [
+        1,
+        4
+      ],
+      "observed": {
+        "temperature_c": 55,
+        "vibration_mm_s": 0.9
+      },
+      "reference_group": 0,
+      "binary_target": 0,
+      "positive_probability_A": 0.1,
+      "positive_probability_B": 0.4,
+      "numeric_target": 114,
+      "prediction_A": 115,
+      "prediction_B": 116,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M08",
+      "index": 7,
+      "features": [
+        2,
+        4
+      ],
+      "observed": {
+        "temperature_c": 60,
+        "vibration_mm_s": 0.9
+      },
+      "reference_group": 0,
+      "binary_target": 1,
+      "positive_probability_A": 0.8,
+      "positive_probability_B": 0.6,
+      "numeric_target": 116,
+      "prediction_A": 117,
+      "prediction_B": 118,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M09",
+      "index": 8,
+      "features": [
+        7,
+        1
+      ],
+      "observed": {
+        "temperature_c": 85,
+        "vibration_mm_s": 0.6
+      },
+      "reference_group": 1,
+      "binary_target": 0,
+      "positive_probability_A": 0.2,
+      "positive_probability_B": 0.4,
+      "numeric_target": 117,
+      "prediction_A": 118,
+      "prediction_B": 119,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M10",
+      "index": 9,
+      "features": [
+        7,
+        3
+      ],
+      "observed": {
+        "temperature_c": 85,
+        "vibration_mm_s": 0.8
+      },
+      "reference_group": 1,
+      "binary_target": 1,
+      "positive_probability_A": 0.7,
+      "positive_probability_B": 0.6,
+      "numeric_target": 123,
+      "prediction_A": 124,
+      "prediction_B": 125,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M11",
+      "index": 10,
+      "features": [
+        8,
+        1
+      ],
+      "observed": {
+        "temperature_c": 90,
+        "vibration_mm_s": 0.6
+      },
+      "reference_group": 1,
+      "binary_target": 0,
+      "positive_probability_A": 0.3,
+      "positive_probability_B": 0.4,
+      "numeric_target": 119,
+      "prediction_A": 120,
+      "prediction_B": 121,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M12",
+      "index": 11,
+      "features": [
+        8,
+        3
+      ],
+      "observed": {
+        "temperature_c": 90,
+        "vibration_mm_s": 0.8
+      },
+      "reference_group": 1,
+      "binary_target": 1,
+      "positive_probability_A": 0.6,
+      "positive_probability_B": 0.6,
+      "numeric_target": 125,
+      "prediction_A": 131,
+      "prediction_B": 127,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M13",
+      "index": 12,
+      "features": [
+        7,
+        2
+      ],
+      "observed": {
+        "temperature_c": 85,
+        "vibration_mm_s": 0.7
+      },
+      "reference_group": 1,
+      "binary_target": 0,
+      "positive_probability_A": 0.1,
+      "positive_probability_B": 0.4,
+      "numeric_target": 120,
+      "prediction_A": 121,
+      "prediction_B": 122,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M14",
+      "index": 13,
+      "features": [
+        8,
+        2
+      ],
+      "observed": {
+        "temperature_c": 90,
+        "vibration_mm_s": 0.7
+      },
+      "reference_group": 1,
+      "binary_target": 1,
+      "positive_probability_A": 0.8,
+      "positive_probability_B": 0.6,
+      "numeric_target": 122,
+      "prediction_A": 123,
+      "prediction_B": 124,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M15",
+      "index": 14,
+      "features": [
+        7,
+        4
+      ],
+      "observed": {
+        "temperature_c": 85,
+        "vibration_mm_s": 0.9
+      },
+      "reference_group": 1,
+      "binary_target": 0,
+      "positive_probability_A": 0.2,
+      "positive_probability_B": 0.4,
+      "numeric_target": 126,
+      "prediction_A": 127,
+      "prediction_B": 128,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M16",
+      "index": 15,
+      "features": [
+        8,
+        4
+      ],
+      "observed": {
+        "temperature_c": 90,
+        "vibration_mm_s": 0.9
+      },
+      "reference_group": 1,
+      "binary_target": 1,
+      "positive_probability_A": 0.7,
+      "positive_probability_B": 0.6,
+      "numeric_target": 128,
+      "prediction_A": 129,
+      "prediction_B": 130,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M17",
+      "index": 16,
+      "features": [
+        4,
+        7
+      ],
+      "observed": {
+        "temperature_c": 70,
+        "vibration_mm_s": 1.2000000000000002
+      },
+      "reference_group": 2,
+      "binary_target": 0,
+      "positive_probability_A": 0.3,
+      "positive_probability_B": 0.4,
+      "numeric_target": 129,
+      "prediction_A": 130,
+      "prediction_B": 131,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M18",
+      "index": 17,
+      "features": [
+        4,
+        9
+      ],
+      "observed": {
+        "temperature_c": 70,
+        "vibration_mm_s": 1.4
+      },
+      "reference_group": 2,
+      "binary_target": 1,
+      "positive_probability_A": 0.6,
+      "positive_probability_B": 0.6,
+      "numeric_target": 135,
+      "prediction_A": 141,
+      "prediction_B": 137,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M19",
+      "index": 18,
+      "features": [
+        5,
+        7
+      ],
+      "observed": {
+        "temperature_c": 75,
+        "vibration_mm_s": 1.2000000000000002
+      },
+      "reference_group": 2,
+      "binary_target": 0,
+      "positive_probability_A": 0.1,
+      "positive_probability_B": 0.4,
+      "numeric_target": 131,
+      "prediction_A": 132,
+      "prediction_B": 133,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M20",
+      "index": 19,
+      "features": [
+        5,
+        9
+      ],
+      "observed": {
+        "temperature_c": 75,
+        "vibration_mm_s": 1.4
+      },
+      "reference_group": 2,
+      "binary_target": 1,
+      "positive_probability_A": 0.8,
+      "positive_probability_B": 0.6,
+      "numeric_target": 137,
+      "prediction_A": 138,
+      "prediction_B": 139,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M21",
+      "index": 20,
+      "features": [
+        4,
+        8
+      ],
+      "observed": {
+        "temperature_c": 70,
+        "vibration_mm_s": 1.3
+      },
+      "reference_group": 2,
+      "binary_target": 0,
+      "positive_probability_A": 0.2,
+      "positive_probability_B": 0.4,
+      "numeric_target": 132,
+      "prediction_A": 133,
+      "prediction_B": 134,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M22",
+      "index": 21,
+      "features": [
+        5,
+        8
+      ],
+      "observed": {
+        "temperature_c": 75,
+        "vibration_mm_s": 1.3
+      },
+      "reference_group": 2,
+      "binary_target": 1,
+      "positive_probability_A": 0.7,
+      "positive_probability_B": 0.6,
+      "numeric_target": 134,
+      "prediction_A": 135,
+      "prediction_B": 136,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "M23",
+      "index": 22,
+      "features": [
+        4,
+        10
+      ],
+      "observed": {
+        "temperature_c": 70,
+        "vibration_mm_s": 1.5
+      },
+      "reference_group": 2,
+      "binary_target": 0,
+      "positive_probability_A": 0.3,
+      "positive_probability_B": 0.4,
+      "numeric_target": 138,
+      "prediction_A": 139,
+      "prediction_B": 140,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "M24",
+      "index": 23,
+      "features": [
+        5,
+        10
+      ],
+      "observed": {
+        "temperature_c": 75,
+        "vibration_mm_s": 1.5
+      },
+      "reference_group": 2,
+      "binary_target": 1,
+      "positive_probability_A": 0.6,
+      "positive_probability_B": 0.6,
+      "numeric_target": 140,
+      "prediction_A": 146,
+      "prediction_B": 142,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 1
+    }
+  ]
+}

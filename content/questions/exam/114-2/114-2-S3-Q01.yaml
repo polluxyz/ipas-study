@@ -1,0 +1,36 @@
+id: 114-2-S3-Q01
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 1
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 1
+type: 情境
+codes: [L23303]
+concepts: [k-fold-cross-validation, time-series-split]
+stem: |
+  某零售企業建立一個銷售預測模型，希望評估該模型在不同月份的新資料上，是否仍能維持穩定的預測表現。資料科學團隊計畫利用統計方法檢驗模型對未觀察資料的適應能力與泛化效果。下列哪一種方法最適合用於此目的？
+options:
+  A: F 檢定（F-test）
+  B: 交叉驗證（Cross-Validation）
+  C: 配對樣本 t 檢定（Paired-sample t-test）
+  D: 卡方檢定（Chi-square Test）
+answer: B
+explanation:
+  summary: 用未參與訓練的資料評估模型能否泛化到新樣本。
+  correct: 交叉驗證會安排多次訓練與驗證，觀察模型在保留資料上的預測表現，比單次切分更能看出結果是否穩定。本題涉及不同月份，實作時應依時間先後切分，以較早資料訓練、較晚資料驗證，避免把未來資訊混入訓練。
+  wrong:
+    A: F 檢定可用來比較變異或檢驗迴歸模型的整體顯著性，不能取代對未見資料的預測評估。
+    C: 配對樣本 t 檢定用來檢驗成對觀測的平均差異，例如比較兩個模型的成對評估結果；本身不負責建立未見資料的驗證流程。
+    D: 卡方檢定常用於類別變數的關聯性或分布適合度檢驗，並非衡量銷售預測模型泛化表現的方法。
+  rule: 估泛化要用未見資料，時序資料另守先後。
+guide_refs: [guide-3:5-18, guide-3:5-26]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 1
+    by: QB1
+  dispute: null
+  blind_answer: B

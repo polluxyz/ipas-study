@@ -1,0 +1,2438 @@
+{
+  "id": "L21103-C-generation",
+  "source_type": "synthetic",
+  "seed": 21103,
+  "disclaimer": "來源、候選與兩位評分者分數皆為教學合成；不是任何平台的真實輸出或使用者研究。",
+  "tokenizer": {
+    "name": "fixed-teaching-tokens-v1",
+    "rule": "只讀tokens陣列；text僅顯示，不重新分詞。這不是模型計費token。"
+  },
+  "comparison": {
+    "index_version": "generation-v1",
+    "chunking": "每份來源一塊，24塊；不比較檢索器效能。",
+    "split_rule": "各領域01–08供規準校準，09–12作保留測試；無訓練或調參實驗。",
+    "candidate_origin": "handwritten",
+    "anonymization": "固定種子21103為資料版本標記；按source_index奇偶交換P/Q，無隨機生成。"
+  },
+  "metric_config": {
+    "bleu": {
+      "order": 2,
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "smoothing": false,
+      "scale": "0–1",
+      "references_per_sample": 1
+    },
+    "rouge": {
+      "variants": [
+        "ROUGE-1",
+        "ROUGE-2",
+        "sentence-ROUGE-L"
+      ],
+      "beta": 1,
+      "multi_reference": false,
+      "stemming": false,
+      "sentence_split": false
+    },
+    "aggregation": "BLEU語料級先加總計數；ROUGE逐筆算P/R/F1再等權平均，不混用。"
+  },
+  "review_policy": {
+    "dimensions": [
+      "fluency",
+      "accuracy"
+    ],
+    "range": [
+      1,
+      5
+    ],
+    "critical_factual_error": "須修正並覆核，不因流暢或平均分高而放行。",
+    "disagreement": "abs(R1-R2)>=2標為重大分歧；任何不等另記為分歧。"
+  },
+  "examples": [
+    {
+      "id": "CS01",
+      "domain": "客服",
+      "source_id": "CS01-S1",
+      "source_version": "synthetic-v1",
+      "source": "客服會在三日內回覆申請。這是回覆時限，不承諾完成退款。",
+      "task": "摘要回覆時限",
+      "split": "validation",
+      "source_index": 0,
+      "chunk_ids": [
+        "CS01-S1-p1"
+      ],
+      "reference": {
+        "text": "客服於三日內回覆申請",
+        "tokens": [
+          "客服",
+          "於",
+          "三日",
+          "內",
+          "回覆",
+          "申請"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS01-F1",
+          "evidence": "CS01-S1-p1",
+          "statement": "回覆時限為三日；未承諾退款時間"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "客服於三日內回覆",
+          "tokens": [
+            "客服",
+            "於",
+            "三日",
+            "內",
+            "回覆"
+          ],
+          "fact_check": [
+            {
+              "claim": "省略受詞但期限正確",
+              "fact_id": "CS01-F1",
+              "evidence": "CS01-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 4,
+              "accuracy": 4
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 4
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "客服於一日內回覆申請",
+          "tokens": [
+            "客服",
+            "於",
+            "一日",
+            "內",
+            "回覆",
+            "申請"
+          ],
+          "fact_check": [
+            {
+              "claim": "把三日改成一日",
+              "fact_id": "CS01-F1",
+              "evidence": "CS01-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 3
+            }
+          ],
+          "rating_note": "刻意保留校準前分歧：R2誤把核心時限錯誤當次要瑕疵；覆核採accuracy=1。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "CS02",
+      "domain": "客服",
+      "source_id": "CS02-S1",
+      "source_version": "synthetic-v1",
+      "source": "提出退貨申請的期限是收貨後七日。",
+      "task": "撰寫退貨郵件",
+      "split": "validation",
+      "source_index": 1,
+      "chunk_ids": [
+        "CS02-S1-p1"
+      ],
+      "reference": {
+        "text": "退貨申請須在七日內",
+        "tokens": [
+          "退貨",
+          "申請",
+          "須",
+          "在",
+          "七日",
+          "內"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS02-F1",
+          "evidence": "CS02-S1-p1",
+          "statement": "退貨申請期限為七日"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "退貨須於七日內申請",
+          "tokens": [
+            "退貨",
+            "須",
+            "於",
+            "七日",
+            "內",
+            "申請"
+          ],
+          "fact_check": [
+            {
+              "claim": "改寫詞序但期限正確",
+              "fact_id": "CS02-F1",
+              "evidence": "CS02-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "退貨申請須在三日內",
+          "tokens": [
+            "退貨",
+            "申請",
+            "須",
+            "在",
+            "三日",
+            "內"
+          ],
+          "fact_check": [
+            {
+              "claim": "把七日改成三日",
+              "fact_id": "CS02-F1",
+              "evidence": "CS02-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "CS03",
+      "domain": "客服",
+      "source_id": "CS03-S1",
+      "source_version": "synthetic-v1",
+      "source": "客服收到申請後，會於五日內回覆。",
+      "task": "摘要回覆規則",
+      "split": "validation",
+      "source_index": 2,
+      "chunk_ids": [
+        "CS03-S1-p1"
+      ],
+      "reference": {
+        "text": "客服於五日內回覆申請",
+        "tokens": [
+          "客服",
+          "於",
+          "五日",
+          "內",
+          "回覆",
+          "申請"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS03-F1",
+          "evidence": "CS03-S1-p1",
+          "statement": "回覆時限為五日"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "客服客服客服",
+          "tokens": [
+            "客服",
+            "客服",
+            "客服"
+          ],
+          "fact_check": [
+            {
+              "claim": "重複主詞且缺少必要資訊",
+              "fact_id": "CS03-F1",
+              "evidence": "CS03-S1-p1",
+              "verdict": "insufficient"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 1,
+              "accuracy": 2
+            },
+            {
+              "rater": "R2",
+              "fluency": 1,
+              "accuracy": 2
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "客服於五日內回覆申請",
+          "tokens": [
+            "客服",
+            "於",
+            "五日",
+            "內",
+            "回覆",
+            "申請"
+          ],
+          "fact_check": [
+            {
+              "claim": "完整保留回覆時限",
+              "fact_id": "CS03-F1",
+              "evidence": "CS03-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "CS04",
+      "domain": "客服",
+      "source_id": "CS04-S1",
+      "source_version": "synthetic-v1",
+      "source": "客服將在兩日內回覆申請。",
+      "task": "整理申請進度",
+      "split": "validation",
+      "source_index": 3,
+      "chunk_ids": [
+        "CS04-S1-p1"
+      ],
+      "reference": {
+        "text": "客服於兩日內回覆申請",
+        "tokens": [
+          "客服",
+          "於",
+          "兩日",
+          "內",
+          "回覆",
+          "申請"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS04-F1",
+          "evidence": "CS04-S1-p1",
+          "statement": "回覆時限為兩日"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "申請客服於兩日內回覆",
+          "tokens": [
+            "申請",
+            "客服",
+            "於",
+            "兩日",
+            "內",
+            "回覆"
+          ],
+          "fact_check": [
+            {
+              "claim": "詞序改動不自然但仍可理解",
+              "fact_id": "CS04-F1",
+              "evidence": "CS04-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 3,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 3,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "客服於兩日內答覆申請",
+          "tokens": [
+            "客服",
+            "於",
+            "兩日",
+            "內",
+            "答覆",
+            "申請"
+          ],
+          "fact_check": [
+            {
+              "claim": "答覆為回覆的同義改寫",
+              "fact_id": "CS04-F1",
+              "evidence": "CS04-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "CS05",
+      "domain": "客服",
+      "source_id": "CS05-S1",
+      "source_version": "synthetic-v1",
+      "source": "申請須附上訂單編號，不需要信用卡資料。",
+      "task": "撰寫補件郵件",
+      "split": "validation",
+      "source_index": 4,
+      "chunk_ids": [
+        "CS05-S1-p1"
+      ],
+      "reference": {
+        "text": "申請須附訂單編號",
+        "tokens": [
+          "申請",
+          "須",
+          "附",
+          "訂單",
+          "編號"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS05-F1",
+          "evidence": "CS05-S1-p1",
+          "statement": "必須提供訂單編號；不需信用卡資料"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "申請需要訂單編號",
+          "tokens": [
+            "申請",
+            "需要",
+            "訂單",
+            "編號"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留必要補件要求",
+              "fact_id": "CS05-F1",
+              "evidence": "CS05-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "申請須附信用卡號碼",
+          "tokens": [
+            "申請",
+            "須",
+            "附",
+            "信用卡",
+            "號碼"
+          ],
+          "fact_check": [
+            {
+              "claim": "要求來源明示不需要的資料",
+              "fact_id": "CS05-F1",
+              "evidence": "CS05-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "CS06",
+      "domain": "客服",
+      "source_id": "CS06-S1",
+      "source_version": "synthetic-v1",
+      "source": "服務中心每週一休息，其餘日期開放。",
+      "task": "摘要營業日",
+      "split": "validation",
+      "source_index": 5,
+      "chunk_ids": [
+        "CS06-S1-p1"
+      ],
+      "reference": {
+        "text": "中心於週一暫停服務",
+        "tokens": [
+          "中心",
+          "於",
+          "週一",
+          "暫停",
+          "服務"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS06-F1",
+          "evidence": "CS06-S1-p1",
+          "statement": "休息日為週一"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "中心於週一休息",
+          "tokens": [
+            "中心",
+            "於",
+            "週一",
+            "休息"
+          ],
+          "fact_check": [
+            {
+              "claim": "休息為暫停服務的改寫",
+              "fact_id": "CS06-F1",
+              "evidence": "CS06-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "中心於週二暫停服務",
+          "tokens": [
+            "中心",
+            "於",
+            "週二",
+            "暫停",
+            "服務"
+          ],
+          "fact_check": [
+            {
+              "claim": "把週一改成週二",
+              "fact_id": "CS06-F1",
+              "evidence": "CS06-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "CS07",
+      "domain": "客服",
+      "source_id": "CS07-S1",
+      "source_version": "synthetic-v1",
+      "source": "更換商品不收運費，但不代表免商品差價。",
+      "task": "說明換貨費用",
+      "split": "validation",
+      "source_index": 6,
+      "chunk_ids": [
+        "CS07-S1-p1"
+      ],
+      "reference": {
+        "text": "換貨不收運費",
+        "tokens": [
+          "換貨",
+          "不",
+          "收",
+          "運費"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS07-F1",
+          "evidence": "CS07-S1-p1",
+          "statement": "僅免收運費；其他差價仍可能存在"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "換貨無須支付運費",
+          "tokens": [
+            "換貨",
+            "無須",
+            "支付",
+            "運費"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留免運費事實",
+              "fact_id": "CS07-F1",
+              "evidence": "CS07-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 4,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "換貨不收任何費用",
+          "tokens": [
+            "換貨",
+            "不",
+            "收",
+            "任何",
+            "費用"
+          ],
+          "fact_check": [
+            {
+              "claim": "把免運費擴張為完全免費",
+              "fact_id": "CS07-F1",
+              "evidence": "CS07-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 2
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "CS08",
+      "domain": "客服",
+      "source_id": "CS08-S1",
+      "source_version": "synthetic-v1",
+      "source": "查詢進度須先登入帳號。",
+      "task": "草擬操作說明",
+      "split": "validation",
+      "source_index": 7,
+      "chunk_ids": [
+        "CS08-S1-p1"
+      ],
+      "reference": {
+        "text": "查詢進度前須登入",
+        "tokens": [
+          "查詢",
+          "進度",
+          "前",
+          "須",
+          "登入"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS08-F1",
+          "evidence": "CS08-S1-p1",
+          "statement": "查詢前必須登入"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "查詢前請登入帳號",
+          "tokens": [
+            "查詢",
+            "前",
+            "請",
+            "登入",
+            "帳號"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留登入前提",
+              "fact_id": "CS08-F1",
+              "evidence": "CS08-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "查詢進度前不須登入",
+          "tokens": [
+            "查詢",
+            "進度",
+            "前",
+            "不須",
+            "登入"
+          ],
+          "fact_check": [
+            {
+              "claim": "否定必要的登入前提",
+              "fact_id": "CS08-F1",
+              "evidence": "CS08-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "CS09",
+      "domain": "客服",
+      "source_id": "CS09-S1",
+      "source_version": "synthetic-v1",
+      "source": "優惠券有效期限是六月三十日。",
+      "task": "摘要優惠期限",
+      "split": "test",
+      "source_index": 8,
+      "chunk_ids": [
+        "CS09-S1-p1"
+      ],
+      "reference": {
+        "text": "優惠券有效至六月三十日",
+        "tokens": [
+          "優惠券",
+          "有效",
+          "至",
+          "六月",
+          "三十日"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS09-F1",
+          "evidence": "CS09-S1-p1",
+          "statement": "有效至六月三十日"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "優惠券到期日為六月三十日",
+          "tokens": [
+            "優惠券",
+            "到期日",
+            "為",
+            "六月",
+            "三十日"
+          ],
+          "fact_check": [
+            {
+              "claim": "同義改寫到期日",
+              "fact_id": "CS09-F1",
+              "evidence": "CS09-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "優惠券有效至七月三十日",
+          "tokens": [
+            "優惠券",
+            "有效",
+            "至",
+            "七月",
+            "三十日"
+          ],
+          "fact_check": [
+            {
+              "claim": "把六月改成七月",
+              "fact_id": "CS09-F1",
+              "evidence": "CS09-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "CS10",
+      "domain": "客服",
+      "source_id": "CS10-S1",
+      "source_version": "synthetic-v1",
+      "source": "每個帳號每天最多送出兩次申請。",
+      "task": "草擬次數限制說明",
+      "split": "test",
+      "source_index": 9,
+      "chunk_ids": [
+        "CS10-S1-p1"
+      ],
+      "reference": {
+        "text": "每個帳號每日限兩次申請",
+        "tokens": [
+          "每個",
+          "帳號",
+          "每日",
+          "限",
+          "兩次",
+          "申請"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS10-F1",
+          "evidence": "CS10-S1-p1",
+          "statement": "每帳號每天最多兩次"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "每個帳號每天可申請兩次",
+          "tokens": [
+            "每個",
+            "帳號",
+            "每天",
+            "可",
+            "申請",
+            "兩次"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留每日兩次上限",
+              "fact_id": "CS10-F1",
+              "evidence": "CS10-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "每個帳號每日限三次申請",
+          "tokens": [
+            "每個",
+            "帳號",
+            "每日",
+            "限",
+            "三次",
+            "申請"
+          ],
+          "fact_check": [
+            {
+              "claim": "把兩次改成三次",
+              "fact_id": "CS10-F1",
+              "evidence": "CS10-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "CS11",
+      "domain": "客服",
+      "source_id": "CS11-S1",
+      "source_version": "synthetic-v1",
+      "source": "客服電話僅在上午開放，下午提供文字客服。",
+      "task": "摘要聯絡管道",
+      "split": "test",
+      "source_index": 10,
+      "chunk_ids": [
+        "CS11-S1-p1"
+      ],
+      "reference": {
+        "text": "上午提供電話下午提供文字客服",
+        "tokens": [
+          "上午",
+          "提供",
+          "電話",
+          "下午",
+          "提供",
+          "文字客服"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS11-F1",
+          "evidence": "CS11-S1-p1",
+          "statement": "上午電話；下午文字客服"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "上午電話下午文字客服",
+          "tokens": [
+            "上午",
+            "電話",
+            "下午",
+            "文字客服"
+          ],
+          "fact_check": [
+            {
+              "claim": "省略動詞但條件正確",
+              "fact_id": "CS11-F1",
+              "evidence": "CS11-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 3,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 4,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "下午提供電話上午提供文字客服",
+          "tokens": [
+            "下午",
+            "提供",
+            "電話",
+            "上午",
+            "提供",
+            "文字客服"
+          ],
+          "fact_check": [
+            {
+              "claim": "交換上午下午的管道",
+              "fact_id": "CS11-F1",
+              "evidence": "CS11-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "CS12",
+      "domain": "客服",
+      "source_id": "CS12-S1",
+      "source_version": "synthetic-v1",
+      "source": "會員取消訂閱後，當月仍可使用服務。",
+      "task": "撰寫取消確認信",
+      "split": "test",
+      "source_index": 11,
+      "chunk_ids": [
+        "CS12-S1-p1"
+      ],
+      "reference": {
+        "text": "取消訂閱後當月仍可用",
+        "tokens": [
+          "取消",
+          "訂閱",
+          "後",
+          "當月",
+          "仍",
+          "可用"
+        ]
+      },
+      "facts": [
+        {
+          "id": "CS12-F1",
+          "evidence": "CS12-S1-p1",
+          "statement": "取消後當月仍可使用"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "取消後本月仍可使用",
+          "tokens": [
+            "取消",
+            "後",
+            "本月",
+            "仍",
+            "可",
+            "使用"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留當月使用權",
+              "fact_id": "CS12-F1",
+              "evidence": "CS12-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "取消訂閱後當月即停用",
+          "tokens": [
+            "取消",
+            "訂閱",
+            "後",
+            "當月",
+            "即",
+            "停用"
+          ],
+          "fact_check": [
+            {
+              "claim": "把仍可用改成立即停用",
+              "fact_id": "CS12-F1",
+              "evidence": "CS12-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "ED01",
+      "domain": "教育",
+      "source_id": "ED01-S1",
+      "source_version": "synthetic-v1",
+      "source": "本週課程在週三以線上方式進行。",
+      "task": "摘要上課通知",
+      "split": "validation",
+      "source_index": 12,
+      "chunk_ids": [
+        "ED01-S1-p1"
+      ],
+      "reference": {
+        "text": "課程於週三以線上進行",
+        "tokens": [
+          "課程",
+          "於",
+          "週三",
+          "以",
+          "線上",
+          "進行"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED01-F1",
+          "evidence": "ED01-S1-p1",
+          "statement": "時間為週三；方式為線上"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "課程於週三以線上舉行",
+          "tokens": [
+            "課程",
+            "於",
+            "週三",
+            "以",
+            "線上",
+            "舉行"
+          ],
+          "fact_check": [
+            {
+              "claim": "舉行為進行的同義改寫",
+              "fact_id": "ED01-F1",
+              "evidence": "ED01-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "課程於週三以實體進行",
+          "tokens": [
+            "課程",
+            "於",
+            "週三",
+            "以",
+            "實體",
+            "進行"
+          ],
+          "fact_check": [
+            {
+              "claim": "把線上改成實體",
+              "fact_id": "ED01-F1",
+              "evidence": "ED01-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 2
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "ED02",
+      "domain": "教育",
+      "source_id": "ED02-S1",
+      "source_version": "synthetic-v1",
+      "source": "作業須在週五中午前繳交。",
+      "task": "草擬作業提醒",
+      "split": "validation",
+      "source_index": 13,
+      "chunk_ids": [
+        "ED02-S1-p1"
+      ],
+      "reference": {
+        "text": "作業須於週五中午前繳交",
+        "tokens": [
+          "作業",
+          "須",
+          "於",
+          "週五",
+          "中午",
+          "前",
+          "繳交"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED02-F1",
+          "evidence": "ED02-S1-p1",
+          "statement": "截止時間為週五中午"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "作業請在週五中午前交回",
+          "tokens": [
+            "作業",
+            "請",
+            "在",
+            "週五",
+            "中午",
+            "前",
+            "交回"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留完整截止條件",
+              "fact_id": "ED02-F1",
+              "evidence": "ED02-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "作業須於週五晚上前繳交",
+          "tokens": [
+            "作業",
+            "須",
+            "於",
+            "週五",
+            "晚上",
+            "前",
+            "繳交"
+          ],
+          "fact_check": [
+            {
+              "claim": "把中午改成晚上",
+              "fact_id": "ED02-F1",
+              "evidence": "ED02-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "ED03",
+      "domain": "教育",
+      "source_id": "ED03-S1",
+      "source_version": "synthetic-v1",
+      "source": "本次測驗範圍為第一章，不包含第二章。",
+      "task": "整理考前通知",
+      "split": "validation",
+      "source_index": 14,
+      "chunk_ids": [
+        "ED03-S1-p1"
+      ],
+      "reference": {
+        "text": "測驗範圍僅含第一章",
+        "tokens": [
+          "測驗",
+          "範圍",
+          "僅",
+          "含",
+          "第一章"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED03-F1",
+          "evidence": "ED03-S1-p1",
+          "statement": "僅考第一章"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "測驗測驗測驗",
+          "tokens": [
+            "測驗",
+            "測驗",
+            "測驗"
+          ],
+          "fact_check": [
+            {
+              "claim": "重複名詞且漏掉範圍",
+              "fact_id": "ED03-F1",
+              "evidence": "ED03-S1-p1",
+              "verdict": "insufficient"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 1,
+              "accuracy": 2
+            },
+            {
+              "rater": "R2",
+              "fluency": 1,
+              "accuracy": 2
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "測驗範圍僅含第一章",
+          "tokens": [
+            "測驗",
+            "範圍",
+            "僅",
+            "含",
+            "第一章"
+          ],
+          "fact_check": [
+            {
+              "claim": "完整保留測驗範圍",
+              "fact_id": "ED03-F1",
+              "evidence": "ED03-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "ED04",
+      "domain": "教育",
+      "source_id": "ED04-S1",
+      "source_version": "synthetic-v1",
+      "source": "借用平板前須取得教師同意。",
+      "task": "草擬設備借用說明",
+      "split": "validation",
+      "source_index": 15,
+      "chunk_ids": [
+        "ED04-S1-p1"
+      ],
+      "reference": {
+        "text": "借用平板前須教師同意",
+        "tokens": [
+          "借用",
+          "平板",
+          "前",
+          "須",
+          "教師",
+          "同意"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED04-F1",
+          "evidence": "ED04-S1-p1",
+          "statement": "同意者為教師"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "借平板前請教師同意",
+          "tokens": [
+            "借",
+            "平板",
+            "前",
+            "請",
+            "教師",
+            "同意"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留教師同意條件",
+              "fact_id": "ED04-F1",
+              "evidence": "ED04-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 4,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "借用平板前須家長同意",
+          "tokens": [
+            "借用",
+            "平板",
+            "前",
+            "須",
+            "家長",
+            "同意"
+          ],
+          "fact_check": [
+            {
+              "claim": "把教師改成家長",
+              "fact_id": "ED04-F1",
+              "evidence": "ED04-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "ED05",
+      "domain": "教育",
+      "source_id": "ED05-S1",
+      "source_version": "synthetic-v1",
+      "source": "社團活動在每週四下午進行。",
+      "task": "摘要社團通知",
+      "split": "validation",
+      "source_index": 16,
+      "chunk_ids": [
+        "ED05-S1-p1"
+      ],
+      "reference": {
+        "text": "社團於週四下午進行",
+        "tokens": [
+          "社團",
+          "於",
+          "週四",
+          "下午",
+          "進行"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED05-F1",
+          "evidence": "ED05-S1-p1",
+          "statement": "時間為週四下午"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "社團在週四下午舉行",
+          "tokens": [
+            "社團",
+            "在",
+            "週四",
+            "下午",
+            "舉行"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留活動時間",
+              "fact_id": "ED05-F1",
+              "evidence": "ED05-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "社團於週四上午進行",
+          "tokens": [
+            "社團",
+            "於",
+            "週四",
+            "上午",
+            "進行"
+          ],
+          "fact_check": [
+            {
+              "claim": "把下午改成上午",
+              "fact_id": "ED05-F1",
+              "evidence": "ED05-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "ED06",
+      "domain": "教育",
+      "source_id": "ED06-S1",
+      "source_version": "synthetic-v1",
+      "source": "每位學生可借三本書，期限為兩週。",
+      "task": "草擬借閱指引",
+      "split": "validation",
+      "source_index": 17,
+      "chunk_ids": [
+        "ED06-S1-p1"
+      ],
+      "reference": {
+        "text": "學生可借三本書為期兩週",
+        "tokens": [
+          "學生",
+          "可",
+          "借",
+          "三本書",
+          "為期",
+          "兩週"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED06-F1",
+          "evidence": "ED06-S1-p1",
+          "statement": "三本書；兩週期限"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "學生最多借三本書期限兩週",
+          "tokens": [
+            "學生",
+            "最多",
+            "借",
+            "三本書",
+            "期限",
+            "兩週"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留數量與期限",
+              "fact_id": "ED06-F1",
+              "evidence": "ED06-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 4,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 4,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "學生可借三本書為期四週",
+          "tokens": [
+            "學生",
+            "可",
+            "借",
+            "三本書",
+            "為期",
+            "四週"
+          ],
+          "fact_check": [
+            {
+              "claim": "把兩週改成四週",
+              "fact_id": "ED06-F1",
+              "evidence": "ED06-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "ED07",
+      "domain": "教育",
+      "source_id": "ED07-S1",
+      "source_version": "synthetic-v1",
+      "source": "實驗時必須戴護目鏡。",
+      "task": "草擬實驗安全提醒",
+      "split": "validation",
+      "source_index": 18,
+      "chunk_ids": [
+        "ED07-S1-p1"
+      ],
+      "reference": {
+        "text": "實驗時必須戴護目鏡",
+        "tokens": [
+          "實驗",
+          "時",
+          "必須",
+          "戴",
+          "護目鏡"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED07-F1",
+          "evidence": "ED07-S1-p1",
+          "statement": "實驗時必須戴護目鏡"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "實驗務必配戴護目鏡",
+          "tokens": [
+            "實驗",
+            "務必",
+            "配戴",
+            "護目鏡"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留安全要求",
+              "fact_id": "ED07-F1",
+              "evidence": "ED07-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "實驗時不必戴護目鏡",
+          "tokens": [
+            "實驗",
+            "時",
+            "不必",
+            "戴",
+            "護目鏡"
+          ],
+          "fact_check": [
+            {
+              "claim": "否定必要安全要求",
+              "fact_id": "ED07-F1",
+              "evidence": "ED07-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "ED08",
+      "domain": "教育",
+      "source_id": "ED08-S1",
+      "source_version": "synthetic-v1",
+      "source": "小組報告每組四人。",
+      "task": "產生分組說明",
+      "split": "validation",
+      "source_index": 19,
+      "chunk_ids": [
+        "ED08-S1-p1"
+      ],
+      "reference": {
+        "text": "小組報告每組限四人",
+        "tokens": [
+          "小組",
+          "報告",
+          "每組",
+          "限",
+          "四人"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED08-F1",
+          "evidence": "ED08-S1-p1",
+          "statement": "每組四人"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "報告每組為四位同學",
+          "tokens": [
+            "報告",
+            "每組",
+            "為",
+            "四位",
+            "同學"
+          ],
+          "fact_check": [
+            {
+              "claim": "改寫但保留組員數",
+              "fact_id": "ED08-F1",
+              "evidence": "ED08-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "小組報告每組限六人",
+          "tokens": [
+            "小組",
+            "報告",
+            "每組",
+            "限",
+            "六人"
+          ],
+          "fact_check": [
+            {
+              "claim": "把四人改成六人",
+              "fact_id": "ED08-F1",
+              "evidence": "ED08-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "ED09",
+      "domain": "教育",
+      "source_id": "ED09-S1",
+      "source_version": "synthetic-v1",
+      "source": "課堂討論先閱讀短文，再寫摘要。",
+      "task": "草擬學習步驟",
+      "split": "test",
+      "source_index": 20,
+      "chunk_ids": [
+        "ED09-S1-p1"
+      ],
+      "reference": {
+        "text": "先閱讀短文再寫摘要",
+        "tokens": [
+          "先",
+          "閱讀",
+          "短文",
+          "再",
+          "寫",
+          "摘要"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED09-F1",
+          "evidence": "ED09-S1-p1",
+          "statement": "先閱讀；後摘要"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "先讀短文然後寫摘要",
+          "tokens": [
+            "先",
+            "讀",
+            "短文",
+            "然後",
+            "寫",
+            "摘要"
+          ],
+          "fact_check": [
+            {
+              "claim": "同義改寫保留先後",
+              "fact_id": "ED09-F1",
+              "evidence": "ED09-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "先寫摘要再閱讀短文",
+          "tokens": [
+            "先",
+            "寫",
+            "摘要",
+            "再",
+            "閱讀",
+            "短文"
+          ],
+          "fact_check": [
+            {
+              "claim": "交換兩個步驟",
+              "fact_id": "ED09-F1",
+              "evidence": "ED09-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "ED10",
+      "domain": "教育",
+      "source_id": "ED10-S1",
+      "source_version": "synthetic-v1",
+      "source": "本課程不要求程式設計經驗。",
+      "task": "撰寫課程介紹",
+      "split": "test",
+      "source_index": 21,
+      "chunk_ids": [
+        "ED10-S1-p1"
+      ],
+      "reference": {
+        "text": "課程不要求程式設計經驗",
+        "tokens": [
+          "課程",
+          "不",
+          "要求",
+          "程式設計",
+          "經驗"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED10-F1",
+          "evidence": "ED10-S1-p1",
+          "statement": "無程式設計經驗要求"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "課程無須程式設計經驗",
+          "tokens": [
+            "課程",
+            "無須",
+            "程式設計",
+            "經驗"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留無先備要求",
+              "fact_id": "ED10-F1",
+              "evidence": "ED10-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "課程須具備程式設計經驗",
+          "tokens": [
+            "課程",
+            "須",
+            "具備",
+            "程式設計",
+            "經驗"
+          ],
+          "fact_check": [
+            {
+              "claim": "改成需要先備經驗",
+              "fact_id": "ED10-F1",
+              "evidence": "ED10-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    },
+    {
+      "id": "ED11",
+      "domain": "教育",
+      "source_id": "ED11-S1",
+      "source_version": "synthetic-v1",
+      "source": "線上測驗可作答兩次，取較高成績。",
+      "task": "草擬測驗規則",
+      "split": "test",
+      "source_index": 22,
+      "chunk_ids": [
+        "ED11-S1-p1"
+      ],
+      "reference": {
+        "text": "測驗可作答兩次取較高分",
+        "tokens": [
+          "測驗",
+          "可",
+          "作答",
+          "兩次",
+          "取",
+          "較高分"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED11-F1",
+          "evidence": "ED11-S1-p1",
+          "statement": "兩次作答；採較高分"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "測驗兩次作答採較高分",
+          "tokens": [
+            "測驗",
+            "兩次",
+            "作答",
+            "採",
+            "較高分"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留次數及計分方式",
+              "fact_id": "ED11-F1",
+              "evidence": "ED11-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 4,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 4,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "測驗可作答兩次取平均分",
+          "tokens": [
+            "測驗",
+            "可",
+            "作答",
+            "兩次",
+            "取",
+            "平均分"
+          ],
+          "fact_check": [
+            {
+              "claim": "把較高分改成平均分",
+              "fact_id": "ED11-F1",
+              "evidence": "ED11-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "B",
+        "Q": "A"
+      }
+    },
+    {
+      "id": "ED12",
+      "domain": "教育",
+      "source_id": "ED12-S1",
+      "source_version": "synthetic-v1",
+      "source": "教師辦公時間為週二中午，請先預約。",
+      "task": "摘要諮詢資訊",
+      "split": "test",
+      "source_index": 23,
+      "chunk_ids": [
+        "ED12-S1-p1"
+      ],
+      "reference": {
+        "text": "週二中午諮詢須先預約",
+        "tokens": [
+          "週二",
+          "中午",
+          "諮詢",
+          "須",
+          "先",
+          "預約"
+        ]
+      },
+      "facts": [
+        {
+          "id": "ED12-F1",
+          "evidence": "ED12-S1-p1",
+          "statement": "週二中午；須先預約"
+        }
+      ],
+      "candidates": {
+        "A": {
+          "text": "諮詢在週二中午並須預約",
+          "tokens": [
+            "諮詢",
+            "在",
+            "週二",
+            "中午",
+            "並",
+            "須",
+            "預約"
+          ],
+          "fact_check": [
+            {
+              "claim": "保留時間與預約條件",
+              "fact_id": "ED12-F1",
+              "evidence": "ED12-S1-p1",
+              "verdict": "supported"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 4,
+              "accuracy": 5
+            },
+            {
+              "rater": "R2",
+              "fluency": 4,
+              "accuracy": 5
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        },
+        "B": {
+          "text": "週二中午諮詢不須先預約",
+          "tokens": [
+            "週二",
+            "中午",
+            "諮詢",
+            "不須",
+            "先",
+            "預約"
+          ],
+          "fact_check": [
+            {
+              "claim": "取消必要預約條件",
+              "fact_id": "ED12-F1",
+              "evidence": "ED12-S1-p1",
+              "verdict": "contradicted"
+            }
+          ],
+          "ratings": [
+            {
+              "rater": "R1",
+              "fluency": 5,
+              "accuracy": 1
+            },
+            {
+              "rater": "R2",
+              "fluency": 5,
+              "accuracy": 1
+            }
+          ],
+          "rating_note": "教學預設分數，非真實受試者評分。"
+        }
+      },
+      "anonymous_order": {
+        "P": "A",
+        "Q": "B"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 790" role="img">
+  <title>SMOTE 正確與錯誤的切分流程</title>
+  <desc>正確路徑先留出測試集，再切訓練摺與驗證摺；只用訓練摺擬合尺度、找近鄰、合成及訓練，驗證摺沿用尺度且不合成。錯誤路徑全資料先縮放合成，再切分，已使用後來驗證樣本的資訊。</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#526d82"/></marker></defs>
+  <style>text{font-family:system-ui,'Microsoft JhengHei',sans-serif;font-size:16px;fill:#142c45}.h{font-size:18px;font-weight:700}.good{fill:#eef8f7;stroke:#006e77;stroke-width:1.5}.bad{fill:#fff6eb;stroke:#a34800;stroke-width:1.5;stroke-dasharray:6 3}.arrow{stroke:#526d82;stroke-width:2;fill:none;marker-end:url(#a)}</style>
+  <rect width="360" height="790" rx="12" fill="white"/>
+  <text x="20" y="29" class="h">正確：先切分，只在訓練摺合成</text>
+  <rect class="good" x="24" y="47" width="312" height="62" rx="8"/>
+  <text x="42" y="74">先從原始資料留出測試集</text><text x="42" y="96">測試資料保持原樣，留到最後</text>
+  <path class="arrow" d="M180 110V134"/>
+  <rect class="good" x="24" y="140" width="312" height="62" rx="8"/>
+  <text x="42" y="167">開發資料先切訓練摺、驗證摺</text><text x="42" y="189">每輪從原始切分重新開始</text>
+  <path class="arrow" d="M180 203V227"/>
+  <rect class="good" x="24" y="233" width="312" height="81" rx="8"/>
+  <text x="42" y="260" class="h">訓練摺</text><text x="42" y="284">擬合尺度 → 找同類近鄰</text><text x="42" y="306">→ 合成新點 → 訓練模型</text>
+  <path class="arrow" d="M180 315V339"/>
+  <rect class="good" x="24" y="345" width="312" height="81" rx="8"/>
+  <text x="42" y="373" class="h">驗證摺</text><text x="42" y="397">沿用訓練尺度，不合成新點</text><text x="42" y="419">在原始驗證分布評分</text>
+  <text x="20" y="467" class="h">錯誤：先讀全資料，再切分</text>
+  <rect class="bad" x="24" y="487" width="312" height="64" rx="8"/>
+  <text x="42" y="514">全資料先擬合尺度、找近鄰</text><text x="42" y="538">再合成樣本</text>
+  <path class="arrow" d="M180 552V577"/>
+  <rect class="bad" x="24" y="583" width="312" height="64" rx="8"/>
+  <text x="42" y="610">之後才切訓練與驗證</text><text x="42" y="634">驗證資訊已參與合成，造成洩漏</text>
+  <text x="20" y="690">虛線框是錯誤路徑；不是另一種選項</text>
+  <text x="20" y="723">驗證與測試不補到平衡</text>
+  <text x="20" y="755">教學示意；每摺都遵守相同資料邊界</text>
+</svg>

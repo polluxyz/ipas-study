@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="740" viewBox="0 0 360 740" role="img" aria-labelledby="title desc">
+<title id="title">外層評估與內層折外目標編碼</title>
+<desc id="desc">外層先把20筆訓練和8筆驗證分開。20筆訓練內做4折交叉擬合，每輪15筆估計先驗與類別統計，只編碼留出的5筆。合併20筆折外特徵後訓練模型。另以全20筆訓練統計轉換8筆驗證，不讀驗證標籤，最後才用驗證標籤計分。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#334155"/></marker></defs>
+<rect width="360" height="740" rx="8" fill="#f8fafc"/>
+<g font-family="Microsoft JhengHei,Noto Sans TC,sans-serif" font-size="14" text-anchor="middle" fill="#172554">
+<text x="180" y="29" font-size="18" font-weight="bold">先分外層，再做內層折外統計</text>
+<rect x="20" y="48" width="320" height="48" rx="7" fill="#dbeafe" stroke="#1d4ed8"/><text x="180" y="77">28筆教學零售曝光：固定索引0–27</text>
+<path d="M100 96V124M260 96V124" stroke="#334155" marker-end="url(#arrow)"/>
+<rect x="12" y="128" width="160" height="50" rx="6" fill="#dbeafe" stroke="#1d4ed8"/><text x="92" y="149">外層訓練20筆</text><text x="92" y="168">索引0–19，可用標籤</text>
+<rect x="188" y="128" width="160" height="50" rx="6" fill="#ffedd5" stroke="#9a3412"/><text x="268" y="149">外層驗證8筆</text><text x="268" y="168">索引20–27，標籤封存</text>
+<path d="M92 178V209" stroke="#334155" marker-end="url(#arrow)"/>
+<rect x="12" y="214" width="336" height="241" rx="8" fill="none" stroke="#1d4ed8" stroke-dasharray="6 4"/>
+<text x="180" y="238" font-weight="bold">內層：只在外層訓練內輪流留出</text>
+<rect x="28" y="253" width="304" height="65" rx="5" fill="#dbeafe"/><text x="180" y="276">每輪來源15筆：估類別平均與先驗</text><text x="180" y="299">不含本輪留出5筆的標籤</text>
+<path d="M180 318V342" stroke="#334155" marker-end="url(#arrow)"/>
+<rect x="28" y="348" width="304" height="59" rx="5" fill="#dcfce7"/><text x="180" y="371">只轉換本輪留出5筆</text><text x="180" y="394">每筆由「其他摺」提供統計</text>
+<text x="180" y="438">重複4輪 → 拼回20筆折外特徵</text>
+<path d="M92 455V486M268 455V486" stroke="#334155" marker-end="url(#arrow)"/>
+<rect x="12" y="492" width="160" height="76" rx="6" fill="#dcfce7" stroke="#166534"/><text x="92" y="517">折外特徵＋訓練標籤</text><text x="92" y="541">訓練預測模型</text>
+<rect x="188" y="492" width="160" height="76" rx="6" fill="#ffedd5" stroke="#9a3412"/><text x="268" y="514">另用全20筆訓練</text><text x="268" y="537">建立最終編碼表</text><text x="268" y="558">只轉換8筆驗證</text>
+<text x="180" y="599" font-size="13">右支使用外層訓練統計，未讀驗證標籤</text>
+<path d="M92 568V620H180V645M268 568V620H180" stroke="#334155" fill="none" marker-end="url(#arrow)"/>
+<rect x="28" y="650" width="304" height="66" rx="6" fill="#e2e8f0" stroke="#334155"/><text x="180" y="677">模型預測8筆驗證 → 才開啟驗證標籤計分</text><text x="180" y="701">調參後，另保留最終測試集</text>
+</g></svg>

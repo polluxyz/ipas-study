@@ -1,0 +1,19 @@
+---
+/** 正式概念頁元件與 Markdown 管線的隔離驗收頁，不寫入教材。 */
+import StudyPage from '../../components/StudyPage.astro';
+import SupplementFilter from '../../components/SupplementFilter.astro';
+import { supplementFixture } from '../../components/dev/supplement-fixture.mjs';
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import asides from '../../../plugins/asides.mjs';
+import wikiLinks from '../../../plugins/wiki-links.mjs';
+import { supplementSections } from '../../../plugins/supplement.mjs';
+import { readableTables, collapseAdvanced } from '../../../plugins/textbook.mjs';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+const processor = await createMarkdownProcessor({ remarkPlugins: [asides, remarkMath, wikiLinks], rehypePlugins: [rehypeKatex, supplementSections, collapseAdvanced, readableTables] });
+const rendered = await processor.render(supplementFixture);
+---
+<StudyPage title="補充內容呈現驗收" section="開發示範" headings={rendered.metadata.headings}>
+  <SupplementFilter target="supplement-render-body" />
+  <div class="concept-prose prose" id="supplement-render-body" set:html={rendered.code} />
+</StudyPage>

@@ -1,0 +1,52 @@
+/* 公式與圖表獨立控制捲動；字型由套件 CSS 打包到本機，圖形沿用主題文字與強調色。 */
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: .6rem .15rem; }
+/* 原型的導覽固定淺色；展示頁的教材區另外驗證真正的深色閱讀背景。 */
+:root[data-theme='dark'] main:has(.s1-figures) { background: #15252b; color: #e4edf1; --sl-color-text: #e4edf1; --sl-color-white: #e4edf1; --ink: #e4edf1; }
+:root[data-theme='dark'] .s1-figures :is(h2, h3, p, .katex, summary) { color: #e4edf1; }
+.textbook-figure { --fig-bg: #f9fbf9; --fig-ink: #263a45; --fig-primary: #006b66; --fig-secondary: #9a3c00; --fig-grid: #d4dfe1; --fig-fill: #edf5f4; margin: 2rem 0; border: 1px solid var(--fig-grid); border-radius: .75rem; padding: 1rem; background: var(--fig-bg); color: var(--fig-ink); }
+:root[data-theme='dark'] .textbook-figure { --fig-bg: #15252b; --fig-ink: #e4edf1; --fig-primary: #78ded2; --fig-secondary: #ffbf86; --fig-grid: #46535e; --fig-fill: #24373d; }
+.textbook-figure .figure-scroll { overflow-x: auto; max-width: 100%; }
+.textbook-figure svg { display: block; width: 100%; min-width: 580px; height: auto; max-width: 760px; margin-inline: auto; color: var(--fig-ink); }
+.textbook-figure img { display: block; max-width: 100%; height: auto; margin: auto; }
+.textbook-figure svg text { fill: currentColor; font-family: system-ui, sans-serif; font-size: 14px; }
+.textbook-figure .fig-title { font-size: 21px; font-weight: 650; }
+.textbook-figure .fig-count { font-size: 22px; font-weight: 700; }
+.textbook-figure .fig-grid { stroke: var(--fig-grid); fill: none; stroke-width: 1; }
+.textbook-figure .fig-axis { stroke: currentColor; fill: none; stroke-width: 1.4; }
+.textbook-figure .fig-primary { stroke: var(--fig-primary); stroke-width: 3; fill: none; }
+.textbook-figure .fig-secondary { stroke: var(--fig-secondary); stroke-width: 3; stroke-dasharray: 8 5; fill: none; }
+.textbook-figure .fig-reference { stroke: currentColor; stroke-width: 1.5; stroke-dasharray: 5 5; opacity: .7; fill: none; }
+.textbook-figure .fig-point, .textbook-figure .fig-scatter { fill: var(--fig-primary); stroke: var(--fig-bg); stroke-width: 1.3; }
+.textbook-figure .fig-square { fill: var(--fig-secondary); }
+.textbook-figure .fig-marker { fill: var(--fig-bg); stroke: currentColor; stroke-width: 2.5; }
+.textbook-figure .fig-annotation { font-size: 14px; font-weight: 700; paint-order: stroke; stroke: var(--fig-bg); stroke-width: 4px; stroke-linejoin: round; }
+.textbook-figure .fig-cell { fill: var(--fig-fill); stroke: currentColor; stroke-width: 1; }
+.textbook-figure figcaption { font-weight: 600; margin-top: .5rem; }
+.textbook-figure .figure-metrics, .textbook-figure .figure-source { font-size: .875rem; margin-top: .6rem; line-height: 1.7; }
+.textbook-figure .figure-source { color: var(--fig-ink); opacity: .85; }
+.textbook-figure .figure-values, .textbook-figure .figure-values summary, .textbook-figure table { color: var(--fig-ink); }
+.figure-values { margin-top: 1rem; }
+.figure-values summary, .textbook-advanced > summary { cursor: pointer; font-weight: 600; }
+.figure-values table { width: 100%; font-variant-numeric: tabular-nums; font-size: .9rem; }
+.figure-values caption { text-align: left; margin-block: .75rem; }
+.figure-values td, .figure-values th { padding: .5rem .8rem; white-space: nowrap; }
+.textbook-advanced { border: 1px solid var(--sl-color-gray-5, #d4dfe1); padding: 1rem 1.25rem; border-radius: .6rem; margin-block: 2rem; }
+.textbook-advanced > summary { font-size: 1.2rem; }
+.textbook-advanced:target { outline: 2px solid var(--sl-color-accent); }
+@media (max-width: 600px) { .textbook-figure { padding: .65rem; } }
+/* 提示框沿用 Starlight 類別，明定閱讀色彩以配合原型固定淺色的全域變數。 */
+.prose .starlight-aside { --aside-bg: #edf3ff; --aside-ink: #253b61; --aside-accent: #315ea0; margin-block: 1.5rem; padding: 1rem 1.25rem; border-inline-start: .25rem solid var(--aside-accent); border-radius: .25rem; background: var(--aside-bg); color: var(--aside-ink); }
+.prose .starlight-aside--tip { --aside-bg: #f3edfa; --aside-ink: #49315d; --aside-accent: #754399; }
+.prose .starlight-aside--caution { --aside-bg: #fff3dd; --aside-ink: #624315; --aside-accent: #916013; }
+.prose .starlight-aside__title { color: var(--aside-accent); font-size: 1rem; font-weight: 650; margin: 0 0 .4rem !important; }
+.prose .starlight-aside__content > :first-child { margin-top: 0 !important; }
+.prose .starlight-aside__content > :last-child { margin-bottom: 0 !important; }
+.prose .starlight-aside a { color: var(--aside-accent); }
+:root[data-theme='dark'] .prose .starlight-aside { --aside-bg: #192e4c; --aside-ink: #e1edff; --aside-accent: #a6caff; }
+:root[data-theme='dark'] .prose .starlight-aside--tip { --aside-bg: #352443; --aside-ink: #f1e5ff; --aside-accent: #dfb4ff; }
+:root[data-theme='dark'] .prose .starlight-aside--caution { --aside-bg: #3b2d18; --aside-ink: #fff0d7; --aside-accent: #ffd391; }
+.textbook-table-scroll { overflow-x: auto; max-width: 100%; margin-block: 1rem !important; }
+.textbook-table-scroll > table { display: table; width: 100%; border-collapse: collapse; }
+.textbook-table-scroll .table-short-cell { white-space: nowrap; }
+.textbook-table-scroll .table-long-cell { min-width: 12rem; white-space: normal; overflow-wrap: break-word; word-break: normal; }
+.textbook-table-scroll:focus-visible { outline: 2px solid var(--sl-color-accent); outline-offset: 2px; }

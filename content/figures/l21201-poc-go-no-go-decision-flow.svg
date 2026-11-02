@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 836" width="360" height="836" role="img" aria-labelledby="title desc">
+  <title id="title">POC 通過、補驗或停止的決策流程</title>
+  <desc id="desc">先查證據的範圍與口徑，再查停止線。未觸停止線且最低成效達標時通過本輪。缺證據或未達成效時，必須有可補足的方向與剩餘資源才補驗，否則停止目前範圍。所有門檻須事前寫定。</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#40546b"/></marker></defs>
+  <rect width="360" height="836" rx="12" fill="#f5f8fc"/>
+  <g font-family="'Microsoft JhengHei','Noto Sans TC',sans-serif" fill="#142d47" text-anchor="middle">
+    <text x="180" y="31" font-size="20" font-weight="700">事前規則決定下一步</text>
+    <text x="180" y="57" font-size="14">補充示意：先保留證據，再下結論</text>
+    <rect x="20" y="81" width="266" height="64" rx="8" fill="#fff" stroke="#30648a" stroke-width="2"/>
+    <text x="153" y="108" font-size="16">樣本、範圍、版本、口徑</text><text x="153" y="132" font-size="16">證據足夠且可比較？</text>
+    <rect x="20" y="191" width="266" height="60" rx="8" fill="#fff" stroke="#30648a" stroke-width="2"/>
+    <text x="153" y="216" font-size="16">觸及事前停止線？</text><text x="153" y="240" font-size="14">例如重大錯誤</text>
+    <rect x="20" y="301" width="266" height="60" rx="8" fill="#fff" stroke="#30648a" stroke-width="2"/>
+    <text x="153" y="326" font-size="16">最低成效與使用條件</text><text x="153" y="350" font-size="16">都達標且未超資源上限？</text>
+    <rect x="20" y="409" width="266" height="62" rx="8" fill="#edf6ef" stroke="#37704b" stroke-width="2"/>
+    <text x="153" y="435" font-size="17" font-weight="700">通過本輪</text><text x="153" y="458" font-size="14">另定下一階段範圍與待驗條件</text>
+    <rect x="20" y="535" width="320" height="68" rx="8" fill="#fff7ed" stroke="#985d21" stroke-width="2"/>
+    <text x="180" y="562" font-size="16">缺證據或成效未達標：</text><text x="180" y="586" font-size="15">有修正方向，且能在上限內補足？</text>
+    <rect x="16" y="663" width="154" height="85" rx="8" fill="#fff1f0" stroke="#9a3d36" stroke-width="2"/>
+    <text x="93" y="693" font-size="18" font-weight="700">停止目前範圍</text><text x="93" y="720" font-size="14">保存原因及重評條件</text>
+    <rect x="190" y="663" width="154" height="85" rx="8" fill="#e9f3fb" stroke="#30648a" stroke-width="2"/>
+    <text x="267" y="693" font-size="18" font-weight="700">補驗</text><text x="267" y="720" font-size="14">新證據、期限、責任人</text>
+    <text x="180" y="788" font-size="14">補驗後重新查所有門檻，不能自動通過</text>
+    <text x="180" y="815" font-size="14">圖中各條「否」路徑皆有明確出口</text>
+  </g>
+  <g stroke="#40546b" stroke-width="2" fill="none" marker-end="url(#arrow)">
+    <path d="M153 145V185"/>
+    <path d="M153 251V295"/>
+    <path d="M153 361V403"/>
+    <path d="M286 113H321V527" stroke-dasharray="5 4"/>
+    <path d="M286 331H307V513H180V529" stroke-dasharray="5 4"/>
+    <path d="M20 221H8V633H55V657"/>
+    <path d="M93 603V657"/>
+    <path d="M267 603V657"/>
+  </g>
+  <g font-family="'Microsoft JhengHei',sans-serif" font-size="14" fill="#142d47">
+    <text x="164" y="172">是</text><text x="164" y="281">否</text><text x="164" y="389">是</text>
+    <text x="294" y="103">否</text><text x="289" y="322">否</text><text x="17" y="276">是：停止線</text>
+    <text x="104" y="639">否</text><text x="277" y="639">是</text>
+  </g>
+</svg>

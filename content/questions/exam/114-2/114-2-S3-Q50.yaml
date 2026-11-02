@@ -1,0 +1,98 @@
+id: 114-2-S3-Q50
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 50
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 18
+type: 圖表
+codes: [L23303, L23203]
+concepts: [learning-curve, train-val-test-split, data-leakage]
+stem: |
+  使用鐵達尼號(Titanic)資料集進行多層感知機(Multilayer Perceptron, MLP)分類預測分析，其中 survived 為反應變數(1 表示存活，0 表示死亡)。附圖程式碼展示資料載入與處理，請根據此資料回答第 48~50 題。
+
+  下圖顯示資料集的前 5 筆資料。
+
+  參考下圖執行結果，下列何者正確？
+
+  A：空格 1 須填入 "b-"
+  B：空格 2 須填入 "b--"
+  C：空格 1 須填入 "r-"
+  D：空格 2 須填入 "r--"
+  E：驗證損失明顯較訓練損失減少更明顯
+
+  （以下為圖表文字說明，非考卷原文）圖名為 Training and Validation Loss，橫軸為 Epochs，範圍約 1–100，縱軸為 Loss。Training Loss 是藍色實線，從約 0.66 降至 0.40；Validation Loss 是紅色虛線，從約 0.62 快速降到約 0.46，之後在 0.45–0.46 附近波動，至第 100 輪約為 0.46。
+code: |
+  import numpy as np
+  import pandas as pd
+  from keras import Sequential
+  from keras.layers import Input, Dense
+
+  np.random.seed(123)
+  df_train = pd.read_csv("titanic_train.csv")
+  df_test = pd.read_csv("titanic_test.csv")
+
+  df_train.head()
+  df_test.head()
+
+  dataset_train = df_train.values.astype('float32')
+  dataset_test = df_test.values.astype('float32')
+
+  X_train = dataset_train[:, 0:9]
+  y_train = dataset_train[:, 9]
+  X_test = dataset_test[:, 0:9]
+  y_test = dataset_test[:, 9]
+
+  X_train -= X_train.mean(axis=0)
+  X_train /= X_train.std(axis=0)
+  X_test -= X_test.mean(axis=0)
+  X_test /= X_test.std(axis=0)
+
+  model = Sequential()
+  model.add(Input(shape=(X_train.shape[1],)))
+  model.add(Dense(10, activation="relu"))
+  model.add(Dense(10, activation="relu"))
+  model.add(Dense(1, activation="sigmoid"))
+  model.summary()
+  model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
+
+  history = model.fit(X_train, y_train, validation_split=0.2, epochs=100, batch_size=10)
+  loss, accuracy = model.evaluate(X_train, y_train, verbose=0)
+
+  import matplotlib.pyplot as plt
+  loss = history.history["loss"]
+  epochs = range(1, len(loss)+1)
+  val_loss = history.history["val_loss"]
+  plt.plot(epochs, loss,空格1 , label="Training Loss")
+  plt.plot(epochs, val_loss,空格2 , label="Validation Loss")
+  plt.title("Training and Validation Loss")
+  plt.xlabel("Epochs")
+  plt.ylabel("Loss")
+  plt.legend()
+  plt.show()
+code_lang: python
+options:
+  A: B、C
+  B: A、C、D
+  C: A、D
+  D: C、D、E
+answer: C
+explanation:
+  summary: 對照繪圖格式字串與損失曲線，判斷訓練及驗證結果的標示。
+  correct: Training Loss 對應藍色實線，所以空格 1 填 "b-"；Validation Loss 對應紅色虛線，所以空格 2 填 "r--"，因此 A、D 正確，選 C。此處程式碼由第 48–50 題的三個 cell 合併；原圖的空格 1、空格 2 照錄，須代入字串才能執行。validation_split=0.2 保留兩成輸入資料驗證，但 evaluate 仍使用 X_train、y_train，並非獨立測試；前段以全部 X_train 計算標準化統計量也已用到驗證部分，實務應先切分再估計統計量，並套用至驗證與測試資料。
+  wrong:
+    A: 敘述 B 把驗證線指定成藍色虛線，敘述 C 把訓練線指定成紅色實線，兩者都不符合圖例。
+    B: 同時包含敘述 A 與 C，會要求空格 1 既是藍色實線又是紅色實線；其中 C 與實際圖形不符。
+    D: 敘述 C 的顏色不對，敘述 E 的下降幅度也與曲線不符。訓練損失約減少 0.26，驗證損失約減少 0.16，且後者早已趨於平坦，不能說驗證損失減少更明顯。
+  rule: 比較曲線時，要核對指標、資料來源與線型，訓練評分不等於獨立測試。
+guide_refs: [guide-3:5-17, guide-3:5-18, guide-3:5-20]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 18
+    by: QB2
+  blind_answer: C
+  dispute: null
+image: 114-2-S3-Q50.png

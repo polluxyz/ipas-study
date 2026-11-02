@@ -1,0 +1,16 @@
+{
+  "id": "L23303-A1-iou",
+  "source": "教學模擬資料",
+  "domain": "製造瑕疵定位",
+  "coordinate_format": "xyxy",
+  "coordinate_unit": "pixel",
+  "coordinate_rule": "原點左上，x 向右、y 向下；座標是連續邊界，面積以差值相乘，不加 1",
+  "ground_truth": { "id": "G1", "class": "scratch", "box": [10, 10, 30, 30] },
+  "predictions": [
+    { "id": "B1", "class": "scratch", "score": 0.9, "box": [14, 10, 34, 30], "role": "主算例，每次只評這一個框" },
+    { "id": "B2", "class": "scratch", "score": 0.8, "box": [0, 0, 40, 40], "role": "替代方案，框太大" },
+    { "id": "B3", "class": "scratch", "score": 0.7, "box": [40, 10, 60, 30], "role": "替代方案，完全不相交" }
+  ],
+  "evaluation_rule": "各替代方案獨立評估，同類別且 IoU 大於或等於門檻才配對；主算例只有一個真實物體與一個預測框",
+  "iou_thresholds": [0.5, 0.7]
+}

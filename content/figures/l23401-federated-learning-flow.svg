@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="574" viewBox="0 0 360 574" role="img" aria-labelledby="title desc">
+  <title id="title">聯邦學習的三方本地訓練與多輪聚合</title>
+  <desc id="desc">教學示意。中央把同版模型分別送給甲乙丙三院或三行，各方原始列留本地，並行訓練後只回傳更新後權重與訓練筆數。中央加權聚合，再循右側回送箭頭下發下一輪模型。原始列不沿箭頭上傳；更新仍可能洩漏，跨網路須安全通道。本圖不代表已部署或驗證安全協議。</desc>
+  <defs>
+    <marker id="fl-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#2563eb"/></marker>
+    <marker id="fl-loop" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7Z" fill="#64748b"/></marker>
+  </defs>
+  <rect width="360" height="574" fill="#fff"/>
+  <g font-family="sans-serif" fill="#0f172a" text-anchor="middle">
+    <text x="180" y="30" font-size="19" font-weight="bold">聯邦學習資料邊界</text>
+    <rect x="70" y="54" width="220" height="72" rx="9" fill="#eff6ff" stroke="#64748b"/>
+    <text x="180" y="82" font-size="16">中央：共同模型</text>
+    <text x="180" y="107" font-size="13">同一版本發給三方</text>
+    <path d="M180 127V152M68 152H292M68 152V181M180 152V181M292 152V181" fill="none" stroke="#2563eb" stroke-width="2"/>
+    <g fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#fl-arrow)">
+      <path d="M68 170V181"/><path d="M180 170V181"/><path d="M292 170V181"/>
+    </g>
+    <g fill="#f0fdf4" stroke="#64748b">
+      <rect x="16" y="186" width="104" height="134" rx="9"/>
+      <rect x="128" y="186" width="104" height="134" rx="9"/>
+      <rect x="240" y="186" width="104" height="134" rx="9"/>
+    </g>
+    <g font-size="14" font-weight="bold">
+      <text x="68" y="215">甲院／甲行</text><text x="180" y="215">乙院／乙行</text><text x="292" y="215">丙院／丙行</text>
+    </g>
+    <g font-size="13">
+      <text x="68" y="245">原始列留本地</text><text x="180" y="245">原始列留本地</text><text x="292" y="245">原始列留本地</text>
+      <text x="68" y="276">本地訓練</text><text x="180" y="276">本地訓練</text><text x="292" y="276">本地訓練</text>
+      <text x="68" y="302">回傳權重及筆數</text><text x="180" y="302">回傳權重及筆數</text><text x="292" y="302">回傳權重及筆數</text>
+    </g>
+    <path d="M68 322V366H180M292 322V366H180M180 322V410" fill="none" stroke="#2563eb" stroke-width="2"/>
+    <path d="M180 392V410" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#fl-arrow)"/>
+    <rect x="70" y="416" width="220" height="84" rx="9" fill="#eff6ff" stroke="#64748b"/>
+    <text x="180" y="446" font-size="16">中央：加權聚合</text><text x="180" y="476" font-size="13">產生下一版共同模型</text>
+    <path d="M291 458H348V89H293" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#fl-loop)"/>
+    <text x="319" y="395" font-size="12">下一輪</text>
+    <text x="180" y="529" font-size="13">更新仍可能洩漏；跨網路須安全通道</text>
+    <text x="180" y="559" font-size="12" fill="#334155">教學示意；不代表已部署或驗證安全協議</text>
+  </g>
+</svg>

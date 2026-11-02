@@ -1,0 +1,36 @@
+id: 114-2-S3-Q24
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 24
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 6
+type: 情境
+codes: [L23303, L23202]
+concepts: [residual-analysis]
+stem: |
+  某房地產公司利用多元迴歸模型（Multiple Regression Model）預測房價，並繪製殘差圖（Residual Plot）檢查模型品質。結果顯示部分資料點的殘差極大，且在高價區樣本中出現系統性彎曲分佈現象。根據此觀察，下列何者為最可能的正確解釋？
+options:
+  A: 模型過度擬合（Overfitting），導致在訓練資料上表現過好、泛化能力不足
+  B: 模型特徵數量不足，導致欠擬合（Underfitting）
+  C: 模型存在異常值（Outlier）或非線性關係，違反迴歸假設
+  D: 殘差圖呈現隨機分佈，表示模型已完全符合所有假設
+answer: C
+explanation:
+  summary: 由極端殘差與彎曲型態診斷迴歸模型未捕捉的結構。
+  correct: 個別樣本的殘差很大，提示可能有異常觀測或特殊樣本；殘差隨價格呈現規律彎曲，則提示線性模型未捕捉非線性關係。C 同時對應這兩個現象。這是進一步檢查的線索，不能只憑殘差大就直接刪除樣本。即使整體誤差小或 R² 高，也可能掩蓋這些局部規律。
+  wrong:
+    A: 判斷過擬合通常需要比較訓練與驗證表現。題目沒有提供兩者落差，不能據此認定訓練過好或泛化不足。
+    B: 殘差呈現系統性彎曲，確實是模型形式不足、可能欠擬合的訊號；但 B 將原因限定為特徵數量不足，沒有說明為何少數樣本的殘差極大。C 同時指出異常值與非線性關係，較完整涵蓋題幹的兩個現象。
+    D: 題目描述的是系統性彎曲，與隨機散布不同；即使殘差沒有明顯型態，也不能一次證明所有迴歸假設都成立。
+  rule: 殘差有彎曲或極端值時，要查模型形式與異常觀測。
+guide_refs: [guide-3:4-14]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 6
+    by: QB1
+  dispute: null
+  blind_answer: C

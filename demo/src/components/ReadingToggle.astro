@@ -1,0 +1,25 @@
+---
+/** 閱讀完成由讀者主動標記，寫入成功才更新按鈕，並提供取消與明確錯誤訊息。 */
+interface Props { conceptId: string; }
+const { conceptId } = Astro.props;
+---
+<div class="reading-toggle" data-reading-toggle={conceptId} data-pagefind-ignore><button type="button" class="button secondary" aria-pressed="false">標記為已讀</button><p role="status" class="reading-feedback"></p></div>
+<script>
+  import { getReadings, setConceptRead } from '../lib/attempts';
+  for (const element of document.querySelectorAll<HTMLElement>('[data-reading-toggle]')) {
+    const button = element.querySelector('button'); const feedback = element.querySelector('[role="status"]');
+    const id = element.dataset.readingToggle!;
+    const refresh = () => {
+      const read = getReadings().some((reading) => reading.conceptId === id);
+      button?.setAttribute('aria-pressed', String(read));
+      if (button) button.textContent = read ? '✓ 已讀・取消標記' : '標記為已讀';
+    };
+    try { refresh(); } catch { if (feedback) feedback.textContent = '無法讀取閱讀紀錄，請確認瀏覽器允許本機儲存。'; }
+    button?.addEventListener('click', () => {
+      try { const read = button.getAttribute('aria-pressed') !== 'true'; setConceptRead(id, read); refresh(); if (feedback) feedback.textContent = read ? '已儲存，學習路線的閱讀進度已更新。' : '已取消已讀標記。'; }
+      catch (error) { if (feedback) feedback.textContent = `閱讀紀錄未儲存：${error instanceof Error ? error.message : String(error)}`; }
+    });
+    const safeRefresh = () => { try { refresh(); } catch { if (feedback) feedback.textContent = '無法讀取閱讀紀錄，請確認瀏覽器允許本機儲存。'; } };
+    window.addEventListener('pageshow', safeRefresh); window.addEventListener('storage', safeRefresh);
+  }
+</script>

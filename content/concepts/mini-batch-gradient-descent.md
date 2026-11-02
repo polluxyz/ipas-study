@@ -1,0 +1,252 @@
+---
+id: mini-batch-gradient-descent
+title: 小批次梯度下降
+aliases:
+  - Mini-batch SGD
+  - Mini-batch
+  - 小批次訓練
+  - 批次大小
+  - Batch Size
+kind: technique
+codes:
+  - L23303
+  - L23103
+guide_refs:
+  - guide-3:3-24
+  - guide-3:5-18
+  - guide-3:5-19
+  - guide-3:5-33
+gaps:
+  - ref: guide-3:5-33
+    level: shallow
+    ability: 指引已談批次大小對梯度穩定、泛化、硬體資源與學習率的影響，沒有提資料分片與多 GPU 分散訓練；114-2 科1 第37題把兩者合在一起考
+author: codex
+status: draft
+textbook: v2
+summary: 小批次梯度下降每次以一批樣本算平均梯度，兼顧更新效率與記憶體
+goals:
+  - id: g1
+    text: 比較全批次、單樣本與小批次的穩定性、記憶體及吞吐量
+  - id: g2
+    text: 算出每輪更新次數，說明保留或捨棄尾批的條件
+  - id: g3
+    text: 逐批計算平均梯度與權重更新，檢查尾批與學習率
+formula_groups:
+  - id: batch-gradient
+    source: https://d2l.ai/chapter_optimization/minibatch-sgd.html
+    status: verified
+    checked_by: ctx_81ecdebd9e83
+  - id: update-count
+    source: https://docs.pytorch.org/docs/2.9/data.html
+    status: verified
+    checked_by: ctx_81ecdebd9e83
+self_check:
+  - id: c1
+    goal: g1
+    type: choice
+    prompt: GPU 訓練單筆更新吞吐量低，全批又放不進記憶體。哪個方向最合理？
+    options:
+      A: 把所有資料一次塞進 GPU
+      B: 使用記憶體容許的小批次並實測驗證表現
+      C: 只提高學習率就能省記憶體
+      D: 改用測試資料更新
+    answer: B
+    explain:
+      A: 錯。這沒有解決記憶體限制。
+      B: 對。小批次可運用平行計算，同時控制每批用量。
+      C: 錯。步長不直接改變批次相關的記憶體需求。
+      D: 錯。測試資料不能拿來訓練。
+  - id: c2
+    goal: g2
+    type: choice
+    prompt: 8 筆訓練資料、批次大小 3，每批更新一次且無梯度累積，保留及捨棄尾批各更新幾次？
+    options:
+      A: 3 次與 2 次
+      B: 2 次與 3 次
+      C: 3 次與 3 次
+      D: 4 次與 2 次
+    answer: A
+    explain:
+      A: 對。向上取整是 3，向下取整是 2。
+      B: 錯。2 次是捨棄尾批的次數，3 次是保留尾批的次數，兩者位置顛倒。
+      C: 錯。前面的 3 次正確；後面的 3 次錯把尾批也算入捨棄情形，捨棄應是 2 次。
+      D: 錯。4 次誤把尾批的 2 筆當分母，算成 8÷2；捨棄後的 2 次正確，但保留應是 3 次。
+  - id: c3
+    goal: g3
+    type: choice
+    prompt: 最後一批只有 2 筆，單筆梯度為 −1 與 −3，學習率 0.1，更新前權重 0。採平均梯度時更新後為何？
+    options:
+      A: "0.4"
+      B: −0.2
+      C: 約 0.1333
+      D: "0.2"
+    answer: D
+    explain:
+      A: 錯。0.4 是把梯度加總而沒有平均。
+      B: 錯。梯度為負時，減去梯度會讓權重增加。
+      C: 錯。這是仍以設定批次大小 3 作分母。
+      D: 對。平均梯度是 −2，更新為 0−0.1×(−2)=0.2。
+---
+
+## 為什麼需要
+
+全部樣本一起算梯度，單步可能太慢、太占記憶體；每次只用一筆，又容易受個別樣本影響。小批次梯度下降（Mini-batch Gradient Descent）每次用一批樣本更新，折衷兩端。
+
+指引 5-18～5-19 強調，批次大小要配合任務與 GPU 記憶體。選擇重點是讓硬體有效工作，同時保留可接受的訓練穩定性。
+
+## 直覺
+
+:::supplement[來源：Dive into Deep Learning 12.5 Minibatch Stochastic Gradient Descent]
+每批先用目前權重預測、算損失與梯度，再更新一次。下一批使用的是已更新的權重，並非等整輪結束才一起更新。
+:::
+
+| 做法 | 每次用量 | 穩定性與資源 | 適用想法 |
+|---|---|---|---|
+| 全批次梯度下降 | 全部訓練樣本 | 梯度較穩、單步成本高 | 資料與模型能放入記憶體 |
+| 單樣本隨機梯度下降 | 1 筆 | 波動大、單步成本低 | 線上學習與資料流 |
+| 小批次梯度下降 | 一批樣本 | 穩定性與記憶體折衷 | 深度模型與 GPU 訓練 |
+
+:::supplement[來源：Dive into Deep Learning 12.5 Minibatch Stochastic Gradient Descent]
+GPU 能平行處理一批樣本，常比逐筆更新有更高吞吐量。但批次加倍不代表速度加倍，仍要看模型、資料載入與硬體是否飽和。
+:::
+
+## 定義與公式
+
+### 一批的平均梯度（補充）
+
+$$
+g_{\mathcal B}=\frac{1}{b}\sum_{i\in\mathcal B}\nabla_\theta\ell_i(\theta),\qquad
+\theta' = \theta-\eta g_{\mathcal B}
+$$
+
+- $\mathcal B$ 是這批樣本，$b$ 是實際筆數，$\ell_i$ 是單筆損失。
+- $\theta$、$\theta'$ 是更新前後參數，$\eta$ 是學習率。
+- $g_{\mathcal B}$ 是這批的平均梯度。
+
+以需求預測模型 $\hat y=wx$ 為例，採平方損失，初始 $w=0$。第一批是：
+
+| 樣本 | 縮放後的 $x$ | 縮放後的 $y$ |
+|---|---|---|
+| 1 | 0.125 | 0.1 |
+| 2 | 0.250 | 0.2 |
+| 3 | 0.375 | 0.3 |
+
+每筆梯度是 $2x(wx-y)$。代入後為 −0.025、−0.100、−0.225，平均 −0.116667。步長 0.1 時，更新後權重 $w'$ 為：
+
+$$
+w'=0-0.1\times(-0.116667)\approx0.011667
+$$
+
+### 每輪更新次數與尾批（補充）
+
+一輪看完訓練資料一次。若每批更新一次、沒有梯度累積，保留尾批與捨棄尾批分別是：
+
+$$
+U_{\mathrm{keep}}=\left\lceil\frac{n}{B}\right\rceil,\qquad
+U_{\mathrm{drop}}=\left\lfloor\frac{n}{B}\right\rfloor
+$$
+
+- $n$ 是訓練樣本數，$B$ 是批次大小，$U$ 是更新次數。
+- $\lceil\cdot\rceil$、$\lfloor\cdot\rfloor$ 表示向上、向下取整。
+- 尾批的實際 $b$ 可能小於 $B$。
+
+例如 $n=8$、$B=3$，保留尾批為 $\lceil8/3\rceil=3$ 次，捨棄為 $\lfloor8/3\rfloor=2$ 次。捨棄時有 2 筆當輪不參與更新。
+
+保留尾批能用完資料；捨棄尾批可維持每批大小一致，但有樣本當輪不參與。PyTorch 的 `drop_last` 可設定這項取捨。（補充）
+
+## 走一次流程
+
+### 用出貨需求資料走完一輪（補充）
+
+主例子採 `L23303-regression.json`：$x$ 是廣告費單位，$y$ 是出貨箱數。程式用 $x/8$ 與 $y/100$ 控制尺度，不沿用既有預測值。
+
+這裡重訓一個沒有截距的單參數模型，僅教更新流程；八列不是連續時間索引。真正預測未來需求，要另作時間切分與獨立評估。
+
+| 批次 | 原始列序 | 實際筆數 | 做完之後 |
+|---|---|---|---|
+| 1 | 1–3 | 3 | 由初始權重更新一次 |
+| 2 | 4–6 | 3 | 用第一批更新後的權重再算 |
+| 3 | 7–8 | 2 | 保留尾批，再更新一次 |
+
+1. 準備資料與初始參數，確認批次大小為 3。
+2. 取第一批，用目前參數算三筆平方損失的平均。
+3. 算平均梯度、更新權重，換下一批。
+4. 尾批只有 2 筆，平均時要除以 2，不能仍除以 3。
+5. 三批做完才算一輪，再決定是否洗牌、進入下一輪。
+
+## 程式
+
+### NumPy 最小更新迴圈（補充）
+
+固定種子，為了對照手算而不洗牌，CPU 只做三次更新。`w` 是模型參數；批次大小與學習率是人先設定的超參數。
+
+```python
+import numpy as np
+
+np.random.seed(7)
+x = np.arange(1, 9, dtype=float) / 8
+y = np.array([10, 20, 30, 40, 50, 60, 70, 100], dtype=float) / 100
+w, rate, batch_size = 0.0, 0.1, 3
+for start in range(0, len(x), batch_size):
+    xb, yb = x[start:start + batch_size], y[start:start + batch_size]
+    gradient = np.mean(2 * xb * (w * xb - yb))
+    w -= rate * gradient
+    print(len(xb), f"{gradient:.6f}", f"{w:.6f}")
+```
+```text
+3 -0.116667 0.011667
+3 -0.632309 0.074898
+2 -1.480259 0.222923
+```
+
+:::tip[讀碼重點]
+`np.mean` 用實際批次筆數取平均，尾批不會被錯除。PyTorch 的一般訓練迴圈還要在每次反向傳播前 `optimizer.zero_grad()`，避免梯度意外累積。
+:::
+
+## 怎麼用、怎麼判讀
+
+批次越大，梯度估計通常較穩，但中間運算結果占的記憶體更多；太小則更新頻繁、波動較大。兩者都不能保證更好的驗證成績。
+
+調整批次大小後，要重新檢查學習率與訓練時間。相同 epoch 數不代表相同更新次數，更不代表相同耗時。
+
+### 換個場景
+
+| 場景或條件 | 批次選擇 | 判讀重點 |
+|---|---|---|
+| 線上學習、資料流 | 可用單樣本更新 | 指引場景；更新快但波動大 |
+| GPU 深度學習 | 在記憶體內選適合批次 | 指引場景；效率、穩定與資源折衷 |
+| 製造高解析影像（補充） | 記憶體不足時縮小批次 | 主要減少批次相關中間結果 |
+| 商店需求預測（補充） | 依資料量比較全批與小批 | 小資料不一定需要 GPU |
+| 客服長文字（補充） | 配合文字長度控制批次 | 同樣筆數也可能占不同記憶體 |
+
+## 常見誤解
+
+- 「批次越大越好」：硬體效率與泛化可能有取捨，需實測。
+- 「一個 epoch 只更新一次」：只有全批次、或額外累積設定才可能如此。
+- 「降低學習率就能省記憶體」：步長不直接改變每批樣本用量。
+
+:::supplement[來源：PyTorch torch.utils.data：BatchSampler、DistributedSampler]
+`drop_last=True` 會捨棄不完整尾批；資料少時尤其要留意被排除的樣本。分散式訓練可把資料分給多個程序，但不代表單張 GPU 自動放得下完整模型與任意大的批次。
+:::
+
+## 進階
+
+### 計數公式的界線（補充）
+
+上面的更新次數假設單一資料迴圈、每批更新一次。若每幾批才更新、限制每輪步數，或分散式取樣加入補齊樣本，必須依實作重算。
+
+本頁沒有圖：目標是比較批次取捨與驗算更新次數，三批表格及實際輸出已能逐步核對，不需要額外空間示意。
+
+### 參考來源
+
+- 學習指引科目 3，5-18～5-19、5-32～5-33（支持：三種更新、資源與適用場景）。
+- [Dive into Deep Learning 12.5](https://d2l.ai/chapter_optimization/minibatch-sgd.html)（支持：平均梯度、向量化與最小更新流程）。
+- [PyTorch torch.utils.data](https://docs.pytorch.org/docs/2.9/data.html)（支持：尾批、取樣與分散式界線）。
+- [Keras FAQ：sample、batch、epoch](https://keras.io/getting_started/faq/#what-do-sample-batch-and-epoch-mean)（支持：輪次與批次的區分）。
+
+## 小結
+
+- 一批算平均梯度並更新一次，下一批使用更新後參數。
+- 八筆、每批三筆，保留尾批更新三次，捨棄尾批更新兩次。
+- 尾批損失與梯度要按實際筆數取平均。
+- 批次大小要一起考慮記憶體、吞吐量、學習率與驗證表現。

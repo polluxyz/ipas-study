@@ -1,0 +1,5 @@
+{
+  "id": "residual", "kind": "residual", "title": "殘差對預測值", "description": "殘差在零線兩側散開；觀察是否隨預測值出現規律。",
+  "source": { "type": "synthetic", "note": "五筆教學模擬資料" }, "unit": "萬元",
+  "samples": [{"actual":11,"predicted":10},{"actual":18,"predicted":20},{"actual":30,"predicted":30},{"actual":42,"predicted":40},{"actual":49,"predicted":50}]
+}

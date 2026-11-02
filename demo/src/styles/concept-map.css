@@ -1,0 +1,68 @@
+/* 延續手札的紙張底色；節點以階段著色，關係以線型與圖例辨認，觸控操作留在畫布內。 */
+.concept-map { --map-border: #dce3d8; margin-top: .1rem; }
+.concept-map :is(label,select,input,button,span,small,legend,fieldset) { margin-block: 0; }
+.map-intro { display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: .76rem; }
+.map-intro p { color: #55715c; font-family: var(--sl-font-mono); }
+.map-intro p span { color: #a7b1a1; margin-inline: .4rem; }
+.map-intro a { font-size: .73rem; white-space: nowrap; text-decoration: none; }
+.concept-map .map-description { color: #6b7c70; font-size: .87rem; margin: .6rem 0 1.3rem; }
+.map-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; padding: 1rem 1.15rem; border: 1px solid var(--map-border); border-bottom: 0; background: #f1f4ec; border-radius: .7rem .7rem 0 0; }
+.map-toolbar label { display: grid; gap: .3rem; font-size: .66rem; color: #61715d; flex: 1 1 13rem; }
+.map-toolbar select { font: inherit; font-size: .78rem; color: #344b3d; background: #fffefa; border: 1px solid #ced9c7; border-radius: .35rem; padding: .55rem .6rem; width: 100%; min-width: 0; min-height: 2.6rem; }
+.map-toolbar button { background: none; color: #526d54; border: 0; padding: .6rem .2rem; font-size: .73rem; cursor: pointer; }
+.concept-map .map-relations { display: flex; gap: .6rem 1rem; flex-wrap: wrap; margin: 0; padding: .9rem 1.15rem; border: 1px solid var(--map-border); background: #fffefa; }
+.map-relations legend { float: left; width: 100%; margin-bottom: .45rem; color: #4b604f; font-size: .7rem; font-weight: 600; }
+.map-relations legend span { color: #7b8878; font-size: .62rem; font-weight: 400; margin-left: .8rem; }
+.map-relations label { display: flex; gap: .32rem; align-items: center; font-size: .69rem; cursor: pointer; min-height: 1.7rem; }
+.map-relations input { accent-color: #537451; margin: 0; width: .9rem; height: .9rem; }
+.map-relations small { color: #85917f; font: .6rem var(--sl-font-mono); }
+.map-line-key { display: inline-block; width: 1.2rem; border-top: 2px solid var(--relation-color); position: relative; }
+.map-line-key::after { content: ''; position: absolute; right: -1px; top: -4px; border-left: 5px solid var(--relation-color); border-block: 3px solid transparent; }
+.map-line-key.part_of { border-top-style: dotted; }
+.map-line-key.requires,.map-line-key.contrasts { border-top-style: dashed; }
+.map-line-key.contrasts::before { content: ''; position: absolute; left: -1px; top: -4px; border-right: 5px solid var(--relation-color); border-block: 3px solid transparent; }
+.map-line-key.body { border-top: 1px dotted #acb5aa; }
+.map-line-key.body::after { display: none; }
+.map-body-toggle { margin-left: auto; color: #788273; }
+.map-surface { position: relative; border: 1px solid var(--map-border); border-top: 0; border-radius: 0 0 .7rem .7rem; overflow: hidden; background: radial-gradient(#a7b8a740 .7px, transparent .7px) 0 0 / 18px 18px, #f8faf4; }
+.map-canvas { width: 100%; height: clamp(510px, 62vw, 670px); cursor: grab; touch-action: none; }
+/* Starlight 的正文兄弟元素間距會推移繪圖層；畫布必須和命中座標共用同一個原點。 */
+#map-canvas :is(div,canvas) { margin: 0; padding: 0; }
+.map-corner { position: absolute; top: .85rem; left: 1rem; display: flex; align-items: center; gap: .5rem; padding: .25rem .5rem; background: #f8faf4e6; border-radius: .3rem; pointer-events: none; font-size: .65rem; color: #708167; }
+.map-live-dot { width: .35rem; height: .35rem; background: #63906c; border-radius: 50%; }
+.map-zoom { position: absolute; right: .85rem; bottom: .85rem; display: flex; flex-direction: column; background: #fffefa; border: 1px solid #d7e1d1; border-radius: .4rem; box-shadow: 0 2px 8px #3851310a; }
+.map-zoom button { border: 0; background: none; color: #526f52; font-size: 1.1rem; width: 2.5rem; height: 2.5rem; cursor: pointer; }
+.map-zoom button + button { border-top: 1px solid #e5ebdf; }
+.map-zoom button:hover { background: #eaf0e3; }
+.map-stage-legend { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; padding: .9rem .2rem .2rem; }
+.map-stage-legend span { display: inline-flex; align-items: center; gap: .4rem; color: #6b7c69; font-size: .63rem; }
+.map-stage-legend i { width: .5rem; height: .5rem; border-radius: 2px; }
+.concept-map .map-help { color: #7c8976; font-size: .64rem; margin: .4rem 0 1.3rem; }
+.concept-map .map-inspector { display: grid; grid-template-columns: 1fr 1.1fr; gap: 2rem; padding: 1.5rem; border: 1px solid var(--map-border); border-radius: .65rem; background: #fffefa; }
+.map-inspector h2 { font-size: 1.2rem; margin: .5rem 0; }
+.map-inspector p { font-size: .78rem; color: #6b7c69; line-height: 1.9; }
+.map-inspector .button { margin-top: 1.1rem; font-size: .75rem; }
+#map-detail-relations { max-height: 300px; overflow-y: auto; overscroll-behavior: contain; font-size: .76rem; color: #7d8a74; }
+.map-relation-card { border-left: 2px solid #c9d7c2; padding: .15rem 0 .15rem .8rem; }
+.map-relation-card + .map-relation-card { margin-top: .9rem; }
+.map-relation-card strong { font-size: .74rem; color: #466048; font-weight: 600; line-height: 1.8; }
+.map-relation-card p { margin-top: .25rem; font-size: .72rem; }
+.map-relation-card small { display: block; color: #87937e; font-size: .62rem; margin-top: .3rem; overflow-wrap: anywhere; }
+.map-tooltip { position: absolute; max-width: min(330px, calc(100% - 24px)); padding: .8rem; border: 1px solid #cbd8c3; border-radius: .5rem; background: #fffefa; box-shadow: 0 6px 24px #31482820; z-index: 5; pointer-events: none; }
+.map-tooltip strong { display: block; font-size: .84rem; color: #344f3a; margin-top: .25rem; }
+.map-tooltip small { display: block; color: #718167; font-size: .63rem; line-height: 1.6; }
+.map-tooltip p { font-size: .73rem; line-height: 1.8; margin: .4rem 0; color: #4b604f; }
+.concept-map .map-catalog { margin-top: 1.3rem; border-top: 1px solid var(--map-border); padding-top: 1rem; }
+.map-catalog summary { cursor: pointer; color: #536e52; font-size: .78rem; }
+.map-catalog > div { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; padding-top: 1rem; }
+.map-catalog h3 { font-size: .76rem; }.map-catalog ul { padding-left: 1rem; }.map-catalog li { font-size: .7rem; }
+@media (max-width: 650px) {
+  .map-intro { align-items: start; font-size: .67rem; }.map-intro a { font-size: .63rem; }
+  .concept-map .map-description { font-size: .78rem; margin-bottom: 1rem; }
+  .map-toolbar { gap: .5rem; padding: .8rem; }.map-toolbar label { flex-basis: calc(50% - 1rem); min-width: 0; }
+  .map-toolbar select { font-size: .7rem; }.map-toolbar button { width: 100%; text-align: right; padding: 0; font-size: .67rem; }
+  .concept-map .map-relations { padding: .75rem; gap: .3rem .7rem; }.map-relations legend span { display: block; margin-left: 0; margin-top: .15rem; }.map-relations label { font-size: .66rem; }
+  .map-body-toggle { margin-left: 0; }.map-canvas { height: 490px; }.map-stage-legend { gap: .4rem .7rem; }
+  .concept-map .map-inspector { grid-template-columns: 1fr; padding: 1rem; gap: 1rem; }.map-help { line-height: 1.8; }
+  .map-catalog > div { grid-template-columns: 1fr 1fr; }
+}

@@ -1,0 +1,1464 @@
+{
+  "domain": "finance",
+  "source": "教學合成資料，與真實授信或工業標準無關",
+  "raw_feature_names": [
+    "月收入（千元）",
+    "負債（千元）",
+    "支出（千元）",
+    "借款餘額（千元）"
+  ],
+  "coordinate_note": "固定工程單位換算；不是用全資料估計的標準化",
+  "label_names": {
+    "binary": [
+      "未違約",
+      "違約"
+    ],
+    "three_class": [
+      "低風險",
+      "中風險",
+      "高風險"
+    ]
+  },
+  "rows": [
+    {
+      "id": "F000",
+      "index": 0,
+      "coordinates": [
+        0,
+        0
+      ],
+      "raw_features": [
+        20,
+        0,
+        15,
+        0
+      ],
+      "binary_label": 0,
+      "three_class_label": 1
+    },
+    {
+      "id": "F001",
+      "index": 1,
+      "coordinates": [
+        1,
+        0
+      ],
+      "raw_features": [
+        30,
+        0,
+        24,
+        2
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F002",
+      "index": 2,
+      "coordinates": [
+        2,
+        0
+      ],
+      "raw_features": [
+        40,
+        0,
+        33,
+        4
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F003",
+      "index": 3,
+      "coordinates": [
+        3,
+        0
+      ],
+      "raw_features": [
+        50,
+        0,
+        39,
+        6
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F004",
+      "index": 4,
+      "coordinates": [
+        4,
+        0
+      ],
+      "raw_features": [
+        60,
+        0,
+        48,
+        0
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F005",
+      "index": 5,
+      "coordinates": [
+        5,
+        0
+      ],
+      "raw_features": [
+        70,
+        0,
+        57,
+        2
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F006",
+      "index": 6,
+      "coordinates": [
+        6,
+        0
+      ],
+      "raw_features": [
+        80,
+        0,
+        63,
+        4
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F007",
+      "index": 7,
+      "coordinates": [
+        7,
+        0
+      ],
+      "raw_features": [
+        90,
+        0,
+        72,
+        6
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F008",
+      "index": 8,
+      "coordinates": [
+        8,
+        0
+      ],
+      "raw_features": [
+        100,
+        0,
+        81,
+        0
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F009",
+      "index": 9,
+      "coordinates": [
+        0,
+        1
+      ],
+      "raw_features": [
+        20,
+        100,
+        15,
+        92
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F010",
+      "index": 10,
+      "coordinates": [
+        1,
+        1
+      ],
+      "raw_features": [
+        30,
+        100,
+        24,
+        94
+      ],
+      "binary_label": 0,
+      "three_class_label": 1
+    },
+    {
+      "id": "F011",
+      "index": 11,
+      "coordinates": [
+        2,
+        1
+      ],
+      "raw_features": [
+        40,
+        100,
+        33,
+        96
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F012",
+      "index": 12,
+      "coordinates": [
+        3,
+        1
+      ],
+      "raw_features": [
+        50,
+        100,
+        39,
+        90
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F013",
+      "index": 13,
+      "coordinates": [
+        4,
+        1
+      ],
+      "raw_features": [
+        60,
+        100,
+        48,
+        92
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F014",
+      "index": 14,
+      "coordinates": [
+        5,
+        1
+      ],
+      "raw_features": [
+        70,
+        100,
+        57,
+        94
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F015",
+      "index": 15,
+      "coordinates": [
+        6,
+        1
+      ],
+      "raw_features": [
+        80,
+        100,
+        63,
+        96
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F016",
+      "index": 16,
+      "coordinates": [
+        7,
+        1
+      ],
+      "raw_features": [
+        90,
+        100,
+        72,
+        90
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F017",
+      "index": 17,
+      "coordinates": [
+        8,
+        1
+      ],
+      "raw_features": [
+        100,
+        100,
+        81,
+        92
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F018",
+      "index": 18,
+      "coordinates": [
+        0,
+        2
+      ],
+      "raw_features": [
+        20,
+        200,
+        15,
+        184
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F019",
+      "index": 19,
+      "coordinates": [
+        1,
+        2
+      ],
+      "raw_features": [
+        30,
+        200,
+        24,
+        186
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F020",
+      "index": 20,
+      "coordinates": [
+        2,
+        2
+      ],
+      "raw_features": [
+        40,
+        200,
+        33,
+        180
+      ],
+      "binary_label": 0,
+      "three_class_label": 1
+    },
+    {
+      "id": "F021",
+      "index": 21,
+      "coordinates": [
+        3,
+        2
+      ],
+      "raw_features": [
+        50,
+        200,
+        39,
+        182
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F022",
+      "index": 22,
+      "coordinates": [
+        4,
+        2
+      ],
+      "raw_features": [
+        60,
+        200,
+        48,
+        184
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F023",
+      "index": 23,
+      "coordinates": [
+        5,
+        2
+      ],
+      "raw_features": [
+        70,
+        200,
+        57,
+        186
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F024",
+      "index": 24,
+      "coordinates": [
+        6,
+        2
+      ],
+      "raw_features": [
+        80,
+        200,
+        63,
+        180
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F025",
+      "index": 25,
+      "coordinates": [
+        7,
+        2
+      ],
+      "raw_features": [
+        90,
+        200,
+        72,
+        182
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F026",
+      "index": 26,
+      "coordinates": [
+        8,
+        2
+      ],
+      "raw_features": [
+        100,
+        200,
+        81,
+        184
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F027",
+      "index": 27,
+      "coordinates": [
+        0,
+        3
+      ],
+      "raw_features": [
+        20,
+        300,
+        15,
+        276
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F028",
+      "index": 28,
+      "coordinates": [
+        1,
+        3
+      ],
+      "raw_features": [
+        30,
+        300,
+        24,
+        270
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F029",
+      "index": 29,
+      "coordinates": [
+        2,
+        3
+      ],
+      "raw_features": [
+        40,
+        300,
+        33,
+        272
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F030",
+      "index": 30,
+      "coordinates": [
+        3,
+        3
+      ],
+      "raw_features": [
+        50,
+        300,
+        39,
+        274
+      ],
+      "binary_label": 0,
+      "three_class_label": 1
+    },
+    {
+      "id": "F031",
+      "index": 31,
+      "coordinates": [
+        4,
+        3
+      ],
+      "raw_features": [
+        60,
+        300,
+        48,
+        276
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F032",
+      "index": 32,
+      "coordinates": [
+        5,
+        3
+      ],
+      "raw_features": [
+        70,
+        300,
+        57,
+        270
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F033",
+      "index": 33,
+      "coordinates": [
+        6,
+        3
+      ],
+      "raw_features": [
+        80,
+        300,
+        63,
+        272
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F034",
+      "index": 34,
+      "coordinates": [
+        7,
+        3
+      ],
+      "raw_features": [
+        90,
+        300,
+        72,
+        274
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F035",
+      "index": 35,
+      "coordinates": [
+        8,
+        3
+      ],
+      "raw_features": [
+        100,
+        300,
+        81,
+        276
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F036",
+      "index": 36,
+      "coordinates": [
+        0,
+        4
+      ],
+      "raw_features": [
+        20,
+        400,
+        15,
+        360
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F037",
+      "index": 37,
+      "coordinates": [
+        1,
+        4
+      ],
+      "raw_features": [
+        30,
+        400,
+        24,
+        362
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F038",
+      "index": 38,
+      "coordinates": [
+        2,
+        4
+      ],
+      "raw_features": [
+        40,
+        400,
+        33,
+        364
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F039",
+      "index": 39,
+      "coordinates": [
+        3,
+        4
+      ],
+      "raw_features": [
+        50,
+        400,
+        39,
+        366
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F040",
+      "index": 40,
+      "coordinates": [
+        4,
+        4
+      ],
+      "raw_features": [
+        60,
+        400,
+        48,
+        360
+      ],
+      "binary_label": 0,
+      "three_class_label": 1
+    },
+    {
+      "id": "F041",
+      "index": 41,
+      "coordinates": [
+        5,
+        4
+      ],
+      "raw_features": [
+        70,
+        400,
+        57,
+        362
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F042",
+      "index": 42,
+      "coordinates": [
+        6,
+        4
+      ],
+      "raw_features": [
+        80,
+        400,
+        63,
+        364
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F043",
+      "index": 43,
+      "coordinates": [
+        7,
+        4
+      ],
+      "raw_features": [
+        90,
+        400,
+        72,
+        366
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F044",
+      "index": 44,
+      "coordinates": [
+        8,
+        4
+      ],
+      "raw_features": [
+        100,
+        400,
+        81,
+        360
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F045",
+      "index": 45,
+      "coordinates": [
+        0,
+        5
+      ],
+      "raw_features": [
+        20,
+        500,
+        15,
+        452
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F046",
+      "index": 46,
+      "coordinates": [
+        1,
+        5
+      ],
+      "raw_features": [
+        30,
+        500,
+        24,
+        454
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F047",
+      "index": 47,
+      "coordinates": [
+        2,
+        5
+      ],
+      "raw_features": [
+        40,
+        500,
+        33,
+        456
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F048",
+      "index": 48,
+      "coordinates": [
+        3,
+        5
+      ],
+      "raw_features": [
+        50,
+        500,
+        39,
+        450
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F049",
+      "index": 49,
+      "coordinates": [
+        4,
+        5
+      ],
+      "raw_features": [
+        60,
+        500,
+        48,
+        452
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F050",
+      "index": 50,
+      "coordinates": [
+        5,
+        5
+      ],
+      "raw_features": [
+        70,
+        500,
+        57,
+        454
+      ],
+      "binary_label": 0,
+      "three_class_label": 1
+    },
+    {
+      "id": "F051",
+      "index": 51,
+      "coordinates": [
+        6,
+        5
+      ],
+      "raw_features": [
+        80,
+        500,
+        63,
+        456
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F052",
+      "index": 52,
+      "coordinates": [
+        7,
+        5
+      ],
+      "raw_features": [
+        90,
+        500,
+        72,
+        450
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F053",
+      "index": 53,
+      "coordinates": [
+        8,
+        5
+      ],
+      "raw_features": [
+        100,
+        500,
+        81,
+        452
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F054",
+      "index": 54,
+      "coordinates": [
+        0,
+        6
+      ],
+      "raw_features": [
+        20,
+        600,
+        15,
+        544
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F055",
+      "index": 55,
+      "coordinates": [
+        1,
+        6
+      ],
+      "raw_features": [
+        30,
+        600,
+        24,
+        546
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F056",
+      "index": 56,
+      "coordinates": [
+        2,
+        6
+      ],
+      "raw_features": [
+        40,
+        600,
+        33,
+        540
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F057",
+      "index": 57,
+      "coordinates": [
+        3,
+        6
+      ],
+      "raw_features": [
+        50,
+        600,
+        39,
+        542
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F058",
+      "index": 58,
+      "coordinates": [
+        4,
+        6
+      ],
+      "raw_features": [
+        60,
+        600,
+        48,
+        544
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F059",
+      "index": 59,
+      "coordinates": [
+        5,
+        6
+      ],
+      "raw_features": [
+        70,
+        600,
+        57,
+        546
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F060",
+      "index": 60,
+      "coordinates": [
+        6,
+        6
+      ],
+      "raw_features": [
+        80,
+        600,
+        63,
+        540
+      ],
+      "binary_label": 0,
+      "three_class_label": 1
+    },
+    {
+      "id": "F061",
+      "index": 61,
+      "coordinates": [
+        7,
+        6
+      ],
+      "raw_features": [
+        90,
+        600,
+        72,
+        542
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F062",
+      "index": 62,
+      "coordinates": [
+        8,
+        6
+      ],
+      "raw_features": [
+        100,
+        600,
+        81,
+        544
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F063",
+      "index": 63,
+      "coordinates": [
+        0,
+        7
+      ],
+      "raw_features": [
+        20,
+        700,
+        15,
+        636
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F064",
+      "index": 64,
+      "coordinates": [
+        1,
+        7
+      ],
+      "raw_features": [
+        30,
+        700,
+        24,
+        630
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F065",
+      "index": 65,
+      "coordinates": [
+        2,
+        7
+      ],
+      "raw_features": [
+        40,
+        700,
+        33,
+        632
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F066",
+      "index": 66,
+      "coordinates": [
+        3,
+        7
+      ],
+      "raw_features": [
+        50,
+        700,
+        39,
+        634
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F067",
+      "index": 67,
+      "coordinates": [
+        4,
+        7
+      ],
+      "raw_features": [
+        60,
+        700,
+        48,
+        636
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F068",
+      "index": 68,
+      "coordinates": [
+        5,
+        7
+      ],
+      "raw_features": [
+        70,
+        700,
+        57,
+        630
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F069",
+      "index": 69,
+      "coordinates": [
+        6,
+        7
+      ],
+      "raw_features": [
+        80,
+        700,
+        63,
+        632
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F070",
+      "index": 70,
+      "coordinates": [
+        7,
+        7
+      ],
+      "raw_features": [
+        90,
+        700,
+        72,
+        634
+      ],
+      "binary_label": 0,
+      "three_class_label": 1
+    },
+    {
+      "id": "F071",
+      "index": 71,
+      "coordinates": [
+        8,
+        7
+      ],
+      "raw_features": [
+        100,
+        700,
+        81,
+        636
+      ],
+      "binary_label": 0,
+      "three_class_label": 0
+    },
+    {
+      "id": "F072",
+      "index": 72,
+      "coordinates": [
+        0,
+        8
+      ],
+      "raw_features": [
+        20,
+        800,
+        15,
+        720
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F073",
+      "index": 73,
+      "coordinates": [
+        1,
+        8
+      ],
+      "raw_features": [
+        30,
+        800,
+        24,
+        722
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F074",
+      "index": 74,
+      "coordinates": [
+        2,
+        8
+      ],
+      "raw_features": [
+        40,
+        800,
+        33,
+        724
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F075",
+      "index": 75,
+      "coordinates": [
+        3,
+        8
+      ],
+      "raw_features": [
+        50,
+        800,
+        39,
+        726
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F076",
+      "index": 76,
+      "coordinates": [
+        4,
+        8
+      ],
+      "raw_features": [
+        60,
+        800,
+        48,
+        720
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F077",
+      "index": 77,
+      "coordinates": [
+        5,
+        8
+      ],
+      "raw_features": [
+        70,
+        800,
+        57,
+        722
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F078",
+      "index": 78,
+      "coordinates": [
+        6,
+        8
+      ],
+      "raw_features": [
+        80,
+        800,
+        63,
+        724
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F079",
+      "index": 79,
+      "coordinates": [
+        7,
+        8
+      ],
+      "raw_features": [
+        90,
+        800,
+        72,
+        726
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F080",
+      "index": 80,
+      "coordinates": [
+        8,
+        8
+      ],
+      "raw_features": [
+        100,
+        800,
+        81,
+        720
+      ],
+      "binary_label": 0,
+      "three_class_label": 1
+    },
+    {
+      "id": "F081",
+      "index": 81,
+      "coordinates": [
+        0,
+        9
+      ],
+      "raw_features": [
+        20,
+        900,
+        15,
+        812
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F082",
+      "index": 82,
+      "coordinates": [
+        1,
+        9
+      ],
+      "raw_features": [
+        30,
+        900,
+        24,
+        814
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F083",
+      "index": 83,
+      "coordinates": [
+        2,
+        9
+      ],
+      "raw_features": [
+        40,
+        900,
+        33,
+        816
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F084",
+      "index": 84,
+      "coordinates": [
+        3,
+        9
+      ],
+      "raw_features": [
+        50,
+        900,
+        39,
+        810
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F085",
+      "index": 85,
+      "coordinates": [
+        4,
+        9
+      ],
+      "raw_features": [
+        60,
+        900,
+        48,
+        812
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F086",
+      "index": 86,
+      "coordinates": [
+        5,
+        9
+      ],
+      "raw_features": [
+        70,
+        900,
+        57,
+        814
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F087",
+      "index": 87,
+      "coordinates": [
+        6,
+        9
+      ],
+      "raw_features": [
+        80,
+        900,
+        63,
+        816
+      ],
+      "binary_label": 1,
+      "three_class_label": 2
+    },
+    {
+      "id": "F088",
+      "index": 88,
+      "coordinates": [
+        7,
+        9
+      ],
+      "raw_features": [
+        90,
+        900,
+        72,
+        810
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    },
+    {
+      "id": "F089",
+      "index": 89,
+      "coordinates": [
+        8,
+        9
+      ],
+      "raw_features": [
+        100,
+        900,
+        81,
+        812
+      ],
+      "binary_label": 1,
+      "three_class_label": 1
+    }
+  ]
+}

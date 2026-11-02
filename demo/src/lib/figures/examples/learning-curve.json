@@ -1,0 +1,6 @@
+{
+  "id": "learning-curve", "kind": "learning-curve", "title": "訓練與驗證損失", "description": "訓練損失仍下降，但驗證損失已開始上升。",
+  "source": { "type": "synthetic", "note": "六輪教學模擬訓練紀錄，非真實模型測量" },
+  "metric": "平均平方誤差 MSE", "unit": "目標單位平方", "earlyStopping": 4,
+  "points": [{"epoch":1,"train":0.9,"validation":1},{"epoch":2,"train":0.6,"validation":0.7},{"epoch":3,"train":0.4,"validation":0.5},{"epoch":4,"train":0.3,"validation":0.4},{"epoch":5,"train":0.2,"validation":0.5},{"epoch":6,"train":0.1,"validation":0.7}]
+}

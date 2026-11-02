@@ -1,0 +1,14 @@
+---
+/** 每個閱讀步驟附目標與考試引用；缺頁保持可閱讀的佔位，避免產生失效連結。 */
+import { conceptUrl, type Concept } from '../lib/content';
+interface Props { id: string; goal?: string; index: number; concept?: Concept; }
+const { id, goal, index, concept } = Astro.props;
+const Tag = concept ? 'a' : 'div';
+---
+<li data-route-concept={id}>
+  <Tag class:list={['route-concept', { 'is-pending': !concept }]} href={concept ? conceptUrl(id) : undefined}>
+    <span class="route-number">{String(index + 1).padStart(2, '0')}</span>
+    <div class="route-concept-copy"><div class="route-concept-title"><strong>{concept?.data.title ?? id}</strong>{concept ? <span class="reading-state" data-reading-state>未讀</span> : <span class="tag amber">撰寫中</span>}</div>{goal && <p class="route-goal">{goal}</p>}</div>
+    {concept && <span class="row-arrow" aria-hidden="true">→</span>}
+  </Tag>
+</li>

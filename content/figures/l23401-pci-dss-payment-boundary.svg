@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 540" role="img" aria-labelledby="title desc">
+  <title id="title">支付卡資料與人工智慧分析的分界</title>
+  <desc id="desc">教學情境F5：使用者在支付頁輸入卡資料，支付處理商回傳交易代碼與金額給商店。人工智慧分析只使用必要欄位，不接收原始卡號與驗證碼。此圖是預定資料流，仍須查核能影響支付環境的系統。</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#334155" stroke-width="1.5"/></marker></defs>
+  <rect width="360" height="540" rx="10" fill="#f8fafc"/>
+  <g font-family="sans-serif" fill="#172554" text-anchor="middle">
+    <text x="180" y="29" font-size="18" font-weight="bold">F5：先畫支付資料流</text>
+    <rect x="22" y="45" width="316" height="200" rx="10" fill="#fff7ed" stroke="#9a3412" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="180" y="68" font-size="15">卡資料處理區域，須核範圍</text>
+    <rect x="50" y="83" width="260" height="54" rx="8" fill="#ffffff" stroke="#9a3412"/>
+    <text x="180" y="105" font-size="16">使用者 → 支付頁</text>
+    <text x="180" y="125" font-size="15">卡號、效期、驗證碼</text>
+    <path d="M180 139V166" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="50" y="173" width="260" height="54" rx="8" fill="#ffffff" stroke="#9a3412"/>
+    <text x="180" y="196" font-size="16">支付處理商執行授權</text>
+    <text x="180" y="216" font-size="15">授權後不保存驗證碼</text>
+    <path d="M180 247V290" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="180" y="274" font-size="15" text-anchor="start" dx="10">代碼、金額</text>
+    <rect x="35" y="298" width="290" height="62" rx="8" fill="#eff6ff" stroke="#1d4ed8" stroke-width="2"/>
+    <text x="180" y="323" font-size="16">商店核帳與訂單系統</text>
+    <text x="180" y="347" font-size="15">另查能否影響支付環境安全</text>
+    <path d="M180 362V404" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="180" y="388" font-size="15" text-anchor="start" dx="10">必要分析欄位</text>
+    <rect x="35" y="412" width="290" height="62" rx="8" fill="#f0fdf4" stroke="#166534" stroke-width="2"/>
+    <text x="180" y="438" font-size="16">人工智慧分析</text>
+    <text x="180" y="461" font-size="15">不接收原始卡號、驗證碼</text>
+    <text x="180" y="504" font-size="15">教學設計示意，非合規核准</text>
+    <text x="180" y="527" font-size="14">外包與代碼化仍須確認責任及範圍</text>
+  </g>
+</svg>

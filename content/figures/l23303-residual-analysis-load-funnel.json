@@ -1,0 +1,61 @@
+{
+  "id": "l23303-residual-analysis-load-funnel",
+  "kind": "residual",
+  "title": "電力負載的漏斗形殘差",
+  "description": "預測負載越高，殘差上下幅度越大；零附近的中心不代表變異數齊一。",
+  "source": {
+    "type": "synthetic",
+    "note": "教學模擬資料；由 content/examples/L23303-B-load-funnel.json 逐筆映射，非真實電力資料。"
+  },
+  "unit": "MW",
+  "samples": [
+    {
+      "actual": 9,
+      "predicted": 10
+    },
+    {
+      "actual": 11,
+      "predicted": 10
+    },
+    {
+      "actual": 18,
+      "predicted": 20
+    },
+    {
+      "actual": 22,
+      "predicted": 20
+    },
+    {
+      "actual": 26,
+      "predicted": 30
+    },
+    {
+      "actual": 34,
+      "predicted": 30
+    },
+    {
+      "actual": 34,
+      "predicted": 40
+    },
+    {
+      "actual": 46,
+      "predicted": 40
+    },
+    {
+      "actual": 41,
+      "predicted": 50
+    },
+    {
+      "actual": 59,
+      "predicted": 50
+    },
+    {
+      "actual": 48,
+      "predicted": 60
+    },
+    {
+      "actual": 72,
+      "predicted": 60
+    }
+  ]
+}

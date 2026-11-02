@@ -1,0 +1,75 @@
+{
+  "id": "L23201-D-warehouse",
+  "source": "教學合成資料；延伸前置組固定轉移，Q與策略為示範快照，非訓練成績",
+  "base_file": "content/examples/L23201-C-warehouse.json",
+  "seed": 42,
+  "gamma": 0.9,
+  "episodes": [
+    {
+      "id": "delivery",
+      "transition_ids": [
+        "W01",
+        "W05",
+        "W07"
+      ],
+      "success": true
+    },
+    {
+      "id": "repeat_grab",
+      "transition_ids": [
+        "W01",
+        "W05",
+        "W09",
+        "W05",
+        "W09"
+      ],
+      "success": false
+    }
+  ],
+  "q_snapshot": {
+    "A": {
+      "advance": 0,
+      "handle": 0
+    },
+    "B": {
+      "advance": 0,
+      "handle": 1
+    },
+    "C": {
+      "advance": 4,
+      "handle": 2
+    },
+    "D": {
+      "advance": 0,
+      "handle": 0
+    }
+  },
+  "q_update": {
+    "transition_id": "W05",
+    "alpha": 0.5
+  },
+  "epsilon": 0.2,
+  "policy_comparison": {
+    "state": "C",
+    "old": {
+      "advance": 0.5,
+      "handle": 0.5
+    },
+    "new": {
+      "advance": 0.8,
+      "handle": 0.2
+    },
+    "advantages": {
+      "advance": 2,
+      "handle": -2
+    },
+    "clip_epsilon": 0.2
+  },
+  "evaluation_policy": {
+    "A": "advance",
+    "B": "handle",
+    "C": "advance",
+    "D": "advance"
+  },
+  "fixed_policy_horizon": 3
+}

@@ -1,0 +1,73 @@
+---
+/** 小測驗依序練本代碼題庫，答案送出後才開放下一題與最後的成績回顧。 */
+import StudyPage from '../components/StudyPage.astro';
+import QuestionCard from '../components/QuestionCard.astro';
+import { getData } from '../lib/content';
+const { questions, concepts, codes } = await getData();
+const items = questions;
+const catalog = { codes: codes.map((entry) => ({ code: entry.data.code, title: entry.data.title, stages: entry.data.stages ?? [] })), questions: questions.map((q) => ({ id: q.id, codes: q.codes, concepts: q.concepts })) };
+const titles = Object.fromEntries(concepts.map((c) => [c.data.id, c.data.title]));
+---
+<StudyPage title="用幾道題，確認你真的懂了。" section="單元小測驗">
+  <p class="lead" id="quiz-description">正在準備測驗題目…</p>
+  <a class="text-link" id="quiz-back" href="/codes/L23303/">← 回到學習路線</a>
+  <p id="quiz-empty" class="empty-state" hidden>這個階段尚無題目，請回到學習路線繼續閱讀。</p>
+  <div id="quiz" hidden>
+    <div class="quiz-progress"><div><span id="quiz-position">第 1 / {items.length} 題</span><span id="quiz-score">已答對 0 題</span></div><progress id="quiz-progress-bar" max={items.length} value="0" aria-label="測驗進度"></progress></div>
+    <div class="quiz-questions">{items.map((question) => <QuestionCard question={question} titles={titles} mode="code:L23303" hidden />)}</div>
+    <div class="quiz-next"><button id="next-question" class="button primary" type="button" disabled>下一題 →</button></div>
+    <section id="quiz-summary" class="quiz-summary" hidden tabindex="-1"><div class="summary-icon">✓</div><span class="eyebrow">PRACTICE COMPLETE</span><h2>又多理解了一點。</h2><p id="final-score"></p><p id="final-message"></p><div class="button-row"><a class="button primary" href="/wrong-book/">回看我的錯題 →</a><a href="/quiz/" id="quiz-retry" class="button secondary">再練一次</a></div><a class="text-link" id="quiz-route" href="/codes/L23303/">回到學習路線</a></section>
+  </div>
+  <noscript><p>階段測驗需要 JavaScript 才能篩選題目及儲存作答。</p></noscript>
+  <script type="application/json" id="quiz-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\u003c')}></script>
+</StudyPage>
+<script>
+  import { sampleQuestions, type Stage } from '../lib/learning-route';
+  interface QuizCatalog { codes: { code: string; title: string; stages: Stage[] }[]; questions: { id: string; codes: string[]; concepts: string[] }[]; }
+  const catalog: QuizCatalog = JSON.parse(document.getElementById('quiz-catalog')?.textContent ?? '{}');
+  const params = new URLSearchParams(location.search); const codeId = params.get('code') ?? 'L23303'; const stageId = params.get('stage');
+  const code = catalog.codes.find((entry) => entry.code === codeId); const stage = code?.stages.find((entry) => entry.id === stageId);
+  const pool = !code || (stageId && !stage) ? [] : stage ? catalog.questions.filter((question) => question.concepts.some((id) => stage.concepts.some((concept) => concept.id === id))) : catalog.questions.filter((question) => question.codes.includes(codeId));
+  const selected = stage ? sampleQuestions(pool, 5) : pool;
+  const selectedIds = new Set(selected.map((question) => question.id));
+  const quiz = document.getElementById('quiz');
+  const allCards = Array.from(quiz?.querySelectorAll<HTMLElement>('[data-question]') ?? []);
+  for (const card of allCards) if (!selectedIds.has(card.dataset.qid!)) card.remove();
+  const cards = selected.map((question) => allCards.find((card) => card.dataset.qid === question.id)!);
+  const container = quiz?.querySelector('.quiz-questions');
+  for (const card of cards) { card.dataset.mode = stage ? `code:${codeId}:stage:${stage.id}` : `code:${codeId}`; container?.append(card); }
+  const description = document.getElementById('quiz-description');
+  if (description) description.textContent = !code || (stageId && !stage) ? '找不到指定的代碼或學習階段，請從學習路線重新進入。' : `${codeId}・${stage?.title ?? code.title}。${stage ? `從 ${pool.length} 題抽出 ${cards.length} 題` : `共 ${cards.length} 題`}，作答後立即解析，錯題自動收進錯題本。`;
+  for (const id of ['quiz-back', 'quiz-route']) { const link = document.getElementById(id) as HTMLAnchorElement | null; if (link && code) link.href = `/codes/${codeId}/${stage ? `#stage-${stage.id}` : ''}`; }
+  const retry = document.getElementById('quiz-retry') as HTMLAnchorElement | null; if (retry) retry.href = location.pathname + location.search;
+  if (quiz) quiz.hidden = !cards.length;
+  const empty = document.getElementById('quiz-empty'); if (empty) empty.hidden = cards.length > 0;
+  const progressBar = document.getElementById('quiz-progress-bar') as HTMLProgressElement; progressBar.max = Math.max(cards.length, 1);
+  const positionLabel = document.getElementById('quiz-position'); if (positionLabel) positionLabel.textContent = `第 1 / ${cards.length} 題`;
+  if (cards[0]) { cards[0].hidden = false; cards[0].dispatchEvent(new Event('question-shown')); }
+  const next = document.getElementById('next-question') as HTMLButtonElement | null;
+  let position = 0; let correct = 0;
+  quiz?.addEventListener('question-answered', ((event: CustomEvent<{ correct: boolean }>) => {
+    if (event.detail.correct) correct++;
+    const score = document.getElementById('quiz-score'); if (score) score.textContent = `已答對 ${correct} 題`;
+    const progress = document.getElementById('quiz-progress-bar') as HTMLProgressElement; if (progress) progress.value = position + 1;
+    if (next) { next.disabled = false; next.textContent = position === cards.length - 1 ? '查看測驗結果 →' : '下一題 →'; }
+  }) as EventListener);
+  next?.addEventListener('click', () => {
+    if (!cards[position]?.dataset.answered) return;
+    cards[position].hidden = true; position++;
+    if (position >= cards.length) {
+      next.hidden = true;
+      const progress = quiz?.querySelector<HTMLElement>('.quiz-progress'); if (progress) progress.hidden = true;
+      const summary = document.getElementById('quiz-summary'); if (summary) { summary.hidden = false; summary.focus(); }
+      const score = document.getElementById('final-score'); if (score) score.textContent = `${correct} / ${cards.length} 題答對・${Math.round(correct / cards.length * 100)} 分`;
+      const message = document.getElementById('final-message'); if (message) message.textContent = cards.some((card) => !card.dataset.saved) ? '部分作答紀錄未成功儲存，請確認瀏覽器允許本機儲存，再重新練習。' : correct === cards.length ? '這次全部答對了，可以回到概念頁補強細節。' : `${cards.length - correct} 道錯題已收進錯題本，回到概念頁看懂原因，再練一次。`;
+      return;
+    }
+    cards[position].hidden = false;
+    cards[position].dispatchEvent(new Event('question-shown'));
+    const label = document.getElementById('quiz-position'); if (label) label.textContent = `第 ${position + 1} / ${cards.length} 題`;
+    next.disabled = true;
+    quiz?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+</script>

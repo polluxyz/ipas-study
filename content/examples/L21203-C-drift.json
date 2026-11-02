@@ -1,0 +1,218 @@
+{
+  "source": "教學合成資料；各格比例是設計值，不是對真實母體的估計結論",
+  "seed": 42,
+  "threshold": 0.5,
+  "model_version": "v1-fixed",
+  "scores": [
+    0.2,
+    0.8
+  ],
+  "reference_period": "P0",
+  "split": "P0–P3 為互不重疊的監控批次，各 100 筆；沒有訓練或調參，所有頁使用相同索引",
+  "index_rule": "每期依低組、高組排序；每組先列正例，再列負例，索引從 001 起；未隨機抽樣，seed 僅保留重現契約",
+  "label_delay": "授信真值於到期後回收；視覺真值由後續人工檢驗回收；本檔是完整回收後摘要",
+  "domains": [
+    {
+      "id": "credit",
+      "title": "授信",
+      "feature": "負債比區間",
+      "bins": [
+        "低：小於 40%",
+        "高：至少 40%"
+      ],
+      "positive": "到期違約",
+      "periods": [
+        {
+          "id": "P0",
+          "counts": [
+            50,
+            50
+          ],
+          "positives": [
+            5,
+            45
+          ],
+          "note": "固定參考期",
+          "index_prefix": "credit-P0",
+          "monitoring_indices": [
+            1,
+            100
+          ]
+        },
+        {
+          "id": "P1",
+          "counts": [
+            20,
+            80
+          ],
+          "positives": [
+            2,
+            72
+          ],
+          "note": "只有輸入分布改變",
+          "index_prefix": "credit-P1",
+          "monitoring_indices": [
+            1,
+            100
+          ]
+        },
+        {
+          "id": "P2",
+          "counts": [
+            50,
+            50
+          ],
+          "positives": [
+            20,
+            30
+          ],
+          "note": "只有條件關係改變",
+          "index_prefix": "credit-P2",
+          "monitoring_indices": [
+            1,
+            100
+          ]
+        },
+        {
+          "id": "P3",
+          "counts": [
+            20,
+            80
+          ],
+          "positives": [
+            8,
+            48
+          ],
+          "note": "輸入與條件關係都改變",
+          "index_prefix": "credit-P3",
+          "monitoring_indices": [
+            1,
+            100
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vision",
+      "title": "視覺檢測",
+      "feature": "刮痕面積區間",
+      "bins": [
+        "低：小於 10 mm²",
+        "高：至少 10 mm²"
+      ],
+      "positive": "人工判定瑕疵",
+      "periods": [
+        {
+          "id": "P0",
+          "counts": [
+            50,
+            50
+          ],
+          "positives": [
+            5,
+            45
+          ],
+          "note": "固定參考期",
+          "index_prefix": "vision-P0",
+          "monitoring_indices": [
+            1,
+            100
+          ]
+        },
+        {
+          "id": "P1",
+          "counts": [
+            20,
+            80
+          ],
+          "positives": [
+            2,
+            72
+          ],
+          "note": "只有輸入分布改變",
+          "index_prefix": "vision-P1",
+          "monitoring_indices": [
+            1,
+            100
+          ]
+        },
+        {
+          "id": "P2",
+          "counts": [
+            50,
+            50
+          ],
+          "positives": [
+            20,
+            30
+          ],
+          "note": "只有條件關係改變",
+          "index_prefix": "vision-P2",
+          "monitoring_indices": [
+            1,
+            100
+          ]
+        },
+        {
+          "id": "P3",
+          "counts": [
+            20,
+            80
+          ],
+          "positives": [
+            8,
+            48
+          ],
+          "note": "輸入與條件關係都改變",
+          "index_prefix": "vision-P3",
+          "monitoring_indices": [
+            1,
+            100
+          ]
+        }
+      ]
+    }
+  ],
+  "output_counterfactual": {
+    "period": "P0",
+    "original_scores": [
+      0.2,
+      0.8
+    ],
+    "transformed_scores": [
+      0.6,
+      0.9
+    ],
+    "transformation": "h(s)=0.5*s+0.5",
+    "note": "同一批樣本的另一次輸出後處理比較；不是固定模型四期的一部分"
+  },
+  "ks_samples": {
+    "reference": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "current": [
+      2.5,
+      3.5,
+      4.5,
+      5.5,
+      6.5
+    ],
+    "unit": "毫米",
+    "note": "另設連續量測的 5+5 筆小例，不是兩箱的原始樣本"
+  },
+  "smoothing_example": {
+    "reference_counts": [
+      0,
+      10
+    ],
+    "current_counts": [
+      5,
+      5
+    ],
+    "pseudocount": 1
+  }
+}

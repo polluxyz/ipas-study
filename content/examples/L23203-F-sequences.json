@@ -1,0 +1,422 @@
+{
+  "source": "教學合成資料，兩領域刻意採相同的標準化軌跡，以比較資訊流而非預測能力。",
+  "seed": 23,
+  "window_size": 4,
+  "cutoff_rule": "在時點 t 收齊當下量測後，只用 t-3 至 t 的資料，預測 t+1。",
+  "split_by_target": {
+    "train": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "validation": [
+      13,
+      14,
+      15,
+      16
+    ],
+    "test": [
+      17,
+      18,
+      19,
+      20
+    ]
+  },
+  "energy": {
+    "unit": "kWh",
+    "scale": {
+      "offset": 100,
+      "divisor": 100
+    },
+    "rows": [
+      {
+        "t": 1,
+        "day": "D01",
+        "temperature": 20,
+        "demand": 100,
+        "available_at": 1
+      },
+      {
+        "t": 2,
+        "day": "D02",
+        "temperature": 21,
+        "demand": 110,
+        "available_at": 2
+      },
+      {
+        "t": 3,
+        "day": "D03",
+        "temperature": 22,
+        "demand": 120,
+        "available_at": 3
+      },
+      {
+        "t": 4,
+        "day": "D04",
+        "temperature": 23,
+        "demand": 130,
+        "available_at": 4
+      },
+      {
+        "t": 5,
+        "day": "D05",
+        "temperature": 24,
+        "demand": 120,
+        "available_at": 5
+      },
+      {
+        "t": 6,
+        "day": "D06",
+        "temperature": 20,
+        "demand": 140,
+        "available_at": 6
+      },
+      {
+        "t": 7,
+        "day": "D07",
+        "temperature": 21,
+        "demand": 130,
+        "available_at": 7
+      },
+      {
+        "t": 8,
+        "day": "D08",
+        "temperature": 22,
+        "demand": 150,
+        "available_at": 8
+      },
+      {
+        "t": 9,
+        "day": "D09",
+        "temperature": 23,
+        "demand": 140,
+        "available_at": 9
+      },
+      {
+        "t": 10,
+        "day": "D10",
+        "temperature": 24,
+        "demand": 160,
+        "available_at": 10
+      },
+      {
+        "t": 11,
+        "day": "D11",
+        "temperature": 20,
+        "demand": 150,
+        "available_at": 11
+      },
+      {
+        "t": 12,
+        "day": "D12",
+        "temperature": 21,
+        "demand": 170,
+        "available_at": 12
+      },
+      {
+        "t": 13,
+        "day": "D13",
+        "temperature": 22,
+        "demand": 160,
+        "available_at": 13
+      },
+      {
+        "t": 14,
+        "day": "D14",
+        "temperature": 23,
+        "demand": 180,
+        "available_at": 14
+      },
+      {
+        "t": 15,
+        "day": "D15",
+        "temperature": 24,
+        "demand": 170,
+        "available_at": 15
+      },
+      {
+        "t": 16,
+        "day": "D16",
+        "temperature": 20,
+        "demand": 190,
+        "available_at": 16
+      },
+      {
+        "t": 17,
+        "day": "D17",
+        "temperature": 21,
+        "demand": 180,
+        "available_at": 17
+      },
+      {
+        "t": 18,
+        "day": "D18",
+        "temperature": 22,
+        "demand": 200,
+        "available_at": 18
+      },
+      {
+        "t": 19,
+        "day": "D19",
+        "temperature": 23,
+        "demand": 190,
+        "available_at": 19
+      },
+      {
+        "t": 20,
+        "day": "D20",
+        "temperature": 24,
+        "demand": 210,
+        "available_at": 20
+      }
+    ]
+  },
+  "medical": {
+    "unit": "次／分",
+    "scale": {
+      "offset": 60,
+      "divisor": 20
+    },
+    "rows": [
+      {
+        "t": 1,
+        "timestamp": "M01",
+        "heart_rate": 60,
+        "event": 0,
+        "available_at": 1
+      },
+      {
+        "t": 2,
+        "timestamp": "M02",
+        "heart_rate": 62,
+        "event": 0,
+        "available_at": 2
+      },
+      {
+        "t": 3,
+        "timestamp": "M03",
+        "heart_rate": 64,
+        "event": 0,
+        "available_at": 3
+      },
+      {
+        "t": 4,
+        "timestamp": "M04",
+        "heart_rate": 66,
+        "event": 0,
+        "available_at": 4
+      },
+      {
+        "t": 5,
+        "timestamp": "M05",
+        "heart_rate": 64,
+        "event": 0,
+        "available_at": 5
+      },
+      {
+        "t": 6,
+        "timestamp": "M06",
+        "heart_rate": 68,
+        "event": 0,
+        "available_at": 6
+      },
+      {
+        "t": 7,
+        "timestamp": "M07",
+        "heart_rate": 66,
+        "event": 0,
+        "available_at": 7
+      },
+      {
+        "t": 8,
+        "timestamp": "M08",
+        "heart_rate": 70,
+        "event": 0,
+        "available_at": 8
+      },
+      {
+        "t": 9,
+        "timestamp": "M09",
+        "heart_rate": 68,
+        "event": 0,
+        "available_at": 9
+      },
+      {
+        "t": 10,
+        "timestamp": "M10",
+        "heart_rate": 72,
+        "event": 0,
+        "available_at": 10
+      },
+      {
+        "t": 11,
+        "timestamp": "M11",
+        "heart_rate": 70,
+        "event": 0,
+        "available_at": 11
+      },
+      {
+        "t": 12,
+        "timestamp": "M12",
+        "heart_rate": 74,
+        "event": 0,
+        "available_at": 12
+      },
+      {
+        "t": 13,
+        "timestamp": "M13",
+        "heart_rate": 72,
+        "event": 1,
+        "available_at": 13
+      },
+      {
+        "t": 14,
+        "timestamp": "M14",
+        "heart_rate": 76,
+        "event": 1,
+        "available_at": 14
+      },
+      {
+        "t": 15,
+        "timestamp": "M15",
+        "heart_rate": 74,
+        "event": 1,
+        "available_at": 15
+      },
+      {
+        "t": 16,
+        "timestamp": "M16",
+        "heart_rate": 78,
+        "event": 1,
+        "available_at": 16
+      },
+      {
+        "t": 17,
+        "timestamp": "M17",
+        "heart_rate": 76,
+        "event": 1,
+        "available_at": 17
+      },
+      {
+        "t": 18,
+        "timestamp": "M18",
+        "heart_rate": 80,
+        "event": 1,
+        "available_at": 18
+      },
+      {
+        "t": 19,
+        "timestamp": "M19",
+        "heart_rate": 78,
+        "event": 1,
+        "available_at": 19
+      },
+      {
+        "t": 20,
+        "timestamp": "M20",
+        "heart_rate": 82,
+        "event": 1,
+        "available_at": 20
+      }
+    ]
+  },
+  "normalized": [
+    0,
+    0.1,
+    0.2,
+    0.3,
+    0.2,
+    0.4,
+    0.3,
+    0.5,
+    0.4,
+    0.6,
+    0.5,
+    0.7,
+    0.6,
+    0.8,
+    0.7,
+    0.9,
+    0.8,
+    1,
+    0.9,
+    1.1
+  ],
+  "first_windows": [
+    [
+      [
+        0
+      ],
+      [
+        0.1
+      ],
+      [
+        0.2
+      ],
+      [
+        0.3
+      ]
+    ],
+    [
+      [
+        0
+      ],
+      [
+        0.1
+      ],
+      [
+        0.2
+      ],
+      [
+        0.3
+      ]
+    ]
+  ],
+  "rnn": {
+    "input_weight": 1,
+    "recurrent_weight": 0.5,
+    "initial_state": 0,
+    "bias": 0
+  },
+  "lstm_probe": {
+    "time": 4,
+    "c_previous": 0.5,
+    "h_previous": 0.2,
+    "gate_weights": 0,
+    "candidate_weights": 0,
+    "input_logit": -1.0986122886681098,
+    "forget_logit": 1.3862943611198906,
+    "output_logit": 0,
+    "candidate_pre": 0.42364893019360184,
+    "low_forget": 0.2
+  },
+  "gru_probe": {
+    "time": 4,
+    "h_previous": 0.5,
+    "gate_weights": 0,
+    "reset_logit": 0,
+    "update_logit": 1.3862943611198906,
+    "input_candidate": 0.3,
+    "hidden_weight": 0.5,
+    "hidden_bias": 0
+  },
+  "gradient_probe": {
+    "steps": 4,
+    "local_derivatives": [
+      0.5,
+      1.5
+    ],
+    "initial_gradient": 1
+  },
+  "architecture_probe": {
+    "input_size": 1,
+    "hidden_size": 2,
+    "num_layers": 1,
+    "bias": false
+  }
+}

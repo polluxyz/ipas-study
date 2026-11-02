@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="380" viewBox="0 0 360 380" role="img" aria-labelledby="title desc">
+<title id="title">單件標籤與五件總數</title>
+<desc id="desc">上排是一組固定觀察，下排是模型完整取值範圍。 教學合成模型示意，非觀測頻數。</desc>
+<rect width="360" height="380" fill="white"/>
+<g font-family="Microsoft JhengHei, Noto Sans TC, sans-serif">
+<text x="180" y="27" font-size="17" text-anchor="middle" fill="#182b40">五次伯努利結果 → 一個二項總數</text>
+<text x="180" y="60" font-size="16" text-anchor="middle" fill="#182b40">本次觀察（瑕疵=1）</text>
+<rect x="20" y="82" width="55" height="48" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="47.5" y="113" font-size="20" text-anchor="middle" fill="#182b40">0</text>
+<rect x="86" y="82" width="55" height="48" rx="5" fill="#fff0df" stroke="#a34c00"/>
+<text x="113.5" y="113" font-size="20" text-anchor="middle" fill="#182b40">1</text>
+<rect x="152" y="82" width="55" height="48" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="179.5" y="113" font-size="20" text-anchor="middle" fill="#182b40">0</text>
+<rect x="218" y="82" width="55" height="48" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="245.5" y="113" font-size="20" text-anchor="middle" fill="#182b40">0</text>
+<rect x="284" y="82" width="55" height="48" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="311.5" y="113" font-size="20" text-anchor="middle" fill="#182b40">0</text>
+<text x="180" y="162" font-size="18" text-anchor="middle" fill="#182b40">0 + 1 + 0 + 0 + 0 = 1</text>
+<path d="M180 174 L180 197" fill="none" stroke="#182b40" stroke-width="2"/>
+<text x="180" y="222" font-size="16" text-anchor="middle" fill="#182b40">總數K的可能值</text>
+<rect x="15" y="243" width="49" height="42" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="39.5" y="271" font-size="18" text-anchor="middle" fill="#182b40">0</text>
+<rect x="71" y="243" width="49" height="42" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="95.5" y="271" font-size="18" text-anchor="middle" fill="#182b40">1</text>
+<rect x="127" y="243" width="49" height="42" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="151.5" y="271" font-size="18" text-anchor="middle" fill="#182b40">2</text>
+<rect x="183" y="243" width="49" height="42" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="207.5" y="271" font-size="18" text-anchor="middle" fill="#182b40">3</text>
+<rect x="239" y="243" width="49" height="42" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="263.5" y="271" font-size="18" text-anchor="middle" fill="#182b40">4</text>
+<rect x="295" y="243" width="49" height="42" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="319.5" y="271" font-size="18" text-anchor="middle" fill="#182b40">5</text>
+<text x="180" y="316" font-size="16" text-anchor="middle" fill="#182b40">固定n=5；各次獨立且p=0.2</text>
+<text x="180" y="343" font-size="16" text-anchor="middle" fill="#182b40">每一組的K可以不同</text>
+<text x="12" y="368" font-size="13" text-anchor="start" fill="#182b40">來源：教學合成模型示意</text>
+</g>
+</svg>

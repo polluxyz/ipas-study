@@ -1,0 +1,30 @@
+{
+  "source": "前置組三案的補充決策欄；不覆寫既有資源與效益假設。",
+  "resource_cards": "content/examples/L21201-A-project-cards.json",
+  "assessments": [
+    {
+      "project_id": "P1",
+      "order": 1,
+      "maturity_evidence": "CRM可匯出；先補標籤與通路缺口",
+      "benefit_evidence": "48元到30元仍是待驗假設，可在同口徑工單直接量測",
+      "expansion_condition": "先驗另一通路的標籤、服務規則與介接",
+      "action": "補齊前提後先試辦"
+    },
+    {
+      "project_id": "P2",
+      "order": 2,
+      "maturity_evidence": "缺影像、設備B樣本與介接證據",
+      "benefit_evidence": "24元到12元待驗，且不可增加缺陷漏放",
+      "expansion_condition": "跨設備需重驗影像及漏放風險",
+      "action": "先補證據；本期不與P1並行"
+    },
+    {
+      "project_id": "P3",
+      "order": 3,
+      "maturity_evidence": "紙本、行動回饋與安全環境未備",
+      "benefit_evidence": "等待改善尚無可核對基準",
+      "expansion_condition": "先建立數位與安全基礎",
+      "action": "不列入本期試辦，重設範圍後再提案"
+    }
+  ]
+}

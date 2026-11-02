@@ -1,0 +1,49 @@
+# 每個 PR 與 main 的推送都跑一次：demo 測試、教材檢查器、照抄檢查、建置。
+# 範圍依 advisor 建議（tmp/advisor/rollout-decisions.md），使用者 2026-11-01 核可。
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# 同一個 PR 有新推送時，取消舊的那次執行，避免平行 PR 排隊。
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      # pnpm 版本取自 demo/package.json 的 packageManager 欄位，與本機一致。
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: demo/package.json
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: demo/pnpm-lock.yaml
+
+      - name: 安裝 demo 相依
+        run: pnpm --dir demo install --frozen-lockfile
+
+      - name: 單元測試
+        run: pnpm --dir demo test
+
+      - name: 教材檢查器
+        run: node demo/scripts/check-textbook/cli.mjs --summary
+
+      - name: 照抄檢查
+        run: node scripts/tools/check-copy.cjs content/concepts content/questions content/cheatsheets
+
+      - name: 建置
+        run: pnpm --dir demo run build --force

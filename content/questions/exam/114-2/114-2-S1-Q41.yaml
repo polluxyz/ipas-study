@@ -1,0 +1,36 @@
+id: 114-2-S1-Q41
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 41
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 11
+type: 觀念
+codes: [L23303, L21301]
+concepts: [nested-cross-validation, data-leakage, k-fold-cross-validation]
+stem: |
+  在進行超參數調校（Hyperparameter Tuning）時，若直接在 K-Fold 交叉驗證（Cross-Validation）的資料上同時調整模型參數並評估效能，最可能導致下列哪一種問題？
+options:
+  A: 模型的交叉驗證結果出現過度樂觀偏差（Over-optimistic Bias），因測試摺資料間接參與參數選擇，造成資料洩漏（Data Leakage）
+  B: 模型會在每一摺（Fold）內反覆調整參數，導致訓練不穩與過度正則化
+  C: 因交叉驗證資料被重複使用，造成效能方差增大，無法獲得穩定估計
+  D: K-Fold 交叉驗證的假設與超參數搜尋相衝突，導致驗證過程失效
+answer: A
+explanation:
+  summary: 用同一組交叉驗證分數挑參數又當成表現，分數會過度樂觀。
+  correct: 挑參數時，各驗證摺的分數決定了哪組參數勝出，驗證摺因此間接參與了模型選擇。再把同一組分數當成表現估計，就會高估。解法是巢狀交叉驗證，或另外保留一份從未使用的測試集。巢狀驗證由內層選參數、外層只評估選出的整套流程。
+  wrong:
+    B: 挑參數不會讓每一摺內的訓練變得不穩，也和正則化強度無關。
+    C: 問題是估計「偏高」（偏差），不是「方差變大」。重複使用資料本來就是交叉驗證的設計。
+    D: K-Fold 可以和超參數搜尋一起用（例如 GridSearchCV），只是要分開「挑參數」和「估計表現」兩件事。
+  rule: 選參數與估成績要分層，避免選擇偏差。
+guide_refs: [guide-3:5-26]
+author: claude
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 11
+    by: coordinator
+  blind_answer: A
+  dispute: null

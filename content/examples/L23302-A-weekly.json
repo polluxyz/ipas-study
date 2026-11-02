@@ -1,0 +1,1635 @@
+{
+  "description": "教學合成資料：兩領域各 104 週；所有候選分數、耗時、大小與記憶體均為固定模擬假設，未訓練或計時。",
+  "seed": 23302,
+  "window": 8,
+  "horizon": 1,
+  "records": [
+    {
+      "week": 1,
+      "date": "2024-01-01",
+      "energy": {
+        "temperature_c": 22,
+        "production_units": 500,
+        "consumption_kwh": 100
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1,
+        "fault_count": 2
+      }
+    },
+    {
+      "week": 2,
+      "date": "2024-01-08",
+      "energy": {
+        "temperature_c": 22.9643,
+        "production_units": 510,
+        "consumption_kwh": 103
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.03,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 3,
+      "date": "2024-01-15",
+      "energy": {
+        "temperature_c": 23.9145,
+        "production_units": 520,
+        "consumption_kwh": 105
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.04,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 4,
+      "date": "2024-01-22",
+      "energy": {
+        "temperature_c": 24.8368,
+        "production_units": 530,
+        "consumption_kwh": 108
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.07,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 5,
+      "date": "2024-01-29",
+      "energy": {
+        "temperature_c": 25.7178,
+        "production_units": 500,
+        "consumption_kwh": 110
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.08,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 6,
+      "date": "2024-02-05",
+      "energy": {
+        "temperature_c": 26.5445,
+        "production_units": 510,
+        "consumption_kwh": 113
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.11,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 7,
+      "date": "2024-02-12",
+      "energy": {
+        "temperature_c": 27.305,
+        "production_units": 520,
+        "consumption_kwh": 115
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.12,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 8,
+      "date": "2024-02-19",
+      "energy": {
+        "temperature_c": 27.9881,
+        "production_units": 530,
+        "consumption_kwh": 118
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.15,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 9,
+      "date": "2024-02-26",
+      "energy": {
+        "temperature_c": 28.5839,
+        "production_units": 500,
+        "consumption_kwh": 120
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.16,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 10,
+      "date": "2024-03-04",
+      "energy": {
+        "temperature_c": 29.0836,
+        "production_units": 510,
+        "consumption_kwh": 123
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.19,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 11,
+      "date": "2024-03-11",
+      "energy": {
+        "temperature_c": 29.4801,
+        "production_units": 520,
+        "consumption_kwh": 125
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.2,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 12,
+      "date": "2024-03-18",
+      "energy": {
+        "temperature_c": 29.7675,
+        "production_units": 530,
+        "consumption_kwh": 128
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.23,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 13,
+      "date": "2024-03-25",
+      "energy": {
+        "temperature_c": 29.9417,
+        "production_units": 500,
+        "consumption_kwh": 130
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.24,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 14,
+      "date": "2024-04-01",
+      "energy": {
+        "temperature_c": 30,
+        "production_units": 510,
+        "consumption_kwh": 133
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.27,
+        "fault_count": 2
+      }
+    },
+    {
+      "week": 15,
+      "date": "2024-04-08",
+      "energy": {
+        "temperature_c": 29.9417,
+        "production_units": 520,
+        "consumption_kwh": 135
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.28,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 16,
+      "date": "2024-04-15",
+      "energy": {
+        "temperature_c": 29.7675,
+        "production_units": 530,
+        "consumption_kwh": 138
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.31,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 17,
+      "date": "2024-04-22",
+      "energy": {
+        "temperature_c": 29.4801,
+        "production_units": 500,
+        "consumption_kwh": 140
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.32,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 18,
+      "date": "2024-04-29",
+      "energy": {
+        "temperature_c": 29.0836,
+        "production_units": 510,
+        "consumption_kwh": 143
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.35,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 19,
+      "date": "2024-05-06",
+      "energy": {
+        "temperature_c": 28.5839,
+        "production_units": 520,
+        "consumption_kwh": 145
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.36,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 20,
+      "date": "2024-05-13",
+      "energy": {
+        "temperature_c": 27.9881,
+        "production_units": 530,
+        "consumption_kwh": 148
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.39,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 21,
+      "date": "2024-05-20",
+      "energy": {
+        "temperature_c": 27.305,
+        "production_units": 500,
+        "consumption_kwh": 150
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.4,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 22,
+      "date": "2024-05-27",
+      "energy": {
+        "temperature_c": 26.5445,
+        "production_units": 510,
+        "consumption_kwh": 153
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.43,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 23,
+      "date": "2024-06-03",
+      "energy": {
+        "temperature_c": 25.7178,
+        "production_units": 520,
+        "consumption_kwh": 155
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.44,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 24,
+      "date": "2024-06-10",
+      "energy": {
+        "temperature_c": 24.8368,
+        "production_units": 530,
+        "consumption_kwh": 158
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.47,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 25,
+      "date": "2024-06-17",
+      "energy": {
+        "temperature_c": 23.9145,
+        "production_units": 500,
+        "consumption_kwh": 160
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.48,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 26,
+      "date": "2024-06-24",
+      "energy": {
+        "temperature_c": 22.9643,
+        "production_units": 510,
+        "consumption_kwh": 163
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.51,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 27,
+      "date": "2024-07-01",
+      "energy": {
+        "temperature_c": 22,
+        "production_units": 520,
+        "consumption_kwh": 165
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.52,
+        "fault_count": 2
+      }
+    },
+    {
+      "week": 28,
+      "date": "2024-07-08",
+      "energy": {
+        "temperature_c": 21.0357,
+        "production_units": 530,
+        "consumption_kwh": 168
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.55,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 29,
+      "date": "2024-07-15",
+      "energy": {
+        "temperature_c": 20.0855,
+        "production_units": 500,
+        "consumption_kwh": 170
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.56,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 30,
+      "date": "2024-07-22",
+      "energy": {
+        "temperature_c": 19.1632,
+        "production_units": 510,
+        "consumption_kwh": 173
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.59,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 31,
+      "date": "2024-07-29",
+      "energy": {
+        "temperature_c": 18.2822,
+        "production_units": 520,
+        "consumption_kwh": 175
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.6,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 32,
+      "date": "2024-08-05",
+      "energy": {
+        "temperature_c": 17.4555,
+        "production_units": 530,
+        "consumption_kwh": 178
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.63,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 33,
+      "date": "2024-08-12",
+      "energy": {
+        "temperature_c": 16.695,
+        "production_units": 500,
+        "consumption_kwh": 180
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.64,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 34,
+      "date": "2024-08-19",
+      "energy": {
+        "temperature_c": 16.0119,
+        "production_units": 510,
+        "consumption_kwh": 183
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.67,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 35,
+      "date": "2024-08-26",
+      "energy": {
+        "temperature_c": 15.4161,
+        "production_units": 520,
+        "consumption_kwh": 185
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.68,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 36,
+      "date": "2024-09-02",
+      "energy": {
+        "temperature_c": 14.9164,
+        "production_units": 530,
+        "consumption_kwh": 188
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.71,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 37,
+      "date": "2024-09-09",
+      "energy": {
+        "temperature_c": 14.5199,
+        "production_units": 500,
+        "consumption_kwh": 190
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.72,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 38,
+      "date": "2024-09-16",
+      "energy": {
+        "temperature_c": 14.2325,
+        "production_units": 510,
+        "consumption_kwh": 193
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.75,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 39,
+      "date": "2024-09-23",
+      "energy": {
+        "temperature_c": 14.0583,
+        "production_units": 520,
+        "consumption_kwh": 195
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.76,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 40,
+      "date": "2024-09-30",
+      "energy": {
+        "temperature_c": 14,
+        "production_units": 530,
+        "consumption_kwh": 198
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.79,
+        "fault_count": 2
+      }
+    },
+    {
+      "week": 41,
+      "date": "2024-10-07",
+      "energy": {
+        "temperature_c": 14.0583,
+        "production_units": 500,
+        "consumption_kwh": 200
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.8,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 42,
+      "date": "2024-10-14",
+      "energy": {
+        "temperature_c": 14.2325,
+        "production_units": 510,
+        "consumption_kwh": 203
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.83,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 43,
+      "date": "2024-10-21",
+      "energy": {
+        "temperature_c": 14.5199,
+        "production_units": 520,
+        "consumption_kwh": 205
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.84,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 44,
+      "date": "2024-10-28",
+      "energy": {
+        "temperature_c": 14.9164,
+        "production_units": 530,
+        "consumption_kwh": 208
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.87,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 45,
+      "date": "2024-11-04",
+      "energy": {
+        "temperature_c": 15.4161,
+        "production_units": 500,
+        "consumption_kwh": 210
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.88,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 46,
+      "date": "2024-11-11",
+      "energy": {
+        "temperature_c": 16.0119,
+        "production_units": 510,
+        "consumption_kwh": 213
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.91,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 47,
+      "date": "2024-11-18",
+      "energy": {
+        "temperature_c": 16.695,
+        "production_units": 520,
+        "consumption_kwh": 215
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.92,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 48,
+      "date": "2024-11-25",
+      "energy": {
+        "temperature_c": 17.4555,
+        "production_units": 530,
+        "consumption_kwh": 218
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.95,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 49,
+      "date": "2024-12-02",
+      "energy": {
+        "temperature_c": 18.2822,
+        "production_units": 500,
+        "consumption_kwh": 220
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.96,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 50,
+      "date": "2024-12-09",
+      "energy": {
+        "temperature_c": 19.1632,
+        "production_units": 510,
+        "consumption_kwh": 223
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 1.99,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 51,
+      "date": "2024-12-16",
+      "energy": {
+        "temperature_c": 20.0855,
+        "production_units": 520,
+        "consumption_kwh": 225
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 52,
+      "date": "2024-12-23",
+      "energy": {
+        "temperature_c": 21.0357,
+        "production_units": 530,
+        "consumption_kwh": 228
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.03,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 53,
+      "date": "2024-12-30",
+      "energy": {
+        "temperature_c": 22,
+        "production_units": 500,
+        "consumption_kwh": 230
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.04,
+        "fault_count": 2
+      }
+    },
+    {
+      "week": 54,
+      "date": "2025-01-06",
+      "energy": {
+        "temperature_c": 22.9643,
+        "production_units": 510,
+        "consumption_kwh": 233
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.07,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 55,
+      "date": "2025-01-13",
+      "energy": {
+        "temperature_c": 23.9145,
+        "production_units": 520,
+        "consumption_kwh": 235
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.08,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 56,
+      "date": "2025-01-20",
+      "energy": {
+        "temperature_c": 24.8368,
+        "production_units": 530,
+        "consumption_kwh": 238
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.11,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 57,
+      "date": "2025-01-27",
+      "energy": {
+        "temperature_c": 25.7178,
+        "production_units": 500,
+        "consumption_kwh": 240
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.12,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 58,
+      "date": "2025-02-03",
+      "energy": {
+        "temperature_c": 26.5445,
+        "production_units": 510,
+        "consumption_kwh": 243
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.15,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 59,
+      "date": "2025-02-10",
+      "energy": {
+        "temperature_c": 27.305,
+        "production_units": 520,
+        "consumption_kwh": 245
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.16,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 60,
+      "date": "2025-02-17",
+      "energy": {
+        "temperature_c": 27.9881,
+        "production_units": 530,
+        "consumption_kwh": 248
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.19,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 61,
+      "date": "2025-02-24",
+      "energy": {
+        "temperature_c": 28.5839,
+        "production_units": 500,
+        "consumption_kwh": 250
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.2,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 62,
+      "date": "2025-03-03",
+      "energy": {
+        "temperature_c": 29.0836,
+        "production_units": 510,
+        "consumption_kwh": 253
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.23,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 63,
+      "date": "2025-03-10",
+      "energy": {
+        "temperature_c": 29.4801,
+        "production_units": 520,
+        "consumption_kwh": 255
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.24,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 64,
+      "date": "2025-03-17",
+      "energy": {
+        "temperature_c": 29.7675,
+        "production_units": 530,
+        "consumption_kwh": 258
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.27,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 65,
+      "date": "2025-03-24",
+      "energy": {
+        "temperature_c": 29.9417,
+        "production_units": 500,
+        "consumption_kwh": 260
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.28,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 66,
+      "date": "2025-03-31",
+      "energy": {
+        "temperature_c": 30,
+        "production_units": 510,
+        "consumption_kwh": 263
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.31,
+        "fault_count": 2
+      }
+    },
+    {
+      "week": 67,
+      "date": "2025-04-07",
+      "energy": {
+        "temperature_c": 29.9417,
+        "production_units": 520,
+        "consumption_kwh": 265
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.32,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 68,
+      "date": "2025-04-14",
+      "energy": {
+        "temperature_c": 29.7675,
+        "production_units": 530,
+        "consumption_kwh": 268
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.35,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 69,
+      "date": "2025-04-21",
+      "energy": {
+        "temperature_c": 29.4801,
+        "production_units": 500,
+        "consumption_kwh": 270
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.36,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 70,
+      "date": "2025-04-28",
+      "energy": {
+        "temperature_c": 29.0836,
+        "production_units": 510,
+        "consumption_kwh": 273
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.39,
+        "fault_count": 0
+      }
+    },
+    {
+      "week": 71,
+      "date": "2025-05-05",
+      "energy": {
+        "temperature_c": 28.5839,
+        "production_units": 520,
+        "consumption_kwh": 275
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.4,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 72,
+      "date": "2025-05-12",
+      "energy": {
+        "temperature_c": 27.9881,
+        "production_units": 530,
+        "consumption_kwh": 278
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.43,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 73,
+      "date": "2025-05-19",
+      "energy": {
+        "temperature_c": 27.305,
+        "production_units": 500,
+        "consumption_kwh": 280
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.44,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 74,
+      "date": "2025-05-26",
+      "energy": {
+        "temperature_c": 26.5445,
+        "production_units": 510,
+        "consumption_kwh": 283
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.47,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 75,
+      "date": "2025-06-02",
+      "energy": {
+        "temperature_c": 25.7178,
+        "production_units": 520,
+        "consumption_kwh": 285
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.48,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 76,
+      "date": "2025-06-09",
+      "energy": {
+        "temperature_c": 24.8368,
+        "production_units": 530,
+        "consumption_kwh": 288
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.51,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 77,
+      "date": "2025-06-16",
+      "energy": {
+        "temperature_c": 23.9145,
+        "production_units": 500,
+        "consumption_kwh": 290
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.52,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 78,
+      "date": "2025-06-23",
+      "energy": {
+        "temperature_c": 22.9643,
+        "production_units": 510,
+        "consumption_kwh": 293
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.55,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 79,
+      "date": "2025-06-30",
+      "energy": {
+        "temperature_c": 22,
+        "production_units": 520,
+        "consumption_kwh": 295
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.56,
+        "fault_count": 3
+      }
+    },
+    {
+      "week": 80,
+      "date": "2025-07-07",
+      "energy": {
+        "temperature_c": 21.0357,
+        "production_units": 530,
+        "consumption_kwh": 298
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.59,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 81,
+      "date": "2025-07-14",
+      "energy": {
+        "temperature_c": 20.0855,
+        "production_units": 500,
+        "consumption_kwh": 300
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.6,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 82,
+      "date": "2025-07-21",
+      "energy": {
+        "temperature_c": 19.1632,
+        "production_units": 510,
+        "consumption_kwh": 303
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.63,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 83,
+      "date": "2025-07-28",
+      "energy": {
+        "temperature_c": 18.2822,
+        "production_units": 520,
+        "consumption_kwh": 305
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.64,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 84,
+      "date": "2025-08-04",
+      "energy": {
+        "temperature_c": 17.4555,
+        "production_units": 530,
+        "consumption_kwh": 308
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.67,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 85,
+      "date": "2025-08-11",
+      "energy": {
+        "temperature_c": 16.695,
+        "production_units": 500,
+        "consumption_kwh": 310
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.68,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 86,
+      "date": "2025-08-18",
+      "energy": {
+        "temperature_c": 16.0119,
+        "production_units": 510,
+        "consumption_kwh": 313
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.71,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 87,
+      "date": "2025-08-25",
+      "energy": {
+        "temperature_c": 15.4161,
+        "production_units": 520,
+        "consumption_kwh": 315
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.72,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 88,
+      "date": "2025-09-01",
+      "energy": {
+        "temperature_c": 14.9164,
+        "production_units": 530,
+        "consumption_kwh": 318
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.75,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 89,
+      "date": "2025-09-08",
+      "energy": {
+        "temperature_c": 14.5199,
+        "production_units": 500,
+        "consumption_kwh": 320
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.76,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 90,
+      "date": "2025-09-15",
+      "energy": {
+        "temperature_c": 14.2325,
+        "production_units": 510,
+        "consumption_kwh": 323
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.79,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 91,
+      "date": "2025-09-22",
+      "energy": {
+        "temperature_c": 14.0583,
+        "production_units": 520,
+        "consumption_kwh": 325
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.8,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 92,
+      "date": "2025-09-29",
+      "energy": {
+        "temperature_c": 14,
+        "production_units": 530,
+        "consumption_kwh": 328
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.83,
+        "fault_count": 3
+      }
+    },
+    {
+      "week": 93,
+      "date": "2025-10-06",
+      "energy": {
+        "temperature_c": 14.0583,
+        "production_units": 500,
+        "consumption_kwh": 330
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.84,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 94,
+      "date": "2025-10-13",
+      "energy": {
+        "temperature_c": 14.2325,
+        "production_units": 510,
+        "consumption_kwh": 333
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.87,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 95,
+      "date": "2025-10-20",
+      "energy": {
+        "temperature_c": 14.5199,
+        "production_units": 520,
+        "consumption_kwh": 335
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.88,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 96,
+      "date": "2025-10-27",
+      "energy": {
+        "temperature_c": 14.9164,
+        "production_units": 530,
+        "consumption_kwh": 338
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.91,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 97,
+      "date": "2025-11-03",
+      "energy": {
+        "temperature_c": 15.4161,
+        "production_units": 500,
+        "consumption_kwh": 340
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.92,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 98,
+      "date": "2025-11-10",
+      "energy": {
+        "temperature_c": 16.0119,
+        "production_units": 510,
+        "consumption_kwh": 343
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.95,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 99,
+      "date": "2025-11-17",
+      "energy": {
+        "temperature_c": 16.695,
+        "production_units": 520,
+        "consumption_kwh": 345
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.96,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 100,
+      "date": "2025-11-24",
+      "energy": {
+        "temperature_c": 17.4555,
+        "production_units": 530,
+        "consumption_kwh": 348
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 2.99,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 101,
+      "date": "2025-12-01",
+      "energy": {
+        "temperature_c": 18.2822,
+        "production_units": 500,
+        "consumption_kwh": 350
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 3,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 102,
+      "date": "2025-12-08",
+      "energy": {
+        "temperature_c": 19.1632,
+        "production_units": 510,
+        "consumption_kwh": 353
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 3.03,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 103,
+      "date": "2025-12-15",
+      "energy": {
+        "temperature_c": 20.0855,
+        "production_units": 520,
+        "consumption_kwh": 355
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 3.04,
+        "fault_count": 1
+      }
+    },
+    {
+      "week": 104,
+      "date": "2025-12-22",
+      "energy": {
+        "temperature_c": 21.0357,
+        "production_units": 530,
+        "consumption_kwh": 358
+      },
+      "manufacturing": {
+        "equipment_group": "A",
+        "vibration_mm_s": 3.07,
+        "fault_count": 1
+      }
+    }
+  ],
+  "folds": [
+    {
+      "train": [
+        1,
+        52
+      ],
+      "validation": [
+        53,
+        64
+      ]
+    },
+    {
+      "train": [
+        1,
+        64
+      ],
+      "validation": [
+        65,
+        76
+      ]
+    },
+    {
+      "train": [
+        1,
+        76
+      ],
+      "validation": [
+        77,
+        88
+      ]
+    }
+  ],
+  "final_train": [
+    1,
+    88
+  ],
+  "test": [
+    89,
+    104
+  ],
+  "cards": [
+    {
+      "id": "linear-lag",
+      "name": "落後值線性模型",
+      "energy_train_mae": 6,
+      "energy_fold_mae": [
+        8,
+        9,
+        7
+      ],
+      "manufacturing_fold_mae": [
+        0.08,
+        0.09,
+        0.07
+      ],
+      "file_mib": 4,
+      "peak_mib": 20,
+      "p95_ms": {
+        "edge": 4,
+        "cloud": 9,
+        "realtime": 4
+      }
+    },
+    {
+      "id": "gru-small",
+      "name": "小型 GRU",
+      "energy_train_mae": 2,
+      "energy_fold_mae": [
+        7,
+        8,
+        6
+      ],
+      "manufacturing_fold_mae": [
+        0.07,
+        0.08,
+        0.06
+      ],
+      "file_mib": 12,
+      "peak_mib": 80,
+      "p95_ms": {
+        "edge": 18,
+        "cloud": 13,
+        "realtime": 18
+      }
+    },
+    {
+      "id": "tcn-small",
+      "name": "小型 TCN",
+      "energy_train_mae": 1,
+      "energy_fold_mae": [
+        6,
+        7,
+        5
+      ],
+      "manufacturing_fold_mae": [
+        0.06,
+        0.07,
+        0.05
+      ],
+      "file_mib": 8,
+      "peak_mib": 48,
+      "p95_ms": {
+        "edge": 12,
+        "cloud": 11,
+        "realtime": 12
+      }
+    }
+  ],
+  "profiles": [
+    {
+      "id": "edge",
+      "name": "邊緣裝置",
+      "budget_ms": 15,
+      "budget_mib": 64
+    },
+    {
+      "id": "cloud",
+      "name": "雲端服務",
+      "budget_ms": 30,
+      "budget_mib": 256
+    },
+    {
+      "id": "realtime",
+      "name": "即時本地 CPU",
+      "budget_ms": 10,
+      "budget_mib": 128
+    }
+  ],
+  "tcn": {
+    "kernel_size": 3,
+    "dilations": [
+      1,
+      2
+    ],
+    "weights": [
+      1,
+      1,
+      1
+    ],
+    "input": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "capacity": {
+    "input_width": 8,
+    "hidden_widths": [
+      4,
+      32
+    ],
+    "output_width": 1
+  },
+  "arima_step": {
+    "c": 0,
+    "phi": 0.5,
+    "theta": 0.2,
+    "last_error": -1,
+    "note": "指定係數與誤差的手算示範，未擬合 ARIMA。"
+  },
+  "task_views": {
+    "classification": "製造：下一週故障次數是否大於 0；能源：下一週耗電是否超過事先指定的容量上限",
+    "regression": "能源：下一週耗電；製造：下一週振動",
+    "clustering": "不讀故障標籤，以振動及其他當時可得感測量探索工況",
+    "reduction": "把多欄感測訊號壓縮後檢查重建與下游故障辨識"
+  }
+}

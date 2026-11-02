@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="548" viewBox="0 0 360 548" role="img" aria-labelledby="title desc">
+<title id="title">AI 專案責任泳道</title><desc id="desc">六個職務席位分別交付範疇、資料、模型、流程與規則、部署介面、測試報告。體驗設計兼業務顧問在教學例子由同一席位兼任，但責任分開。虛線表示文件需跨角色核對，不表示時間順序。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#334155"/></marker></defs>
+<rect width="360" height="548" rx="12" fill="#f8fafc"/>
+<g font-family="sans-serif" fill="#0f172a"><text x="180" y="28" font-size="18" text-anchor="middle" font-weight="700">責任泳道：看交付，不看排程</text>
+<g fill="#e0f2fe" stroke="#64748b"><rect x="12" y="48" width="324" height="65" rx="7"/><rect x="12" y="121" width="324" height="65" rx="7"/><rect x="12" y="194" width="324" height="65" rx="7"/><rect x="12" y="267" width="324" height="65" rx="7"/><rect x="12" y="340" width="324" height="65" rx="7"/><rect x="12" y="413" width="324" height="65" rx="7"/></g>
+<g stroke="#94a3b8"><path d="M100 48V113M100 121V186M100 194V259M100 267V332M100 340V405M100 413V478"/></g>
+<g font-size="15" text-anchor="middle"><text x="56" y="75">專案</text><text x="56" y="96">負責人</text><text x="56" y="148">資料</text><text x="56" y="169">工程師</text><text x="56" y="221">模型</text><text x="56" y="242">開發者</text><text x="56" y="294">體驗設計</text><text x="56" y="315">兼業務顧問</text><text x="56" y="367">系統</text><text x="56" y="388">架構師</text><text x="56" y="440">測試</text><text x="56" y="461">工程師</text></g>
+<g font-size="15"><text x="112" y="75">目標、資源、進度協調</text><text x="112" y="96">交付：計畫 v1</text><text x="112" y="148">取得、清理與整合資料</text><text x="112" y="169">交付：資料與切分 v1</text><text x="112" y="221">設計、訓練與調整模型</text><text x="112" y="242">交付：模型與實驗紀錄 v1</text><text x="112" y="294">操作體驗／業務指標定義</text><text x="112" y="315">交付：操作流程與規則 v1</text><text x="112" y="367">資料流、API 與部署設計</text><text x="112" y="388">交付：API 與部署說明 v1</text><text x="112" y="440">功能、負載與異常驗證</text><text x="112" y="461">交付：測試與審查紀錄 v1</text></g>
+<text x="180" y="507" font-size="14" text-anchor="middle">虛線：跨角色核對同一份交付紀錄</text><text x="180" y="530" font-size="13" text-anchor="middle">依指引職責重繪；兼任為教學假設</text></g>
+<path d="M336 80H347V445H338" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+</svg>

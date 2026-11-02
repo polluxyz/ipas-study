@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="680" viewBox="0 0 360 680" role="img" aria-labelledby="title desc">
+  <title id="title">四格倉儲的狀態、動作與轉移</title>
+  <desc id="desc">從A入口空車，前進至B取貨格，抓取搬運到C交接格，再交付到D終止。C也能放回到B；A、B、C可能因失敗或無效動作留在原地。機率與報酬見正文及共用JSON。教學示意圖。</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#334155"/></marker></defs>
+  <rect width="360" height="680" rx="12" fill="#f8fafc"/>
+  <g font-family="system-ui, sans-serif" fill="#172033" text-anchor="middle">
+    <text x="180" y="32" font-size="19" font-weight="700">狀態包含位置與貨物狀況</text>
+    <rect x="58" y="58" width="225" height="72" rx="12" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="170" y="88" font-size="18" font-weight="700">A：入口空車</text>
+    <text x="170" y="112" font-size="16">尚未到取貨格</text>
+    <path d="M170 131V184" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="213" y="163" font-size="16">前進</text>
+    <rect x="58" y="192" width="225" height="72" rx="12" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="170" y="222" font-size="18" font-weight="700">B：取貨格</text>
+    <text x="170" y="246" font-size="16">貨物在地面</text>
+    <path d="M170 265V328" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="126" y="294" font-size="16">抓取</text>
+    <text x="126" y="315" font-size="16">搬運</text>
+    <rect x="58" y="338" width="225" height="72" rx="12" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="170" y="368" font-size="18" font-weight="700">C：交接格</text>
+    <text x="170" y="392" font-size="16">車上有貨</text>
+    <path d="M284 372H317V228H286" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="338" y="283" font-size="16">放</text><text x="338" y="304" font-size="16">回</text>
+    <path d="M170 411V467" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="213" y="445" font-size="16">前進交付</text>
+    <rect x="58" y="477" width="225" height="72" rx="12" fill="#dcfce7" stroke="#15803d" stroke-width="3"/>
+    <text x="170" y="507" font-size="18" font-weight="700">D：完成交付</text>
+    <text x="170" y="531" font-size="16">任務終止</text>
+    <path d="M58 95H25V80H55" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+    <path d="M58 229H25V214H55" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+    <path d="M58 365H25V350H55" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+    <rect x="25" y="578" width="310" height="71" rx="9" fill="#fff" stroke="#64748b"/>
+    <text x="180" y="601" font-size="16">虛線：失敗或無效動作可留原地</text>
+    <text x="180" y="623" font-size="15">完整機率及獎勵見轉移表</text>
+    <text x="180" y="642" font-size="14">教學合成環境；箭頭不代表必然成功</text>
+  </g>
+</svg>

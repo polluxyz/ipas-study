@@ -1,0 +1,5 @@
+topic_id,parent_topic_id,guide_id,guide_edition,code,guide_section,printed_pages,pdf_pages,topic_title,origin,learning_goal,required_evidence,in_scope,scope_reason,source_issue
+T01-G01,T01,guide-3,115,L23303,5.3,5-22,22,分類,guide,會算指標,完整算例,true,,
+T01-G02,T01,guide-3,115,L23303,5.3,5-22,22,排序,guide,會判讀排序,曲線判讀,true,,
+T02-G01,T02,guide-3,115,L23303,5.3,5-23,23,切分,guide,會切分資料,流程圖,true,,
+T03-G01,T03,guide-3,115,L23303,5.3,5-24,24,範圍外,guide,會描述延伸,說明,false,另冊處理,

@@ -1,0 +1,471 @@
+{
+  "id": "L23401-F-applicability",
+  "source": "完全自編教學合成資料；不含真實個資或可付款卡號；不是法律意見或合規核准",
+  "checked_at": "2026-11-01",
+  "predecessor": {
+    "file": "content/examples/L23401-E-purpose.json",
+    "seed": 42,
+    "split_indices": {
+      "train": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "validation": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "test": [
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    "domains": {
+      "health": [
+        {
+          "record_id": "H01",
+          "index": 0
+        },
+        {
+          "record_id": "H02",
+          "index": 1
+        },
+        {
+          "record_id": "H03",
+          "index": 2
+        },
+        {
+          "record_id": "H04",
+          "index": 3
+        },
+        {
+          "record_id": "H05",
+          "index": 4
+        },
+        {
+          "record_id": "H06",
+          "index": 5
+        },
+        {
+          "record_id": "H07",
+          "index": 6
+        },
+        {
+          "record_id": "H08",
+          "index": 7
+        },
+        {
+          "record_id": "H09",
+          "index": 8
+        },
+        {
+          "record_id": "H10",
+          "index": 9
+        },
+        {
+          "record_id": "H11",
+          "index": 10
+        },
+        {
+          "record_id": "H12",
+          "index": 11
+        },
+        {
+          "record_id": "H13",
+          "index": 12
+        },
+        {
+          "record_id": "H14",
+          "index": 13
+        },
+        {
+          "record_id": "H15",
+          "index": 14
+        },
+        {
+          "record_id": "H16",
+          "index": 15
+        },
+        {
+          "record_id": "H17",
+          "index": 16
+        },
+        {
+          "record_id": "H18",
+          "index": 17
+        },
+        {
+          "record_id": "H19",
+          "index": 18
+        },
+        {
+          "record_id": "H20",
+          "index": 19
+        }
+      ],
+      "commerce": [
+        {
+          "record_id": "E01",
+          "index": 0
+        },
+        {
+          "record_id": "E02",
+          "index": 1
+        },
+        {
+          "record_id": "E03",
+          "index": 2
+        },
+        {
+          "record_id": "E04",
+          "index": 3
+        },
+        {
+          "record_id": "E05",
+          "index": 4
+        },
+        {
+          "record_id": "E06",
+          "index": 5
+        },
+        {
+          "record_id": "E07",
+          "index": 6
+        },
+        {
+          "record_id": "E08",
+          "index": 7
+        },
+        {
+          "record_id": "E09",
+          "index": 8
+        },
+        {
+          "record_id": "E10",
+          "index": 9
+        },
+        {
+          "record_id": "E11",
+          "index": 10
+        },
+        {
+          "record_id": "E12",
+          "index": 11
+        },
+        {
+          "record_id": "E13",
+          "index": 12
+        },
+        {
+          "record_id": "E14",
+          "index": 13
+        },
+        {
+          "record_id": "E15",
+          "index": 14
+        },
+        {
+          "record_id": "E16",
+          "index": 15
+        },
+        {
+          "record_id": "E17",
+          "index": 16
+        },
+        {
+          "record_id": "E18",
+          "index": 17
+        },
+        {
+          "record_id": "E19",
+          "index": 18
+        },
+        {
+          "record_id": "E20",
+          "index": 19
+        }
+      ]
+    }
+  },
+  "flows": [
+    {
+      "id": "F1",
+      "purpose": "處理本次服務請求",
+      "source": "兩平台表單及對話",
+      "recipient": "臺北平台客服組",
+      "location": "TW",
+      "fields": "服務必要欄位",
+      "status": "逐用途及來源查核，不能由表單存在直接推定合法"
+    },
+    {
+      "id": "F2",
+      "purpose": "內部客服意圖分類",
+      "source": "F1客服分析副本",
+      "recipient": "臺北內部模型組",
+      "location": "TW",
+      "fields": [
+        "intent",
+        "清理後message"
+      ],
+      "status": "每領域13筆通過教材內部候選規則；正式訓練仍待法源、語料權利及控制查核"
+    },
+    {
+      "id": "F3",
+      "purpose": "委外執行意圖分類驗證",
+      "source": "F2候選副本",
+      "recipient": "另一法人：美國俄勒岡州雲端處理商",
+      "location": "US-OR",
+      "fields": [
+        "intent",
+        "清理後message"
+      ],
+      "status": "擬議，尚未傳送；另查跨境機制、次處理商及禁止供應商自用訓練條款"
+    },
+    {
+      "id": "F4",
+      "domain": "health",
+      "source": "另設美國醫院委託情境，非H01至H20的身分變更",
+      "purpose": "受託整理預約紀錄",
+      "recipient": "美國醫院的分析受託商",
+      "location": "US-VA",
+      "fields": [
+        "合成預約代碼",
+        "合成健康資訊"
+      ],
+      "records": 24,
+      "status": "假設醫院為covered entity且資料為ePHI；BA身分與協議待核"
+    },
+    {
+      "id": "F5",
+      "domain": "payment",
+      "source": "電商另設12筆合成支付事件",
+      "purpose": "支付授權與核帳",
+      "recipient": "美國支付處理商；商店只收代碼與金額",
+      "location": "TW/US",
+      "fields": [
+        "支付頁處理卡資料",
+        "商店取得代碼及金額"
+      ],
+      "records": 12,
+      "status": "設計待查；不可由代碼一詞判定PCI DSS範圍"
+    },
+    {
+      "id": "F6",
+      "domain": "telecom",
+      "source": "另設8筆臺灣電信客服事件",
+      "purpose": "客服分流",
+      "recipient": "臺灣電信業者與受託商",
+      "location": "TW",
+      "fields": [
+        "合成用戶代碼",
+        "合成客服文字"
+      ],
+      "records": 8,
+      "status": "另查業者身分、主管機關指定範圍與資料保護義務"
+    }
+  ],
+  "payments": [
+    {
+      "id": "P01",
+      "index": 0,
+      "amount_twd": 100,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P02",
+      "index": 1,
+      "amount_twd": 200,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P03",
+      "index": 2,
+      "amount_twd": 300,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P04",
+      "index": 3,
+      "amount_twd": 400,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P05",
+      "index": 4,
+      "amount_twd": 500,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P06",
+      "index": 5,
+      "amount_twd": 600,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P07",
+      "index": 6,
+      "amount_twd": 700,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P08",
+      "index": 7,
+      "amount_twd": 800,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P09",
+      "index": 8,
+      "amount_twd": 900,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P10",
+      "index": 9,
+      "amount_twd": 1000,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P11",
+      "index": 10,
+      "amount_twd": 1100,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    },
+    {
+      "id": "P12",
+      "index": 11,
+      "amount_twd": 1200,
+      "raw_pan_in_ai": false,
+      "cvv_stored_after_authorization": false
+    }
+  ],
+  "virginia_case": {
+    "note": "另設年度企業事實，不以20筆教材樣本外推門檻",
+    "targets_va_residents": true,
+    "annual_consumers": 120000,
+    "personal_data_sale_revenue_percent": 0,
+    "excluded_entity": false,
+    "exclusions": "教學假定非政府、非營利、高教、GLBA機構或HIPAA規範機構；仍須逐類查資料例外",
+    "adult_consumers_only": true
+  },
+  "requests": [
+    {
+      "id": "R1",
+      "flow": "F2",
+      "domain": "commerce",
+      "record_id": "E04",
+      "right": "刪除／撤回訓練同意",
+      "action": "候選已排除；另查服務與法定留存副本"
+    },
+    {
+      "id": "R2",
+      "flow": "F1",
+      "domain": "commerce",
+      "record_id": "E01",
+      "right": "更正錯誤聯絡資料",
+      "action": "定位來源及副本，更正並檢查接收者"
+    },
+    {
+      "id": "R3",
+      "flow": "F1",
+      "domain": "commerce",
+      "record_id": "E02",
+      "right": "可攜本人提供的訂單資料",
+      "action": "假設自動處理及契約依據；確認資料範圍及第三人權利"
+    },
+    {
+      "id": "R4",
+      "flow": "F1",
+      "domain": "health",
+      "record_id": "H01",
+      "right": "爭議資料正確性",
+      "action": "依適用法查限制或停止條件，不直接等同刪除"
+    }
+  ],
+  "legal_checks": [
+    {
+      "law": "GDPR",
+      "identity": "歐盟規則",
+      "version": "Regulation (EU) 2016/679；依EDPB官方教學查核",
+      "scope": "設立活動或向EEA境內個人提供服務／監控；非只看國籍",
+      "right": "查閱、更正、刪除、限制、可攜及重大純自動決策等，附條件",
+      "basis": "逐目的核第6條；健康資料另查第9條條件",
+      "transfer": "適用GDPR的處理提供予EEA外另一組織，另查第五章",
+      "checked_at": "2026-11-01",
+      "source": "https://www.edpb.europa.eu/sme/be-compliant/respect-individuals-rights_en",
+      "state": "待個案事實；未核准F3"
+    },
+    {
+      "law": "臺灣個資法",
+      "identity": "臺灣法律",
+      "version": "114-11-11修正公布頁及所連舊法；部分條文尚未施行",
+      "scope": "公／非公務機關、資料性質、第51條及例外",
+      "right": "閱覽、複製、補正、停止及刪除；依第10至13條",
+      "basis": "第6、15至16或19至20條，非同意唯一",
+      "transfer": "核有效第21條及適用限制命令",
+      "checked_at": "2026-11-01",
+      "source": "https://law.moj.gov.tw/LawClass/LawAll.aspx?Pcode=I0050021",
+      "state": "安全維護依施行版本核第27條，非採未施行刪除條文"
+    },
+    {
+      "law": "VCDPA",
+      "identity": "美國維吉尼亞州法律",
+      "version": "Code of Virginia Title 59.1 Chapter 53，查核時版本",
+      "scope": "居民消費者、年度門檻及機構／資料例外；不泛化全美",
+      "right": "查閱、更正、刪除、可攜及特定用途退出",
+      "basis": "隱私告知、用途限制；敏感資料原則須同意，非套GDPR六依據",
+      "transfer": "檢查接收者、受託契約、出售及用途；非GDPR充分性制度",
+      "checked_at": "2026-11-01",
+      "source": "https://law.lis.virginia.gov/vacodefull/title59.1/chapter53/",
+      "state": "另設120000名成年消費者情境；非前置組加州樣本"
+    },
+    {
+      "law": "HIPAA",
+      "identity": "美國聯邦法律及配套規則",
+      "version": "HIPAA 1996；HHS現行Security Rule摘要及NPRM分列",
+      "scope": "covered entities、business associates及PHI／ePHI",
+      "right": "隱私規則的查閱等，非套GDPR刪除權",
+      "basis": "查Privacy Rule容許利用／揭露與授權；BAA非任意自用訓練許可",
+      "transfer": "角色、接收者、BAA與次承包；海外不自動免除義務",
+      "checked_at": "2026-11-01",
+      "source": "https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html",
+      "state": "F4三類措施待證據；加密addressable不等於任選不做"
+    },
+    {
+      "law": "PCI DSS",
+      "identity": "PCI SSC產業安全標準；不是國會法律",
+      "version": "v4.0.1；原future-dated要求於2025-03-31適用",
+      "scope": "持卡人／敏感驗證資料與能影響CDE安全的系統",
+      "right": "非個資權利清單；查支付安全與商店驗證責任",
+      "basis": "支付品牌／收單契約、標準範圍及驗證方案；非個資處理法律依據",
+      "transfer": "卡資料接收者、安全傳輸與供應商責任，不取代跨境個資法",
+      "checked_at": "2026-11-01",
+      "source": "https://www.pcisecuritystandards.org/standards/pci-dss/",
+      "state": "F5卡資料不得進AI；代碼及外包仍需確認範圍"
+    }
+  ]
+}

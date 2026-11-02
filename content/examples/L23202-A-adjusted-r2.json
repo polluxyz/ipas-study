@@ -1,0 +1,8 @@
+{
+  "source": "教學合成資料；只供六筆滿秩新欄的調整後R²對照，不改共用80筆資料",
+  "base_example": "content/examples/L23202-A-housing.json",
+  "hand_indices": [0, 4, 8, 12, 16, 20],
+  "feature_name": "u",
+  "feature_values": [1, -1, 0, 0, -1, 1],
+  "note": "含截距、面積、屋齡的設計秩為3，加入u後秩為4；SSE仍為300。能源對照沿用相同u與索引。"
+}

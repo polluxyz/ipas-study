@@ -1,0 +1,27 @@
+{
+  "id": "L23201-C-warehouse",
+  "source": "教學合成資料；非真實倉儲紀錄",
+  "seed": 42,
+  "gamma": 0.9,
+  "start_state": "A",
+  "states": {"A": "入口空車", "B": "取貨格、貨物在地面", "C": "交接格、車上有貨", "D": "已完成交付（終止）"},
+  "actions": {"advance": "作業前進", "handle": "抓取或放回"},
+  "transitions": [
+    {"id": "W01", "state": "A", "action": "advance", "next_state": "B", "probability": 0.8, "reward": -1, "grab_reward": 0},
+    {"id": "W02", "state": "A", "action": "advance", "next_state": "A", "probability": 0.2, "reward": -1, "grab_reward": 0},
+    {"id": "W03", "state": "A", "action": "handle", "next_state": "A", "probability": 1, "reward": -1, "grab_reward": 0},
+    {"id": "W04", "state": "B", "action": "advance", "next_state": "B", "probability": 1, "reward": -1, "grab_reward": 0},
+    {"id": "W05", "state": "B", "action": "handle", "next_state": "C", "probability": 0.8, "reward": -1, "grab_reward": 8},
+    {"id": "W06", "state": "B", "action": "handle", "next_state": "B", "probability": 0.2, "reward": -1, "grab_reward": 0},
+    {"id": "W07", "state": "C", "action": "advance", "next_state": "D", "probability": 0.9, "reward": 10, "grab_reward": 0},
+    {"id": "W08", "state": "C", "action": "advance", "next_state": "C", "probability": 0.1, "reward": -1, "grab_reward": 0},
+    {"id": "W09", "state": "C", "action": "handle", "next_state": "B", "probability": 0.9, "reward": -1, "grab_reward": 0},
+    {"id": "W10", "state": "C", "action": "handle", "next_state": "C", "probability": 0.1, "reward": -1, "grab_reward": 0},
+    {"id": "W11", "state": "D", "action": "advance", "next_state": "D", "probability": 1, "reward": 0, "grab_reward": 0},
+    {"id": "W12", "state": "D", "action": "handle", "next_state": "D", "probability": 1, "reward": 0, "grab_reward": 0}
+  ],
+  "trajectories": {"delivery": ["W01", "W05", "W07"], "repeat_grab": ["W01", "W05", "W09", "W05", "W09"]},
+  "evaluation": {"max_steps": 5, "termination": "進入D立即結束；其餘最多5步", "split": "本例列舉指定軌跡，沒有訓練／測試切分；不可當泛化成績"},
+  "policy": {"A": "advance", "B": "handle", "C": "advance"},
+  "potential": {"A": -3, "B": -2, "C": -1, "D": 0}
+}

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="345" viewBox="0 0 360 345" role="img" aria-labelledby="title desc">
+<title id="title">離散機率質量圖</title>
+<desc id="desc">各個柱頂是單點機率，相鄰柱間沒有連續取值。 教學合成模型示意，非觀測頻數。</desc>
+<rect width="360" height="345" fill="white"/>
+<g font-family="Microsoft JhengHei, Noto Sans TC, sans-serif">
+<text x="180" y="27" font-size="17" text-anchor="middle" fill="#182b40">離散質量：只允許0、1、2通</text>
+<text x="16" y="56" font-size="15" text-anchor="start" fill="#182b40">機率 p(x)</text>
+<path d="M50 230 L327 230" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="42" y="235" font-size="14" text-anchor="end" fill="#182b40">0</text>
+<path d="M50 174.0 L327 174.0" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="42" y="179.0" font-size="14" text-anchor="end" fill="#182b40">0.2</text>
+<path d="M50 90.0 L327 90.0" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="42" y="95.0" font-size="14" text-anchor="end" fill="#182b40">0.5</text>
+<rect x="78.0" y="174.0" width="34" height="56.0" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="95.0" y="164.0" font-size="16" text-anchor="middle" fill="#182b40">0.2</text>
+<text x="95.0" y="255" font-size="16" text-anchor="middle" fill="#182b40">0</text>
+<rect x="168.0" y="90.0" width="34" height="140.0" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="185.0" y="80.0" font-size="16" text-anchor="middle" fill="#182b40">0.5</text>
+<text x="185.0" y="255" font-size="16" text-anchor="middle" fill="#182b40">1</text>
+<rect x="258.0" y="146.0" width="34" height="84.0" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="275.0" y="136.0" font-size="16" text-anchor="middle" fill="#182b40">0.3</text>
+<text x="275.0" y="255" font-size="16" text-anchor="middle" fill="#182b40">2</text>
+<path d="M50 230 L330 230" fill="none" stroke="#182b40" stroke-width="2"/>
+<text x="180" y="284" font-size="15" text-anchor="middle" fill="#182b40">每窗口來電通數 x（通）</text>
+<text x="180" y="312" font-size="15" text-anchor="middle" fill="#182b40">完整質量：0.2 + 0.5 + 0.3 = 1</text>
+<text x="12" y="333" font-size="13" text-anchor="start" fill="#182b40">來源：教學合成模型示意</text>
+</g>
+</svg>

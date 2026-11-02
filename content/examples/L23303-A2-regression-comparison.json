@@ -1,0 +1,54 @@
+{
+  "source": "教學模擬資料；沿用 L23303-regression.json 的八日實際值與模型 A 預測，新增模型 B。",
+  "unit": "箱",
+  "samples": [
+    {
+      "day": 1,
+      "y_true": 10,
+      "y_pred_a": 11,
+      "y_pred_b": 6
+    },
+    {
+      "day": 2,
+      "y_true": 20,
+      "y_pred_a": 19,
+      "y_pred_b": 16
+    },
+    {
+      "day": 3,
+      "y_true": 30,
+      "y_pred_a": 31,
+      "y_pred_b": 26
+    },
+    {
+      "day": 4,
+      "y_true": 40,
+      "y_pred_a": 39,
+      "y_pred_b": 36
+    },
+    {
+      "day": 5,
+      "y_true": 50,
+      "y_pred_a": 51,
+      "y_pred_b": 46
+    },
+    {
+      "day": 6,
+      "y_true": 60,
+      "y_pred_a": 59,
+      "y_pred_b": 56
+    },
+    {
+      "day": 7,
+      "y_true": 70,
+      "y_pred_a": 71,
+      "y_pred_b": 66
+    },
+    {
+      "day": 8,
+      "y_true": 100,
+      "y_pred_a": 80,
+      "y_pred_b": 96
+    }
+  ]
+}

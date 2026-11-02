@@ -1,0 +1,78 @@
+---
+/** 題目採先作答後解析；爭議題明示依官方答案計分，逐項保留選項理由。 */
+import { Code } from 'astro:components';
+import type { ComponentProps } from 'astro/types';
+import { sourceLabel, type Question } from '../lib/content';
+import JudgmentRule from './JudgmentRule.astro';
+import Sources from './Sources.astro';
+interface Props { question: Question; mode?: string; titles: Record<string, string>; hidden?: boolean; }
+const { question: q, mode = 'question', titles, hidden = false } = Astro.props;
+const choices = ['A', 'B', 'C', 'D'] as const;
+const language = (q.code_lang ?? 'python') as ComponentProps<typeof Code>['lang'];
+const dispute = typeof q.review.dispute === 'string' ? q.review.dispute : JSON.stringify(q.review.dispute, null, 2);
+---
+<article class="question-card" data-question data-qid={q.id} data-rev={q.rev} data-answer={q.answer} data-mode={mode} hidden={hidden}>
+  <div class="question-card-meta"><span class="tag">{q.type}</span><span>{sourceLabel(q)}</span>{q.review.status === 'disputed' && <span class="tag amber">有爭議・依官方答案計分</span>}{q.review.status === 'draft' && <span class="tag amber">模擬題・待審查</span>}</div>
+  <div class="question-stem">{q.stem.split(/\n\s*\n/).map((paragraph) => <p>{paragraph}</p>)}</div>
+  {q.code && <div class="question-code"><div class="code-label">{q.code_lang ?? 'python'}<span>題目程式碼</span></div><Code code={q.code} lang={language} themes={{ light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' }} /></div>}
+  {q.image && <img class="question-image" src={`/question-assets/${q.image}`} alt={`${sourceLabel(q)} 原題附圖`} />}
+  <form data-answer-form>
+    <fieldset><legend>選擇一個答案</legend><div class="answer-options">{choices.map((choice) => <label class="answer-option" data-option={choice}><input type="radio" name={`choice-${q.id}`} value={choice} required /><span class="option-letter">{choice}</span><span>{q.options[choice]}</span><span class="option-status" aria-hidden="true"></span></label>)}</div></fieldset>
+    <div class="answer-actions"><p class="muted">提交後顯示答案與完整解析</p><button class="button primary" type="submit">確認作答 <span>→</span></button></div>
+  </form>
+  <p class="save-error" role="status" hidden></p>
+  <section class="answer-explanation" data-explanation hidden aria-label="答案與解析" tabindex="-1">
+    <div class="answer-result" role="status"><span data-result-symbol></span><div><strong data-result-label></strong><p>官方答案 <b>{q.answer}</b><span data-chosen></span></p></div><a href="/wrong-book/">查看錯題本 ↗</a></div>
+    <div class="explanation-summary">{q.explanation.summary}</div>
+    <h3>為什麼 {q.answer} 正確？</h3><p>{q.explanation.correct}</p>
+    <h3>其他選項的問題</h3><dl class="wrong-reasons">{choices.filter((choice) => choice !== q.answer).map((choice) => <div><dt>{choice}</dt><dd>{q.explanation.wrong[choice]}</dd></div>)}</dl>
+    {q.review.status === 'disputed' && <aside class="dispute"><strong>爭議說明</strong><p>{dispute}</p><small>此題依官方答案 {q.answer} 計分，請一併理解上述實務限制。</small></aside>}
+    <JudgmentRule rule={q.explanation.rule} concepts={q.concepts} titles={titles} />
+    <p class="fine-print">評鑑代碼：{q.codes.join('、')}<br />學習指引：{q.guide_refs.length > 0 ? <Sources sources={q.guide_refs} /> : '請參照相關概念頁'}・科目 3 §5.3</p>
+  </section>
+</article>
+<script>
+  import { saveAttempt, type Choice } from '../lib/attempts';
+  function initQuestions() {
+    for (const card of document.querySelectorAll<HTMLElement>('[data-question]')) {
+      if (card.dataset.ready) continue;
+      card.dataset.ready = 'true';
+      let started = card.hidden ? null : performance.now();
+      card.addEventListener('question-shown', () => { started = performance.now(); });
+      const form = card.querySelector<HTMLFormElement>('form');
+      form?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (card.dataset.answered) return;
+        const selected = form.querySelector<HTMLInputElement>('input:checked');
+        if (!selected) return;
+        const choice = selected.value as Choice;
+        const correct = choice === card.dataset.answer;
+        const error = card.querySelector<HTMLElement>('.save-error');
+        try {
+          saveAttempt({ qid: card.dataset.qid!, rev: Number(card.dataset.rev), choice, correct, ts: new Date().toISOString(), mode: card.dataset.mode!, ms: Math.round(performance.now() - (started ?? performance.now())) });
+          card.dataset.saved = 'true';
+        } catch (cause) { if (error) { error.hidden = false; error.textContent = `本次答案已顯示，但作答紀錄未儲存：${cause instanceof Error ? cause.message : '請確認瀏覽器允許本機儲存。'}`; } }
+        card.dataset.answered = 'true';
+        for (const input of form.querySelectorAll<HTMLInputElement>('input')) input.disabled = true;
+        const submit = form.querySelector<HTMLButtonElement>('button');
+        if (submit) { submit.disabled = true; submit.textContent = '已提交'; }
+        for (const option of card.querySelectorAll<HTMLElement>('[data-option]')) {
+          const isAnswer = option.dataset.option === card.dataset.answer;
+          const isWrongChoice = option.dataset.option === choice && !correct;
+          option.classList.toggle('is-correct', isAnswer); option.classList.toggle('is-wrong', isWrongChoice);
+          const status = option.querySelector<HTMLElement>('.option-status');
+          if (status) status.textContent = isAnswer ? '✓ 正解' : isWrongChoice ? '✕ 你的答案' : '';
+        }
+        const result = card.querySelector<HTMLElement>('.answer-result');
+        result?.classList.toggle('incorrect', !correct);
+        const label = card.querySelector('[data-result-label]'); if (label) label.textContent = correct ? '答對了，繼續保持！' : '這個觀念值得再看一次';
+        const symbol = card.querySelector('[data-result-symbol]'); if (symbol) symbol.textContent = correct ? '✓' : '↺';
+        const chosen = card.querySelector('[data-chosen]'); if (chosen) chosen.textContent = `・你的答案 ${choice}`;
+        const explanation = card.querySelector<HTMLElement>('[data-explanation]');
+        if (explanation) { explanation.hidden = false; explanation.focus({ preventScroll: true }); }
+        card.dispatchEvent(new CustomEvent('question-answered', { bubbles: true, detail: { qid: card.dataset.qid, correct } }));
+      });
+    }
+  }
+  initQuestions();
+</script>

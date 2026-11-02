@@ -1,0 +1,36 @@
+id: 114-2-S3-Q29
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 29
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 7
+type: 情境
+codes: [L23303]
+concepts: [time-series-split, train-val-test-split]
+stem: |
+  在工業設備故障預測專案中，模型訓練與超參數調整均依賴於一段歷史數據作為驗證集。然而，隨著設備運行環境與工況條件的變化，原有驗證集已無法充分反映現況，導致模型在實際部署後的預測準確率逐漸下降。下列哪一種策略最能有效提升模型在長期運行環境中的穩健性與泛化能力？
+options:
+  A: 固定驗證集內容，並透過模型正則化技巧（如 L2 正則化）強化模型泛化
+  B: 將全部歷史資料納入訓練，不使用驗證集，依靠早期停止（Early Stopping）控制訓練
+  C: 簡化模型架構，減少模型參數數量以降低過擬合風險
+  D: 採用時間序列交叉驗證（Time Series Cross Validation）或滑動視窗驗證（Rolling Window Validation）方法，動態更新驗證資料以適應時間演進
+answer: D
+explanation:
+  summary: 資料分布隨時間改變時，驗證資料也必須反映近期環境。
+  correct: 時間序列或滑動視窗驗證會依時間向前推進，以過去資料訓練並用後續時段驗證。隨時段更新驗證資料，才能看出模型面對新工況時的表現，並據此調整或重新訓練模型；驗證方法本身不會自動修復模型。
+  wrong:
+    A: 正則化可限制模型複雜度，但無法讓過時的固定驗證集重新代表目前工況，仍可能錯估部署效果。
+    B: 取消驗證集會失去觀察未見資料表現的依據。若只看訓練損失早停，也不能可靠地判斷泛化能力。
+    C: 簡化模型可降低部分過擬合風險，卻沒有處理驗證資料與目前環境不一致的核心問題。
+  rule: 驗證資料過時時，要更新評估區間以反映目前環境。
+guide_refs: [guide-3:5-17]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 7
+    by: QB1
+  dispute: null
+  blind_answer: D

@@ -1,0 +1,734 @@
+{
+  "source": "教學合成資料；人工固定斷詞與詞性，不代表任何套件預測",
+  "seed": 42,
+  "split": {
+    "train": [
+      "R01",
+      "R02",
+      "R03",
+      "R04",
+      "R05",
+      "R06",
+      "R09",
+      "R10",
+      "T01",
+      "T02",
+      "T03",
+      "T04",
+      "T09",
+      "T10",
+      "T11",
+      "T12"
+    ],
+    "validation": [
+      "R07",
+      "R11",
+      "T05",
+      "T06"
+    ],
+    "test": [
+      "R08",
+      "R12",
+      "T07",
+      "T08"
+    ]
+  },
+  "reviews": [
+    {
+      "id": "R01",
+      "domain": "review",
+      "text": "我喜歡這本書",
+      "language": "zh-Hant",
+      "tokens": [
+        "我",
+        "喜歡",
+        "這",
+        "本",
+        "書"
+      ],
+      "pos": [
+        "代詞",
+        "動詞",
+        "指示詞",
+        "量詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "sentiment": "正向"
+    },
+    {
+      "id": "R02",
+      "domain": "review",
+      "text": "我不喜歡這本書",
+      "language": "zh-Hant",
+      "tokens": [
+        "我",
+        "不",
+        "喜歡",
+        "這",
+        "本",
+        "書"
+      ],
+      "pos": [
+        "代詞",
+        "副詞",
+        "動詞",
+        "指示詞",
+        "量詞",
+        "名詞"
+      ],
+      "negation_positions": [
+        1
+      ],
+      "sentiment": "負向"
+    },
+    {
+      "id": "R03",
+      "domain": "review",
+      "text": "這本書很實用",
+      "language": "zh-Hant",
+      "tokens": [
+        "這",
+        "本",
+        "書",
+        "很",
+        "實用"
+      ],
+      "pos": [
+        "指示詞",
+        "量詞",
+        "名詞",
+        "副詞",
+        "形容詞"
+      ],
+      "negation_positions": [],
+      "sentiment": "正向"
+    },
+    {
+      "id": "R04",
+      "domain": "review",
+      "text": "這本書不實用",
+      "language": "zh-Hant",
+      "tokens": [
+        "這",
+        "本",
+        "書",
+        "不",
+        "實用"
+      ],
+      "pos": [
+        "指示詞",
+        "量詞",
+        "名詞",
+        "副詞",
+        "形容詞"
+      ],
+      "negation_positions": [
+        3
+      ],
+      "sentiment": "負向"
+    },
+    {
+      "id": "R05",
+      "domain": "review",
+      "text": "配送速度很快",
+      "language": "zh-Hant",
+      "tokens": [
+        "配送",
+        "速度",
+        "很",
+        "快"
+      ],
+      "pos": [
+        "名詞",
+        "名詞",
+        "副詞",
+        "形容詞"
+      ],
+      "negation_positions": [],
+      "sentiment": "正向"
+    },
+    {
+      "id": "R06",
+      "domain": "review",
+      "text": "配送速度不快",
+      "language": "zh-Hant",
+      "tokens": [
+        "配送",
+        "速度",
+        "不",
+        "快"
+      ],
+      "pos": [
+        "名詞",
+        "名詞",
+        "副詞",
+        "形容詞"
+      ],
+      "negation_positions": [
+        2
+      ],
+      "sentiment": "負向"
+    },
+    {
+      "id": "R07",
+      "domain": "review",
+      "text": "這個包裝很完整",
+      "language": "zh-Hant",
+      "tokens": [
+        "這",
+        "個",
+        "包裝",
+        "很",
+        "完整"
+      ],
+      "pos": [
+        "指示詞",
+        "量詞",
+        "名詞",
+        "副詞",
+        "形容詞"
+      ],
+      "negation_positions": [],
+      "sentiment": "正向"
+    },
+    {
+      "id": "R08",
+      "domain": "review",
+      "text": "這個包裝不完整",
+      "language": "zh-Hant",
+      "tokens": [
+        "這",
+        "個",
+        "包裝",
+        "不",
+        "完整"
+      ],
+      "pos": [
+        "指示詞",
+        "量詞",
+        "名詞",
+        "副詞",
+        "形容詞"
+      ],
+      "negation_positions": [
+        3
+      ],
+      "sentiment": "負向"
+    },
+    {
+      "id": "R09",
+      "domain": "review",
+      "text": "The books are good",
+      "language": "en",
+      "tokens": [
+        "The",
+        "books",
+        "are",
+        "good"
+      ],
+      "pos": [
+        "限定詞",
+        "名詞",
+        "動詞",
+        "形容詞"
+      ],
+      "negation_positions": [],
+      "sentiment": "正向"
+    },
+    {
+      "id": "R10",
+      "domain": "review",
+      "text": "I liked happiness",
+      "language": "en",
+      "tokens": [
+        "I",
+        "liked",
+        "happiness"
+      ],
+      "pos": [
+        "代詞",
+        "動詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "sentiment": "正向"
+    },
+    {
+      "id": "R11",
+      "domain": "review",
+      "text": "I saw running dogs",
+      "language": "en",
+      "tokens": [
+        "I",
+        "saw",
+        "running",
+        "dogs"
+      ],
+      "pos": [
+        "代詞",
+        "動詞",
+        "形容詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "sentiment": "中性"
+    },
+    {
+      "id": "R12",
+      "domain": "review",
+      "text": "我不喜歡 delayed delivery",
+      "language": "mixed",
+      "tokens": [
+        "我",
+        "不",
+        "喜歡",
+        "delayed",
+        "delivery"
+      ],
+      "pos": [
+        "代詞",
+        "副詞",
+        "動詞",
+        "形容詞",
+        "名詞"
+      ],
+      "negation_positions": [
+        1
+      ],
+      "sentiment": "負向"
+    }
+  ],
+  "transport": [
+    {
+      "id": "T01",
+      "domain": "transport",
+      "text": "我要訂明天台北到台南的票",
+      "language": "zh-Hant",
+      "tokens": [
+        "我",
+        "要",
+        "訂",
+        "明天",
+        "台北",
+        "到",
+        "台南",
+        "的",
+        "票"
+      ],
+      "pos": [
+        "代詞",
+        "助動詞",
+        "動詞",
+        "時間詞",
+        "專有名詞",
+        "介詞",
+        "專有名詞",
+        "助詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "intent": "訂票",
+      "origin": "台北",
+      "destination": "台南",
+      "time": "明天"
+    },
+    {
+      "id": "T02",
+      "domain": "transport",
+      "text": "我不要訂明天的票",
+      "language": "zh-Hant",
+      "tokens": [
+        "我",
+        "不",
+        "要",
+        "訂",
+        "明天",
+        "的",
+        "票"
+      ],
+      "pos": [
+        "代詞",
+        "副詞",
+        "助動詞",
+        "動詞",
+        "時間詞",
+        "助詞",
+        "名詞"
+      ],
+      "negation_positions": [
+        1
+      ],
+      "intent": "拒絕訂票",
+      "origin": null,
+      "destination": null,
+      "time": "明天"
+    },
+    {
+      "id": "T03",
+      "domain": "transport",
+      "text": "我要查台北到台南的票",
+      "language": "zh-Hant",
+      "tokens": [
+        "我",
+        "要",
+        "查",
+        "台北",
+        "到",
+        "台南",
+        "的",
+        "票"
+      ],
+      "pos": [
+        "代詞",
+        "助動詞",
+        "動詞",
+        "專有名詞",
+        "介詞",
+        "專有名詞",
+        "助詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "intent": "查詢",
+      "origin": "台北",
+      "destination": "台南",
+      "time": null
+    },
+    {
+      "id": "T04",
+      "domain": "transport",
+      "text": "我要改明天的票",
+      "language": "zh-Hant",
+      "tokens": [
+        "我",
+        "要",
+        "改",
+        "明天",
+        "的",
+        "票"
+      ],
+      "pos": [
+        "代詞",
+        "助動詞",
+        "動詞",
+        "時間詞",
+        "助詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "intent": "改票",
+      "origin": null,
+      "destination": null,
+      "time": "明天"
+    },
+    {
+      "id": "T05",
+      "domain": "transport",
+      "text": "請幫我退票",
+      "language": "zh-Hant",
+      "tokens": [
+        "請",
+        "幫",
+        "我",
+        "退票"
+      ],
+      "pos": [
+        "動詞",
+        "動詞",
+        "代詞",
+        "動詞"
+      ],
+      "negation_positions": [],
+      "intent": "退票",
+      "origin": null,
+      "destination": null,
+      "time": null
+    },
+    {
+      "id": "T06",
+      "domain": "transport",
+      "text": "請保留台北到台南的座位",
+      "language": "zh-Hant",
+      "tokens": [
+        "請",
+        "保留",
+        "台北",
+        "到",
+        "台南",
+        "的",
+        "座位"
+      ],
+      "pos": [
+        "動詞",
+        "動詞",
+        "專有名詞",
+        "介詞",
+        "專有名詞",
+        "助詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "intent": "保留座位",
+      "origin": "台北",
+      "destination": "台南",
+      "time": null
+    },
+    {
+      "id": "T07",
+      "domain": "transport",
+      "text": "這班車還有座位嗎",
+      "language": "zh-Hant",
+      "tokens": [
+        "這",
+        "班",
+        "車",
+        "還",
+        "有",
+        "座位",
+        "嗎"
+      ],
+      "pos": [
+        "指示詞",
+        "量詞",
+        "名詞",
+        "副詞",
+        "動詞",
+        "名詞",
+        "助詞"
+      ],
+      "negation_positions": [],
+      "intent": "查詢",
+      "origin": null,
+      "destination": null,
+      "time": null
+    },
+    {
+      "id": "T08",
+      "domain": "transport",
+      "text": "明天台北到台南有票嗎",
+      "language": "zh-Hant",
+      "tokens": [
+        "明天",
+        "台北",
+        "到",
+        "台南",
+        "有",
+        "票",
+        "嗎"
+      ],
+      "pos": [
+        "時間詞",
+        "專有名詞",
+        "介詞",
+        "專有名詞",
+        "動詞",
+        "名詞",
+        "助詞"
+      ],
+      "negation_positions": [],
+      "intent": "查詢",
+      "origin": "台北",
+      "destination": "台南",
+      "time": "明天"
+    },
+    {
+      "id": "T09",
+      "domain": "transport",
+      "text": "book tickets",
+      "language": "en",
+      "tokens": [
+        "book",
+        "tickets"
+      ],
+      "pos": [
+        "動詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "intent": "訂票",
+      "origin": null,
+      "destination": null,
+      "time": null
+    },
+    {
+      "id": "T10",
+      "domain": "transport",
+      "text": "booking seats",
+      "language": "en",
+      "tokens": [
+        "booking",
+        "seats"
+      ],
+      "pos": [
+        "動詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "intent": "訂票",
+      "origin": null,
+      "destination": null,
+      "time": null
+    },
+    {
+      "id": "T11",
+      "domain": "transport",
+      "text": "booked seats",
+      "language": "en",
+      "tokens": [
+        "booked",
+        "seats"
+      ],
+      "pos": [
+        "動詞",
+        "名詞"
+      ],
+      "negation_positions": [],
+      "intent": "訂票",
+      "origin": null,
+      "destination": null,
+      "time": null
+    },
+    {
+      "id": "T12",
+      "domain": "transport",
+      "text": "我用books訂位",
+      "language": "mixed",
+      "tokens": [
+        "我",
+        "用",
+        "books",
+        "訂位"
+      ],
+      "pos": [
+        "代詞",
+        "動詞",
+        "名詞",
+        "動詞"
+      ],
+      "negation_positions": [],
+      "intent": "訂票",
+      "origin": null,
+      "destination": null,
+      "time": null
+    }
+  ],
+  "normalization": {
+    "lowercase_english": true,
+    "lemma_table": [
+      [
+        "books",
+        "名詞",
+        "book"
+      ],
+      [
+        "tickets",
+        "名詞",
+        "ticket"
+      ],
+      [
+        "seats",
+        "名詞",
+        "seat"
+      ],
+      [
+        "booking",
+        "動詞",
+        "book"
+      ],
+      [
+        "booked",
+        "動詞",
+        "book"
+      ],
+      [
+        "liked",
+        "動詞",
+        "like"
+      ],
+      [
+        "saw",
+        "動詞",
+        "see"
+      ],
+      [
+        "saw",
+        "名詞",
+        "saw"
+      ],
+      [
+        "running",
+        "動詞",
+        "run"
+      ],
+      [
+        "running",
+        "名詞",
+        "running"
+      ],
+      [
+        "running",
+        "形容詞",
+        "running"
+      ],
+      [
+        "dogs",
+        "名詞",
+        "dog"
+      ],
+      [
+        "happiness",
+        "名詞",
+        "happiness"
+      ]
+    ],
+    "stem_table": {
+      "books": "book",
+      "booking": "book",
+      "booked": "book",
+      "liked": "like",
+      "running": "run",
+      "dogs": "dog",
+      "happiness": "happi",
+      "saw": "saw"
+    },
+    "note": "固定對照表，只教差異；不是完整 Porter 或通用詞形還原器"
+  },
+  "stopwords": {
+    "safe": [
+      "我",
+      "的",
+      "The",
+      "the",
+      "are"
+    ],
+    "unsafe": [
+      "我",
+      "的",
+      "The",
+      "the",
+      "are",
+      "不"
+    ]
+  },
+  "bpe": {
+    "training_words": [
+      "books",
+      "booking",
+      "booked",
+      "books"
+    ],
+    "iterations": 3,
+    "tie_break": "字典序最小的 pair 優先",
+    "word_boundaries": "不可跨詞合併；初始符號為 Unicode 字元；不加句界或詞尾符號",
+    "probe_id": "T12",
+    "probe_subwords": [
+      "我",
+      "用",
+      "book",
+      "s",
+      "訂",
+      "位"
+    ]
+  }
+}

@@ -1,0 +1,758 @@
+{
+  "source": "教學合成資料，非市場資料與非時間序列",
+  "seed": 23202,
+  "train_indices": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    12,
+    13,
+    14,
+    16,
+    17,
+    18,
+    20,
+    21,
+    22,
+    24,
+    25,
+    26,
+    28,
+    29,
+    30,
+    32,
+    33,
+    34,
+    36,
+    37,
+    38,
+    40,
+    41,
+    42,
+    44,
+    45,
+    46,
+    48,
+    49,
+    50,
+    52,
+    53,
+    54,
+    56,
+    57,
+    58,
+    60,
+    61,
+    62,
+    64,
+    65,
+    66,
+    68,
+    69,
+    70,
+    72,
+    73,
+    74,
+    76,
+    77,
+    78
+  ],
+  "test_indices": [
+    3,
+    7,
+    11,
+    15,
+    19,
+    23,
+    27,
+    31,
+    35,
+    39,
+    43,
+    47,
+    51,
+    55,
+    59,
+    63,
+    67,
+    71,
+    75,
+    79
+  ],
+  "hand_indices": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20
+  ],
+  "feature_order": [
+    "area",
+    "area_copy",
+    "age",
+    "irrelevant"
+  ],
+  "rows": [
+    {
+      "id": "H01",
+      "area": 10.0,
+      "area_copy": 10.0,
+      "age": 5.0,
+      "irrelevant": -8.0,
+      "price": 40.0
+    },
+    {
+      "id": "H02",
+      "area": 17.0,
+      "area_copy": 17.0,
+      "age": 8.0,
+      "irrelevant": 3.0,
+      "price": 46.0
+    },
+    {
+      "id": "H03",
+      "area": 24.0,
+      "area_copy": 24.0,
+      "age": 11.0,
+      "irrelevant": -3.0,
+      "price": 61.0
+    },
+    {
+      "id": "H04",
+      "area": 31.0,
+      "area_copy": 31.0,
+      "age": 14.0,
+      "irrelevant": 8.0,
+      "price": 67.0
+    },
+    {
+      "id": "H05",
+      "area": 20.0,
+      "area_copy": 20.0,
+      "age": 10.0,
+      "irrelevant": 2.0,
+      "price": 50.0
+    },
+    {
+      "id": "H06",
+      "area": 45.0,
+      "area_copy": 45.0,
+      "age": 20.0,
+      "irrelevant": -4.0,
+      "price": 108.0
+    },
+    {
+      "id": "H07",
+      "area": 52.0,
+      "area_copy": 52.0,
+      "age": 23.0,
+      "irrelevant": 7.0,
+      "price": 123.0
+    },
+    {
+      "id": "H08",
+      "area": 59.0,
+      "area_copy": 59.0,
+      "age": 5.0,
+      "irrelevant": 1.0,
+      "price": 150.0
+    },
+    {
+      "id": "H09",
+      "area": 30.0,
+      "area_copy": 30.0,
+      "age": 5.0,
+      "irrelevant": -5.0,
+      "price": 60.0
+    },
+    {
+      "id": "H10",
+      "area": 22.0,
+      "area_copy": 22.0,
+      "age": 11.0,
+      "irrelevant": 6.0,
+      "price": 49.0
+    },
+    {
+      "id": "H11",
+      "area": 29.0,
+      "area_copy": 29.0,
+      "age": 14.0,
+      "irrelevant": 0.0,
+      "price": 64.0
+    },
+    {
+      "id": "H12",
+      "area": 36.0,
+      "area_copy": 36.0,
+      "age": 17.0,
+      "irrelevant": -6.0,
+      "price": 99.0
+    },
+    {
+      "id": "H13",
+      "area": 40.0,
+      "area_copy": 40.0,
+      "age": 10.0,
+      "irrelevant": 5.0,
+      "price": 100.0
+    },
+    {
+      "id": "H14",
+      "area": 50.0,
+      "area_copy": 50.0,
+      "age": 23.0,
+      "irrelevant": -1.0,
+      "price": 120.0
+    },
+    {
+      "id": "H15",
+      "area": 57.0,
+      "area_copy": 57.0,
+      "age": 5.0,
+      "irrelevant": -7.0,
+      "price": 147.0
+    },
+    {
+      "id": "H16",
+      "area": 13.0,
+      "area_copy": 13.0,
+      "age": 8.0,
+      "irrelevant": 4.0,
+      "price": 40.0
+    },
+    {
+      "id": "H17",
+      "area": 50.0,
+      "area_copy": 50.0,
+      "age": 5.0,
+      "irrelevant": -2.0,
+      "price": 110.0
+    },
+    {
+      "id": "H18",
+      "area": 27.0,
+      "area_copy": 27.0,
+      "age": 14.0,
+      "irrelevant": -8.0,
+      "price": 61.0
+    },
+    {
+      "id": "H19",
+      "area": 34.0,
+      "area_copy": 34.0,
+      "age": 17.0,
+      "irrelevant": 3.0,
+      "price": 67.0
+    },
+    {
+      "id": "H20",
+      "area": 41.0,
+      "area_copy": 41.0,
+      "age": 20.0,
+      "irrelevant": -3.0,
+      "price": 102.0
+    },
+    {
+      "id": "H21",
+      "area": 60.0,
+      "area_copy": 60.0,
+      "age": 10.0,
+      "irrelevant": 8.0,
+      "price": 120.0
+    },
+    {
+      "id": "H22",
+      "area": 55.0,
+      "area_copy": 55.0,
+      "age": 5.0,
+      "irrelevant": 2.0,
+      "price": 144.0
+    },
+    {
+      "id": "H23",
+      "area": 11.0,
+      "area_copy": 11.0,
+      "age": 8.0,
+      "irrelevant": -4.0,
+      "price": 37.0
+    },
+    {
+      "id": "H24",
+      "area": 18.0,
+      "area_copy": 18.0,
+      "age": 11.0,
+      "irrelevant": 7.0,
+      "price": 43.0
+    },
+    {
+      "id": "H25",
+      "area": 25.0,
+      "area_copy": 25.0,
+      "age": 14.0,
+      "irrelevant": 1.0,
+      "price": 58.0
+    },
+    {
+      "id": "H26",
+      "area": 32.0,
+      "area_copy": 32.0,
+      "age": 17.0,
+      "irrelevant": -5.0,
+      "price": 64.0
+    },
+    {
+      "id": "H27",
+      "area": 39.0,
+      "area_copy": 39.0,
+      "age": 20.0,
+      "irrelevant": 6.0,
+      "price": 99.0
+    },
+    {
+      "id": "H28",
+      "area": 46.0,
+      "area_copy": 46.0,
+      "age": 23.0,
+      "irrelevant": 0.0,
+      "price": 105.0
+    },
+    {
+      "id": "H29",
+      "area": 53.0,
+      "area_copy": 53.0,
+      "age": 5.0,
+      "irrelevant": -6.0,
+      "price": 141.0
+    },
+    {
+      "id": "H30",
+      "area": 60.0,
+      "area_copy": 60.0,
+      "age": 8.0,
+      "irrelevant": 5.0,
+      "price": 156.0
+    },
+    {
+      "id": "H31",
+      "area": 16.0,
+      "area_copy": 16.0,
+      "age": 11.0,
+      "irrelevant": -1.0,
+      "price": 40.0
+    },
+    {
+      "id": "H32",
+      "area": 23.0,
+      "area_copy": 23.0,
+      "age": 14.0,
+      "irrelevant": -7.0,
+      "price": 55.0
+    },
+    {
+      "id": "H33",
+      "area": 30.0,
+      "area_copy": 30.0,
+      "age": 17.0,
+      "irrelevant": 4.0,
+      "price": 61.0
+    },
+    {
+      "id": "H34",
+      "area": 37.0,
+      "area_copy": 37.0,
+      "age": 20.0,
+      "irrelevant": -2.0,
+      "price": 96.0
+    },
+    {
+      "id": "H35",
+      "area": 44.0,
+      "area_copy": 44.0,
+      "age": 23.0,
+      "irrelevant": -8.0,
+      "price": 102.0
+    },
+    {
+      "id": "H36",
+      "area": 51.0,
+      "area_copy": 51.0,
+      "age": 5.0,
+      "irrelevant": 3.0,
+      "price": 138.0
+    },
+    {
+      "id": "H37",
+      "area": 58.0,
+      "area_copy": 58.0,
+      "age": 8.0,
+      "irrelevant": -3.0,
+      "price": 144.0
+    },
+    {
+      "id": "H38",
+      "area": 14.0,
+      "area_copy": 14.0,
+      "age": 11.0,
+      "irrelevant": 8.0,
+      "price": 37.0
+    },
+    {
+      "id": "H39",
+      "area": 21.0,
+      "area_copy": 21.0,
+      "age": 14.0,
+      "irrelevant": 2.0,
+      "price": 52.0
+    },
+    {
+      "id": "H40",
+      "area": 28.0,
+      "area_copy": 28.0,
+      "age": 17.0,
+      "irrelevant": -4.0,
+      "price": 58.0
+    },
+    {
+      "id": "H41",
+      "area": 35.0,
+      "area_copy": 35.0,
+      "age": 20.0,
+      "irrelevant": 7.0,
+      "price": 73.0
+    },
+    {
+      "id": "H42",
+      "area": 42.0,
+      "area_copy": 42.0,
+      "age": 23.0,
+      "irrelevant": 1.0,
+      "price": 99.0
+    },
+    {
+      "id": "H43",
+      "area": 49.0,
+      "area_copy": 49.0,
+      "age": 5.0,
+      "irrelevant": -5.0,
+      "price": 135.0
+    },
+    {
+      "id": "H44",
+      "area": 56.0,
+      "area_copy": 56.0,
+      "age": 8.0,
+      "irrelevant": 6.0,
+      "price": 141.0
+    },
+    {
+      "id": "H45",
+      "area": 12.0,
+      "area_copy": 12.0,
+      "age": 11.0,
+      "irrelevant": 0.0,
+      "price": 34.0
+    },
+    {
+      "id": "H46",
+      "area": 19.0,
+      "area_copy": 19.0,
+      "age": 14.0,
+      "irrelevant": -6.0,
+      "price": 40.0
+    },
+    {
+      "id": "H47",
+      "area": 26.0,
+      "area_copy": 26.0,
+      "age": 17.0,
+      "irrelevant": 5.0,
+      "price": 55.0
+    },
+    {
+      "id": "H48",
+      "area": 33.0,
+      "area_copy": 33.0,
+      "age": 20.0,
+      "irrelevant": -1.0,
+      "price": 70.0
+    },
+    {
+      "id": "H49",
+      "area": 40.0,
+      "area_copy": 40.0,
+      "age": 23.0,
+      "irrelevant": -7.0,
+      "price": 96.0
+    },
+    {
+      "id": "H50",
+      "area": 47.0,
+      "area_copy": 47.0,
+      "age": 5.0,
+      "irrelevant": 4.0,
+      "price": 132.0
+    },
+    {
+      "id": "H51",
+      "area": 54.0,
+      "area_copy": 54.0,
+      "age": 8.0,
+      "irrelevant": -2.0,
+      "price": 138.0
+    },
+    {
+      "id": "H52",
+      "area": 10.0,
+      "area_copy": 10.0,
+      "age": 11.0,
+      "irrelevant": -8.0,
+      "price": 31.0
+    },
+    {
+      "id": "H53",
+      "area": 17.0,
+      "area_copy": 17.0,
+      "age": 14.0,
+      "irrelevant": 3.0,
+      "price": 37.0
+    },
+    {
+      "id": "H54",
+      "area": 24.0,
+      "area_copy": 24.0,
+      "age": 17.0,
+      "irrelevant": -3.0,
+      "price": 52.0
+    },
+    {
+      "id": "H55",
+      "area": 31.0,
+      "area_copy": 31.0,
+      "age": 20.0,
+      "irrelevant": 8.0,
+      "price": 58.0
+    },
+    {
+      "id": "H56",
+      "area": 38.0,
+      "area_copy": 38.0,
+      "age": 23.0,
+      "irrelevant": 2.0,
+      "price": 93.0
+    },
+    {
+      "id": "H57",
+      "area": 45.0,
+      "area_copy": 45.0,
+      "age": 5.0,
+      "irrelevant": -4.0,
+      "price": 129.0
+    },
+    {
+      "id": "H58",
+      "area": 52.0,
+      "area_copy": 52.0,
+      "age": 8.0,
+      "irrelevant": 7.0,
+      "price": 135.0
+    },
+    {
+      "id": "H59",
+      "area": 59.0,
+      "area_copy": 59.0,
+      "age": 11.0,
+      "irrelevant": 1.0,
+      "price": 150.0
+    },
+    {
+      "id": "H60",
+      "area": 15.0,
+      "area_copy": 15.0,
+      "age": 14.0,
+      "irrelevant": -5.0,
+      "price": 34.0
+    },
+    {
+      "id": "H61",
+      "area": 22.0,
+      "area_copy": 22.0,
+      "age": 17.0,
+      "irrelevant": 6.0,
+      "price": 49.0
+    },
+    {
+      "id": "H62",
+      "area": 29.0,
+      "area_copy": 29.0,
+      "age": 20.0,
+      "irrelevant": 0.0,
+      "price": 55.0
+    },
+    {
+      "id": "H63",
+      "area": 36.0,
+      "area_copy": 36.0,
+      "age": 23.0,
+      "irrelevant": -6.0,
+      "price": 90.0
+    },
+    {
+      "id": "H64",
+      "area": 43.0,
+      "area_copy": 43.0,
+      "age": 5.0,
+      "irrelevant": 5.0,
+      "price": 117.0
+    },
+    {
+      "id": "H65",
+      "area": 50.0,
+      "area_copy": 50.0,
+      "age": 8.0,
+      "irrelevant": -1.0,
+      "price": 132.0
+    },
+    {
+      "id": "H66",
+      "area": 57.0,
+      "area_copy": 57.0,
+      "age": 11.0,
+      "irrelevant": -7.0,
+      "price": 147.0
+    },
+    {
+      "id": "H67",
+      "area": 13.0,
+      "area_copy": 13.0,
+      "age": 14.0,
+      "irrelevant": 4.0,
+      "price": 31.0
+    },
+    {
+      "id": "H68",
+      "area": 20.0,
+      "area_copy": 20.0,
+      "age": 17.0,
+      "irrelevant": -2.0,
+      "price": 46.0
+    },
+    {
+      "id": "H69",
+      "area": 27.0,
+      "area_copy": 27.0,
+      "age": 20.0,
+      "irrelevant": -8.0,
+      "price": 52.0
+    },
+    {
+      "id": "H70",
+      "area": 34.0,
+      "area_copy": 34.0,
+      "age": 23.0,
+      "irrelevant": 3.0,
+      "price": 67.0
+    },
+    {
+      "id": "H71",
+      "area": 41.0,
+      "area_copy": 41.0,
+      "age": 5.0,
+      "irrelevant": -3.0,
+      "price": 114.0
+    },
+    {
+      "id": "H72",
+      "area": 48.0,
+      "area_copy": 48.0,
+      "age": 8.0,
+      "irrelevant": 8.0,
+      "price": 129.0
+    },
+    {
+      "id": "H73",
+      "area": 55.0,
+      "area_copy": 55.0,
+      "age": 11.0,
+      "irrelevant": 2.0,
+      "price": 135.0
+    },
+    {
+      "id": "H74",
+      "area": 11.0,
+      "area_copy": 11.0,
+      "age": 14.0,
+      "irrelevant": -4.0,
+      "price": 28.0
+    },
+    {
+      "id": "H75",
+      "area": 18.0,
+      "area_copy": 18.0,
+      "age": 17.0,
+      "irrelevant": 7.0,
+      "price": 43.0
+    },
+    {
+      "id": "H76",
+      "area": 25.0,
+      "area_copy": 25.0,
+      "age": 20.0,
+      "irrelevant": 1.0,
+      "price": 49.0
+    },
+    {
+      "id": "H77",
+      "area": 32.0,
+      "area_copy": 32.0,
+      "age": 23.0,
+      "irrelevant": -5.0,
+      "price": 64.0
+    },
+    {
+      "id": "H78",
+      "area": 39.0,
+      "area_copy": 39.0,
+      "age": 5.0,
+      "irrelevant": 6.0,
+      "price": 111.0
+    },
+    {
+      "id": "H79",
+      "area": 46.0,
+      "area_copy": 46.0,
+      "age": 8.0,
+      "irrelevant": 0.0,
+      "price": 126.0
+    },
+    {
+      "id": "H80",
+      "area": 53.0,
+      "area_copy": 53.0,
+      "age": 11.0,
+      "irrelevant": -6.0,
+      "price": 132.0
+    }
+  ],
+  "demonstrations": {
+    "hard_votes": [
+      "高價",
+      "高價",
+      "一般"
+    ],
+    "regression_predictions": [
+      100,
+      110,
+      120
+    ],
+    "classification_threshold": 80,
+    "note": "三棵樹的集成輸出是教學假設，非宣稱已訓練的森林"
+  }
+}

@@ -1,0 +1,36 @@
+id: 115-1-S3-Q32
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 32
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 8
+type: 情境
+codes: [L23303]
+concepts: [f1-score, precision, recall]
+stem: |
+  某詐欺偵測模型需同時具備高精確率（Precision），以避免誤凍結正常帳號，並維持高召回率（Recall）表現，以確保不放過任何詐欺行為。然而工程師發現兩者之間存在取捨關係（Precision-Recall Tradeoff）。在此情境下，F1-score 最能反映何種特性？
+options:
+  A: F1-score = (Precision + Recall) / 2，為算術平均
+  B: F1-score 為 Precision 的加權平均
+  C: F1-score 僅適用於類別平衡資料
+  D: F1-score = 2 × (Precision×Recall)/(Precision+Recall)，為調和平均，對較小值敏感
+answer: D
+explanation:
+  summary: F1 以調和平均整合精確率與召回率，較低的一項會明顯限制分數。
+  correct: F1 = 2PR/(P+R)，其中 P 為精確率、R 為召回率。例如 P=0.9、R=0.1 時，F1=0.18，遠低於算術平均的 0.5，顯示只有一項很高仍無法取得高 F1。這符合題目希望兼顧誤凍結與漏放詐欺的需求，但實務上仍要分別查看兩項指標。
+  wrong:
+    A: 算術平均會讓較高的一項補償較低的一項，並不是 F1 的定義。
+    B: F1 同時使用精確率與召回率，不是只將精確率加權。若要調整兩者的相對重要性，可另外考慮 Fβ。
+    C: F1 也常用於類別不平衡的分類問題，並沒有只限平衡資料；評估多類別時還須留意使用哪一種平均方式。
+  rule: 精確率與召回率要一起看，調和平均會受較低的一項限制。
+guide_refs: [guide-3:5-21]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 8
+    by: QC
+  blind_answer: D
+  dispute: null

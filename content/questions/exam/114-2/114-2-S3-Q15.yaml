@@ -1,0 +1,36 @@
+id: 114-2-S3-Q15
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 15
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 4
+type: 觀念
+codes: [L23303]
+concepts: [r-squared]
+stem: |
+  在線性迴歸模型中，若 R²值為 0.85，其意義為何？
+options:
+  A: 模型準確率為 85%
+  B: 85%的變異可被模型解釋
+  C: 預測誤差為 15%
+  D: 模型有 85%的信心水準
+answer: B
+explanation:
+  summary: R²衡量模型對目標變數變異的解釋程度。
+  correct: R² = 1 − RSS/TSS，其中 RSS 是殘差平方和，TSS 是目標值相對其平均值的平方差總和。R² = 0.85 表示模型相較於只預測平均值的基準，減少了 85%的平方誤差，也就是解釋了 85%的目標變異。
+  wrong:
+    A: 分類準確率計算預測正確的樣本比例，與迴歸模型的 R²不是同一種指標。
+    C: 1 − R² = 0.15 是 RSS 與 TSS 的比值，不能解讀為每筆預測的誤差率都是 15%。
+    D: 信心水準描述統計區間程序的涵蓋性質，R²沒有給出信賴區間或信心水準。
+  rule: 解讀迴歸變異解釋比例時，要以平均值預測為基準。
+guide_refs: [guide-3:5-23, guide-3:5-24]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 4
+    by: QB1
+  dispute: null
+  blind_answer: B

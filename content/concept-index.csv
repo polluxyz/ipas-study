@@ -1,0 +1,486 @@
+id,title,kind,owner_code,codes,aliases
+train-val-test-split,資料分割：訓練集、驗證集與測試集,technique,L23303,L23303;L21301;L23201,資料切分;Train/Validation/Test Split;Holdout
+k-fold-cross-validation,K-fold 交叉驗證,technique,L23303,L23303;L21301,交叉驗證;K折交叉驗證;Cross-Validation;KFold
+stratified-k-fold,分層 K-fold 交叉驗證,technique,L23303,L23303,Stratified K-fold;StratifiedKFold;分層K折交叉驗證
+nested-cross-validation,巢狀交叉驗證,technique,L23303,L23303;L23304;L21301,Nested Cross-Validation;巢式交叉驗證
+data-leakage,資料洩漏,problem,L23303,L23303;L23301;L21101;L21301,Data Leakage;資料泄漏;數據洩漏
+sklearn-pipeline,scikit-learn Pipeline,tool,L23303,L23303;L23301;L21301,Pipeline;管線
+leave-one-out-cv,留一法交叉驗證,technique,L23303,L23303,LOOCV;Leave-One-Out;留一法;LeaveOneOut
+repeated-k-fold,重複 K-fold 交叉驗證,technique,L23303,L23303,Repeated K-fold;RepeatedKFold;RepeatedStratifiedKFold;重複交叉驗證
+time-series-split,時間序列交叉驗證與滾動驗證,technique,L23303,L23303;L23301;L21301;L21302,TimeSeriesSplit;時間序列交叉驗證;滾動窗口驗證;Rolling Window Validation;Walk-forward Validation;滑動視窗驗證
+mini-batch-gradient-descent,小批次梯度下降,technique,L23303,L23303;L23103;L23304,Mini-batch SGD;Mini-batch;小批次訓練;批次大小;Batch Size
+learning-rate-schedule,學習率調整,technique,L23303,L23303;L23304;L23103,學習率調整;Learning Rate Schedule;Step Decay;Exponential Decay;ReduceLROnPlateau;Warmup;學習率預熱
+overfitting,過擬合,problem,L23201,L23201;L23303;L23304;L21203;L23203;L23302,過度擬合;Overfitting
+early-stopping,早停,technique,L23303,L23303;L23304;L23103;L23203,Early Stopping;早期停止;提早停止;Patience
+learning-curve,學習曲線,technique,L23303,L23303;L23103,訓練曲線;Learning Curve;損失曲線;Loss Curve;Training History
+experiment-tracking,實驗追蹤,tool,L23303,L23303;L21302,TensorBoard;MLflow;WandB;Weights & Biases;訓練紀錄
+confusion-matrix,混淆矩陣,metric,L23303,L23303;L21102;L21301,Confusion Matrix;TP;FP;FN;TN
+class-imbalance,類別不平衡,problem,L23301,L23301;L23303;L23304;L21301,Class Imbalance;不平衡資料;Imbalanced Data;資料不平衡
+accuracy,準確率,metric,L23303,L23303;L21102;L21104;L21301,Accuracy;正確率
+precision,精確率,metric,L23303,L23303;L21102;L21104;L21301,Precision;精準率;查準率
+recall,召回率,metric,L23303,L23303;L21102;L21301,Recall;敏感度;Sensitivity;真陽率;TPR;查全率
+f1-score,F1 分數,metric,L23303,L23303;L21101;L21102;L21104;L21301,F1;F1-score;F1 Score;Macro F1;Micro F1
+roc-auc,ROC 曲線與 AUC,metric,L23303,L23303;L21102;L21301,ROC;AUC;ROC-AUC;ROC 曲線;AUROC
+pr-auc,PR 曲線與 PR-AUC,metric,L23303,L23303,PR 曲線;Precision-Recall Curve;AUPRC
+mean-squared-error,均方誤差,metric,L23303,L23303;L23103;L23201,MSE;Mean Squared Error
+mean-absolute-error,平均絕對誤差,metric,L23303,L23303;L23103;L23201,MAE;Mean Absolute Error
+root-mean-squared-error,均方根誤差,metric,L23303,L23303;L21302,RMSE;Root Mean Squared Error
+r-squared,決定係數 R²,metric,L23303,L23303,R²;R2;R 平方;決定係數;Coefficient of Determination
+residual-analysis,殘差分析,technique,L23303,L23303;L23101;L21301;L23202,殘差圖;Residual Plot;殘差診斷;Residual Analysis;ACF;ARIMA 殘差與自相關診斷;White Noise;arima-residual-diagnostics
+model-comparison,模型比較與綜合評估,technique,L23303,L23303;L23302;L21101;L21103;L21301;L21302,模型比較;多指標評估;Boxplot;Mean Rank Plot;成本矩陣;離線評估與線上評估
+intersection-over-union,IoU 交集聯集比,metric,L21102,L21102;L23303;L21104,IoU;Intersection over Union;交並比
+ndcg,NDCG 排序品質指標,metric,L23303,L23303,NDCG;Normalized Discounted Cumulative Gain;DCG;IDCG;排序指標
+activation-functions,激活函數的非線性與飽和,component,L23203,L23203,Activation Function
+active-learning,主動學習,technique,L23301,L21102;L23301,Active Learning;不確定性取樣
+adagrad,Adagrad,technique,L23103,L23103;L23304,Adaptive Gradient
+adam,Adam 優化器,technique,L23103,L23103;L23304,Adaptive Moment Estimation
+adjusted-r-squared,調整後 R²,metric,L23202,L23202,Adjusted R-squared
+advanced-imputation,相似樣本與模型補值,technique,L23301,L23301,Hot Deck;KNN Imputer;Model-based Imputation
+adversarial-debiasing,對抗式去偏,technique,L23402,L23402,Adversarial Debiasing;Adversarial Fairness
+adversarial-examples,對抗樣本與模型脆弱性,problem,L23401,L21203;L23401,
+adversarial-training,對抗訓練與防禦邊界,technique,L23401,L21203;L23401,
+affine-layer,仿射運算與線性預測,component,L23102,L23102,Affine Layer;Affine Transformation
+ai-adoption-assessment,AI 導入評估框架,technique,L21201,L21201,
+ai-agent,AI 代理的工具與記憶,technique,L21103,L21103;L21104,AI Agent;自主代理
+ai-capability-types,感知、生成、代理與物理 AI,theory,L21103,L21103,Agentic AI;Perception AI;Physical AI
+ai-change-management,AI 變革溝通與採用管理,technique,L21202,L21201;L21202;L21203,
+ai-delivery-roles,體驗設計、架構與測試職責,technique,L21202,L21202,
+ai-ethics-review,倫理委員會與上線審查,technique,L21203,L21203,
+ai-governance-committee,AI 治理委員會與決策責任,technique,L21203,L21203;L21302,AI Governance Committee
+ai-implementation-plan,AI 導入方案與範疇規劃,technique,L21202,L21202,
+ai-license-governance,AI 資料與模型授權查核,technique,L23401,L21203;L23401,
+ai-operations-responsibilities,AI 營運的部門責任,technique,L21302,L21302,AI 營運分工
+ai-project-prioritization,AI 專案優先排序,technique,L21201,L21201,
+ai-project-roles,專案負責人與資料模型職責,technique,L21202,L21202,
+ai-risk-governance,AI 風險清單與治理責任,technique,L21203,L21203,
+ai-sourcing,商用服務與自行開發選型,technique,L21202,L21202,
+ai-task-fit,業務任務與技術路線適配,technique,L21201,L21201,
+ai-team-capability,人才能力與導入準備,technique,L21201,L21201;L21202;L21203,
+ai-team-coordination,AI 跨部門協調與教育,technique,L21302,L21302,AI 協調機制;AI 產品經理
+ai-total-cost,AI 專案總成本與預算條件,technique,L21201,L21201,
+aif360,AI Fairness 360,tool,L23402,L23402,IBM AI Fairness 360
+algorithm-selection,演算法任務配對,technique,L23202,L23202,
+algorithmic-bias,演算法偏見與歧視影響,problem,L23402,L21101;L21102;L21103;L21104;L21203;L23402,Algorithmic Bias;Generative Bias;generative-bias;模型偏誤;演算法偏見;生成偏見;生成內容的偏見放大
+api-access-security,API 驗證與權限管理,technique,L21302,L21302,API Gateway;JWT;OAuth2
+apriori,Apriori 關聯規則挖掘,model,L23202,L23202,
+arima,ARIMA 時間序列模型,model,L23302,L23302,自迴歸整合移動平均
+artificial-neuron,人工神經元,component,L23203,L23203,Artificial Neuron;偏置;加權和
+association-rule-metrics,關聯規則的支持度、信賴度與提升度,metric,L23202,L23202,Confidence;Lift;Support;association-confidence;association-lift;association-support;信賴度;提升度;支持度
+attention-collapse,注意力過度平均與稀疏約束,problem,L21101,L21101,Attention Collapse;注意力崩潰
+audit-reproducibility,AI 稽核與可重現證據,technique,L21203,L21203,
+autoencoder,自編碼器與重建,model,L23203,L23203,AE;Denoising Autoencoder
+automated-feature-generation,自動特徵產生與交互作用,technique,L21301,L21301,Auto Feature Generation
+automated-feature-selection,自動特徵篩選與驗證回饋,technique,L21301,L21301,Auto Feature Selection
+automated-preprocessing,自動前處理與目標編碼,technique,L21301,L21301,自動編碼與填補
+automl,自動化機器學習,technique,L23302,L23302,
+backpropagation,反向傳播與鏈鎖律,technique,L23203,L23203,Chain Rule
+bag-of-words,詞袋模型,technique,L21101,L21101,Bag of Words;BoW
+bagging,Bagging 策略,technique,L23202,L23202,Bootstrap Aggregating
+batch-normalization,批次正規化,component,L23203,L23103;L23203,BN;Batch Normalization;BatchNorm
+bayes-theorem,貝氏定理與更新,theory,L23101,L23101,Bayes Theorem;Bayesian Inference;似然;先驗機率;後驗機率
+bayesian-optimization,貝氏最佳化,technique,L23304,L21301;L23304,Bayesian Optimization;貝葉斯優化
+bernoulli-binomial,伯努利與二項分佈,theory,L23101,L23101,Bernoulli;Binomial
+bias-variance-tradeoff,偏差與變異權衡,theory,L23302,L23302,Bias-Variance Tradeoff;高偏差;高變異
+bidirectional-rnn,雙向 RNN 與上下文可用性,model,L23203,L23203,Bi-RNN;BiLSTM;Bidirectional RNN
+bleu,BLEU 文本評估,metric,L21103,L21101;L21103,Brevity Penalty
+boosting,Boosting 策略,technique,L23202,L23202,提升法
+business-needs-analysis,業務痛點與成效指標,technique,L21201,L21201,
+business-system-integration,模型結果與企業流程整合,technique,L21302,L21302,CRM;ERP;MES;POS
+catastrophic-forgetting,災難性遺忘,problem,L23304,L21103;L23304,Catastrophic Forgetting;災難遺忘
+categorical-encoding,類別特徵編碼,technique,L23301,L21301;L23301,Label Encoding;Ordinal Encoding;ordinal-encoding;有序類別編碼;類別編碼
+chi-square-distribution,卡方分佈與檢定用途,theory,L23101,L23101,Chi-square Distribution;自由度
+circuit-breaker,斷路器與服務降級,technique,L21302,L21302,Circuit Breaker;斷路器
+class-weighting,類別權重,technique,L23304,L23301;L23304;L23402,Class Weighting;類別重加權
+classification-model-selection,二元與多類別模型選用,technique,L23202,L23202,
+classification-regression,分類與迴歸任務,theory,L23201,L23201,Classification;Regression
+classification-tree,分類決策樹,model,L23202,L23202,Classification Tree;分類樹
+clip,CLIP 圖文共享表示,model,L21104,L21102;L21104,CLIP 圖文對比與零樣本分類;Contrastive Language-Image Pre-Training;圖文對比學習
+cloud-deployment-options,公有雲與私有雲部署取捨,technique,L21302,L21302,Private Cloud;Public Cloud
+cnn,卷積神經網路,model,L23203,L21102;L21301;L23203,Convolutional Neural Network;convolutional-neural-network
+cnn-architectures,經典 CNN 架構的演進與選用,model,L23203,L21102;L23203,AlexNet;AlexNet、VGG 與 Inception 架構比較;GoogLeNet;Inception;LeNet;VGG;VGG16;VGGNet;classic-cnn-architectures;經典 CNN 架構的演進與取捨
+cnn-tensor-shapes,CNN 張量尺寸、參數與成本,technique,L23203,L21102;L23203,卷積輸出尺寸;參數量
+color-space-conversion,色彩空間轉換,technique,L23301,L21102;L23301,Grayscale;HSV;RGB;灰階化
+compute-resource-planning,算力與訓練推論資源配置,technique,L21202,L21202,
+computer-vision-tasks,電腦視覺任務與輸出規格,technique,L21102,L21102,CV;Computer Vision;視覺任務
+concept-drift,概念漂移,problem,L21203,L21203,Concept Drift
+conditional-probability,條件機率,theory,L23101,L23101,Conditional Probability;聯合機率;邊際機率
+container-orchestration,容器化與 Kubernetes 編排,tool,L21302,L21302,Docker;K8s;Kubernetes
+contextual-word-embedding,語境型詞嵌入,technique,L21101,L21101,Contextualized Word Embeddings;動態詞向量
+continuous-deployment,AI 持續交付與部署門控,technique,L21302,L21302,CD;Continuous Deployment
+continuous-integration,AI 持續整合與品質門檻,technique,L21302,L21302,CI;Continuous Integration
+continuous-random-variable,連續隨機變數、PDF 與 CDF,theory,L23101,L23101,CDF;Cumulative Distribution Function;PDF;Probability Density Function
+contrastive-loss,對比損失,theory,L23103,L23103,Contrastive Loss
+controlled-image-generation,影像生成與編輯,technique,L21103,L21102;L21103;L21104,ControlNet;DALL·E;Image Generation;InstructPix2Pix;image-generation;可控圖像生成與編輯;文生圖;條件影像生成
+convergence-criteria,收斂與停止判準,technique,L23103,L23103,Convergence Criteria;停止條件
+convex-optimization,凸性、駐點與收斂條件,theory,L23103,L23103,Convexity;Saddle Point;局部最優解;鞍點
+convolution-layer,卷積層、通道與權重共享,component,L23203,L23203,Conv2D;Convolution;卷積核
+corpus-copyright,語料與生成內容的來源授權,problem,L21203,L21101;L21203,Corpus Licensing;語料著作權
+cost-sensitive-loss,損失設計與錯誤成本,technique,L23103,L23103,Cost-sensitive Learning;加權損失
+cost-sensitivity-analysis,導入成本敏感度分析,technique,L21201,L21201,
+cross-entropy-loss,交叉熵損失,theory,L23103,L23103;L23201,Binary Cross-Entropy;Categorical Cross-Entropy;Cross-Entropy Loss
+cross-functional-collaboration,跨部門責任與協作機制,technique,L21202,L21202;L21203,
+cross-modal-alignment,跨模態語意對齊,technique,L21104,L21102;L21104,Cross-Modal Alignment;共享語意空間
+cyclic-time-features,日期拆解與週期編碼,technique,L23301,L23301,Cyclic Encoding;Weekday;sin/cos
+data-augmentation,資料增強與標籤語意,technique,L23301,L21102;L21301;L23301;L23304,Data Augmentation;資料增強;資料擴增
+data-classification,資料分級,technique,L23401,L21203;L23401,Access Level;Sensitivity Level
+data-consistency,重複資料與主鍵去重,technique,L23301,L21301;L23301,Data Consistency;Deduplication;duplicate-data;資料去重;重複樣本與單位一致性
+data-drift,資料漂移,problem,L21203,L21203,Data Drift;輸入漂移
+data-hashing,資料雜湊,technique,L23401,L21203;L23401,Hashing;SHA-256;雜湊處理
+data-inventory,資料清冊與資料地圖,technique,L23401,L21203;L23401,Data Inventory;Data Map
+data-masking,資料遮蔽,technique,L23401,L23401,Masking;遮罩
+data-minimization,資料最小化與目的限制,technique,L23401,L21203;L23401,Data Minimization;Purpose Limitation
+data-model-versioning,資料、程式與模型版本追溯,technique,L21302,L21302,DVC;Data Versioning
+data-outsourcing-governance,跨境與委外資料治理,technique,L21203,L21201;L21202;L21203,
+data-pipeline-integration,資料管線與儲存介接,technique,L21302,L21301;L21302,Data Lake;Data Pipeline;Data Warehouse
+data-preparation,資料準備流程與可追溯性,technique,L23301,L23301,Data Lineage;Data Preparation
+data-protection-impact-assessment,DPIA 資料保護影響評估,technique,L23401,L21203;L23401,DPIA
+data-quality,資料品質檢核,technique,L21301,L21101;L21301,Corpus Quality;Data Quality;NLP 語料品質與標註一致性;nlp-corpus-quality;語料品質
+data-readiness,資料準備度與治理盤點,technique,L21201,L21201,
+data-sources,資料來源與取得,technique,L21301,L21301,Data Sources;內外部資料
+data-types-time-parsing,資料型別與時間解析,technique,L23301,L23301,Data Type;Datetime Parsing;Timestamp
+dbscan,DBSCAN 密度分群,model,L23202,L21301;L23202,Eps;MinPts;密度分群
+de-identification,去識別化、假名化與匿名化,technique,L23401,L21101;L23401,Anonymization;Pseudonymization;匿名化;去識別化
+debiasing-strategies,去偏策略三階段,technique,L23402,L21101;L21102;L23402,Pre-processing/In-processing/Post-processing;去偏策略
+decision-tree,決策樹分類與迴歸,model,L23202,L21301;L23202,Decision Tree
+deep-learning,深度學習與表示學習,theory,L23203,L23203,Deep Learning;表示學習
+deep-learning-framework-landscape,JAX、MXNet 與 PaddlePaddle 框架定位,tool,L23203,L23203,Apache MXNet;Hybrid Programming;JAX;JAX 的數值轉換定位;MXNet 的程式風格定位;PaddlePaddle;PaddlePaddle 的框架定位;grad;jit;mxnet;vmap;飛槳
+densenet,DenseNet 與特徵拼接,model,L23203,L23203,Dense Connection
+descriptive-statistics,期望與敘述統計,theory,L23101,L23101,Expected Value;Standard Deviation;Variance;中位數;平均數
+detection-map,物件偵測的 AP 與 mAP,metric,L21102,L21102;L23303,AP;Mean Average Precision;mAP;平均精確率
+development-toolchain,AI 開發工具與版本管理,technique,L21202,L21202,
+dialogue-system,任務導向與開放式對話系統,technique,L21101,L21101,Chatbot;Dialogue System;對話系統
+differential-privacy,差分隱私,technique,L23401,L21203;L23401,DP;Differential Privacy
+diffusion-model,擴散模型與取樣,model,L21103,L21102;L21103;L21301;L23203,CFG;DDPM;Diffusion Model;Diffusion Models;Stable Diffusion;擴散模型
+discrete-random-variable,離散隨機變數與 PMF,theory,L23101,L23101,PMF;Probability Mass Function
+disparate-impact,不利影響比,metric,L23402,L21203;L23402,80% Rule;Disparate Impact
+distribution-drift-detection,KL、PSI 與 KS 漂移偵測,technique,L21203,L21203,
+distribution-shape,偏態、峰度與探索圖,technique,L23101,L23101,Kurtosis;QQ-plot;Skewness;直方圖;箱型圖
+drift-detection,資料漂移與概念漂移,problem,L21203,L21203;L21302,
+dropout,Dropout,technique,L23304,L23203;L23304,隨機失活;隨機屏蔽
+edge-inference,即時視覺與邊緣推論,technique,L21302,L21102;L21103;L21104;L21301;L21302,Edge AI;Edge Computing;Edge Vision;edge-generative-inference;edge-vision-inference;多階段推論;影像串流延遲;端側生成;端側生成與資源預算;自適應推論;邊緣推論
+efficient-cnn,MobileNet 與 EfficientNet 的效率策略,model,L23203,L23203,Depthwise Separable Convolution;EfficientNet;MobileNet
+eigenvalue-decomposition,特徵值分解,theory,L23102,L23102,Eigen Decomposition;Eigenvalue Decomposition;特徵向量
+elastic-net,Elastic Net,technique,L23304,L23202;L23304,L1加L2;彈性網路
+elmo,ELMo 雙向語境表示,model,L21101,L21101,Embeddings from Language Models
+embedded-feature-selection,Embedded 特徵選擇,technique,L23301,L23301,Embedded;Feature Importance
+embedding-representation,嵌入與低維表示,component,L23102,L23102,Embedding Representation;嵌入表示
+ensemble-models,集成模型,model,L23202,L23202,Ensemble Models;集成學習模型
+equal-opportunity,機會平等,metric,L23402,L23402,Equal Opportunity
+equalized-odds,均衡機率,metric,L23402,L23402,Equalized Odds
+explainable-ai,可解釋 AI 的需求與方法選用,technique,L23302,L21201;L21203;L23302,Explainability;model-explainability;可解釋 AI 與透明決策;可解釋性;模型解釋性與選用
+exploration-exploitation,探索與利用取捨,technique,L23201,L23201,Exploitation;Exploration;ε-greedy
+exponential-distribution,指數分佈與無記憶性,theory,L23101,L23101,Exponential Distribution;Memoryless Property
+face-recognition,人臉偵測與身分比對,technique,L21102,L21102,Face Recognition;人臉辨識
+fairlearn,Fairlearn,tool,L23402,L23402,MetricFrame;Microsoft Fairlearn
+fairness-audit,視覺偏見稽核與可靠度,technique,L23402,L21101;L21102;L21203;L21302;L23402,Bias Audit;Fairness Audit;NLP Bias;NLP 偏見與分群公平評估;WEAT;nlp-bias-fairness;vision-bias-audit;公平性監控;公平性稽核與監控;少數語言偏見;拍攝偏差;視覺公平性
+fairness-constrained-training,公平性約束與損失,technique,L23402,L23402,Fairness Constraints;Fairness Regularization;In-processing
+fairness-governance,公平性治理,regulation,L23402,L21203;L23402,Fairness Governance;公平性委員會
+fairness-postprocessing,後處理門檻調整,technique,L23402,L23402,Post-processing;Threshold Adjustment
+fairness-preprocessing,前處理去偏,technique,L23402,L23402,Feature Neutralization;Pre-processing;群體重抽樣
+fasttext,FastText 子詞詞向量,model,L21101,L21101,
+fcn,全卷積網路,model,L21102,L21102;L23203,Fully Convolutional Network
+feasible-region,可行域與參數限制,theory,L23103,L23103,Constraint;Feasible Region;可行集合
+feature-engineering-strategy,依任務與模型規劃特徵,technique,L23301,L23301,Domain Knowledge;Feature Engineering
+feature-scaling,特徵縮放與標準化,technique,L23301,L21301;L23301,Feature Scaling;Min-Max Scaling;Min-Max、Z-score 與 Robust Scaling;MinMaxScaler;Normalization;RobustScaler;StandardScaler;Standardization;Z-score 標準化
+feature-space,特徵空間與資料表示,theory,L23201,L23201,Feature Space
+federated-learning,聯邦學習,technique,L23401,L21203;L21302;L23401,Federated Learning
+feedback-loop,資料回收與人工回饋循環,technique,L21302,L21302,Feedback Loop
+filter-feature-selection,Filter 特徵篩選,technique,L23301,L23301,ANOVA;Chi-square;Filter;Pearson
+financial-regulatory-sandbox,金融創新實驗與監理沙盒,regulation,L21203,L21203,
+flatten,Flatten 與分類頭的形狀銜接,component,L23203,L23203,展平;攤平
+focal-loss,Focal Loss 焦點損失,theory,L23304,L23103;L23304,Focal Loss
+forward-propagation,前向傳播,technique,L23203,L23203,Forward Propagation
+fp-growth,FP-Growth 頻繁項集挖掘,model,L23202,L23202,FP 樹
+gan,生成對抗網路,model,L23203,L21103;L21301;L23203,Discriminator;Generative Adversarial Network;Generator;WGAN;generative-adversarial-network;生成對抗網路 GAN
+gantt-critical-path,甘特圖與關鍵路徑,technique,L21202,L21202,
+gdpr,GDPR 個資權利與處理依據,regulation,L23401,L21203;L23401,
+generation-safety-alignment,生成模型對齊與紅隊測試,technique,L21103,L21103;L21203;L23304,RLHF;Red Teaming;偏好對齊;紅隊測試
+generative-ai-governance,生成與多模態 AI 治理查核,technique,L21203,L21103;L21104;L21203,多模態倫理治理;生成式 AI 治理
+generative-content-rights,生成素材授權與來源追溯,technique,L21203,L21103;L21104;L21203,內容權利查核;生成素材授權
+generative-content-types,生成內容的模態與任務,technique,L21103,L21103;L21104,影片生成;文字生成;音樂生成
+generative-discriminative-models,生成式與鑑別式建模,theory,L21103,L21103;L21301,Discriminative Model;Generative Model
+generative-output-risk,生成內容的不確定性風險,problem,L21103,L21103;L21201,
+generative-quality-metrics,IS 與 FID 的判讀限制,metric,L23203,L23203,FID;IS;Inception Score
+glove,GloVe 全域共現詞向量,model,L21101,L21101,Global Vectors
+gpu-inference-scheduling,GPU 推論排程與批次,technique,L21302,L21302,Dynamic Batching;GPU 排程
+grad-cam,Grad-CAM 影像解釋,technique,L21102,L21102;L21203,
+gradient-boosted-trees,梯度提升與 XGBoost,model,L23202,L21301;L23202,GBDT;Gradient Boosting;Gradient Boosting Decision Tree;gradient-boosting;梯度提升決策樹
+gradient-clipping,梯度裁剪與迴圈位置,technique,L23304,L23103;L23203;L23304,Gradient Clipping;clip_grad_norm_;clip_grad_value_;梯度裁剪
+gradient-descent,梯度下降與更新步長,technique,L23103,L23103,Full-batch GD;Gradient Descent
+grid-search,網格搜尋,technique,L23304,L21301;L23304,Grid Search;GridSearchCV
+group-calibration,分群體校準,technique,L23402,L23402,Calibration;Group Calibration
+gru,GRU 的更新門與重置門,model,L23203,L23203,Gated Recurrent Unit
+hallucination,模型幻覺與生成內容審核,problem,L21103,L21101;L21103;L21203,事實一致性;幻覺;模型幻覺;生成幻覺與一致性
+handcrafted-visual-features,人工視覺特徵,technique,L21102,L21102;L23301,Canny;ORB;SIFT;SURF;色彩紋理
+hierarchical-clustering,階層式分群,model,L23202,L21301;L23202,Dendrogram;Hierarchical Clustering
+high-availability,高可用與故障切換,technique,L21302,L21302,Failover;Redundancy
+hipaa,HIPAA 醫療資訊隱私與安全,regulation,L23401,L21203;L23401,
+historical-bias,歷史偏見,problem,L23402,L21203;L23402,
+homomorphic-encryption,同態加密,technique,L23401,L21203;L23401,FHE;HE;Homomorphic Encryption
+huber-loss,Huber 損失,theory,L23103,L23103,Huber Loss
+human-generation-evaluation,生成人工評估與評分規準,technique,L21103,L21103;L21104,Human Evaluation;人工評估
+human-in-the-loop,HITL 人工覆核與責任,technique,L21203,L21203,HITL;人在迴路
+hybrid-deployment,混合雲與異質部署,technique,L21302,L21302,Hybrid Cloud;Hybrid Deployment;混合部署
+hybrid-search,混合搜尋與 RRF 排序融合,technique,L21101,L21101,Hybrid Search;RRF
+hyperparameter-search,超參數搜尋策略,technique,L23304,L21301;L23304,
+hyperparameter-tuning,超參數調校,technique,L23304,L21301;L23304,Hyperparameter Tuning;超參數搜尋
+hypothesis-space,假設空間與泛化,theory,L23201,L23201,Hypothesis Space;泛化能力
+hypothesis-testing,假設檢定與顯著性,technique,L23101,L23101,Hypothesis Testing;p 值;型一錯誤;檢定力;顯著水準
+image-annotation,影像標註與品質規範,technique,L21102,L21102;L23301,Bounding Box;Image Annotation;影像標籤;邊界框標註
+image-augmentation,影像增強與標籤語意,technique,L23301,L21102;L23301,ColorJitter;Image Augmentation;RandomHorizontalFlip
+image-dataset-preparation,影像資料準備與分類流程,technique,L21102,L21102;L21301;L23301,Image Classification Workflow;影像張量;影像資料清理
+image-enhancement,影像畫質增強與去噪,technique,L21102,L21102;L23301,Denoising;Gamma Correction;Histogram Equalization
+image-generation-platforms,圖像生成平台與介面選擇,tool,L21103,L21103,Adobe Firefly;Canva AI;Midjourney;Stable Diffusion WebUI
+image-mask-annotation,像素遮罩與個體標註,technique,L21102,L21102;L23301,Mask Annotation;像素標註;實例ID
+image-normalization,影像像素正規化與標準化,technique,L23301,L21102;L23301,Pixel Normalization;影像標準化
+image-resizing,影像尺寸與幾何前處理,technique,L23301,L21102;L23301,Crop;Padding;Resize;縮放;裁切;補邊
+image-segmentation,語意分割與實例分割,technique,L21102,L21102,Instance Segmentation;Semantic Segmentation;語義分割
+incremental-learning,增量學習與特徵空間變動,technique,L23302,L23302,Incremental Learning
+inference-service-api,推論服務與 API 介接,technique,L21302,L21302,REST API;Webhook;gRPC;模型服務化
+information-gain,資訊增益,metric,L23202,L21301;L23202,Information Gain
+interaction-features,交互與聚合特徵,technique,L23301,L23301,Aggregation;Feature Cross;Interaction Features
+isolation-forest,孤立森林,model,L23202,L23202,Isolation Forest
+it-readiness,數位基礎與系統整合可行性,technique,L21201,L21201,
+k-anonymity,K-匿名,technique,L23401,L23401,
+k-means,K-means 分群,model,L23202,L21301;L23202,K 均值;K-means Clustering
+keras,Keras 的模組化建模,tool,L23203,L23203,Sequential;model.summary;tf.keras
+keypoint-annotation,關鍵點與姿態標註,technique,L21102,L21102,Keypoint Annotation;姿態點位
+knn,K 最近鄰,model,L23202,L21301;L23202,K-Nearest Neighbors;KNN;k-nearest-neighbors
+knowledge-distillation,知識蒸餾,technique,L23304,L21103;L21302;L23304,Knowledge Distillation;教師學生模型
+l-diversity,L-多樣性,technique,L23401,L23401,
+l1-regularization,L1 正則化與 Lasso,technique,L23304,L23202;L23301;L23304,L1 Regularization;L1 正則化
+l2-regularization,L2 正則化與 Ridge,technique,L23304,L23202;L23304,L2 Regularization;權重衰減
+label-bias,標註偏見,problem,L23402,L21203;L23301;L23402,Label Bias;labeling-bias;標籤偏差;製程偏誤
+laplace-smoothing,拉普拉斯平滑,technique,L23202,L23202,Laplace Smoothing
+lasso,Lasso 迴歸,model,L23202,L21301;L23202;L23304,Lasso Regression;Lasso 與 L1 特徵篩選;lasso-regression
+lawful-data-use,合法資料利用與同意,regulation,L23401,L21203;L23401,Consent;合法依據;資料使用同意
+layer-normalization,LayerNorm 與 BatchNorm 比較,component,L23203,L23203,Layer Normalization;LayerNorm
+learning-paradigms,機器學習範式與任務辨識,theory,L23201,L23201,強化學習範式;監督學習;非監督學習
+lightgbm,LightGBM,model,L23202,L23202,Light Gradient Boosting Machine
+lime,LIME 局部替代解釋,technique,L23302,L21203;L23302,LIME 局部代理解釋;Local Interpretable Model-Agnostic Explanations
+linear-discriminant-analysis,LDA 監督式降維,technique,L23301,L23301,LDA;Linear Discriminant Analysis
+linear-regression,線性迴歸,model,L23202,L21301;L23202,Linear Regression;多元線性迴歸
+linear-transformation,線性變換與幾何,theory,L23102,L23102,Linear Transformation;剪切;投影
+logistic-regression,邏輯迴歸,model,L23202,L21301;L23202,Logistic Regression;羅吉斯迴歸
+long-sequence-attention,長序列注意力策略,technique,L23203,L23203,Longformer;Performer;Reformer;Sparse Attention
+lora,LoRA 低秩自適應,technique,L21103,L21101;L21103;L21104;L23304,LoRA 低秩適應;Low-Rank Adaptation;低秩自適應;低秩適應
+loss-function-selection,損失函數選擇,technique,L23201,L23201,學習目標;成本函數
+lstm,LSTM 的細胞狀態與門控,model,L23203,L23203,Forget Gate;Long Short-Term Memory
+machine-translation,機器翻譯,technique,L21101,L21101,Machine Translation
+markov-decision-process,馬可夫決策過程與報酬,theory,L23201,L23201,MDP;Markov Decision Process
+mask-rcnn,Mask R-CNN 實例遮罩,model,L21102,L21102;L23203,Mask R-CNN;Mask RCNN
+masked-multimodal-pretraining,多模態遮罩預訓練,technique,L21104,L21104;L23203,M3AE;Masked Multimodal Autoencoder;多模態自我監督
+matrix-factorization,矩陣分解與低秩結構,theory,L23102,L23102,Low-rank Approximation;Matrix Factorization
+matrix-operations,矩陣乘法、轉置與偽逆,theory,L23102,L23102,Matrix Multiplication;Pseudo-Inverse;Transpose;反矩陣
+matrix-shapes,矩陣形狀與維度對齊,theory,L23102,L23102,Matrix Shape;矩陣維度
+medical-device-regulation,醫療器材與 AI 合規範圍,regulation,L21203,L21203,
+microservices,微服務架構,technique,L21302,L21302,
+missing-modality,模態缺失與可靠回退,problem,L21104,L21104;L23301;L23302,Missing Modality;Modality Dropout;缺失模態感知
+missing-value-imputation,缺失值處理,technique,L23301,L21301;L23301,Imputation;Mean Imputation;Median Imputation;Missing Value;Missing Values;simple-imputation;刪除與簡單補值
+missingness-mechanisms,缺失機制與缺失指標,theory,L23301,L23301,MAR;MCAR;MNAR;Missing Indicator
+mixed-precision-training,混合精度訓練,technique,L23304,L23203;L23304,AMP;Gradient Scaling;Mixed Precision
+mlops-lifecycle,MLOps 生命週期,technique,L21302,L21302,MLOps;Machine Learning Operations
+mlp,多層感知機,model,L23203,L23203,Fully Connected Neural Network;全連接網路
+mode-collapse,GAN 模式崩潰,problem,L23203,L23203,Mode Collapse;模式崩潰
+model-assisted-labeling,模型輔助標註,technique,L23301,L21102;L23301,Auto-labeling;自動標註;預標註
+model-capacity-selection,資料規模與模型容量,technique,L23302,L23302,模型容量;模型複雜度
+model-drift,模型效能衰退與漂移用語,problem,L21203,L21203,Model Drift;模型漂移
+model-monitoring,模型監控、告警與回退,technique,L21302,L21101;L21102;L21203;L21302,Continuous Monitoring;Grafana;Model Monitoring;NLP 上線品質與維運風險;NLP 維運;Prometheus;data-drift-monitoring;nlp-operations;vision-model-monitoring;影像品質監測;模型效能與分群監控;版本回退;線上模型監控與告警;視覺模型的場域監測與回退;視覺模型維運;輸入分布監控與調查
+model-pruning,模型剪枝,technique,L23304,L21302;L23304,Pruning;結構化剪枝;非結構化剪枝
+model-registry,模型登錄與版本狀態,tool,L21302,L21302,Model Registry
+model-resource-costs,模型參數、運算量與訓練記憶體,technique,L23203,L23203,FLOPs;MACs;Parameter Count;Trainable Parameters
+model-retraining,再訓練驗證與版本晉升,technique,L21302,L21203;L21302,
+model-stability-risk,資料品質與模型穩定性風險,problem,L21203,L21201;L21203,
+momentum,動量法,technique,L23103,L23103;L23304,SGD with Momentum
+monte-carlo-method,蒙地卡羅方法,technique,L23101,L23101,Monte Carlo;隨機模擬
+multi-agent-orchestration,多代理協作與容錯,technique,L21103,L21103;L21104;L21302,Multi-Agent;Orchestrator Agent;Worker Agent
+multi-head-attention,多頭注意力,component,L23203,L23203,Multi-head Attention
+multiclass-strategies,多類別分解策略,technique,L23202,L23202,One-vs-One;One-vs-Rest;OvO;OvR
+multimodal-ai,多模態任務與資料特性,theory,L21104,L21103;L21104,ImageBind;Multimodal AI;跨模態互補
+multimodal-application-evaluation,多模態應用與評估設計,technique,L21104,L21104,多模態醫療;多模態零售;沉浸互動
+multimodal-data-alignment,多模態資料對齊、標註與版本,technique,L21104,L21104;L23301,DTW;Dynamic Time Warping;多模態標註
+multimodal-deployment-optimization,多模態部署優化與加速,technique,L21302,L21104;L21302;L23304,OpenVINO;TensorRT;多模態部署;雲邊分工
+multimodal-fusion,多模態資料、特徵與決策融合,technique,L21104,L21104;L23301;L23302,Early Fusion;Feature Fusion;Late Fusion;Multimodal Fusion
+multimodal-privacy-security,跨模態隱私與系統安全,technique,L21203,L21104;L21203;L23401,多模態安全;跨模態隱私
+multitask-learning,多任務學習與任務干擾,technique,L23203,L21101;L23203,Multi-task Learning;多任務學習;負面遷移
+n-gram,N-gram 文字片段與語言模型,model,L21101,L21101,Bigram;N-gram Language Model;N-grams;Trigram
+naive-bayes,樸素貝氏分類器,model,L23202,L23202,Naive Bayes
+named-entity-recognition,命名實體辨識,technique,L21101,L21101,NER;Named Entity Recognition
+neighbor-search-index,近鄰搜尋與距離索引,technique,L23202,L21301;L23201;L23202,Ball Tree;DBSCAN 鄰域搜尋與距離索引;KD-Tree;Time Complexity;dbscan-neighbor-index;time-complexity;時間複雜度;近鄰索引
+net-present-value,淨現值 NPV,metric,L21201,L21201,
+network-capacity,網路深度、寬度與容量,component,L23304,L23203;L23302;L23304,Network Depth;Network Width
+nist-ai-rmf,NIST AI RMF 風險治理框架,regulation,L21203,L21203,AI RMF;NIST AI RMF
+nlp,自然語言處理與理解生成分工,theory,L21101,L21101,NLG;NLU
+nlp-method-evolution,NLP 方法演進與選型,technique,L21101,L21101,CRF;HMM;規則式NLP
+noise-injection,隨機擾動,technique,L23401,L23401,Noise Injection;加噪
+non-repudiation,不可否認性與簽章稽核,technique,L23401,L21203;L23401,
+nonlinear-embedding,t-SNE 與 UMAP 非線性嵌入比較,technique,L23202,L21301;L23202;L23301,Nonlinear Embedding;Perplexity;UMAP;UMAP 降維;Uniform Manifold Approximation and Projection;nonlinear-dimensionality-reduction;t-SNE;t-SNE 與 UMAP 的嵌入用途;t-SNE 與 UMAP 視覺化降維;t-SNE 視覺化
+nonnegative-matrix-factorization,非負矩陣分解,technique,L23102,L23102,NMF;Non-negative Matrix Factorization
+normal-uniform-distributions,常態與均勻分佈,theory,L23101,L23101,Gaussian Distribution;Normal Distribution;Uniform Distribution
+numpy-data-operations,NumPy 的陣列、軸與遮罩讀碼,tool,L23301,L23301,Boolean Mask;NumPy;axis;dot;reshape
+object-detection,物件偵測與一階段、二階段架構,model,L21102,L21102;L23203,Faster R-CNN;Object Detection;SSD;YOLO;目標檢測
+ocr,光學文字辨識流程,technique,L21102,L21102,Optical Character Recognition;車牌文字辨識
+one-class-svm,單類別支援向量機,model,L23202,L23202,One-Class SVM
+one-hot-encoding,One-hot 編碼與高基數成本,technique,L23301,L21101;L23301,High Cardinality;One-hot Encoding;One-hot 獨熱編碼;獨熱編碼
+online-business-metrics,線上應用與業務成效指標,metric,L21302,L21302,CTR;CVR;ROI;留存率
+online-learning,線上與增量學習,technique,L21302,L21301;L21302,Online Learning
+open-weight-models,開放權重模型與授權查核,tool,L21103,L21103;L21203,Command-R;LLaMA;Mistral;Open Weight;開放權重
+optimization-for-models,模型訓練的求解脈絡,theory,L23103,L23103,Numerical Optimization
+optimization-problem,最佳化目標與決策變數,theory,L23103,L23103,Decision Variables;Objective Function;目標函數
+optimization-workflow,模型優化流程,technique,L23304,L23304,Optimization Workflow;模型優化
+optimizer-selection,優化器選擇,technique,L23304,L23103;L23203;L23304,Optimizer;優化器比較
+ordinary-least-squares,最小平方估計與投影,technique,L23102,L23102,OLS;Ordinary Least Squares;正規方程
+outlier-detection,離群值偵測與處置,technique,L23301,L21301;L23301,IQR;LOF;Outlier;Z-score;Z-score Outlier;異常值門檻與局部密度判斷
+outlier-treatment,異常值的保留與修正,technique,L23301,L23301,Winsorization;截尾;異常標記
+output-loss-contract,輸出層、標籤與損失函數的搭配,technique,L23203,L23203,BCEWithLogitsLoss;Categorical Crossentropy;CrossEntropyLoss;Logits
+oversampling,過採樣,technique,L23304,L23301;L23304,過取樣
+panoptic-segmentation,全景分割,technique,L21102,L21102,Panoptic Segmentation;stuff;things;全景式分割
+partial-dependence-plot,偏依圖,technique,L23302,L23302,PDP;Partial Dependence Plot
+payback-period,投資回收期,metric,L21201,L21201,
+pca,主成分分析,technique,L23102,L21301;L23102;L23202;L23301,PCA 投影與重建;Principal Component Analysis;inverse_transform;n_components;principal-component-analysis
+pci-dss,PCI DSS 支付卡資料安全標準,regulation,L23401,L21203;L23401,
+pearson-correlation,皮爾森相關係數,metric,L23101,L21301;L23101,Pearson Correlation;相關係數
+perceptron,感知器與線性可分性,model,L23203,L23203,XOR
+phased-rollout,漸進式部署與擴量門檻,technique,L21302,L21202;L21302,Phased Rollout;漸進式部署;漸進式部署與擴量決策
+planning-deliverables,規劃成果、預算與決議,technique,L21202,L21202,
+poc-go-no-go,POC 通過、補驗與停止決策,technique,L21201,L21201,
+poc-success-criteria,POC 技術、業務與使用回饋,technique,L21201,L21201,
+poisson-distribution,泊松分佈,theory,L23101,L23101,Poisson;卜瓦松分佈
+policy-gradient-ppo,策略梯度與 PPO,model,L21301,L21301,Actor-Critic;PPO;Policy Gradient;REINFORCE
+pooling,池化與特徵圖縮減,component,L23203,L21102;L23203,Average Pooling;Global Average Pooling;Max Pooling;Max-Pooling;最大池化;池化與降採樣
+population-stability-index,族群穩定性指數,metric,L21302,L21302,PSI;Population Stability Index
+pos-tagging,詞性標註,technique,L21101,L21101,POS Tagging;Part-of-Speech Tagging
+position-wise-ffn,逐位置前饋網路,component,L23203,L23203,Feed-forward Network;Position-wise FFN
+positional-encoding,位置編碼,component,L23203,L23203,Positional Encoding;位置資訊
+power-transforms,對數與冪次轉換,technique,L23301,L21301;L23301,Box-Cox;Log Transform;Power Transform;Yeo-Johnson
+pretraining-fine-tuning,預訓練、下游微調與提示的分工,technique,L23203,L21101;L21103;L23203,Fine-Tuning;Pre-training;generative-model-lifecycle;生成模型生命週期;預訓練、微調與提示的分工;預訓練與下游微調
+privacy-compliance-assessment,個資用途與合規適用性盤點,technique,L23401,L21101;L21201;L21203;L23401,Corpus Privacy;NLP 語料隱私與授權風險;nlp-corpus-privacy;語料隱私
+privacy-generalization,隱私泛化與分桶,technique,L23401,L23401;L23402,Bucketing;Generalization;資料泛化
+privacy-governance,隱私治理,regulation,L23401,L21203;L23401,Privacy Governance
+privacy-impact-assessment,隱私影響評估,technique,L23401,L21203;L23401,PIA;Privacy Impact Assessment
+privacy-regulations,個資保護法規比較,regulation,L23401,L21203;L23401,CCPA;PDPA;個人資料保護法
+probabilistic-modeling,機率模型與不確定性,theory,L23101,L23101,Probabilistic Modeling
+project-management-tools,Trello、Asana、Jira 與 ClickUp 專案工具比較,tool,L21202,L21202,Asana 任務與時間軸;ClickUp 清單與里程碑;JIRA;Jira 議題與敏捷追蹤;Trello 看板追蹤;asana;clickup;trello
+prompt-engineering,提示設計與少樣本推論,technique,L21103,L21101;L21103,Few-shot;Few-shot Prompting;Prompt Engineering;Zero-shot;Zero-shot Prompting;提示工程;提示工程與輸出控制
+prompt-tuning,軟提示微調,technique,L21103,L21101;L21103;L23304,Prompt Tuning;Soft Prompt;soft-prompt-tuning;提示微調;軟提示
+proof-of-concept,POC 範圍與驗證設計,technique,L21201,L21201;L21202,POC;概念驗證
+pytorch,PyTorch、Autograd 與訓練模式,tool,L23203,L23203,Autograd;eval;no_grad;train;zero_grad
+q-learning-dqn,Q-learning 與 DQN,model,L21301,L21301,DQN;Q-learning
+quantization,模型量化,technique,L23304,L21301;L21302;L23304,FP32;INT8;PTQ;QAT;model-quantization;模型量化與邊緣加速;量化感知訓練
+rag,檢索增強生成,technique,L21101,L21101,Retrieval-Augmented Generation
+rag-token-budget,RAG token 成本與輸入優化,technique,L21202,L21202,
+random-forest,隨機森林,model,L23202,L21301;L23202,Random Forest;隨機森林分類;隨機森林迴歸
+random-search,隨機搜尋,technique,L23304,L21301;L23304,Random Search;RandomizedSearchCV
+ranking-reconstruction-loss,排序與重建損失,theory,L23103,L23103,Ranking Loss;Reconstruction Loss
+rapid-prototyping,POC 快速迭代與回饋,technique,L21202,L21202,
+react-agent-loop,ReAct 工具查證迴圈,technique,L21103,L21103;L21104,Action Observation;ReAct
+realtime-feature-pipeline,即時特徵管線與延遲規劃,technique,L21302,L21202;L21302,
+recurrent-gradients,BPTT 與梯度消失、爆炸,problem,L23203,L23203,BPTT;Exploding Gradient;Vanishing Gradient
+regression-tree,迴歸決策樹,model,L23202,L23202,Regression Tree
+regularization,正則化方法選用,technique,L23304,L23203;L23302;L23304,L1;L2;正則化;正規化懲罰
+reidentification-risk,識別與再識別風險,problem,L23401,L21203;L23401,PII;Quasi-identifiers;再識別;準識別資訊
+reinforcement-learning,強化學習的任務與獎勵,theory,L23201,L21301;L23201,RL;Reinforcement Learning
+reinforcement-learning-control,強化學習動作空間與應用限制,technique,L23201,L23201,樣本效率;連續動作;離散動作
+reinforcement-learning-methods,強化學習方法分類,technique,L23201,L23201,Model-Based RL;Model-Free RL
+reinforcement-learning-training,強化學習訓練與成效驗證,technique,L23201,L23201,Episode;累積報酬
+relation-extraction,關係抽取與知識圖譜,technique,L21101,L21101,Relation Extraction;關係擷取
+release-strategies,藍綠、金絲雀與滾動更新,technique,L21302,L21302,Blue-Green Deployment;Canary Release;Rolling Update
+relu,ReLU,component,L23203,L23203;L23304,Rectified Linear Unit;整流線性單元
+residual-connections,殘差連接與 ResNet,component,L23203,L21102;L23203,ResNet;Residual Connection;Skip Connection
+resource-aware-model-selection,資源與延遲限制下的模型選擇,technique,L23302,L23302,推論延遲;部署限制
+responsible-ai-principles,負責任 AI 原則與治理來源,regulation,L21203,L21203,
+retraining-pipeline,重訓、重標註與版本回復,technique,L21302,L21302,Hot Swap;Retraining;模型再訓練
+return-on-investment,投資報酬率 ROI,metric,L21201,L21201,
+reward-design,獎勵設計與獎勵塑形,technique,L23201,L23201,Reward Hacking;Reward Shaping
+ridge-regression,嶺迴歸,model,L23202,L23202,Ridge;Ridge Regression
+risk-matrix,風險矩陣與優先等級,technique,L21203,L21201;L21203;L23401,Risk Matrix;風險矩陣;風險等級
+risk-response-strategies,AI 風險處置策略,technique,L21203,L21201;L21203,Risk Acceptance;Risk Avoidance;Risk Mitigation;Risk Transfer;risk-acceptance;risk-avoidance;risk-mitigation;risk-transfer;風險接受與持續追蹤;風險緩解與控制措施;風險轉移;風險迴避
+rmsprop,RMSprop,technique,L23103,L23103,Root Mean Square Propagation
+rnn,遞迴神經網路與序列狀態,model,L23203,L23203,Recurrent Neural Network;隱藏狀態
+rouge,ROUGE 摘要評估,metric,L21103,L21101;L21103;L21104,ROUGE-L;ROUGE-N;ROUGE-S
+sampling-bias,取樣偏差與群體代表性,problem,L23402,L21203;L23301;L23402,Sampling Bias;Selection Bias;來源偏誤;抽樣與來源偏差
+scorecard-feature-screening,信用評分卡的分箱、IV 與 PSI,technique,L23301,L23301,Binning;IV;Information Value
+scrum,Scrum 角色、活動與產物,technique,L21202,L21202,
+sector-compliance-screening,產業法規與安全標準盤點,technique,L23401,L21203;L23401,
+secure-communication,安全通訊與密碼技術分工,technique,L23401,L21203;L21302;L23401,Digital Signature;對稱加密;防重放;非對稱加密
+secure-multiparty-computation,安全多方計算,technique,L23401,L23401,MPC;Secure Multi-party Computation
+segment-anything,SAM 通用分割,model,L21102,L21102,SAM;Segment Anything Model
+self-attention,自注意力與多頭注意力,component,L23203,L21101;L23203,Key;Query;Value;自注意力與 Q、K、V
+semantic-ambiguity,語意歧義、反語與方言誤判,problem,L21101,L21101,Semantic Ambiguity;語意歧義
+semi-supervised-learning,半監督學習,technique,L23201,L21102;L23201;L23301,Semi-supervised Learning;偽標籤
+sensor-fusion,感測器融合,technique,L21104,L21102;L21104;L21302,LiDAR;Sensor Fusion;感測同步;感測融合與同步;雷達融合
+sentiment-analysis,情感分析,technique,L21101,L21101,Sentiment Analysis
+seq2seq,序列到序列與編解碼,model,L21101,L21101,Encoder-Decoder;序列到序列
+sequence-model-selection,序列模型的選擇,technique,L23302,L23302,時序模型選型
+sequence-models,RNN、LSTM 與 GRU 的選用比較,model,L23203,L21101;L21301;L23203,RNN、LSTM 與 GRU;RNN、LSTM 與 GRU 序列模型;recurrent-neural-network
+service-performance-metrics,推論延遲、吞吐與可用率,metric,L21302,L21302,Latency;P50;P95;P99;RPS;Throughput;Uptime
+service-scaling,推論服務擴縮與負載平衡,technique,L21302,L21302,Autoscaling;Load Balancing;水平擴展
+sgd,隨機梯度下降,technique,L23103,L23103;L23304,Stochastic Gradient Descent
+shap,SHAP 特徵貢獻與輸出尺度,technique,L23302,L21203;L23302,SHAP 特徵貢獻解釋;SHAP值;SHapley Additive exPlanations
+sigmoid,Sigmoid,component,L23203,L21103;L23203;L23304,邏輯激活函數
+silhouette-score,輪廓係數,metric,L23201,L23201,Silhouette Score
+smote,SMOTE 少數類別合成,technique,L23301,L21301;L23301;L23304;L23402,SMOTE 少數類合成;Synthetic Minority Over-sampling Technique;Synthetic Minority Oversampling;Synthetic Minority Oversampling Technique
+softmax,Softmax,component,L23203,L21102;L23203;L23304,正規化指數函數
+speech-quality-metrics,語音品質、WER 與延遲,metric,L21103,L21103;L21104,MOS;WER;Word Error Rate;語音延遲
+speech-recognition-pipeline,語音辨識、理解與回應串接,technique,L21104,L21101;L21103;L21104,ASR;Whisper;語音助理;語音辨識
+stacked-rnn,堆疊 RNN 的分層表示,model,L23203,L23203,Deep RNN;Stacked RNN
+statistical-inference,統計推論與參數估計,theory,L23101,L23101,Parameter Estimation;Statistical Inference;信賴區間
+statistical-parity,統計均等,metric,L23402,L21203;L23402,Demographic Parity;Statistical Parity;人口統計均等
+stemming-lemmatization,詞幹提取與詞形還原,technique,L21101,L21101,Lemmatization;Stemming
+stopword-removal,停用詞移除,technique,L21101,L21101,Stopword Removal;停用詞刪除
+supervised-fine-tuning,監督式微調 SFT,technique,L21103,L21103;L23304,SFT;Supervised Fine-Tuning;監督微調
+supervised-learning,監督式學習與標註品質,technique,L23201,L23201,Supervised Learning;監督式學習
+supervised-learning-workflow,監督式學習開發流程,technique,L23201,L23201,
+support-vector-machine,支持向量機,model,L23202,L21301;L23202,SVM;Support Vector Machine;支援向量機
+support-vector-regression,支援向量迴歸,model,L23202,L23202,SVR;ε 容忍帶
+svd,奇異值分解與截斷近似,technique,L23102,L23102;L23202;L23301,LSA;SVD 的特徵壓縮用途;Singular Value Decomposition;Truncated SVD;singular-value-decomposition
+synthetic-content-authenticity,虛假生成內容與深偽,problem,L21103,L21103;L21104;L21203,Deepfake;合成內容可信度;深偽
+t-closeness,T-接近性,technique,L23401,L23401,
+taiwan-pdpa,臺灣個人資料保護法,regulation,L23401,L21203;L23401,
+tanh,Tanh,component,L23203,L23203;L23304,雙曲正切
+target-encoding,Target Encoding 與折外統計,technique,L23301,L23301,Mean Encoding;Out-of-fold Encoding;Target Encoding
+task-model-matching,任務與模型配對,technique,L23302,L23302,
+task-model-selection,任務辨識與模型選擇,technique,L21301,L21301,Task Selection;任務選擇
+telecom-regulation,電信服務的合規盤點,regulation,L21203,L21203,
+temporal-convolutional-network,時序卷積網路,model,L23302,L23302,TCN;Temporal Convolutional Network
+temporal-features,Lag、Rolling 與特徵可用時間,technique,L23301,L23301,Lag;Point-in-time;Rolling Mean;Sliding Window
+temporal-text-features,時間與文字欄位的特徵設計,technique,L23301,L21301;L23301,Temporal Features;時間特徵
+tensorflow,TensorFlow 的執行與部署,tool,L23203,L23203,Eager Execution;TensorFlow Serving
+text-augmentation,文字增強與反向翻譯,technique,L23301,L21101;L23301,Back-Translation;Text Augmentation;偽平行語料;反向翻譯資料增強;同義詞替換
+text-classification,文字分類,technique,L21101,L21101,Text Classification;文本分類
+text-generation-platforms,語言模型與對話平台,tool,L21103,L21101;L21103,ChatGPT;Claude;GPT 系列;Gemini
+text-generation-summarization,文字生成與摘要,technique,L21101,L21101,Summarization;Text Generation;文字總結
+text-generation-workflow,文本生成工作流,technique,L21103,L21101;L21103,教學生成;文件草擬;程式碼生成
+text-representation,文字向量化與表示選型,technique,L21101,L21101,Word Vectorization;文字表示
+text-to-speech,文字轉語音與合成架構,model,L21103,L21103;L21104,FastSpeech 2;TTS;Tacotron 2;VITS;聲碼器
+tf-idf,詞頻與逆文件頻率,technique,L21101,L21101,Term Frequency-Inverse Document Frequency
+time-series-augmentation,時序資料增強,technique,L23301,L23301,Jittering;Scaling;Window Slicing
+tokenization,斷詞與子詞切分,technique,L21101,L21101,BPE;分詞
+top-k-error,Top-k 正確率與錯誤率,metric,L21102,L21102;L23303,Top-5 Error;Top-5錯誤率;Top-k Accuracy
+transfer-learning,遷移學習與預訓練模型選擇,technique,L23302,L21301;L21302;L23203;L23302,Feature Extraction;Transfer Learning;requires_grad;凍結層;遷移學習;遷移學習、凍結與微調;遷移學習與微調
+transformer,Transformer、位置資訊與平行化,model,L23203,L21101;L21103;L21301;L23203,Transformer 架構;Transformer 架構選用;Transformer 的並行與成本取捨;因果遮罩;自注意力架構
+transformer-encoder-decoder,Transformer 編碼器與解碼器,component,L23203,L23203,Causal Mask;Cross-Attention;Decoder;Encoder
+transformer-model-families,BERT、GPT 與 T5 的訓練任務比較,model,L23203,L21101;L21103;L23203,Autoregressive Language Model;BERT;BERT 與遮蔽語言建模;BERT、GPT 與 T5 的任務配對;GPT;GPT 與自迴歸語言模型;MLM;NSP;T5
+tree-impurity,樹節點不純度與資訊增益,theory,L23202,L23202,Entropy;Gini
+u-net,U-Net 編解碼分割,model,L21102,L21102;L23203,UNet;編解碼分割
+underfitting,欠擬合,problem,L23302,L23302,低度擬合
+undersampling,欠採樣,technique,L23304,L23301;L23304,欠取樣
+unsupervised-evaluation,非監督學習的評估方法,technique,L23201,L23201,Adjusted Mutual Information;Rand Index;分群評估;重建誤差
+unsupervised-learning,非監督式任務與異常偵測選型,theory,L23201,L21301;L23201,Unsupervised Learning;非監督式學習;非監督式學習與結構探索
+variational-autoencoder,變分自編碼器 VAE,model,L21103,L21103;L21301;L21302;L23203,VAE;Variational Autoencoder;變分自編碼器
+vector-inner-product,向量表示與內積,theory,L23102,L23102,Dot Product;Inner Product;輸入特徵向量
+vector-norm-linear-combination,向量範數與線性組合,theory,L23102,L23102,Euclidean Norm;L2 Norm;線性組合
+video-frame-sampling,影片影格取樣,technique,L21102,L21102;L23301,Frame Sampling;影片序列取樣
+virginia-cdpa,維吉尼亞州消費者資料保護法,regulation,L23401,L21203;L23401,
+vision-application-planning,視覺應用的需求與流程規劃,technique,L21102,L21102;L21201,瑕疵檢測;醫療影像;零售視覺應用
+vision-language-models,視覺語言模型的任務比較,model,L21104,L21102;L21104,BLIP;BLIP-2;Flamingo;視覺語言模型
+vision-transformer,視覺 Transformer,model,L23203,L21102;L23203,Patch;ViT;Vision Transformer;Vision Transformer 的區塊序列
+visual-data-privacy,視覺資料的隱私保護,technique,L23401,L21102;L21203;L23401,人臉遮罩;影像去識別化;視覺個資
+visual-tracking,視覺追蹤與 AR/VR 互動,technique,L21102,L21102;L21104,AR;VR;Visual Tracking;虛實互動
+voice-generation-workflow,語音合成服務與應用規劃,technique,L21103,L21103;L21104,Amazon Polly;Azure TTS;ElevenLabs;Google Cloud TTS;Voice Cloning;聲音複製
+voting-ensemble,投票與機率整合,technique,L23202,L23202,Hard Voting;Soft Voting;加權投票
+word-embedding,詞嵌入與靜態語意向量,technique,L21101,L21101,Word Embedding;分布式詞嵌入;詞向量
+word2vec,Word2Vec：CBOW 與 Skip-gram,model,L21101,L21101,CBOW;Skip-gram
+work-breakdown-structure,WBS 工作分解與驗收,technique,L21202,L21202,
+wrapper-feature-selection,Wrapper 與 RFE,technique,L23301,L23301,RFE;Sequential Feature Selection;Wrapper
+xgboost,XGBoost,model,L23202,L23202,eXtreme Gradient Boosting

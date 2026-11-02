@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="650" viewBox="0 0 360 650" role="img" aria-labelledby="title desc">
+  <title id="title">POC 每輪目標、測試、回饋與修改的循環</title>
+  <desc id="desc">在單一情境中，先設定本輪問題，建置足夠驗證的原型，再記錄技術、業務與使用者結果，據此調整下一輪目標；一至兩週是指引舉例的時間盒，不代表到期必須通過。教學示意圖。</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#334155"/></marker></defs>
+  <rect width="360" height="650" rx="16" fill="#f8fafc"/>
+  <g font-family="system-ui, sans-serif" fill="#0f172a" text-anchor="middle">
+    <text x="180" y="32" font-size="19" font-weight="700">一輪只回答明確的問題</text>
+    <text x="180" y="57" font-size="14">單一情境・限時測試・留下版本</text>
+    <rect x="45" y="82" width="270" height="81" rx="12" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+    <text x="180" y="112" font-size="18" font-weight="700">① 設定目標</text>
+    <text x="180" y="140" font-size="15">本輪要驗哪個技術或流程假設？</text>
+    <rect x="45" y="196" width="270" height="81" rx="12" fill="#fff" stroke="#475569" stroke-width="2"/>
+    <text x="180" y="226" font-size="18" font-weight="700">② 建原型並小範圍測試</text>
+    <text x="180" y="254" font-size="15">從資料準備走到實際操作</text>
+    <rect x="45" y="310" width="270" height="104" rx="12" fill="#ecfdf5" stroke="#047857" stroke-width="2"/>
+    <text x="180" y="340" font-size="18" font-weight="700">③ 同時收三類回饋</text>
+    <text x="180" y="367" font-size="15">技術：品質、介接與延遲</text>
+    <text x="180" y="392" font-size="15">業務：成本與工時｜使用者：障礙</text>
+    <rect x="45" y="447" width="270" height="86" rx="12" fill="#fff7ed" stroke="#c2410c" stroke-width="2"/>
+    <text x="180" y="477" font-size="18" font-weight="700">④ 評估與調整</text>
+    <text x="180" y="505" font-size="15">決定下一輪的修改與驗證重點</text>
+    <text x="180" y="576" font-size="15">例：每輪一至兩週</text>
+    <text x="180" y="601" font-size="14">到期檢查證據，不把展示當作通過</text>
+    <text x="180" y="630" font-size="13">教學示意｜依科目一指引 4-26～4-27</text>
+  </g>
+  <g fill="none" stroke="#334155" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M180 164V188"/><path d="M180 278V302"/><path d="M180 415V439"/>
+    <path d="M45 491H20V122H37" stroke-dasharray="6 4"/>
+  </g>
+</svg>

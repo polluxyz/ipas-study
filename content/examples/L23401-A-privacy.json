@@ -1,0 +1,552 @@
+{
+  "id": "L23401-A-privacy",
+  "source": "教學合成資料；假人、院所、地區與紀錄均為虛構",
+  "seed": 42,
+  "retention_start": "副本建立日為第0日；來源檔從各自建立日起算；期限是教學設定而非法定保存期間",
+  "release_plan": {
+    "original": "擬公開逐筆資料；尚未核准",
+    "revised": "優先考慮受控查詢或審核後統計輸出；尚待完整評估"
+  },
+  "generalization": {
+    "age": "十歲區間：age // 10 * 10",
+    "district": {
+      "東區": "城區",
+      "北區": "城區",
+      "西區": "郊區",
+      "南區": "郊區",
+      "外區": "其他"
+    }
+  },
+  "domains": [
+    {
+      "name": "hospital",
+      "records": [
+        {
+          "record_id": "H01",
+          "pseudonym": "P-01",
+          "age": 31,
+          "district": "東區",
+          "sensitive_value": "診斷甲",
+          "source": "甲院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H02",
+          "pseudonym": "P-02",
+          "age": 32,
+          "district": "東區",
+          "sensitive_value": "診斷乙",
+          "source": "甲院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H03",
+          "pseudonym": "P-03",
+          "age": 41,
+          "district": "西區",
+          "sensitive_value": "診斷丙",
+          "source": "甲院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H04",
+          "pseudonym": "P-04",
+          "age": 42,
+          "district": "西區",
+          "sensitive_value": "診斷乙",
+          "source": "甲院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H05",
+          "pseudonym": "P-05",
+          "age": 35,
+          "district": "北區",
+          "sensitive_value": "診斷甲",
+          "source": "甲院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H06",
+          "pseudonym": "P-06",
+          "age": 35,
+          "district": "北區",
+          "sensitive_value": "診斷甲",
+          "source": "甲院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H07",
+          "pseudonym": "P-07",
+          "age": 36,
+          "district": "北區",
+          "sensitive_value": "診斷乙",
+          "source": "乙院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H08",
+          "pseudonym": "P-08",
+          "age": 36,
+          "district": "北區",
+          "sensitive_value": "診斷丙",
+          "source": "乙院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H09",
+          "pseudonym": "P-09",
+          "age": 45,
+          "district": "南區",
+          "sensitive_value": "診斷甲",
+          "source": "乙院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H10",
+          "pseudonym": "P-10",
+          "age": 45,
+          "district": "南區",
+          "sensitive_value": "診斷乙",
+          "source": "乙院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H11",
+          "pseudonym": "P-11",
+          "age": 46,
+          "district": "南區",
+          "sensitive_value": "診斷丙",
+          "source": "乙院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        },
+        {
+          "record_id": "H12",
+          "pseudonym": "P-12",
+          "age": 46,
+          "district": "南區",
+          "sensitive_value": "診斷甲",
+          "source": "乙院掛號與診療系統",
+          "department": "研究室",
+          "purpose": "跨院疾病分布研究",
+          "retention_days": 30,
+          "recipient": "核准的研究室成員",
+          "storage": "研究區受控伺服器"
+        }
+      ],
+      "lookup": [
+        {
+          "subject": "假人1",
+          "age": 31,
+          "district": "東區"
+        },
+        {
+          "subject": "假人2",
+          "age": 35,
+          "district": "北區"
+        },
+        {
+          "subject": "假人3",
+          "age": 41,
+          "district": "西區"
+        },
+        {
+          "subject": "假人4",
+          "age": 99,
+          "district": "外區"
+        }
+      ],
+      "fixed_indices": {
+        "training": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "holdout": [
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "privacy_test_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "name": "commerce",
+      "records": [
+        {
+          "record_id": "E01",
+          "pseudonym": "M-01",
+          "age": 31,
+          "district": "東區",
+          "sensitive_value": 1200,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E02",
+          "pseudonym": "M-02",
+          "age": 32,
+          "district": "東區",
+          "sensitive_value": 2200,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E03",
+          "pseudonym": "M-03",
+          "age": 41,
+          "district": "西區",
+          "sensitive_value": 9000,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E04",
+          "pseudonym": "M-04",
+          "age": 42,
+          "district": "西區",
+          "sensitive_value": 4000,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E05",
+          "pseudonym": "M-05",
+          "age": 35,
+          "district": "北區",
+          "sensitive_value": 1800,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E06",
+          "pseudonym": "M-06",
+          "age": 35,
+          "district": "北區",
+          "sensitive_value": 1800,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E07",
+          "pseudonym": "M-07",
+          "age": 36,
+          "district": "北區",
+          "sensitive_value": 3000,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E08",
+          "pseudonym": "M-08",
+          "age": 36,
+          "district": "北區",
+          "sensitive_value": 3500,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E09",
+          "pseudonym": "M-09",
+          "age": 45,
+          "district": "南區",
+          "sensitive_value": 6000,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E10",
+          "pseudonym": "M-10",
+          "age": 45,
+          "district": "南區",
+          "sensitive_value": 6200,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E11",
+          "pseudonym": "M-11",
+          "age": 46,
+          "district": "南區",
+          "sensitive_value": 4000,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        },
+        {
+          "record_id": "E12",
+          "pseudonym": "M-12",
+          "age": 46,
+          "district": "南區",
+          "sensitive_value": 4100,
+          "source": "會員表單與訂單系統",
+          "department": "分析部",
+          "purpose": "會員回購分析",
+          "retention_days": 30,
+          "recipient": "核准的分析部成員",
+          "storage": "分析區受控伺服器"
+        }
+      ],
+      "lookup": [
+        {
+          "subject": "假會員1",
+          "age": 31,
+          "district": "東區"
+        },
+        {
+          "subject": "假會員2",
+          "age": 35,
+          "district": "北區"
+        },
+        {
+          "subject": "假會員3",
+          "age": 41,
+          "district": "西區"
+        },
+        {
+          "subject": "假會員4",
+          "age": 99,
+          "district": "外區"
+        }
+      ],
+      "fixed_indices": {
+        "training": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "holdout": [
+          8,
+          9,
+          10,
+          11
+        ]
+      },
+      "privacy_test_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "asset_id": "H-source",
+      "source": "甲院與乙院診療系統",
+      "fields": [
+        "pseudonym",
+        "age",
+        "district",
+        "sensitive_value"
+      ],
+      "department": "醫務部",
+      "purpose": "診療與經核可的研究供應",
+      "recipient": "授權醫務人員；研究用副本交研究室",
+      "storage": "院內來源區",
+      "retention_days": 365,
+      "expiry_action": "依教學規則刪除，逐一追查副本",
+      "access": "非公開",
+      "sensitivity": "高度敏感個資"
+    },
+    {
+      "asset_id": "H-research",
+      "source": "H-source 的研究副本",
+      "fields": [
+        "pseudonym",
+        "age",
+        "district",
+        "sensitive_value"
+      ],
+      "department": "研究室",
+      "purpose": "跨院疾病分布研究",
+      "recipient": "核准的研究室成員",
+      "storage": "研究區受控伺服器",
+      "retention_days": 30,
+      "expiry_action": "刪除副本並留刪除紀錄",
+      "access": "非公開",
+      "sensitivity": "高度敏感個資"
+    },
+    {
+      "asset_id": "E-source",
+      "source": "會員表單與訂單系統",
+      "fields": [
+        "pseudonym",
+        "age",
+        "district",
+        "sensitive_value"
+      ],
+      "department": "客服部",
+      "purpose": "訂單服務與經核可的分析供應",
+      "recipient": "授權客服人員；分析副本交分析部",
+      "storage": "客服區受控伺服器",
+      "retention_days": 180,
+      "expiry_action": "依教學規則刪除，逐一追查副本",
+      "access": "非公開",
+      "sensitivity": "個人資料"
+    },
+    {
+      "asset_id": "E-analysis",
+      "source": "E-source 的分析副本",
+      "fields": [
+        "pseudonym",
+        "age",
+        "district",
+        "sensitive_value"
+      ],
+      "department": "分析部",
+      "purpose": "會員回購分析",
+      "recipient": "核准的分析部成員",
+      "storage": "分析區受控伺服器",
+      "retention_days": 30,
+      "expiry_action": "刪除副本並留刪除紀錄",
+      "access": "非公開",
+      "sensitivity": "個人資料"
+    }
+  ],
+  "risk_events": [
+    {
+      "id": "H1",
+      "event": "研究副本被與外部表連結",
+      "impact": "疾病資訊與身分被連結",
+      "owner": "研究資料主管",
+      "control": "停止原表公開；泛化後重測並限制受控查詢",
+      "deadline_day": 7
+    },
+    {
+      "id": "H2",
+      "event": "30日期滿副本仍可下載",
+      "impact": "延長非必要的暴露時間",
+      "owner": "研究區系統管理員",
+      "control": "排程刪除與刪除紀錄抽查",
+      "deadline_day": 30
+    },
+    {
+      "id": "E1",
+      "event": "客服帳號取得分析副本全部欄位",
+      "impact": "消費金額被目的外瀏覽",
+      "owner": "分析資料主管",
+      "control": "分角色授權並驗證客服拒絕存取",
+      "deadline_day": 7
+    }
+  ]
+}

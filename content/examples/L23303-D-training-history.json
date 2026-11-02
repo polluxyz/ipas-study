@@ -1,0 +1,114 @@
+{
+  "source": "教學模擬資料；以明示規則合成影像分類的交叉熵趨勢，不是模型訓練成績。",
+  "domain": "製造瑕疵影像分類",
+  "generator": {
+    "epochs": 10,
+    "train": "0.8 - 0.06*(epoch-1)",
+    "normal_validation": "0.9 - 0.06*(epoch-1)",
+    "overfit_validation": "epoch<=5: 0.9-0.08*(epoch-1); epoch=6,7: 0.58-0.005*(epoch-5); epoch>=8: 0.61+0.04*(epoch-8)"
+  },
+  "points": [
+    {
+      "epoch": 1,
+      "train": 0.8,
+      "validation": 0.9
+    },
+    {
+      "epoch": 2,
+      "train": 0.74,
+      "validation": 0.82
+    },
+    {
+      "epoch": 3,
+      "train": 0.68,
+      "validation": 0.74
+    },
+    {
+      "epoch": 4,
+      "train": 0.62,
+      "validation": 0.66
+    },
+    {
+      "epoch": 5,
+      "train": 0.56,
+      "validation": 0.58
+    },
+    {
+      "epoch": 6,
+      "train": 0.5,
+      "validation": 0.575
+    },
+    {
+      "epoch": 7,
+      "train": 0.44,
+      "validation": 0.57
+    },
+    {
+      "epoch": 8,
+      "train": 0.38,
+      "validation": 0.61
+    },
+    {
+      "epoch": 9,
+      "train": 0.32,
+      "validation": 0.65
+    },
+    {
+      "epoch": 10,
+      "train": 0.26,
+      "validation": 0.69
+    }
+  ],
+  "normal": [
+    {
+      "epoch": 1,
+      "train": 0.8,
+      "validation": 0.9
+    },
+    {
+      "epoch": 2,
+      "train": 0.74,
+      "validation": 0.84
+    },
+    {
+      "epoch": 3,
+      "train": 0.68,
+      "validation": 0.78
+    },
+    {
+      "epoch": 4,
+      "train": 0.62,
+      "validation": 0.72
+    },
+    {
+      "epoch": 5,
+      "train": 0.56,
+      "validation": 0.66
+    },
+    {
+      "epoch": 6,
+      "train": 0.5,
+      "validation": 0.6
+    },
+    {
+      "epoch": 7,
+      "train": 0.44,
+      "validation": 0.54
+    },
+    {
+      "epoch": 8,
+      "train": 0.38,
+      "validation": 0.48
+    },
+    {
+      "epoch": 9,
+      "train": 0.32,
+      "validation": 0.42
+    },
+    {
+      "epoch": 10,
+      "train": 0.26,
+      "validation": 0.36
+    }
+  ]
+}

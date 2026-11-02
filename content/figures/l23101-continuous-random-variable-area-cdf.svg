@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="590" viewBox="0 0 360 590" role="img" aria-labelledby="title desc">
+<title id="title">密度面積與累積機率差</title>
+<desc id="desc">均勻範圍0至2分鐘，陰影區間0.5至1.5分鐘。 教學合成模型示意，非觀測頻數。</desc>
+<rect width="360" height="590" fill="white"/>
+<g font-family="Microsoft JhengHei, Noto Sans TC, sans-serif">
+<text x="180" y="27" font-size="18" text-anchor="middle" fill="#182b40">同一均勻延遲：PDF與CDF</text>
+<text x="20" y="60" font-size="15" text-anchor="start" fill="#182b40">密度（每分鐘）</text>
+<path d="M60 80 L60 210" fill="none" stroke="#182b40" stroke-width="2"/>
+<path d="M60 210 L330 210" fill="none" stroke="#182b40" stroke-width="2"/>
+<text x="48" y="215" font-size="14" text-anchor="end" fill="#182b40">0</text>
+<text x="48" y="115.0" font-size="14" text-anchor="end" fill="#182b40">0.5</text>
+<rect x="125.0" y="110" width="130" height="100" fill="#d4e8f6"/>
+<path d="M60.0 110.0 L320.0 110.0" fill="none" stroke="#155e95" stroke-width="2"/>
+<path d="M320.0 110.0 L320.0 210" fill="none" stroke="#155e95" stroke-width="2"/>
+<text x="190" y="155" font-size="16" text-anchor="middle" fill="#182b40">面積=0.5</text>
+<text x="60.0" y="232" font-size="14" text-anchor="middle" fill="#182b40">0</text>
+<text x="125.0" y="232" font-size="14" text-anchor="middle" fill="#182b40">0.5</text>
+<text x="255.0" y="232" font-size="14" text-anchor="middle" fill="#182b40">1.5</text>
+<text x="320.0" y="232" font-size="14" text-anchor="middle" fill="#182b40">2</text>
+<text x="180" y="259" font-size="15" text-anchor="middle" fill="#182b40">提示延遲（分鐘）</text>
+<text x="20" y="292" font-size="15" text-anchor="start" fill="#182b40">累積機率 F(x)</text>
+<path d="M60 310 L60 445" fill="none" stroke="#182b40" stroke-width="2"/>
+<path d="M60 445 L330 445" fill="none" stroke="#182b40" stroke-width="2"/>
+<text x="48" y="450" font-size="14" text-anchor="end" fill="#182b40">0</text>
+<text x="48" y="420.0" font-size="14" text-anchor="end" fill="#182b40">0.25</text>
+<text x="48" y="360.0" font-size="14" text-anchor="end" fill="#182b40">0.75</text>
+<text x="48" y="330" font-size="14" text-anchor="end" fill="#182b40">1</text>
+<path d="M60.0 445 L320.0 325" fill="none" stroke="#155e95" stroke-width="2"/>
+<path d="M320.0 325 L338 325" fill="none" stroke="#155e95" stroke-width="2"/>
+<path d="M60 415.0 L125.0 415.0" fill="none" stroke="#a34c00" stroke-width="2" stroke-dasharray="5 4"/>
+<path d="M125.0 415.0 L125.0 445" fill="none" stroke="#a34c00" stroke-width="2" stroke-dasharray="5 4"/>
+<circle cx="125.0" cy="415.0" r="4" fill="#a34c00"/>
+<path d="M60 355.0 L255.0 355.0" fill="none" stroke="#a34c00" stroke-width="2" stroke-dasharray="5 4"/>
+<path d="M255.0 355.0 L255.0 445" fill="none" stroke="#a34c00" stroke-width="2" stroke-dasharray="5 4"/>
+<circle cx="255.0" cy="355.0" r="4" fill="#a34c00"/>
+<text x="60.0" y="468" font-size="14" text-anchor="middle" fill="#182b40">0</text>
+<text x="125.0" y="468" font-size="14" text-anchor="middle" fill="#182b40">0.5</text>
+<text x="255.0" y="468" font-size="14" text-anchor="middle" fill="#182b40">1.5</text>
+<text x="320.0" y="468" font-size="14" text-anchor="middle" fill="#182b40">2</text>
+<text x="180" y="495" font-size="15" text-anchor="middle" fill="#182b40">提示延遲（分鐘）</text>
+<text x="180" y="525" font-size="15" text-anchor="middle" fill="#182b40">F(1.5) − F(0.5) = 0.75 − 0.25</text>
+<text x="180" y="550" font-size="15" text-anchor="middle" fill="#182b40">相減得到上方陰影面積0.5</text>
+<text x="12" y="578" font-size="13" text-anchor="start" fill="#182b40">來源：教學合成模型示意</text>
+</g>
+</svg>

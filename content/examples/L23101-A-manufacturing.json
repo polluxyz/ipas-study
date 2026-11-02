@@ -1,0 +1,649 @@
+{
+  "source": "教學合成資料；前五筆固定供手算，其餘依指定分佈獨立生成，不代表真實製程。",
+  "seed": 23101,
+  "parameters": {
+    "defect_p": 0.2,
+    "thickness_mean_mm": 10,
+    "thickness_sd_mm": 2
+  },
+  "hand_ids": [
+    "M001",
+    "M002",
+    "M003",
+    "M004",
+    "M005"
+  ],
+  "items": [
+    {
+      "item_id": "M001",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 8.0
+    },
+    {
+      "item_id": "M002",
+      "shift": "日班",
+      "defect": 1,
+      "thickness_mm": 10.0
+    },
+    {
+      "item_id": "M003",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 12.0
+    },
+    {
+      "item_id": "M004",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.0
+    },
+    {
+      "item_id": "M005",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 9.0
+    },
+    {
+      "item_id": "M006",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 8.931728
+    },
+    {
+      "item_id": "M007",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.660975
+    },
+    {
+      "item_id": "M008",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 8.994998
+    },
+    {
+      "item_id": "M009",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 5.085072
+    },
+    {
+      "item_id": "M010",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.224347
+    },
+    {
+      "item_id": "M011",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 12.165519
+    },
+    {
+      "item_id": "M012",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 6.918345
+    },
+    {
+      "item_id": "M013",
+      "shift": "日班",
+      "defect": 1,
+      "thickness_mm": 8.940228
+    },
+    {
+      "item_id": "M014",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 10.529253
+    },
+    {
+      "item_id": "M015",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 9.416029
+    },
+    {
+      "item_id": "M016",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.781988
+    },
+    {
+      "item_id": "M017",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 10.482268
+    },
+    {
+      "item_id": "M018",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 8.4548
+    },
+    {
+      "item_id": "M019",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 12.847493
+    },
+    {
+      "item_id": "M020",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 9.954849
+    },
+    {
+      "item_id": "M021",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 8.060717
+    },
+    {
+      "item_id": "M022",
+      "shift": "日班",
+      "defect": 1,
+      "thickness_mm": 12.88288
+    },
+    {
+      "item_id": "M023",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 10.33964
+    },
+    {
+      "item_id": "M024",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 10.625337
+    },
+    {
+      "item_id": "M025",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 9.290096
+    },
+    {
+      "item_id": "M026",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.244051
+    },
+    {
+      "item_id": "M027",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 10.768263
+    },
+    {
+      "item_id": "M028",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 10.839674
+    },
+    {
+      "item_id": "M029",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 6.988034
+    },
+    {
+      "item_id": "M030",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 6.794894
+    },
+    {
+      "item_id": "M031",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.833552
+    },
+    {
+      "item_id": "M032",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 9.682954
+    },
+    {
+      "item_id": "M033",
+      "shift": "日班",
+      "defect": 1,
+      "thickness_mm": 11.182193
+    },
+    {
+      "item_id": "M034",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 7.869985
+    },
+    {
+      "item_id": "M035",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.391463
+    },
+    {
+      "item_id": "M036",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.338294
+    },
+    {
+      "item_id": "M037",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 8.339345
+    },
+    {
+      "item_id": "M038",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 9.82464
+    },
+    {
+      "item_id": "M039",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.548002
+    },
+    {
+      "item_id": "M040",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 12.554982
+    },
+    {
+      "item_id": "M041",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 6.769396
+    },
+    {
+      "item_id": "M042",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 9.873662
+    },
+    {
+      "item_id": "M043",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 10.415639
+    },
+    {
+      "item_id": "M044",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.630011
+    },
+    {
+      "item_id": "M045",
+      "shift": "日班",
+      "defect": 1,
+      "thickness_mm": 12.204878
+    },
+    {
+      "item_id": "M046",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 11.580654
+    },
+    {
+      "item_id": "M047",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 9.777486
+    },
+    {
+      "item_id": "M048",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 12.201781
+    },
+    {
+      "item_id": "M049",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 7.188038
+    },
+    {
+      "item_id": "M050",
+      "shift": "日班",
+      "defect": 0,
+      "thickness_mm": 8.455884
+    },
+    {
+      "item_id": "M051",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.593252
+    },
+    {
+      "item_id": "M052",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.753467
+    },
+    {
+      "item_id": "M053",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 12.553132
+    },
+    {
+      "item_id": "M054",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 9.891886
+    },
+    {
+      "item_id": "M055",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 10.541402
+    },
+    {
+      "item_id": "M056",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.953725
+    },
+    {
+      "item_id": "M057",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 7.724054
+    },
+    {
+      "item_id": "M058",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 6.315612
+    },
+    {
+      "item_id": "M059",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.650187
+    },
+    {
+      "item_id": "M060",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 7.228882
+    },
+    {
+      "item_id": "M061",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 9.678422
+    },
+    {
+      "item_id": "M062",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 14.796066
+    },
+    {
+      "item_id": "M063",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 11.648469
+    },
+    {
+      "item_id": "M064",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 10.809024
+    },
+    {
+      "item_id": "M065",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 8.735075
+    },
+    {
+      "item_id": "M066",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 7.020605
+    },
+    {
+      "item_id": "M067",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 8.939103
+    },
+    {
+      "item_id": "M068",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 7.446026
+    },
+    {
+      "item_id": "M069",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 10.864056
+    },
+    {
+      "item_id": "M070",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 13.075897
+    },
+    {
+      "item_id": "M071",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 12.193891
+    },
+    {
+      "item_id": "M072",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 9.066109
+    },
+    {
+      "item_id": "M073",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 5.646128
+    },
+    {
+      "item_id": "M074",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 7.270487
+    },
+    {
+      "item_id": "M075",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 12.770582
+    },
+    {
+      "item_id": "M076",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 9.178353
+    },
+    {
+      "item_id": "M077",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 12.03093
+    },
+    {
+      "item_id": "M078",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 12.748001
+    },
+    {
+      "item_id": "M079",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.939209
+    },
+    {
+      "item_id": "M080",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 11.987075
+    },
+    {
+      "item_id": "M081",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 9.656351
+    },
+    {
+      "item_id": "M082",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 12.254566
+    },
+    {
+      "item_id": "M083",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 10.089971
+    },
+    {
+      "item_id": "M084",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 11.00537
+    },
+    {
+      "item_id": "M085",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 11.064787
+    },
+    {
+      "item_id": "M086",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.047258
+    },
+    {
+      "item_id": "M087",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 10.755253
+    },
+    {
+      "item_id": "M088",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 7.201512
+    },
+    {
+      "item_id": "M089",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.409256
+    },
+    {
+      "item_id": "M090",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 11.168381
+    },
+    {
+      "item_id": "M091",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 11.791258
+    },
+    {
+      "item_id": "M092",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 11.294469
+    },
+    {
+      "item_id": "M093",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 9.06209
+    },
+    {
+      "item_id": "M094",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.685613
+    },
+    {
+      "item_id": "M095",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 13.35507
+    },
+    {
+      "item_id": "M096",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 7.489438
+    },
+    {
+      "item_id": "M097",
+      "shift": "夜班",
+      "defect": 1,
+      "thickness_mm": 9.996257
+    },
+    {
+      "item_id": "M098",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 12.136029
+    },
+    {
+      "item_id": "M099",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.947886
+    },
+    {
+      "item_id": "M100",
+      "shift": "夜班",
+      "defect": 0,
+      "thickness_mm": 8.588151
+    }
+  ],
+  "model_output": {
+    "observed_features": {
+      "shift": "日班",
+      "thickness_mm": 12
+    },
+    "p_defect": 0.2,
+    "p_normal": 0.8
+  },
+  "cost_scenarios": [
+    {
+      "inspection_cost": 8,
+      "missed_defect_loss": 100
+    },
+    {
+      "inspection_cost": 30,
+      "missed_defect_loss": 100
+    }
+  ],
+  "initialization_uniform_demo": {
+    "low": 2,
+    "high": 6,
+    "target_interval": [
+      3,
+      5
+    ]
+  },
+  "density_comparison_uniform_demo": {
+    "low_mm": 6,
+    "high_mm": 14,
+    "note": "與厚度常態模型使用同一座標的形狀比較，不表示同一製程同時服從兩個分佈。"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "description": "教學模擬：12 位不同病人的罕見疾病研究，每人一筆，3 正類與 9 負類。不是實際醫療資料；只用於切分計數，不宣稱臨床效能。",
+  "positiveMeaning": "已確認有目標疾病",
+  "splitter": { "name": "StratifiedKFold", "n_splits": 3, "shuffle": false },
+  "samples": [
+    { "id": "M01", "patient": "P01", "label": 1 },
+    { "id": "M02", "patient": "P02", "label": 0 },
+    { "id": "M03", "patient": "P03", "label": 0 },
+    { "id": "M04", "patient": "P04", "label": 0 },
+    { "id": "M05", "patient": "P05", "label": 1 },
+    { "id": "M06", "patient": "P06", "label": 0 },
+    { "id": "M07", "patient": "P07", "label": 0 },
+    { "id": "M08", "patient": "P08", "label": 0 },
+    { "id": "M09", "patient": "P09", "label": 1 },
+    { "id": "M10", "patient": "P10", "label": 0 },
+    { "id": "M11", "patient": "P11", "label": 0 },
+    { "id": "M12", "patient": "P12", "label": 0 }
+  ],
+  "stratifiedThreeFoldValidationIds": [
+    ["M01", "M02", "M03", "M04"],
+    ["M05", "M06", "M07", "M08"],
+    ["M09", "M10", "M11", "M12"]
+  ]
+}

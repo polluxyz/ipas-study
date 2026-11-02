@@ -1,0 +1,630 @@
+{
+  "source": "教學合成資料；參考群、監督標籤與候選輸出均由固定規則設定，不能證明業務效果。",
+  "seed": 42,
+  "domain": "commerce",
+  "feature_note": "特徵為30日訂單次數與30日金額/1000；這是固定單位換算，不是Z-score標準化。",
+  "offsets": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      1,
+      0
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      1,
+      3
+    ]
+  ],
+  "centers": [
+    [
+      1,
+      1
+    ],
+    [
+      7,
+      1
+    ],
+    [
+      13,
+      1
+    ]
+  ],
+  "splits": {
+    "train": [
+      16,
+      15,
+      18,
+      19,
+      9,
+      7,
+      17,
+      23,
+      6,
+      10,
+      3,
+      0,
+      20,
+      12,
+      5,
+      11
+    ],
+    "validation": [
+      14,
+      22,
+      2,
+      4
+    ],
+    "test": [
+      21,
+      1,
+      13,
+      8
+    ]
+  },
+  "hand_indices": [
+    0,
+    1,
+    8,
+    9
+  ],
+  "loss_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "rows": [
+    {
+      "id": "E01",
+      "index": 0,
+      "features": [
+        1,
+        1
+      ],
+      "observed": {
+        "orders_30d": 1,
+        "amount_30d_twd": 1000
+      },
+      "reference_group": 0,
+      "binary_target": 0,
+      "positive_probability_A": 0.1,
+      "positive_probability_B": 0.4,
+      "numeric_target": 105,
+      "prediction_A": 106,
+      "prediction_B": 107,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E02",
+      "index": 1,
+      "features": [
+        1,
+        3
+      ],
+      "observed": {
+        "orders_30d": 1,
+        "amount_30d_twd": 3000
+      },
+      "reference_group": 0,
+      "binary_target": 1,
+      "positive_probability_A": 0.8,
+      "positive_probability_B": 0.6,
+      "numeric_target": 111,
+      "prediction_A": 112,
+      "prediction_B": 113,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E03",
+      "index": 2,
+      "features": [
+        2,
+        1
+      ],
+      "observed": {
+        "orders_30d": 2,
+        "amount_30d_twd": 1000
+      },
+      "reference_group": 0,
+      "binary_target": 0,
+      "positive_probability_A": 0.2,
+      "positive_probability_B": 0.4,
+      "numeric_target": 107,
+      "prediction_A": 108,
+      "prediction_B": 109,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E04",
+      "index": 3,
+      "features": [
+        2,
+        3
+      ],
+      "observed": {
+        "orders_30d": 2,
+        "amount_30d_twd": 3000
+      },
+      "reference_group": 0,
+      "binary_target": 1,
+      "positive_probability_A": 0.7,
+      "positive_probability_B": 0.6,
+      "numeric_target": 113,
+      "prediction_A": 114,
+      "prediction_B": 115,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E05",
+      "index": 4,
+      "features": [
+        1,
+        2
+      ],
+      "observed": {
+        "orders_30d": 1,
+        "amount_30d_twd": 2000
+      },
+      "reference_group": 0,
+      "binary_target": 0,
+      "positive_probability_A": 0.3,
+      "positive_probability_B": 0.4,
+      "numeric_target": 108,
+      "prediction_A": 109,
+      "prediction_B": 110,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E06",
+      "index": 5,
+      "features": [
+        2,
+        2
+      ],
+      "observed": {
+        "orders_30d": 2,
+        "amount_30d_twd": 2000
+      },
+      "reference_group": 0,
+      "binary_target": 1,
+      "positive_probability_A": 0.6,
+      "positive_probability_B": 0.6,
+      "numeric_target": 110,
+      "prediction_A": 116,
+      "prediction_B": 112,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E07",
+      "index": 6,
+      "features": [
+        1,
+        4
+      ],
+      "observed": {
+        "orders_30d": 1,
+        "amount_30d_twd": 4000
+      },
+      "reference_group": 0,
+      "binary_target": 0,
+      "positive_probability_A": 0.1,
+      "positive_probability_B": 0.4,
+      "numeric_target": 114,
+      "prediction_A": 115,
+      "prediction_B": 116,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E08",
+      "index": 7,
+      "features": [
+        2,
+        4
+      ],
+      "observed": {
+        "orders_30d": 2,
+        "amount_30d_twd": 4000
+      },
+      "reference_group": 0,
+      "binary_target": 1,
+      "positive_probability_A": 0.8,
+      "positive_probability_B": 0.6,
+      "numeric_target": 116,
+      "prediction_A": 117,
+      "prediction_B": 118,
+      "candidate_separate": 0,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E09",
+      "index": 8,
+      "features": [
+        7,
+        1
+      ],
+      "observed": {
+        "orders_30d": 7,
+        "amount_30d_twd": 1000
+      },
+      "reference_group": 1,
+      "binary_target": 0,
+      "positive_probability_A": 0.2,
+      "positive_probability_B": 0.4,
+      "numeric_target": 117,
+      "prediction_A": 118,
+      "prediction_B": 119,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E10",
+      "index": 9,
+      "features": [
+        7,
+        3
+      ],
+      "observed": {
+        "orders_30d": 7,
+        "amount_30d_twd": 3000
+      },
+      "reference_group": 1,
+      "binary_target": 1,
+      "positive_probability_A": 0.7,
+      "positive_probability_B": 0.6,
+      "numeric_target": 123,
+      "prediction_A": 124,
+      "prediction_B": 125,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E11",
+      "index": 10,
+      "features": [
+        8,
+        1
+      ],
+      "observed": {
+        "orders_30d": 8,
+        "amount_30d_twd": 1000
+      },
+      "reference_group": 1,
+      "binary_target": 0,
+      "positive_probability_A": 0.3,
+      "positive_probability_B": 0.4,
+      "numeric_target": 119,
+      "prediction_A": 120,
+      "prediction_B": 121,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E12",
+      "index": 11,
+      "features": [
+        8,
+        3
+      ],
+      "observed": {
+        "orders_30d": 8,
+        "amount_30d_twd": 3000
+      },
+      "reference_group": 1,
+      "binary_target": 1,
+      "positive_probability_A": 0.6,
+      "positive_probability_B": 0.6,
+      "numeric_target": 125,
+      "prediction_A": 131,
+      "prediction_B": 127,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E13",
+      "index": 12,
+      "features": [
+        7,
+        2
+      ],
+      "observed": {
+        "orders_30d": 7,
+        "amount_30d_twd": 2000
+      },
+      "reference_group": 1,
+      "binary_target": 0,
+      "positive_probability_A": 0.1,
+      "positive_probability_B": 0.4,
+      "numeric_target": 120,
+      "prediction_A": 121,
+      "prediction_B": 122,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E14",
+      "index": 13,
+      "features": [
+        8,
+        2
+      ],
+      "observed": {
+        "orders_30d": 8,
+        "amount_30d_twd": 2000
+      },
+      "reference_group": 1,
+      "binary_target": 1,
+      "positive_probability_A": 0.8,
+      "positive_probability_B": 0.6,
+      "numeric_target": 122,
+      "prediction_A": 123,
+      "prediction_B": 124,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E15",
+      "index": 14,
+      "features": [
+        7,
+        4
+      ],
+      "observed": {
+        "orders_30d": 7,
+        "amount_30d_twd": 4000
+      },
+      "reference_group": 1,
+      "binary_target": 0,
+      "positive_probability_A": 0.2,
+      "positive_probability_B": 0.4,
+      "numeric_target": 126,
+      "prediction_A": 127,
+      "prediction_B": 128,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E16",
+      "index": 15,
+      "features": [
+        8,
+        4
+      ],
+      "observed": {
+        "orders_30d": 8,
+        "amount_30d_twd": 4000
+      },
+      "reference_group": 1,
+      "binary_target": 1,
+      "positive_probability_A": 0.7,
+      "positive_probability_B": 0.6,
+      "numeric_target": 128,
+      "prediction_A": 129,
+      "prediction_B": 130,
+      "candidate_separate": 1,
+      "candidate_merge": 0,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E17",
+      "index": 16,
+      "features": [
+        13,
+        1
+      ],
+      "observed": {
+        "orders_30d": 13,
+        "amount_30d_twd": 1000
+      },
+      "reference_group": 2,
+      "binary_target": 0,
+      "positive_probability_A": 0.3,
+      "positive_probability_B": 0.4,
+      "numeric_target": 129,
+      "prediction_A": 130,
+      "prediction_B": 131,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E18",
+      "index": 17,
+      "features": [
+        13,
+        3
+      ],
+      "observed": {
+        "orders_30d": 13,
+        "amount_30d_twd": 3000
+      },
+      "reference_group": 2,
+      "binary_target": 1,
+      "positive_probability_A": 0.6,
+      "positive_probability_B": 0.6,
+      "numeric_target": 135,
+      "prediction_A": 141,
+      "prediction_B": 137,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E19",
+      "index": 18,
+      "features": [
+        14,
+        1
+      ],
+      "observed": {
+        "orders_30d": 14,
+        "amount_30d_twd": 1000
+      },
+      "reference_group": 2,
+      "binary_target": 0,
+      "positive_probability_A": 0.1,
+      "positive_probability_B": 0.4,
+      "numeric_target": 131,
+      "prediction_A": 132,
+      "prediction_B": 133,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E20",
+      "index": 19,
+      "features": [
+        14,
+        3
+      ],
+      "observed": {
+        "orders_30d": 14,
+        "amount_30d_twd": 3000
+      },
+      "reference_group": 2,
+      "binary_target": 1,
+      "positive_probability_A": 0.8,
+      "positive_probability_B": 0.6,
+      "numeric_target": 137,
+      "prediction_A": 138,
+      "prediction_B": 139,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E21",
+      "index": 20,
+      "features": [
+        13,
+        2
+      ],
+      "observed": {
+        "orders_30d": 13,
+        "amount_30d_twd": 2000
+      },
+      "reference_group": 2,
+      "binary_target": 0,
+      "positive_probability_A": 0.2,
+      "positive_probability_B": 0.4,
+      "numeric_target": 132,
+      "prediction_A": 133,
+      "prediction_B": 134,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E22",
+      "index": 21,
+      "features": [
+        14,
+        2
+      ],
+      "observed": {
+        "orders_30d": 14,
+        "amount_30d_twd": 2000
+      },
+      "reference_group": 2,
+      "binary_target": 1,
+      "positive_probability_A": 0.7,
+      "positive_probability_B": 0.6,
+      "numeric_target": 134,
+      "prediction_A": 135,
+      "prediction_B": 136,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 1
+    },
+    {
+      "id": "E23",
+      "index": 22,
+      "features": [
+        13,
+        4
+      ],
+      "observed": {
+        "orders_30d": 13,
+        "amount_30d_twd": 4000
+      },
+      "reference_group": 2,
+      "binary_target": 0,
+      "positive_probability_A": 0.3,
+      "positive_probability_B": 0.4,
+      "numeric_target": 138,
+      "prediction_A": 139,
+      "prediction_B": 140,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 0
+    },
+    {
+      "id": "E24",
+      "index": 23,
+      "features": [
+        14,
+        4
+      ],
+      "observed": {
+        "orders_30d": 14,
+        "amount_30d_twd": 4000
+      },
+      "reference_group": 2,
+      "binary_target": 1,
+      "positive_probability_A": 0.6,
+      "positive_probability_B": 0.6,
+      "numeric_target": 140,
+      "prediction_A": 146,
+      "prediction_B": 142,
+      "candidate_separate": 2,
+      "candidate_merge": 1,
+      "candidate_mixed": 1
+    }
+  ]
+}

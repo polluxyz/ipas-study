@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="650" viewBox="0 0 360 650" role="img" aria-labelledby="title desc">
+<title id="title">語料生命週期的雙重查核</title><desc id="desc">收集、儲存、訓練與輸出四站各分為左欄個資暴露、右欄利用授權。兩欄沿同一份語料同步追蹤，替換姓名與權限控制不能代替來源、用途及文字權利查核。</desc>
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#375a70"/></marker></defs>
+<rect width="360" height="650" rx="12" fill="#f8fafc"/>
+<g font-family="Microsoft JhengHei,Noto Sans TC,sans-serif" text-anchor="middle" fill="#17364b">
+<text x="180" y="29" font-size="17" font-weight="700">語料生命週期的雙重查核</text>
+<text x="94" y="57" font-size="16" font-weight="700">左：個資暴露</text>
+<text x="266" y="57" font-size="16" font-weight="700">右：利用授權</text>
+<g font-size="15">
+<text x="180" y="85" font-weight="700">1 收集</text>
+<rect x="16" y="96" width="156" height="76" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<rect x="188" y="96" width="156" height="76" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="94" y="125">姓名、住址線索</text><text x="94" y="152">健康與購物訊息</text>
+<text x="266" y="125">查取得過程</text><text x="266" y="152">告知與允許用途</text>
+<path d="M94 177 V198" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/><path d="M266 177 V198" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="180" y="215" font-weight="700">2 儲存</text>
+<rect x="16" y="226" width="156" height="76" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<rect x="188" y="226" width="156" height="76" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="94" y="255">原文、匯出與備份</text><text x="94" y="282">誰仍可讀取？</text>
+<text x="266" y="255">查接觸角色</text><text x="266" y="282">期限與處理範圍</text>
+<path d="M94 307 V328" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/><path d="M266 307 V328" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="180" y="345" font-weight="700">3 訓練</text>
+<rect x="16" y="356" width="156" height="76" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<rect x="188" y="356" width="156" height="76" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="94" y="385">必要語句與線索</text><text x="94" y="412">會留進模型嗎？</text>
+<text x="266" y="385">查本次訓練依據</text><text x="266" y="412">語料權利與版本</text>
+<path d="M94 437 V458" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/><path d="M266 437 V458" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="180" y="475" font-weight="700">4 輸出</text>
+<rect x="16" y="486" width="156" height="76" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<rect x="188" y="486" width="156" height="76" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="94" y="515">回覆含敏感內容？</text><text x="94" y="542">測試並追蹤事件</text>
+<text x="266" y="515">查輸出接收者</text><text x="266" y="542">與後續使用方式</text>
+</g>
+<text x="180" y="606" font-size="14">每一站都問：會暴露嗎？能這樣用嗎？</text>
+<text x="180" y="630" font-size="14">兩欄都要查，不能以其中一欄代替另一欄</text>
+</g></svg>

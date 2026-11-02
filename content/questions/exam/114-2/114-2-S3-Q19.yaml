@@ -1,0 +1,36 @@
+id: 114-2-S3-Q19
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 19
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 4
+type: 情境
+codes: [L23303, L23301]
+concepts: [class-imbalance, accuracy, recall]
+stem: |
+  某醫療機構開發疾病早期偵測模型，正樣本（確診病例）僅佔 3%。在模型訓練與評估過程中，下列哪一種作法最不適合用於提升對少數類病例的預測能力？
+options:
+  A: 使用 SMOTE 過採樣
+  B: 調整類別權重
+  C: 使用準確率（Accuracy）作為評估指標
+  D: 欠採樣多數類(Undersampling the majority class)
+answer: C
+explanation:
+  summary: 嚴重類別不平衡時，Accuracy 可能掩蓋少數類別完全漏判的問題。
+  correct: 若每筆都判成未罹病，模型仍有 97%的 Accuracy，但確診病例的 Recall 為 0。單靠 Accuracy 無法看出少數類辨識是否改善，應同時檢查 Recall、Precision、F1 與混淆矩陣，依漏診成本選擇指標。
+  wrong:
+    A: SMOTE 在訓練資料中合成少數類樣本，能增加模型接觸少數類的機會，是可考慮的改善方法；應在資料切分後僅對訓練部分操作。
+    B: 提高少數類的損失權重，可讓模型更重視確診病例的錯誤，因此有助於處理學習時的類別失衡。
+    D: 減少多數類訓練樣本，可降低其在訓練中的支配程度。雖有丟失資訊的代價，仍是可用的不平衡處理策略。
+  rule: 少數類稀少時，要查看正類指標，避免整體準確率掩蓋漏判。
+guide_refs: [guide-3:5-21, guide-3:5-25]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 4
+    by: QB1
+  dispute: null
+  blind_answer: C

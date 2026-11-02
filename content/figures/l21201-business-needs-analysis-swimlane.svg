@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 650" role="img" aria-labelledby="title desc">
+  <title id="title">零售工單現況與目標泳道</title>
+  <desc id="desc">教學示意。左欄現況由客戶送出工單、系統排隊、客服人工讀取與指派、專員接手。右欄目標在同樣角色泳道中加入 AI 建議，由客服確認或更正後仍交專員處理。等待目標由二十分鐘降至十二分鐘，尚非實測成果。</desc>
+  <style>
+    :root { color-scheme: light dark; --bg: #f8fafc; --ink: #0f172a; --panel: #ffffff; --band: #e2e8f0; --border: #64748b; --arrow: #334155; --rule: #94a3b8; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #15252b; --ink: #e4edf1; --panel: #24373d; --band: #354852; --border: #9caeba; --arrow: #bbcbd2; --rule: #718592; }
+    }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--arrow)"/></marker></defs>
+  <rect width="360" height="650" rx="12" fill="var(--bg)"/>
+  <g font-family="sans-serif" fill="var(--ink)" text-anchor="middle">
+    <text x="180" y="29" font-size="18" font-weight="700">零售工單：同角色比較</text>
+    <text x="93" y="60" font-size="16" font-weight="700">現況流程</text><text x="267" y="60" font-size="16" font-weight="700">目標流程</text>
+    <path d="M180 72V578" stroke="var(--rule)" stroke-dasharray="5 4"/>
+    <g fill="var(--band)"><rect x="12" y="76" width="336" height="24" rx="4"/><rect x="12" y="196" width="336" height="24" rx="4"/><rect x="12" y="316" width="336" height="24" rx="4"/><rect x="12" y="446" width="336" height="24" rx="4"/></g>
+    <g font-size="14" font-weight="700"><text x="180" y="93">客戶</text><text x="180" y="213">系統</text><text x="180" y="333">客服人員</text><text x="180" y="463">專員</text></g>
+    <g fill="var(--panel)" stroke="var(--border)" stroke-width="1.5"><rect x="20" y="115" width="146" height="48" rx="7"/><rect x="194" y="115" width="146" height="48" rx="7"/><rect x="20" y="235" width="146" height="48" rx="7"/><rect x="194" y="235" width="146" height="48" rx="7"/><rect x="20" y="355" width="146" height="58" rx="7"/><rect x="194" y="355" width="146" height="58" rx="7"/><rect x="20" y="485" width="146" height="58" rx="7"/><rect x="194" y="485" width="146" height="58" rx="7"/></g>
+    <g font-size="14"><text x="93" y="145">送出工單</text><text x="267" y="145">送出工單</text><text x="93" y="265">共同佇列等待</text><text x="267" y="265">產生 AI 分流建議</text><text x="93" y="379">人工閱讀</text><text x="93" y="400">指定部門</text><text x="267" y="379">確認或更正建議</text><text x="267" y="400">例外交人工</text><text x="93" y="509">接手處理</text><text x="93" y="530">錯派時退回</text><text x="267" y="509">接手處理</text><text x="267" y="530">追蹤再次轉派</text></g>
+    <g stroke="var(--arrow)" stroke-width="1.7" marker-end="url(#arrow)"><path d="M93 163V192"/><path d="M267 163V192"/><path d="M93 283V312"/><path d="M267 283V312"/><path d="M93 413V442"/><path d="M267 413V442"/></g>
+    <text x="93" y="577" font-size="14">平均等待 20 分鐘</text><text x="267" y="577" font-size="14">目標不超過 12 分鐘</text>
+    <text x="180" y="612" font-size="14" font-weight="700">受理至開始處理，含例外工單</text><text x="180" y="635" font-size="13">教學示意：目標尚待試辦驗證</text>
+  </g>
+</svg>

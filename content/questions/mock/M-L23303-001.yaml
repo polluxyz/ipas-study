@@ -1,0 +1,35 @@
+id: M-L23303-001
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes: [L23303]
+concepts: [data-leakage, sklearn-pipeline]
+stem: |
+  某工程師用 2,000 筆客戶資料（流失率 12%）訓練流失預測模型。他先對全部資料執行 StandardScaler 標準化，再用 GridSearchCV（cv=5）搜尋 SVM 的超參數，得到最佳交叉驗證 AUC 0.91。上線一個月後，實際 AUC 只有 0.78。下列哪一項修改最能讓離線評估更接近上線表現？
+code: |
+  scaler = StandardScaler()
+  X_scaled = scaler.fit_transform(X)
+  search = GridSearchCV(SVC(probability=True), param_grid, cv=5, scoring="roc_auc")
+  search.fit(X_scaled, y)
+  print(search.best_score_)   # 0.91
+code_lang: python
+options:
+  A: 把 cv=5 改成 cv=10，增加交叉驗證的摺數
+  B: 把 StandardScaler 與 SVC 包成 Pipeline 交給 GridSearchCV，並另外保留一份測試集估計最終表現
+  C: 把 scoring 從 roc_auc 改成 accuracy，避免 AUC 對類別不平衡過度敏感
+  D: 改用 MinMaxScaler，讓特徵縮放到 0 到 1 之間
+answer: B
+explanation:
+  summary: 兩個洩漏來源：前處理在交叉驗證外 fit；用挑參數的分數當最終表現。
+  correct: 標準化在切分前用全部資料 fit，驗證摺的平均值與標準差已進入前處理。另外 best_score_ 是挑參數時的最高分，本身就偏樂觀。B 同時解決這兩個問題。
+  wrong:
+    A: 摺數變多不會消除洩漏，只改變每摺大小。
+    C: accuracy 在 12% 流失率下更容易高估（全猜不流失就有 88%），也沒有處理洩漏。
+    D: 換縮放方法不改變「在切分前 fit」的問題，洩漏仍然存在。
+author: claude
+review:
+  status: draft
+  answer_checked: null
+  blind_answer: null
+  dispute: null

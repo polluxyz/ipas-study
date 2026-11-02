@@ -1,0 +1,12 @@
+{
+  "source": "教學合成資料；獨立尺度小例，不加入32筆主表的補值比較",
+  "domain": "製造",
+  "field_units": {"pressure": "bar", "maintenance_cost": "元"},
+  "query": {"pressure": 1.5, "maintenance_cost": 1000, "temperature": null},
+  "training_donors": [
+    {"id": "甲", "pressure": 2.5, "maintenance_cost": 1500, "temperature": 35},
+    {"id": "乙", "pressure": 3.5, "maintenance_cost": 1000, "temperature": 45}
+  ],
+  "fixed_unit_scales": {"pressure": 1, "maintenance_cost": 1000},
+  "note": "距離只使用已觀測的壓力與維護費；尺度是事先指定的單位示範，並非以驗證資料估計。"
+}

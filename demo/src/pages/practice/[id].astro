@@ -1,0 +1,39 @@
+---
+/** 練習頁集中考試頻率、題庫與小測驗，沿用既有作答紀錄。 */
+import StudyPage from '../../components/StudyPage.astro';
+import QuestionList from '../../components/QuestionList.astro';
+import ExamFrequency from '../../components/ExamFrequency.astro';
+import { getData } from '../../lib/content';
+import { examFrequency, relatedQuestions } from '../../lib/learning-route';
+export async function getStaticPaths() { const { codes } = await getData(); return codes.map((entry) => ({ params: { id: entry.data.code }, props: { entry } })); }
+const { entry } = Astro.props;
+const { questions } = await getData();
+const items = questions.filter((q) => q.codes.includes(entry.data.code));
+const exam = items.filter((q) => q.source === 'exam');
+const sessions = [...new Map(exam.map((q) => [`${q.session}-S${q.subject}`, { session: q.session, subject: q.subject }])).values()];
+const stages = (entry.data.stages ?? []).map((stage) => ({ ...stage, questions: relatedQuestions(questions, stage.concepts.map((item) => item.id)) }));
+---
+<StudyPage title={`${entry.data.code} 練習`} section="考古題與練習" headings={[{ depth: 2, slug: 'frequency', text: '考試頻率' }, { depth: 2, slug: 'questions', text: '本單元題目' }]}>
+  <p class="lead">讀過觀念後，用題目練習判斷。作答後顯示逐項解析，錯題收進錯題本。</p>
+  <div class="button-row"><a class="button primary" href={`/quiz/?code=${entry.data.code}`}>開始單元練習 →</a><a href={`/codes/${entry.data.code}/`}>← 回到學習路線</a></div>
+  <section aria-labelledby="frequency"><h2 id="frequency">考試頻率</h2><p class="route-note">依目前題庫的概念引用計算，同一階段內同題只算一次。</p>
+    <div class="session-stats">{sessions.map(({ session, subject }) => { const count = exam.filter((q) => q.session === session && q.subject === subject).length; const total = questions.filter((q) => q.source === 'exam' && q.session === session && q.subject === subject).length; return <span><strong>{session} 科{subject}</strong> {count} 題／樣本 {total} 題（{total ? Math.round(count / total * 100) : 0}%）</span>; })}</div>
+    <p class="fine-print">占比以目前載入的同場次、同科目範例題庫計算，不代表整份考卷的出題分布。</p>
+    {stages.map((stage) => <section class="practice-stage" data-practice-stage={stage.id}><h3>{stage.title}</h3><ExamFrequency frequency={examFrequency(questions, stage.concepts.map((item) => item.id))} /><p data-practice-progress>正在載入作答進度…</p>{stage.questions.length > 0 && <a href={`/quiz/?code=${entry.data.code}&stage=${stage.id}`}>本階段考古題與練習・抽 5 題 →</a>}</section>)}
+  </section>
+  <section aria-labelledby="questions"><h2 id="questions">本單元題目</h2><QuestionList questions={items} /></section>
+  <script id="practice-progress-catalog" type="application/json" set:html={JSON.stringify(stages.map((stage) => ({ id: stage.id, questions: stage.questions.map((q) => ({ id: q.id, rev: q.rev })) }))).replace(/</g, '\u003c')}></script>
+</StudyPage>
+<script>
+  import { getAttempts } from '../../lib/attempts';
+  import { stageProgress } from '../../lib/learning-route';
+  const catalog: { id: string; questions: { id: string; rev: number }[] }[] = JSON.parse(document.getElementById('practice-progress-catalog')?.textContent ?? '[]');
+  function refresh() {
+    for (const stage of catalog) {
+      const label = document.querySelector(`[data-practice-stage="${stage.id}"] [data-practice-progress]`);
+      try { const progress = stageProgress(stage.questions, getAttempts()); if (label) label.textContent = `已做 ${progress.attempted} / ${progress.total} 題・答對 ${progress.correct} 題`; }
+      catch { if (label) label.textContent = '無法載入作答進度，請確認瀏覽器允許本機儲存。'; }
+    }
+  }
+  refresh(); window.addEventListener('pageshow', refresh); window.addEventListener('storage', refresh);
+</script>

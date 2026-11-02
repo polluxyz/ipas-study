@@ -1,0 +1,22 @@
+---
+/** 僅在概念正文出現 Mermaid 時載入本機繪圖套件，避免依賴遠端轉圖服務。 */
+---
+<script>
+  async function renderDiagrams() {
+    const blocks = [...document.querySelectorAll<HTMLElement>('.concept-prose pre')].filter((pre) => pre.textContent?.trim().startsWith('flowchart '));
+    if (!blocks.length) return;
+    const { default: mermaid } = await import('mermaid');
+    // SVG 文字不會繼承正文段落的 margin／行高，避免 foreignObject 內的標籤遭裁切。
+    mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'base', htmlLabels: false, themeVariables: { primaryColor: '#edf3e5', primaryTextColor: '#344b38', primaryBorderColor: '#9eb08f', lineColor: '#879a76', fontFamily: 'Segoe UI, Microsoft JhengHei, sans-serif' } });
+    for (const [index, pre] of blocks.entries()) {
+      try {
+        const lines = [...pre.querySelectorAll('.ec-line')];
+        const code = lines.length ? lines.map((line) => line.textContent ?? '').join('\n') : pre.textContent ?? '';
+        const { svg } = await mermaid.render(`study-diagram-${index}`, code);
+        const figure = document.createElement('figure'); figure.className = 'study-diagram'; figure.setAttribute('aria-label', '資料處理流程圖'); figure.innerHTML = svg;
+        const container = pre.closest('.expressive-code') ?? pre; container.replaceWith(figure);
+      } catch { /* 語法不支援時保留原始碼，仍可閱讀流程。 */ }
+    }
+  }
+  void renderDiagrams();
+</script>

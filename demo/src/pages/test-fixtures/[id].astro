@@ -1,0 +1,14 @@
+---
+/** 只在明確啟用的驗證建置中輸出假教材，供瀏覽器驗證實際共用元件。 */
+import StudyPage from '../../components/StudyPage.astro';
+import ConceptIntro from '../../components/ConceptIntro.astro';
+import SelfCheck from '../../components/SelfCheck.astro';
+import JudgmentRule from '../../components/JudgmentRule.astro';
+import { concept, stages, explanation } from '../../lib/fixtures/textbook';
+export function getStaticPaths() { return process.env.TEXTBOOK_TEST_FIXTURES === '1' ? [{ params: { id: 'textbook' } }] : []; }
+---
+<StudyPage title="教材渲染測試（假資料）" section="測試專用">
+  <ConceptIntro data={concept} /><p class="stage-intro">{stages[0].intro}</p>
+  <h2>檢核小題</h2><SelfCheck checks={concept.self_check ?? []} prefix="fixture" />
+  <JudgmentRule rule={explanation.rule} concepts={['roc-auc']} titles={{ 'roc-auc': 'ROC 與 AUC' }} />
+</StudyPage>

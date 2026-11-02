@@ -1,0 +1,154 @@
+{
+  "source": "教學模擬資料，非製造實測；兩模型使用同一批已留出的評估品。",
+  "positive": "瑕疵品",
+  "threshold": 0.5,
+  "samples": [
+    {
+      "id": "D01",
+      "label": 1,
+      "score_a": 0.95,
+      "score_b": 0.9
+    },
+    {
+      "id": "D02",
+      "label": 1,
+      "score_a": 0.85,
+      "score_b": 0.8
+    },
+    {
+      "id": "D03",
+      "label": 1,
+      "score_a": 0.7,
+      "score_b": 0.6
+    },
+    {
+      "id": "D04",
+      "label": 1,
+      "score_a": 0.4,
+      "score_b": 0.5
+    },
+    {
+      "id": "D05",
+      "label": 0,
+      "score_a": 0.65,
+      "score_b": 0.85
+    },
+    {
+      "id": "D06",
+      "label": 0,
+      "score_a": 0.55,
+      "score_b": 0.75
+    },
+    {
+      "id": "D07",
+      "label": 0,
+      "score_a": 0.45,
+      "score_b": 0.7
+    },
+    {
+      "id": "D08",
+      "label": 0,
+      "score_a": 0.35,
+      "score_b": 0.65
+    },
+    {
+      "id": "D09",
+      "label": 0,
+      "score_a": 0.3,
+      "score_b": 0.3
+    },
+    {
+      "id": "D10",
+      "label": 0,
+      "score_a": 0.28,
+      "score_b": 0.28
+    },
+    {
+      "id": "D11",
+      "label": 0,
+      "score_a": 0.25,
+      "score_b": 0.25
+    },
+    {
+      "id": "D12",
+      "label": 0,
+      "score_a": 0.22,
+      "score_b": 0.22
+    },
+    {
+      "id": "D13",
+      "label": 0,
+      "score_a": 0.2,
+      "score_b": 0.2
+    },
+    {
+      "id": "D14",
+      "label": 0,
+      "score_a": 0.18,
+      "score_b": 0.18
+    },
+    {
+      "id": "D15",
+      "label": 0,
+      "score_a": 0.15,
+      "score_b": 0.15
+    },
+    {
+      "id": "D16",
+      "label": 0,
+      "score_a": 0.12,
+      "score_b": 0.12
+    },
+    {
+      "id": "D17",
+      "label": 0,
+      "score_a": 0.1,
+      "score_b": 0.1
+    },
+    {
+      "id": "D18",
+      "label": 0,
+      "score_a": 0.08,
+      "score_b": 0.08
+    },
+    {
+      "id": "D19",
+      "label": 0,
+      "score_a": 0.05,
+      "score_b": 0.05
+    },
+    {
+      "id": "D20",
+      "label": 0,
+      "score_a": 0.02,
+      "score_b": 0.02
+    }
+  ],
+  "costs_ntd": {
+    "TP": 0,
+    "FP": 50,
+    "FN": 1000,
+    "TN": 0
+  },
+  "profit_assumptions_ntd": {
+    "recovered_per_TP": 500,
+    "inspection_per_predicted_positive": 50
+  },
+  "validation_f1": {
+    "source": "另一次開發集五輪配對驗證的模擬分數，非上方二十件評估集的分數。",
+    "a": [
+      0.72,
+      0.76,
+      0.8,
+      0.84,
+      0.88
+    ],
+    "b": [
+      0.78,
+      0.79,
+      0.8,
+      0.81,
+      0.82
+    ]
+  }
+}

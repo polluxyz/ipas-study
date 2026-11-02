@@ -1,0 +1,26 @@
+[
+  {
+    "id": "E1",
+    "y_true": 100,
+    "y_pred_a": 100,
+    "y_pred_b": 97
+  },
+  {
+    "id": "E2",
+    "y_true": 102,
+    "y_pred_a": 102,
+    "y_pred_b": 99
+  },
+  {
+    "id": "E3",
+    "y_true": 98,
+    "y_pred_a": 98,
+    "y_pred_b": 95
+  },
+  {
+    "id": "E4",
+    "y_true": 100,
+    "y_pred_a": 92,
+    "y_pred_b": 97
+  }
+]

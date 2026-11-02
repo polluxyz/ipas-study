@@ -1,0 +1,7 @@
+---
+/** 以輕量標籤呈現真實引用次數，模擬題不混入考試頻率。 */
+import type { examFrequency } from '../lib/learning-route';
+interface Props { frequency: ReturnType<typeof examFrequency>; }
+const { frequency } = Astro.props;
+---
+<div class="exam-frequency"><span class="frequency-total">考古題 {frequency.total} 題</span>{frequency.groups.map((group) => <span>{group.session} 科{group.subject} · {group.count}</span>)}</div>

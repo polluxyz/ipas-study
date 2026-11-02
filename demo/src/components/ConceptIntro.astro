@@ -1,0 +1,8 @@
+---
+/** 概念頁首呈現一句話與可驗證目標；舊內容沒有新欄位時自然省略。 */
+import { conceptLearning, type TextbookConcept } from '../lib/textbook';
+interface Props { data: TextbookConcept; }
+const { summary, goals } = conceptLearning(Astro.props.data);
+---
+{summary && <p class="lead concept-summary">{summary}</p>}
+{goals.length > 0 && <aside class="learning-goals"><h2>讀完你會</h2><ul>{goals.map((goal) => <li>{goal.text}</li>)}</ul></aside>}

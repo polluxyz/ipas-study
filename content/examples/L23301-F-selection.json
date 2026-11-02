@@ -1,0 +1,145 @@
+{
+  "source": "教學候選分數；是固定快照，非模型訓練實測的效能",
+  "seed": 42,
+  "training_universe": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "seed_labeled": [
+    1,
+    2,
+    3,
+    4,
+    7,
+    8,
+    9,
+    10
+  ],
+  "budget_new_labels": 4,
+  "batch_size": 2,
+  "pool": [
+    {
+      "index": 5,
+      "p_round1": 0.51,
+      "cluster": "a"
+    },
+    {
+      "index": 6,
+      "p_round1": 0.49,
+      "cluster": "a"
+    },
+    {
+      "index": 11,
+      "p_round1": 0.52,
+      "p_round2": 0.2,
+      "cluster": "b"
+    },
+    {
+      "index": 12,
+      "p_round1": 0.8,
+      "p_round2": 0.47,
+      "cluster": "c"
+    },
+    {
+      "index": 13,
+      "p_round1": 0.1,
+      "p_round2": 0.08,
+      "cluster": "d"
+    },
+    {
+      "index": 14,
+      "p_round1": 0.48,
+      "p_round2": 0.53,
+      "cluster": "e"
+    },
+    {
+      "index": 15,
+      "p_round1": 0.02,
+      "p_round2": 0.01,
+      "cluster": "f"
+    },
+    {
+      "index": 16,
+      "p_round1": 0.95,
+      "p_round2": 0.9,
+      "cluster": "g"
+    }
+  ],
+  "selection_rule": "二元最小信心：1-max(p,1-p)由大到小，同分按index小者；選樣不讀label",
+  "smote": {
+    "k_neighbors": 1,
+    "pairs": [
+      {
+        "anchor": 1,
+        "neighbor": 2
+      },
+      {
+        "anchor": 5,
+        "neighbor": 6
+      }
+    ],
+    "lambdas": [
+      0.25,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "synthetic_label": 1
+  },
+  "model_assisted": {
+    "customer_index": 3,
+    "model_label": 1,
+    "corrected_label": 0,
+    "defect_box": {
+      "description": "製造影像中的一道刮痕；xyxy像素座標",
+      "prediction": [
+        40,
+        40,
+        75,
+        60
+      ],
+      "reviewed": [
+        40,
+        40,
+        60,
+        60
+      ]
+    },
+    "time_seconds": {
+      "manual_per_item": 60,
+      "review_per_item": 20,
+      "extra_correction_per_wrong": 30,
+      "wrong_count": 4,
+      "audit_total": 120
+    },
+    "audit": {
+      "independent_reviewer": true,
+      "sample_indices": [
+        2,
+        6,
+        10,
+        14,
+        18,
+        22
+      ],
+      "residual_error_indices": [
+        18
+      ],
+      "follow_up": "退回同批並擴查相同錯誤來源"
+    }
+  }
+}

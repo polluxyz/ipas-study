@@ -1,0 +1,915 @@
+{
+  "description": "教學合成資料；分數是固定模型替身的輸出，不是實訓模型品質。",
+  "seed": 21302,
+  "fixed_order": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "split": {
+    "contract_smoke": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "regression": [
+      9,
+      10,
+      11,
+      12
+    ]
+  },
+  "contract": {
+    "method": "POST",
+    "content_type": "application/json",
+    "required_body": [
+      "entity_id",
+      "feature"
+    ],
+    "scope": "predict",
+    "feature_ttl_s": 5,
+    "validation_order": [
+      "credential",
+      "scope",
+      "content_type",
+      "body"
+    ],
+    "responses": {
+      "200": "prediction_returned",
+      "401": "unauthenticated",
+      "403": "forbidden",
+      "415": "unsupported_media",
+      "422": "invalid_body"
+    }
+  },
+  "domains": [
+    {
+      "domain": "retail",
+      "requests": [
+        {
+          "request_id": "r01",
+          "source": "warehouse",
+          "entity_id": "member-1",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 101,
+          "feature_time_s": 101,
+          "request_time_s": 103,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-1",
+            "feature": 0.9
+          },
+          "predicted_score": 0.9,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "r01",
+            "model_version": "rec-v2",
+            "score": 0.9
+          },
+          "expected_error": null,
+          "department": "行銷／CRM",
+          "business_action": "coupon_sent",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r02",
+          "source": "lake",
+          "entity_id": "member-2",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 102,
+          "feature_time_s": 102,
+          "request_time_s": 104,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-2",
+            "feature": 0.2
+          },
+          "predicted_score": 0.2,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "r02",
+            "model_version": "rec-v2",
+            "score": 0.2
+          },
+          "expected_error": null,
+          "department": "行銷／CRM",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r03",
+          "source": "iot",
+          "entity_id": "member-3",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 103,
+          "feature_time_s": 103,
+          "request_time_s": 105,
+          "content_type": "application/json",
+          "credential": "missing",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-3",
+            "feature": 0.8
+          },
+          "predicted_score": null,
+          "expected_status": 401,
+          "expected_response": {
+            "error": "unauthenticated"
+          },
+          "expected_error": "missing_token",
+          "department": "行銷／CRM",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r04",
+          "source": "third_party_api",
+          "entity_id": "member-4",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 104,
+          "feature_time_s": 104,
+          "request_time_s": 106,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "read:report"
+          ],
+          "body": {
+            "entity_id": "member-4",
+            "feature": 0.7
+          },
+          "predicted_score": null,
+          "expected_status": 403,
+          "expected_response": {
+            "error": "forbidden"
+          },
+          "expected_error": "insufficient_scope",
+          "department": "行銷／CRM",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r05",
+          "source": "warehouse",
+          "entity_id": "member-5",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 105,
+          "feature_time_s": 105,
+          "request_time_s": 107,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-5"
+          },
+          "predicted_score": null,
+          "expected_status": 422,
+          "expected_response": {
+            "error": "invalid_body"
+          },
+          "expected_error": "missing_feature",
+          "department": "行銷／CRM",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r06",
+          "source": "lake",
+          "entity_id": "member-6",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 106,
+          "feature_time_s": 106,
+          "request_time_s": 108,
+          "content_type": "application/json",
+          "credential": "expired",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-6",
+            "feature": 0.55
+          },
+          "predicted_score": null,
+          "expected_status": 401,
+          "expected_response": {
+            "error": "unauthenticated"
+          },
+          "expected_error": "expired_token",
+          "department": "行銷／CRM",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r07",
+          "source": "iot",
+          "entity_id": "member-7",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 107,
+          "feature_time_s": 90,
+          "request_time_s": 109,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-7",
+            "feature": 0.75
+          },
+          "predicted_score": 0.75,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "r07",
+            "model_version": "rec-v2",
+            "score": 0.75
+          },
+          "expected_error": null,
+          "department": "行銷／CRM",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r08",
+          "source": "third_party_api",
+          "entity_id": "member-8",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 108,
+          "feature_time_s": 108,
+          "request_time_s": 110,
+          "content_type": "text/plain",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-8",
+            "feature": 0.88
+          },
+          "predicted_score": null,
+          "expected_status": 415,
+          "expected_response": {
+            "error": "unsupported_media"
+          },
+          "expected_error": "unsupported_media",
+          "department": "行銷／CRM",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r09",
+          "source": "warehouse",
+          "entity_id": "member-9",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 109,
+          "feature_time_s": 109,
+          "request_time_s": 111,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-9",
+            "feature": 0.6
+          },
+          "predicted_score": 0.6,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "r09",
+            "model_version": "rec-v2",
+            "score": 0.6
+          },
+          "expected_error": null,
+          "department": "行銷／CRM",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r10",
+          "source": "lake",
+          "entity_id": "member-10",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 110,
+          "feature_time_s": 110,
+          "request_time_s": 112,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-10",
+            "feature": 0.95
+          },
+          "predicted_score": 0.95,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "r10",
+            "model_version": "rec-v2",
+            "score": 0.95
+          },
+          "expected_error": null,
+          "department": "行銷／CRM",
+          "business_action": "pending_retry",
+          "business_rule": "score >= 0.80",
+          "business_error": "downstream_timeout"
+        },
+        {
+          "request_id": "r11",
+          "source": "iot",
+          "entity_id": "member-11",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 111,
+          "feature_time_s": 111,
+          "request_time_s": 113,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-11",
+            "feature": 0.4
+          },
+          "predicted_score": 0.4,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "r11",
+            "model_version": "rec-v2",
+            "score": 0.4
+          },
+          "expected_error": null,
+          "department": "行銷／CRM",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "r12",
+          "source": "third_party_api",
+          "entity_id": "member-12",
+          "method": "POST",
+          "path": "/v1/recommend",
+          "api_version": "v1",
+          "model_version": "rec-v2",
+          "dataset_version": "retail-d1",
+          "feature_version": "f1",
+          "event_time_s": 112,
+          "feature_time_s": 112,
+          "request_time_s": 114,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "member-12",
+            "feature": 0.85
+          },
+          "predicted_score": 0.85,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "r12",
+            "model_version": "rec-v2",
+            "score": 0.85
+          },
+          "expected_error": null,
+          "department": "行銷／CRM",
+          "business_action": "coupon_sent",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        }
+      ]
+    },
+    {
+      "domain": "manufacturing",
+      "requests": [
+        {
+          "request_id": "m01",
+          "source": "warehouse",
+          "entity_id": "part-1",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 101,
+          "feature_time_s": 101,
+          "request_time_s": 103,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-1",
+            "feature": 0.9
+          },
+          "predicted_score": 0.9,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "m01",
+            "model_version": "inspect-v3",
+            "score": 0.9
+          },
+          "expected_error": null,
+          "department": "品管／MES",
+          "business_action": "hold_for_review",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m02",
+          "source": "lake",
+          "entity_id": "part-2",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 102,
+          "feature_time_s": 102,
+          "request_time_s": 104,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-2",
+            "feature": 0.2
+          },
+          "predicted_score": 0.2,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "m02",
+            "model_version": "inspect-v3",
+            "score": 0.2
+          },
+          "expected_error": null,
+          "department": "品管／MES",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m03",
+          "source": "iot",
+          "entity_id": "part-3",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 103,
+          "feature_time_s": 103,
+          "request_time_s": 105,
+          "content_type": "application/json",
+          "credential": "missing",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-3",
+            "feature": 0.8
+          },
+          "predicted_score": null,
+          "expected_status": 401,
+          "expected_response": {
+            "error": "unauthenticated"
+          },
+          "expected_error": "missing_token",
+          "department": "品管／MES",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m04",
+          "source": "third_party_api",
+          "entity_id": "part-4",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 104,
+          "feature_time_s": 104,
+          "request_time_s": 106,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "read:report"
+          ],
+          "body": {
+            "entity_id": "part-4",
+            "feature": 0.7
+          },
+          "predicted_score": null,
+          "expected_status": 403,
+          "expected_response": {
+            "error": "forbidden"
+          },
+          "expected_error": "insufficient_scope",
+          "department": "品管／MES",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m05",
+          "source": "warehouse",
+          "entity_id": "part-5",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 105,
+          "feature_time_s": 105,
+          "request_time_s": 107,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-5"
+          },
+          "predicted_score": null,
+          "expected_status": 422,
+          "expected_response": {
+            "error": "invalid_body"
+          },
+          "expected_error": "missing_feature",
+          "department": "品管／MES",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m06",
+          "source": "lake",
+          "entity_id": "part-6",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 106,
+          "feature_time_s": 106,
+          "request_time_s": 108,
+          "content_type": "application/json",
+          "credential": "expired",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-6",
+            "feature": 0.55
+          },
+          "predicted_score": null,
+          "expected_status": 401,
+          "expected_response": {
+            "error": "unauthenticated"
+          },
+          "expected_error": "expired_token",
+          "department": "品管／MES",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m07",
+          "source": "iot",
+          "entity_id": "part-7",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 107,
+          "feature_time_s": 90,
+          "request_time_s": 109,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-7",
+            "feature": 0.75
+          },
+          "predicted_score": 0.75,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "m07",
+            "model_version": "inspect-v3",
+            "score": 0.75
+          },
+          "expected_error": null,
+          "department": "品管／MES",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m08",
+          "source": "third_party_api",
+          "entity_id": "part-8",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 108,
+          "feature_time_s": 108,
+          "request_time_s": 110,
+          "content_type": "text/plain",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-8",
+            "feature": 0.88
+          },
+          "predicted_score": null,
+          "expected_status": 415,
+          "expected_response": {
+            "error": "unsupported_media"
+          },
+          "expected_error": "unsupported_media",
+          "department": "品管／MES",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m09",
+          "source": "warehouse",
+          "entity_id": "part-9",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 109,
+          "feature_time_s": 109,
+          "request_time_s": 111,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-9",
+            "feature": 0.6
+          },
+          "predicted_score": 0.6,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "m09",
+            "model_version": "inspect-v3",
+            "score": 0.6
+          },
+          "expected_error": null,
+          "department": "品管／MES",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m10",
+          "source": "lake",
+          "entity_id": "part-10",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 110,
+          "feature_time_s": 110,
+          "request_time_s": 112,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-10",
+            "feature": 0.95
+          },
+          "predicted_score": 0.95,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "m10",
+            "model_version": "inspect-v3",
+            "score": 0.95
+          },
+          "expected_error": null,
+          "department": "品管／MES",
+          "business_action": "pending_retry",
+          "business_rule": "score >= 0.80",
+          "business_error": "downstream_timeout"
+        },
+        {
+          "request_id": "m11",
+          "source": "iot",
+          "entity_id": "part-11",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 111,
+          "feature_time_s": 111,
+          "request_time_s": 113,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-11",
+            "feature": 0.4
+          },
+          "predicted_score": 0.4,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "m11",
+            "model_version": "inspect-v3",
+            "score": 0.4
+          },
+          "expected_error": null,
+          "department": "品管／MES",
+          "business_action": "no_action",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        },
+        {
+          "request_id": "m12",
+          "source": "third_party_api",
+          "entity_id": "part-12",
+          "method": "POST",
+          "path": "/v1/inspect",
+          "api_version": "v1",
+          "model_version": "inspect-v3",
+          "dataset_version": "manufacturing-d1",
+          "feature_version": "f1",
+          "event_time_s": 112,
+          "feature_time_s": 112,
+          "request_time_s": 114,
+          "content_type": "application/json",
+          "credential": "valid",
+          "scopes": [
+            "predict"
+          ],
+          "body": {
+            "entity_id": "part-12",
+            "feature": 0.85
+          },
+          "predicted_score": 0.85,
+          "expected_status": 200,
+          "expected_response": {
+            "request_id": "m12",
+            "model_version": "inspect-v3",
+            "score": 0.85
+          },
+          "expected_error": null,
+          "department": "品管／MES",
+          "business_action": "hold_for_review",
+          "business_rule": "score >= 0.80",
+          "business_error": null
+        }
+      ]
+    }
+  ],
+  "procurement": {
+    "source": "零售 POS 歷史銷量另供需求預測服務；不是推薦分數換算",
+    "model_version": "demand-v1",
+    "forecast_units": 120,
+    "available_stock_units": 80,
+    "minimum_stock_units": 0,
+    "approval_required": true
+  },
+  "lifecycle": {
+    "retail": {
+      "change": "新商品與促銷流量增加",
+      "candidate_model": "rec-v3"
+    },
+    "manufacturing": {
+      "change": "更換相機後影像亮度改變",
+      "candidate_model": "inspect-v4"
+    },
+    "stages": [
+      "資料",
+      "訓練",
+      "驗證",
+      "部署",
+      "監控",
+      "檢查及回訓"
+    ]
+  }
+}

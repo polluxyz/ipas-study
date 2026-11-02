@@ -1,0 +1,135 @@
+# 全站教材計畫：科目 1 與科目 3 其餘 20 個評鑑代碼
+
+2026-11-01 建立，同日改 v2（依 advisor 意見 `tmp/advisor/full-site.md`），再改 v3（M1 概念清單與 advisor `tmp/advisor/m1-decisions.md`）。狀態：**使用者 2026-11-01 核可**（全部照建議）。
+第 0 階段設計與合併只寫 `tmp/rollout/`；併入正式表走 PR。
+依據：使用者 2026-11-01 指示「教材品質維持最高標準；多派 agent 平行；先把科目 1、3 都完成」。考試是 115/11/14（2026-11-14）。
+規格沿用 `docs/specs/textbook.md` v1.9（第 11 節第 7 步「全站」已核可），不另寫新規格。本計畫只處理規模、順序、平行、擁有權與交付方式。
+
+## 1. 目標與完成定義
+
+- 總目標不變：科目 1、科目 3 全部 21 個代碼都有完整教材。
+- 考前改成**滾動交付**：一個單元驗收完就通知使用者可以讀，不等全站完成。
+- 「完整單元」的條件：已審概念頁、每個學習目標有檢核、必要例子與圖、涵蓋表有效複審、考古題 YAML 已核對、代碼頁（學習路線）、速查頁。協調者在固定版本跑檢查、測試、建置，並看主要瀏覽流程。
+- 頁面先交、但代碼還有缺頁時，明列缺項，不稱為完整單元。
+- 涵蓋率分母維持全站。不用 `in_scope=false` 排除還沒寫的指引目標。另列「本批承諾」與「已交付」兩個數字。
+
+## 2. 規模（M1 合併＋M3 整併後，使用者核可）
+
+| 項目 | 數字 |
+|---|---|
+| 評鑑代碼 | 已完成 1（L23303），其餘 20 |
+| 學習目標 | 本輪 876 個 in_scope；全站分母 920（既有 44＋本輪 876，PR #6 實測） |
+| 概念頁 | 全站 485 頁＝新建 454＋沿用已發布 31。M1 原為 492（新建 461），4 項整併少 7 頁 |
+| 沿用頁補強 | 31 頁中 25 頁有新責任，盤點後依 advisor 三段補強（12＋9＋4） |
+| 考古題 | 200 題，主碼見 `tmp/rollout/questions-map.csv`；L23303 已做 29 題，其餘 171 題 |
+
+- 492／485 頁是核可當下的快照。之後新增或拆分只送差異清單。
+- 4 項整併：風險處置 4 頁→`risk-response-strategies`；關聯規則 3 頁→`association-rule-metrics`；`simple-imputation` 併入 `missing-value-imputation`；`data-drift-monitoring` 併入 `model-monitoring`。
+- `time-complexity`（114-2 科3 第33題）缺負責頁，由 M3 決定承接方式。
+- 13 天內全部完成**沒有把握**。新建 454 頁約需每天 40 頁以上驗收完成。開寫後 24 小時量實際產能，最遲 11/03 回報完工區間。
+
+## 3. 品質流程（不降級）
+
+每個寫作組（4–8 頁），寫完一組就接審，不等整波：
+1. writer（Codex，`--search`）依 `W-common` 寫頁、例子 JSON、涵蓋表片段。
+2. 非作者審查：事實、公式獨立核算、程式實測、照抄、補充標示、涵蓋深度。同一 reviewer 可一次審內容與涵蓋，兩份結果分開列。主審用 Claude Opus 5.5 或 Gemini 4 Argon；公式核算與程式實測由非作者 Codex 負責（第 8 節第 2 項）。
+3. 原 writer 修正；非作者複核受影響部分，簽最後版本雜湊。
+4. 協調者驗收：`verify-group.sh`（檢查器、check-copy、run-code）、抽查數字、看 diff。
+
+每個代碼另有：考古題 YAML（抽題 → 盲解 → 解析 → 審查）、代碼頁、速查頁。
+- 盲解用全新、沒看過答案的 session。9 個設計 worker 與解析作者都看過答案，不擔任盲解。
+- 引用頁、例子 JSON、圖改動時，列出受影響頁面人工安排重審（雜湊只保護主頁）。
+
+## 4. 階段
+
+| 階段 | 內容 | 產出 |
+|---|---|---|
+| 0 設計 | 9 組 Codex：學習目標、概念清單、寫作分組、例子提案、考題對應 | `tmp/rollout/design/<組>/` |
+| 0 合併 | 協調者用 `tmp/rollout/merge-design.mjs` 合併、去重、定 owner；**暫存，不先併入正式表** | `tmp/rollout/merged/` |
+| 0 核可 | 使用者核可概念清單 → 協調者併入 `concept-index.csv`、`guide-topics.csv` → 放行對應寫作組 | 正式表 |
+| 0 考題 | 沿用 `tmp/l23303/classify/` 的 200 題分類，對照各組 `exams.csv`，補核分歧。驗 200 個唯一 ID、每題一個主碼、29 題不重抽 | `tmp/rollout/questions-map.csv` |
+| 0 網站驗證 | 用 demo 加一個科目 1 單元，確認多代碼路由、學習路線、搜尋、題庫、速查。治理類速查若需不同欄目，先提最小規格修改 | 驗證報告 |
+| 1… 寫作 | 流水作業：寫、審、修、考題、圖穿插 | 可讀單元 |
+
+概念核可順序：**暫存提案 → 使用者核可 → 協調者併入 → 放行**。
+
+## 5. 優先順序
+
+排序原則：先做直接前置概念與已發布單元的缺口，再依「尚未支援的考古題數、跨科重用、基礎價值」對總成本排序。考前分主隊列與第二隊列。歷屆題數只是觀察資料，不換算成下次出題機率。
+
+**首批 16 組（95 頁）**，協調者與 advisor 各自排序後比對，15 組相同，採 advisor 的 W-L23201-A（紀錄：`tmp/rollout/coord/batch1-mine.md` 末尾）：
+
+1. 第一段：W-L23102-A、W-L23101-A、W-L21302-A、W-L21101-A、W-L21201-A。
+2. 第二段：W-L23101-C、W-L23103-A、W-L23103-B、W-L23201-A、W-L21302-D、W-L21203-A。
+3. 第三段：W-L23301-A、W-L23301-C、W-L23203-A、W-L23203-B、W-L23203-C。
+
+**第二批優先**：W-L23203-D（14 題）、W-L21302-C、分類與特徵、W-L23304-A（調參）、CNN、漂移監控、NLP 表示。
+
+**沿用頁補強**（advisor D08）：
+1. 第一段 12 頁：data-leakage、sklearn-pipeline、train-val-test-split、mean-squared-error、mean-absolute-error、mini-batch-gradient-descent、learning-curve、learning-rate-schedule、early-stopping、overfitting、experiment-tracking、model-comparison。
+2. 第二段 9 頁：accuracy、confusion-matrix、precision、recall、f1-score、roc-auc、class-imbalance、k-fold-cross-validation、nested-cross-validation。
+3. 第三段 4 頁，隨相關單元：intersection-over-union、residual-analysis、time-series-split、root-mean-squared-error。
+
+每頁同一時間只有一個修改者。補強後重審受影響的 `guide-coverage.csv` 列。
+
+## 6. 平行與擁有權
+
+- 所有 agent（含 advisor、盲解、工具）合計 Codex 不超過 10 個。起跑配置：4 寫作、3 審查、2 考題或圖、1 機動。
+- 待審量達一天產能時，暫停新增寫作組，先清審查與整合。
+- repo 已建（`polluxyz/ipas-study`）。依 CLAUDE.md 第 13 節：**一個寫作組 = 一個 worktree = 一個分支 = 一個 PR**。版本邊界由 git 管，不再靠同資料夾的口頭擁有權。
+
+| 檔案 | 誰能寫 |
+|---|---|
+| `content/concepts/<id>.md` | 該頁所屬寫作組的 writer。跨科共用頁只有一位 writer |
+| `content/examples/<code>-*.json`、圖資 | 該寫作組，檔名含代碼與 ID |
+| `guide-topics.csv`、`guide-coverage.csv`、`concept-index.csv`、`glossary.csv` | 只有協調者。worker 交片段到 `tmp/rollout/<組>/`，協調者用腳本合併 |
+| `content/questions/`、`content/codes/`、`content/cheatsheets/` | 依實際檔案清單指定，不以整個目錄派工 |
+| `demo/` 程式 | 只有網站 worker，一次一個 |
+| 建置、preview | 只有協調者。正式閱讀版只含驗收完成的頁面與其相依 |
+
+## 7. 檢查點（已核可）
+
+- 第一個 24 小時：量一組計算／程式頁、一組非計算頁的寫、審、修、整合耗時。之後每天回報：驗收完成頁、目標、題目、單元、待審量、估計剩餘工期區間、兩科缺口。
+- 11/03 前：回報完工區間。
+- 11/06、11/09：依實際剩餘量檢查範圍。
+- 11/11 前：主要交付。
+- 11/12–13：穩定、複習、修錯。
+- 做不完時：先提延後非必要延伸（額外模擬題、進階補充），再列考後單元與影響，由使用者決定。品質門檻不降。
+
+## 8. 已決事項（使用者 2026-11-01）
+
+1. 本計畫與 M1 的 D01–D08：全部照 advisor 建議核可（D01 一次核可全清單、分期承諾；D05 nonlinear-embedding 合一頁，但保留多設定實測與樣本外使用；D06 深度照原案、排程分期；D08 先盤點 25 頁）。
+2. 審查方式：混合審查。主審用 Claude Opus 5.5 或 Gemini 4 Argon（不用 Sonnet）；公式核算與程式實測由非作者 Codex 負責。已統一寫進 `docs/orca-multi-agent.md` 第 1、4 節與 `docs/specs/textbook.md` 4.0 節。
+3. Python 套件 8 項分兩批，已全部裝入 `tools/python/`（PR #3、#4）：xgboost、imbalanced-learn、shap、statsmodels、tensorflow（Windows 版即 CPU）、lightgbm、umap-learn、lime。
+4. CI：精簡版 GitHub Actions 已加（PR #2）：demo 測試、檢查器、照抄檢查、建置。
+5. `regulation`、`tool` 已在 concept-relations 2.2 節的 8 種內，使用不算新增種類。
+6. 仍待定：指引章末練習題 70 題、模擬題、正式 `site/` 是否納入本次範圍。
+
+## 9. 風險與對策
+
+| 風險 | 對策 |
+|---|---|
+| Codex 額度用完 | 派工前 `orca account list`；多帳號輪替；先做高優先代碼 |
+| 跨組概念重複 | 合併腳本列跨組同 ID、owner 衝突、名稱與別名撞名，協調者定唯一 owner |
+| 寫多讀少（待審堆積） | 第 6 節待審上限 |
+| 科目 1 治理類頁面沒有 L23303 的範例 | 首波選一組治理或導入頁試做，看截圖與學習流程 |
+| Python 環境缺套件 | 設計階段先彙整實測需求，送相依核可；不拿 PyTorch 結果冒充 Keras |
+| 協調者 context 爆掉 | 每波結束更新 handoff、換 session；驗收看報告與檢查器 |
+| 派工提示詞沒送出 | `scripts/orca/dispatch.sh` 自動補 Enter 並確認 `Working` |
+| 考前來不及讀 | 滾動交付；速查只連向已審教材，不當教材完成 |
+
+## 10. 實作紀錄
+
+- 2026-11-01 下午：第 0 階段派 9 個設計 worker（D1–D9，spec `tmp/rollout/specs/`，handle 記在 `tmp/rollout/handles.txt`），另派 advisor（ctx_0f4bdc079b21，xhigh）審本計畫。派工腳本 `scripts/orca/dispatch.sh`。
+- 同日：依 advisor 指出的錯誤，DS-common 加 v1.1 更正（★ 不決定 origin；report 要有 INV 列逐列對照），已通知 9 組。
+- 同日：建 GitHub private repo `polluxyz/ipas-study`。
+- 同日：D1、D2、D3、D4、D7、D9 驗收通過（`tmp/rollout/check-design.mjs`），筆記在 `tmp/rollout/merge-notes.md`。合併草稿腳本 `tmp/rollout/merge-design.mjs`。
+- 同日：M1 概念去重與 M2 考題主碼驗收通過（`tmp/rollout/coord/verify-m1.mjs` 錯誤 0）。advisor 審 M1 的 8 項決策與首批排序（ctx_d8ccb9089eee）。使用者核可全部建議。
+- 同日：派 M3（整併修訂，ctx_57d928a21a60）與 M4（25 頁既有頁盤點，唯讀，ctx_e2fe0c44b8af）。
+- 同日：PR #2 CI、PR #3／#4 Python 套件合併。
+- 同日：PR #6 匯入 454 個新概念與 879 個指引主題（in_scope 876）；PR #7 派工腳本支援 worktree（`WT=`／`WTPATH=`／`AGENT=`）與 `scripts/orca/wt-rm.sh`。
+- 同日：寫作階段規格 `tmp/rollout/specs/W-common-v2.md`（writer）、`RV-common-v2.md`（主審，兩輪）、`CK-common-v2.md`（Codex 核算）、`FX-common-v2.md`（修正）；每組任務檔由 `tmp/rollout/coord/make-group-specs.mjs` 產生。
+  - 每組流程：writer → 主審（Opus／Gemini）與核算（非作者 Codex）平行 → 修正 → 主審第二輪寫涵蓋列 → 協調者併涵蓋列、跑 CI、開 PR。
+  - Python 在 worktree 用共用環境：`UV_PROJECT_ENVIRONMENT=D:/AI_test/tools/python/.venv UV_NO_SYNC=1`（實測可用）。
+  - 寫作組 85 組。無前置組的只有 7 組，已全部派出（xhigh，`--search`）：W-L23102-A、W-L23101-A、W-L21302-A、W-L21101-A、W-L21201-A、W-L21102-A、W-L21201-B。
+  - W-L21201-B 提問財務圖格式。決定：不在圖表 schema 的數據圖，用腳本從例子 JSON 產生 SVG，腳本留在組資料夾。已補進 W-common-v2。

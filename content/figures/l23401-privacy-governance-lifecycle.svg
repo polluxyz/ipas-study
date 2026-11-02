@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="660" viewBox="0 0 360 660" role="img" aria-labelledby="title desc">
+<title id="title">隱私治理的資料生命週期</title><desc id="desc">收集、儲存、訓練、共享部署及停止到銷毀，各站都要查用途、接觸者與證據。用途變更須回到評估。</desc>
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#375a70"/></marker></defs>
+<rect width="360" height="660" rx="12" fill="#f8fafc"/>
+<g font-family="Microsoft JhengHei,Noto Sans TC,sans-serif" text-anchor="middle">
+<text x="180" y="31" font-size="17" font-weight="700" fill="#17364b">隱私治理的資料生命週期</text>
+<rect x="16" y="53" width="328" height="80" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<text x="180" y="83" font-size="16" font-weight="700" fill="#17364b">收集前：辨認來源與目的</text>
+<text x="180" y="110" font-size="15" fill="#25465c">資料從哪裡來？為何需要？</text>
+<path d="M180 136 V159" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="165" width="328" height="80" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="180" y="195" font-size="16" font-weight="700" fill="#17364b">儲存：限制接觸與期限</text>
+<text x="180" y="222" font-size="15" fill="#25465c">原文、匯出、備份都要盤點</text>
+<path d="M180 248 V271" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="277" width="328" height="80" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<text x="180" y="307" font-size="16" font-weight="700" fill="#17364b">訓練：依目的限縮資料</text>
+<text x="180" y="334" font-size="15" fill="#25465c">確認依據、範圍及保護措施</text>
+<path d="M180 360 V383" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="389" width="328" height="80" rx="10" fill="#e7f3ee" stroke="#9ab0c0"/>
+<text x="180" y="419" font-size="16" font-weight="700" fill="#17364b">部署與共享：追到接收者</text>
+<text x="180" y="446" font-size="15" fill="#25465c">檢查輸出與跨境資料路徑</text>
+<path d="M180 472 V495" stroke="#375a70" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="16" y="501" width="328" height="80" rx="10" fill="#e9f0fb" stroke="#9ab0c0"/>
+<text x="180" y="531" font-size="16" font-weight="700" fill="#17364b">停止利用：處置各份副本</text>
+<text x="180" y="558" font-size="15" fill="#25465c">查刪除、隔離及接收端證據</text>
+<text x="180" y="640" font-size="14" fill="#25465c">用途或接收者變更 → 回到評估</text></g></svg>

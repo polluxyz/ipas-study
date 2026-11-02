@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="730" viewBox="0 0 390 730" role="img" aria-labelledby="iou-title iou-desc" lang="zh-Hant">
+  <title id="iou-title">交並比：真實框與預測框的重疊</title>
+  <desc id="iou-desc">影像座標原點在左上角，x 向右、y 向下，單位為像素。真實框 G 的座標為（10, 10, 30, 30），預測框 B 的座標為（14, 10, 34, 30），兩框皆寬 20、高 20。交集為 x 從 14 到 30、y 從 10 到 30，寬 16、高 20，面積 320 平方像素。聯集為兩框覆蓋的區域合起來，重疊部分只計一次，面積 480 平方像素，因此 IoU 為 320 除以 480，等於 2/3。</desc>
+  <style>
+    :root { color-scheme: light dark; --bg: #f9fbf9; --ink: #263a45; --muted: #465b66; --ground: #006b66; --ground-fill: #e2f1ef; --prediction: #9a3c00; --prediction-fill: #fff0e3; --hatch: #304c5b; --rule: #ccdadd; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #15252b; --ink: #e4edf1; --muted: #bbcbd2; --ground: #78ded2; --ground-fill: #24443f; --prediction: #ffbf86; --prediction-fill: #4b382b; --hatch: #d1e3e8; --rule: #465b62; }
+    }
+    text { font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; fill: var(--ink); font-size: 15px; }
+    .background { fill: var(--bg); }
+    .title { font-size: 23px; font-weight: 700; }
+    .subtitle, .axis-label, .note { fill: var(--muted); }
+    .subtitle, .note { font-size: 14px; }
+    .axis-label { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 700; }
+    .result { font-size: 19px; font-weight: 700; }
+    .ground-fill { fill: var(--ground-fill); }
+    .prediction-fill { fill: var(--prediction-fill); }
+    .ground-line { fill: none; stroke: var(--ground); stroke-width: 2.5; }
+    .prediction-line { fill: none; stroke: var(--prediction); stroke-width: 2.5; stroke-dasharray: 7 4; }
+    .hatch-bg { fill: var(--ground-fill); }
+    .hatch-line { stroke: var(--hatch); stroke-width: 1.3; opacity: .65; }
+    .axis { fill: none; stroke: var(--muted); stroke-width: 1.3; }
+    .rule { stroke: var(--rule); stroke-width: 1; }
+  </style>
+  <defs>
+    <pattern id="intersection-hatch" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect class="hatch-bg" width="8" height="8"/>
+      <path class="hatch-line" d="M-2,2 L2,-2 M0,8 L8,0 M6,10 L10,6"/>
+    </pattern>
+  </defs>
+  <rect class="background" width="390" height="730" rx="12"/>
+  <text x="22" y="39" class="title">交並比：兩框的重疊</text>
+  <text x="22" y="66" class="subtitle">影像座標：原點在左上，單位為像素</text>
+  <path class="ground-line" d="M23 91 H52"/>
+  <text x="60" y="96">真實框 G</text>
+  <path class="prediction-line" d="M180 91 H209"/>
+  <text x="217" y="96">預測框 B</text>
+  <rect x="23" y="110" width="29" height="18" fill="url(#intersection-hatch)"/>
+  <text x="60" y="125">交集（共同覆蓋）</text>
+
+  <!-- 座標圖每像素對應 7 個 SVG 單位；交集與兩框共用相同座標轉換。 -->
+  <path class="axis" d="M54 153 H345 M340 149 L345 153 L340 157 M54 153 V432 M50 427 L54 432 L58 427"/>
+  <text x="348" y="158" class="axis-label">x</text>
+  <text x="49" y="449" class="axis-label">y</text>
+  <text x="38" y="149" class="axis-label">0</text>
+  <path class="axis" d="M124 150 V157 M264 150 V157 M51 223 H58 M51 363 H58"/>
+  <text x="124" y="174" text-anchor="middle" class="axis-label">10</text>
+  <text x="264" y="174" text-anchor="middle" class="axis-label">30</text>
+  <text x="45" y="228" text-anchor="end" class="axis-label">10</text>
+  <text x="45" y="368" text-anchor="end" class="axis-label">30</text>
+  <rect class="ground-fill" x="124" y="223" width="140" height="140"/>
+  <rect class="prediction-fill" x="152" y="223" width="140" height="140"/>
+  <rect x="152" y="223" width="112" height="140" fill="url(#intersection-hatch)"/>
+  <rect class="ground-line" x="124" y="223" width="140" height="140"/>
+  <rect class="prediction-line" x="152" y="223" width="140" height="140"/>
+
+  <path class="rule" d="M22 463 H368"/>
+  <text x="22" y="491" class="section">框與交集的座標及尺寸</text>
+  <text x="22" y="521">G（10, 10, 30, 30）：20 × 20</text>
+  <text x="22" y="548">B（14, 10, 34, 30）：20 × 20</text>
+  <text x="22" y="575">交集 x = 14～30，y = 10～30</text>
+  <text x="22" y="602">交集寬 16、高 20，面積 320 平方像素</text>
+  <text x="22" y="629">聯集面積 400 + 400 − 320 = 480</text>
+  <text x="22" y="662" class="result">IoU = 320 / 480 = 2/3</text>
+  <text x="22" y="690" class="note">聯集是兩框覆蓋區域的總和，重疊只算一次。</text>
+  <text x="22" y="712" class="note">來源：教學模擬資料 L23303-A1-iou</text>
+</svg>

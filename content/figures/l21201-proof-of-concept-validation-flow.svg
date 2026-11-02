@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 650" width="360" height="650" role="img" aria-labelledby="title desc">
+  <title id="title">從資料到 POC 確認的流程</title>
+  <desc id="desc">資料收集與處理後建立初步模型及原型，在探索組測試並收回饋。修改可回到原型；鎖定版本與門檻後才評估確認組。保留確認組是本教材補充的驗證設計。</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#40546b"/></marker></defs>
+  <rect width="360" height="650" rx="12" fill="#f5f8fc"/>
+  <g font-family="'Microsoft JhengHei','Noto Sans TC',sans-serif" fill="#142d47" text-anchor="middle" font-size="16">
+    <text x="180" y="32" font-size="20" font-weight="700">模型與流程一起驗</text>
+    <text x="180" y="58" font-size="14">教學設計；不是已完成的模型訓練</text>
+    <g fill="#fff" stroke="#7994ac" stroke-width="1.5">
+      <rect x="24" y="80" width="280" height="62" rx="8"/>
+      <rect x="24" y="172" width="280" height="62" rx="8"/>
+      <rect x="24" y="264" width="280" height="72" rx="8"/>
+      <rect x="24" y="366" width="280" height="62" rx="8"/>
+      <rect x="24" y="458" width="280" height="62" rx="8"/>
+      <rect x="24" y="550" width="280" height="62" rx="8"/>
+    </g>
+    <text x="164" y="106">資料收集與處理</text><text x="164" y="130" font-size="14">確認格式、權限與任務答案</text>
+    <text x="164" y="198">現況基準與量化目標</text><text x="164" y="222" font-size="14">品質、工時、成本的口徑一致</text>
+    <text x="164" y="291">初步模型與原型</text><text x="164" y="317" font-size="14">另備開發資料訓練或配置模型</text>
+    <text x="164" y="392">探索測試與使用回饋</text><text x="164" y="416" font-size="14">按回饋改版，留下迭代紀錄</text>
+    <text x="164" y="484">鎖定版本與門檻（補充）</text><text x="164" y="508" font-size="14">確認組尚未參與修改</text>
+    <text x="164" y="576">保留確認與決策（補充）</text><text x="164" y="600" font-size="14">評估一次，記錄可用範圍</text>
+  </g>
+  <g stroke="#40546b" stroke-width="2" fill="none" marker-end="url(#arrow)">
+    <path d="M164 142V166"/><path d="M164 234V258"/><path d="M164 336V360"/><path d="M164 428V452"/><path d="M164 520V544"/>
+    <path d="M304 397H331V300H309" stroke-dasharray="5 4"/>
+  </g>
+  <text x="180" y="636" font-size="14" font-family="'Microsoft JhengHei',sans-serif" text-anchor="middle" fill="#142d47">虛線：探索結果可回到原型修改</text>
+</svg>

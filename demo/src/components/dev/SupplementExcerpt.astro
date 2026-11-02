@@ -1,0 +1,87 @@
+---
+/** 隔離的 K-fold 對比素材：三版共用文字，呈現前合併同來源補充，避免編寫拆段造成重複框線。 */
+import { mergeSupplementBlocks, type ReadingBlock } from '../../lib/supplement-blocks';
+interface Props { version: 'a' | 'b' | 'c'; }
+const { version } = Astro.props;
+const marked = version !== 'a';
+const source = 'Hastie 等人《The Elements of Statistical Learning》§7.10';
+type ExcerptPart = 'guide' | 'definitions' | 'tradeoff' | 'cost';
+const blocks = mergeSupplementBlocks<ExcerptPart>([
+  { kind: 'guide', parts: ['guide'] },
+  { kind: 'supplement', sources: [source], parts: ['definitions'] },
+  { kind: 'supplement', sources: [source], parts: ['tradeoff'] },
+  { kind: 'supplement', sources: [source], parts: ['cost'] },
+] satisfies ReadingBlock<ExcerptPart>[]);
+---
+<div class="excerpt" data-excerpt={version}>
+  <section aria-labelledby={`choose-k-${version}`}>
+    <h3 id={`choose-k-${version}`}>怎麼選 K</h3>
+    {blocks.map((block) => (
+      <div
+        class:list={block.kind === 'supplement' ? ['supplement', { marked }] : []}
+        data-guide={block.kind === 'guide' ? '' : undefined}
+        data-supplement={block.kind === 'supplement' ? '' : undefined}
+        data-supplement-kind={block.kind === 'supplement' ? 'paragraph' : undefined}
+      >
+        {marked && block.kind === 'supplement' && <span class="supplement-label">補充</span>}
+        {block.parts.map((part) => (<>
+          {part === 'guide' && <>
+      <p>K 常見設定為 <strong>5 或 10</strong>，可在準確度與運算時間之間取得平衡，適用於中大型資料集。</p>
+      <div class="table-scroll" role="region" aria-label="常見 K 設定" tabindex="0">
+        <table>
+          <thead><tr><th>K</th><th>每輪訓練占比</th><th>擬合次數</th></tr></thead>
+          <tbody><tr><td>5</td><td>約 80%</td><td>5 次</td></tr><tr><td>10</td><td>約 90%</td><td>10 次</td></tr></tbody>
+        </table>
+      </div>
+      <p>每次切摺都要重新訓練；一組參數共擬合 K 次，計算成本可先以 K 倍理解。</p>
+          </>}
+          {part === 'definitions' && <>
+      <p><strong>偏差（bias）</strong>是系統性偏高或偏低。每輪訓練的資料比最終模型少，驗證分數就傾向偏悲觀。</p>
+      <p><strong>變異（variance）</strong>是換一批資料或換一種切法時，估計值晃動的程度。</p>
+          </>}
+          {part === 'tradeoff' && <>
+      <p>把常見設定與兩個極端放在一起看：</p>
+      <div class="table-scroll" role="region" aria-label="K 的偏差與成本取捨" tabindex="0">
+        <table class="tradeoff-table">
+          <thead><tr><th>K</th><th>訓練占比／擬合次數</th><th>取捨</th></tr></thead>
+          <tbody>
+            <tr><td>2</td><td>50%／2 次</td><td>訓練資料少，分數偏低估，成本最低</td></tr>
+            <tr><td>5</td><td>80%／5 次</td><td>常見設定，偏差與成本折衷</td></tr>
+            <tr><td>10</td><td>90%／10 次</td><td>偏差更小，成本約為 K=5 的 2 倍</td></tr>
+            <tr><td>n</td><td>(n−1)/n／n 次</td><td>即留一法</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li><strong>偏差：</strong>K 越大，每輪訓練的資料越接近全部，偏差越小。</li>
+        <li><strong>變異：</strong>K 大時訓練集高度重疊，各摺分數彼此相關。留一法常被認為估計變異較大，實際差異仍依資料與模型而定。</li>
+        <li><strong>資料量：</strong>資料少時單次切分較不穩，可用 K=10；資料很大、訓練很貴時，K=3～5 或單次切分可能已夠用。</li>
+      </ul>
+          </>}
+          {part === 'cost' && <>
+      <p><strong>成本再看細一點：</strong>每次只用 (K−1)/K 的資料，總時間通常不恰為 K 倍。若訓練時間與資料量成正比，總時間約為單次全資料訓練的 K−1 倍；固定開銷與前處理會讓數字偏離。</p>
+          </>}
+        </>))}
+        {marked && block.kind === 'supplement' && <p class="supplement-source">來源：{block.sources.join('；')}</p>}
+      </div>
+    ))}
+  </section>
+
+  <section class="scenario" data-supplement data-supplement-kind="section" aria-labelledby={`scenario-${version}`}>
+    <h3 id={`scenario-${version}`}>換個場景<span class="section-supplement">（補充）</span></h3>
+    <p>切摺的方式要看資料怎麼產生、模型要預測誰。同樣是交叉驗證，下列三個領域各用不同的切法。</p>
+    <div class="table-scroll" role="region" aria-label="不同領域的交叉驗證切法" tabindex="0">
+      <table class="scenario-table">
+        <thead><tr><th>場景</th><th>資料特性與切法</th><th>判讀重點</th></tr></thead>
+        <tbody>
+          <tr><td>醫療影像診斷</td><td>每位病人有多張影像；依病人分組，同一位病人不跨摺。</td><td>按張數隨機切會讓同一人的影像同時出現在訓練與驗證，分數偏高。</td></tr>
+          <tr><td>交通流量預測</td><td>每小時一筆；採時間序列切分，訓練窗每輪往後加長。</td><td>驗證永遠晚於訓練；分數差異要連同季節與資料漂移一起看。</td></tr>
+          <tr><td>客服工單分類</td><td>同一客戶常有多張工單，緊急工單很少；依客戶分組並盡量分層（StratifiedGroupKFold）。</td><td>先檢查各摺緊急工單夠不夠；不夠就減少摺數，不能為分層拆散客戶。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>以醫療影像為例，200 位病人各有 10 張影像，共 2,000 張。5-fold 依病人切，每摺 40 位病人、約 400 張影像。同一位病人的 10 張影像一定在同一摺。</p>
+    <p>三個場景的共通點是：驗證摺要模擬「上線後會遇到的新資料」。上線時遇到新病人、更晚的時間或新來的工單，驗證就要照這個方向切。</p>
+    {marked && <p class="supplement-source">來源：教材延伸情境（非指引原有內容）</p>}
+  </section>
+</div>

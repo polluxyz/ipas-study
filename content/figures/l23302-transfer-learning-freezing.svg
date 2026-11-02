@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 500" role="img" aria-labelledby="title desc">
+<title id="title">凍結、換頭與部分解凍的三個階段</title>
+<desc id="desc">來源控制模型骨幹有772與15個參數，來源頭12個。凍結並換成二類頭後只有8個可訓練；解凍末段後有23個可訓練。固定與更新以文字和邊框區分。</desc>
+<rect width="360" height="500" fill="#fff"/>
+<g font-family="sans-serif" font-size="13" fill="#172c46">
+<text x="16" y="25">控制探針；無下載預訓練權重</text>
+<text x="16" y="55">① 來源形狀：骨幹 → 來源三類頭</text>
+<rect x="15" y="70" width="160" height="65" rx="6" fill="#e8eef5" stroke="#64748b"/>
+<text x="28" y="95">骨幹 192→4→3</text><text x="28" y="118">772 ＋ 15 個參數</text>
+<text x="181" y="105">→</text>
+<rect x="204" y="70" width="140" height="65" rx="6" fill="#e8eef5" stroke="#64748b"/>
+<text x="216" y="95">舊頭 3→3</text><text x="216" y="118">12 個參數</text>
+<text x="16" y="165">② 先凍結，再換頭，最後建立優化器</text>
+<rect x="15" y="180" width="160" height="76" rx="6" fill="#e8eef5" stroke="#64748b" stroke-dasharray="5 3"/>
+<text x="28" y="205">固定骨幹 787</text><text x="28" y="229">梯度關閉</text><text x="28" y="247">預設 BN 統計另管</text>
+<text x="181" y="217">→</text>
+<rect x="204" y="180" width="140" height="76" rx="6" fill="#fff1df" stroke="#b34b00" stroke-width="2"/>
+<text x="216" y="205">更新新頭 3→2</text><text x="216" y="229">8 個參數</text><text x="216" y="247">優化器只收新頭</text>
+<text x="16" y="290">③ 解凍最後層，同步更新優化器成員</text>
+<rect x="15" y="305" width="160" height="100" rx="6" fill="#e8eef5" stroke="#64748b"/>
+<text x="28" y="331">前段 772 固定</text>
+<rect x="24" y="346" width="142" height="47" rx="4" fill="#fff1df" stroke="#b34b00" stroke-width="2"/>
+<text x="32" y="365">末段 15 更新</text><text x="32" y="384">學習率 0.001</text>
+<text x="181" y="355">→</text>
+<rect x="204" y="305" width="140" height="100" rx="6" fill="#fff1df" stroke="#b34b00" stroke-width="2"/>
+<text x="216" y="331">新頭 8 更新</text><text x="216" y="358">學習率 0.01</text><text x="216" y="385">共更新 23</text>
+<text x="16" y="440">虛線固定；橘框更新；數量與實測一致</text>
+<text x="16" y="465">學習率是示例設定，需依驗證結果調整</text>
+</g></svg>

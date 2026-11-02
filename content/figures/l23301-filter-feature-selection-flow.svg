@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 508" role="img" aria-labelledby="title desc">
+<title id="title">Filter 篩選及評估邊界</title>
+<desc id="desc">先留出測試集，開發資料在每個訓練摺內估計統計分數與保留欄位，再轉換驗證摺及評估。流程選定後才用保留的測試集。</desc>
+<rect width="360" height="508" rx="8" fill="#fff"/>
+<style>text{font:15px sans-serif;fill:#142b40}.box{fill:#eff6fc;stroke:#3569ad;stroke-width:1.5}.arrow{stroke:#506477;stroke-width:1.8;fill:none;marker-end:url(#arrow)}</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#506477"/></marker></defs>
+<text x="180" y="27" text-anchor="middle">先切分，再學習篩選規則</text>
+<rect x="25" y="45" width="310" height="48" rx="7" class="box"/>
+<text x="180" y="75" text-anchor="middle">原始資料 → 開發集＋保留測試集</text>
+<path d="M180 93V119" class="arrow"/>
+<rect x="14" y="125" width="332" height="276" rx="9" fill="#fafcfe" stroke="#506477" stroke-dasharray="6 4"/>
+<text x="180" y="150" text-anchor="middle">開發資料：每一摺都重做</text>
+<rect x="35" y="166" width="290" height="55" rx="7" class="box"/>
+<text x="180" y="188" text-anchor="middle">訓練部分估計統計分數</text>
+<text x="180" y="208" text-anchor="middle">學習要保留的原始欄位</text>
+<path d="M180 221V245" class="arrow"/>
+<rect x="35" y="251" width="290" height="53" rx="7" class="box"/>
+<text x="180" y="273" text-anchor="middle">相同欄位轉換訓練／驗證部分</text>
+<text x="180" y="293" text-anchor="middle">只用訓練部分擬合模型</text>
+<path d="M180 304V329" class="arrow"/>
+<rect x="35" y="335" width="290" height="45" rx="7" class="box"/>
+<text x="180" y="364" text-anchor="middle">驗證部分只評估，不回頭估分數</text>
+<path d="M180 401V428" class="arrow"/>
+<rect x="25" y="434" width="310" height="52" rx="7" fill="#fff5e8" stroke="#a84b16"/>
+<text x="180" y="456" text-anchor="middle">選定流程、用開發集重訓後</text>
+<text x="180" y="476" text-anchor="middle">才以保留測試集做最終評估</text>
+</svg>

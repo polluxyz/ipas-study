@@ -1,0 +1,36 @@
+id: 114-2-S1-Q10
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 10
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 3
+type: 觀念
+codes: [L23303]
+concepts: [f1-score, precision, recall, root-mean-squared-error, mean-squared-error]
+stem: |
+  如果希望同時兼顧「精確率（Precision）」和「召回率（Recall）」，下列哪一個指標可以作為綜合評估的標準？
+options:
+  A: 準確率（Accuracy）
+  B: 均方根誤差（RMSE）
+  C: 均方誤差（MSE）
+  D: F1 分數（F1 Score）
+answer: D
+explanation:
+  summary: F1 用調和平均將精確率與召回率合併成一個分類指標。
+  correct: F1 = 2 × Precision × Recall / (Precision + Recall)。當其中一項偏低時，F1 也會受到明顯影響，因此能反映兩者是否兼顧。若 Precision 為 0.8、Recall 為 0.6，F1 約為 0.686。
+  wrong:
+    A: Accuracy 計算全部樣本中答對的比例，包含真負例，並非精確率與召回率的綜合平均。
+    B: RMSE 衡量數值預測的誤差大小，不是將 Precision 與 Recall 整合的分類指標。
+    C: MSE 是誤差平方的平均，用於衡量數值預測偏差，沒有直接兼顧 Precision 與 Recall。
+  rule: 兼顧精確率與召回率時，要用調和平均衡量兩者。
+guide_refs: [guide-3:5-21]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 3
+    by: QA
+  blind_answer: D
+  dispute: null

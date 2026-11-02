@@ -1,0 +1,337 @@
+{
+  "id": "L23401-B-transforms",
+  "source": "教學全合成資料；姓名、代碼、地區及金額不對應真實個人",
+  "seed": 42,
+  "inherited_structure": "content/examples/L23401-A-privacy.json 的 hospital 年齡、地區與索引；不修改來源",
+  "fixed_indices": {
+    "training": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "holdout": [
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "privacy_test_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "region_map": {
+    "東區": "城區",
+    "北區": "城區",
+    "西區": "郊區",
+    "南區": "郊區"
+  },
+  "masking": {
+    "name": "首字加兩個○",
+    "id": "第一碼加*加最後一碼"
+  },
+  "hashing": {
+    "algorithm": "SHA-256",
+    "encoding": "UTF-8",
+    "candidates": "醫療 M01–M12；人資 R01–R12"
+  },
+  "noise": {
+    "generator": "Python random.Random(42).gauss(0, 1)，每個領域重新初始化，共用同12個標準化擾動",
+    "hospital_amplitudes": [
+      100,
+      1000
+    ],
+    "hr_amplitudes": [
+      1000,
+      10000
+    ],
+    "round_before_statistics": false
+  },
+  "domains": [
+    {
+      "name": "hospital",
+      "amount_meaning": "醫療費用（元）",
+      "selected_meaning": "既定補助核准",
+      "records": [
+        {
+          "record_id": "M01",
+          "synthetic_name": "假醫甲",
+          "synthetic_id": "M01",
+          "age": 31,
+          "birthday": "1995-07-01",
+          "district": "東區",
+          "amount": 1000,
+          "selected": 1
+        },
+        {
+          "record_id": "M02",
+          "synthetic_name": "假醫乙",
+          "synthetic_id": "M02",
+          "age": 32,
+          "birthday": "1994-07-01",
+          "district": "東區",
+          "amount": 1200,
+          "selected": 1
+        },
+        {
+          "record_id": "M03",
+          "synthetic_name": "假醫丙",
+          "synthetic_id": "M03",
+          "age": 41,
+          "birthday": "1985-07-01",
+          "district": "西區",
+          "amount": 1800,
+          "selected": 1
+        },
+        {
+          "record_id": "M04",
+          "synthetic_name": "假醫丁",
+          "synthetic_id": "M04",
+          "age": 42,
+          "birthday": "1984-07-01",
+          "district": "西區",
+          "amount": 2000,
+          "selected": 0
+        },
+        {
+          "record_id": "M05",
+          "synthetic_name": "假醫戊",
+          "synthetic_id": "M05",
+          "age": 35,
+          "birthday": "1991-07-01",
+          "district": "北區",
+          "amount": 1400,
+          "selected": 1
+        },
+        {
+          "record_id": "M06",
+          "synthetic_name": "假醫己",
+          "synthetic_id": "M06",
+          "age": 35,
+          "birthday": "1991-07-01",
+          "district": "北區",
+          "amount": 1600,
+          "selected": 1
+        },
+        {
+          "record_id": "M07",
+          "synthetic_name": "假醫庚",
+          "synthetic_id": "M07",
+          "age": 36,
+          "birthday": "1990-07-01",
+          "district": "北區",
+          "amount": 2200,
+          "selected": 0
+        },
+        {
+          "record_id": "M08",
+          "synthetic_name": "假醫辛",
+          "synthetic_id": "M08",
+          "age": 36,
+          "birthday": "1990-07-01",
+          "district": "北區",
+          "amount": 2400,
+          "selected": 0
+        },
+        {
+          "record_id": "M09",
+          "synthetic_name": "假醫壬",
+          "synthetic_id": "M09",
+          "age": 45,
+          "birthday": "1981-07-01",
+          "district": "南區",
+          "amount": 2600,
+          "selected": 1
+        },
+        {
+          "record_id": "M10",
+          "synthetic_name": "假醫癸",
+          "synthetic_id": "M10",
+          "age": 45,
+          "birthday": "1981-07-01",
+          "district": "南區",
+          "amount": 2800,
+          "selected": 0
+        },
+        {
+          "record_id": "M11",
+          "synthetic_name": "假醫子",
+          "synthetic_id": "M11",
+          "age": 46,
+          "birthday": "1980-07-01",
+          "district": "南區",
+          "amount": 3000,
+          "selected": 0
+        },
+        {
+          "record_id": "M12",
+          "synthetic_name": "假醫丑",
+          "synthetic_id": "M12",
+          "age": 46,
+          "birthday": "1980-07-01",
+          "district": "南區",
+          "amount": 3200,
+          "selected": 0
+        }
+      ],
+      "external_lookup": [
+        {
+          "synthetic_name": "假醫甲",
+          "synthetic_id": "M01",
+          "age": 31,
+          "district": "東區"
+        }
+      ]
+    },
+    {
+      "name": "hr",
+      "amount_meaning": "月薪（元）",
+      "selected_meaning": "既定培訓錄取",
+      "records": [
+        {
+          "record_id": "R01",
+          "synthetic_name": "假職甲",
+          "synthetic_id": "R01",
+          "age": 31,
+          "birthday": "1995-07-01",
+          "district": "東區",
+          "amount": 40000,
+          "selected": 1
+        },
+        {
+          "record_id": "R02",
+          "synthetic_name": "假職乙",
+          "synthetic_id": "R02",
+          "age": 32,
+          "birthday": "1994-07-01",
+          "district": "東區",
+          "amount": 42000,
+          "selected": 1
+        },
+        {
+          "record_id": "R03",
+          "synthetic_name": "假職丙",
+          "synthetic_id": "R03",
+          "age": 41,
+          "birthday": "1985-07-01",
+          "district": "西區",
+          "amount": 48000,
+          "selected": 1
+        },
+        {
+          "record_id": "R04",
+          "synthetic_name": "假職丁",
+          "synthetic_id": "R04",
+          "age": 42,
+          "birthday": "1984-07-01",
+          "district": "西區",
+          "amount": 50000,
+          "selected": 0
+        },
+        {
+          "record_id": "R05",
+          "synthetic_name": "假職戊",
+          "synthetic_id": "R05",
+          "age": 35,
+          "birthday": "1991-07-01",
+          "district": "北區",
+          "amount": 44000,
+          "selected": 1
+        },
+        {
+          "record_id": "R06",
+          "synthetic_name": "假職己",
+          "synthetic_id": "R06",
+          "age": 35,
+          "birthday": "1991-07-01",
+          "district": "北區",
+          "amount": 46000,
+          "selected": 1
+        },
+        {
+          "record_id": "R07",
+          "synthetic_name": "假職庚",
+          "synthetic_id": "R07",
+          "age": 36,
+          "birthday": "1990-07-01",
+          "district": "北區",
+          "amount": 52000,
+          "selected": 0
+        },
+        {
+          "record_id": "R08",
+          "synthetic_name": "假職辛",
+          "synthetic_id": "R08",
+          "age": 36,
+          "birthday": "1990-07-01",
+          "district": "北區",
+          "amount": 54000,
+          "selected": 0
+        },
+        {
+          "record_id": "R09",
+          "synthetic_name": "假職壬",
+          "synthetic_id": "R09",
+          "age": 45,
+          "birthday": "1981-07-01",
+          "district": "南區",
+          "amount": 56000,
+          "selected": 1
+        },
+        {
+          "record_id": "R10",
+          "synthetic_name": "假職癸",
+          "synthetic_id": "R10",
+          "age": 45,
+          "birthday": "1981-07-01",
+          "district": "南區",
+          "amount": 58000,
+          "selected": 0
+        },
+        {
+          "record_id": "R11",
+          "synthetic_name": "假職子",
+          "synthetic_id": "R11",
+          "age": 46,
+          "birthday": "1980-07-01",
+          "district": "南區",
+          "amount": 60000,
+          "selected": 0
+        },
+        {
+          "record_id": "R12",
+          "synthetic_name": "假職丑",
+          "synthetic_id": "R12",
+          "age": 46,
+          "birthday": "1980-07-01",
+          "district": "南區",
+          "amount": 62000,
+          "selected": 0
+        }
+      ],
+      "external_lookup": [
+        {
+          "synthetic_name": "假職甲",
+          "synthetic_id": "R01",
+          "age": 31,
+          "district": "東區"
+        }
+      ]
+    }
+  ]
+}

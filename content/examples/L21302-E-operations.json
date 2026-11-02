@@ -1,0 +1,479 @@
+{
+  "source": "教學合成資料，非真實授信或影像紀錄；計數與時戳均為教學設計",
+  "seed": 21302,
+  "predecessors": [
+    "L21302-D-releases.json：僅沿用 API v1、f1、inspect-v3 命名",
+    "L21203-C-drift.json：沿用固定參考期及分流思路，不沿用其樣本數值"
+  ],
+  "reference_period": "W0",
+  "windows": "四期互不重疊；每領域每期 1000 筆，均與候選驗證及重訓資料分離",
+  "index_rule": "每領域每期索引 1..1000；1..950 為一般群，951..1000 為長尾群；組內前 errors 筆為錯誤。分箱為邊際計數，不宣稱與群體交叉表相同",
+  "training_split": {
+    "train": "TR-0001..TR-1600",
+    "tuning": "VA-0001..VA-0400",
+    "independent_gate": "EV-0001..EV-1000"
+  },
+  "gates": {
+    "error_rate_max": 0.04,
+    "tail_error_max": 0.15,
+    "error_gap_max": 0.1,
+    "min_tail_labels": 50,
+    "memory_mb_max": 512,
+    "psi_investigate": 0.25,
+    "blur_rate_max": 0.1
+  },
+  "domains": [
+    {
+      "id": "credit",
+      "title": "授信",
+      "feature": "申請前近30日消費金額",
+      "unit": "元",
+      "bins": [
+        "低於1000",
+        "1000至未滿3000",
+        "至少3000"
+      ],
+      "p95_max": 120,
+      "periods": [
+        {
+          "id": "W0",
+          "dates": "2026-07-01/2026-07-07",
+          "n": 1000,
+          "feature_counts": [
+            500,
+            300,
+            200
+          ],
+          "groups": [
+            {
+              "id": "main",
+              "n": 950,
+              "errors": 19
+            },
+            {
+              "id": "tail",
+              "n": 50,
+              "errors": 5
+            }
+          ],
+          "labels": {
+            "eventual": 1000,
+            "available_at_window_close": 0,
+            "delay_days": 30,
+            "summary": "表中錯誤數均為日後完整回收後重算；未回收不視為正確"
+          },
+          "quality": {
+            "missing_inputs": 0,
+            "blurred_images": null
+          },
+          "model_version": "credit-v1",
+          "api": "v1",
+          "feature_rule": "f1",
+          "note": "促銷前參考"
+        },
+        {
+          "id": "W1",
+          "dates": "2026-07-08/2026-07-14",
+          "n": 1000,
+          "feature_counts": [
+            200,
+            300,
+            500
+          ],
+          "groups": [
+            {
+              "id": "main",
+              "n": 950,
+              "errors": 19
+            },
+            {
+              "id": "tail",
+              "n": 50,
+              "errors": 20
+            }
+          ],
+          "labels": {
+            "eventual": 1000,
+            "available_at_window_close": 0,
+            "delay_days": 30,
+            "summary": "表中錯誤數均為日後完整回收後重算；未回收不視為正確"
+          },
+          "quality": {
+            "missing_inputs": 10,
+            "blurred_images": null
+          },
+          "model_version": "credit-v1",
+          "api": "v1",
+          "feature_rule": "f1",
+          "note": "促銷吸引不同消費組成"
+        },
+        {
+          "id": "W2",
+          "dates": "2026-07-15/2026-07-21",
+          "n": 1000,
+          "feature_counts": [
+            200,
+            300,
+            500
+          ],
+          "groups": [
+            {
+              "id": "main",
+              "n": 950,
+              "errors": 38
+            },
+            {
+              "id": "tail",
+              "n": 50,
+              "errors": 20
+            }
+          ],
+          "labels": {
+            "eventual": 1000,
+            "available_at_window_close": 0,
+            "delay_days": 30,
+            "summary": "表中錯誤數均為日後完整回收後重算；未回收不視為正確"
+          },
+          "quality": {
+            "missing_inputs": 0,
+            "blurred_images": null
+          },
+          "model_version": "credit-v1",
+          "api": "v1",
+          "feature_rule": "f1",
+          "note": "促銷延續，效能惡化待查"
+        },
+        {
+          "id": "W3",
+          "dates": "2026-07-22/2026-07-28",
+          "n": 1000,
+          "feature_counts": [
+            450,
+            300,
+            250
+          ],
+          "groups": [
+            {
+              "id": "main",
+              "n": 950,
+              "errors": 19
+            },
+            {
+              "id": "tail",
+              "n": 50,
+              "errors": 5
+            }
+          ],
+          "labels": {
+            "eventual": 1000,
+            "available_at_window_close": 0,
+            "delay_days": 30,
+            "summary": "表中錯誤數均為日後完整回收後重算；未回收不視為正確"
+          },
+          "quality": {
+            "missing_inputs": 0,
+            "blurred_images": null
+          },
+          "model_version": "credit-e-b",
+          "api": "v1",
+          "feature_rule": "f1",
+          "note": "促銷結束，候選通過後另觀測；B 來自較早歷史 TR/VA/EV，6/30 前真值齊備、7/21 已核准"
+        }
+      ]
+    },
+    {
+      "id": "vision",
+      "title": "視覺檢測",
+      "feature": "影像亮度",
+      "unit": "0至255",
+      "bins": [
+        "低於80",
+        "80至未滿160",
+        "至少160"
+      ],
+      "p95_max": 80,
+      "periods": [
+        {
+          "id": "W0",
+          "dates": "2026-07-01/2026-07-07",
+          "n": 1000,
+          "feature_counts": [
+            200,
+            600,
+            200
+          ],
+          "groups": [
+            {
+              "id": "main",
+              "n": 950,
+              "errors": 19
+            },
+            {
+              "id": "tail",
+              "n": 50,
+              "errors": 5
+            }
+          ],
+          "labels": {
+            "eventual": 1000,
+            "available_at_window_close": 800,
+            "delay_days": 1,
+            "summary": "表中錯誤數均為日後完整回收後重算；未回收不視為正確"
+          },
+          "quality": {
+            "missing_inputs": 0,
+            "blurred_images": 20
+          },
+          "model_version": "inspect-v3",
+          "api": "v1",
+          "feature_rule": "f1",
+          "note": "原光源參考"
+        },
+        {
+          "id": "W1",
+          "dates": "2026-07-08/2026-07-14",
+          "n": 1000,
+          "feature_counts": [
+            500,
+            400,
+            100
+          ],
+          "groups": [
+            {
+              "id": "main",
+              "n": 950,
+              "errors": 38
+            },
+            {
+              "id": "tail",
+              "n": 50,
+              "errors": 20
+            }
+          ],
+          "labels": {
+            "eventual": 1000,
+            "available_at_window_close": 800,
+            "delay_days": 1,
+            "summary": "表中錯誤數均為日後完整回收後重算；未回收不視為正確"
+          },
+          "quality": {
+            "missing_inputs": 10,
+            "blurred_images": 180
+          },
+          "model_version": "inspect-v3",
+          "api": "v1",
+          "feature_rule": "f1",
+          "note": "光源偏暗，先修現場"
+        },
+        {
+          "id": "W2",
+          "dates": "2026-07-15/2026-07-21",
+          "n": 1000,
+          "feature_counts": [
+            200,
+            600,
+            200
+          ],
+          "groups": [
+            {
+              "id": "main",
+              "n": 950,
+              "errors": 19
+            },
+            {
+              "id": "tail",
+              "n": 50,
+              "errors": 15
+            }
+          ],
+          "labels": {
+            "eventual": 1000,
+            "available_at_window_close": 800,
+            "delay_days": 1,
+            "summary": "表中錯誤數均為日後完整回收後重算；未回收不視為正確"
+          },
+          "quality": {
+            "missing_inputs": 0,
+            "blurred_images": 20
+          },
+          "model_version": "inspect-v3",
+          "api": "v1",
+          "feature_rule": "f1",
+          "note": "光源修復，少見材質仍失準"
+        },
+        {
+          "id": "W3",
+          "dates": "2026-07-22/2026-07-28",
+          "n": 1000,
+          "feature_counts": [
+            200,
+            600,
+            200
+          ],
+          "groups": [
+            {
+              "id": "main",
+              "n": 950,
+              "errors": 19
+            },
+            {
+              "id": "tail",
+              "n": 50,
+              "errors": 5
+            }
+          ],
+          "labels": {
+            "eventual": 1000,
+            "available_at_window_close": 800,
+            "delay_days": 1,
+            "summary": "表中錯誤數均為日後完整回收後重算；未回收不視為正確"
+          },
+          "quality": {
+            "missing_inputs": 0,
+            "blurred_images": 20
+          },
+          "model_version": "inspect-e-b",
+          "api": "v1",
+          "feature_rule": "f1",
+          "note": "新候選通過後另觀測；B 來自較早歷史 TR/VA/EV，6/30 前真值齊備、7/21 已核准"
+        }
+      ]
+    }
+  ],
+  "service_alert": {
+    "metric": "每分鐘的請求失敗數/該分鐘請求數",
+    "windows": [
+      {
+        "minute": 1,
+        "requests": 1000,
+        "errors": 40
+      },
+      {
+        "minute": 2,
+        "requests": 1000,
+        "errors": 60
+      },
+      {
+        "minute": 3,
+        "requests": 1000,
+        "errors": 70
+      },
+      {
+        "minute": 4,
+        "requests": 1000,
+        "errors": 60
+      }
+    ],
+    "threshold": 0.05,
+    "for_minutes": 3,
+    "receiver": "服務值班工程師",
+    "record": "INC-E-01：12:04 通知，12:06 接手，12:12 修復快取連線，12:20 確認三窗低於門檻",
+    "evaluation_rule": "每分鐘窗尾計數，大於門檻的完整一分鐘窗連續累積 for_minutes 個即觸發教學通知；此欄不是 Prometheus for 設定"
+  },
+  "faq": {
+    "reviewed": 100,
+    "outdated": 18,
+    "requests": 200,
+    "failures": 12,
+    "p95_ms": 1800,
+    "concurrency": 200,
+    "model": "faq-v1",
+    "knowledge": "kb-7",
+    "fallback": "人工客服及核准固定答案"
+  },
+  "feature_pipeline": {
+    "request_time": "2026-07-08T12:00:00Z",
+    "feature_event_time": "2026-07-08T11:59:57Z",
+    "feature_available_time": "2026-07-08T11:59:58Z",
+    "late_backfill_available": "2026-07-08T12:05:00Z",
+    "freshness_max_seconds": 5,
+    "budget_ms": 100,
+    "online_stages_ms": {
+      "gateway": 8,
+      "feature_read": 12,
+      "transform": 10,
+      "inference": 35,
+      "response": 5
+    },
+    "warehouse_read_ms": 180,
+    "stream_lag_seconds": 3
+  },
+  "labeling": {
+    "collected": 1200,
+    "missing_id": 20,
+    "wrong_time": 30,
+    "unresolved": 50,
+    "approved": 1100,
+    "review": "分歧交第二位標註者；影像保留光照與材質；授信等待到期並記錄未獲貸者真值不可觀測的限制"
+  },
+  "validation": {
+    "n": 1000,
+    "main_n": 950,
+    "tail_n": 50,
+    "labels_complete": true,
+    "api_compatible": true,
+    "candidates": [
+      {
+        "id": "current",
+        "main_errors": 38,
+        "tail_errors": 20,
+        "credit_p95_ms": 95,
+        "vision_p95_ms": 60,
+        "memory_mb": 320,
+        "vision_main_errors": 19,
+        "vision_tail_errors": 15
+      },
+      {
+        "id": "A",
+        "main_errors": 8,
+        "tail_errors": 30,
+        "credit_p95_ms": 100,
+        "vision_p95_ms": 65,
+        "memory_mb": 350,
+        "vision_main_errors": 6,
+        "vision_tail_errors": 25
+      },
+      {
+        "id": "B",
+        "main_errors": 24,
+        "tail_errors": 5,
+        "credit_p95_ms": 110,
+        "vision_p95_ms": 70,
+        "memory_mb": 400,
+        "vision_main_errors": 15,
+        "vision_tail_errors": 4
+      },
+      {
+        "id": "C",
+        "main_errors": 18,
+        "tail_errors": 2,
+        "credit_p95_ms": 135,
+        "vision_p95_ms": 95,
+        "memory_mb": 480,
+        "vision_main_errors": 9,
+        "vision_tail_errors": 1
+      }
+    ],
+    "review": "僅B通過；模型負責人與風險負責人簽核，5%→30%→100%另取線上證據",
+    "count_rule": "main_errors、tail_errors 僅屬授信；vision_main_errors、vision_tail_errors 僅屬視覺；索引在各領域命名空間內使用",
+    "current_baseline_note": "EV 與監控樣本獨立；各領域現行版 EV 計數刻意等同 W2 摘要以方便教學，不表示使用 W2 標籤",
+    "timeline": {
+      "event_date_latest": "2026-05-31",
+      "labels_complete_by": "2026-06-30",
+      "approved_by": "2026-07-21",
+      "release_window": "W3",
+      "note": "TR/VA/EV 來自較早歷史事件；授信 W2 真值於 8/14–8/20 成熟後觸發的是下一輪示範，不是 W3 版的訓練來源"
+    }
+  },
+  "zero_bin_example": {
+    "reference": [
+      0,
+      10
+    ],
+    "current": [
+      5,
+      5
+    ],
+    "alpha": 1
+  }
+}

@@ -1,0 +1,40 @@
+id: 114-2-S3-Q38
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 38
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 10
+type: 程式
+codes: [L23303]
+concepts: [mean-squared-error, mean-absolute-error, root-mean-squared-error, r-squared]
+stem: |
+  附圖程式碼所計算的是哪一類型的評估指標？
+code: |
+  def metric(y_true, y_pred):
+      return sum((y_true - y_pred) ** 2) / len(y_true)
+code_lang: python
+options:
+  A: MAE
+  B: MSE
+  C: RMSE
+  D: R²
+answer: B
+explanation:
+  summary: 從平方誤差加總後除以樣本數的運算辨識 MSE。
+  correct: 程式先以 y_true 減去 y_pred，再用 ** 2 將各筆差值平方，最後加總並除以樣本數，因此計算的是均方誤差 MSE。此寫法假設輸入是可逐元素相減的一維數值陣列。
+  wrong:
+    A: MAE 要對各筆差值取絕對值再平均，程式使用的是平方。
+    C: RMSE 還要對 MSE 開平方根，程式沒有這一步。
+    D: R² 要以目標值相對平均值的變異作為比較基準，再由 1 減去誤差平方和與總變異平方和的比值，這裡沒有計算該基準。
+  rule: 辨識誤差指標時，要分清平方平均、絕對值平均與開根號。
+guide_refs: [guide-3:5-22, guide-3:5-23]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 10
+    by: QB2
+  blind_answer: B
+  dispute: null

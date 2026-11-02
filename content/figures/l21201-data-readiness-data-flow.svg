@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 650" role="img" aria-labelledby="title desc">
+  <title id="title">準備度盤點的資料流與責任</title>
+  <desc id="desc">教學示意。由 CRM 工單及 ERP 批次來源經 API 擷取，再以 ETL 統一鍵與欄位，產生可追溯資料版本，最後分別提供訓練快照與推論輸入。每一段都有資料責任，須確認權限、更新與失敗處置。</desc>
+  <style>
+    :root { color-scheme: light dark; --bg: #f8fafc; --ink: #0f172a; --panel: #ffffff; --band: #e2e8f0; --border: #64748b; --arrow: #334155; --rule: #94a3b8; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #15252b; --ink: #e4edf1; --panel: #24373d; --band: #354852; --border: #9caeba; --arrow: #bbcbd2; --rule: #718592; }
+    }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--arrow)"/></marker></defs>
+  <rect width="360" height="650" rx="12" fill="var(--bg)"/>
+  <g font-family="sans-serif" text-anchor="middle" fill="var(--ink)">
+    <text x="180" y="30" font-size="18" font-weight="700">沿資料流盤點準備度</text>
+    <g fill="var(--panel)" stroke="var(--border)" stroke-width="1.5"><rect x="28" y="53" width="304" height="76" rx="8"/><rect x="28" y="163" width="304" height="76" rx="8"/><rect x="28" y="273" width="304" height="76" rx="8"/><rect x="28" y="383" width="304" height="76" rx="8"/><rect x="12" y="505" width="160" height="82" rx="8"/><rect x="188" y="505" width="160" height="82" rx="8"/></g>
+    <g font-size="16" font-weight="700"><text x="180" y="80">來源：CRM 工單／ERP 批次</text><text x="180" y="190">API 取得資料</text><text x="180" y="300">ETL 統一鍵與欄位</text><text x="180" y="410">可追溯資料版本</text><text x="92" y="532">訓練快照</text><text x="268" y="532">推論輸入</text></g>
+    <g font-size="14"><text x="180" y="108">責任：客服／品保資料主責</text><text x="180" y="218">每 5 分鐘／每批；查權限與逾時</text><text x="180" y="328">責任：資料工程；查映射與更新</text><text x="180" y="438">來源批次、處理版本、時間戳</text><text x="92" y="556">保留切分與標籤</text><text x="92" y="577">可重做、可比較</text><text x="268" y="556">來源欄位要能取得</text><text x="268" y="577">檢查資料年齡</text></g>
+    <g stroke="var(--arrow)" stroke-width="1.8" fill="none" marker-end="url(#arrow)"><path d="M180 129V157"/><path d="M180 239V267"/><path d="M180 349V377"/><path d="M180 459V480H92V499"/><path d="M180 480H268V499"/></g>
+    <text x="180" y="615" font-size="14" font-weight="700">每條箭頭都要查：取得、整合、更新</text><text x="180" y="638" font-size="13">教學示意：連線成功不等於整條路徑就緒</text>
+  </g>
+</svg>

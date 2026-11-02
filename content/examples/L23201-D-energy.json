@@ -1,0 +1,74 @@
+{
+  "id": "L23201-D-energy",
+  "source": "教學合成資料；延伸前置組固定轉移，Q與策略為示範快照，非訓練成績",
+  "base_file": "content/examples/L23201-C-energy.json",
+  "seed": 42,
+  "gamma": 0.9,
+  "episodes": [
+    {
+      "id": "deplete",
+      "transition_ids": [
+        "E11",
+        "E08",
+        "E06"
+      ],
+      "success": false
+    },
+    {
+      "id": "reserve",
+      "transition_ids": [
+        "E11",
+        "E07",
+        "E11"
+      ],
+      "success": true
+    }
+  ],
+  "q_snapshot": {
+    "E0": {
+      "charge": 0,
+      "discharge": -2
+    },
+    "E1": {
+      "charge": 1,
+      "discharge": -2
+    },
+    "E2": {
+      "charge": 1,
+      "discharge": 2
+    },
+    "E3": {
+      "charge": 0,
+      "discharge": 4
+    }
+  },
+  "q_update": {
+    "transition_id": "E07",
+    "alpha": 0.5
+  },
+  "epsilon": 0.2,
+  "policy_comparison": {
+    "state": "E2",
+    "old": {
+      "charge": 0.5,
+      "discharge": 0.5
+    },
+    "new": {
+      "charge": 0.8,
+      "discharge": 0.2
+    },
+    "advantages": {
+      "charge": 2,
+      "discharge": -2
+    },
+    "clip_epsilon": 0.2
+  },
+  "evaluation_policy": {
+    "E0": "charge",
+    "E1": "charge",
+    "E2": "charge",
+    "E3": "discharge"
+  },
+  "fixed_policy_horizon": 3,
+  "success_definition": "三步內未進入E0，作為教學用保留電量條件；不是實際電力可靠度標準"
+}

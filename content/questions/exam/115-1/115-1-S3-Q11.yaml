@@ -1,0 +1,36 @@
+id: 115-1-S3-Q11
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 11
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 3
+type: 情境
+codes: [L23303, L23103]
+concepts: [mini-batch-gradient-descent]
+stem: |
+  某工程師在 A100 GPU 叢集上訓練大型語言模型，觀察到以下現象：全批次梯度下降時 GPU 利用率達 100%，但每次更新耗時 45 秒；隨機梯度下降（SGD）每次更新僅需 0.01 秒，但梯度極不穩定、訓練曲線震盪劇烈。為兼顧梯度穩定性與 GPU 吞吐量（Throughput），應採用下列哪種策略？
+options:
+  A: 全批次梯度下降（Full-batch GD）：使用完整資料集計算梯度，更新穩定但每次更新耗時長
+  B: 隨機梯度下降（SGD）：每次只用一個樣本，速度快但梯度雜訊大，收斂不穩定
+  C: 第二階梯度法（Newton's Method）：利用 Hessian 矩陣精確估計曲率，大幅減少更新次數
+  D: 小批次梯度下降（Mini-batch GD）：以適當批次大小（如 256-2048）平衡梯度估計穩定性與 GPU 平行效率，是深度學習的業界標準
+answer: D
+explanation:
+  summary: 依梯度雜訊與硬體利用情形，選擇兼顧更新成本及穩定性的小批次訓練。
+  correct: 小批次一次處理多筆樣本，平均後的梯度通常比單筆估計穩定，也能利用 GPU 平行運算。它不必等整份資料算完才更新，符合題目的兩項需求；實際批次大小仍要依顯存與量測結果調整。
+  wrong:
+    A: 全批次已經使每次更新耗時 45 秒，繼續採用這個策略沒有改善等待整批資料完成的成本。GPU 利用率高也不等於參數更新有效率。
+    B: 單筆更新雖快，題目已指出其梯度雜訊與曲線震盪嚴重，沒有兼顧穩定性，也難以充分發揮 GPU 的批次平行能力。
+    C: 大型語言模型參數極多，完整 Hessian 的儲存與求解成本很高，不能只憑可能減少更新次數就認定整體更有效率。
+  rule: 兼顧穩定與吞吐時，要用適量小批次。
+guide_refs: [guide-3:5-18, guide-3:5-19]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 3
+    by: QC
+  blind_answer: D
+  dispute: null

@@ -1,0 +1,36 @@
+id: 115-1-S1-Q09
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 9
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 3
+type: 觀念
+codes: [L23303]
+concepts: [confusion-matrix, roc-auc, precision, accuracy, recall]
+stem: |
+  某團隊在監控影像分類模型的線上效能時，透過儀表板呈現混淆矩陣（Confusion Matrix），以觀察模型預測結果與實際標籤的分佈情形。請問下列哪一項無法從混淆矩陣中直接計算？
+options:
+  A: 精確率（Precision）
+  B: 準確率（Accuracy）
+  C: 召回率（Recall）
+  D: ROC 曲線下面積（AUC）
+answer: D
+explanation:
+  summary: 單一混淆矩陣只記錄一組分類決策，無法還原跨門檻的 ROC-AUC。
+  correct: 二元分類的單一混淆矩陣能提供一個 FPR、TPR 座標，但沒有保存每筆樣本的預測分數及排序，不能從這一點還原完整 ROC 曲線。通常需要真實標籤和連續分數，或多個門檻的統計結果，才能計算題目所指的 ROC-AUC。若只把此單點與 (0,0)、(1,1) 用直線連接，所得面積為平衡準確率 (TPR+TNR)/2，其中 TNR 是真負率；這不等於利用全部門檻或原始預測分數排序計算的 ROC-AUC。
+  wrong:
+    A: Precision = TP / (TP + FP)，所需計數都在混淆矩陣內；若分母為零，需另訂未定義值的處理方式。
+    B: Accuracy = (TP + TN) / (TP + FP + FN + TN)，非空資料集的混淆矩陣可直接提供所需數值。
+    C: Recall = TP / (TP + FN)，能從混淆矩陣中的真正與假負計數求得；若沒有實際正類，需處理分母為零的情況。
+  rule: 計算跨門檻 AUC 時，要保留分數或多門檻統計，單一矩陣不足。
+guide_refs: [guide-3:5-20, guide-3:5-21, guide-3:5-22]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 3
+    by: QA
+  blind_answer: D
+  dispute: null

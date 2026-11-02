@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 616" role="img" aria-labelledby="title desc"><title id="title">Dropout 固定遮罩與縮放位置</title><desc id="desc">教學合成輸出；0 位置暫時屏蔽，inverted dropout 在訓練放大保留值，推論使用完整網路；指引慣例推論乘保留率，inverted 慣例推論不縮放。</desc>
+<rect width="360" height="616" fill="#fff"/>
+<g font-family="system-ui, Microsoft JhengHei, sans-serif" fill="#17233a" font-size="14">
+<text x="16" y="26" font-size="17" text-anchor="start">同一輸入與遮罩，比較縮放位置</text>
+<text x="16" y="51" font-size="14" text-anchor="start">保留率 0.75；丟棄率 0.25</text>
+<text x="16" y="85" font-size="14" text-anchor="start">原始隱藏輸出</text>
+<rect x="16" y="96" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="53" y="120" font-size="15" text-anchor="middle">2</text>
+<rect x="102" y="96" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="139" y="120" font-size="15" text-anchor="middle">-1</text>
+<rect x="188" y="96" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="225" y="120" font-size="15" text-anchor="middle">0.5</text>
+<rect x="274" y="96" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="311" y="120" font-size="15" text-anchor="middle">3</text>
+<text x="16" y="169" font-size="14" text-anchor="start">固定遮罩：1 保留、0 屏蔽</text>
+<rect x="16" y="180" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="53" y="204" font-size="15" text-anchor="middle">1</text>
+<rect x="102" y="180" width="74" height="36" rx="5" fill="#f1f2f5" stroke="#7c8799"/>
+<text x="139" y="204" font-size="15" text-anchor="middle">0</text>
+<path d="M 106 184 L 172 212" stroke="#7c8799" stroke-dasharray="3 3"/>
+<rect x="188" y="180" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="225" y="204" font-size="15" text-anchor="middle">1</text>
+<rect x="274" y="180" width="74" height="36" rx="5" fill="#f1f2f5" stroke="#7c8799"/>
+<text x="311" y="204" font-size="15" text-anchor="middle">0</text>
+<path d="M 278 184 L 344 212" stroke="#7c8799" stroke-dasharray="3 3"/>
+<text x="16" y="253" font-size="14" text-anchor="start">訓練：只遮罩</text>
+<rect x="16" y="264" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="53" y="288" font-size="15" text-anchor="middle">2</text>
+<rect x="102" y="264" width="74" height="36" rx="5" fill="#f1f2f5" stroke="#7c8799"/>
+<text x="139" y="288" font-size="15" text-anchor="middle">0</text>
+<path d="M 106 268 L 172 296" stroke="#7c8799" stroke-dasharray="3 3"/>
+<rect x="188" y="264" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="225" y="288" font-size="15" text-anchor="middle">0.5</text>
+<rect x="274" y="264" width="74" height="36" rx="5" fill="#f1f2f5" stroke="#7c8799"/>
+<text x="311" y="288" font-size="15" text-anchor="middle">0</text>
+<path d="M 278 268 L 344 296" stroke="#7c8799" stroke-dasharray="3 3"/>
+<text x="16" y="337" font-size="14" text-anchor="start">訓練：inverted，除以保留率</text>
+<rect x="16" y="348" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="53" y="372" font-size="15" text-anchor="middle">2.6667</text>
+<rect x="102" y="348" width="74" height="36" rx="5" fill="#f1f2f5" stroke="#7c8799"/>
+<text x="139" y="372" font-size="15" text-anchor="middle">0</text>
+<path d="M 106 352 L 172 380" stroke="#7c8799" stroke-dasharray="3 3"/>
+<rect x="188" y="348" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="225" y="372" font-size="15" text-anchor="middle">0.6667</text>
+<rect x="274" y="348" width="74" height="36" rx="5" fill="#f1f2f5" stroke="#7c8799"/>
+<text x="311" y="372" font-size="15" text-anchor="middle">0</text>
+<path d="M 278 352 L 344 380" stroke="#7c8799" stroke-dasharray="3 3"/>
+<text x="16" y="421" font-size="14" text-anchor="start">推論：inverted，完整輸出</text>
+<rect x="16" y="432" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="53" y="456" font-size="15" text-anchor="middle">2</text>
+<rect x="102" y="432" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="139" y="456" font-size="15" text-anchor="middle">-1</text>
+<rect x="188" y="432" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="225" y="456" font-size="15" text-anchor="middle">0.5</text>
+<rect x="274" y="432" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="311" y="456" font-size="15" text-anchor="middle">3</text>
+<text x="16" y="505" font-size="14" text-anchor="start">推論：指引慣例 ×0.75</text>
+<rect x="16" y="516" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="53" y="540" font-size="15" text-anchor="middle">1.5</text>
+<rect x="102" y="516" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="139" y="540" font-size="15" text-anchor="middle">-0.75</text>
+<rect x="188" y="516" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="225" y="540" font-size="15" text-anchor="middle">0.375</text>
+<rect x="274" y="516" width="74" height="36" rx="5" fill="#deebff" stroke="#245cb8"/>
+<text x="311" y="540" font-size="15" text-anchor="middle">2.25</text>
+<text x="16" y="600" font-size="12" text-anchor="start">固定遮罩僅供核算；每次保留數不必剛好符合比例。</text>
+</g></svg>

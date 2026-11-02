@@ -1,0 +1,37 @@
+{
+  "id": "l23303-roc",
+  "kind": "roc",
+  "title": "信用卡盜刷偵測的 ROC 曲線（20 筆樣本）",
+  "description": "同一批 20 筆樣本（8 筆盜刷、12 筆正常）掃過全部閾值得到的 ROC 曲線，標出閾值 0.8、0.5、0.2 三個點；閾值 0.5 的點為 FPR 0.167、TPR 0.750。",
+  "source": {
+    "type": "synthetic",
+    "note": "L23303 共用分類資料 20 筆，label=1 為盜刷，score 越高越像盜刷，score ≥ 閾值判為盜刷"
+  },
+  "samples": [
+    { "label": 1, "score": 0.95 },
+    { "label": 1, "score": 0.9 },
+    { "label": 0, "score": 0.85 },
+    { "label": 1, "score": 0.8 },
+    { "label": 1, "score": 0.75 },
+    { "label": 1, "score": 0.65 },
+    { "label": 0, "score": 0.65 },
+    { "label": 1, "score": 0.5 },
+    { "label": 0, "score": 0.4 },
+    { "label": 1, "score": 0.35 },
+    { "label": 0, "score": 0.3 },
+    { "label": 0, "score": 0.25 },
+    { "label": 1, "score": 0.2 },
+    { "label": 0, "score": 0.18 },
+    { "label": 0, "score": 0.15 },
+    { "label": 0, "score": 0.12 },
+    { "label": 0, "score": 0.1 },
+    { "label": 0, "score": 0.08 },
+    { "label": 0, "score": 0.05 },
+    { "label": 0, "score": 0.02 }
+  ],
+  "thresholds": [
+    0.8,
+    0.5,
+    0.2
+  ]
+}

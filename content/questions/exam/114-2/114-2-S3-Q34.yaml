@@ -1,0 +1,37 @@
+id: 114-2-S3-Q34
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 34
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 8
+type: 情境
+codes: [L23303]
+concepts: [stratified-k-fold, k-fold-cross-validation]
+stem: |
+  某醫療人工智慧團隊正在開發心臟病風險預測模型，資料量僅有 150 筆，其中陽性個案不到 8%。由於樣本數稀少且類別分布極不平衡，團隊希望在有限資料下，仍能準確評估模型在不同資料上的表現穩定性，同時避免訓練資料被過度切分而影響模型效能。若團隊希望在有限樣本下，同時兼顧資料的利用率與各類別在驗證折中的比例一致性，最適合採用下列哪一種交叉驗證方法？
+options:
+  A: 5-Fold 交叉驗證（5-Fold Cross Validation）
+  B: 留一法交叉驗證（Leave-One-Out Cross Validation）
+  C: 隨機交叉驗證（Random Cross Validation）
+  D: 分層留一法交叉驗證（Stratified Leave-One-Out Cross Validation）
+answer: D
+explanation:
+  summary: 樣本少又不平衡時，要同時顧及資料利用率與類別比例。
+  correct: 題目兩個條件是「資料利用率」與「各類別比例一致」。選項中只有 D 同時提到留一法（利用率最高）與分層（維持比例），出題意圖是選 D。實務上的做法見下方爭議說明。但單摺只留一筆時，不可能同時包含兩類並保留原比例，不能把選項名稱當成可行機制；實務宜用分層 K-fold。
+  wrong:
+    A: 一般 5-Fold 不做分層。陽性不到 8%（約 12 筆），某些摺的陽性數可能明顯偏少。
+    B: 留一法利用率最高，但沒有處理類別比例。
+    C: 隨機切分完全不控制類別比例，也不保證每筆資料都被驗證到。
+  rule: 判斷分層時，要看驗證摺能否保留比例，單筆留一無法做到。
+guide_refs: [guide-3:5-27, guide-3:5-28]
+author: claude
+review:
+  status: disputed
+  answer_checked:
+    pdf_page: 8
+    by: coordinator
+  blind_answer: A
+  dispute: |
+    官方答案 D。爭議點：留一法每一摺只有 1 筆驗證資料，無法「維持類別比例」，所以「分層留一法」在實務上沒有意義，scikit-learn 也沒有這個切分器。指引 5-27、5-28 分別介紹 Stratified K-fold 與 LOOCV，沒有兩者合併的方法。實務上應選分層 K-fold（例如 StratifiedKFold 或 RepeatedStratifiedKFold）。考試作答仍選 D：選項中只有 D 提到「分層」，符合題目要求的比例一致性。

@@ -1,0 +1,5291 @@
+{
+  "source": "教學合成流程紀錄；未訓練或實測任何 AI 模型，無真實個資，金額為新臺幣。",
+  "seed": 212013,
+  "dataset_version": "L21201-C-v1",
+  "split": {
+    "exploration_indices": [
+      41,
+      63,
+      93,
+      1,
+      73,
+      51,
+      14,
+      22,
+      92,
+      0,
+      43,
+      87,
+      75,
+      94,
+      13,
+      33,
+      34,
+      39,
+      69,
+      95,
+      59,
+      46,
+      91,
+      53,
+      60,
+      10,
+      12,
+      2,
+      84,
+      67,
+      66,
+      99,
+      40,
+      61,
+      16,
+      4,
+      3,
+      57,
+      32,
+      11,
+      31,
+      47,
+      83,
+      9,
+      48,
+      64,
+      29,
+      72,
+      74,
+      70,
+      86,
+      96,
+      50,
+      62,
+      19,
+      78,
+      82,
+      23,
+      27,
+      37,
+      68,
+      85,
+      90,
+      65,
+      49,
+      35,
+      26,
+      54,
+      17,
+      44,
+      45,
+      30,
+      58,
+      79,
+      42,
+      6,
+      20,
+      28,
+      8,
+      15
+    ],
+    "confirmation_indices": [
+      18,
+      7,
+      98,
+      88,
+      52,
+      38,
+      24,
+      71,
+      80,
+      21,
+      97,
+      25,
+      77,
+      81,
+      55,
+      89,
+      56,
+      5,
+      76,
+      36
+    ],
+    "rule": "每領域各100筆；探索80筆(一般64、複雜16)，確認20筆(一般16、複雜4)；相同索引跨頁沿用，兩領域不合併計算。"
+  },
+  "interpretation": "探索組兩輪可重複；確認組只評估事前鎖定的v2。已揭露確認結果後若改版，要另收新確認資料，不能重用本20筆當獨立證據。接受建議與預測正確為不同欄位，人工最終覆核工時已含於human_minutes。",
+  "domains": [
+    {
+      "id": "medical",
+      "name": "醫療文件輔助核對",
+      "cost": {
+        "labor_twd_per_minute": 12,
+        "runtime_twd_per_case": 4
+      },
+      "limits": {
+        "budget_twd": 100000,
+        "duration_weeks": 6,
+        "spent_twd": 85000,
+        "elapsed_weeks": 4,
+        "additional_check_twd": 12000,
+        "additional_check_weeks": 1
+      },
+      "criteria": {
+        "minimum_accuracy": 0.95,
+        "maximum_mean_minutes": 8,
+        "minimum_operating_saving_twd": 0,
+        "minimum_adoption": 0.85,
+        "maximum_critical_errors": 0
+      },
+      "cases": [
+        {
+          "id": "M001",
+          "index": 0,
+          "case_type": "複雜",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M002",
+          "index": 1,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M003",
+          "index": 2,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M004",
+          "index": 3,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M005",
+          "index": 4,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M006",
+          "index": 5,
+          "case_type": "複雜",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M007",
+          "index": 6,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M008",
+          "index": 7,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": true,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M009",
+          "index": 8,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M010",
+          "index": 9,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M011",
+          "index": 10,
+          "case_type": "複雜",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M012",
+          "index": 11,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M013",
+          "index": 12,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M014",
+          "index": 13,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M015",
+          "index": 14,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M016",
+          "index": 15,
+          "case_type": "複雜",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M017",
+          "index": 16,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M018",
+          "index": 17,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M019",
+          "index": 18,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": true,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M020",
+          "index": 19,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M021",
+          "index": 20,
+          "case_type": "複雜",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M022",
+          "index": 21,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M023",
+          "index": 22,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M024",
+          "index": 23,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M025",
+          "index": 24,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M026",
+          "index": 25,
+          "case_type": "複雜",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M027",
+          "index": 26,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M028",
+          "index": 27,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M029",
+          "index": 28,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M030",
+          "index": 29,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M031",
+          "index": 30,
+          "case_type": "複雜",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M032",
+          "index": 31,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M033",
+          "index": 32,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M034",
+          "index": 33,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M035",
+          "index": 34,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M036",
+          "index": 35,
+          "case_type": "複雜",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M037",
+          "index": 36,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M038",
+          "index": 37,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M039",
+          "index": 38,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M040",
+          "index": 39,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M041",
+          "index": 40,
+          "case_type": "複雜",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M042",
+          "index": 41,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M043",
+          "index": 42,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M044",
+          "index": 43,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M045",
+          "index": 44,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M046",
+          "index": 45,
+          "case_type": "複雜",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M047",
+          "index": 46,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M048",
+          "index": 47,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M049",
+          "index": 48,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M050",
+          "index": 49,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M051",
+          "index": 50,
+          "case_type": "複雜",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M052",
+          "index": 51,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M053",
+          "index": 52,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M054",
+          "index": 53,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M055",
+          "index": 54,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M056",
+          "index": 55,
+          "case_type": "複雜",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M057",
+          "index": 56,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M058",
+          "index": 57,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M059",
+          "index": 58,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M060",
+          "index": 59,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M061",
+          "index": 60,
+          "case_type": "複雜",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M062",
+          "index": 61,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M063",
+          "index": 62,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M064",
+          "index": 63,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M065",
+          "index": 64,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M066",
+          "index": 65,
+          "case_type": "複雜",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M067",
+          "index": 66,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M068",
+          "index": 67,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M069",
+          "index": 68,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M070",
+          "index": 69,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M071",
+          "index": 70,
+          "case_type": "複雜",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M072",
+          "index": 71,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M073",
+          "index": 72,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M074",
+          "index": 73,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M075",
+          "index": 74,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M076",
+          "index": 75,
+          "case_type": "複雜",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M077",
+          "index": 76,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M078",
+          "index": 77,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M079",
+          "index": 78,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M080",
+          "index": 79,
+          "case_type": "一般",
+          "operator_id": "M-U1",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M081",
+          "index": 80,
+          "case_type": "複雜",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M082",
+          "index": 81,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M083",
+          "index": 82,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M084",
+          "index": 83,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M085",
+          "index": 84,
+          "case_type": "一般",
+          "operator_id": "M-U2",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M086",
+          "index": 85,
+          "case_type": "複雜",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M087",
+          "index": 86,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M088",
+          "index": 87,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M089",
+          "index": 88,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M090",
+          "index": 89,
+          "case_type": "一般",
+          "operator_id": "M-U3",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M091",
+          "index": 90,
+          "case_type": "複雜",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M092",
+          "index": 91,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M093",
+          "index": 92,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M094",
+          "index": 93,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M095",
+          "index": 94,
+          "case_type": "一般",
+          "operator_id": "M-U4",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M096",
+          "index": 95,
+          "case_type": "複雜",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M097",
+          "index": 96,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M098",
+          "index": 97,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M099",
+          "index": 98,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "M100",
+          "index": 99,
+          "case_type": "一般",
+          "operator_id": "M-U5",
+          "baseline_minutes": 12,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "M-v1",
+              "human_minutes": 9,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "M-v2",
+              "human_minutes": 8,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "support",
+      "name": "客服工單輔助分流",
+      "cost": {
+        "labor_twd_per_minute": 6,
+        "runtime_twd_per_case": 2
+      },
+      "limits": {
+        "budget_twd": 100000,
+        "duration_weeks": 6,
+        "spent_twd": 70000,
+        "elapsed_weeks": 4,
+        "additional_check_twd": 12000,
+        "additional_check_weeks": 1
+      },
+      "criteria": {
+        "minimum_accuracy": 0.95,
+        "maximum_mean_minutes": 5,
+        "minimum_operating_saving_twd": 0,
+        "minimum_adoption": 0.85,
+        "maximum_critical_errors": 0
+      },
+      "cases": [
+        {
+          "id": "S001",
+          "index": 0,
+          "case_type": "複雜",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S002",
+          "index": 1,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S003",
+          "index": 2,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S004",
+          "index": 3,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S005",
+          "index": 4,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S006",
+          "index": 5,
+          "case_type": "複雜",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S007",
+          "index": 6,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S008",
+          "index": 7,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S009",
+          "index": 8,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S010",
+          "index": 9,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S011",
+          "index": 10,
+          "case_type": "複雜",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S012",
+          "index": 11,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S013",
+          "index": 12,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S014",
+          "index": 13,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S015",
+          "index": 14,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S016",
+          "index": 15,
+          "case_type": "複雜",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S017",
+          "index": 16,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S018",
+          "index": 17,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S019",
+          "index": 18,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S020",
+          "index": 19,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S021",
+          "index": 20,
+          "case_type": "複雜",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S022",
+          "index": 21,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S023",
+          "index": 22,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S024",
+          "index": 23,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S025",
+          "index": 24,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S026",
+          "index": 25,
+          "case_type": "複雜",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S027",
+          "index": 26,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S028",
+          "index": 27,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S029",
+          "index": 28,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S030",
+          "index": 29,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S031",
+          "index": 30,
+          "case_type": "複雜",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S032",
+          "index": 31,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S033",
+          "index": 32,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S034",
+          "index": 33,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S035",
+          "index": 34,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S036",
+          "index": 35,
+          "case_type": "複雜",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S037",
+          "index": 36,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S038",
+          "index": 37,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S039",
+          "index": 38,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S040",
+          "index": 39,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S041",
+          "index": 40,
+          "case_type": "複雜",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S042",
+          "index": 41,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S043",
+          "index": 42,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S044",
+          "index": 43,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S045",
+          "index": 44,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S046",
+          "index": 45,
+          "case_type": "複雜",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S047",
+          "index": 46,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S048",
+          "index": 47,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S049",
+          "index": 48,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S050",
+          "index": 49,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S051",
+          "index": 50,
+          "case_type": "複雜",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S052",
+          "index": 51,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S053",
+          "index": 52,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S054",
+          "index": 53,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S055",
+          "index": 54,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S056",
+          "index": 55,
+          "case_type": "複雜",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S057",
+          "index": 56,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S058",
+          "index": 57,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S059",
+          "index": 58,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S060",
+          "index": 59,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S061",
+          "index": 60,
+          "case_type": "複雜",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S062",
+          "index": 61,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S063",
+          "index": 62,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S064",
+          "index": 63,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S065",
+          "index": 64,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S066",
+          "index": 65,
+          "case_type": "複雜",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S067",
+          "index": 66,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S068",
+          "index": 67,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S069",
+          "index": 68,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S070",
+          "index": 69,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S071",
+          "index": 70,
+          "case_type": "複雜",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S072",
+          "index": 71,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S073",
+          "index": 72,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S074",
+          "index": 73,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S075",
+          "index": 74,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S076",
+          "index": 75,
+          "case_type": "複雜",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S077",
+          "index": 76,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S078",
+          "index": 77,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S079",
+          "index": 78,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S080",
+          "index": 79,
+          "case_type": "一般",
+          "operator_id": "S-U1",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S081",
+          "index": 80,
+          "case_type": "複雜",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S082",
+          "index": 81,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S083",
+          "index": 82,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S084",
+          "index": 83,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S085",
+          "index": 84,
+          "case_type": "一般",
+          "operator_id": "S-U2",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S086",
+          "index": 85,
+          "case_type": "複雜",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S087",
+          "index": 86,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S088",
+          "index": 87,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S089",
+          "index": 88,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S090",
+          "index": 89,
+          "case_type": "一般",
+          "operator_id": "S-U3",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S091",
+          "index": 90,
+          "case_type": "複雜",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": false,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S092",
+          "index": 91,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S093",
+          "index": 92,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S094",
+          "index": 93,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": true,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S095",
+          "index": 94,
+          "case_type": "一般",
+          "operator_id": "S-U4",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S096",
+          "index": 95,
+          "case_type": "複雜",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S097",
+          "index": 96,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S098",
+          "index": 97,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S099",
+          "index": 98,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": true,
+          "rounds": {
+            "r1": null,
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        },
+        {
+          "id": "S100",
+          "index": 99,
+          "case_type": "一般",
+          "operator_id": "S-U5",
+          "baseline_minutes": 8,
+          "baseline_error": false,
+          "rounds": {
+            "r1": {
+              "version": "S-v1",
+              "human_minutes": 6.5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            },
+            "r2": {
+              "version": "S-v2",
+              "human_minutes": 5,
+              "prediction_error": false,
+              "critical_error": false,
+              "accepted": true,
+              "writeback_ok": true
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "iterations": [
+    {
+      "domain": "medical",
+      "round": "r1",
+      "weeks": [
+        1,
+        2
+      ],
+      "objective": "確認核對建議與覆核操作可行",
+      "finding": "證據要另開視窗，願意採用的案件偏少",
+      "next": "v2把核對依據移到同一畫面，保留人工最終確認"
+    },
+    {
+      "domain": "medical",
+      "round": "r2",
+      "weeks": [
+        3,
+        4
+      ],
+      "objective": "核對品質及工時達門檻，再查採用障礙",
+      "finding": "採用仍未達85%，確認組只有20筆",
+      "next": "限定補驗操作流程，再收新確認組；不宣稱臨床效果"
+    },
+    {
+      "domain": "support",
+      "round": "r1",
+      "weeks": [
+        1,
+        2
+      ],
+      "objective": "確認工單建議可寫回CRM",
+      "finding": "更正理由需重填，使用者不願採用",
+      "next": "v2提供可編輯的更正欄與來源摘要"
+    },
+    {
+      "domain": "support",
+      "round": "r2",
+      "weeks": [
+        3,
+        4
+      ],
+      "objective": "核對品質、工時與採用門檻",
+      "finding": "確認組達本案門檻",
+      "next": "申請下一階段受控擴大，另驗尖峰與新通路"
+    }
+  ],
+  "surveys": [
+    {
+      "domain": "medical",
+      "round": "r1",
+      "responses": 6,
+      "invited": 6,
+      "willing_to_continue": 4,
+      "question": "完成本輪指定操作後，你願意在相同工作條件下繼續使用嗎？"
+    },
+    {
+      "domain": "medical",
+      "round": "r2",
+      "responses": 6,
+      "invited": 6,
+      "willing_to_continue": 5,
+      "question": "完成本輪指定操作後，你願意在相同工作條件下繼續使用嗎？"
+    },
+    {
+      "domain": "support",
+      "round": "r1",
+      "responses": 6,
+      "invited": 6,
+      "willing_to_continue": 3,
+      "question": "完成本輪指定操作後，你願意在相同工作條件下繼續使用嗎？"
+    },
+    {
+      "domain": "support",
+      "round": "r2",
+      "responses": 6,
+      "invited": 6,
+      "willing_to_continue": 5,
+      "question": "完成本輪指定操作後，你願意在相同工作條件下繼續使用嗎？"
+    }
+  ],
+  "interviews": [
+    {
+      "id": "I01",
+      "domain": "medical",
+      "round": "r1",
+      "role": "M-U1",
+      "category": "操作",
+      "observation": "找核對依據時要另開視窗",
+      "proposed_action": "把來源放在同一畫面"
+    },
+    {
+      "id": "I02",
+      "domain": "medical",
+      "round": "r1",
+      "role": "M-U2",
+      "category": "流程",
+      "observation": "急件仍要逐項人工核對",
+      "proposed_action": "保留急件人工處理"
+    },
+    {
+      "id": "I03",
+      "domain": "medical",
+      "round": "r1",
+      "role": "M-U3",
+      "category": "信任",
+      "observation": "不清楚哪個版本產生建議",
+      "proposed_action": "畫面加版本資訊"
+    },
+    {
+      "id": "I04",
+      "domain": "medical",
+      "round": "r2",
+      "role": "M-U1",
+      "category": "操作",
+      "observation": "來源同頁後較容易核對",
+      "proposed_action": "觀察新使用者能否完成"
+    },
+    {
+      "id": "I05",
+      "domain": "medical",
+      "round": "r2",
+      "role": "M-U4",
+      "category": "流程",
+      "observation": "同時核對與填寫理由仍很吃力",
+      "proposed_action": "減少重填並再測工時"
+    },
+    {
+      "id": "I06",
+      "domain": "medical",
+      "round": "r2",
+      "role": "M-supervisor",
+      "category": "責任",
+      "observation": "同意繼續沙盒，不能代替最終確認",
+      "proposed_action": "限定補驗範圍"
+    },
+    {
+      "id": "I07",
+      "domain": "support",
+      "round": "r1",
+      "role": "S-U1",
+      "category": "操作",
+      "observation": "更正建議後還要再填理由",
+      "proposed_action": "讓理由可編輯沿用"
+    },
+    {
+      "id": "I08",
+      "domain": "support",
+      "round": "r1",
+      "role": "S-U2",
+      "category": "信任",
+      "observation": "看不到分流來源",
+      "proposed_action": "顯示來源摘要"
+    },
+    {
+      "id": "I09",
+      "domain": "support",
+      "round": "r1",
+      "role": "S-U3",
+      "category": "文化",
+      "observation": "擔心拒用建議會影響考核",
+      "proposed_action": "說明拒用原因用於改善"
+    },
+    {
+      "id": "I10",
+      "domain": "support",
+      "round": "r2",
+      "role": "S-U1",
+      "category": "操作",
+      "observation": "理由可編輯後少了重複填寫",
+      "proposed_action": "用新樣本確認"
+    },
+    {
+      "id": "I11",
+      "domain": "support",
+      "round": "r2",
+      "role": "S-U4",
+      "category": "流程",
+      "observation": "複雜工單仍想交資深同仁",
+      "proposed_action": "保留人工升級"
+    },
+    {
+      "id": "I12",
+      "domain": "support",
+      "round": "r2",
+      "role": "S-supervisor",
+      "category": "責任",
+      "observation": "只同意現有通路的受控擴大",
+      "proposed_action": "另驗新通路與尖峰"
+    }
+  ],
+  "logs": [
+    {
+      "domain": "medical",
+      "round": "r1",
+      "case_id": "M007",
+      "event": "開啟來源後返回人工核對",
+      "interpretation": "可能是操作切換成本，不可單憑事件推定抗拒AI"
+    },
+    {
+      "domain": "support",
+      "round": "r1",
+      "case_id": "S007",
+      "event": "更正建議後重填理由",
+      "interpretation": "對照訪談檢查重複輸入障礙"
+    }
+  ]
+}

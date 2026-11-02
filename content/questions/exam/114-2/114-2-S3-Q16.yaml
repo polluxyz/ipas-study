@@ -1,0 +1,36 @@
+id: 114-2-S3-Q16
+rev: 1
+source: exam
+session: 114-2
+subject: 3
+number: 16
+pdf_file: 114年第二梯次中級AI應用規劃師第三科機器學習技術與應用(當次試題公告114_20251226000650.pdf
+pdf_page: 4
+type: 計算
+codes: [L23303]
+concepts: [f1-score, precision, recall]
+stem: |
+  在二元分類問題中，若精確率（Precision）為 0.8，召回率（Recall）為 0.6，則 F1 分數（F1 Score）為何？
+options:
+  A: "0.686"
+  B: "0.700"
+  C: "0.720"
+  D: '0.750'
+answer: A
+explanation:
+  summary: 將 Precision 與 Recall 代入調和平均公式計算 F1。
+  correct: F1 = 2PR/(P + R) = 2 × 0.8 × 0.6/(0.8 + 0.6) = 0.96/1.4 ≈ 0.685714，四捨五入到小數第三位是 0.686，故選 A。
+  wrong:
+    B: 0.700 是兩者的算術平均 (0.8 + 0.6)/2；F1 採用調和平均，兩者不相等時會小於算術平均。
+    C: 0.720 超過這兩個數值的算術平均 0.700，不可能是此處的調和平均。
+    D: 0.750 同樣高於算術平均 0.700，並非代入 F1 公式後的結果。
+  rule: 合併精確率與召回率時，要算調和平均，不能算術平均。
+guide_refs: [guide-3:5-21]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 4
+    by: QB1
+  dispute: null
+  blind_answer: A

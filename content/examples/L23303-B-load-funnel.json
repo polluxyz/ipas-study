@@ -1,0 +1,62 @@
+[
+  {
+    "id": "F1",
+    "y_true": 9,
+    "y_pred": 10
+  },
+  {
+    "id": "F2",
+    "y_true": 11,
+    "y_pred": 10
+  },
+  {
+    "id": "F3",
+    "y_true": 18,
+    "y_pred": 20
+  },
+  {
+    "id": "F4",
+    "y_true": 22,
+    "y_pred": 20
+  },
+  {
+    "id": "F5",
+    "y_true": 26,
+    "y_pred": 30
+  },
+  {
+    "id": "F6",
+    "y_true": 34,
+    "y_pred": 30
+  },
+  {
+    "id": "F7",
+    "y_true": 34,
+    "y_pred": 40
+  },
+  {
+    "id": "F8",
+    "y_true": 46,
+    "y_pred": 40
+  },
+  {
+    "id": "F9",
+    "y_true": 41,
+    "y_pred": 50
+  },
+  {
+    "id": "F10",
+    "y_true": 59,
+    "y_pred": 50
+  },
+  {
+    "id": "F11",
+    "y_true": 48,
+    "y_pred": 60
+  },
+  {
+    "id": "F12",
+    "y_true": 72,
+    "y_pred": 60
+  }
+]

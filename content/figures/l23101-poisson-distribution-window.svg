@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="635" viewBox="0 0 360 635" role="img" aria-labelledby="title desc">
+<title id="title">泊松分佈的窗口尺度與PMF</title>
+<desc id="desc">兩面板以相同通數與機率座標，比較窗口加倍後的機率質量；完整支持集合仍為所有非負整數。 教學合成模型示意，非觀測頻數。</desc>
+<rect width="360" height="635" fill="white"/>
+<g font-family="Microsoft JhengHei, Noto Sans TC, sans-serif">
+<text x="180" y="27" font-size="17" text-anchor="middle" fill="#182b40">同率下，兩種窗口的泊松質量</text>
+<text x="180" y="53" font-size="14" text-anchor="middle" fill="#182b40">橫縱軸同尺度；未畫出的尾部非零</text>
+<text x="180" y="78" font-size="17" text-anchor="middle" fill="#182b40">30分鐘：平均2通</text>
+<text x="16" y="103" font-size="14" text-anchor="start" fill="#182b40">機率 P(N=k)</text>
+<path d="M55 235 L333 235" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="239" font-size="13" text-anchor="end" fill="#182b40">0</text>
+<path d="M55 195.0 L333 195.0" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="199.0" font-size="13" text-anchor="end" fill="#182b40">0.1</text>
+<path d="M55 155.0 L333 155.0" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="159.0" font-size="13" text-anchor="end" fill="#182b40">0.2</text>
+<path d="M55 115.0 L333 115.0" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="119.0" font-size="13" text-anchor="end" fill="#182b40">0.3</text>
+<rect x="57" y="180.8658867053549" width="16" height="54.13411329464508" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="65" y="259" font-size="13" text-anchor="middle" fill="#182b40">0</text>
+<rect x="82" y="126.73177341070983" width="16" height="108.26822658929017" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="90" y="259" font-size="13" text-anchor="middle" fill="#182b40">1</text>
+<rect x="107" y="126.73177341070983" width="16" height="108.26822658929017" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="115" y="259" font-size="13" text-anchor="middle" fill="#182b40">2</text>
+<rect x="132" y="162.82118227380656" width="16" height="72.17881772619344" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="140" y="259" font-size="13" text-anchor="middle" fill="#182b40">3</text>
+<rect x="157" y="198.9105911369033" width="16" height="36.08940886309672" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="165" y="259" font-size="13" text-anchor="middle" fill="#182b40">4</text>
+<rect x="182" y="220.5642364547613" width="16" height="14.43576354523869" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="190" y="259" font-size="13" text-anchor="middle" fill="#182b40">5</text>
+<rect x="207" y="230.18807881825376" width="16" height="4.8119211817462295" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="215" y="259" font-size="13" text-anchor="middle" fill="#182b40">6</text>
+<rect x="232" y="233.62516537664393" width="16" height="1.3748346233560655" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="240" y="259" font-size="13" text-anchor="middle" fill="#182b40">7</text>
+<rect x="257" y="234.656291344161" width="16" height="0.3437086558390164" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="265" y="259" font-size="13" text-anchor="middle" fill="#182b40">8</text>
+<rect x="282" y="234.92362029870245" width="16" height="0.0763797012975592" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="290" y="259" font-size="13" text-anchor="middle" fill="#182b40">9</text>
+<rect x="307" y="234.9847240597405" width="16" height="0.015275940259511837" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="315" y="259" font-size="13" text-anchor="middle" fill="#182b40">10</text>
+<path d="M55 235 L333 235" fill="none" stroke="#182b40" stroke-width="2"/>
+<text x="180" y="284" font-size="15" text-anchor="middle" fill="#182b40">窗口來電通數 k（通）</text>
+<text x="180" y="309" font-size="15" text-anchor="middle" fill="#182b40">零通機率 0.135335；λ=2</text>
+<text x="180" y="333" font-size="17" text-anchor="middle" fill="#182b40">60分鐘：平均4通</text>
+<text x="16" y="358" font-size="14" text-anchor="start" fill="#182b40">機率 P(N=k)</text>
+<path d="M55 490 L333 490" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="494" font-size="13" text-anchor="end" fill="#182b40">0</text>
+<path d="M55 450.0 L333 450.0" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="454.0" font-size="13" text-anchor="end" fill="#182b40">0.1</text>
+<path d="M55 410.0 L333 410.0" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="414.0" font-size="13" text-anchor="end" fill="#182b40">0.2</text>
+<path d="M55 370.0 L333 370.0" fill="none" stroke="#b7c7d4" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="374.0" font-size="13" text-anchor="end" fill="#182b40">0.3</text>
+<rect x="57" y="482.6737444445063" width="16" height="7.326255555493671" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="65" y="514" font-size="13" text-anchor="middle" fill="#182b40">0</text>
+<rect x="82" y="460.6949777780253" width="16" height="29.305022221974685" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="90" y="514" font-size="13" text-anchor="middle" fill="#182b40">1</text>
+<rect x="107" y="431.3899555560506" width="16" height="58.61004444394937" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="115" y="514" font-size="13" text-anchor="middle" fill="#182b40">2</text>
+<rect x="132" y="411.85327407473414" width="16" height="78.14672592526583" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="140" y="514" font-size="13" text-anchor="middle" fill="#182b40">3</text>
+<rect x="157" y="411.85327407473414" width="16" height="78.14672592526583" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="165" y="514" font-size="13" text-anchor="middle" fill="#182b40">4</text>
+<rect x="182" y="427.4826192597873" width="16" height="62.51738074021266" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="190" y="514" font-size="13" text-anchor="middle" fill="#182b40">5</text>
+<rect x="207" y="448.32174617319157" width="16" height="41.678253826808444" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="215" y="514" font-size="13" text-anchor="middle" fill="#182b40">6</text>
+<rect x="232" y="466.1838549561095" width="16" height="23.81614504389054" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="240" y="514" font-size="13" text-anchor="middle" fill="#182b40">7</text>
+<rect x="257" y="478.09192747805474" width="16" height="11.90807252194527" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="265" y="514" font-size="13" text-anchor="middle" fill="#182b40">8</text>
+<rect x="282" y="484.7075233235799" width="16" height="5.29247667642012" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="290" y="514" font-size="13" text-anchor="middle" fill="#182b40">9</text>
+<rect x="307" y="487.88300932943196" width="16" height="2.1169906705680477" rx="5" fill="#e9f3fa" stroke="#155e95"/>
+<text x="315" y="514" font-size="13" text-anchor="middle" fill="#182b40">10</text>
+<path d="M55 490 L333 490" fill="none" stroke="#182b40" stroke-width="2"/>
+<text x="180" y="539" font-size="15" text-anchor="middle" fill="#182b40">窗口來電通數 k（通）</text>
+<text x="180" y="564" font-size="15" text-anchor="middle" fill="#182b40">零通機率 0.018316；λ=4</text>
+<text x="180" y="596" font-size="15" text-anchor="middle" fill="#182b40">圖示0–10通；其外仍可能發生</text>
+<text x="12" y="623" font-size="13" text-anchor="start" fill="#182b40">來源：教學合成模型示意</text>
+</g>
+</svg>

@@ -1,0 +1,812 @@
+{
+  "source": "教學合成的24個獨立設備片段；非同一設備連續切窗",
+  "seed": 42,
+  "unit": "振動速度 mm/s",
+  "label_definition": {
+    "0": "無故障事件",
+    "1": "片段含故障事件"
+  },
+  "rows": [
+    {
+      "index": 1,
+      "id": "S01",
+      "split": "train",
+      "label": 1,
+      "group": "A",
+      "features": [
+        2,
+        2
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2,
+        3,
+        2,
+        4,
+        8,
+        4,
+        3,
+        2
+      ],
+      "event_position": 4
+    },
+    {
+      "index": 2,
+      "id": "S02",
+      "split": "train",
+      "label": 1,
+      "group": "A",
+      "features": [
+        4,
+        2
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2.1,
+        3.1,
+        2.1,
+        4.1,
+        8.1,
+        4.1,
+        3.1,
+        2.1
+      ],
+      "event_position": 4
+    },
+    {
+      "index": 3,
+      "id": "S03",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        1,
+        8
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2.2,
+        3.2,
+        2.2,
+        4.2,
+        3.2,
+        4.2,
+        3.2,
+        2.2
+      ],
+      "event_position": null
+    },
+    {
+      "index": 4,
+      "id": "S04",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        2,
+        9
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2.3,
+        3.3,
+        2.3,
+        4.3,
+        3.3,
+        4.3,
+        3.3,
+        2.3
+      ],
+      "event_position": null
+    },
+    {
+      "index": 5,
+      "id": "S05",
+      "split": "train",
+      "label": 1,
+      "group": "B",
+      "features": [
+        8,
+        8
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2.4,
+        3.4,
+        2.4,
+        4.4,
+        8.4,
+        4.4,
+        3.4,
+        2.4
+      ],
+      "event_position": 4
+    },
+    {
+      "index": 6,
+      "id": "S06",
+      "split": "train",
+      "label": 1,
+      "group": "B",
+      "features": [
+        10,
+        8
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2.5,
+        3.5,
+        2.5,
+        4.5,
+        8.5,
+        4.5,
+        3.5,
+        2.5
+      ],
+      "event_position": 4
+    },
+    {
+      "index": 7,
+      "id": "S07",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        3,
+        8
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2.6,
+        3.6,
+        2.6,
+        4.6,
+        3.6,
+        4.6,
+        3.6,
+        2.6
+      ],
+      "event_position": null
+    },
+    {
+      "index": 8,
+      "id": "S08",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        4,
+        9
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2.7,
+        3.7,
+        2.7,
+        4.7,
+        3.7,
+        4.7,
+        3.7,
+        2.7
+      ],
+      "event_position": null
+    },
+    {
+      "index": 9,
+      "id": "S09",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        5,
+        8
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2.8,
+        3.8,
+        2.8,
+        4.8,
+        3.8,
+        4.8,
+        3.8,
+        2.8
+      ],
+      "event_position": null
+    },
+    {
+      "index": 10,
+      "id": "S10",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        6,
+        9
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        2.9,
+        3.9,
+        2.9,
+        4.9,
+        3.9,
+        4.9,
+        3.9,
+        2.9
+      ],
+      "event_position": null
+    },
+    {
+      "index": 11,
+      "id": "S11",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        7,
+        2
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3,
+        4,
+        3,
+        5,
+        4,
+        5,
+        4,
+        3
+      ],
+      "event_position": null
+    },
+    {
+      "index": 12,
+      "id": "S12",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        8,
+        3
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3.1,
+        4.1,
+        3.1,
+        5.1,
+        4.1,
+        5.1,
+        4.1,
+        3.1
+      ],
+      "event_position": null
+    },
+    {
+      "index": 13,
+      "id": "S13",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        9,
+        2
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3.2,
+        4.2,
+        3.2,
+        5.2,
+        4.2,
+        5.2,
+        4.2,
+        3.2
+      ],
+      "event_position": null
+    },
+    {
+      "index": 14,
+      "id": "S14",
+      "split": "train",
+      "label": 0,
+      "group": "A",
+      "features": [
+        10,
+        3
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3.3,
+        4.3,
+        3.3,
+        5.3,
+        4.3,
+        5.3,
+        4.3,
+        3.3
+      ],
+      "event_position": null
+    },
+    {
+      "index": 15,
+      "id": "S15",
+      "split": "train",
+      "label": 0,
+      "group": "B",
+      "features": [
+        11,
+        2
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3.4,
+        4.4,
+        3.4,
+        5.4,
+        4.4,
+        5.4,
+        4.4,
+        3.4
+      ],
+      "event_position": null
+    },
+    {
+      "index": 16,
+      "id": "S16",
+      "split": "train",
+      "label": 0,
+      "group": "B",
+      "features": [
+        12,
+        3
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3.5,
+        4.5,
+        3.5,
+        5.5,
+        4.5,
+        5.5,
+        4.5,
+        3.5
+      ],
+      "event_position": null
+    },
+    {
+      "index": 17,
+      "id": "S17",
+      "split": "validation",
+      "label": 1,
+      "group": "A",
+      "features": [
+        3,
+        2
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3.6,
+        4.6,
+        3.6,
+        5.6,
+        9.6,
+        5.6,
+        4.6,
+        3.6
+      ],
+      "event_position": 4
+    },
+    {
+      "index": 18,
+      "id": "S18",
+      "split": "validation",
+      "label": 0,
+      "group": "A",
+      "features": [
+        1,
+        9
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3.7,
+        4.7,
+        3.7,
+        5.7,
+        4.7,
+        5.7,
+        4.7,
+        3.7
+      ],
+      "event_position": null
+    },
+    {
+      "index": 19,
+      "id": "S19",
+      "split": "validation",
+      "label": 0,
+      "group": "B",
+      "features": [
+        6,
+        8
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3.8,
+        4.8,
+        3.8,
+        5.8,
+        4.8,
+        5.8,
+        4.8,
+        3.8
+      ],
+      "event_position": null
+    },
+    {
+      "index": 20,
+      "id": "S20",
+      "split": "validation",
+      "label": 0,
+      "group": "A",
+      "features": [
+        11,
+        3
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        3.9,
+        4.9,
+        3.9,
+        5.9,
+        4.9,
+        5.9,
+        4.9,
+        3.9
+      ],
+      "event_position": null
+    },
+    {
+      "index": 21,
+      "id": "S21",
+      "split": "test",
+      "label": 1,
+      "group": "A",
+      "features": [
+        9,
+        8
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        4,
+        5,
+        4,
+        6,
+        10,
+        6,
+        5,
+        4
+      ],
+      "event_position": 4
+    },
+    {
+      "index": 22,
+      "id": "S22",
+      "split": "test",
+      "label": 0,
+      "group": "A",
+      "features": [
+        2,
+        8
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        4.1,
+        5.1,
+        4.1,
+        6.1,
+        5.1,
+        6.1,
+        5.1,
+        4.1
+      ],
+      "event_position": null
+    },
+    {
+      "index": 23,
+      "id": "S23",
+      "split": "test",
+      "label": 0,
+      "group": "B",
+      "features": [
+        7,
+        3
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        4.2,
+        5.2,
+        4.2,
+        6.2,
+        5.2,
+        6.2,
+        5.2,
+        4.2
+      ],
+      "event_position": null
+    },
+    {
+      "index": 24,
+      "id": "S24",
+      "split": "test",
+      "label": 0,
+      "group": "A",
+      "features": [
+        12,
+        2
+      ],
+      "time_seconds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "values": [
+        4.3,
+        5.3,
+        4.3,
+        6.3,
+        5.3,
+        6.3,
+        5.3,
+        4.3
+      ],
+      "event_position": null
+    }
+  ],
+  "augmentation": {
+    "base_index": 1,
+    "noise": [
+      0.1,
+      -0.1,
+      0,
+      0.2,
+      -0.2,
+      0.1,
+      0,
+      -0.1
+    ],
+    "scale": 1.1,
+    "slice_start": 2,
+    "slice_length": 4,
+    "unsafe_slice_start": 0,
+    "unsafe_slice_length": 4
+  },
+  "finance_scene": {
+    "source": "第二場景的教學相對價格指數；不作投資建議或效能證據",
+    "values": [
+      100,
+      101,
+      100,
+      102,
+      106,
+      102,
+      101,
+      100
+    ],
+    "unit": "指數點",
+    "cutoff_position": 7
+  }
+}

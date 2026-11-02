@@ -1,0 +1,45 @@
+---
+/** 首頁依實際概念頁顯示各代碼的學習入口，同時保留範例單元與個人作答進度。 */
+import indexCsv from '../../../content/concept-index.csv?raw';
+import coverageCsv from '../../../content/guide-coverage.csv?raw';
+import topicsCsv from '../../../content/guide-topics.csv?raw';
+import StudyPage from '../components/StudyPage.astro';
+import { getData } from '../lib/content';
+import { buildConceptCatalog } from '../lib/concept-catalog';
+const { questions } = await getData();
+const conceptFiles = Object.keys(import.meta.glob('../../../content/concepts/*.md'));
+const catalog = buildConceptCatalog(indexCsv, conceptFiles.map((file) => file.split('/').at(-1)!.slice(0, -3)), coverageCsv, topicsCsv);
+const codeQuestions = questions.filter((q) => q.codes.includes('L23303'));
+---
+<StudyPage title="讓每個觀念，都連成理解。" description="從評鑑代碼出發，串起概念、考古題與你的錯題。">
+  <p class="lead">從評鑑代碼出發，串起概念、考古題與你的錯題。<br />今天，先把模型評估學紮實。</p>
+  <section class="feature-card" aria-label="推薦學習單元">
+    <div class="feature-copy"><span class="eyebrow">從這裡開始 <span class="pill pale">範例單元</span></span><p class="feature-code">L23303 <span>／ 科目 3</span></p><h2>模型訓練、評估與驗證</h2><p>分數很好，模型就真的學會了嗎？<br />從資料切分開始，辨識驗證流程裡的盲點。</p><div class="button-row"><a class="button primary" href="/codes/L23303/">進入學習單元 <span>→</span></a><a class="text-link" href="/quiz/">直接練題 ↗</a></div></div>
+    <div class="feature-art" aria-hidden="true"><div class="art-grid"></div><div class="art-node node-one">訓練</div><div class="art-line line-one"></div><div class="art-node node-two">驗證</div><div class="art-line line-two"></div><div class="art-node node-three">理解<span>✓</span></div><span class="art-caption">LEARN · CONNECT · PRACTICE</span></div>
+  </section>
+  <div class="stat-grid"><div class="stat-card"><span>可讀概念</span><strong>{catalog.writtenCount}<small> 個</small></strong><span>建立完整理解</span></div><div class="stat-card"><span>範例考題</span><strong>{codeQuestions.length}<small> 題</small></strong><span>讀懂題目背後的觀念</span></div><div class="stat-card"><span>我的練習進度</span><strong id="home-progress">0<small> / {codeQuestions.length} 題</small></strong><span id="home-accuracy">從第一題開始累積</span></div></div>
+  <div class="section-heading"><div><span class="eyebrow">YOUR STUDY MAP</span><h2>選擇學習方向</h2></div><span class="muted">{catalog.availableCodeCount} 個代碼・{catalog.writtenCount} 頁可讀<br /><a href="/catalog/">瀏覽全部概念 →</a></span></div>
+  <div class="subject-grid">{catalog.subjects.map((subject) => <section class="subject-card">
+    <div class="subject-header"><span class="subject-number">{subject.number}</span><div><span class="eyebrow">{subject.name}</span><h3>{subject.title}</h3></div></div>
+    <ul class="code-list">{subject.groups.map((group) => <li>{group.href ?
+      <a class="available" href={group.href}><code>{group.code}</code><span>{group.title}</span><span class="tag green">{group.writtenCount}/{group.plannedCount} 頁 ↗</span></a> :
+      <div class="unavailable"><code>{group.code}</code><span>{group.title}</span><small>{group.writtenCount}/{group.plannedCount} 頁・撰寫中</small></div>
+    }</li>)}</ul>
+  </section>)}</div>
+</StudyPage>
+<script type="application/json" id="home-question-ids" set:html={JSON.stringify(codeQuestions.map((q) => q.id)).replace(/</g, '\u003c')}></script>
+<script>
+  import { getAttempts } from '../lib/attempts';
+  function showProgress() {
+    try {
+      const ids: string[] = JSON.parse(document.getElementById('home-question-ids')?.textContent ?? '[]');
+      const attempts = getAttempts().filter((a) => ids.includes(a.qid));
+      const done = new Set(attempts.map((a) => a.qid)).size;
+      const progress = document.getElementById('home-progress');
+      if (progress) { progress.textContent = `${done}`; const small = document.createElement('small'); small.textContent = ` / ${ids.length} 題`; progress.append(small); }
+      const accuracy = document.getElementById('home-accuracy');
+      if (accuracy && attempts.length) accuracy.textContent = `累積作答 ${attempts.length} 次・正確率 ${Math.round(attempts.filter((a) => a.correct).length / attempts.length * 100)}%`;
+    } catch { /* 瀏覽器禁用儲存時，首頁仍保留可用的學習入口。 */ }
+  }
+  showProgress();
+</script>

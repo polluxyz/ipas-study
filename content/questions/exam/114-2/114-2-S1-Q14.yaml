@@ -1,0 +1,36 @@
+id: 114-2-S1-Q14
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 14
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 4
+type: 觀念
+codes: [L23303, L23304]
+concepts: [k-fold-cross-validation, overfitting, early-stopping]
+stem: |
+  在調整模型超參數（Hyperparameters）時，若希望避免因過度調整參數而導致過擬合，下列哪一種做法最有效提升模型的泛化能力？
+options:
+  A: 採用交叉驗證（Cross-Validation）於多組參數組合間反覆評估，選擇在驗證資料上表現最穩定的設定
+  B: 使用早期停止機制（Early Stopping）監控訓練誤差並在收斂前停止訓練，以防模型學習過度
+  C: 對輸入特徵進行標準化以減少特徵值差異帶來的過擬合風險
+  D: 提高模型複雜度並使用更多超參數搜尋範圍，以確保模型能充分學習資料特徵
+answer: A
+explanation:
+  summary: 調參時應比較多次切分下的驗證表現，並區分驗證誤差與訓練誤差的用途。
+  correct: 交叉驗證讓候選設定在不同訓練與驗證子集上接受比較，可減少單次切分碰巧有利於某設定的影響，因此 A 最符合題意。但反覆依同一組驗證結果選參數仍會產生選擇偏差，最終效能應用獨立測試集或巢狀交叉驗證評估。
+  wrong:
+    B: 早停通常觀察驗證集上的損失或任務指標。訓練誤差可能持續下降，即使泛化表現已經惡化，僅看訓練誤差無法可靠偵測過擬合。
+    C: 標準化能改善尺度差異造成的距離或優化問題，但不能取代調參時對未知資料表現的檢驗。
+    D: 增加複雜度可能放大過擬合風險；擴大搜尋範圍也不能保證找到泛化較好的設定。
+  rule: 調參要比較驗證表現，最終成績另行獨立評估。
+guide_refs: [guide-3:5-19, guide-3:5-26, guide-3:5-27]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 4
+    by: QA
+  blind_answer: A
+  dispute: null

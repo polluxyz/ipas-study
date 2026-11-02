@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 550" role="img" aria-labelledby="title desc">
+  <title id="title">NLP 中理解、結構化處理與生成的分工</title>
+  <desc id="desc">教學合成資料。訂票原句經理解抽出需求，存成日期與起訖站欄位，查詢業務系統後由生成模組組成回覆；查詢結果十二席是教學假設。</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#334155" stroke-width="1.4"/></marker></defs>
+  <rect x="1" y="1" width="358" height="548" rx="12" fill="#f8fafc" stroke="#64748b"/>
+  <g font-family="sans-serif" text-anchor="middle" fill="#0f172a">
+    <text x="180" y="29" font-size="18" font-weight="700">NLP：整體語言處理</text>
+    <rect x="20" y="44" width="320" height="59" rx="8" fill="#fff" stroke="#64748b"/>
+    <text x="180" y="68" font-size="16">輸入：我要訂明天</text><text x="180" y="90" font-size="16">台北到台南的票</text>
+    <path d="M180 104V126" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="20" y="133" width="320" height="63" rx="8" fill="#dbeafe" stroke="#1d4ed8"/>
+    <text x="180" y="158" font-size="17" font-weight="700">NLU：理解輸入</text><text x="180" y="182" font-size="16">意圖：訂票；辨認日期與站名</text>
+    <path d="M180 198V220" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="20" y="227" width="320" height="63" rx="8" fill="#fff" stroke="#64748b"/>
+    <text x="180" y="252" font-size="17" font-weight="700">結構化處理</text><text x="180" y="276" font-size="16">明天｜台北 → 台南</text>
+    <path d="M180 292V314" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="20" y="321" width="320" height="63" rx="8" fill="#fff" stroke="#64748b" stroke-dasharray="5 3"/>
+    <text x="180" y="346" font-size="17" font-weight="700">業務系統：查票</text><text x="180" y="370" font-size="16">假設查到剩餘 12 席</text>
+    <path d="M180 386V408" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="20" y="415" width="320" height="77" rx="8" fill="#dcfce7" stroke="#15803d"/>
+    <text x="180" y="440" font-size="17" font-weight="700">NLG：生成回覆</text><text x="180" y="463" font-size="16">明天台北到台南尚有 12 席，</text><text x="180" y="484" font-size="16">請選擇班次。</text>
+    <text x="180" y="525" font-size="14">教學合成資料；各步驟可保留輸入輸出</text>
+  </g>
+</svg>

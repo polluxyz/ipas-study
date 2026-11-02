@@ -1,0 +1,784 @@
+{
+  "id": "L21203-E-sector-flows",
+  "source": "教學合成資料，所有公司、角色、資料及證據代碼均為虛構",
+  "version": "e1",
+  "prepared_at": "2026-11-01",
+  "seed": 21203,
+  "rules": {
+    "seed_note": "無隨機抽樣或真實訓練；種子保留供擴充，不宣稱種子產生本資料",
+    "split": {
+      "train": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "validation": [
+        7,
+        8
+      ],
+      "test": [
+        9,
+        10,
+        11,
+        12
+      ]
+    },
+    "threshold": 0.5,
+    "positive_rule": "score >= threshold",
+    "legal_result": "各流法規適用與許可結果均待法遵或主管機關核對，證據齊備不等於合法",
+    "rights_rule": "分別確認資料來源、模型授權與生成輸出利用範圍；供應商承諾不代表已取得第三人權利",
+    "security": "目的限定、最小權限、傳輸與儲存加密；保留接取紀錄，備份及遠端維運一併列管"
+  },
+  "sectors": [
+    {
+      "id": "FIN",
+      "title": "金融",
+      "purpose": "授信風險輔助評估",
+      "owner": "虛構青禾銀行",
+      "vendor": "甲資料公司",
+      "reviewer": "金融法遵林員",
+      "version": "fin-model-v1",
+      "data_version": "fin-data-e1",
+      "model": {
+        "kind": "固定分數查表，供重現評估示範；並非受訓模型",
+        "test_scores": [
+          0.2,
+          0.7,
+          0.8,
+          0.4
+        ],
+        "threshold": 0.5
+      },
+      "samples": [
+        {
+          "index": 1,
+          "sample_id": "FIN-01",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 2,
+          "sample_id": "FIN-02",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 3,
+          "sample_id": "FIN-03",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 4,
+          "sample_id": "FIN-04",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 5,
+          "sample_id": "FIN-05",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 6,
+          "sample_id": "FIN-06",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 7,
+          "sample_id": "FIN-07",
+          "split": "validation",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 8,
+          "sample_id": "FIN-08",
+          "split": "validation",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 9,
+          "sample_id": "FIN-09",
+          "split": "test",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 10,
+          "sample_id": "FIN-10",
+          "split": "test",
+          "label": 0,
+          "score": 0.7
+        },
+        {
+          "index": 11,
+          "sample_id": "FIN-11",
+          "split": "test",
+          "label": 1,
+          "score": 0.8
+        },
+        {
+          "index": 12,
+          "sample_id": "FIN-12",
+          "split": "test",
+          "label": 1,
+          "score": 0.4
+        }
+      ],
+      "flows": [
+        {
+          "id": "FIN-1",
+          "purpose": "授信風險輔助評估",
+          "sender": "虛構青禾銀行",
+          "recipient": "甲資料公司",
+          "sender_role": "委託方，決定本例用途",
+          "recipient_role": "受託開發與處理",
+          "source_region": "臺灣",
+          "storage_region": "臺灣",
+          "remote_access_region": "臺灣",
+          "data": "合成收入級距、負債級距、違約標籤",
+          "version": "e1",
+          "reviewer": "金融法遵林員",
+          "evidence": [
+            "FIN-scope-e1",
+            "FIN-access-e1"
+          ],
+          "gap": null,
+          "legal_result": "待官方適用性核對"
+        },
+        {
+          "id": "FIN-2",
+          "purpose": "交付版本及覆核結果；不得自行用於其他客戶",
+          "sender": "甲資料公司",
+          "recipient": "虛構青禾銀行",
+          "sender_role": "受託開發與處理",
+          "recipient_role": "驗收及用途核准",
+          "source_region": "臺灣",
+          "storage_region": "臺灣",
+          "remote_access_region": "臺灣",
+          "data": "模型清冊、測試索引與風險提示；限本案",
+          "version": "e1",
+          "reviewer": "金融法遵林員",
+          "evidence": [
+            "FIN-delivery-e1",
+            "FIN-evaluation-e1"
+          ],
+          "gap": null,
+          "legal_result": "待官方適用性核對"
+        },
+        {
+          "id": "FIN-3",
+          "purpose": "備份與復原",
+          "sender": "甲資料公司",
+          "recipient": "甲資料公司的海外複委託商",
+          "sender_role": "受託開發與處理",
+          "recipient_role": "複委託備份或維運",
+          "source_region": "臺灣",
+          "storage_region": "日本",
+          "remote_access_region": "日本",
+          "data": "合成收入級距、負債級距、違約標籤",
+          "version": "e1",
+          "reviewer": "金融法遵林員",
+          "evidence": [
+            "FIN-region-inventory-e1"
+          ],
+          "gap": "複委託條款與海外備份範圍",
+          "legal_result": "待官方適用性核對，缺口補齊前暫停本例第三流"
+        }
+      ],
+      "rights": {
+        "source": "合成來源已知；若替換真實資料須重查依據",
+        "model": "教學查表；若改第三方模型須重查版本與授權",
+        "generated_output": "廣告圖及說明文字另列利用範圍，未取得證明前不外發"
+      }
+    },
+    {
+      "id": "MED",
+      "title": "醫療",
+      "purpose": "胸部影像異常標記、供醫師覆核",
+      "owner": "虛構晴川醫院",
+      "vendor": "乙醫資公司",
+      "reviewer": "醫材法規陳員",
+      "version": "med-model-v1",
+      "data_version": "med-data-e1",
+      "model": {
+        "kind": "固定分數查表，供重現評估示範；並非受訓模型",
+        "test_scores": [
+          0.1,
+          0.6,
+          0.9,
+          0.3
+        ],
+        "threshold": 0.5
+      },
+      "samples": [
+        {
+          "index": 1,
+          "sample_id": "MED-01",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 2,
+          "sample_id": "MED-02",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 3,
+          "sample_id": "MED-03",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 4,
+          "sample_id": "MED-04",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 5,
+          "sample_id": "MED-05",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 6,
+          "sample_id": "MED-06",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 7,
+          "sample_id": "MED-07",
+          "split": "validation",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 8,
+          "sample_id": "MED-08",
+          "split": "validation",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 9,
+          "sample_id": "MED-09",
+          "split": "test",
+          "label": 0,
+          "score": 0.1
+        },
+        {
+          "index": 10,
+          "sample_id": "MED-10",
+          "split": "test",
+          "label": 1,
+          "score": 0.6
+        },
+        {
+          "index": 11,
+          "sample_id": "MED-11",
+          "split": "test",
+          "label": 1,
+          "score": 0.9
+        },
+        {
+          "index": 12,
+          "sample_id": "MED-12",
+          "split": "test",
+          "label": 0,
+          "score": 0.3
+        }
+      ],
+      "flows": [
+        {
+          "id": "MED-1",
+          "purpose": "胸部影像異常標記、供醫師覆核",
+          "sender": "虛構晴川醫院",
+          "recipient": "乙醫資公司",
+          "sender_role": "委託方，決定本例用途",
+          "recipient_role": "受託開發與處理",
+          "source_region": "臺灣",
+          "storage_region": "臺灣",
+          "remote_access_region": "臺灣",
+          "data": "合成影像代碼、病灶標籤",
+          "version": "e1",
+          "reviewer": "醫材法規陳員",
+          "evidence": [
+            "MED-scope-e1",
+            "MED-access-e1"
+          ],
+          "gap": null,
+          "legal_result": "待官方適用性核對"
+        },
+        {
+          "id": "MED-2",
+          "purpose": "交付版本及覆核結果；不得自行用於其他客戶",
+          "sender": "乙醫資公司",
+          "recipient": "虛構晴川醫院",
+          "sender_role": "受託開發與處理",
+          "recipient_role": "驗收及用途核准",
+          "source_region": "臺灣",
+          "storage_region": "臺灣",
+          "remote_access_region": "臺灣",
+          "data": "模型清冊、測試索引與風險提示；限本案",
+          "version": "e1",
+          "reviewer": "醫材法規陳員",
+          "evidence": [
+            "MED-delivery-e1",
+            "MED-evaluation-e1"
+          ],
+          "gap": null,
+          "legal_result": "待官方適用性核對"
+        },
+        {
+          "id": "MED-3",
+          "purpose": "備份與復原",
+          "sender": "乙醫資公司",
+          "recipient": "乙醫資公司的海外複委託商",
+          "sender_role": "受託開發與處理",
+          "recipient_role": "複委託備份或維運",
+          "source_region": "臺灣",
+          "storage_region": "新加坡",
+          "remote_access_region": "新加坡",
+          "data": "合成影像代碼、病灶標籤",
+          "version": "e1",
+          "reviewer": "醫材法規陳員",
+          "evidence": [
+            "MED-region-inventory-e1"
+          ],
+          "gap": "預期用途及屬性分類確認",
+          "legal_result": "待官方適用性核對，缺口補齊前暫停本例第三流"
+        }
+      ],
+      "rights": {
+        "source": "合成來源已知；若替換真實資料須重查依據",
+        "model": "教學查表；若改第三方模型須重查版本與授權",
+        "generated_output": "廣告圖及說明文字另列利用範圍，未取得證明前不外發"
+      }
+    },
+    {
+      "id": "TEL",
+      "title": "電信",
+      "purpose": "異常通訊風險提示、供值班員覆核",
+      "owner": "虛構遠山電信",
+      "vendor": "丙維運公司",
+      "reviewer": "電信法遵張員",
+      "version": "tel-model-v1",
+      "data_version": "tel-data-e1",
+      "model": {
+        "kind": "固定分數查表，供重現評估示範；並非受訓模型",
+        "test_scores": [
+          0.2,
+          0.8,
+          0.6,
+          0.3
+        ],
+        "threshold": 0.5
+      },
+      "samples": [
+        {
+          "index": 1,
+          "sample_id": "TEL-01",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 2,
+          "sample_id": "TEL-02",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 3,
+          "sample_id": "TEL-03",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 4,
+          "sample_id": "TEL-04",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 5,
+          "sample_id": "TEL-05",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 6,
+          "sample_id": "TEL-06",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 7,
+          "sample_id": "TEL-07",
+          "split": "validation",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 8,
+          "sample_id": "TEL-08",
+          "split": "validation",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 9,
+          "sample_id": "TEL-09",
+          "split": "test",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 10,
+          "sample_id": "TEL-10",
+          "split": "test",
+          "label": 1,
+          "score": 0.8
+        },
+        {
+          "index": 11,
+          "sample_id": "TEL-11",
+          "split": "test",
+          "label": 0,
+          "score": 0.6
+        },
+        {
+          "index": 12,
+          "sample_id": "TEL-12",
+          "split": "test",
+          "label": 0,
+          "score": 0.3
+        }
+      ],
+      "flows": [
+        {
+          "id": "TEL-1",
+          "purpose": "異常通訊風險提示、供值班員覆核",
+          "sender": "虛構遠山電信",
+          "recipient": "丙維運公司",
+          "sender_role": "委託方，決定本例用途",
+          "recipient_role": "受託開發與處理",
+          "source_region": "臺灣",
+          "storage_region": "臺灣",
+          "remote_access_region": "臺灣",
+          "data": "合成用戶代碼、連線次數、申訴標記",
+          "version": "e1",
+          "reviewer": "電信法遵張員",
+          "evidence": [
+            "TEL-scope-e1",
+            "TEL-access-e1"
+          ],
+          "gap": null,
+          "legal_result": "待官方適用性核對"
+        },
+        {
+          "id": "TEL-2",
+          "purpose": "交付版本及覆核結果；不得自行用於其他客戶",
+          "sender": "丙維運公司",
+          "recipient": "虛構遠山電信",
+          "sender_role": "受託開發與處理",
+          "recipient_role": "驗收及用途核准",
+          "source_region": "臺灣",
+          "storage_region": "臺灣",
+          "remote_access_region": "臺灣",
+          "data": "模型清冊、測試索引與風險提示；限本案",
+          "version": "e1",
+          "reviewer": "電信法遵張員",
+          "evidence": [
+            "TEL-delivery-e1",
+            "TEL-evaluation-e1"
+          ],
+          "gap": null,
+          "legal_result": "待官方適用性核對"
+        },
+        {
+          "id": "TEL-3",
+          "purpose": "海外除錯",
+          "sender": "丙維運公司",
+          "recipient": "丙維運公司的海外複委託商",
+          "sender_role": "受託開發與處理",
+          "recipient_role": "複委託備份或維運",
+          "source_region": "臺灣",
+          "storage_region": "日本",
+          "remote_access_region": "日本",
+          "data": "合成用戶代碼、連線次數、申訴標記",
+          "version": "e1",
+          "reviewer": "電信法遵張員",
+          "evidence": [
+            "TEL-region-inventory-e1"
+          ],
+          "gap": "海外除錯資料欄位與接取權限",
+          "legal_result": "待官方適用性核對，缺口補齊前暫停本例第三流"
+        }
+      ],
+      "rights": {
+        "source": "合成來源已知；若替換真實資料須重查依據",
+        "model": "教學查表；若改第三方模型須重查版本與授權",
+        "generated_output": "廣告圖及說明文字另列利用範圍，未取得證明前不外發"
+      }
+    },
+    {
+      "id": "MFG",
+      "title": "製造",
+      "purpose": "機台異常提示、供維修員覆核",
+      "owner": "虛構新田工廠",
+      "vendor": "丁維護公司",
+      "reviewer": "製造品保吳員",
+      "version": "mfg-model-v1",
+      "data_version": "mfg-data-e1",
+      "model": {
+        "kind": "固定分數查表，供重現評估示範；並非受訓模型",
+        "test_scores": [
+          0.1,
+          0.7,
+          0.6,
+          0.2
+        ],
+        "threshold": 0.5
+      },
+      "samples": [
+        {
+          "index": 1,
+          "sample_id": "MFG-01",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 2,
+          "sample_id": "MFG-02",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 3,
+          "sample_id": "MFG-03",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 4,
+          "sample_id": "MFG-04",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 5,
+          "sample_id": "MFG-05",
+          "split": "train",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 6,
+          "sample_id": "MFG-06",
+          "split": "train",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 7,
+          "sample_id": "MFG-07",
+          "split": "validation",
+          "label": 0,
+          "score": 0.2
+        },
+        {
+          "index": 8,
+          "sample_id": "MFG-08",
+          "split": "validation",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 9,
+          "sample_id": "MFG-09",
+          "split": "test",
+          "label": 0,
+          "score": 0.1
+        },
+        {
+          "index": 10,
+          "sample_id": "MFG-10",
+          "split": "test",
+          "label": 1,
+          "score": 0.7
+        },
+        {
+          "index": 11,
+          "sample_id": "MFG-11",
+          "split": "test",
+          "label": 1,
+          "score": 0.6
+        },
+        {
+          "index": 12,
+          "sample_id": "MFG-12",
+          "split": "test",
+          "label": 0,
+          "score": 0.2
+        }
+      ],
+      "flows": [
+        {
+          "id": "MFG-1",
+          "purpose": "機台異常提示、供維修員覆核",
+          "sender": "虛構新田工廠",
+          "recipient": "丁維護公司",
+          "sender_role": "委託方，決定本例用途",
+          "recipient_role": "受託開發與處理",
+          "source_region": "臺灣",
+          "storage_region": "臺灣",
+          "remote_access_region": "臺灣",
+          "data": "合成機台代碼、振動級距、故障標籤",
+          "version": "e1",
+          "reviewer": "製造品保吳員",
+          "evidence": [
+            "MFG-scope-e1",
+            "MFG-access-e1"
+          ],
+          "gap": null,
+          "legal_result": "待官方適用性核對"
+        },
+        {
+          "id": "MFG-2",
+          "purpose": "交付版本及覆核結果；不得自行用於其他客戶",
+          "sender": "丁維護公司",
+          "recipient": "虛構新田工廠",
+          "sender_role": "受託開發與處理",
+          "recipient_role": "驗收及用途核准",
+          "source_region": "臺灣",
+          "storage_region": "臺灣",
+          "remote_access_region": "臺灣",
+          "data": "模型清冊、測試索引與風險提示；限本案",
+          "version": "e1",
+          "reviewer": "製造品保吳員",
+          "evidence": [
+            "MFG-delivery-e1",
+            "MFG-evaluation-e1"
+          ],
+          "gap": null,
+          "legal_result": "待官方適用性核對"
+        },
+        {
+          "id": "MFG-3",
+          "purpose": "備份與復原",
+          "sender": "丁維護公司",
+          "recipient": "丁維護公司的海外複委託商",
+          "sender_role": "受託開發與處理",
+          "recipient_role": "複委託備份或維運",
+          "source_region": "臺灣",
+          "storage_region": "新加坡",
+          "remote_access_region": "新加坡",
+          "data": "合成機台代碼、振動級距、故障標籤",
+          "version": "e1",
+          "reviewer": "製造品保吳員",
+          "evidence": [
+            "MFG-region-inventory-e1"
+          ],
+          "gap": "維護結束後的備份刪除證據",
+          "legal_result": "待官方適用性核對，缺口補齊前暫停本例第三流"
+        }
+      ],
+      "rights": {
+        "source": "合成來源已知；若替換真實資料須重查依據",
+        "model": "教學查表；若改第三方模型須重查版本與授權",
+        "generated_output": "廣告圖及說明文字另列利用範圍，未取得證明前不外發"
+      }
+    }
+  ],
+  "contract": {
+    "version": "contract-e1",
+    "scope": "只交付本案風險提示；範圍變更須重審",
+    "days": 14,
+    "deliverables": [
+      "資料流清冊",
+      "固定模型與分數表",
+      "測試索引與評估程序",
+      "資料及模型授權清冊",
+      "維運交接與刪除紀錄"
+    ],
+    "acceptance": "第14日依固定測試索引重做，輸出逐項一致；缺任一交付項即待補件",
+    "security": "不得跨案訓練；第三流先停；異常先停傳並依適用程序通報",
+    "ownership": "用途由委託方核准，開發由供應商執行，法遵確認適用性，品保驗收；維護及退出責任列契約",
+    "rights": "分別核對資料、程式、模型權重、生成輸出的權利來源及使用範圍"
+  },
+  "sandbox_plan": {
+    "status": "教學草案，未申請、未核准",
+    "participants": 100,
+    "weeks": 8,
+    "allowed_flow_ids": [
+      "FIN-1",
+      "FIN-2"
+    ],
+    "stopped_flow": "FIN-3",
+    "allowed_use": "授信輔助建議，人工決定",
+    "stopping_rule": "資料外洩即停試驗並啟動通報補救；不得自行擴大用途或人數",
+    "exit": "參與者通知、爭議及補償處理、結清與資料處置、成效報告"
+  },
+  "audit": {
+    "id": "AUD-e1",
+    "reviewer": "獨立稽核周員",
+    "scope": [
+      "FIN-1",
+      "FIN-2",
+      "MED-1",
+      "MED-2"
+    ],
+    "procedure": "固定順序9,10,11,12，讀取固定分數，以>=0.5輸出1，逐項比對保存結果",
+    "environment": "人工逐項十進位比較；無需執行環境、GPU或額外套件",
+    "code_version": "content/concepts/audit-reproducibility.md#逐筆重做評估補充，人工程序e2；無另交程式",
+    "seed": 21203,
+    "permissions": "第三方只讀清冊及受限測試輸出；真實資料版在隔離環境重跑，不任意外送原始個資",
+    "expected": {
+      "FIN": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "MED": [
+        0,
+        1,
+        1,
+        0
+      ]
+    },
+    "changed_threshold": 0.75
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "L23201-C-energy",
+  "source": "教學合成資料；分數非實際電費",
+  "seed": 42,
+  "gamma": 0.9,
+  "start_state": "E3",
+  "states": {"E0": "空電", "E1": "低電量", "E2": "中電量", "E3": "滿電"},
+  "actions": {"charge": "充電一格", "discharge": "放電一格供電"},
+  "transitions": [
+    {"id": "E01", "state": "E0", "action": "charge", "next_state": "E1", "probability": 0.8, "reward": -2},
+    {"id": "E02", "state": "E0", "action": "charge", "next_state": "E0", "probability": 0.2, "reward": -1},
+    {"id": "E03", "state": "E0", "action": "discharge", "next_state": "E0", "probability": 1, "reward": -6},
+    {"id": "E04", "state": "E1", "action": "charge", "next_state": "E2", "probability": 0.8, "reward": -2},
+    {"id": "E05", "state": "E1", "action": "charge", "next_state": "E1", "probability": 0.2, "reward": -1},
+    {"id": "E06", "state": "E1", "action": "discharge", "next_state": "E0", "probability": 1, "reward": -6},
+    {"id": "E07", "state": "E2", "action": "charge", "next_state": "E3", "probability": 1, "reward": -2},
+    {"id": "E08", "state": "E2", "action": "discharge", "next_state": "E1", "probability": 0.8, "reward": 4},
+    {"id": "E09", "state": "E2", "action": "discharge", "next_state": "E2", "probability": 0.2, "reward": 0},
+    {"id": "E10", "state": "E3", "action": "charge", "next_state": "E3", "probability": 1, "reward": -1},
+    {"id": "E11", "state": "E3", "action": "discharge", "next_state": "E2", "probability": 0.8, "reward": 4},
+    {"id": "E12", "state": "E3", "action": "discharge", "next_state": "E3", "probability": 0.2, "reward": 0}
+  ],
+  "trajectories": {"deplete": ["E11", "E08", "E06"], "reserve": ["E11", "E07", "E11"]},
+  "evaluation": {"max_steps": 3, "termination": "固定觀察3步；E0不是終止狀態", "split": "本例只核算指定軌跡，沒有訓練／測試切分"},
+  "policy": {"E0": "charge", "E1": "charge", "E2": "charge", "E3": "discharge"}
+}

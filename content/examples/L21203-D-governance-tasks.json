@@ -1,0 +1,2173 @@
+{
+  "id": "L21203-D-governance-tasks",
+  "source": "教學合成資料；不含真實內容、個資或法律認定",
+  "seed": 2120304,
+  "split": {
+    "type": "固定查核回放分組，非模型資料分割",
+    "walkthrough": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "regression": [
+      9,
+      10
+    ]
+  },
+  "review_policy": {
+    "snapshot": "2026-11-01",
+    "source_unknown": "隔離待釐清",
+    "missing_required_evidence": "不得公開發布",
+    "similarity_alert": 0.75,
+    "similarity_is_legal_test": false,
+    "external_tool_failure_indices": [
+      7,
+      8,
+      9
+    ],
+    "governance_capacity_person_days": 2,
+    "required_person_days": 6,
+    "reserve_budget_10k_twd": 20,
+    "privacy_request_10k_twd": 12,
+    "accessibility_request_10k_twd": 8
+  },
+  "committee": {
+    "id": "committee-v1",
+    "institution": "企業內部倫理審查小組",
+    "chair": "風險主管",
+    "members": [
+      {
+        "role": "技術主管",
+        "expertise": "模型與測試",
+        "affiliation": "內部",
+        "conflict": "專案上線績效獎金",
+        "participation": "提供證據；本案決議迴避"
+      },
+      {
+        "role": "法務主管",
+        "expertise": "法律與契約",
+        "affiliation": "內部",
+        "conflict": null,
+        "participation": "審查權利與適用規範"
+      },
+      {
+        "role": "權益專家",
+        "expertise": "人權與可近用性",
+        "affiliation": "外聘顧問",
+        "conflict": null,
+        "participation": "檢查群體影響與申訴"
+      },
+      {
+        "role": "風險主管",
+        "expertise": "風險與內控",
+        "affiliation": "內部獨立回報線",
+        "conflict": null,
+        "participation": "主持並依授權決定停用及再審"
+      },
+      {
+        "role": "營運主管",
+        "expertise": "服務流程",
+        "affiliation": "內部",
+        "conflict": "專案營收目標",
+        "participation": "提供影響資料；本案決議迴避"
+      }
+    ],
+    "independent_external_review": {
+      "organization": "合成審查機構X",
+      "financial_stake_in_project": false,
+      "scope": "指定版本的群體影響與隱私控制",
+      "reports_to": "治理委員會",
+      "evidence_ref": "synthetic:external-independence-declaration-v1",
+      "replaces_internal_accountability": false
+    }
+  },
+  "tasks": [
+    {
+      "task_id": "T01",
+      "index": 1,
+      "domain": "旅運內容",
+      "task": "開放資料摘要",
+      "source": {
+        "id": "T-public-v1",
+        "category": "public",
+        "name": "路線開放資料",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:T01/source-v1",
+        "license": "CC BY 4.0（合成授權設定）",
+        "evidence_ref": "synthetic:T/public-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": true
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T01核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "通用群體",
+        "audit_bucket": "索引前半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-T01-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T01/check-v1"
+        ],
+        "state": "approved",
+        "risk": "approved",
+        "owner": "營運主管",
+        "action": "保留姓名標示與來源連結",
+        "due_day": 7,
+        "unpassed_action": null,
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "T01-draft-v1",
+        "parent_source_ids": [
+          "T-public-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "public-with-attribution",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "T02",
+      "index": 2,
+      "domain": "旅運內容",
+      "task": "網站爬取整理",
+      "source": {
+        "id": "T-web-v1",
+        "category": "web",
+        "name": "公開可瀏覽網站",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:T02/source-v1",
+        "license": "待釐清",
+        "evidence_ref": null,
+        "training_scope": "待確認",
+        "commercial_publication": false,
+        "external_model_upload": false,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T02核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "通用群體",
+        "audit_bucket": "索引前半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-T02-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T02/check-v1"
+        ],
+        "state": "hold-rights",
+        "risk": "rights",
+        "owner": "法務主管",
+        "action": "取得訓練與發布的權利依據，否則排除",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "T02-draft-v1",
+        "parent_source_ids": [
+          "T-web-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "T03",
+      "index": 3,
+      "domain": "旅運內容",
+      "task": "內部文件問答",
+      "source": {
+        "id": "T-internal-v1",
+        "category": "internal",
+        "name": "客服紀錄",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:T03/source-v1",
+        "license": "公司內部AI用途核准v1",
+        "evidence_ref": "synthetic:T/internal-grant-v1",
+        "training_scope": "僅內部環境",
+        "commercial_publication": false,
+        "external_model_upload": false,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T03核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "通用群體",
+        "audit_bucket": "索引前半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "內部授權員工",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-T03-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T03/check-v1"
+        ],
+        "state": "internal-only",
+        "risk": "internal-only",
+        "owner": "資料主管",
+        "action": "僅內部使用，禁止傳到外部模型",
+        "due_day": 7,
+        "unpassed_action": "限制內用；不准公開或外傳",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "T03-draft-v1",
+        "parent_source_ids": [
+          "T-internal-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "internal-only",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "T04",
+      "index": 4,
+      "domain": "旅運內容",
+      "task": "人物影音生成",
+      "source": {
+        "id": "T-media-v1",
+        "category": "media",
+        "name": "同意之研究用人物影音",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:T04/source-v1",
+        "license": "研究內用同意書v1",
+        "evidence_ref": "synthetic:T/media-grant-v1",
+        "training_scope": "僅研究內用",
+        "commercial_publication": false,
+        "external_model_upload": false,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T04核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "特定人物",
+        "audit_bucket": "索引前半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "影像",
+        "聲音"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "影像",
+          "聲音",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": true,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-T04-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T04/check-v1"
+        ],
+        "state": "hold-consent",
+        "risk": "consent",
+        "owner": "法務主管",
+        "action": "商業代言需另取得明確同意與權利核對",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "T04-draft-v1",
+        "parent_source_ids": [
+          "T-media-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "T05",
+      "index": 5,
+      "domain": "旅運內容",
+      "task": "群體結果覆核",
+      "source": {
+        "id": "T-partner-v1",
+        "category": "partner",
+        "name": "旅運合作稿",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:T05/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:T/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T05核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "需關注群體",
+        "audit_bucket": "索引前半查核組",
+        "impacted": true,
+        "note": "少數語言轉寫錯誤，影響服務取得"
+      },
+      "modalities": [
+        "文字",
+        "聲音"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "聲音",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-T05-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T05/check-v1"
+        ],
+        "state": "hold-impact",
+        "risk": "impact",
+        "owner": "服務主管",
+        "action": "補群體測試、人工覆核與申訴演練後再審",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": true,
+        "case_id": "appeal-T05-v1",
+        "status": "處理中，未結案",
+        "remedy": "恢復人工服務並請不同覆核人重查"
+      },
+      "output": {
+        "id": "T05-draft-v1",
+        "parent_source_ids": [
+          "T-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "T06",
+      "index": 6,
+      "domain": "旅運內容",
+      "task": "影像感測摘要",
+      "source": {
+        "id": "T-internal-v1",
+        "category": "internal",
+        "name": "客服紀錄",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:T06/source-v1",
+        "license": "公司內部AI用途核准v1",
+        "evidence_ref": "synthetic:T/internal-grant-v1",
+        "training_scope": "僅內部環境",
+        "commercial_publication": false,
+        "external_model_upload": false,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T06核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "特定人物",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "影像",
+        "生理訊號",
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "人臉影像",
+          "心率感測",
+          "共用人員索引",
+          "內部模型",
+          "報告",
+          "紀錄"
+        ],
+        "linked_identity": true,
+        "face_masked": true,
+        "shared_person_key_present": true,
+        "intended_audience": "限職安人員",
+        "accidental_audience": "一般採購人員"
+      },
+      "review": {
+        "id": "review-T06-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T06/check-v1"
+        ],
+        "state": "hold-linkage",
+        "risk": "linkage",
+        "owner": "資安主管",
+        "action": "移除共用人員索引，限制聯結與輸出存取",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "T06-draft-v1",
+        "parent_source_ids": [
+          "T-internal-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "T07",
+      "index": 7,
+      "domain": "旅運內容",
+      "task": "到期資料查詢",
+      "source": {
+        "id": "T-partner-v1",
+        "category": "partner",
+        "name": "旅運合作稿",
+        "snapshot_date": "2026-09-01",
+        "valid_through": "2026-10-01",
+        "origin_ref": "synthetic:T07/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:T/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T07核可來源",
+        "observation": "來源過期",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": "資料主管"
+      },
+      "group": {
+        "label": "通用群體",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-T07-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T07/check-v1"
+        ],
+        "state": "hold-tool",
+        "risk": "tool",
+        "owner": "資料主管",
+        "action": "換成有效日期來源並重新驗收",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "T07-draft-v1",
+        "parent_source_ids": [
+          "T-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "T08",
+      "index": 8,
+      "domain": "旅運內容",
+      "task": "逾時資料查詢",
+      "source": {
+        "id": "T-partner-v1",
+        "category": "partner",
+        "name": "旅運合作稿",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:T08/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:T/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T08核可來源",
+        "observation": "工具逾時",
+        "attempt_count": 2,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": "工程主管"
+      },
+      "group": {
+        "label": "需關注群體",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-T08-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T08/check-v1"
+        ],
+        "state": "hold-tool",
+        "risk": "tool",
+        "owner": "工程主管",
+        "action": "達重試上限即轉人工，不捏造結果",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "T08-draft-v1",
+        "parent_source_ids": [
+          "T-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "T09",
+      "index": 9,
+      "domain": "旅運內容",
+      "task": "圖片指令辨識",
+      "source": {
+        "id": "T-partner-v1",
+        "category": "partner",
+        "name": "旅運合作稿",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:T09/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:T/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T09核可來源",
+        "observation": "惡意圖片要求匯出",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "export_all_records",
+        "attempted_tool_allowed": false,
+        "handoff_to": "資安主管"
+      },
+      "group": {
+        "label": "需關注群體",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "影像",
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "影像",
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-T09-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T09/check-v1"
+        ],
+        "state": "hold-security",
+        "risk": "security",
+        "owner": "資安主管",
+        "action": "外部內容不能取得匯出權限，測試拒絕未授權工具",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "T09-draft-v1",
+        "parent_source_ids": [
+          "T-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "T10",
+      "index": 10,
+      "domain": "旅運內容",
+      "task": "生成摘要發布",
+      "source": {
+        "id": "T-partner-v1",
+        "category": "partner",
+        "name": "旅運合作稿",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:T10/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:T/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取T10核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "需關注群體",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字",
+        "影像"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "影像",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-T10-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "T-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:T10/check-v1"
+        ],
+        "state": "hold-output",
+        "risk": "output",
+        "owner": "內容主管",
+        "action": "相似檢查警示後人工比對，未釐清前不發布",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "T10-draft-v1",
+        "parent_source_ids": [
+          "T-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.82,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "相似度只是查核警示，非侵權認定"
+      }
+    },
+    {
+      "task_id": "S01",
+      "index": 1,
+      "domain": "製造供應商",
+      "task": "開放資料摘要",
+      "source": {
+        "id": "S-public-v1",
+        "category": "public",
+        "name": "材料開放目錄",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:S01/source-v1",
+        "license": "CC BY 4.0（合成授權設定）",
+        "evidence_ref": "synthetic:S/public-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": true
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S01核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "通用群體",
+        "audit_bucket": "索引前半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-S01-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S01/check-v1"
+        ],
+        "state": "approved",
+        "risk": "approved",
+        "owner": "營運主管",
+        "action": "保留姓名標示與來源連結",
+        "due_day": 7,
+        "unpassed_action": null,
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "S01-draft-v1",
+        "parent_source_ids": [
+          "S-public-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "public-with-attribution",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "S02",
+      "index": 2,
+      "domain": "製造供應商",
+      "task": "網站爬取整理",
+      "source": {
+        "id": "S-web-v1",
+        "category": "web",
+        "name": "公開可瀏覽網站",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:S02/source-v1",
+        "license": "待釐清",
+        "evidence_ref": null,
+        "training_scope": "待確認",
+        "commercial_publication": false,
+        "external_model_upload": false,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S02核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "通用群體",
+        "audit_bucket": "索引前半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-S02-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S02/check-v1"
+        ],
+        "state": "hold-rights",
+        "risk": "rights",
+        "owner": "法務主管",
+        "action": "取得訓練與發布的權利依據，否則排除",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "S02-draft-v1",
+        "parent_source_ids": [
+          "S-web-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "S03",
+      "index": 3,
+      "domain": "製造供應商",
+      "task": "內部文件問答",
+      "source": {
+        "id": "S-internal-v1",
+        "category": "internal",
+        "name": "內部稽核紀錄",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:S03/source-v1",
+        "license": "公司內部AI用途核准v1",
+        "evidence_ref": "synthetic:S/internal-grant-v1",
+        "training_scope": "僅內部環境",
+        "commercial_publication": false,
+        "external_model_upload": false,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S03核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "通用群體",
+        "audit_bucket": "索引前半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "內部授權員工",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-S03-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S03/check-v1"
+        ],
+        "state": "internal-only",
+        "risk": "internal-only",
+        "owner": "資料主管",
+        "action": "僅內部使用，禁止傳到外部模型",
+        "due_day": 7,
+        "unpassed_action": "限制內用；不准公開或外傳",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "S03-draft-v1",
+        "parent_source_ids": [
+          "S-internal-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "internal-only",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "S04",
+      "index": 4,
+      "domain": "製造供應商",
+      "task": "人物影音生成",
+      "source": {
+        "id": "S-media-v1",
+        "category": "media",
+        "name": "同意之研究用人物影音",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:S04/source-v1",
+        "license": "研究內用同意書v1",
+        "evidence_ref": "synthetic:S/media-grant-v1",
+        "training_scope": "僅研究內用",
+        "commercial_publication": false,
+        "external_model_upload": false,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S04核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "特定人物",
+        "audit_bucket": "索引前半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "影像",
+        "聲音"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "影像",
+          "聲音",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": true,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-S04-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S04/check-v1"
+        ],
+        "state": "hold-consent",
+        "risk": "consent",
+        "owner": "法務主管",
+        "action": "商業代言需另取得明確同意與權利核對",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "S04-draft-v1",
+        "parent_source_ids": [
+          "S-media-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "S05",
+      "index": 5,
+      "domain": "製造供應商",
+      "task": "群體結果覆核",
+      "source": {
+        "id": "S-partner-v1",
+        "category": "partner",
+        "name": "供應商合作稿",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:S05/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:S/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S05核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "需關注群體",
+        "audit_bucket": "索引前半查核組",
+        "impacted": true,
+        "note": "小型供應商摘要遺漏申訴，影響評選"
+      },
+      "modalities": [
+        "文字",
+        "聲音"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "聲音",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-S05-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S05/check-v1"
+        ],
+        "state": "hold-impact",
+        "risk": "impact",
+        "owner": "服務主管",
+        "action": "補群體測試、人工覆核與申訴演練後再審",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": true,
+        "case_id": "appeal-S05-v1",
+        "status": "處理中，未結案",
+        "remedy": "恢復人工服務並請不同覆核人重查"
+      },
+      "output": {
+        "id": "S05-draft-v1",
+        "parent_source_ids": [
+          "S-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "S06",
+      "index": 6,
+      "domain": "製造供應商",
+      "task": "影像感測摘要",
+      "source": {
+        "id": "S-internal-v1",
+        "category": "internal",
+        "name": "內部稽核紀錄",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:S06/source-v1",
+        "license": "公司內部AI用途核准v1",
+        "evidence_ref": "synthetic:S/internal-grant-v1",
+        "training_scope": "僅內部環境",
+        "commercial_publication": false,
+        "external_model_upload": false,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S06核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "特定人物",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "影像",
+        "生理訊號",
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "人臉影像",
+          "心率感測",
+          "共用人員索引",
+          "內部模型",
+          "報告",
+          "紀錄"
+        ],
+        "linked_identity": true,
+        "face_masked": true,
+        "shared_person_key_present": true,
+        "intended_audience": "限職安人員",
+        "accidental_audience": "一般採購人員"
+      },
+      "review": {
+        "id": "review-S06-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S06/check-v1"
+        ],
+        "state": "hold-linkage",
+        "risk": "linkage",
+        "owner": "資安主管",
+        "action": "移除共用人員索引，限制聯結與輸出存取",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "S06-draft-v1",
+        "parent_source_ids": [
+          "S-internal-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "S07",
+      "index": 7,
+      "domain": "製造供應商",
+      "task": "到期資料查詢",
+      "source": {
+        "id": "S-partner-v1",
+        "category": "partner",
+        "name": "供應商合作稿",
+        "snapshot_date": "2026-09-01",
+        "valid_through": "2026-10-01",
+        "origin_ref": "synthetic:S07/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:S/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S07核可來源",
+        "observation": "來源過期",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": "資料主管"
+      },
+      "group": {
+        "label": "通用群體",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-S07-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S07/check-v1"
+        ],
+        "state": "hold-tool",
+        "risk": "tool",
+        "owner": "資料主管",
+        "action": "換成有效日期來源並重新驗收",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "S07-draft-v1",
+        "parent_source_ids": [
+          "S-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "S08",
+      "index": 8,
+      "domain": "製造供應商",
+      "task": "逾時資料查詢",
+      "source": {
+        "id": "S-partner-v1",
+        "category": "partner",
+        "name": "供應商合作稿",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:S08/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:S/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S08核可來源",
+        "observation": "工具逾時",
+        "attempt_count": 2,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": "工程主管"
+      },
+      "group": {
+        "label": "需關注群體",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-S08-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S08/check-v1"
+        ],
+        "state": "hold-tool",
+        "risk": "tool",
+        "owner": "工程主管",
+        "action": "達重試上限即轉人工，不捏造結果",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "S08-draft-v1",
+        "parent_source_ids": [
+          "S-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "S09",
+      "index": 9,
+      "domain": "製造供應商",
+      "task": "圖片指令辨識",
+      "source": {
+        "id": "S-partner-v1",
+        "category": "partner",
+        "name": "供應商合作稿",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:S09/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:S/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S09核可來源",
+        "observation": "惡意圖片要求匯出",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "export_all_records",
+        "attempted_tool_allowed": false,
+        "handoff_to": "資安主管"
+      },
+      "group": {
+        "label": "需關注群體",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "影像",
+        "文字"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "影像",
+          "文字",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-S09-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S09/check-v1"
+        ],
+        "state": "hold-security",
+        "risk": "security",
+        "owner": "資安主管",
+        "action": "外部內容不能取得匯出權限，測試拒絕未授權工具",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "S09-draft-v1",
+        "parent_source_ids": [
+          "S-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.18,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "仍需依本用途查核第三方權利"
+      }
+    },
+    {
+      "task_id": "S10",
+      "index": 10,
+      "domain": "製造供應商",
+      "task": "生成摘要發布",
+      "source": {
+        "id": "S-partner-v1",
+        "category": "partner",
+        "name": "供應商合作稿",
+        "snapshot_date": "2026-10-25",
+        "valid_through": "2026-12-31",
+        "origin_ref": "synthetic:S10/source-v1",
+        "license": "商用資料契約v1",
+        "evidence_ref": "synthetic:S/partner-grant-v1",
+        "training_scope": "指定任務可用",
+        "commercial_publication": true,
+        "external_model_upload": true,
+        "attribution_required": false
+      },
+      "model": {
+        "id": "demo-gen-v1",
+        "license_ref": "synthetic:model-contract-v1",
+        "permitted_use": "經核可之內用與商用生成",
+        "provider_retention": "契約設定不作再訓練；仍須核對實際版本"
+      },
+      "allowed_tools": [
+        "read_approved_source",
+        "draft_internal"
+      ],
+      "tool_trace": {
+        "input": "讀取S10核可來源",
+        "observation": "正常",
+        "attempt_count": 1,
+        "retry_limit": 2,
+        "attempted_tool": "read_approved_source",
+        "attempted_tool_allowed": true,
+        "handoff_to": null
+      },
+      "group": {
+        "label": "需關注群體",
+        "audit_bucket": "索引後半查核組",
+        "impacted": false,
+        "note": null
+      },
+      "modalities": [
+        "文字",
+        "影像"
+      ],
+      "committee_id": "committee-v1",
+      "flow": {
+        "nodes": [
+          "文字",
+          "影像",
+          "核可工具",
+          "內部模型",
+          "草稿",
+          "人工發布閘門"
+        ],
+        "linked_identity": false,
+        "face_masked": false,
+        "shared_person_key_present": false,
+        "intended_audience": "公開讀者",
+        "accidental_audience": null
+      },
+      "review": {
+        "id": "review-S10-v1",
+        "model_version": "demo-gen-v1",
+        "data_version": "S-tasks-v1",
+        "reviewed_on": "2026-11-01",
+        "evidence": [
+          "synthetic:S10/check-v1"
+        ],
+        "state": "hold-output",
+        "risk": "output",
+        "owner": "內容主管",
+        "action": "相似檢查警示後人工比對，未釐清前不發布",
+        "due_day": 7,
+        "unpassed_action": "暫停此用途並補證再審",
+        "re_review_trigger": "用途、資料、模型、工具權限改變或收到重大申訴",
+        "decision_authority": "風險主管依委員會授權執行停用與重審"
+      },
+      "appeal": {
+        "channel": "合成申訴入口",
+        "handler": "服務主管",
+        "acknowledged_within_days": 2,
+        "received": false,
+        "case_id": null,
+        "status": "無案件",
+        "remedy": null
+      },
+      "output": {
+        "id": "S10-draft-v1",
+        "parent_source_ids": [
+          "S-partner-v1"
+        ],
+        "prompt_version": "prompt-v1",
+        "human_edit_version": "edit-v1",
+        "human_reviewer": "內容主管",
+        "exact_training_example_attribution": "未知，台帳不主張能還原模型訓練影響",
+        "similarity_score": 0.82,
+        "similarity_alert_threshold": 0.75,
+        "release": "blocked",
+        "rights_note": "相似度只是查核警示，非侵權認定"
+      }
+    }
+  ]
+}

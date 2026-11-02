@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 498" role="img" aria-labelledby="title desc">
+<title id="title">分箱、IV 與 PSI 的生命週期角色</title>
+<desc id="desc">開發期用已知類別資料估計分箱規則與 IV，驗證後固定箱界。監測期沿用共同箱界，以無標籤的當期資料計算 PSI；結果標籤成熟後另評估預測成效。</desc>
+<rect width="360" height="498" rx="8" fill="#fff"/>
+<style>text{font:15px sans-serif;fill:#142b40}.box{fill:#eff6fc;stroke:#3569ad;stroke-width:1.5}.arrow{stroke:#506477;stroke-width:1.8;fill:none;marker-end:url(#arrow)}</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 Z" fill="#506477"/></marker></defs>
+<text x="180" y="28" text-anchor="middle">不同階段，回答不同問題</text>
+<rect x="25" y="49" width="310" height="66" rx="7" class="box"/>
+<text x="180" y="75" text-anchor="middle">開發：有特徵，也有結果標籤</text>
+<text x="180" y="99" text-anchor="middle">在訓練邊界內分箱、計算 IV</text>
+<path d="M180 115V142" class="arrow"/>
+<rect x="25" y="149" width="310" height="66" rx="7" class="box"/>
+<text x="180" y="175" text-anchor="middle">驗證精簡特徵與模型</text>
+<text x="180" y="199" text-anchor="middle">定案後保存箱界與參考分佈</text>
+<path d="M180 215V242" class="arrow"/>
+<rect x="25" y="249" width="310" height="78" rx="7" fill="#fff5e8" stroke="#a84b16"/>
+<text x="180" y="275" text-anchor="middle">監測：當期資料尚可沒有標籤</text>
+<text x="180" y="299" text-anchor="middle">沿用相同箱界，計算 PSI</text>
+<text x="180" y="319" text-anchor="middle">查分佈變動，不直接宣告失效</text>
+<path d="M180 327V354" class="arrow"/>
+<rect x="25" y="361" width="310" height="66" rx="7" class="box"/>
+<text x="180" y="387" text-anchor="middle">結果成熟：取得當期真實標籤</text>
+<text x="180" y="411" text-anchor="middle">另外評估排序、校準及業務成效</text>
+<text x="180" y="462" text-anchor="middle">IV 看兩類；PSI 看兩批。</text>
+<text x="180" y="484" text-anchor="middle">兩者都不能單獨取代模型評估。</text>
+</svg>

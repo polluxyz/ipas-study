@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="650" viewBox="0 0 390 650" role="img" aria-labelledby="title desc" lang="zh-Hant">
+  <title id="title">模型驗證 F1 的箱型圖與平均名次</title>
+  <desc id="desc">五輪配對驗證中，模型 A 的分數為 0.72、0.76、0.80、0.84、0.88；模型 B 為 0.78、0.79、0.80、0.81、0.82。A 的箱型圖下鬚、第一四分位數、中位數、第三四分位數、上鬚依序為 0.72、0.76、0.80、0.84、0.88；B 依序為 0.78、0.79、0.80、0.81、0.82。兩者平均 F1 都是 0.80，平均名次皆為 1.5；B 的波動較小。這是描述性圖表，並非顯著性檢定。</desc>
+  <style>
+    :root { color-scheme:light dark; --bg:#f9fbf9; --ink:#263a45; --muted:#465b66; --grid:#d4dfe1; --a:#006b66; --afill:#d4ebe8; --b:#9a3c00; --bfill:#fff0e3; --panel:#edf5f4; }
+    @media (prefers-color-scheme:dark) { :root { --bg:#15252b; --ink:#e4edf1; --muted:#bbcbd2; --grid:#46535e; --a:#78ded2; --afill:#243f3e; --b:#ffbf86; --bfill:#49382c; --panel:#24373d; } }
+    text { font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif; fill:var(--ink); font-size:14px; } .title { font-size:20px; font-weight:700; } .heading { font-size:15px; font-weight:700; } .small { font-size:12px; } .muted { fill:var(--muted); }
+    .grid { stroke:var(--grid); stroke-width:1; } .axis { stroke:var(--ink); stroke-width:1.4; fill:none; } .a-line { stroke:var(--a); stroke-width:2; fill:none; } .b-line { stroke:var(--b); stroke-width:2; stroke-dasharray:4 2; fill:none; } .a-box { stroke:var(--a); stroke-width:2; fill:var(--afill); } .b-box { stroke:var(--b); stroke-width:2; stroke-dasharray:4 2; fill:var(--bfill); } .a-dot { fill:var(--a); } .b-dot { fill:var(--b); }
+  </style>
+  <rect width="390" height="650" rx="12" fill="var(--bg)"/>
+  <text x="20" y="33" class="title">模型比較：分布與名次</text>
+  <text x="20" y="57" class="muted">五輪配對驗證的教學模擬資料</text>
+  <text x="20" y="88" class="heading">驗證 F1</text>
+  <text x="20" y="107" class="small muted">越高越好</text>
+  <text x="221" y="88" class="heading">平均名次</text>
+  <text x="221" y="107" class="small muted">越小越好</text>
+  <path class="grid" d="M51 155H192 M51 205H192 M51 255H192 M51 305H192 M51 355H192"/>
+  <path class="axis" d="M51 135V375H192 M236 305H363"/>
+  <g class="small muted" text-anchor="end"><text x="45" y="159">.88</text><text x="45" y="209">.84</text><text x="45" y="259">.80</text><text x="45" y="309">.76</text><text x="45" y="359">.72</text></g>
+  <path class="a-line" d="M90 155V355 M79 155H101 M79 355H101"/>
+  <rect class="a-box" x="75" y="205" width="30" height="100"/>
+  <path class="a-line" d="M75 255H105"/>
+  <g class="a-dot"><circle cx="113" cy="155" r="4"/><circle cx="113" cy="205" r="4"/><circle cx="113" cy="255" r="4"/><circle cx="113" cy="305" r="4"/><circle cx="113" cy="355" r="4"/></g>
+  <path class="b-line" d="M157 230V280 M146 230H168 M146 280H168"/>
+  <rect class="b-box" x="142" y="242.5" width="30" height="25"/>
+  <path class="b-line" d="M142 255H172"/>
+  <g class="b-dot"><rect x="177" y="226" width="8" height="8"/><rect x="177" y="238.5" width="8" height="8"/><rect x="177" y="251" width="8" height="8"/><rect x="177" y="263.5" width="8" height="8"/><rect x="177" y="276" width="8" height="8"/></g>
+  <text x="90" y="396" text-anchor="middle">A</text><text x="157" y="396" text-anchor="middle">B</text>
+  <text x="20" y="418" class="small muted">圓點 A、方點 B：每輪原始分數</text>
+  <path class="grid" d="M250 135V305 M300 135V305 M350 135V305"/>
+  <text x="220" y="191" class="small">A</text><text x="220" y="262" class="small">B</text>
+  <path class="a-line" d="M236 186H300"/><circle class="a-dot" cx="300" cy="186" r="6"/><text x="310" y="190" class="small">1.5</text>
+  <path class="b-line" d="M236 257H300"/><rect class="b-dot" x="294" y="251" width="12" height="12"/><text x="310" y="261" class="small">1.5</text>
+  <g class="small muted" text-anchor="middle"><text x="250" y="326">1</text><text x="300" y="326">1.5</text><text x="350" y="326">2</text></g>
+  <text x="20" y="454" class="heading">箱型圖五數摘要</text>
+  <text x="20" y="476" class="small muted">模型　下鬚　 Q1　 中位數　 Q3　 上鬚</text>
+  <text x="20" y="500" class="small">A　　 .72　 .76　　.80　　.84　 .88</text>
+  <text x="20" y="522" class="small">B　　 .78　 .79　　.80　　.81　 .82</text>
+  <rect x="20" y="541" width="350" height="90" rx="8" fill="var(--panel)"/>
+  <text x="32" y="565">平均 F1 均為 .80；B 的波動較小。</text>
+  <text x="32" y="587" class="small muted">同分時取平均名次；平均名次均為 1.5。</text>
+  <text x="32" y="609" class="small muted">描述性圖表，非顯著性檢定。</text>
+</svg>

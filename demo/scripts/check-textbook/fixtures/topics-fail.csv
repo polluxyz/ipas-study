@@ -1,0 +1,3 @@
+topic_id,parent_topic_id,guide_id,guide_edition,code,guide_section,printed_pages,pdf_pages,topic_title,origin,learning_goal,required_evidence,in_scope,scope_reason,source_issue
+T01-G01,T01,guide-3,115,L23303,5.3,5-22,22,分類,guide,會算指標,完整算例,perhaps,,
+T01-G01,T01,guide-3,115,L23303,5.3,5-22,22,重複主題,guide,會算指標,完整算例,true,,

@@ -1,0 +1,1204 @@
+{
+  "source": "教學合成文本與數字；未產生或播放聲音，MOS 與時間均為模擬",
+  "seed": 42,
+  "tokenization": "已分詞陣列；不自動斷中文詞、不統一大小寫、不去標點；本例無標點；序數詞第一、第二各為一詞，章／堂另外計詞",
+  "alignment_tie_break": "最少編輯次數；同分先對角（相同或替換），再刪除，最後插入",
+  "comparison_rule": "同一領域比較時保留 id、split、reference_tokens 與 ASR 設定；只更動待測 TTS 設定；seed 在可設定的模型或服務上固定為42，不可設定時記錄版本與測試日期",
+  "records": [
+    {
+      "id": "E01",
+      "domain": "education",
+      "split": "development",
+      "reference_text": "請 在 明天 上午 九點 播放 第一 堂 安全 課程",
+      "reference_tokens": [
+        "請",
+        "在",
+        "明天",
+        "上午",
+        "九點",
+        "播放",
+        "第一",
+        "堂",
+        "安全",
+        "課程"
+      ],
+      "asr_text": "請 在 明天 上午 十點 播放 第一 安全 課程 謝謝",
+      "asr_tokens": [
+        "請",
+        "在",
+        "明天",
+        "上午",
+        "十點",
+        "播放",
+        "第一",
+        "安全",
+        "課程",
+        "謝謝"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "Tacotron 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 1,
+        "D": 1,
+        "I": 1,
+        "N": 10
+      },
+      "mos_simulated": [
+        4,
+        4,
+        5,
+        3,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1260,
+        "complete_audio_ms": 2200,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E01-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "E02",
+      "domain": "education",
+      "split": "development",
+      "reference_text": "請 按 藍色 按鈕",
+      "reference_tokens": [
+        "請",
+        "按",
+        "藍色",
+        "按鈕"
+      ],
+      "asr_text": "請 按 藍色 按鈕 謝謝",
+      "asr_tokens": [
+        "請",
+        "按",
+        "藍色",
+        "按鈕",
+        "謝謝"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "FastSpeech 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 1,
+        "N": 4
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1270,
+        "complete_audio_ms": 2230,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E02-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "E03",
+      "domain": "education",
+      "split": "development",
+      "reference_text": "Welcome to lesson three",
+      "reference_tokens": [
+        "Welcome",
+        "to",
+        "lesson",
+        "three"
+      ],
+      "asr_text": "Welcome to lesson tree",
+      "asr_tokens": [
+        "Welcome",
+        "to",
+        "lesson",
+        "tree"
+      ],
+      "language": "en",
+      "tts": {
+        "architecture": "VITS",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 1,
+        "D": 0,
+        "I": 0,
+        "N": 4
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1280,
+        "complete_audio_ms": 2260,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E03-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "E04",
+      "domain": "education",
+      "split": "development",
+      "reference_text": "今天 練習 台語 發音",
+      "reference_tokens": [
+        "今天",
+        "練習",
+        "台語",
+        "發音"
+      ],
+      "asr_text": "今天 練習 台語 發音",
+      "asr_tokens": [
+        "今天",
+        "練習",
+        "台語",
+        "發音"
+      ],
+      "language": "nan-TW",
+      "tts": {
+        "architecture": "Tacotron 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 4
+      },
+      "mos_simulated": [
+        3,
+        3,
+        2,
+        3,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1290,
+        "complete_audio_ms": 2290,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E04-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": [
+        "方言待真人測試"
+      ]
+    },
+    {
+      "id": "E05",
+      "domain": "education",
+      "split": "development",
+      "reference_text": "警報 響起 請 立即 離開",
+      "reference_tokens": [
+        "警報",
+        "響起",
+        "請",
+        "立即",
+        "離開"
+      ],
+      "asr_text": "警報 響起 請 離開",
+      "asr_tokens": [
+        "警報",
+        "響起",
+        "請",
+        "離開"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "FastSpeech 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "urgent",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 1,
+        "I": 0,
+        "N": 5
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1300,
+        "complete_audio_ms": 2320,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E05-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "E06",
+      "domain": "education",
+      "split": "development",
+      "reference_text": "請 閱讀 AI 安全 指南",
+      "reference_tokens": [
+        "請",
+        "閱讀",
+        "AI",
+        "安全",
+        "指南"
+      ],
+      "asr_text": "請 閱讀 AI 安全 指南",
+      "asr_tokens": [
+        "請",
+        "閱讀",
+        "AI",
+        "安全",
+        "指南"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "VITS",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 5
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1310,
+        "complete_audio_ms": 2350,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E06-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "E07",
+      "domain": "education",
+      "split": "validation",
+      "reference_text": "The answer is not zero",
+      "reference_tokens": [
+        "The",
+        "answer",
+        "is",
+        "not",
+        "zero"
+      ],
+      "asr_text": "The answer is zero",
+      "asr_tokens": [
+        "The",
+        "answer",
+        "is",
+        "zero"
+      ],
+      "language": "en",
+      "tts": {
+        "architecture": "Tacotron 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 1,
+        "I": 0,
+        "N": 5
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1320,
+        "complete_audio_ms": 2380,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E07-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "E08",
+      "domain": "education",
+      "split": "validation",
+      "reference_text": "角色 甲 用 平靜 語氣 朗讀",
+      "reference_tokens": [
+        "角色",
+        "甲",
+        "用",
+        "平靜",
+        "語氣",
+        "朗讀"
+      ],
+      "asr_text": "角色 甲 用 平靜 語氣 朗讀",
+      "asr_tokens": [
+        "角色",
+        "甲",
+        "用",
+        "平靜",
+        "語氣",
+        "朗讀"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "FastSpeech 2",
+        "speaker_id": "speaker-B",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 6
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1330,
+        "complete_audio_ms": 2410,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E08-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": [
+        "音色設定不一致"
+      ]
+    },
+    {
+      "id": "E09",
+      "domain": "education",
+      "split": "holdout",
+      "reference_text": "第二 章 現在 開始",
+      "reference_tokens": [
+        "第二",
+        "章",
+        "現在",
+        "開始"
+      ],
+      "asr_text": "第二 章 現在 開始",
+      "asr_tokens": [
+        "第二",
+        "章",
+        "現在",
+        "開始"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "VITS",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 4
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1340,
+        "complete_audio_ms": 2440,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E09-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "E10",
+      "domain": "education",
+      "split": "holdout",
+      "reference_text": "結束 前 請 再次 確認",
+      "reference_tokens": [
+        "結束",
+        "前",
+        "請",
+        "再次",
+        "確認"
+      ],
+      "asr_text": "結束 前 請 再次 確認",
+      "asr_tokens": [
+        "結束",
+        "前",
+        "請",
+        "再次",
+        "確認"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "Tacotron 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 5
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 1000,
+        "first_audio_ms": 1350,
+        "complete_audio_ms": 2470,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-E10-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-E",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": false,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": [
+        "模擬授權未開放發布"
+      ]
+    },
+    {
+      "id": "C01",
+      "domain": "support",
+      "split": "development",
+      "reference_text": "請 在 明天 下午 三點 回覆 這筆 訂單 出貨 進度",
+      "reference_tokens": [
+        "請",
+        "在",
+        "明天",
+        "下午",
+        "三點",
+        "回覆",
+        "這筆",
+        "訂單",
+        "出貨",
+        "進度"
+      ],
+      "asr_text": "請 在 明天 下午 四點 回覆 這筆 帳單 出貨 進度",
+      "asr_tokens": [
+        "請",
+        "在",
+        "明天",
+        "下午",
+        "四點",
+        "回覆",
+        "這筆",
+        "帳單",
+        "出貨",
+        "進度"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "Tacotron 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 2,
+        "D": 0,
+        "I": 0,
+        "N": 10
+      },
+      "mos_simulated": [
+        3,
+        4,
+        4,
+        4,
+        5
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2180,
+        "complete_audio_ms": 2800,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C01-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "C02",
+      "domain": "support",
+      "split": "development",
+      "reference_text": "您的 包裹 已經 寄出",
+      "reference_tokens": [
+        "您的",
+        "包裹",
+        "已經",
+        "寄出"
+      ],
+      "asr_text": "您的 包裹 已經 寄出",
+      "asr_tokens": [
+        "您的",
+        "包裹",
+        "已經",
+        "寄出"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "FastSpeech 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 4
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2190,
+        "complete_audio_ms": 2830,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C02-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "C03",
+      "domain": "support",
+      "split": "development",
+      "reference_text": "Your order ships today",
+      "reference_tokens": [
+        "Your",
+        "order",
+        "ships",
+        "today"
+      ],
+      "asr_text": "Your order ships today thanks",
+      "asr_tokens": [
+        "Your",
+        "order",
+        "ships",
+        "today",
+        "thanks"
+      ],
+      "language": "en",
+      "tts": {
+        "architecture": "VITS",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 1,
+        "N": 4
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2200,
+        "complete_audio_ms": 2860,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C03-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "C04",
+      "domain": "support",
+      "split": "development",
+      "reference_text": "請 用 台語 回覆 狀態",
+      "reference_tokens": [
+        "請",
+        "用",
+        "台語",
+        "回覆",
+        "狀態"
+      ],
+      "asr_text": "請 用 台語 回覆 狀態",
+      "asr_tokens": [
+        "請",
+        "用",
+        "台語",
+        "回覆",
+        "狀態"
+      ],
+      "language": "nan-TW",
+      "tts": {
+        "architecture": "Tacotron 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 5
+      },
+      "mos_simulated": [
+        3,
+        3,
+        2,
+        3,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2210,
+        "complete_audio_ms": 2890,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C04-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": [
+        "方言待真人測試"
+      ]
+    },
+    {
+      "id": "C05",
+      "domain": "support",
+      "split": "development",
+      "reference_text": "退款 不會 立即 入帳",
+      "reference_tokens": [
+        "退款",
+        "不會",
+        "立即",
+        "入帳"
+      ],
+      "asr_text": "退款 會 立即 入帳",
+      "asr_tokens": [
+        "退款",
+        "會",
+        "立即",
+        "入帳"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "FastSpeech 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "urgent",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 1,
+        "D": 0,
+        "I": 0,
+        "N": 4
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2220,
+        "complete_audio_ms": 2920,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C05-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "C06",
+      "domain": "support",
+      "split": "development",
+      "reference_text": "請 勿 提供 驗證碼",
+      "reference_tokens": [
+        "請",
+        "勿",
+        "提供",
+        "驗證碼"
+      ],
+      "asr_text": "請 勿 提供 驗證碼",
+      "asr_tokens": [
+        "請",
+        "勿",
+        "提供",
+        "驗證碼"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "VITS",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 4
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2230,
+        "complete_audio_ms": 2950,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C06-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "C07",
+      "domain": "support",
+      "split": "validation",
+      "reference_text": "Please confirm the shipping address",
+      "reference_tokens": [
+        "Please",
+        "confirm",
+        "the",
+        "shipping",
+        "address"
+      ],
+      "asr_text": "Please confirm shipping address",
+      "asr_tokens": [
+        "Please",
+        "confirm",
+        "shipping",
+        "address"
+      ],
+      "language": "en",
+      "tts": {
+        "architecture": "Tacotron 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 1,
+        "I": 0,
+        "N": 5
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2240,
+        "complete_audio_ms": 2980,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C07-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "C08",
+      "domain": "support",
+      "split": "validation",
+      "reference_text": "客服 使用 平穩 語氣 回覆",
+      "reference_tokens": [
+        "客服",
+        "使用",
+        "平穩",
+        "語氣",
+        "回覆"
+      ],
+      "asr_text": "客服 使用 平穩 語氣 回覆",
+      "asr_tokens": [
+        "客服",
+        "使用",
+        "平穩",
+        "語氣",
+        "回覆"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "FastSpeech 2",
+        "speaker_id": "speaker-B",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 5
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2250,
+        "complete_audio_ms": 3010,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C08-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": [
+        "音色設定不一致"
+      ]
+    },
+    {
+      "id": "C09",
+      "domain": "support",
+      "split": "holdout",
+      "reference_text": "請 透過 官方 電話 回撥",
+      "reference_tokens": [
+        "請",
+        "透過",
+        "官方",
+        "電話",
+        "回撥"
+      ],
+      "asr_text": "請 透過 官方 電話 回撥",
+      "asr_tokens": [
+        "請",
+        "透過",
+        "官方",
+        "電話",
+        "回撥"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "VITS",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 5
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2260,
+        "complete_audio_ms": 3040,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C09-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": true,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": []
+    },
+    {
+      "id": "C10",
+      "domain": "support",
+      "split": "holdout",
+      "reference_text": "感謝 您 耐心 等候",
+      "reference_tokens": [
+        "感謝",
+        "您",
+        "耐心",
+        "等候"
+      ],
+      "asr_text": "感謝 您 耐心 等候",
+      "asr_tokens": [
+        "感謝",
+        "您",
+        "耐心",
+        "等候"
+      ],
+      "language": "zh-TW",
+      "tts": {
+        "architecture": "Tacotron 2",
+        "speaker_id": "speaker-A",
+        "expected_speaker_id": "speaker-A",
+        "rate": 1,
+        "emotion": "neutral",
+        "seed": 42
+      },
+      "alignment": {
+        "S": 0,
+        "D": 0,
+        "I": 0,
+        "N": 4
+      },
+      "mos_simulated": [
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "timing_simulated": {
+        "request_ms": 2000,
+        "first_audio_ms": 2270,
+        "complete_audio_ms": 3070,
+        "audio_duration_ms": 5000
+      },
+      "source": {
+        "script_id": "script-C10-v1",
+        "script_origin": "作者自編教學文字",
+        "voice_origin": "虛構語者；無聲音資產",
+        "consent_id": "SIM-CONSENT-C",
+        "consent_scope": "教學流程欄位示意，非真實授權證明",
+        "release_allowed": false,
+        "label": "教學合成資料；非聽感實驗"
+      },
+      "review_flags": [
+        "模擬授權未開放發布"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="595" viewBox="0 0 360 595" role="img" aria-labelledby="title desc">
+<title id="title">常態與均勻密度同尺度比較</title>
+<desc id="desc">兩面板橫軸2到18毫米，縱軸同尺度；常態尾部延伸到圖外。 教學合成模型示意，非觀測頻數。</desc>
+<rect width="360" height="595" fill="white"/>
+<g font-family="Microsoft JhengHei, Noto Sans TC, sans-serif">
+<text x="180" y="27" font-size="17" text-anchor="middle" fill="#182b40">相同座標：中心集中或區間等高</text>
+<text x="180" y="60" font-size="16" text-anchor="middle" fill="#182b40">常態：平均10，標準差2</text>
+<text x="16" y="87" font-size="14" text-anchor="start" fill="#182b40">密度（每mm）</text>
+<path d="M55 99 L55 225" fill="none" stroke="#182b40" stroke-width="2"/>
+<path d="M55 225 L335 225" fill="none" stroke="#182b40" stroke-width="2"/>
+<path d="M55 225 L330 225" fill="none" stroke="#c7d3dd" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="229" font-size="13" text-anchor="end" fill="#182b40">0.0</text>
+<path d="M55 175.0 L330 175.0" fill="none" stroke="#c7d3dd" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="179.0" font-size="13" text-anchor="end" fill="#182b40">0.1</text>
+<path d="M55 125.0 L330 125.0" fill="none" stroke="#c7d3dd" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="129.0" font-size="13" text-anchor="end" fill="#182b40">0.2</text>
+<text x="55.0" y="246" font-size="14" text-anchor="middle" fill="#182b40">2</text>
+<text x="123.75" y="246" font-size="14" text-anchor="middle" fill="#182b40">6</text>
+<text x="192.5" y="246" font-size="14" text-anchor="middle" fill="#182b40">10</text>
+<text x="261.25" y="246" font-size="14" text-anchor="middle" fill="#182b40">14</text>
+<text x="330.0" y="246" font-size="14" text-anchor="middle" fill="#182b40">18</text>
+<text x="190" y="271" font-size="15" text-anchor="middle" fill="#182b40">厚度或抽樣值（mm）</text>
+<path d="M55.00 224.97 L56.72 224.96 L58.44 224.95 L60.16 224.94 L61.88 224.93 L63.59 224.91 L65.31 224.89 L67.03 224.87 L68.75 224.85 L70.47 224.82 L72.19 224.78 L73.91 224.74 L75.62 224.69 L77.34 224.64 L79.06 224.57 L80.78 224.49 L82.50 224.40 L84.22 224.30 L85.94 224.18 L87.66 224.05 L89.38 223.89 L91.09 223.71 L92.81 223.51 L94.53 223.28 L96.25 223.02 L97.97 222.73 L99.69 222.39 L101.41 222.02 L103.12 221.60 L104.84 221.14 L106.56 220.62 L108.28 220.04 L110.00 219.40 L111.72 218.70 L113.44 217.92 L115.16 217.07 L116.88 216.13 L118.59 215.11 L120.31 214.00 L122.03 212.80 L123.75 211.50 L125.47 210.10 L127.19 208.60 L128.91 206.98 L130.62 205.26 L132.34 203.43 L134.06 201.49 L135.78 199.43 L137.50 197.27 L139.22 195.00 L140.94 192.62 L142.66 190.14 L144.38 187.57 L146.09 184.90 L147.81 182.16 L149.53 179.34 L151.25 176.45 L152.97 173.52 L154.69 170.54 L156.41 167.53 L158.12 164.51 L159.84 161.49 L161.56 158.48 L163.28 155.50 L165.00 152.58 L166.72 149.72 L168.44 146.94 L170.16 144.26 L171.88 141.69 L173.59 139.26 L175.31 136.98 L177.03 134.87 L178.75 132.93 L180.47 131.19 L182.19 129.65 L183.91 128.33 L185.62 127.24 L187.34 126.38 L189.06 125.76 L190.78 125.39 L192.50 125.26 L194.22 125.39 L195.94 125.76 L197.66 126.38 L199.38 127.24 L201.09 128.33 L202.81 129.65 L204.53 131.19 L206.25 132.93 L207.97 134.87 L209.69 136.98 L211.41 139.26 L213.12 141.69 L214.84 144.26 L216.56 146.94 L218.28 149.72 L220.00 152.58 L221.72 155.50 L223.44 158.48 L225.16 161.49 L226.88 164.51 L228.59 167.53 L230.31 170.54 L232.03 173.52 L233.75 176.45 L235.47 179.34 L237.19 182.16 L238.91 184.90 L240.62 187.57 L242.34 190.14 L244.06 192.62 L245.78 195.00 L247.50 197.27 L249.22 199.43 L250.94 201.49 L252.66 203.43 L254.38 205.26 L256.09 206.98 L257.81 208.60 L259.53 210.10 L261.25 211.50 L262.97 212.80 L264.69 214.00 L266.41 215.11 L268.12 216.13 L269.84 217.07 L271.56 217.92 L273.28 218.70 L275.00 219.40 L276.72 220.04 L278.44 220.62 L280.16 221.14 L281.88 221.60 L283.59 222.02 L285.31 222.39 L287.03 222.73 L288.75 223.02 L290.47 223.28 L292.19 223.51 L293.91 223.71 L295.62 223.89 L297.34 224.05 L299.06 224.18 L300.78 224.30 L302.50 224.40 L304.22 224.49 L305.94 224.57 L307.66 224.64 L309.38 224.69 L311.09 224.74 L312.81 224.78 L314.53 224.82 L316.25 224.85 L317.97 224.87 L319.69 224.89 L321.41 224.91 L323.12 224.93 L324.84 224.94 L326.56 224.95 L328.28 224.96 L330.00 224.97" fill="none" stroke="#155e95" stroke-width="3"/>
+<text x="180" y="315" font-size="16" text-anchor="middle" fill="#182b40">均勻：下限6，上限14</text>
+<text x="16" y="342" font-size="14" text-anchor="start" fill="#182b40">密度（每mm）</text>
+<path d="M55 354 L55 480" fill="none" stroke="#182b40" stroke-width="2"/>
+<path d="M55 480 L335 480" fill="none" stroke="#182b40" stroke-width="2"/>
+<path d="M55 480 L330 480" fill="none" stroke="#c7d3dd" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="484" font-size="13" text-anchor="end" fill="#182b40">0.0</text>
+<path d="M55 430.0 L330 430.0" fill="none" stroke="#c7d3dd" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="434.0" font-size="13" text-anchor="end" fill="#182b40">0.1</text>
+<path d="M55 380.0 L330 380.0" fill="none" stroke="#c7d3dd" stroke-width="2" stroke-dasharray="5 4"/>
+<text x="47" y="384.0" font-size="13" text-anchor="end" fill="#182b40">0.2</text>
+<text x="55.0" y="501" font-size="14" text-anchor="middle" fill="#182b40">2</text>
+<text x="123.75" y="501" font-size="14" text-anchor="middle" fill="#182b40">6</text>
+<text x="192.5" y="501" font-size="14" text-anchor="middle" fill="#182b40">10</text>
+<text x="261.25" y="501" font-size="14" text-anchor="middle" fill="#182b40">14</text>
+<text x="330.0" y="501" font-size="14" text-anchor="middle" fill="#182b40">18</text>
+<text x="190" y="526" font-size="15" text-anchor="middle" fill="#182b40">厚度或抽樣值（mm）</text>
+<path d="M55.0 480 L123.75 480" fill="none" stroke="#a34c00" stroke-width="2"/>
+<path d="M123.75 480 L123.75 417.5" fill="none" stroke="#a34c00" stroke-width="2"/>
+<path d="M123.75 417.5 L261.25 417.5" fill="none" stroke="#a34c00" stroke-width="2"/>
+<path d="M261.25 417.5 L261.25 480" fill="none" stroke="#a34c00" stroke-width="2"/>
+<path d="M261.25 480 L330.0 480" fill="none" stroke="#a34c00" stroke-width="2"/>
+<text x="180" y="558" font-size="15" text-anchor="middle" fill="#182b40">兩面板同尺度；均勻範圍外密度為0</text>
+<text x="12" y="583" font-size="13" text-anchor="start" fill="#182b40">來源：教學合成模型示意</text>
+</g>
+</svg>

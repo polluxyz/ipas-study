@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 435" role="img" aria-labelledby="title desc">
+  <title id="title">五個詞的四個 bigram 窗口</title>
+  <desc id="desc">教學合成評論這、本、書、很、實用。雙詞窗口依次取這本、本書、書很、很實用，起點一至四。每次向右移一詞，不跨句、不補齊。</desc>
+  <rect width="360" height="435" rx="10" fill="#f8fafc"/>
+  <g font-family="sans-serif" fill="#0f172a" font-size="16"><text x="18" y="30" font-size="18" font-weight="700">窗口寬 2，每次右移一詞</text><text x="18" y="65">起點 1</text><text x="18" y="141">起點 2</text><text x="18" y="217">起點 3</text><text x="18" y="293">起點 4</text></g>
+  <g fill="#fff" stroke="#64748b">
+    <path d="M18 78H342V116H18ZM79 78V116M140 78V116M201 78V116M262 78V116M18 154H342V192H18ZM79 154V192M140 154V192M201 154V192M262 154V192M18 230H342V268H18ZM79 230V268M140 230V268M201 230V268M262 230V268M18 306H342V344H18ZM79 306V344M140 306V344M201 306V344M262 306V344"/>
+  </g>
+  <g fill="#dbeafe" stroke="#1d4ed8" stroke-width="3"><rect x="18" y="78" width="122" height="38"/><rect x="79" y="154" width="122" height="38"/><rect x="140" y="230" width="122" height="38"/><rect x="201" y="306" width="141" height="38"/></g>
+  <g font-family="sans-serif" fill="#0f172a" font-size="18" text-anchor="middle">
+    <text x="49" y="103">這</text><text x="110" y="103">本</text><text x="171" y="103">書</text><text x="232" y="103">很</text><text x="302" y="103">實用</text>
+    <text x="49" y="179">這</text><text x="110" y="179">本</text><text x="171" y="179">書</text><text x="232" y="179">很</text><text x="302" y="179">實用</text>
+    <text x="49" y="255">這</text><text x="110" y="255">本</text><text x="171" y="255">書</text><text x="232" y="255">很</text><text x="302" y="255">實用</text>
+    <text x="49" y="331">這</text><text x="110" y="331">本</text><text x="171" y="331">書</text><text x="232" y="331">很</text><text x="302" y="331">實用</text>
+    <text x="180" y="383" font-size="16">五個詞 → 四個雙詞窗口</text><text x="180" y="412" font-size="14">教學合成資料；框線標出每次擷取範圍</text>
+  </g>
+</svg>

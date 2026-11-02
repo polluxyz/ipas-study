@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="kfold-title kfold-desc" lang="zh-Hant">
+  <title id="kfold-title">五摺交叉驗證：10 筆資料輪流作驗證集</title>
+  <desc id="kfold-desc">一般 K-fold，K 等於 5，不洗牌，編號從 1 開始。每列代表一次重新訓練：實線框為 8 筆訓練資料，虛線框加斜紋為 2 筆驗證資料。第 1 摺驗證 1、2；第 2 摺驗證 3、4；第 3 摺驗證 5、6；第 4 摺驗證 7、8；第 5 摺驗證 9、10。每筆資料恰好驗證一次。資料來源為 L23303-splits.json 教學模擬資料。</desc>
+  <style>
+    :root { color-scheme: light dark; --bg: #f9fbf9; --ink: #263a45; --muted: #465b66; --train: #006b66; --train-fill: #edf5f4; --validation: #9a3c00; --validation-fill: #fff0e3; --rule: #d4dfe1; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #15252b; --ink: #e4edf1; --muted: #bbcbd2; --train: #78ded2; --train-fill: #24373d; --validation: #ffbf86; --validation-fill: #3a2e25; --rule: #46535e; }
+    }
+    text { font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif; fill: var(--ink); font-size: 20px; }
+    .background { fill: var(--bg); }
+    .title { font-size: 30px; font-weight: 700; }
+    .subtitle, .source, .column-label { fill: var(--muted); }
+    .column-label { font-size: 18px; }
+    .train { fill: var(--train-fill); stroke: var(--train); stroke-width: 1.5; }
+    .validation { fill: url(#validation-hatch); stroke: var(--validation); stroke-width: 2; stroke-dasharray: 5 3; }
+    .hatch-bg { fill: var(--validation-fill); }
+    .hatch-line { stroke: var(--validation); stroke-width: 1; opacity: .24; }
+    .number { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .row-label, .row-note { font-size: 22px; }
+    .row-note { fill: var(--validation); }
+    .rule { stroke: var(--rule); stroke-width: 1; }
+    .source { font-size: 16px; }
+  </style>
+  <defs>
+    <pattern id="validation-hatch" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect class="hatch-bg" width="10" height="10"/>
+      <path class="hatch-line" d="M-2,2L2,-2 M0,10L10,0 M8,12L12,8"/>
+    </pattern>
+  </defs>
+  <rect class="background" width="960" height="620" rx="12"/>
+  <text x="34" y="50" class="title" >五摺交叉驗證：輪流留出驗證資料</text>
+  <text x="34" y="86" class="subtitle" >一般 K-fold｜K = 5｜不洗牌｜資料編號從 1 開始</text>
+  <rect class="train" x="35" y="113" width="34" height="27" rx="4"/>
+  <text x="82" y="134" class="" >訓練集：實線框</text>
+  <rect class="validation" x="333" y="113" width="34" height="27" rx="4"/>
+  <text x="380" y="134" class="" >驗證集：虛線框＋斜紋</text>
+  <text x="126" y="177" class="column-label" >每格代表 1 筆資料；數字是資料編號</text>
+  <text x="718" y="177" class="column-label" >本摺留出的資料</text>
+  <g data-fold="1" aria-label="第 1 摺，驗證編號 1、2，其餘為訓練資料">
+    <text x="34" y="225" class="row-label" >第 1 摺</text>
+    <g data-index="1" data-use="validation"><rect class="validation" x="126" y="194" width="48" height="48" rx="6"/><text x="150" y="225" class="number" text-anchor="middle">1</text></g>
+    <g data-index="2" data-use="validation"><rect class="validation" x="182" y="194" width="48" height="48" rx="6"/><text x="206" y="225" class="number" text-anchor="middle">2</text></g>
+    <g data-index="3" data-use="train"><rect class="train" x="238" y="194" width="48" height="48" rx="6"/><text x="262" y="225" class="number" text-anchor="middle">3</text></g>
+    <g data-index="4" data-use="train"><rect class="train" x="294" y="194" width="48" height="48" rx="6"/><text x="318" y="225" class="number" text-anchor="middle">4</text></g>
+    <g data-index="5" data-use="train"><rect class="train" x="350" y="194" width="48" height="48" rx="6"/><text x="374" y="225" class="number" text-anchor="middle">5</text></g>
+    <g data-index="6" data-use="train"><rect class="train" x="406" y="194" width="48" height="48" rx="6"/><text x="430" y="225" class="number" text-anchor="middle">6</text></g>
+    <g data-index="7" data-use="train"><rect class="train" x="462" y="194" width="48" height="48" rx="6"/><text x="486" y="225" class="number" text-anchor="middle">7</text></g>
+    <g data-index="8" data-use="train"><rect class="train" x="518" y="194" width="48" height="48" rx="6"/><text x="542" y="225" class="number" text-anchor="middle">8</text></g>
+    <g data-index="9" data-use="train"><rect class="train" x="574" y="194" width="48" height="48" rx="6"/><text x="598" y="225" class="number" text-anchor="middle">9</text></g>
+    <g data-index="10" data-use="train"><rect class="train" x="630" y="194" width="48" height="48" rx="6"/><text x="654" y="225" class="number" text-anchor="middle">10</text></g>
+    <text x="718" y="225" class="row-note" >驗證 1、2</text>
+  </g>
+  <g data-fold="2" aria-label="第 2 摺，驗證編號 3、4，其餘為訓練資料">
+    <text x="34" y="291" class="row-label" >第 2 摺</text>
+    <g data-index="1" data-use="train"><rect class="train" x="126" y="260" width="48" height="48" rx="6"/><text x="150" y="291" class="number" text-anchor="middle">1</text></g>
+    <g data-index="2" data-use="train"><rect class="train" x="182" y="260" width="48" height="48" rx="6"/><text x="206" y="291" class="number" text-anchor="middle">2</text></g>
+    <g data-index="3" data-use="validation"><rect class="validation" x="238" y="260" width="48" height="48" rx="6"/><text x="262" y="291" class="number" text-anchor="middle">3</text></g>
+    <g data-index="4" data-use="validation"><rect class="validation" x="294" y="260" width="48" height="48" rx="6"/><text x="318" y="291" class="number" text-anchor="middle">4</text></g>
+    <g data-index="5" data-use="train"><rect class="train" x="350" y="260" width="48" height="48" rx="6"/><text x="374" y="291" class="number" text-anchor="middle">5</text></g>
+    <g data-index="6" data-use="train"><rect class="train" x="406" y="260" width="48" height="48" rx="6"/><text x="430" y="291" class="number" text-anchor="middle">6</text></g>
+    <g data-index="7" data-use="train"><rect class="train" x="462" y="260" width="48" height="48" rx="6"/><text x="486" y="291" class="number" text-anchor="middle">7</text></g>
+    <g data-index="8" data-use="train"><rect class="train" x="518" y="260" width="48" height="48" rx="6"/><text x="542" y="291" class="number" text-anchor="middle">8</text></g>
+    <g data-index="9" data-use="train"><rect class="train" x="574" y="260" width="48" height="48" rx="6"/><text x="598" y="291" class="number" text-anchor="middle">9</text></g>
+    <g data-index="10" data-use="train"><rect class="train" x="630" y="260" width="48" height="48" rx="6"/><text x="654" y="291" class="number" text-anchor="middle">10</text></g>
+    <text x="718" y="291" class="row-note" >驗證 3、4</text>
+  </g>
+  <g data-fold="3" aria-label="第 3 摺，驗證編號 5、6，其餘為訓練資料">
+    <text x="34" y="357" class="row-label" >第 3 摺</text>
+    <g data-index="1" data-use="train"><rect class="train" x="126" y="326" width="48" height="48" rx="6"/><text x="150" y="357" class="number" text-anchor="middle">1</text></g>
+    <g data-index="2" data-use="train"><rect class="train" x="182" y="326" width="48" height="48" rx="6"/><text x="206" y="357" class="number" text-anchor="middle">2</text></g>
+    <g data-index="3" data-use="train"><rect class="train" x="238" y="326" width="48" height="48" rx="6"/><text x="262" y="357" class="number" text-anchor="middle">3</text></g>
+    <g data-index="4" data-use="train"><rect class="train" x="294" y="326" width="48" height="48" rx="6"/><text x="318" y="357" class="number" text-anchor="middle">4</text></g>
+    <g data-index="5" data-use="validation"><rect class="validation" x="350" y="326" width="48" height="48" rx="6"/><text x="374" y="357" class="number" text-anchor="middle">5</text></g>
+    <g data-index="6" data-use="validation"><rect class="validation" x="406" y="326" width="48" height="48" rx="6"/><text x="430" y="357" class="number" text-anchor="middle">6</text></g>
+    <g data-index="7" data-use="train"><rect class="train" x="462" y="326" width="48" height="48" rx="6"/><text x="486" y="357" class="number" text-anchor="middle">7</text></g>
+    <g data-index="8" data-use="train"><rect class="train" x="518" y="326" width="48" height="48" rx="6"/><text x="542" y="357" class="number" text-anchor="middle">8</text></g>
+    <g data-index="9" data-use="train"><rect class="train" x="574" y="326" width="48" height="48" rx="6"/><text x="598" y="357" class="number" text-anchor="middle">9</text></g>
+    <g data-index="10" data-use="train"><rect class="train" x="630" y="326" width="48" height="48" rx="6"/><text x="654" y="357" class="number" text-anchor="middle">10</text></g>
+    <text x="718" y="357" class="row-note" >驗證 5、6</text>
+  </g>
+  <g data-fold="4" aria-label="第 4 摺，驗證編號 7、8，其餘為訓練資料">
+    <text x="34" y="423" class="row-label" >第 4 摺</text>
+    <g data-index="1" data-use="train"><rect class="train" x="126" y="392" width="48" height="48" rx="6"/><text x="150" y="423" class="number" text-anchor="middle">1</text></g>
+    <g data-index="2" data-use="train"><rect class="train" x="182" y="392" width="48" height="48" rx="6"/><text x="206" y="423" class="number" text-anchor="middle">2</text></g>
+    <g data-index="3" data-use="train"><rect class="train" x="238" y="392" width="48" height="48" rx="6"/><text x="262" y="423" class="number" text-anchor="middle">3</text></g>
+    <g data-index="4" data-use="train"><rect class="train" x="294" y="392" width="48" height="48" rx="6"/><text x="318" y="423" class="number" text-anchor="middle">4</text></g>
+    <g data-index="5" data-use="train"><rect class="train" x="350" y="392" width="48" height="48" rx="6"/><text x="374" y="423" class="number" text-anchor="middle">5</text></g>
+    <g data-index="6" data-use="train"><rect class="train" x="406" y="392" width="48" height="48" rx="6"/><text x="430" y="423" class="number" text-anchor="middle">6</text></g>
+    <g data-index="7" data-use="validation"><rect class="validation" x="462" y="392" width="48" height="48" rx="6"/><text x="486" y="423" class="number" text-anchor="middle">7</text></g>
+    <g data-index="8" data-use="validation"><rect class="validation" x="518" y="392" width="48" height="48" rx="6"/><text x="542" y="423" class="number" text-anchor="middle">8</text></g>
+    <g data-index="9" data-use="train"><rect class="train" x="574" y="392" width="48" height="48" rx="6"/><text x="598" y="423" class="number" text-anchor="middle">9</text></g>
+    <g data-index="10" data-use="train"><rect class="train" x="630" y="392" width="48" height="48" rx="6"/><text x="654" y="423" class="number" text-anchor="middle">10</text></g>
+    <text x="718" y="423" class="row-note" >驗證 7、8</text>
+  </g>
+  <g data-fold="5" aria-label="第 5 摺，驗證編號 9、10，其餘為訓練資料">
+    <text x="34" y="489" class="row-label" >第 5 摺</text>
+    <g data-index="1" data-use="train"><rect class="train" x="126" y="458" width="48" height="48" rx="6"/><text x="150" y="489" class="number" text-anchor="middle">1</text></g>
+    <g data-index="2" data-use="train"><rect class="train" x="182" y="458" width="48" height="48" rx="6"/><text x="206" y="489" class="number" text-anchor="middle">2</text></g>
+    <g data-index="3" data-use="train"><rect class="train" x="238" y="458" width="48" height="48" rx="6"/><text x="262" y="489" class="number" text-anchor="middle">3</text></g>
+    <g data-index="4" data-use="train"><rect class="train" x="294" y="458" width="48" height="48" rx="6"/><text x="318" y="489" class="number" text-anchor="middle">4</text></g>
+    <g data-index="5" data-use="train"><rect class="train" x="350" y="458" width="48" height="48" rx="6"/><text x="374" y="489" class="number" text-anchor="middle">5</text></g>
+    <g data-index="6" data-use="train"><rect class="train" x="406" y="458" width="48" height="48" rx="6"/><text x="430" y="489" class="number" text-anchor="middle">6</text></g>
+    <g data-index="7" data-use="train"><rect class="train" x="462" y="458" width="48" height="48" rx="6"/><text x="486" y="489" class="number" text-anchor="middle">7</text></g>
+    <g data-index="8" data-use="train"><rect class="train" x="518" y="458" width="48" height="48" rx="6"/><text x="542" y="489" class="number" text-anchor="middle">8</text></g>
+    <g data-index="9" data-use="validation"><rect class="validation" x="574" y="458" width="48" height="48" rx="6"/><text x="598" y="489" class="number" text-anchor="middle">9</text></g>
+    <g data-index="10" data-use="validation"><rect class="validation" x="630" y="458" width="48" height="48" rx="6"/><text x="654" y="489" class="number" text-anchor="middle">10</text></g>
+    <text x="718" y="489" class="row-note" >驗證 9、10</text>
+  </g>
+  <path class="rule" d="M34,533H926"/>
+  <text x="34" y="567" class="" >每摺重新訓練：8 筆訓練、2 筆驗證；每筆資料恰好驗證 1 次。</text>
+  <text x="34" y="600" class="source" >資料來源：L23303 共用教學模擬資料（10 筆）。</text>
+</svg>

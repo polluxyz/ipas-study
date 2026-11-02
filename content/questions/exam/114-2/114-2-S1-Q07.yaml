@@ -1,0 +1,36 @@
+id: 114-2-S1-Q07
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 7
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 2
+type: 情境
+codes: [L23303, L21102]
+concepts: [intersection-over-union]
+stem: |
+  在企業導入的智慧監控系統中，模型以物件偵測（Object Detection）方式自動辨識影像中的人物與車輛。若評估指標採用平均精確率（Mean Average Precision, mAP），其中 IoU（Intersection over Union）閾值設定較高時，代表下列哪一項意義？
+options:
+  A: 預測邊界框與真實邊界框的重疊程度越高，模型偵測結果越精準
+  B: 預測邊界框與真實邊界框的誤差越大，導致 mAP 數值上升
+  C: 模型整體精確率（Precision）降低，但召回率（Recall）上升
+  D: 預測邊界框的評估結果不受真實框大小影響
+answer: A
+explanation:
+  summary: IoU 門檻決定預測框要和真實框重疊到什麼程度，才算定位合格。
+  correct: IoU 是兩框交集面積除以聯集面積。提高門檻後，只有重疊更充分的預測框才能通過配對，因此 A 應理解為「被認定正確的偵測需要更精準的定位」。調高評估門檻本身不會改善模型；在預測結果不變時，通過配對的偵測變少，mAP 通常會下降。
+  wrong:
+    B: 定位誤差變大通常使 IoU 降低，更容易被判為錯誤偵測，不能據此推論 mAP 上升。
+    C: 提高 IoU 門檻後，部分原本算真陽性的預測框會因重疊不足而改算假陽性，對應的真實物件也可能成為漏偵測。在預測結果與其他配對條件不變時，精確率與召回率通常都會下降，召回率不會因此上升。
+    D: 真實框的面積會參與交集與聯集的計算；相同的位移對大小不同的框，可能產生不同 IoU。
+  rule: 提高定位評估門檻時，要區分要求變嚴與模型變好。
+guide_refs: []
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 2
+    by: QA
+  blind_answer: A
+  dispute: null

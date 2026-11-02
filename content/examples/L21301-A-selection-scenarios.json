@@ -1,0 +1,23 @@
+{
+  "id": "L21301-A-selection-scenarios",
+  "source": "教學假設情境，全部候選值均非量測；不取代主資料或程式實測",
+  "deployment": {
+    "budget": { "memory_mb": 128, "p95_latency_ms": 10 },
+    "candidates": [
+      { "name": "甲", "validation_correct": 11, "validation_total": 12, "memory_mb": 96, "p95_latency_ms": 8 },
+      { "name": "乙", "validation_correct": 11, "validation_total": 12, "memory_mb": 160, "p95_latency_ms": 14 }
+    ],
+    "decision": "品質相同，甲通過兩項預算；乙兩項超標，須壓縮重測或換模型"
+  },
+  "preprocessing_variants": {
+    "retail": {
+      "assumed_channel_count": 40,
+      "majority_category_count_less_than": 3,
+      "decision": "比較目標編碼與One-hot；目標編碼須平滑、折外估計及符合時間限制的驗證"
+    },
+    "manufacturing": {
+      "assumption": "經查核，溫度可由振動與班別預測；非宣稱主資料具有此關係",
+      "decision": "比較模型填補與均值；僅用可用特徵，在訓練內遮蔽已知值查核，再比較下游驗證"
+    }
+  }
+}

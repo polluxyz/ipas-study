@@ -1,0 +1,752 @@
+{
+  "id": "L21103-A-task-cards",
+  "source": "教學合成任務卡；文字、影像描述與預期交付均為虛構，並非模型輸出或效能實驗",
+  "seed": 42,
+  "split_purpose": "固定教材練習索引，非模型訓練資料切分，不用於估計效能",
+  "splits": {
+    "walkthrough": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "practice": [
+      9,
+      10
+    ],
+    "transfer": [
+      11,
+      12
+    ]
+  },
+  "domains": [
+    {
+      "domain": "企業客服",
+      "cards": [
+        {
+          "id": "C01",
+          "index": 1,
+          "input": "我的包裹晚了兩天，請問何時到？",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "配送類別標籤",
+          "output_modalities": [
+            "標籤"
+          ],
+          "new_content": false,
+          "primary_capability": "感知",
+          "capabilities": [
+            "感知"
+          ],
+          "tools": [],
+          "label_requirement": "若訓練分類器，需郵件與退款／配送標籤配對",
+          "acceptance": "辨識為配送，不虛構到貨日",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C02",
+          "index": 2,
+          "input": "語音描述：顧客說包裹晚了兩天",
+          "input_modalities": [
+            "音訊"
+          ],
+          "output": "顧客原話的文字轉寫",
+          "output_modalities": [
+            "文字"
+          ],
+          "new_content": false,
+          "primary_capability": "感知",
+          "capabilities": [
+            "感知"
+          ],
+          "tools": [],
+          "label_requirement": "訓練或評估語音辨識需語音與轉寫配對",
+          "acceptance": "保留原話意思，不補寫承諾",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C03",
+          "index": 3,
+          "input": "退貨期限多久？",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "既有退貨條款文件索引",
+          "output_modalities": [
+            "索引"
+          ],
+          "new_content": false,
+          "primary_capability": "感知",
+          "capabilities": [
+            "感知"
+          ],
+          "tools": [
+            "固定文件檢索"
+          ],
+          "label_requirement": "檢索評估需查詢與相關文件配對",
+          "acceptance": "返回現有文件，不生成新條款",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C04",
+          "index": 4,
+          "input": "依條款說明可申請退貨，但未提供物流日期",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的客服回覆草稿",
+          "output_modalities": [
+            "文字"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "直接提示可不另標；微調需輸入與示範回覆",
+          "acceptance": "不增加未提供的物流日期",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C05",
+          "index": 5,
+          "input": "三段退貨對話紀錄",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的兩句摘要",
+          "output_modalities": [
+            "文字"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "人工驗收重點；微調可準備參考摘要",
+          "acceptance": "涵蓋原因與待辦，不改變原意",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C06",
+          "index": 6,
+          "input": "畫一張藍底退貨步驟插圖，不含商標",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的靜態插圖",
+          "output_modalities": [
+            "圖像"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "文字與影像配對用於條件訓練；直接提示另訂驗收規準",
+          "acceptance": "藍底、步驟清楚、不含商標",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C07",
+          "index": 7,
+          "input": "請稍候，客服即將為您服務",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的語音波形",
+          "output_modalities": [
+            "音訊"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "訓練合成器需合法語音與文字等資料",
+          "acceptance": "可懂、讀字正確、音色已獲同意",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C08",
+          "index": 8,
+          "input": "生成無人聲、節奏平穩的候線音樂",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的音樂片段",
+          "output_modalities": [
+            "音訊"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "訓練需可用音樂及條件描述；推論不要求人工類別標籤",
+          "acceptance": "無人聲、節奏平穩、來源可追溯",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C09",
+          "index": 9,
+          "input": "依退貨分鏡產生六秒動畫",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的六秒連續影格",
+          "output_modalities": [
+            "影片"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "訓練需影片與條件資料；驗收需時序規準",
+          "acceptance": "步驟順序與物件外觀連續",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C10",
+          "index": 10,
+          "input": "破損包裹照片描述：角落凹陷；附顧客文字說明",
+          "input_modalities": [
+            "圖像",
+            "文字"
+          ],
+          "output": "新的圖文對照客服說明",
+          "output_modalities": [
+            "文字",
+            "圖像"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "感知",
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "依實作準備圖文配對與可信回覆；驗收對照影像證據",
+          "acceptance": "文字指出角落凹陷，不臆測責任歸屬",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C11",
+          "index": 11,
+          "input": "依授權規則查訂單，確認可退貨後建立工單",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "經核可建立的退貨工單紀錄",
+          "output_modalities": [
+            "系統狀態"
+          ],
+          "new_content": false,
+          "primary_capability": "代理",
+          "capabilities": [
+            "感知",
+            "代理"
+          ],
+          "tools": [
+            "查詢訂單",
+            "檢查資格",
+            "建立工單"
+          ],
+          "label_requirement": "驗收需工具結果、權限與成功條件；不只是文字標籤",
+          "acceptance": "資格不符即停止；工單狀態須經系統確認",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "C12",
+          "index": 12,
+          "input": "櫃檯影像與語音要求：把已確認的退貨包裹送到收件區",
+          "input_modalities": [
+            "圖像",
+            "音訊"
+          ],
+          "output": "機器人搬運包裹至收件區",
+          "output_modalities": [
+            "實體動作"
+          ],
+          "new_content": false,
+          "primary_capability": "物理",
+          "capabilities": [
+            "感知",
+            "代理",
+            "物理"
+          ],
+          "tools": [
+            "定位",
+            "路徑規劃",
+            "移動控制"
+          ],
+          "label_requirement": "需動作與環境回饋等資料，另做安全驗收",
+          "acceptance": "避開人員；到達指定區域並確認包裹仍穩固",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        }
+      ]
+    },
+    {
+      "domain": "製造設計",
+      "cards": [
+        {
+          "id": "M01",
+          "index": 1,
+          "input": "零件照片描述：表面有一條裂痕",
+          "input_modalities": [
+            "圖像"
+          ],
+          "output": "裂痕類別標籤",
+          "output_modalities": [
+            "標籤"
+          ],
+          "new_content": false,
+          "primary_capability": "感知",
+          "capabilities": [
+            "感知"
+          ],
+          "tools": [],
+          "label_requirement": "若訓練分類器，需照片與裂痕／刮傷標籤配對",
+          "acceptance": "只辨識瑕疵，不產生新設計",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M02",
+          "index": 2,
+          "input": "語音描述：工程師說外殼改為藍色",
+          "input_modalities": [
+            "音訊"
+          ],
+          "output": "工程師原話的文字轉寫",
+          "output_modalities": [
+            "文字"
+          ],
+          "new_content": false,
+          "primary_capability": "感知",
+          "capabilities": [
+            "感知"
+          ],
+          "tools": [],
+          "label_requirement": "辨識評估需語音與正確轉寫",
+          "acceptance": "保留藍色指示，不自增尺寸",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M03",
+          "index": 3,
+          "input": "找出最符合藍色圓角外殼的既有圖片",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "既有設計圖索引",
+          "output_modalities": [
+            "索引"
+          ],
+          "new_content": false,
+          "primary_capability": "感知",
+          "capabilities": [
+            "感知"
+          ],
+          "tools": [
+            "固定圖文相似度檢索"
+          ],
+          "label_requirement": "檢索評估需圖文相關性配對",
+          "acceptance": "只能從既有圖庫選圖",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M04",
+          "index": 4,
+          "input": "依藍色圓角外殼需求撰寫設計說明",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的設計文字草稿",
+          "output_modalities": [
+            "文字"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "直接提示不必重標；微調可準備需求與示範說明",
+          "acceptance": "不臆造未測得的強度數值",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M05",
+          "index": 5,
+          "input": "三段設計會議紀錄",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的兩句變更摘要",
+          "output_modalities": [
+            "文字"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "人工列關鍵變更作驗收；微調可用參考摘要",
+          "acceptance": "列出顏色及圓角變更，不漏待確認事項",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M06",
+          "index": 6,
+          "input": "畫出藍色、圓角、保留通風孔的外殼構想",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的外殼概念圖",
+          "output_modalities": [
+            "圖像"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "條件訓練需設計圖與描述；驗收需結構限制",
+          "acceptance": "保留通風孔；概念圖不代表已可製造",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M07",
+          "index": 7,
+          "input": "請檢查護罩是否關閉",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的安全提示語音",
+          "output_modalities": [
+            "音訊"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "訓練需合法文字與語音資料；驗收查讀字",
+          "acceptance": "字詞清晰；語音不能代替安全連鎖",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M08",
+          "index": 8,
+          "input": "為產品展示生成無人聲背景音樂",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的展示音樂片段",
+          "output_modalities": [
+            "音訊"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "條件訓練需音樂與描述；驗收查用途權利",
+          "acceptance": "符合展示節奏並查來源",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M09",
+          "index": 9,
+          "input": "依分鏡生成六秒外殼旋轉展示",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "新的六秒連續影格",
+          "output_modalities": [
+            "影片"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "影片訓練與驗收需時間連續條件",
+          "acceptance": "孔位與顏色前後一致",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M10",
+          "index": 10,
+          "input": "外殼照片描述：左側有孔；附變更文字：保留孔位",
+          "input_modalities": [
+            "圖像",
+            "文字"
+          ],
+          "output": "新的概念圖及對照說明",
+          "output_modalities": [
+            "圖像",
+            "文字"
+          ],
+          "new_content": true,
+          "primary_capability": "生成",
+          "capabilities": [
+            "感知",
+            "生成"
+          ],
+          "tools": [],
+          "label_requirement": "圖文條件配對與保留孔位的驗收紀錄",
+          "acceptance": "新圖及說明均保留原孔位",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M11",
+          "index": 11,
+          "input": "查零件庫與料號規則，合規後建立設計變更單",
+          "input_modalities": [
+            "文字"
+          ],
+          "output": "經核可建立的設計變更單紀錄",
+          "output_modalities": [
+            "系統狀態"
+          ],
+          "new_content": false,
+          "primary_capability": "代理",
+          "capabilities": [
+            "感知",
+            "代理"
+          ],
+          "tools": [
+            "查詢零件",
+            "查核料號",
+            "建立變更單"
+          ],
+          "label_requirement": "工具軌跡、權限與狀態驗收",
+          "acceptance": "條件不符停止；確認變更單存在",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        },
+        {
+          "id": "M12",
+          "index": 12,
+          "input": "相機影像與指令：把指定零件移到治具",
+          "input_modalities": [
+            "圖像",
+            "文字"
+          ],
+          "output": "機械手臂夾取並放置零件",
+          "output_modalities": [
+            "實體動作"
+          ],
+          "new_content": false,
+          "primary_capability": "物理",
+          "capabilities": [
+            "感知",
+            "代理",
+            "物理"
+          ],
+          "tools": [
+            "定位",
+            "夾爪控制",
+            "力覺回饋"
+          ],
+          "label_requirement": "動作示範、回饋或模擬資料依方法而定",
+          "acceptance": "位置及夾持穩定，碰撞風險須受控",
+          "model_review": {
+            "selected_version": null,
+            "revision": null,
+            "license_source": null,
+            "checked_on": null,
+            "state": "待查"
+          }
+        }
+      ]
+    }
+  ],
+  "model_review_template": [
+    {
+      "family": "LLaMA",
+      "candidate_repository": "meta-llama/Llama-3.1-8B-Instruct",
+      "selected_version": null,
+      "revision": null,
+      "license_source": null,
+      "checked_on": null,
+      "intended_use": "客服地端草稿",
+      "decision": "待查"
+    },
+    {
+      "family": "Mistral",
+      "candidate_repository": "mistralai/Mistral-7B-Instruct-v0.3",
+      "selected_version": null,
+      "revision": null,
+      "license_source": null,
+      "checked_on": null,
+      "intended_use": "製造設計地端草稿",
+      "decision": "待查"
+    },
+    {
+      "family": "Command-R",
+      "candidate_repository": "CohereLabs/c4ai-command-r-08-2024",
+      "selected_version": null,
+      "revision": null,
+      "license_source": null,
+      "checked_on": null,
+      "intended_use": "內部文件問答研究",
+      "decision": "待查"
+    }
+  ]
+}

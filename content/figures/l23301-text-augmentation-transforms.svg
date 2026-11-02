@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 440" role="img">
+  <title>同一句話的四種局部變換</title>
+  <desc>教學示意。原句分別經過同義替換、隨機插入、隨機刪除、隨機交換而產生候選；候選仍須依任務檢查語意與標籤。</desc>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#526d82"/></marker></defs>
+  <style>text{font-family:system-ui,'Microsoft JhengHei',sans-serif;font-size:16px;fill:#142c45}.h{font-size:18px;font-weight:700}.box{fill:#eff6fa;stroke:#55758b;stroke-width:1.5}.arr{fill:none;stroke:#526d82;stroke-width:2;marker-end:url(#a)}</style>
+  <rect width="360" height="440" rx="12" fill="white"/>
+  <text x="18" y="30" class="h">同一原句，四種局部變換</text>
+  <rect class="box" x="110" y="54" width="140" height="52" rx="8"/>
+  <text x="148" y="87" class="h">原句</text>
+  <path class="arr" d="M150 107V126H88V147"/>
+  <path class="arr" d="M210 107V126H272V147"/>
+  <path class="arr" d="M110 80H8V275H22"/>
+  <path class="arr" d="M250 80H352V275H338"/>
+  <rect class="box" x="24" y="154" width="144" height="74" rx="8"/>
+  <text x="56" y="181" class="h">同義替換</text><text x="40" y="208">換成意思相近的詞</text>
+  <rect class="box" x="192" y="154" width="144" height="74" rx="8"/>
+  <text x="224" y="181" class="h">隨機插入</text><text x="208" y="208">在句中加入詞語</text>
+  <rect class="box" x="24" y="244" width="144" height="74" rx="8"/>
+  <text x="56" y="271" class="h">隨機刪除</text><text x="40" y="298">移除部分詞語</text>
+  <rect class="box" x="192" y="244" width="144" height="74" rx="8"/>
+  <text x="224" y="271" class="h">隨機交換</text><text x="208" y="298">交換字詞位置</text>
+  <text x="38" y="356">各自產生候選，並非依序做完四種</text>
+  <text x="38" y="386">再檢查：語意與任務標籤是否保留</text>
+  <text x="18" y="421">指引方法示意；例句另見前後對照表</text>
+</svg>

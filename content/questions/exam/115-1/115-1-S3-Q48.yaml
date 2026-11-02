@@ -1,0 +1,49 @@
+id: 115-1-S3-Q48
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 48
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 16
+type: 圖表
+codes: [L23303, L23201]
+concepts: [overfitting, learning-curve, accuracy]
+stem: |
+  請依據下方資訊回答第 46~48 題。
+  使用 CIFAR-10 資料集以建立卷積神經網路（CNN），進行彩色影像之分類與辨識分析。CIFAR-10 為一常用之影像分類基準資料集，內容包含 10 個類別，共計 60000 張彩色影像，其中訓練集含 50000 張影像，測試集則含 10000 張影像。每張影像解析度為 32 × 32 像素，並具有三個通道（channel），分別對應紅、綠、藍三原色。以下程式碼片段示範資料載入與處理流程。
+
+  參考下圖繪圖結果，當 Epochs=6 時，訓練曲線值(0.81)明顯大於驗證曲線值(0.72)，下列何者為最可能的原因？
+
+  （圖表補充說明）橫軸為 Epochs（0 至 9），縱軸為 Accuracy。藍線是訓練準確率，紅線是驗證準確率。Epochs=5 時兩者約為 0.79、0.80；Epochs=6 時約為 0.81、0.72；Epochs=7 時驗證準確率回升至約 0.80，訓練準確率約為 0.82。訓練曲線整體向上，驗證曲線則有波動。
+code: |
+  import tensorflow as tf
+  from tensorflow.keras import datasets, layers, models
+  import matplotlib.pyplot as plt
+
+  (x_train, y_train), (x_test, y_test) = datasets.cifar10.load_data()
+code_lang: python
+options:
+  A: 學習率（Learning Rate）太低
+  B: 批次大小（Batch Size）設定太大
+  C: 模型低度擬合（Underfitting）
+  D: 模型過擬合（Overfitting）
+answer: D
+explanation:
+  summary: 比較訓練與驗證準確率的落差，辨識可能的過擬合徵兆。
+  correct: 官方答案為 D。Epochs=6 的訓練準確率為 0.81、驗證準確率為 0.72，顯示模型對已學過的資料表現較好，對未參與更新的資料則較差，在四個選項中最符合過擬合。這只是一個警訊：下一輪驗證準確率又回升，仍應觀察多輪趨勢與驗證損失，不能只憑單點落差確診。
+  wrong:
+    A: 學習率太低通常使學習進展緩慢，單靠訓練與驗證準確率在某輪分開，無法推斷學習率過低。
+    B: 批次大小可能影響訓練與泛化，但圖中沒有批次設定或對照實驗，不能把這個落差直接歸因於批次過大。
+    C: 低度擬合通常連訓練資料都學不好。本題強調訓練準確率較高而驗證較低，較符合泛化落差的考點。
+  rule: 訓練驗證有落差時，要結合多輪趨勢與驗證損失判斷過擬合。
+guide_refs: [guide-3:5-19, guide-3:5-20]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 16
+    by: QC
+  blind_answer: D
+  dispute: null
+image: 115-1-S3-Q48.png

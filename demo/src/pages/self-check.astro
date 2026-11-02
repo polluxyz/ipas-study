@@ -1,0 +1,29 @@
+---
+/** 階段檢核只抽教材的自編小題，所有答案留在本頁記憶體。 */
+import StudyPage from '../components/StudyPage.astro';
+import SelfCheck from '../components/SelfCheck.astro';
+import { getData } from '../lib/content';
+import { stageChecks } from '../lib/textbook';
+import { concept as fixtureConcept, stages as fixtureStages } from '../lib/fixtures/textbook';
+const { codes, concepts } = await getData();
+const stages = codes.flatMap((entry) => (entry.data.stages ?? []).map((stage) => ({ code: entry.data.code, id: stage.id, title: stage.title, checks: stageChecks(stage.concepts.map((item) => item.id), concepts.map((item) => item.data)) })));
+if (process.env.TEXTBOOK_TEST_FIXTURES === '1') stages.push(...fixtureStages.map((stage) => ({ code: 'L23303', id: stage.id, title: stage.title, checks: stageChecks(stage.concepts.map((item) => item.id), [fixtureConcept]) })));
+---
+<StudyPage title="階段小測驗" section="教材檢核">
+  <p class="lead" id="check-description">先不看筆記，確認自己是否理解這一段。</p>
+  <a id="check-back" href="/codes/L23303/">← 回到學習路線</a>
+  <p class="route-note">每次最多抽 5 題，不計分、不儲存作答。簡答題請先想好再展開關鍵點。</p>
+  <p id="check-empty" class="empty-state" hidden>這個階段的檢核小題準備中，請先回到概念頁繼續閱讀。</p>
+  {stages.map((stage) => <section data-check-stage={`${stage.code}:${stage.id}`} data-title={stage.title} hidden><SelfCheck checks={stage.checks} prefix={`${stage.code}-${stage.id}`} /></section>)}
+</StudyPage>
+<script>
+  import { sampleQuestions } from '../lib/learning-route';
+  const params = new URLSearchParams(location.search); const code = params.get('code') ?? 'L23303'; const stage = params.get('stage');
+  const target = Array.from(document.querySelectorAll<HTMLElement>('[data-check-stage]')).find((element) => element.dataset.checkStage === `${code}:${stage}`);
+  const cards = Array.from(target?.querySelectorAll<HTMLElement>('[data-self-check]') ?? []);
+  const selected = new Set(sampleQuestions(cards, 5)); for (const card of cards) if (!selected.has(card)) card.remove();
+  if (target) target.hidden = false;
+  const empty = document.getElementById('check-empty'); if (empty) empty.hidden = selected.size > 0;
+  const description = document.getElementById('check-description'); if (description && target) description.textContent = `${target.dataset.title}・從 ${cards.length} 題教材檢核抽出 ${selected.size} 題。`;
+  const back = document.getElementById('check-back') as HTMLAnchorElement | null; if (back && target) back.href = `/codes/${code}/#stage-${stage}`;
+</script>

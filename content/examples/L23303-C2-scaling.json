@@ -1,0 +1,9 @@
+{
+  "source": "教學模擬資料；受試者的無單位檢測值，只示範前處理邊界，不代表臨床指標。",
+  "rows": [
+    { "id": "M01", "value": 1, "role": "train" },
+    { "id": "M02", "value": 3, "role": "train" },
+    { "id": "M03", "value": 8, "role": "validation" },
+    { "id": "M04", "value": 10, "role": "validation" }
+  ]
+}

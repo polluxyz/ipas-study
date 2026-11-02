@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 466" width="360" height="466" role="img" aria-labelledby="title desc">
+  <title id="title">POC 技術與業務雙軸檢查</title>
+  <desc id="desc">橫向比較技術未達標與達標，縱向比較業務未達標與達標。技術高分但業務未改善時查覆核和流程，業務改善但技術不足時查品質與整合。兩者均達標仍須查使用回饋、風險及範圍。</desc>
+  <rect width="360" height="466" rx="12" fill="#f5f8fc"/>
+  <g font-family="'Microsoft JhengHei','Noto Sans TC',sans-serif" fill="#142d47" text-anchor="middle">
+    <text x="180" y="31" font-size="20" font-weight="700">技術與業務要分開看</text>
+    <text x="180" y="57" font-size="14">示意分類；不是數值加權評分</text>
+    <text x="101" y="91" font-size="15" font-weight="700">技術未達標</text>
+    <text x="258" y="91" font-size="15" font-weight="700">技術達標</text>
+    <rect x="16" y="105" width="151" height="128" rx="8" fill="#fff7ed" stroke="#985d21"/>
+    <rect x="182" y="105" width="162" height="128" rx="8" fill="#edf6ef" stroke="#37704b" stroke-width="2"/>
+    <rect x="16" y="248" width="151" height="128" rx="8" fill="#fff" stroke="#7994ac"/>
+    <rect x="182" y="248" width="162" height="128" rx="8" fill="#e9f3fb" stroke="#30648a"/>
+    <text x="92" y="135" font-size="15" font-weight="700">業務達標</text>
+    <text x="92" y="165" font-size="14">工作雖有改善</text><text x="92" y="191" font-size="14">仍查品質與整合</text>
+    <text x="263" y="135" font-size="15" font-weight="700">業務達標</text>
+    <text x="263" y="165" font-size="14">兩種證據都有</text><text x="263" y="191" font-size="14">仍要查使用回饋</text>
+    <text x="92" y="278" font-size="15" font-weight="700">業務未達標</text>
+    <text x="92" y="308" font-size="14">先找主要瓶頸</text><text x="92" y="334" font-size="14">勿只追加模型</text>
+    <text x="263" y="278" font-size="15" font-weight="700">業務未達標</text>
+    <text x="263" y="308" font-size="14">模型分數雖高</text><text x="263" y="334" font-size="14">仍查覆核與流程</text>
+    <rect x="16" y="394" width="328" height="54" rx="8" fill="#fff" stroke="#30648a" stroke-width="2"/>
+    <text x="180" y="417" font-size="15" font-weight="700">另查：使用回饋、風險、未測範圍</text>
+    <text x="180" y="439" font-size="14">兩軸達標仍不等於可全面推廣</text>
+  </g>
+</svg>

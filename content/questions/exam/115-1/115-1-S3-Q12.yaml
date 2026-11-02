@@ -1,0 +1,36 @@
+id: 115-1-S3-Q12
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 12
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 3
+type: 情境
+codes: [L23303]
+concepts: [accuracy, class-imbalance, recall]
+stem: |
+  某醫院導入肺癌篩檢模型，資料集中正常病例佔 99%、肺癌陽性僅佔 1%。模型上線後，系統報告整體準確率（Accuracy）為 99.1%。醫師對此數字感到疑慮，認為不足以評估臨床價值，在漏診風險上可能存在重大問題。請問在此情境下，僅以 Accuracy 作為評估指標最嚴重的缺陷為何？
+options:
+  A: Accuracy 對類別不平衡不敏感，可能無法反映模型對肺癌陽性的偵測能力
+  B: Accuracy 的計算不包含模型對邊界樣本的分類結果，容易遺漏困難樣本
+  C: Accuracy 無法處理多分類問題，在二元分類下需改用 AUC
+  D: Accuracy 無法揭示模型的收斂速度，因此不適合用來選擇最終模型
+answer: A
+explanation:
+  summary: 類別極不平衡時，整體準確率可能掩蓋少數陽性病例的漏診問題。
+  correct: 即使把所有病例都判為正常，準確率也有 99%。例如一萬筆資料含 100 筆陽性，若只找出 10 筆陽性而漏掉 90 筆，其餘正常病例全判對，準確率仍達 99.1%，但召回率只有 10%。因此必須查看陽性的召回率與混淆矩陣。
+  wrong:
+    B: 準確率會計入每筆評估樣本的對錯，不會因樣本接近決策邊界就把它排除。
+    C: 準確率可以用於二分類及多分類。是否搭配 AUC 應依評估需求判斷，並非二分類就必須捨棄準確率。
+    D: 收斂速度是訓練效率問題，不能解釋本題的漏診風險。準確率仍可作為評估的一部分，但不能單獨代表篩檢品質。
+  rule: 正類稀少時，要查實際正類被找到的比例，不能只看整體準確率。
+guide_refs: [guide-3:5-21, guide-3:5-25]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 3
+    by: QC
+  blind_answer: A
+  dispute: null

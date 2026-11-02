@@ -1,0 +1,1061 @@
+{
+  "source": "教學合成資料；前兩個半小時窗口固定，其餘46個窗口為同質泊松過程的窗口抽樣。",
+  "seed": 23102,
+  "window_duration_min": 30,
+  "parameters": {
+    "calls_per_window": 2,
+    "rate_per_min": 0.06666666666666667,
+    "mean_interval_min": 15
+  },
+  "hand_windows": [
+    "W01",
+    "W02"
+  ],
+  "windows": [
+    {
+      "window_id": "W01",
+      "calls": 1,
+      "interval_min": [
+        10.0
+      ],
+      "wait_min": 10.0
+    },
+    {
+      "window_id": "W02",
+      "calls": 3,
+      "interval_min": [
+        25.0,
+        5.0,
+        15.0
+      ],
+      "wait_min": 5.0
+    },
+    {
+      "window_id": "W03",
+      "calls": 0,
+      "interval_min": [],
+      "wait_min": null
+    },
+    {
+      "window_id": "W04",
+      "calls": 3,
+      "interval_min": [
+        37.762836,
+        2.84607,
+        1.798599
+      ],
+      "wait_min": 2.762836
+    },
+    {
+      "window_id": "W05",
+      "calls": 0,
+      "interval_min": [],
+      "wait_min": null
+    },
+    {
+      "window_id": "W06",
+      "calls": 1,
+      "interval_min": [
+        68.473054
+      ],
+      "wait_min": 15.880558
+    },
+    {
+      "window_id": "W07",
+      "calls": 3,
+      "interval_min": [
+        18.561581,
+        22.489694,
+        0.572333
+      ],
+      "wait_min": 4.44214
+    },
+    {
+      "window_id": "W08",
+      "calls": 1,
+      "interval_min": [
+        13.982153
+      ],
+      "wait_min": 11.486321
+    },
+    {
+      "window_id": "W09",
+      "calls": 4,
+      "interval_min": [
+        29.25843,
+        1.346143,
+        15.253701,
+        0.660629
+      ],
+      "wait_min": 10.744751
+    },
+    {
+      "window_id": "W10",
+      "calls": 4,
+      "interval_min": [
+        4.758128,
+        7.7007,
+        8.58207,
+        1.481508
+      ],
+      "wait_min": 2.763351
+    },
+    {
+      "window_id": "W11",
+      "calls": 1,
+      "interval_min": [
+        34.180268
+      ],
+      "wait_min": 24.707897
+    },
+    {
+      "window_id": "W12",
+      "calls": 2,
+      "interval_min": [
+        17.862498,
+        8.814047
+      ],
+      "wait_min": 12.570395
+    },
+    {
+      "window_id": "W13",
+      "calls": 2,
+      "interval_min": [
+        17.715622,
+        2.90092
+      ],
+      "wait_min": 9.100064
+    },
+    {
+      "window_id": "W14",
+      "calls": 0,
+      "interval_min": [],
+      "wait_min": null
+    },
+    {
+      "window_id": "W15",
+      "calls": 3,
+      "interval_min": [
+        49.871136,
+        8.713295,
+        10.39432
+      ],
+      "wait_min": 1.87212
+    },
+    {
+      "window_id": "W16",
+      "calls": 2,
+      "interval_min": [
+        18.810341,
+        15.091685
+      ],
+      "wait_min": 9.790077
+    },
+    {
+      "window_id": "W17",
+      "calls": 3,
+      "interval_min": [
+        11.961571,
+        12.273424,
+        3.020141
+      ],
+      "wait_min": 6.843333
+    },
+    {
+      "window_id": "W18",
+      "calls": 6,
+      "interval_min": [
+        18.210187,
+        0.400615,
+        6.553357,
+        5.910443,
+        3.552353,
+        1.898679
+      ],
+      "wait_min": 10.347085
+    },
+    {
+      "window_id": "W19",
+      "calls": 3,
+      "interval_min": [
+        4.245265,
+        6.642456,
+        6.728216
+      ],
+      "wait_min": 2.907798
+    },
+    {
+      "window_id": "W20",
+      "calls": 3,
+      "interval_min": [
+        14.315083,
+        10.371705,
+        10.608649
+      ],
+      "wait_min": 0.593553
+    },
+    {
+      "window_id": "W21",
+      "calls": 2,
+      "interval_min": [
+        14.929058,
+        21.323754
+      ],
+      "wait_min": 6.502965
+    },
+    {
+      "window_id": "W22",
+      "calls": 1,
+      "interval_min": [
+        21.011429
+      ],
+      "wait_min": 18.838148
+    },
+    {
+      "window_id": "W23",
+      "calls": 2,
+      "interval_min": [
+        12.805145,
+        26.600533
+      ],
+      "wait_min": 1.643293
+    },
+    {
+      "window_id": "W24",
+      "calls": 2,
+      "interval_min": [
+        7.34546,
+        9.531225
+      ],
+      "wait_min": 5.589286
+    },
+    {
+      "window_id": "W25",
+      "calls": 4,
+      "interval_min": [
+        18.304103,
+        17.627082,
+        0.002987,
+        2.982193
+      ],
+      "wait_min": 3.424614
+    },
+    {
+      "window_id": "W26",
+      "calls": 2,
+      "interval_min": [
+        14.983402,
+        20.752082
+      ],
+      "wait_min": 9.020278
+    },
+    {
+      "window_id": "W27",
+      "calls": 2,
+      "interval_min": [
+        1.740356,
+        6.961665
+      ],
+      "wait_min": 1.512716
+    },
+    {
+      "window_id": "W28",
+      "calls": 1,
+      "interval_min": [
+        32.373995
+      ],
+      "wait_min": 10.848375
+    },
+    {
+      "window_id": "W29",
+      "calls": 0,
+      "interval_min": [],
+      "wait_min": null
+    },
+    {
+      "window_id": "W30",
+      "calls": 5,
+      "interval_min": [
+        53.893776,
+        3.036895,
+        5.549118,
+        4.41192,
+        10.830141
+      ],
+      "wait_min": 4.742152
+    },
+    {
+      "window_id": "W31",
+      "calls": 1,
+      "interval_min": [
+        27.198847
+      ],
+      "wait_min": 25.769073
+    },
+    {
+      "window_id": "W32",
+      "calls": 3,
+      "interval_min": [
+        18.45793,
+        0.102121,
+        13.019227
+      ],
+      "wait_min": 14.227002
+    },
+    {
+      "window_id": "W33",
+      "calls": 1,
+      "interval_min": [
+        28.895256
+      ],
+      "wait_min": 26.243606
+    },
+    {
+      "window_id": "W34",
+      "calls": 2,
+      "interval_min": [
+        4.931855,
+        17.582351
+      ],
+      "wait_min": 1.17546
+    },
+    {
+      "window_id": "W35",
+      "calls": 3,
+      "interval_min": [
+        12.439996,
+        3.01141,
+        14.58615
+      ],
+      "wait_min": 1.197808
+    },
+    {
+      "window_id": "W36",
+      "calls": 2,
+      "interval_min": [
+        35.077929,
+        6.115722
+      ],
+      "wait_min": 23.873297
+    },
+    {
+      "window_id": "W37",
+      "calls": 1,
+      "interval_min": [
+        7.582569
+      ],
+      "wait_min": 7.571588
+    },
+    {
+      "window_id": "W38",
+      "calls": 1,
+      "interval_min": [
+        38.845415
+      ],
+      "wait_min": 16.417003
+    },
+    {
+      "window_id": "W39",
+      "calls": 5,
+      "interval_min": [
+        14.793104,
+        2.183514,
+        3.111636,
+        12.822589,
+        5.956509
+      ],
+      "wait_min": 1.210107
+    },
+    {
+      "window_id": "W40",
+      "calls": 1,
+      "interval_min": [
+        5.302822
+      ],
+      "wait_min": 0.587177
+    },
+    {
+      "window_id": "W41",
+      "calls": 0,
+      "interval_min": [],
+      "wait_min": null
+    },
+    {
+      "window_id": "W42",
+      "calls": 1,
+      "interval_min": [
+        75.152709
+      ],
+      "wait_min": 15.739886
+    },
+    {
+      "window_id": "W43",
+      "calls": 3,
+      "interval_min": [
+        17.039983,
+        0.246338,
+        19.068513
+      ],
+      "wait_min": 2.779869
+    },
+    {
+      "window_id": "W44",
+      "calls": 0,
+      "interval_min": [],
+      "wait_min": null
+    },
+    {
+      "window_id": "W45",
+      "calls": 0,
+      "interval_min": [],
+      "wait_min": null
+    },
+    {
+      "window_id": "W46",
+      "calls": 1,
+      "interval_min": [
+        87.93569
+      ],
+      "wait_min": 20.03041
+    },
+    {
+      "window_id": "W47",
+      "calls": 2,
+      "interval_min": [
+        23.814517,
+        7.038689
+      ],
+      "wait_min": 13.844927
+    },
+    {
+      "window_id": "W48",
+      "calls": 4,
+      "interval_min": [
+        10.753584,
+        11.946274,
+        4.778872,
+        1.51499
+      ],
+      "wait_min": 1.637201
+    }
+  ],
+  "events": [
+    {
+      "event_id": "C001",
+      "window_id": "W01",
+      "arrival_min": 10.0,
+      "interval_min": 10.0
+    },
+    {
+      "event_id": "C002",
+      "window_id": "W02",
+      "arrival_min": 35.0,
+      "interval_min": 25.0
+    },
+    {
+      "event_id": "C003",
+      "window_id": "W02",
+      "arrival_min": 40.0,
+      "interval_min": 5.0
+    },
+    {
+      "event_id": "C004",
+      "window_id": "W02",
+      "arrival_min": 55.0,
+      "interval_min": 15.0
+    },
+    {
+      "event_id": "C005",
+      "window_id": "W04",
+      "arrival_min": 92.762836,
+      "interval_min": 37.762836
+    },
+    {
+      "event_id": "C006",
+      "window_id": "W04",
+      "arrival_min": 95.608905,
+      "interval_min": 2.84607
+    },
+    {
+      "event_id": "C007",
+      "window_id": "W04",
+      "arrival_min": 97.407505,
+      "interval_min": 1.798599
+    },
+    {
+      "event_id": "C008",
+      "window_id": "W06",
+      "arrival_min": 165.880558,
+      "interval_min": 68.473054
+    },
+    {
+      "event_id": "C009",
+      "window_id": "W07",
+      "arrival_min": 184.44214,
+      "interval_min": 18.561581
+    },
+    {
+      "event_id": "C010",
+      "window_id": "W07",
+      "arrival_min": 206.931834,
+      "interval_min": 22.489694
+    },
+    {
+      "event_id": "C011",
+      "window_id": "W07",
+      "arrival_min": 207.504167,
+      "interval_min": 0.572333
+    },
+    {
+      "event_id": "C012",
+      "window_id": "W08",
+      "arrival_min": 221.486321,
+      "interval_min": 13.982153
+    },
+    {
+      "event_id": "C013",
+      "window_id": "W09",
+      "arrival_min": 250.744751,
+      "interval_min": 29.25843
+    },
+    {
+      "event_id": "C014",
+      "window_id": "W09",
+      "arrival_min": 252.090894,
+      "interval_min": 1.346143
+    },
+    {
+      "event_id": "C015",
+      "window_id": "W09",
+      "arrival_min": 267.344594,
+      "interval_min": 15.253701
+    },
+    {
+      "event_id": "C016",
+      "window_id": "W09",
+      "arrival_min": 268.005223,
+      "interval_min": 0.660629
+    },
+    {
+      "event_id": "C017",
+      "window_id": "W10",
+      "arrival_min": 272.763351,
+      "interval_min": 4.758128
+    },
+    {
+      "event_id": "C018",
+      "window_id": "W10",
+      "arrival_min": 280.46405,
+      "interval_min": 7.7007
+    },
+    {
+      "event_id": "C019",
+      "window_id": "W10",
+      "arrival_min": 289.046121,
+      "interval_min": 8.58207
+    },
+    {
+      "event_id": "C020",
+      "window_id": "W10",
+      "arrival_min": 290.527629,
+      "interval_min": 1.481508
+    },
+    {
+      "event_id": "C021",
+      "window_id": "W11",
+      "arrival_min": 324.707897,
+      "interval_min": 34.180268
+    },
+    {
+      "event_id": "C022",
+      "window_id": "W12",
+      "arrival_min": 342.570395,
+      "interval_min": 17.862498
+    },
+    {
+      "event_id": "C023",
+      "window_id": "W12",
+      "arrival_min": 351.384442,
+      "interval_min": 8.814047
+    },
+    {
+      "event_id": "C024",
+      "window_id": "W13",
+      "arrival_min": 369.100064,
+      "interval_min": 17.715622
+    },
+    {
+      "event_id": "C025",
+      "window_id": "W13",
+      "arrival_min": 372.000983,
+      "interval_min": 2.90092
+    },
+    {
+      "event_id": "C026",
+      "window_id": "W15",
+      "arrival_min": 421.87212,
+      "interval_min": 49.871136
+    },
+    {
+      "event_id": "C027",
+      "window_id": "W15",
+      "arrival_min": 430.585415,
+      "interval_min": 8.713295
+    },
+    {
+      "event_id": "C028",
+      "window_id": "W15",
+      "arrival_min": 440.979736,
+      "interval_min": 10.39432
+    },
+    {
+      "event_id": "C029",
+      "window_id": "W16",
+      "arrival_min": 459.790077,
+      "interval_min": 18.810341
+    },
+    {
+      "event_id": "C030",
+      "window_id": "W16",
+      "arrival_min": 474.881762,
+      "interval_min": 15.091685
+    },
+    {
+      "event_id": "C031",
+      "window_id": "W17",
+      "arrival_min": 486.843333,
+      "interval_min": 11.961571
+    },
+    {
+      "event_id": "C032",
+      "window_id": "W17",
+      "arrival_min": 499.116757,
+      "interval_min": 12.273424
+    },
+    {
+      "event_id": "C033",
+      "window_id": "W17",
+      "arrival_min": 502.136898,
+      "interval_min": 3.020141
+    },
+    {
+      "event_id": "C034",
+      "window_id": "W18",
+      "arrival_min": 520.347085,
+      "interval_min": 18.210187
+    },
+    {
+      "event_id": "C035",
+      "window_id": "W18",
+      "arrival_min": 520.747701,
+      "interval_min": 0.400615
+    },
+    {
+      "event_id": "C036",
+      "window_id": "W18",
+      "arrival_min": 527.301058,
+      "interval_min": 6.553357
+    },
+    {
+      "event_id": "C037",
+      "window_id": "W18",
+      "arrival_min": 533.211501,
+      "interval_min": 5.910443
+    },
+    {
+      "event_id": "C038",
+      "window_id": "W18",
+      "arrival_min": 536.763854,
+      "interval_min": 3.552353
+    },
+    {
+      "event_id": "C039",
+      "window_id": "W18",
+      "arrival_min": 538.662534,
+      "interval_min": 1.898679
+    },
+    {
+      "event_id": "C040",
+      "window_id": "W19",
+      "arrival_min": 542.907798,
+      "interval_min": 4.245265
+    },
+    {
+      "event_id": "C041",
+      "window_id": "W19",
+      "arrival_min": 549.550255,
+      "interval_min": 6.642456
+    },
+    {
+      "event_id": "C042",
+      "window_id": "W19",
+      "arrival_min": 556.278471,
+      "interval_min": 6.728216
+    },
+    {
+      "event_id": "C043",
+      "window_id": "W20",
+      "arrival_min": 570.593553,
+      "interval_min": 14.315083
+    },
+    {
+      "event_id": "C044",
+      "window_id": "W20",
+      "arrival_min": 580.965258,
+      "interval_min": 10.371705
+    },
+    {
+      "event_id": "C045",
+      "window_id": "W20",
+      "arrival_min": 591.573907,
+      "interval_min": 10.608649
+    },
+    {
+      "event_id": "C046",
+      "window_id": "W21",
+      "arrival_min": 606.502965,
+      "interval_min": 14.929058
+    },
+    {
+      "event_id": "C047",
+      "window_id": "W21",
+      "arrival_min": 627.826719,
+      "interval_min": 21.323754
+    },
+    {
+      "event_id": "C048",
+      "window_id": "W22",
+      "arrival_min": 648.838148,
+      "interval_min": 21.011429
+    },
+    {
+      "event_id": "C049",
+      "window_id": "W23",
+      "arrival_min": 661.643293,
+      "interval_min": 12.805145
+    },
+    {
+      "event_id": "C050",
+      "window_id": "W23",
+      "arrival_min": 688.243826,
+      "interval_min": 26.600533
+    },
+    {
+      "event_id": "C051",
+      "window_id": "W24",
+      "arrival_min": 695.589286,
+      "interval_min": 7.34546
+    },
+    {
+      "event_id": "C052",
+      "window_id": "W24",
+      "arrival_min": 705.120511,
+      "interval_min": 9.531225
+    },
+    {
+      "event_id": "C053",
+      "window_id": "W25",
+      "arrival_min": 723.424614,
+      "interval_min": 18.304103
+    },
+    {
+      "event_id": "C054",
+      "window_id": "W25",
+      "arrival_min": 741.051696,
+      "interval_min": 17.627082
+    },
+    {
+      "event_id": "C055",
+      "window_id": "W25",
+      "arrival_min": 741.054682,
+      "interval_min": 0.002987
+    },
+    {
+      "event_id": "C056",
+      "window_id": "W25",
+      "arrival_min": 744.036875,
+      "interval_min": 2.982193
+    },
+    {
+      "event_id": "C057",
+      "window_id": "W26",
+      "arrival_min": 759.020278,
+      "interval_min": 14.983402
+    },
+    {
+      "event_id": "C058",
+      "window_id": "W26",
+      "arrival_min": 779.772359,
+      "interval_min": 20.752082
+    },
+    {
+      "event_id": "C059",
+      "window_id": "W27",
+      "arrival_min": 781.512716,
+      "interval_min": 1.740356
+    },
+    {
+      "event_id": "C060",
+      "window_id": "W27",
+      "arrival_min": 788.47438,
+      "interval_min": 6.961665
+    },
+    {
+      "event_id": "C061",
+      "window_id": "W28",
+      "arrival_min": 820.848375,
+      "interval_min": 32.373995
+    },
+    {
+      "event_id": "C062",
+      "window_id": "W30",
+      "arrival_min": 874.742152,
+      "interval_min": 53.893776
+    },
+    {
+      "event_id": "C063",
+      "window_id": "W30",
+      "arrival_min": 877.779047,
+      "interval_min": 3.036895
+    },
+    {
+      "event_id": "C064",
+      "window_id": "W30",
+      "arrival_min": 883.328165,
+      "interval_min": 5.549118
+    },
+    {
+      "event_id": "C065",
+      "window_id": "W30",
+      "arrival_min": 887.740085,
+      "interval_min": 4.41192
+    },
+    {
+      "event_id": "C066",
+      "window_id": "W30",
+      "arrival_min": 898.570226,
+      "interval_min": 10.830141
+    },
+    {
+      "event_id": "C067",
+      "window_id": "W31",
+      "arrival_min": 925.769073,
+      "interval_min": 27.198847
+    },
+    {
+      "event_id": "C068",
+      "window_id": "W32",
+      "arrival_min": 944.227002,
+      "interval_min": 18.45793
+    },
+    {
+      "event_id": "C069",
+      "window_id": "W32",
+      "arrival_min": 944.329123,
+      "interval_min": 0.102121
+    },
+    {
+      "event_id": "C070",
+      "window_id": "W32",
+      "arrival_min": 957.34835,
+      "interval_min": 13.019227
+    },
+    {
+      "event_id": "C071",
+      "window_id": "W33",
+      "arrival_min": 986.243606,
+      "interval_min": 28.895256
+    },
+    {
+      "event_id": "C072",
+      "window_id": "W34",
+      "arrival_min": 991.17546,
+      "interval_min": 4.931855
+    },
+    {
+      "event_id": "C073",
+      "window_id": "W34",
+      "arrival_min": 1008.757812,
+      "interval_min": 17.582351
+    },
+    {
+      "event_id": "C074",
+      "window_id": "W35",
+      "arrival_min": 1021.197808,
+      "interval_min": 12.439996
+    },
+    {
+      "event_id": "C075",
+      "window_id": "W35",
+      "arrival_min": 1024.209218,
+      "interval_min": 3.01141
+    },
+    {
+      "event_id": "C076",
+      "window_id": "W35",
+      "arrival_min": 1038.795367,
+      "interval_min": 14.58615
+    },
+    {
+      "event_id": "C077",
+      "window_id": "W36",
+      "arrival_min": 1073.873297,
+      "interval_min": 35.077929
+    },
+    {
+      "event_id": "C078",
+      "window_id": "W36",
+      "arrival_min": 1079.989019,
+      "interval_min": 6.115722
+    },
+    {
+      "event_id": "C079",
+      "window_id": "W37",
+      "arrival_min": 1087.571588,
+      "interval_min": 7.582569
+    },
+    {
+      "event_id": "C080",
+      "window_id": "W38",
+      "arrival_min": 1126.417003,
+      "interval_min": 38.845415
+    },
+    {
+      "event_id": "C081",
+      "window_id": "W39",
+      "arrival_min": 1141.210107,
+      "interval_min": 14.793104
+    },
+    {
+      "event_id": "C082",
+      "window_id": "W39",
+      "arrival_min": 1143.393621,
+      "interval_min": 2.183514
+    },
+    {
+      "event_id": "C083",
+      "window_id": "W39",
+      "arrival_min": 1146.505257,
+      "interval_min": 3.111636
+    },
+    {
+      "event_id": "C084",
+      "window_id": "W39",
+      "arrival_min": 1159.327845,
+      "interval_min": 12.822589
+    },
+    {
+      "event_id": "C085",
+      "window_id": "W39",
+      "arrival_min": 1165.284354,
+      "interval_min": 5.956509
+    },
+    {
+      "event_id": "C086",
+      "window_id": "W40",
+      "arrival_min": 1170.587177,
+      "interval_min": 5.302822
+    },
+    {
+      "event_id": "C087",
+      "window_id": "W42",
+      "arrival_min": 1245.739886,
+      "interval_min": 75.152709
+    },
+    {
+      "event_id": "C088",
+      "window_id": "W43",
+      "arrival_min": 1262.779869,
+      "interval_min": 17.039983
+    },
+    {
+      "event_id": "C089",
+      "window_id": "W43",
+      "arrival_min": 1263.026207,
+      "interval_min": 0.246338
+    },
+    {
+      "event_id": "C090",
+      "window_id": "W43",
+      "arrival_min": 1282.09472,
+      "interval_min": 19.068513
+    },
+    {
+      "event_id": "C091",
+      "window_id": "W46",
+      "arrival_min": 1370.03041,
+      "interval_min": 87.93569
+    },
+    {
+      "event_id": "C092",
+      "window_id": "W47",
+      "arrival_min": 1393.844927,
+      "interval_min": 23.814517
+    },
+    {
+      "event_id": "C093",
+      "window_id": "W47",
+      "arrival_min": 1400.883616,
+      "interval_min": 7.038689
+    },
+    {
+      "event_id": "C094",
+      "window_id": "W48",
+      "arrival_min": 1411.637201,
+      "interval_min": 10.753584
+    },
+    {
+      "event_id": "C095",
+      "window_id": "W48",
+      "arrival_min": 1423.583474,
+      "interval_min": 11.946274
+    },
+    {
+      "event_id": "C096",
+      "window_id": "W48",
+      "arrival_min": 1428.362347,
+      "interval_min": 4.778872
+    },
+    {
+      "event_id": "C097",
+      "window_id": "W48",
+      "arrival_min": 1429.877337,
+      "interval_min": 1.51499
+    }
+  ],
+  "pmf_hand_model": {
+    "values": [
+      0,
+      1,
+      2
+    ],
+    "probabilities": [
+      0.2,
+      0.5,
+      0.3
+    ],
+    "note": "另立的有限取值示意模型，只含0、1、2通；不是48窗口的經驗分佈，也不是泊松模型。"
+  },
+  "uniform_demo": {
+    "low_min": 0,
+    "high_min": 2,
+    "interval_min": [
+      0.5,
+      1.5
+    ],
+    "note": "獨立的隨機提示延遲，不是來電間隔或排隊等待時間。"
+  },
+  "slow_failure_demo": {
+    "rate_per_hour": 0.5,
+    "elapsed_hour": 3,
+    "extra_hour": 2
+  },
+  "high_density_uniform_demo": {
+    "low_sec": 0,
+    "high_sec": 0.2,
+    "target_interval_sec": [
+      0,
+      0.1
+    ]
+  }
+}

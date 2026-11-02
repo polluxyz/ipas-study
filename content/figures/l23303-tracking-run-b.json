@@ -1,0 +1,18 @@
+{
+  "id": "l23303-tracking-run-b",
+  "kind": "learning-curve",
+  "title": "run-b（學習率 0.01）的訓練與驗證損失",
+  "description": "學習率 0.01 的一次訓練：訓練損失下降更快，驗證損失在第 3 輪最低（0.40，最佳輪次，不是停止時間），之後明顯回升。",
+  "source": { "type": "synthetic", "note": "教學模擬訓練紀錄，非真實模型測量；與 run-a 共用資料版本、程式版本與隨機種子" },
+  "metric": "交叉熵損失", "unit": "無單位",
+  "points": [
+    {"epoch":1,"train":0.55,"validation":0.58},
+    {"epoch":2,"train":0.38,"validation":0.44},
+    {"epoch":3,"train":0.27,"validation":0.40},
+    {"epoch":4,"train":0.19,"validation":0.43},
+    {"epoch":5,"train":0.13,"validation":0.48},
+    {"epoch":6,"train":0.09,"validation":0.55},
+    {"epoch":7,"train":0.06,"validation":0.62},
+    {"epoch":8,"train":0.04,"validation":0.70}
+  ]
+}

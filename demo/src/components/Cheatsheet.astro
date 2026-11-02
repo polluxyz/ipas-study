@@ -1,0 +1,60 @@
+---
+/** 沿用內容集合的 Markdown 產物，讓公式、補充註記與表格和教材採同一套處理。 */
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import StudyPage from './StudyPage.astro';
+import { normalizeCheatsheetLinks } from '../lib/cheatsheets.mjs';
+interface Props { entry: CollectionEntry<'cheatsheets'> | CollectionEntry<'cheatsheetFixtures'>; }
+const { entry } = Astro.props;
+const { headings } = await render(entry);
+const concepts = await getCollection('concepts');
+const conceptHeadings = new Map(await Promise.all(concepts.map(async (concept) => [concept.data.id, (await render(concept)).headings] as const)));
+const html = normalizeCheatsheetLinks(entry.rendered?.html ?? '', conceptHeadings);
+---
+<StudyPage title={entry.data.title} section={`${entry.data.code} 速查`} headings={headings}>
+  <article class="cheatsheet">
+    <div class="cheatsheet-top"><a href={`/codes/${entry.data.code}/`}>← 回學習路線</a><button type="button" data-print-cheatsheet>列印速查</button></div>
+    <p class="lead">快速回想公式、指標選擇與診斷方向；需要例子或適用條件時，從「看教材」回到完整說明。</p>
+    <nav class="cheatsheet-jump" aria-label="速查段落">{headings.filter((heading) => heading.depth === 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>
+    <div class="prose cheatsheet-body" set:html={html} />
+    <footer class="cheatsheet-footer"><a href={`/codes/${entry.data.code}/`}>回到 {entry.data.code} 學習路線 →</a></footer>
+  </article>
+</StudyPage>
+<script>
+  document.querySelector('[data-print-cheatsheet]')?.addEventListener('click', () => window.print());
+</script>
+<style>
+  .cheatsheet { min-width: 0; max-width: 100%; }
+  .cheatsheet-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .8rem; margin-block: .6rem 1.1rem; }
+  .cheatsheet-top a, .cheatsheet-footer a { font-size: .85rem; }
+  .cheatsheet-top button { border: 1px solid var(--line); border-radius: .4rem; padding: .35rem .8rem; color: var(--green); background: var(--paper); cursor: pointer; }
+  .cheatsheet-jump { display: flex; flex-wrap: wrap; gap: .65rem; margin-bottom: 1.5rem !important; }
+  .cheatsheet-jump a { padding: .45rem .85rem; border: 1px solid var(--line); border-radius: .4rem; font-size: .85rem; text-decoration: none; }
+  .cheatsheet-body { min-width: 0; overflow-wrap: anywhere; }
+  .cheatsheet-body :global(h2) { scroll-margin-top: 6rem; }
+  .cheatsheet-body :global(.textbook-table-scroll) { width: 100%; }
+  .cheatsheet-body :global(table) { min-width: 38rem; font-size: .88rem; }
+  .cheatsheet-body :global(th), .cheatsheet-body :global(td) { padding: .75rem .85rem; vertical-align: top; }
+  .cheatsheet-footer { border-top: 1px solid var(--line); padding-top: 1.5rem; margin-top: 2.5rem !important; }
+  /* 原型導覽維持原配色；速查閱讀區提供深色底與足夠對比。 */
+  :global([data-theme='dark']) .cheatsheet { --ink: #e4edf1; --green: #8ce0c0; --paper: #1a2d31; --line: #506367; color: var(--ink); background: var(--paper); padding: 1.2rem; border-radius: .6rem; }
+  :global([data-theme='dark']) .cheatsheet :global(.lead) { color: #c1d4d0; }
+  :global([data-theme='dark']) .cheatsheet :global(:is(h2, h3, h4, th, strong)) { color: var(--ink); }
+  :global([data-theme='dark']) .cheatsheet :global(th), :global([data-theme='dark']) .cheatsheet :global(td) { background: transparent; border-color: var(--line); }
+  @media (max-width: 400px) { :global([data-theme='dark']) .cheatsheet { padding: .65rem; } }
+  @media print {
+    @page { margin: 12mm; }
+    :global(body) { background: white !important; }
+    :global(header.header), :global(.sidebar-pane), :global(.right-sidebar-container), :global(.local-note), :global(starlight-menu-button), .cheatsheet-top, .cheatsheet-jump { display: none !important; }
+    :global(.main-frame) { padding: 0 !important; margin: 0 !important; }
+    :global(.content-panel) { padding: 0 !important; }
+    :global(.main-pane), :global(.sl-container) { width: 100% !important; max-width: none !important; margin: 0 !important; }
+    :global([data-theme]) .cheatsheet { padding: 0; color: #111; background: white; --ink: #111; --green: #111; --line: #aaa; }
+    .cheatsheet :global(.lead) { color: #333 !important; }
+    .cheatsheet-body :global(.textbook-table-scroll) { overflow: visible; }
+    .cheatsheet-body :global(table) { min-width: 0; width: 100%; font-size: 9pt; }
+    .cheatsheet-body :global(.table-short-cell), .cheatsheet-body :global(.table-long-cell) { min-width: 0; white-space: normal; }
+    .cheatsheet-body :global(tr) { break-inside: avoid; }
+    .cheatsheet-body :global(thead) { display: table-header-group; }
+    .cheatsheet-body :global(h2), .cheatsheet-body :global(h3) { break-after: avoid; }
+  }
+</style>

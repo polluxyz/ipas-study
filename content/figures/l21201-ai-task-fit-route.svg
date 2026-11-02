@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 630" role="img" aria-labelledby="title desc">
+  <title id="title">由業務輸出及回饋選候選技術路線</title>
+  <desc id="desc">教學示意。先描述輸入、輸出與驗收，再分別考慮：有指定答案的類別或數值用監督式候選；探索結構且沒有答案用非監督式候選；連續行動與獎勵考慮強化式；需要新內容則考慮生成式。這些是討論角度，可能組合或重疊，並都要與簡單基準比較。</desc>
+  <style>
+    :root { color-scheme: light dark; --bg: #f8fafc; --ink: #0f172a; --panel: #ffffff; --band: #e2e8f0; --border: #64748b; --arrow: #334155; --rule: #94a3b8; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #15252b; --ink: #e4edf1; --panel: #24373d; --band: #354852; --border: #9caeba; --arrow: #bbcbd2; --rule: #718592; }
+    }
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="var(--arrow)"/></marker></defs>
+  <rect width="360" height="630" rx="12" fill="var(--bg)"/>
+  <g font-family="sans-serif" fill="var(--ink)" text-anchor="middle">
+    <text x="180" y="28" font-size="18" font-weight="700">先定義任務，再選候選路線</text>
+    <rect x="22" y="49" width="316" height="70" rx="8" fill="var(--band)"/>
+    <text x="180" y="76" font-size="16" font-weight="700">輸入是什麼？輸出要做什麼？</text><text x="180" y="102" font-size="14">如何驗收：答案、業務解讀或互動回饋</text>
+    <g stroke="var(--arrow)" fill="none" stroke-width="1.6" marker-end="url(#arrow)"><path d="M180 119V135H16V181H37"/><path d="M16 181V276H37"/><path d="M16 276V371H37"/><path d="M16 371V466H37"/></g>
+    <g fill="var(--panel)" stroke="var(--border)" stroke-width="1.5"><rect x="42" y="147" width="296" height="70" rx="8"/><rect x="42" y="242" width="296" height="70" rx="8"/><rect x="42" y="337" width="296" height="70" rx="8"/><rect x="42" y="432" width="296" height="70" rx="8"/></g>
+    <g font-size="16" font-weight="700"><text x="190" y="174">有答案的類別／數值 → 監督式</text><text x="190" y="269">探索結構、沒有答案 → 非監督式</text><text x="190" y="364">連續行動、有獎勵 → 強化式</text><text x="190" y="459">需要新文字或影像 → 生成式</text></g>
+    <g font-size="14"><text x="190" y="201">確認可靠標籤與預測時可用的輸入</text><text x="190" y="296">確認特徵與結構的業務意義</text><text x="190" y="391">確認互動資料與安全試驗條件</text><text x="190" y="486">確認可用模型與輸出品質驗收</text></g>
+    <rect x="22" y="528" width="316" height="76" rx="8" fill="var(--band)"/>
+    <text x="180" y="554" font-size="15" font-weight="700">都要先與規則或簡單統計基準比較</text><text x="180" y="578" font-size="14">資料不足先補條件；路線可重疊或組合</text><text x="180" y="599" font-size="13">教學示意：不以輸入格式直接決定模型</text>
+  </g>
+</svg>

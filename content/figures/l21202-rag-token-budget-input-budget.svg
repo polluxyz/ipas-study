@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="656" viewBox="0 0 360 656" role="img" aria-labelledby="title desc">
+<title id="title">客服 RAG 的輸入預算與每日生成費</title>
+<desc id="desc">由教學合成資料計算，每次輸入從 5000 降到 3000 token，減少 40%；輸出固定 500 token，每日 10000 次。每日生成費從 1200 降到 800 元，減少 33.33%。這是自訂單價的預算，不是模型實測或產品報價。</desc>
+<rect width="360" height="656" rx="16" fill="#f8fafc"/>
+<g font-family="system-ui, sans-serif" fill="#0f172a">
+<text x="180" y="33" text-anchor="middle" font-size="20" font-weight="700">先看每次輸入，再看每日費用</text>
+<text x="180" y="61" text-anchor="middle" font-size="14">客服教學合成資料｜token／次</text>
+<path d="M24 115H337M24 284H337" stroke="#94a3b8"/>
+<g font-size="15"><text x="28" y="103" font-weight="700">組成</text><text x="213" y="103" text-anchor="end" font-weight="700">基準</text><text x="333" y="103" text-anchor="end" font-weight="700">摘要＋篩選</text>
+<text x="28" y="143">固定前綴</text><text x="213" y="143" text-anchor="end">800</text><text x="333" y="143" text-anchor="end">800</text>
+<text x="28" y="182">當次問題</text><text x="213" y="182" text-anchor="end">200</text><text x="333" y="182" text-anchor="end">200</text>
+<text x="28" y="221">對話歷史</text><text x="213" y="221" text-anchor="end">2,000</text><text x="333" y="221" text-anchor="end">800</text>
+<text x="28" y="260">檢索文件</text><text x="213" y="260" text-anchor="end">2,000</text><text x="333" y="260" text-anchor="end">1,200</text>
+<text x="28" y="315" font-weight="700">完整輸入</text><text x="213" y="315" text-anchor="end" font-weight="700">5,000</text><text x="333" y="315" text-anchor="end" font-weight="700">3,000</text></g>
+<text x="180" y="350" text-anchor="middle" font-size="16" font-weight="700">輸入量減少 40%</text>
+<text x="26" y="393" font-size="16" font-weight="700">每日總生成費（元／日）</text>
+<text x="26" y="424" font-size="15">基準：1,200 元</text>
+<rect x="26" y="435" width="282" height="23" fill="#0369a1" rx="3"/>
+<text x="26" y="490" font-size="15">摘要＋篩選：800 元</text>
+<rect x="26" y="501" width="188" height="23" fill="#047857" rx="3"/>
+<text x="180" y="558" text-anchor="middle" font-size="16" font-weight="700">總費用減少 33.33%</text>
+<text x="180" y="588" text-anchor="middle" font-size="14">輸出仍為 500 token／次；每日 10,000 次</text>
+<text x="180" y="613" text-anchor="middle" font-size="13">每千 token：輸入 0.02、輸出 0.04 元</text>
+<text x="180" y="637" text-anchor="middle" font-size="13">假設帳單｜不含摘要、檢索與其他服務費</text>
+</g></svg>

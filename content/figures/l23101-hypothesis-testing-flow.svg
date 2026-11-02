@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 510" role="img">
+<title>假設檢定五步流程</title>
+<desc>依序設定假設、選擇方法、預設門檻、計算統計量及p值、作決策。門檻在檢定前設定，不能看完結果後回頭更改。教學示意圖。</desc>
+<style>text{font-family:system-ui,"Microsoft JhengHei",sans-serif;font-size:16px;fill:#172b4d}rect{fill:#eff6ff;stroke:#2563eb;stroke-width:1.5}.small{font-size:13px}</style>
+<rect width="360" height="510" fill="white" stroke="none"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10" fill="#536579"/></marker></defs>
+<g text-anchor="middle">
+<text x="180" y="27" font-weight="700">假設檢定：先設計，再看結果</text>
+<rect x="35" y="44" width="290" height="61" rx="8"/><text x="180" y="70">一、設定虛無與對立假設</text><text class="small" x="180" y="91">把研究問題改成可檢查的主張</text>
+<rect x="35" y="130" width="290" height="61" rx="8"/><text x="180" y="156">二、選檢定方法及統計量</text><text class="small" x="180" y="177">核對資料型態與觀測條件</text>
+<rect x="35" y="216" width="290" height="61" rx="8"/><text x="180" y="242">三、預先設定顯著水準</text><text class="small" x="180" y="263">在檢定前訂門檻</text>
+<rect x="35" y="302" width="290" height="61" rx="8"/><text x="180" y="328">四、計算統計量與 p 值</text><text class="small" x="180" y="349">用虛無模型衡量觀測的極端程度</text>
+<rect x="35" y="388" width="290" height="61" rx="8"/><text x="180" y="414">五、比較門檻並作決策</text><text class="small" x="180" y="435">拒絕或未拒絕，都要說明條件</text>
+<text class="small" x="180" y="480">單向向下走；不因結果不顯著而回改門檻</text>
+</g>
+<g fill="none" stroke="#536579" stroke-width="1.8" marker-end="url(#arrow)"><path d="M180 106 V128"/><path d="M180 192 V214"/><path d="M180 278 V300"/><path d="M180 364 V386"/></g>
+</svg>

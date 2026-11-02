@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="470" viewBox="0 0 360 470" role="img" aria-labelledby="title desc">
+  <title id="title">倉儲代理人與環境互動迴圈</title>
+  <desc id="desc">代理人讀取取貨格的狀態，依策略選擇抓取搬運。倉儲環境執行動作，回傳交接格的新狀態與作業成本，接著再做下一步決策。教學示意圖。</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#334155"/></marker></defs>
+  <rect width="360" height="470" rx="12" fill="#f8fafc"/>
+  <g font-family="system-ui, sans-serif" fill="#172033" text-anchor="middle">
+    <text x="180" y="30" font-size="19" font-weight="700">動作改變後續狀態</text>
+    <rect x="68" y="54" width="224" height="82" rx="12" fill="#dbeafe" stroke="#2563eb"/>
+    <text x="180" y="83" font-size="18" font-weight="700">代理人：機器人</text>
+    <text x="180" y="111" font-size="16">依策略選擇動作</text>
+    <path d="M180 137V214" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="100" y="153" width="160" height="48" rx="8" fill="#fff"/>
+    <text x="180" y="173" font-size="16">動作：抓取</text>
+    <text x="180" y="193" font-size="16">並搬至交接格</text>
+    <rect x="68" y="223" width="224" height="83" rx="12" fill="#dcfce7" stroke="#15803d"/>
+    <text x="180" y="253" font-size="18" font-weight="700">環境：倉儲系統</text>
+    <text x="180" y="281" font-size="16">執行動作、產生結果</text>
+    <path d="M180 307V325" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <path d="M48 372H36V96H65" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="48" y="327" width="264" height="91" rx="10" fill="#fff" stroke="#64748b"/>
+    <text x="180" y="353" font-size="16">下一狀態：交接格、車上有貨</text>
+    <text x="180" y="379" font-size="16">單步獎勵：本次作業成本</text>
+    <text x="180" y="402" font-size="15">回傳後，接著選下一個動作</text>
+    <text x="180" y="450" font-size="14" fill="#475569">教學示意；回饋可延遲，獎勵可為負</text>
+  </g>
+</svg>

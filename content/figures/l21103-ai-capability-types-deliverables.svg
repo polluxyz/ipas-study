@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="554" viewBox="0 0 360 554" role="img" aria-labelledby="title desc">
+  <title id="title">依交付辨別四類 AI 能力</title>
+  <desc id="desc">感知由既有資料辨識訊息，生成由條件合成新內容，代理依目標與工具結果完成數位任務，物理 AI 依環境回饋實際操控。四類不是互斥階段，可組成同一系統。作者繪製教學示意圖，非實測資料。</desc>
+  <rect width="360" height="554" rx="12" fill="#f8fafc"/>
+  <g font-family="system-ui, sans-serif" fill="#172b46">
+    <text x="18" y="28" font-size="18" font-weight="700">先問：系統要交付什麼？</text>
+    <text x="18" y="51" font-size="14">四類能力可組合，不是互斥等級</text>
+    <rect x="14" y="70" width="332" height="99" rx="9" fill="#e1efff" stroke="#326aa3"/>
+    <text x="27" y="95" font-size="17" font-weight="700">感知｜辨識既有訊息</text>
+    <text x="27" y="121" font-size="15">郵件、影像、錄音 → 辨識結果</text>
+    <text x="27" y="148" font-size="14">例：配送標籤、語音轉寫</text>
+    <rect x="14" y="183" width="332" height="99" rx="9" fill="#e1f4ed" stroke="#27785c"/>
+    <text x="27" y="208" font-size="17" font-weight="700">生成｜合成內容表達</text>
+    <text x="27" y="234" font-size="15">提示、來源、限制 → 新內容</text>
+    <text x="27" y="261" font-size="14">例：回覆草稿、設計概念圖</text>
+    <rect x="14" y="296" width="332" height="99" rx="9" fill="#f0e9ff" stroke="#77549e"/>
+    <text x="27" y="321" font-size="17" font-weight="700">代理｜執行任務並確認結果</text>
+    <text x="27" y="347" font-size="15">目標、工具結果 → 任務行動</text>
+    <text x="27" y="374" font-size="14">例：查資格後建立退貨工單</text>
+    <rect x="14" y="409" width="332" height="112" rx="9" fill="#fff1db" stroke="#9c6a1d"/>
+    <text x="27" y="434" font-size="17" font-weight="700">物理｜在現實環境互動</text>
+    <text x="27" y="460" font-size="15">環境資料、目標 → 移動或操控</text>
+    <text x="27" y="486" font-size="14">例：機器人搬運包裹、夾取零件</text>
+    <text x="27" y="508" font-size="14">行動後取得環境回饋，再修正</text>
+    <text x="18" y="542" font-size="12">教學示意｜交付不同，驗收證據也不同</text>
+  </g>
+</svg>

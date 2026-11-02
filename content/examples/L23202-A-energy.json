@@ -1,0 +1,758 @@
+{
+  "source": "教學合成資料，非市場資料與非時間序列",
+  "seed": 23202,
+  "train_indices": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    12,
+    13,
+    14,
+    16,
+    17,
+    18,
+    20,
+    21,
+    22,
+    24,
+    25,
+    26,
+    28,
+    29,
+    30,
+    32,
+    33,
+    34,
+    36,
+    37,
+    38,
+    40,
+    41,
+    42,
+    44,
+    45,
+    46,
+    48,
+    49,
+    50,
+    52,
+    53,
+    54,
+    56,
+    57,
+    58,
+    60,
+    61,
+    62,
+    64,
+    65,
+    66,
+    68,
+    69,
+    70,
+    72,
+    73,
+    74,
+    76,
+    77,
+    78
+  ],
+  "test_indices": [
+    3,
+    7,
+    11,
+    15,
+    19,
+    23,
+    27,
+    31,
+    35,
+    39,
+    43,
+    47,
+    51,
+    55,
+    59,
+    63,
+    67,
+    71,
+    75,
+    79
+  ],
+  "hand_indices": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20
+  ],
+  "feature_order": [
+    "production",
+    "production_copy",
+    "temperature",
+    "irrelevant"
+  ],
+  "rows": [
+    {
+      "id": "E01",
+      "production": 10.0,
+      "production_copy": 10.0,
+      "temperature": 5.0,
+      "irrelevant": -8.0,
+      "consumption": 220.0
+    },
+    {
+      "id": "E02",
+      "production": 17.0,
+      "production_copy": 17.0,
+      "temperature": 8.0,
+      "irrelevant": 3.0,
+      "consumption": 238.0
+    },
+    {
+      "id": "E03",
+      "production": 24.0,
+      "production_copy": 24.0,
+      "temperature": 11.0,
+      "irrelevant": -3.0,
+      "consumption": 283.0
+    },
+    {
+      "id": "E04",
+      "production": 31.0,
+      "production_copy": 31.0,
+      "temperature": 14.0,
+      "irrelevant": 8.0,
+      "consumption": 301.0
+    },
+    {
+      "id": "E05",
+      "production": 20.0,
+      "production_copy": 20.0,
+      "temperature": 10.0,
+      "irrelevant": 2.0,
+      "consumption": 250.0
+    },
+    {
+      "id": "E06",
+      "production": 45.0,
+      "production_copy": 45.0,
+      "temperature": 20.0,
+      "irrelevant": -4.0,
+      "consumption": 424.0
+    },
+    {
+      "id": "E07",
+      "production": 52.0,
+      "production_copy": 52.0,
+      "temperature": 23.0,
+      "irrelevant": 7.0,
+      "consumption": 469.0
+    },
+    {
+      "id": "E08",
+      "production": 59.0,
+      "production_copy": 59.0,
+      "temperature": 5.0,
+      "irrelevant": 1.0,
+      "consumption": 550.0
+    },
+    {
+      "id": "E09",
+      "production": 30.0,
+      "production_copy": 30.0,
+      "temperature": 5.0,
+      "irrelevant": -5.0,
+      "consumption": 280.0
+    },
+    {
+      "id": "E10",
+      "production": 22.0,
+      "production_copy": 22.0,
+      "temperature": 11.0,
+      "irrelevant": 6.0,
+      "consumption": 247.0
+    },
+    {
+      "id": "E11",
+      "production": 29.0,
+      "production_copy": 29.0,
+      "temperature": 14.0,
+      "irrelevant": 0.0,
+      "consumption": 292.0
+    },
+    {
+      "id": "E12",
+      "production": 36.0,
+      "production_copy": 36.0,
+      "temperature": 17.0,
+      "irrelevant": -6.0,
+      "consumption": 397.0
+    },
+    {
+      "id": "E13",
+      "production": 40.0,
+      "production_copy": 40.0,
+      "temperature": 10.0,
+      "irrelevant": 5.0,
+      "consumption": 400.0
+    },
+    {
+      "id": "E14",
+      "production": 50.0,
+      "production_copy": 50.0,
+      "temperature": 23.0,
+      "irrelevant": -1.0,
+      "consumption": 460.0
+    },
+    {
+      "id": "E15",
+      "production": 57.0,
+      "production_copy": 57.0,
+      "temperature": 5.0,
+      "irrelevant": -7.0,
+      "consumption": 541.0
+    },
+    {
+      "id": "E16",
+      "production": 13.0,
+      "production_copy": 13.0,
+      "temperature": 8.0,
+      "irrelevant": 4.0,
+      "consumption": 220.0
+    },
+    {
+      "id": "E17",
+      "production": 50.0,
+      "production_copy": 50.0,
+      "temperature": 5.0,
+      "irrelevant": -2.0,
+      "consumption": 430.0
+    },
+    {
+      "id": "E18",
+      "production": 27.0,
+      "production_copy": 27.0,
+      "temperature": 14.0,
+      "irrelevant": -8.0,
+      "consumption": 283.0
+    },
+    {
+      "id": "E19",
+      "production": 34.0,
+      "production_copy": 34.0,
+      "temperature": 17.0,
+      "irrelevant": 3.0,
+      "consumption": 301.0
+    },
+    {
+      "id": "E20",
+      "production": 41.0,
+      "production_copy": 41.0,
+      "temperature": 20.0,
+      "irrelevant": -3.0,
+      "consumption": 406.0
+    },
+    {
+      "id": "E21",
+      "production": 60.0,
+      "production_copy": 60.0,
+      "temperature": 10.0,
+      "irrelevant": 8.0,
+      "consumption": 460.0
+    },
+    {
+      "id": "E22",
+      "production": 55.0,
+      "production_copy": 55.0,
+      "temperature": 5.0,
+      "irrelevant": 2.0,
+      "consumption": 532.0
+    },
+    {
+      "id": "E23",
+      "production": 11.0,
+      "production_copy": 11.0,
+      "temperature": 8.0,
+      "irrelevant": -4.0,
+      "consumption": 211.0
+    },
+    {
+      "id": "E24",
+      "production": 18.0,
+      "production_copy": 18.0,
+      "temperature": 11.0,
+      "irrelevant": 7.0,
+      "consumption": 229.0
+    },
+    {
+      "id": "E25",
+      "production": 25.0,
+      "production_copy": 25.0,
+      "temperature": 14.0,
+      "irrelevant": 1.0,
+      "consumption": 274.0
+    },
+    {
+      "id": "E26",
+      "production": 32.0,
+      "production_copy": 32.0,
+      "temperature": 17.0,
+      "irrelevant": -5.0,
+      "consumption": 292.0
+    },
+    {
+      "id": "E27",
+      "production": 39.0,
+      "production_copy": 39.0,
+      "temperature": 20.0,
+      "irrelevant": 6.0,
+      "consumption": 397.0
+    },
+    {
+      "id": "E28",
+      "production": 46.0,
+      "production_copy": 46.0,
+      "temperature": 23.0,
+      "irrelevant": 0.0,
+      "consumption": 415.0
+    },
+    {
+      "id": "E29",
+      "production": 53.0,
+      "production_copy": 53.0,
+      "temperature": 5.0,
+      "irrelevant": -6.0,
+      "consumption": 523.0
+    },
+    {
+      "id": "E30",
+      "production": 60.0,
+      "production_copy": 60.0,
+      "temperature": 8.0,
+      "irrelevant": 5.0,
+      "consumption": 568.0
+    },
+    {
+      "id": "E31",
+      "production": 16.0,
+      "production_copy": 16.0,
+      "temperature": 11.0,
+      "irrelevant": -1.0,
+      "consumption": 220.0
+    },
+    {
+      "id": "E32",
+      "production": 23.0,
+      "production_copy": 23.0,
+      "temperature": 14.0,
+      "irrelevant": -7.0,
+      "consumption": 265.0
+    },
+    {
+      "id": "E33",
+      "production": 30.0,
+      "production_copy": 30.0,
+      "temperature": 17.0,
+      "irrelevant": 4.0,
+      "consumption": 283.0
+    },
+    {
+      "id": "E34",
+      "production": 37.0,
+      "production_copy": 37.0,
+      "temperature": 20.0,
+      "irrelevant": -2.0,
+      "consumption": 388.0
+    },
+    {
+      "id": "E35",
+      "production": 44.0,
+      "production_copy": 44.0,
+      "temperature": 23.0,
+      "irrelevant": -8.0,
+      "consumption": 406.0
+    },
+    {
+      "id": "E36",
+      "production": 51.0,
+      "production_copy": 51.0,
+      "temperature": 5.0,
+      "irrelevant": 3.0,
+      "consumption": 514.0
+    },
+    {
+      "id": "E37",
+      "production": 58.0,
+      "production_copy": 58.0,
+      "temperature": 8.0,
+      "irrelevant": -3.0,
+      "consumption": 532.0
+    },
+    {
+      "id": "E38",
+      "production": 14.0,
+      "production_copy": 14.0,
+      "temperature": 11.0,
+      "irrelevant": 8.0,
+      "consumption": 211.0
+    },
+    {
+      "id": "E39",
+      "production": 21.0,
+      "production_copy": 21.0,
+      "temperature": 14.0,
+      "irrelevant": 2.0,
+      "consumption": 256.0
+    },
+    {
+      "id": "E40",
+      "production": 28.0,
+      "production_copy": 28.0,
+      "temperature": 17.0,
+      "irrelevant": -4.0,
+      "consumption": 274.0
+    },
+    {
+      "id": "E41",
+      "production": 35.0,
+      "production_copy": 35.0,
+      "temperature": 20.0,
+      "irrelevant": 7.0,
+      "consumption": 319.0
+    },
+    {
+      "id": "E42",
+      "production": 42.0,
+      "production_copy": 42.0,
+      "temperature": 23.0,
+      "irrelevant": 1.0,
+      "consumption": 397.0
+    },
+    {
+      "id": "E43",
+      "production": 49.0,
+      "production_copy": 49.0,
+      "temperature": 5.0,
+      "irrelevant": -5.0,
+      "consumption": 505.0
+    },
+    {
+      "id": "E44",
+      "production": 56.0,
+      "production_copy": 56.0,
+      "temperature": 8.0,
+      "irrelevant": 6.0,
+      "consumption": 523.0
+    },
+    {
+      "id": "E45",
+      "production": 12.0,
+      "production_copy": 12.0,
+      "temperature": 11.0,
+      "irrelevant": 0.0,
+      "consumption": 202.0
+    },
+    {
+      "id": "E46",
+      "production": 19.0,
+      "production_copy": 19.0,
+      "temperature": 14.0,
+      "irrelevant": -6.0,
+      "consumption": 220.0
+    },
+    {
+      "id": "E47",
+      "production": 26.0,
+      "production_copy": 26.0,
+      "temperature": 17.0,
+      "irrelevant": 5.0,
+      "consumption": 265.0
+    },
+    {
+      "id": "E48",
+      "production": 33.0,
+      "production_copy": 33.0,
+      "temperature": 20.0,
+      "irrelevant": -1.0,
+      "consumption": 310.0
+    },
+    {
+      "id": "E49",
+      "production": 40.0,
+      "production_copy": 40.0,
+      "temperature": 23.0,
+      "irrelevant": -7.0,
+      "consumption": 388.0
+    },
+    {
+      "id": "E50",
+      "production": 47.0,
+      "production_copy": 47.0,
+      "temperature": 5.0,
+      "irrelevant": 4.0,
+      "consumption": 496.0
+    },
+    {
+      "id": "E51",
+      "production": 54.0,
+      "production_copy": 54.0,
+      "temperature": 8.0,
+      "irrelevant": -2.0,
+      "consumption": 514.0
+    },
+    {
+      "id": "E52",
+      "production": 10.0,
+      "production_copy": 10.0,
+      "temperature": 11.0,
+      "irrelevant": -8.0,
+      "consumption": 193.0
+    },
+    {
+      "id": "E53",
+      "production": 17.0,
+      "production_copy": 17.0,
+      "temperature": 14.0,
+      "irrelevant": 3.0,
+      "consumption": 211.0
+    },
+    {
+      "id": "E54",
+      "production": 24.0,
+      "production_copy": 24.0,
+      "temperature": 17.0,
+      "irrelevant": -3.0,
+      "consumption": 256.0
+    },
+    {
+      "id": "E55",
+      "production": 31.0,
+      "production_copy": 31.0,
+      "temperature": 20.0,
+      "irrelevant": 8.0,
+      "consumption": 274.0
+    },
+    {
+      "id": "E56",
+      "production": 38.0,
+      "production_copy": 38.0,
+      "temperature": 23.0,
+      "irrelevant": 2.0,
+      "consumption": 379.0
+    },
+    {
+      "id": "E57",
+      "production": 45.0,
+      "production_copy": 45.0,
+      "temperature": 5.0,
+      "irrelevant": -4.0,
+      "consumption": 487.0
+    },
+    {
+      "id": "E58",
+      "production": 52.0,
+      "production_copy": 52.0,
+      "temperature": 8.0,
+      "irrelevant": 7.0,
+      "consumption": 505.0
+    },
+    {
+      "id": "E59",
+      "production": 59.0,
+      "production_copy": 59.0,
+      "temperature": 11.0,
+      "irrelevant": 1.0,
+      "consumption": 550.0
+    },
+    {
+      "id": "E60",
+      "production": 15.0,
+      "production_copy": 15.0,
+      "temperature": 14.0,
+      "irrelevant": -5.0,
+      "consumption": 202.0
+    },
+    {
+      "id": "E61",
+      "production": 22.0,
+      "production_copy": 22.0,
+      "temperature": 17.0,
+      "irrelevant": 6.0,
+      "consumption": 247.0
+    },
+    {
+      "id": "E62",
+      "production": 29.0,
+      "production_copy": 29.0,
+      "temperature": 20.0,
+      "irrelevant": 0.0,
+      "consumption": 265.0
+    },
+    {
+      "id": "E63",
+      "production": 36.0,
+      "production_copy": 36.0,
+      "temperature": 23.0,
+      "irrelevant": -6.0,
+      "consumption": 370.0
+    },
+    {
+      "id": "E64",
+      "production": 43.0,
+      "production_copy": 43.0,
+      "temperature": 5.0,
+      "irrelevant": 5.0,
+      "consumption": 451.0
+    },
+    {
+      "id": "E65",
+      "production": 50.0,
+      "production_copy": 50.0,
+      "temperature": 8.0,
+      "irrelevant": -1.0,
+      "consumption": 496.0
+    },
+    {
+      "id": "E66",
+      "production": 57.0,
+      "production_copy": 57.0,
+      "temperature": 11.0,
+      "irrelevant": -7.0,
+      "consumption": 541.0
+    },
+    {
+      "id": "E67",
+      "production": 13.0,
+      "production_copy": 13.0,
+      "temperature": 14.0,
+      "irrelevant": 4.0,
+      "consumption": 193.0
+    },
+    {
+      "id": "E68",
+      "production": 20.0,
+      "production_copy": 20.0,
+      "temperature": 17.0,
+      "irrelevant": -2.0,
+      "consumption": 238.0
+    },
+    {
+      "id": "E69",
+      "production": 27.0,
+      "production_copy": 27.0,
+      "temperature": 20.0,
+      "irrelevant": -8.0,
+      "consumption": 256.0
+    },
+    {
+      "id": "E70",
+      "production": 34.0,
+      "production_copy": 34.0,
+      "temperature": 23.0,
+      "irrelevant": 3.0,
+      "consumption": 301.0
+    },
+    {
+      "id": "E71",
+      "production": 41.0,
+      "production_copy": 41.0,
+      "temperature": 5.0,
+      "irrelevant": -3.0,
+      "consumption": 442.0
+    },
+    {
+      "id": "E72",
+      "production": 48.0,
+      "production_copy": 48.0,
+      "temperature": 8.0,
+      "irrelevant": 8.0,
+      "consumption": 487.0
+    },
+    {
+      "id": "E73",
+      "production": 55.0,
+      "production_copy": 55.0,
+      "temperature": 11.0,
+      "irrelevant": 2.0,
+      "consumption": 505.0
+    },
+    {
+      "id": "E74",
+      "production": 11.0,
+      "production_copy": 11.0,
+      "temperature": 14.0,
+      "irrelevant": -4.0,
+      "consumption": 184.0
+    },
+    {
+      "id": "E75",
+      "production": 18.0,
+      "production_copy": 18.0,
+      "temperature": 17.0,
+      "irrelevant": 7.0,
+      "consumption": 229.0
+    },
+    {
+      "id": "E76",
+      "production": 25.0,
+      "production_copy": 25.0,
+      "temperature": 20.0,
+      "irrelevant": 1.0,
+      "consumption": 247.0
+    },
+    {
+      "id": "E77",
+      "production": 32.0,
+      "production_copy": 32.0,
+      "temperature": 23.0,
+      "irrelevant": -5.0,
+      "consumption": 292.0
+    },
+    {
+      "id": "E78",
+      "production": 39.0,
+      "production_copy": 39.0,
+      "temperature": 5.0,
+      "irrelevant": 6.0,
+      "consumption": 433.0
+    },
+    {
+      "id": "E79",
+      "production": 46.0,
+      "production_copy": 46.0,
+      "temperature": 8.0,
+      "irrelevant": 0.0,
+      "consumption": 478.0
+    },
+    {
+      "id": "E80",
+      "production": 53.0,
+      "production_copy": 53.0,
+      "temperature": 11.0,
+      "irrelevant": -6.0,
+      "consumption": 496.0
+    }
+  ],
+  "demonstrations": {
+    "hard_votes": [
+      "高價",
+      "高價",
+      "一般"
+    ],
+    "regression_predictions": [
+      400,
+      430,
+      460
+    ],
+    "classification_threshold": 340,
+    "note": "三棵樹的集成輸出是教學假設，非宣稱已訓練的森林"
+  }
+}

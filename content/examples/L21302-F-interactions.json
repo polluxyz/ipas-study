@@ -1,0 +1,1281 @@
+{
+  "source": "教學合成資料，不是真實客戶紀錄；各領域24筆，數值刻意簡化，不足以證明上線品質",
+  "seed": 21302,
+  "predecessor": "content/examples/L21302-E-operations.json；承接成熟真值、固定切分、候選驗證及回復原則，不混用前置組樣本或指標",
+  "cutoff": "2026-07-06T23:59:59+08:00",
+  "rules": {
+    "features": "f1，固定兩欄；TR、WAIT與歷史回放第一欄按[-1,-0.6,0.6,1]循環，VA為[-0.8,-0.3,0.3,0.8]，OBS為[-0.9,-0.4,0.4,0.9]；第二欄固定0；均於互動前取得",
+    "labels": "第一欄大於0時合成結果為1；事件後一天成熟；21至24於截點尚未成熟，8的人工覆核尚有分歧，標籤都保留null",
+    "splits": "各領域1至12為TR，13至16為VA，17至20為OBS，21至24為WAIT；TR內4未獲訓練使用許可、8覆核未決，餘10筆依序分成兩批各5筆；OBS為更新前v0的觀察，不是新候選的上線成績",
+    "feedback": "每3筆有一次點擊，每6筆有一筆錯誤回報；第5筆未回報但原版也預測錯誤，回報不能直接替代成熟標籤",
+    "namespaces": "客服和銷售各自訓練與評估，不混用標籤；兩領域共用索引、種子與切分規則",
+    "replay": "每領域另有4筆歷史REPLAY樣本，均早於7月1日且真值完整；用於初始化與舊情境回放，不屬於新互動24筆"
+  },
+  "schedule": [
+    {
+      "cadence": "每日",
+      "date": "2026-07-06",
+      "owner": "資訊值班與營運",
+      "action": "核對推論延遲、服務失敗、使用量及真值到齊比例"
+    },
+    {
+      "cadence": "每週",
+      "date": "2026-07-07",
+      "owner": "客服、業務與資料人員",
+      "action": "以7月6日截點篩選錯誤與一般樣本，覆核分歧、許可及標籤"
+    },
+    {
+      "cadence": "每月",
+      "date": "2026-07-31",
+      "owner": "產品、模型及風險負責人",
+      "action": "重新評估模型與業務成效，決定是否啟動重訓，不預設每月必重訓"
+    }
+  ],
+  "domains": [
+    {
+      "id": "CS",
+      "title": "客服",
+      "label_meaning": "是否需轉人工",
+      "feature_names": [
+        "事前問題複雜度",
+        "保留欄位，固定0"
+      ],
+      "api": "v1",
+      "feature_rule": "f1",
+      "model": "cs-f-v0",
+      "interactions": [
+        {
+          "id": "CS-01",
+          "index": 1,
+          "event_at": "2026-07-01T09:00:00+08:00",
+          "label_due": "2026-07-02T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-02",
+          "index": 2,
+          "event_at": "2026-07-01T09:00:00+08:00",
+          "label_due": "2026-07-02T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-03",
+          "index": 3,
+          "event_at": "2026-07-01T09:00:00+08:00",
+          "label_due": "2026-07-02T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": true,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-04",
+          "index": 4,
+          "event_at": "2026-07-01T09:00:00+08:00",
+          "label_due": "2026-07-02T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            1,
+            0
+          ],
+          "mature": true,
+          "allowed": false,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-05",
+          "index": 5,
+          "event_at": "2026-07-02T09:00:00+08:00",
+          "label_due": "2026-07-03T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-06",
+          "index": 6,
+          "event_at": "2026-07-02T09:00:00+08:00",
+          "label_due": "2026-07-03T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": true,
+          "feedback": "回報疑似錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-07",
+          "index": 7,
+          "event_at": "2026-07-02T09:00:00+08:00",
+          "label_due": "2026-07-03T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-08",
+          "index": 8,
+          "event_at": "2026-07-02T09:00:00+08:00",
+          "label_due": "2026-07-03T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": false,
+          "label": null,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-09",
+          "index": 9,
+          "event_at": "2026-07-03T09:00:00+08:00",
+          "label_due": "2026-07-04T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": true,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-10",
+          "index": 10,
+          "event_at": "2026-07-03T09:00:00+08:00",
+          "label_due": "2026-07-04T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-11",
+          "index": 11,
+          "event_at": "2026-07-03T09:00:00+08:00",
+          "label_due": "2026-07-04T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-12",
+          "index": 12,
+          "event_at": "2026-07-03T09:00:00+08:00",
+          "label_due": "2026-07-04T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": true,
+          "feedback": "回報疑似錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-13",
+          "index": 13,
+          "event_at": "2026-07-04T09:00:00+08:00",
+          "label_due": "2026-07-05T09:00:00+08:00",
+          "split": "VA",
+          "x": [
+            -0.8,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-14",
+          "index": 14,
+          "event_at": "2026-07-04T09:00:00+08:00",
+          "label_due": "2026-07-05T09:00:00+08:00",
+          "split": "VA",
+          "x": [
+            -0.3,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-15",
+          "index": 15,
+          "event_at": "2026-07-04T09:00:00+08:00",
+          "label_due": "2026-07-05T09:00:00+08:00",
+          "split": "VA",
+          "x": [
+            0.3,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": true,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-16",
+          "index": 16,
+          "event_at": "2026-07-04T09:00:00+08:00",
+          "label_due": "2026-07-05T09:00:00+08:00",
+          "split": "VA",
+          "x": [
+            0.8,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-17",
+          "index": 17,
+          "event_at": "2026-07-05T09:00:00+08:00",
+          "label_due": "2026-07-06T09:00:00+08:00",
+          "split": "OBS",
+          "x": [
+            -0.9,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-18",
+          "index": 18,
+          "event_at": "2026-07-05T09:00:00+08:00",
+          "label_due": "2026-07-06T09:00:00+08:00",
+          "split": "OBS",
+          "x": [
+            -0.4,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": true,
+          "feedback": "回報疑似錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-19",
+          "index": 19,
+          "event_at": "2026-07-05T09:00:00+08:00",
+          "label_due": "2026-07-06T09:00:00+08:00",
+          "split": "OBS",
+          "x": [
+            0.4,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-20",
+          "index": 20,
+          "event_at": "2026-07-05T09:00:00+08:00",
+          "label_due": "2026-07-06T09:00:00+08:00",
+          "split": "OBS",
+          "x": [
+            0.9,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-21",
+          "index": 21,
+          "event_at": "2026-07-06T09:00:00+08:00",
+          "label_due": "2026-07-07T09:00:00+08:00",
+          "split": "WAIT",
+          "x": [
+            -1,
+            0
+          ],
+          "mature": false,
+          "allowed": true,
+          "reviewed": true,
+          "label": null,
+          "clicked": true,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-22",
+          "index": 22,
+          "event_at": "2026-07-06T09:00:00+08:00",
+          "label_due": "2026-07-07T09:00:00+08:00",
+          "split": "WAIT",
+          "x": [
+            -0.6,
+            0
+          ],
+          "mature": false,
+          "allowed": true,
+          "reviewed": true,
+          "label": null,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-23",
+          "index": 23,
+          "event_at": "2026-07-06T09:00:00+08:00",
+          "label_due": "2026-07-07T09:00:00+08:00",
+          "split": "WAIT",
+          "x": [
+            0.6,
+            0
+          ],
+          "mature": false,
+          "allowed": true,
+          "reviewed": true,
+          "label": null,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "CS-24",
+          "index": 24,
+          "event_at": "2026-07-06T09:00:00+08:00",
+          "label_due": "2026-07-07T09:00:00+08:00",
+          "split": "WAIT",
+          "x": [
+            1,
+            0
+          ],
+          "mature": false,
+          "allowed": true,
+          "reviewed": true,
+          "label": null,
+          "clicked": true,
+          "feedback": "回報疑似錯誤",
+          "deployed_prediction": 0,
+          "model": "cs-f-v0",
+          "feature_rule": "f1"
+        }
+      ],
+      "batches": [
+        {
+          "id": "CS-B1",
+          "indices": [
+            1,
+            2,
+            3,
+            5,
+            6
+          ]
+        },
+        {
+          "id": "CS-B2",
+          "indices": [
+            7,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ],
+      "replay": [
+        {
+          "id": "CS-REPLAY-1",
+          "x": [
+            -1,
+            0
+          ],
+          "label": 0,
+          "mature": true
+        },
+        {
+          "id": "CS-REPLAY-2",
+          "x": [
+            -0.6,
+            0
+          ],
+          "label": 0,
+          "mature": true
+        },
+        {
+          "id": "CS-REPLAY-3",
+          "x": [
+            0.6,
+            0
+          ],
+          "label": 1,
+          "mature": true
+        },
+        {
+          "id": "CS-REPLAY-4",
+          "x": [
+            1,
+            0
+          ],
+          "label": 1,
+          "mature": true
+        }
+      ]
+    },
+    {
+      "id": "SL",
+      "title": "銷售",
+      "label_meaning": "七月六日前已成熟的成交結果",
+      "feature_names": [
+        "事前興趣分數",
+        "保留欄位，固定0"
+      ],
+      "api": "v1",
+      "feature_rule": "f1",
+      "model": "sl-f-v0",
+      "interactions": [
+        {
+          "id": "SL-01",
+          "index": 1,
+          "event_at": "2026-07-01T09:00:00+08:00",
+          "label_due": "2026-07-02T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-02",
+          "index": 2,
+          "event_at": "2026-07-01T09:00:00+08:00",
+          "label_due": "2026-07-02T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-03",
+          "index": 3,
+          "event_at": "2026-07-01T09:00:00+08:00",
+          "label_due": "2026-07-02T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": true,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-04",
+          "index": 4,
+          "event_at": "2026-07-01T09:00:00+08:00",
+          "label_due": "2026-07-02T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            1,
+            0
+          ],
+          "mature": true,
+          "allowed": false,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-05",
+          "index": 5,
+          "event_at": "2026-07-02T09:00:00+08:00",
+          "label_due": "2026-07-03T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-06",
+          "index": 6,
+          "event_at": "2026-07-02T09:00:00+08:00",
+          "label_due": "2026-07-03T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": true,
+          "feedback": "回報疑似錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-07",
+          "index": 7,
+          "event_at": "2026-07-02T09:00:00+08:00",
+          "label_due": "2026-07-03T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-08",
+          "index": 8,
+          "event_at": "2026-07-02T09:00:00+08:00",
+          "label_due": "2026-07-03T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": false,
+          "label": null,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-09",
+          "index": 9,
+          "event_at": "2026-07-03T09:00:00+08:00",
+          "label_due": "2026-07-04T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": true,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-10",
+          "index": 10,
+          "event_at": "2026-07-03T09:00:00+08:00",
+          "label_due": "2026-07-04T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            -0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-11",
+          "index": 11,
+          "event_at": "2026-07-03T09:00:00+08:00",
+          "label_due": "2026-07-04T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            0.6,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-12",
+          "index": 12,
+          "event_at": "2026-07-03T09:00:00+08:00",
+          "label_due": "2026-07-04T09:00:00+08:00",
+          "split": "TR",
+          "x": [
+            1,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": true,
+          "feedback": "回報疑似錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-13",
+          "index": 13,
+          "event_at": "2026-07-04T09:00:00+08:00",
+          "label_due": "2026-07-05T09:00:00+08:00",
+          "split": "VA",
+          "x": [
+            -0.8,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-14",
+          "index": 14,
+          "event_at": "2026-07-04T09:00:00+08:00",
+          "label_due": "2026-07-05T09:00:00+08:00",
+          "split": "VA",
+          "x": [
+            -0.3,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-15",
+          "index": 15,
+          "event_at": "2026-07-04T09:00:00+08:00",
+          "label_due": "2026-07-05T09:00:00+08:00",
+          "split": "VA",
+          "x": [
+            0.3,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": true,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-16",
+          "index": 16,
+          "event_at": "2026-07-04T09:00:00+08:00",
+          "label_due": "2026-07-05T09:00:00+08:00",
+          "split": "VA",
+          "x": [
+            0.8,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-17",
+          "index": 17,
+          "event_at": "2026-07-05T09:00:00+08:00",
+          "label_due": "2026-07-06T09:00:00+08:00",
+          "split": "OBS",
+          "x": [
+            -0.9,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-18",
+          "index": 18,
+          "event_at": "2026-07-05T09:00:00+08:00",
+          "label_due": "2026-07-06T09:00:00+08:00",
+          "split": "OBS",
+          "x": [
+            -0.4,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 0,
+          "clicked": true,
+          "feedback": "回報疑似錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-19",
+          "index": 19,
+          "event_at": "2026-07-05T09:00:00+08:00",
+          "label_due": "2026-07-06T09:00:00+08:00",
+          "split": "OBS",
+          "x": [
+            0.4,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-20",
+          "index": 20,
+          "event_at": "2026-07-05T09:00:00+08:00",
+          "label_due": "2026-07-06T09:00:00+08:00",
+          "split": "OBS",
+          "x": [
+            0.9,
+            0
+          ],
+          "mature": true,
+          "allowed": true,
+          "reviewed": true,
+          "label": 1,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-21",
+          "index": 21,
+          "event_at": "2026-07-06T09:00:00+08:00",
+          "label_due": "2026-07-07T09:00:00+08:00",
+          "split": "WAIT",
+          "x": [
+            -1,
+            0
+          ],
+          "mature": false,
+          "allowed": true,
+          "reviewed": true,
+          "label": null,
+          "clicked": true,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-22",
+          "index": 22,
+          "event_at": "2026-07-06T09:00:00+08:00",
+          "label_due": "2026-07-07T09:00:00+08:00",
+          "split": "WAIT",
+          "x": [
+            -0.6,
+            0
+          ],
+          "mature": false,
+          "allowed": true,
+          "reviewed": true,
+          "label": null,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-23",
+          "index": 23,
+          "event_at": "2026-07-06T09:00:00+08:00",
+          "label_due": "2026-07-07T09:00:00+08:00",
+          "split": "WAIT",
+          "x": [
+            0.6,
+            0
+          ],
+          "mature": false,
+          "allowed": true,
+          "reviewed": true,
+          "label": null,
+          "clicked": false,
+          "feedback": "未回報錯誤",
+          "deployed_prediction": 1,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        },
+        {
+          "id": "SL-24",
+          "index": 24,
+          "event_at": "2026-07-06T09:00:00+08:00",
+          "label_due": "2026-07-07T09:00:00+08:00",
+          "split": "WAIT",
+          "x": [
+            1,
+            0
+          ],
+          "mature": false,
+          "allowed": true,
+          "reviewed": true,
+          "label": null,
+          "clicked": true,
+          "feedback": "回報疑似錯誤",
+          "deployed_prediction": 0,
+          "model": "sl-f-v0",
+          "feature_rule": "f1"
+        }
+      ],
+      "batches": [
+        {
+          "id": "SL-B1",
+          "indices": [
+            1,
+            2,
+            3,
+            5,
+            6
+          ]
+        },
+        {
+          "id": "SL-B2",
+          "indices": [
+            7,
+            9,
+            10,
+            11,
+            12
+          ]
+        }
+      ],
+      "replay": [
+        {
+          "id": "SL-REPLAY-1",
+          "x": [
+            -1,
+            0
+          ],
+          "label": 0,
+          "mature": true
+        },
+        {
+          "id": "SL-REPLAY-2",
+          "x": [
+            -0.6,
+            0
+          ],
+          "label": 0,
+          "mature": true
+        },
+        {
+          "id": "SL-REPLAY-3",
+          "x": [
+            0.6,
+            0
+          ],
+          "label": 1,
+          "mature": true
+        },
+        {
+          "id": "SL-REPLAY-4",
+          "x": [
+            1,
+            0
+          ],
+          "label": 1,
+          "mature": true
+        }
+      ]
+    }
+  ],
+  "gates": {
+    "schema": "f1:2欄；順序、意義、尺度均固定",
+    "offline_va_errors_max": 1,
+    "replay_errors_max": 1,
+    "observation_errors_max": 1,
+    "denominator_each": 4,
+    "approval": "模型負責人確認品質，風險負責人確認使用條件；資訊依核准版本發布",
+    "note": "教學門檻，不是通用建議；OBS是原版觀察紀錄，不能冒稱候選上線結果；新版上線後須另收新流量，4筆最多錯1筆僅為規劃的觀察門檻，沒有已通過紀錄；多次使用VA後須換獨立晉升證據"
+  },
+  "promotion": {
+    "decision": "PROMO-F-01",
+    "request_owner": "業務與行銷",
+    "goal": "在使用者同意的促銷範圍內改善成交，另追蹤退訂與客訴",
+    "metric": "已到期且結果完整的合格互動成交數／同群合格互動數",
+    "constraint": "未取得訓練許可不得加入候選更新，不能只追點擊"
+  },
+  "incident": {
+    "id": "INC-F-01",
+    "case": "CS-06",
+    "reporter": "客服",
+    "intake": "營運",
+    "model_owner": "資料與模型人員",
+    "privacy_owner": "法務與風險",
+    "service_owner": "資訊值班",
+    "acceptance": "客服確認修正符合情境；模型負責人確認品質；法務確認使用條件；資訊驗證實際版本與服務",
+    "action": "疑似個資外露先停相關回收並保全證據，依事故權責止損，不等週會"
+  },
+  "education": [
+    {
+      "id": "ED-01",
+      "role": "客服",
+      "material": "f-training-v1",
+      "first_pass": true,
+      "remediation": "無",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-02",
+      "role": "客服",
+      "material": "f-training-v1",
+      "first_pass": true,
+      "remediation": "無",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-03",
+      "role": "客服",
+      "material": "f-training-v1",
+      "first_pass": true,
+      "remediation": "無",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-04",
+      "role": "客服",
+      "material": "f-training-v1",
+      "first_pass": true,
+      "remediation": "無",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-05",
+      "role": "客服",
+      "material": "f-training-v1",
+      "first_pass": true,
+      "remediation": "無",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-06",
+      "role": "客服",
+      "material": "f-training-v1",
+      "first_pass": true,
+      "remediation": "無",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-07",
+      "role": "業務",
+      "material": "f-training-v1",
+      "first_pass": true,
+      "remediation": "無",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-08",
+      "role": "業務",
+      "material": "f-training-v1",
+      "first_pass": true,
+      "remediation": "無",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-09",
+      "role": "業務",
+      "material": "f-training-v1",
+      "first_pass": true,
+      "remediation": "無",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-10",
+      "role": "業務",
+      "material": "f-training-v1",
+      "first_pass": false,
+      "remediation": "重做轉人工與回報演練",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-11",
+      "role": "資訊",
+      "material": "f-training-v1",
+      "first_pass": false,
+      "remediation": "重做轉人工與回報演練",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    },
+    {
+      "id": "ED-12",
+      "role": "資訊",
+      "material": "f-training-v1",
+      "first_pass": false,
+      "remediation": "重做轉人工與回報演練",
+      "final_pass": true,
+      "acknowledged_version": "f1"
+    }
+  ]
+}

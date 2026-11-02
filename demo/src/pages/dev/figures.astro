@@ -1,0 +1,64 @@
+---
+/** 不列側欄的建置管線展示，使用正式 Markdown 外掛與隔離黃金圖資。 */
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import wikiLinks from '../../../plugins/wiki-links.mjs';
+import figures from '../../../plugins/figures.mjs';
+import { mathSearchPolicy, collapseAdvanced } from '../../../plugins/textbook.mjs';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+
+const processor = await createMarkdownProcessor({
+  remarkPlugins: [wikiLinks, remarkMath, [figures, { directory: resolve('src/lib/figures/examples') }]],
+  rehypePlugins: [[rehypeKatex, { output: 'htmlAndMathml', trust: false }], mathSearchPolicy, collapseAdvanced],
+});
+const markdown = String.raw`
+這裡展示公式、靜態數據圖與可展開的數值表。所有數值都是教學模擬資料。
+
+## 公式與搜尋
+
+精確率 $P$ 與召回率 $R$ 的調和平均稱為 F1 分數。公式前後的中文說明可以搜尋。
+
+$$
+F_1 = \frac{2PR}{P+R}, \qquad \mathrm{TPR}=\frac{\mathrm{TP}}{\mathrm{TP}+\mathrm{FN}}
+$$
+
+## ROC 曲線
+
+![每個圓點對應一組閾值；注意降低閾值時誤報與召回的取捨。](figure:roc)
+
+## PR 曲線
+
+![在找回正例的同時，觀察預測正例中有多少是真的。](figure:pr)
+
+## 學習曲線
+
+![驗證損失在第四輪最低，之後上升；訓練損失則持續下降。](figure:learning-curve)
+
+## 殘差圖
+
+![觀察圓點是否在零殘差線兩側無規律散開。](figure:residual)
+
+## 混淆矩陣
+
+![先看列的實際類別，再看欄的預測類別；每個數字代表樣本筆數。](figure:confusion-matrix)
+
+## 進階
+
+這段預設收合，無須 JavaScript 也能開啟。[[roc-auc]] 連結仍由既有 wiki-links 處理。
+
+### 同分的影響
+
+同分樣本一起跨過閾值，避免用任意排序改變 AUC。
+
+## 小結
+
+圖說、數值表與資料來源共同支援判讀。
+`;
+const rendered = await processor.render(markdown, { fileURL: pathToFileURL(resolve('src/pages/dev/figures.astro')) });
+---
+<StarlightPage frontmatter={{ title: '公式與圖表展示', description: '教材建置管線的黃金範例' }}>
+  <div class="sl-markdown-content s1-figures" set:html={rendered.code} />
+</StarlightPage>
