@@ -7,7 +7,7 @@ number: 5
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 2
 type: 情境
-codes: [ L21101, L23301 ]
+codes: [L21101, L23301]
 concepts: [tf-idf]
 stem: |
   某企業以詞頻–逆文件頻率（Term Frequency–Inverse Document Frequency, TF-IDF）方法分析顧客意見內容，但發現模型在處理篇幅較長的回饋文本時，無法準確反映關鍵詞的重要性。下列何者為造成此現象的主要原因？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:3-17, guide-1:3-18]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 2
     by: EX-E1-Codex
-  blind_answer: null
-  dispute: null
+  blind_answer: A
+  dispute: 官方答案 A。A 的長文件權重放大解釋須以原始次數且未適當正規化為前提；相對 TF 或向量正規化會改變結果，指引採相對 TF。題面未限定此定義，保留官方計分與條件疑義。

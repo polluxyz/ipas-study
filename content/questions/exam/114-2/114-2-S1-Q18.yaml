@@ -7,7 +7,7 @@ number: 18
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 5
 type: 情境
-codes: [ L23304, L23203 ]
+codes: [L23304, L23203]
 concepts: [self-attention, softmax]
 stem: |
   當 Transformer 模型發生「注意力分布過於平均（Attention Collapse）」的情形時，導致模型無法有效聚焦於關鍵資訊，下列哪一項策略可有效改善此問題？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:3-25]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 5
     by: EX-E1-Codex
-  blind_answer: null
-  dispute: null
+  blind_answer: D
+  dispute: 官方答案 D。縮放乘或除會改變注意力集中方向，普通非負且總和為一的注意力加 L1 懲罰為常數，須另有有效稀疏化機制；原敘述未充分限定，官方計分保留 D。

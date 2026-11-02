@@ -7,7 +7,7 @@ number: 23
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 6
 type: 情境
-codes: [ L21202, L21302 ]
+codes: [L21202, L21302]
 concepts: [phased-rollout]
 stem: |
   某大型醫院即將部署一套輔助診斷的 AI 系統，為降低對臨床流程的衝擊，同時確保風險可控與回饋可收斂，應採取何種『漸進式部署』（Phased Rollout）策略最為合適？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:4-5, guide-1:5-21]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 6
     by: EX-E1-Codex
-  blind_answer: null
+  blind_answer: A
   dispute: null

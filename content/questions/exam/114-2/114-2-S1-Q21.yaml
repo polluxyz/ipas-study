@@ -7,7 +7,7 @@ number: 21
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 5
 type: 情境
-codes: [ L21104, L23302 ]
+codes: [L21104, L23302]
 concepts: [missing-modality]
 stem: |
   在多模態 AI 模型訓練或推論過程中，遇到某一模態資料缺失（例如僅有影像資料但缺少文本說明），下列哪一種策略最有效維持模型效能？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 5
     by: EX-E1-Codex
-  blind_answer: null
+  blind_answer: B
   dispute: null

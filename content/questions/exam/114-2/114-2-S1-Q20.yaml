@@ -7,7 +7,7 @@ number: 20
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 5
 type: 情境
-codes: [ L21103, L23304 ]
+codes: [L21103, L23304]
 concepts: [gan, mode-collapse]
 stem: |
   在使用生成對抗網路（GAN）進行人臉影像生成時，若出現「模式崩潰」（Mode Collapse）現象，下列哪一種方法最常被用來有效解決此問題？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:3-63]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 5
     by: EX-E1-Codex
-  blind_answer: null
-  dispute: null
+  blind_answer: B
+  dispute: 官方答案 B。Wasserstein 目標與 critic 梯度懲罰可並用，兩者各有訓練穩定的依據；題面未給「最常」的比較設定，不能僅憑能並用證明同等最常，保留此比較判準疑義。

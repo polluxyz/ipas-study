@@ -7,7 +7,7 @@ number: 8
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 2
 type: 觀念
-codes: [ L23203 ]
+codes: [L23203]
 concepts: [softmax, pooling]
 stem: |
   關於 Softmax 與 Max-Pooling，下列敘述何者正確？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:3-48, guide-3:4-69, guide-3:5-35]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 2
     by: EX-E1-Codex
-  blind_answer: null
-  dispute: null
+  blind_answer: C
+  dispute: 官方答案 C。Softmax 給各位置輸出不等於保留所有原始輸入資訊；全部 logits 加同一常數仍得相同機率，因此不能教成無損轉換。官方答案保留，選項的資訊保留措辭有疑義。

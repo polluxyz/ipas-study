@@ -7,7 +7,7 @@ number: 11
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 3
 type: 情境
-codes: [ L23202 ]
+codes: [L23202]
 concepts: [dbscan]
 stem: |
   企業資料分析團隊使用 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法進行顧客行為分群，並希望模型能自動區分主要群集與雜訊資料。在此演算法中，決定聚類結果的兩個主要超參數為下列何者？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-43, guide-3:4-44]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 3
     by: EX-E1-Codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

@@ -7,7 +7,7 @@ number: 1
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 1
 type: 情境
-codes: [ L21101 ]
+codes: [L21101]
 concepts: [sentiment-analysis]
 stem: |
   某電商企業希望利用自然語言處理（NLP）技術，分析顧客在社群平台與商品評論中的文字內容，以即時掌握顧客對產品的滿意度變化。若採用情感分析（Sentiment Analysis）模型，其主要目的為何？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:3-30]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 1
     by: EX-E1-Codex
-  blind_answer: null
+  blind_answer: B
   dispute: null

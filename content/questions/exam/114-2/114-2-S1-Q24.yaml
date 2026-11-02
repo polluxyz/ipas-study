@@ -7,7 +7,7 @@ number: 24
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 6
 type: 情境
-codes: [ L23401, L21203 ]
+codes: [L23401, L21203]
 concepts: [adversarial-examples, adversarial-training]
 stem: |
   某金融機構的 AI 風控系統遭受對抗性攻擊，駭客透過對輸入特徵進行微小但惡意的擾動，成功欺騙了模型。為了從根本上解決模型自身對這類攻擊的脆弱性，下列何者並非針對此種攻擊型態的技術手段？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 6
     by: EX-E1-Codex
-  blind_answer: null
-  dispute: null
+  blind_answer: D
+  dispute: 官方答案 D。防火牆沒有直接改善有效微小擾動下的模型脆弱性；但 A 輸入檢查、C 輸出護欄也不必然根治模型決策邊界。題幹「從根本上」與寬鬆的攻擊路徑防線判準不同，保留官方 D 與措辭疑義。

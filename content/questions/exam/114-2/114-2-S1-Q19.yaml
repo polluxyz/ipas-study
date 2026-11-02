@@ -7,7 +7,7 @@ number: 19
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 5
 type: 情境
-codes: [ L21101, L23301 ]
+codes: [L21101, L23301]
 concepts: [text-augmentation, overfitting]
 stem: |
   某研究團隊正在訓練一個針對低資源語言（如少數民族語言）的語言模型，但該語言僅有約 1 萬筆語料可用。在訓練過程中出現明顯的過擬合現象，若希望在不新增真實語料的前提下提升模型的泛化能力，採用下列哪一種方法最為適合？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 5
     by: EX-E1-Codex
-  blind_answer: null
-  dispute: null
+  blind_answer: B
+  dispute: 官方答案 B。標準反向翻譯由目標語句產生合成來源，未自動新增不同目標語句；原題純語言模型任務與翻譯資源不足以直接支持該敘述。往返改寫另需額外翻譯與品質條件，官方計分仍保留 B。

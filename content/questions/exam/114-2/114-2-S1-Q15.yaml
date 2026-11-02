@@ -7,7 +7,7 @@ number: 15
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 4
 type: 情境
-codes: [ L21302, L23303 ]
+codes: [L21302, L23303]
 concepts: [model-registry]
 stem: |
   在企業導入的 MLOps（Machine Learning Operations）流程中，Model Registry 最常用於哪一個階段？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:5-19]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 4
     by: EX-E1-Codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

@@ -7,7 +7,7 @@ number: 22
 pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
 pdf_page: 6
 type: 情境
-codes: [ L21302, L23101 ]
+codes: [L21302, L23101]
 concepts: [data-drift, distribution-drift-detection]
 stem: |
   某電商平台開發的顧客流失預測模型在上線數月後，預測準確率明顯下降。專案團隊懷疑顧客行為模式改變，導致模型輸入特徵的分佈與原始訓練資料不同，出現典型的資料漂移（Data Drift）問題。為了偵測並確認資料分佈是否發生變化，下列哪一種作法最合適？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:4-42, guide-1:4-43]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 6
     by: EX-E1-Codex
-  blind_answer: null
+  blind_answer: D
   dispute: null
