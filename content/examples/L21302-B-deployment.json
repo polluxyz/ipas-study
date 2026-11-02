@@ -49,7 +49,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 0,
-      "dwell_seconds": 3
+      "dwell_seconds": 5
     },
     {
       "id": "vision-02",
@@ -94,7 +94,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 1,
-      "dwell_seconds": 4
+      "dwell_seconds": 3
     },
     {
       "id": "vision-03",
@@ -139,7 +139,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 2,
-      "dwell_seconds": 2
+      "dwell_seconds": 2.5
     },
     {
       "id": "vision-04",
@@ -184,7 +184,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 3,
-      "dwell_seconds": 3
+      "dwell_seconds": 1.5
     },
     {
       "id": "vision-05",
@@ -229,7 +229,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 0,
-      "dwell_seconds": 4
+      "dwell_seconds": 5
     },
     {
       "id": "vision-06",
@@ -274,7 +274,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 1,
-      "dwell_seconds": 2
+      "dwell_seconds": 3
     },
     {
       "id": "vision-07",
@@ -319,7 +319,7 @@
       "detector_target_found": false,
       "cloud_detector_target_found": true,
       "cell": 2,
-      "dwell_seconds": 3
+      "dwell_seconds": 2.5
     },
     {
       "id": "vision-08",
@@ -364,7 +364,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 3,
-      "dwell_seconds": 4
+      "dwell_seconds": 1.5
     },
     {
       "id": "vision-09",
@@ -409,7 +409,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 0,
-      "dwell_seconds": 2
+      "dwell_seconds": 5
     },
     {
       "id": "vision-10",
@@ -499,7 +499,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 2,
-      "dwell_seconds": 4
+      "dwell_seconds": 2.5
     },
     {
       "id": "vision-12",
@@ -544,7 +544,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 3,
-      "dwell_seconds": 2
+      "dwell_seconds": 1.5
     },
     {
       "id": "vision-13",
@@ -589,7 +589,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 0,
-      "dwell_seconds": 3
+      "dwell_seconds": 5
     },
     {
       "id": "vision-14",
@@ -634,7 +634,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 1,
-      "dwell_seconds": 4
+      "dwell_seconds": 3
     },
     {
       "id": "vision-15",
@@ -679,7 +679,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 2,
-      "dwell_seconds": 2
+      "dwell_seconds": 2.5
     },
     {
       "id": "vision-16",
@@ -724,7 +724,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 3,
-      "dwell_seconds": 3
+      "dwell_seconds": 1.5
     },
     {
       "id": "vision-17",
@@ -769,7 +769,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 0,
-      "dwell_seconds": 4
+      "dwell_seconds": 5
     },
     {
       "id": "vision-18",
@@ -814,7 +814,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 1,
-      "dwell_seconds": 2
+      "dwell_seconds": 3
     },
     {
       "id": "vision-19",
@@ -859,7 +859,7 @@
       "detector_target_found": false,
       "cloud_detector_target_found": false,
       "cell": 2,
-      "dwell_seconds": 3
+      "dwell_seconds": 2.5
     },
     {
       "id": "vision-20",
@@ -904,7 +904,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 3,
-      "dwell_seconds": 4
+      "dwell_seconds": 1.5
     },
     {
       "id": "vision-21",
@@ -949,7 +949,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 0,
-      "dwell_seconds": 2
+      "dwell_seconds": 5
     },
     {
       "id": "vision-22",
@@ -1039,7 +1039,7 @@
       "detector_target_found": false,
       "cloud_detector_target_found": true,
       "cell": 2,
-      "dwell_seconds": 4
+      "dwell_seconds": 2.5
     },
     {
       "id": "vision-24",
@@ -1084,7 +1084,7 @@
       "detector_target_found": true,
       "cloud_detector_target_found": true,
       "cell": 3,
-      "dwell_seconds": 2
+      "dwell_seconds": 1.5
     },
     {
       "id": "summary-01",

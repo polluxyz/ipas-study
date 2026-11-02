@@ -13,9 +13,12 @@ goals:
     text: 由 kernel 閒置與請求延遲判斷排程及批次問題
 requires:
   - inference-service-api
+guide_refs:
+  - guide-1:3-58
+  - guide-1:3-81
 formula_groups:
   - id: schedule-window
-    source: https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/optimization.html
+    source: https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/perf_analyzer/genai-perf/README.html#metrics
     status: pending
     checked_by: null
 self_check:
@@ -54,23 +57,29 @@ author: codex
 status: draft
 ---
 
-## 為什麼需要（補充）
+## 為什麼需要
 
+指引提醒影像串流的批次處理若造成延遲，會妨礙即時反應。部署時應先確認回應是否符合場景時限。
+
+:::supplement[來源：NVIDIA Triton「Batchers」「Optimization」；教學合成紀錄 L21302-B]
 推論服務回應很慢，GPU 卻沒有持續工作，可能是資料準備、發起運算或排程等待占了時間。此時只換更大的 GPU，不一定解決問題。
 
-GPU 推論排程安排請求何時執行、哪些請求合成一批。這頁延伸指引的資源與批次延遲議題，利用固定紀錄分辨運算時間、閒置與使用者等待。
+GPU 推論排程安排請求何時執行、哪些請求合成一批。本頁利用固定紀錄，展開運算時間、閒置與使用者等待的差別。
+:::
 
-## 直覺（補充）
+## 直覺
 
+:::supplement[來源：NVIDIA Triton「Batchers」「Optimization」；教學合成紀錄 L21302-B]
 kernel 是 GPU 實際執行的低階運算工作。本例每批先有 host 發起空檔，再執行 kernel；合批可減少發起次數，也可能讓早到的請求多等一會。
 
 ![看前兩批的 host 空檔與 kernel，批次縮短總視窗，但第一批完成時間較晚。](figure:l21302-gpu-inference-scheduling-timeline)
 
 圖由同一批 24 請求的合成紀錄產生。它不量真實 GPU，也不把資料依賴或不同請求形狀造成的限制省略成無限並行。
+:::
 
-## 定義與公式（補充）
+## 定義與公式
 
-### 固定批次與動態批次
+### 固定批次與動態批次（補充）
 
 | 方式 | 如何組成工作 | 要確認的代價 |
 |---|---|---|
@@ -80,7 +89,9 @@ kernel 是 GPU 實際執行的低階運算工作。本例每批先有 host 發�
 
 這裡處理可獨立推論的無狀態影像請求。相同模型不代表所有輸入都能合批，形狀、版本與模型支援都須確認。
 
-### 完成率與時間範圍
+### 完成率與時間範圍（補充）
+
+GenAI-Perf 以完成回應數除觀測時間定義請求吞吐，以送出至最終回應的時間差定義請求延遲。本例把時間差的邊界改為後端到達與完成，再加固定外圍時間 $O$，自行推得下式：
 
 $$
 H=n/(D/1000),\qquad T_i=O+F_i-A_i.
@@ -90,9 +101,9 @@ $H$ 是後端吞吐、單位 req/s；$n$ 是完成數，$D$ 是觀測視窗 ms�
 
 $T_i$ 是指定範圍的端到端延遲。後端觀測起點設為第一筆到達時刻，終點為最後一筆完成，包含 host 空檔與 kernel；不能只用 kernel 總和當分母。
 
-## 算一次（補充）
+## 算一次
 
-### 同時到達的 24 請求
+### 同時到達的 24 請求（補充）
 
 本例把本組同 24 個影像索引送進另一個固定壓測。它們在後端時間 0 同時可用，沒有額外湊批等待；各批串行、不重疊。
 
@@ -110,7 +121,7 @@ $T_i$ 是指定範圍的端到端延遲。後端觀測起點設為第一筆到�
 
 若本次尖峰門檻是 160 ms，四筆方案全部過關，單筆方案無法全過。但第一筆由 42 變 50 ms，仍顯示吞吐提高不代表每筆都更快。
 
-### 低流量時改看等待上限
+### 低流量時改看等待上限（補充）
 
 如果只到一筆請求，為了湊批再等 15 ms，之後還要 host 4 與 kernel 16 ms。端到端為 $30+15+4+16=65$ ms，不能滿足 50 ms 門檻。
 
@@ -146,11 +157,13 @@ first=50 ms, pass160=24/24
 now 加入每批 host 與 kernel，finish 保留每筆完成時間。吞吐看最後完成視窗，延遲則把每筆等待與外圍時間都留下。
 :::
 
-## 怎麼用、怎麼判讀（補充）
+## 怎麼用、怎麼判讀
 
+:::supplement[來源：NVIDIA Triton「Batchers」「Optimization」；教學合成紀錄 L21302-B]
 先看時間軸：等待發生在資料準備、湊批、資源排程，還是 kernel？若 host 空檔明顯，可試合批或其他排程；若 GPU 已滿，增加併發可能只會堆積等待。
 
 逐次固定模型、輸入、精度與同一批請求，比較記憶體、品質、吞吐與延遲。多開模型實例可能改善利用率，也可能耗盡記憶體，需再量測。
+:::
 
 ### 換個場景（補充）
 
@@ -160,11 +173,13 @@ now 加入每批 host 與 kernel，finish 保留每筆完成時間。吞吐看�
 | 夜間圖文摘要 | 可評估較大批次 | 整批期限及記憶體 |
 | 車站影像分析 | 尖峰時調整批次 | 最慢請求而非只有平均 |
 
-## 常見誤解（補充）
+## 常見誤解
 
+:::supplement[來源：NVIDIA Triton「Batchers」「Optimization」；教學合成紀錄 L21302-B]
 - **GPU 閒置就是模型太小？** 也可能是資料準備或排程斷續，先看時間軸。
 - **批次越大越好？** 湊批等待、記憶體與單筆時限都可能變差。
 - **湊批最多等 15 ms，所以總延遲最多 15 ms？** 執行、壅塞與外圍成本仍存在。
+:::
 
 ## 進階
 
@@ -175,12 +190,15 @@ now 加入每批 host 與 kernel，finish 保留每筆完成時間。吞吐看�
 ### 參考來源
 
 - guide-1:3-58、guide-1:3-81：批次延遲與部署資源議題；指引未完整教授本頁 GPU 時間軸及動態批次，相關展開皆標補充。
+- [NVIDIA GenAI-Perf：Metrics](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/perf_analyzer/genai-perf/README.html#metrics)：支援完成數／時間及完成減到達的定義；固定外圍 $O$ 為本例假設。
 - [NVIDIA Triton：Batchers](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/batcher.html)：支援動態批次、湊批等待上限及佇列政策。
 - [NVIDIA Triton：Optimization](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/optimization.html)：官方教學，支援合批、模型實例與吞吐／延遲比較。
 - [OpenVINO：吞吐優化](https://docs.openvino.ai/2025/openvino-workflow/running-inference/optimize-inference/optimizing-throughput.html)：支援不同性能目標需分開配置與測量。
 
-## 小結（補充）
+## 小結
 
+:::supplement[來源：NVIDIA Triton「Batchers」「Optimization」；教學合成紀錄 L21302-B]
 - 看時間軸，分清 GPU 運算與未執行 kernel 的空檔。
 - 用整個觀測視窗算吞吐，逐筆保存端到端等待。
 - 動態合批需同時限制等待，並驗收記憶體與品質。
+:::

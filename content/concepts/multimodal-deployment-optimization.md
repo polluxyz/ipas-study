@@ -24,10 +24,10 @@ guide_refs:
 formula_groups:
   - id: storage-budget
     source: https://docs.pytorch.org/docs/2.15/generated/torch.Tensor.nbytes.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L21302-B
   - id: throughput-window
-    source: https://docs.openvino.ai/2025/openvino-workflow/running-inference/optimize-inference/optimizing-throughput.html
+    source: https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/perf_analyzer/genai-perf/README.html#metrics
     status: pending
     checked_by: null
 self_check:
@@ -107,7 +107,7 @@ $$
 
 $N$ 是參數數，$b$ 是每值位元；式中容量皆用 bytes。$B_{\mathrm{other}}$ 包含激活、快取與工作區，不必與權重同步縮小。
 
-同一後端觀測視窗內，吞吐為：
+GenAI-Perf 將請求吞吐定義為完成回應數除以觀測時間。本頁沿用此定義，限定同一後端視窗，並把毫秒換成秒：
 
 $$
 H=n/(D/1000).
@@ -115,9 +115,9 @@ $$
 
 $n$ 是完成請求數，$D$ 是視窗長度、單位 ms，$H$ 單位 req/s。單筆延遲則量一筆請求從送出到完成的時間，不能用 $D/n$ 取代每位使用者的等待。
 
-## 算一次（補充）
+## 算一次
 
-### 權重位元與完整用量
+### 權重位元與完整用量（補充）
 
 沿用同一批影像與圖文摘要紀錄，MB 採十進位。八千萬參數的視覺模型，FP32 為 $80000000\times32/8=320000000$ bytes，即 320 MB。
 
@@ -125,7 +125,7 @@ $n$ 是完成請求數，$D$ 是視窗長度、單位 ms，$H$ 單位 req/s。�
 
 圖文摘要的四億參數基底若用 FP16，權重為 800 MB。兩百萬 LoRA 更新也是 FP16 時，更新檔僅 4 MB；不合併時單是兩者權重就有 804 MB，尚未計執行快取。
 
-### 批次改善與單筆改善分開看
+### 批次改善與單筆改善分開看（補充）
 
 GPU 推論排程與批次頁沿用 24 個影像索引，另做同時到達後端的固定壓測。單筆執行全部完成需 288 ms，四筆合批需 120 ms。
 
@@ -171,10 +171,12 @@ FP16 base=800 MB, update=4 MB
 
 | 場景 | 可考慮的方式 | 驗收焦點 |
 |---|---|---|
-| 影像、語音多模態訓練 | GPU／TPU 及模型優化 | 資源成本與可用容量 |
+| 影像、語音多模態訓練 | GPU／TPU 及模型優化 | 訓練時間、硬體成本與容量 |
 | 邊緣多模態服務 | 壓縮、輕量模型、雲邊分工 | 容量、延遲與隱私 |
 | 交通標誌加語音提示（補充） | 近端視覺與回應 | 即時性及辨識品質 |
 | 展覽圖文摘要（補充） | 摘要模型與批次服務 | 每筆等待及尖峰吞吐 |
+
+指引以數週、數十萬元硬體成本說明多模態訓練的可能量級。這是資源規劃的提醒；不同模型與資料的工期、費用仍須個別估算。
 
 ## 常見誤解
 
@@ -195,6 +197,7 @@ FP16 base=800 MB, update=4 MB
 - [TensorRT：How TensorRT Works](https://docs.nvidia.com/deeplearning/tensorrt/latest/architecture/how-trt-works.html)：支援引擎及記憶體界線。
 - [PyTorch：Tensor.nbytes](https://docs.pytorch.org/docs/2.15/generated/torch.Tensor.nbytes.html)：支援參數數乘每元素容量的核算。
 - [OpenVINO：延遲優化](https://docs.openvino.ai/2025/openvino-workflow/running-inference/optimize-inference/optimizing-latency.html)、[吞吐優化](https://docs.openvino.ai/2025/openvino-workflow/running-inference/optimize-inference/optimizing-throughput.html)：支援測量範圍及兩種優化目標。
+- [NVIDIA GenAI-Perf：Metrics](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/perf_analyzer/genai-perf/README.html#metrics)：直接定義請求吞吐；本頁僅沿用請求指標，不移用 token 排程假設。
 - [NVIDIA Triton：Optimization](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/optimization.html)：教學參考，支援同工作負載下比較吞吐與延遲。
 
 ## 小結

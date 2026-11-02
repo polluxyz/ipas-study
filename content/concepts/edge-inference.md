@@ -41,7 +41,7 @@ guide_refs:
   - guide-1:5-18
 formula_groups:
   - id: serial-latency
-    source: https://docs.openvino.ai/2025/openvino-workflow/running-inference/optimize-inference/optimizing-latency.html
+    source: https://docs.nvidia.com/deeplearning/tensorrt/11.4.1/performance/benchmarking.html#reported-performance-metrics
     status: pending
     checked_by: null
   - id: weight-budget
@@ -139,7 +139,7 @@ status: draft
 
 近端推論少走網路往返；雲端可能有較快的運算資源，卻多了傳輸與排隊。比較時要從輸入取得一路算到回應，不能只比模型 kernel。
 
-![端側減少傳輸時間；本例雲端推論雖較短，整條路徑仍超過 50 ms。](figure:l21302-edge-inference-stream-budget)
+![端側減少傳輸時間；雲端 kernel 雖只有 8 ms，傳輸與排隊仍使整條路徑超過 50 ms。](figure:l21302-edge-inference-stream-budget)
 
 圖是固定合成紀錄的串行加總，不是實機測速。預算定義從攝影開始，到回應完成為止。
 
@@ -162,7 +162,7 @@ status: draft
 
 ### 時間與容量預算（補充）
 
-假設各段不重疊，端到端延遲可寫為：
+TensorRT 文件示範分段加總延遲，並區分推論與應用的測量邊界。本頁依串行不重疊假設，自行將攝影到回應的六段相加；以下不是文件原有的同名公式：
 
 $$
 T=C+X+(P+Q+K)+R.
@@ -196,7 +196,7 @@ $N$ 是參數數，$b$ 是每值位元，$M_w$ 單位 bytes。$M_{\mathrm{other}
 
 ### 放得下還要跟得上（補充）
 
-影像模型有八千萬參數。FP32 權重為 $80000000\times32/8=320$ MB，加其他 120 MB 共 440 MB，超出裝置 256 MB。
+影像模型有八千萬參數。FP32 權重為 $80000000\times32/8=320000000$ bytes，即 320 MB，加其他 120 MB 共 440 MB，超出裝置 256 MB。
 
 INT8 權重為 80 MB，加其他 120 MB 共 200 MB，才低於容量。實際算子、量化誤差及動態記憶體仍要驗收，不能據此承諾速度。
 
@@ -204,7 +204,7 @@ INT8 權重為 80 MB，加其他 120 MB 共 200 MB，才低於容量。實際算
 
 ### 輕量模型的固定紀錄
 
-MobileNet 是高效率卷積架構，可用於影像分類；輕量 YOLO 用於物件偵測，能輸出目標位置。先看任務要分類還是定位，不能只比模型名稱。
+MobileNet 是高效率卷積架構，可用於影像分類；輕量 YOLO（指引舉 YOLOv5-Nano）用於物件偵測，能輸出目標位置。先看任務要分類還是定位，不能只比模型名稱。
 
 :::supplement[來源：MobileNets 原論文；教學合成紀錄 L21302-B]
 | 合成配置 | kernel ms | 峰值 MB | 同索引品質 |
@@ -213,12 +213,20 @@ MobileNet 是高效率卷積架構，可用於影像分類；輕量 YOLO 用於�
 | 輕量 YOLO 偵測器 | 18 | 200 | 找回目標 21/24 |
 | 雲端偵測器 | 8 | 900 | 找回目標 23/24 |
 
-這是可重播的教學紀錄表，不是 MobileNet 或 YOLO 的硬體實測。分類與偵測的品質指標不同；部署方案仍用既定驗證／測試索引分別評估，不能拿整體比例調參。
+這是可重播的教學紀錄表，不是 MobileNet 或 YOLO 的硬體實測。分類與偵測的品質指標不同，不能直接排名。
+
+| 合成配置 | 驗證索引 13–18 | 測試索引 19–24 |
+|---|---|---|
+| MobileNet 分類頭 | 分類正確 6/6 | 分類正確 5/6 |
+| 輕量 YOLO 偵測器 | 找回目標 6/6 | 找回目標 4/6 |
+| 雲端偵測器 | 找回目標 6/6 | 找回目標 5/6 |
+
+挑方案看驗證索引，最後只用測試索引回報；不以測試表現反覆挑選配置。
 :::
 
 ### 摘要服務與多階段路由
 
-:::supplement[來源：AWS IoT Greengrass「Perform machine learning inference」；教學合成紀錄 L21302-B]
+:::supplement[來源：教學合成紀錄 L21302-B]
 圖文摘要的四億參數模型，INT8 權重 400 MB，加其他 240 MB 共 640 MB。個人電腦本例預算 768 MB 可容納；手機預算 384 MB 放不下，IoT 的 64 MB 更不足。
 
 手機改用一億二千萬參數的小摘要模型，INT8 120 MB 加其他 160 MB 為 280 MB。固定紀錄的端側摘要回應為 $0+0+20+0+260+20=300$ ms，低於本例 350 ms 門檻。
@@ -263,12 +271,29 @@ public: 80 ms, pass=False
 
 ### 把逐影格結果接回業務
 
-產線流程可從攝影、瑕疵辨識、通知操作員一路接到調整設備。零售則追蹤位置與停留，再累積成熱點圖，支援店鋪配置。
+產線的近端判定要接到能執行的回饋流程：
+
+1. 攝影機取得工件影像。
+2. 近端模型逐影格判定是否有瑕疵。
+3. 把同一工件的判定合併成事件，附上工件 ID、時間與模型版。（補充）
+4. 通知操作員需要處理的工件與問題。
+5. 操作員據此調整產線或設備。
+
+零售的輸出則是彙整圖，不是每張影格各發一次通知：
+
+1. 追蹤位置，取得移動路徑與停留時間。
+2. 將停留時間歸入對應店內區域。
+3. 用熱點圖呈現各區停留差異。
+4. 依動線與熱區檢視店鋪配置。
+
+![區域 0 的累積停留最久；圖中深淺表示停留秒數，不代表模型準確率。](figure:l21302-edge-inference-retail-heatmap)
 
 :::supplement[來源：AWS「Pattern 3: Real-time inference at the edge」；教學合成紀錄]
 產線把同一工件的影格判定組成一個帶工件 ID、時間及模型版的瑕疵事件，再送通知或控制系統。重複看到同一缺陷時，要避免把每張圖都當新事件。
 
-零售以固定區域彙整停留秒數；本例 24 筆依 cell 分組，每區各累積 18 秒。這是彙整示範，真正動線需處理追蹤、遮擋、重複計時及隱私。
+零售將店內劃為區域（cell）。本例同 24 筆影格，每區 6 筆；逐筆停留時間相加，區域 0 為 30 秒、區域 1 為 18 秒、區域 2 為 15 秒、區域 3 為 9 秒，合計 72 秒。
+
+圖只是合成彙整示範；真正動線還需處理追蹤、遮擋、重複計時及隱私，不能直接把影格數當停留秒數。
 :::
 
 ### 換個場景
@@ -299,7 +324,8 @@ public: 80 ms, pass=False
 - guide-1:3-72、guide-1:3-81、guide-1:3-83、guide-1:5-18：端側生成、資源壓縮、自適應及多階段方向、裝置更新限制。
 - [AWS IoT Greengrass：機器學習推論](https://docs.aws.amazon.com/greengrass/v2/developerguide/perform-machine-learning-inference.html)：近端執行與雲端訓練的官方說明。
 - [AWS：即時邊緣推論模式](https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-serverless/pattern-real-time-inference.html)：架構教學參考，支援事件、前處理及回饋流程。
-- [OpenVINO：延遲優化](https://docs.openvino.ai/2025/openvino-workflow/running-inference/optimize-inference/optimizing-latency.html)：支援端到端測量範圍與延遲預算。
+- [OpenVINO：延遲優化](https://docs.openvino.ai/2025/openvino-workflow/running-inference/optimize-inference/optimizing-latency.html)：支援延遲優化的背景與首次推論成本。
+- [TensorRT：效能指標與測量邊界](https://docs.nvidia.com/deeplearning/tensorrt/11.4.1/performance/benchmarking.html#reported-performance-metrics)：支援分段核算思路；六段式依本例串行假設自行加總。
 - [TensorRT：執行與記憶體](https://docs.nvidia.com/deeplearning/tensorrt/latest/architecture/how-trt-works.html)：支援權重以外的推論記憶體。
 - [PyTorch：Tensor.nbytes](https://docs.pytorch.org/docs/2.15/generated/torch.Tensor.nbytes.html)：支援元素數乘每元素容量的位元核算。
 - [OpenVINO Quick Start Guide](https://docs.openvino.ai/2025/_static/download/OpenVINO_Quick_Start_Guide.pdf)：第 2 頁支援剪枝、量化與蒸餾的差異。
