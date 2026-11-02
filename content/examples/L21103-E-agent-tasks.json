@@ -663,19 +663,11 @@
       "expected_calls": 4,
       "drafts": {
         "field": "departure",
-        "grounded": {
-          "departure": "15:30",
-          "source": "travel-operator-fixture",
-          "source_date": "2026-11-02",
-          "effective_for": "2026-11-03"
-        },
+        "grounded": null,
         "candidate": {
-          "departure": "15:30",
-          "source": "travel-operator-fixture",
-          "source_date": "2026-11-02",
-          "effective_for": "2026-11-03"
+          "departure": null
         },
-        "risk": "none"
+        "risk": "missing_evidence"
       }
     },
     {
@@ -1500,19 +1492,11 @@
       "expected_calls": 4,
       "drafts": {
         "field": "lead_time",
-        "grounded": {
-          "lead_time": "18日",
-          "source": "supplier-registry-fixture",
-          "source_date": "2026-11-02",
-          "effective_for": "2026-11-03"
-        },
+        "grounded": null,
         "candidate": {
-          "lead_time": "18日",
-          "source": "supplier-registry-fixture",
-          "source_date": "2026-11-02",
-          "effective_for": "2026-11-03"
+          "lead_time": null
         },
-        "risk": "none"
+        "risk": "missing_evidence"
       }
     },
     {

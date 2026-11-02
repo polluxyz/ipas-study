@@ -11,6 +11,7 @@
 - `max_retries_per_worker=1` 指首次失敗後最多再試一次，每代理最多兩次；`max_calls_total=4` 包含轉派後呼叫。每任務最多轉派一次。
 - `handoff_to`、`human_owner`、`human_trigger` 是轉派及人工接手契約。`expected_tool_outcome` 只表示查證結果，不代表草稿已可對外發布。
 - `drafts` 對照依據與候選；`unsupported_fact`、`group_stereotype`、`operation_permission` 必須攔下，不能由工具查詢成功推定內容審查通過。
+- `missing_evidence` 表示沒有有效回傳：`grounded=null`，候選只保留值為 `null` 的欄位，不附來源、不生成內容草稿，直接交人工補查；`none` 表示本組未預設草稿風險。
 - 每領域 01–05 為練習索引，06–10 為核對索引；不訓練、不估泛化效能，四頁共用完整 20 筆。種子固定 42，但此資料不使用亂數。
 
 ## 關鍵核對數值

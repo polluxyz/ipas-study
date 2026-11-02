@@ -114,13 +114,15 @@ TR02 第一次取得更新日2026-10-01 的08:30。即使代理聲稱「已查�
 
 預設從專案根目錄讀取例子；若在其他目錄執行，先將環境變數 `IPAS_EXAMPLE_FILE` 設為該JSON檔的絕對路徑。
 
+驗收工具 `run-code.mjs` 會切到暫存目錄執行，因此使用它時也須先設定 `IPAS_EXAMPLE_FILE`，指向目前 worktree 的例子檔絕對路徑。
+
 ```python
 import json, os
 from pathlib import Path
 file = Path(os.environ.get("IPAS_EXAMPLE_FILE", "content/examples/L21103-E-agent-tasks.json"))
 data = json.loads(file.read_text(encoding="utf-8"))
 tasks = {t["task_id"]: t for t in data["tasks"]}
-def accepted(t, r):
+def valid(t, r):
     return (r.get("status") == "ok" and r.get("query_key") == t["query_key"]
             and r.get("source") in t["trusted_sources"]
             and t["min_source_date"] <= r.get("source_date", "") <= data["as_of_date"]
@@ -142,9 +144,9 @@ def coordinate(t):
                 return "human", calls, None, failures
             r = t[worker][attempt]
             calls += 1
-            if accepted(t, r):
+            if valid(t, r):
                 return "accepted", calls, r["value"], failures
-            reason = r["status"] if r["status"] != "ok" else "證據不符"
+            reason = r["status"] if r["status"] != "ok" else "日期或證據不符"
             failures.append((worker, attempt + 1, reason))
     return "human", calls, None, failures
 print("TR03:", coordinate(tasks["TR03"])[:3])
@@ -166,6 +168,8 @@ TR08: ('human', 4, None, [('primary', 1, 'timeout'), ('primary', 2, 'timeout'), 
 子任務可分開查證、各有清楚交付物時，適合分工。若每一步都必須等待上一位決定，加入代理可能只增加傳遞資訊的成本。
 
 驗收不能只問「做完了嗎」。應核對子任務證據，再確認合併後沒有日期矛盾、重複項目或範圍缺漏；多數代理同意，也可能只是共用同一個錯誤來源。
+
+把所有工作代理統一成同一個模型，不能取代驗收。共用模型仍可能重複同一類錯誤，必須回到來源與交付契約判斷結果。
 
 ### 換個場景（補充）
 
