@@ -1,0 +1,50 @@
+id: 115-1-S3-Q42
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 42
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 12
+type: 程式
+codes: [L23302, L23203]
+concepts: [transfer-learning]
+stem: |
+  下圖為使用 ResNet 進行遷移學習（Transfer Learning）的 Python 程式片段。請回答第 42~43 題。
+
+  觀察程式中行(A)將所有既有權重的梯度計算關閉，這在遷移學習中屬於哪一種標準策略？
+code: |
+  import torch
+  import torch.nn as nn
+  import torchvision
+
+  model = torchvision.models.resnet50(pretrained=True)
+  for param in model.parameters():
+      param.requires_grad = False  # 行(A)
+
+  model.fc = nn.Linear(2048, 2)
+  optimizer = torch.optim.Adam(model.fc.parameters(), lr=1e-4)
+code_lang: python
+options:
+  A: 全面微調（Full Fine-Tuning）
+  B: 零樣本學習（Zero-shot Learning）
+  C: 特徵萃取（Feature Extraction）
+  D: 知識蒸餾（Knowledge Distillation）
+answer: C
+explanation:
+  summary: 答案為 C；凍結預訓練骨幹並只訓練新分類頭，屬於特徵萃取策略。
+  correct: 迴圈將當時既有參數的 requires_grad 設為 False，使反向傳播不替它們計算參數梯度。之後建立的 nn.Linear(2048, 2) 預設仍可訓練，而 Adam 只接收 model.fc.parameters()，因此使用骨幹輸出的 2048 維特徵學習二類分類頭。凍結參數不等同 model.eval()；BatchNorm 的執行模式與統計量仍須另行管理。
+  wrong:
+    A: 全面微調會讓預訓練骨幹的參數也參與更新；本程式將它們凍結，優化器又只持有新 fc 的參數，不符合全面微調。
+    B: 零樣本學習強調不用目標類別的訓練樣本完成該類別辨識；這裡是設置可訓練分類頭的遷移流程，凍結骨幹本身不代表零樣本學習。
+    D: 知識蒸餾需要教師模型提供預測或中間表示等監督訊號來訓練學生模型；這段沒有教師與學生的對應訓練，而是重用預訓練骨幹。
+  rule: 判斷凍結式遷移學習時，要同時追蹤 requires_grad、換層順序與優化器實際持有的參數。
+guide_refs: [guide-3:4-82]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 12
+    by: EX-E8
+  blind_answer: C
+  dispute: null

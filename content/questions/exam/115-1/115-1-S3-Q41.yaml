@@ -1,0 +1,46 @@
+id: 115-1-S3-Q41
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 41
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 11
+type: 程式
+codes: [L23301, L23304]
+concepts: [image-augmentation]
+stem: |
+  工程師使用 PyTorch 建立 OCR 訓練 pipeline，並對手寫字母資料集套用下圖程式進行資料增強（Transform）。模型在訓練過程中顯示驗證損失（Validation Loss）持續下降，但實際部署後，系統在辨識「b/d/p/q」類字母錯誤率異常偏高。下列何者為最可能的根本原因？
+code: |
+  import torchvision.transforms as transforms
+
+  transform = transforms.Compose([
+      transforms.RandomHorizontalFlip(p=0.5),
+      transforms.RandomRotation(15),
+      transforms.ColorJitter(brightness=0.3),
+      transforms.ToTensor(),
+  ])
+code_lang: python
+options:
+  A: RandomRotation(15)角度過大導致特徵變形，應降至 5 度以內
+  B: RandomHorizontalFlip 破壞字母方向語義，使模型以 50%機率學到鏡像錯誤標籤
+  C: ColorJitter 改變筆畫灰階，導致邊緣偵測特徵失真
+  D: ToTensor( )應放在所有幾何變換之前才能保持座標對應正確
+answer: B
+explanation:
+  summary: 答案為 B；水平翻轉可能改變字母類別，沿用原標籤會引入錯誤監督。
+  correct: Compose 依序對影像執行翻轉、旋轉、亮度擾動及張量轉換，並沒有同步重新標註字母。RandomHorizontalFlip(p=0.5) 表示每張影像有 50% 機率被水平翻轉；對 b/d、p/q 等方向敏感字母，鏡像可能成為另一類的外觀，原標籤便不再適用。這不是部署錯誤率必為 50%；驗證集如何處理也未交代，驗證損失下降不能排除這種語意錯置。
+  wrong:
+    A: RandomRotation(15) 在正負 15 度內隨機旋轉，可能影響辨識，但題目沒有證據支持 5 度是必要上限；水平鏡像更能直接解釋這幾種字母特別容易混淆。
+    C: 亮度擾動可能影響筆畫對比，幅度仍需驗證；但它不會像水平鏡像一樣直接互換左右方向，無法同樣具體地解釋 b/d/p/q 的類別混淆。
+    D: 題示 transforms 可以先處理 PIL 影像，再以 ToTensor 轉成張量；不必先轉張量才能保持幾何座標。把 ToTensor 提前也不會修復翻轉後的標籤錯置。
+  rule: 影像增強必須保留標籤語意，方向本身決定類別時不可直接沿用鏡像前的標籤。
+guide_refs: [guide-3:5-9]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 11
+    by: EX-E8
+  blind_answer: B
+  dispute: null
