@@ -4,7 +4,7 @@ import { writeFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
-import { freshOutput, localUrl, readBuildReceipt, verifyBuildReceipt, guardBuildContext, routeLocalOnly } from '../rollout-smoke.mjs';
+import { freshOutput, localUrl, readBuildReceipt, verifyBuildReceipt, guardBuildContext, routeLocalOnly, gotoSettled } from '../rollout-smoke.mjs';
 
 // KaTeX 被排除後空白可能改變；只忽略空白，並要求原句中的每個查詢字都被 Pagefind 標記。
 export function formulaWitness(result, base) {
@@ -61,7 +61,7 @@ export async function verify() {
     browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE });
     const context = await setupContext({ viewport: { width: 1440, height: 1000 } }, base);
     page = await context.newPage();
-    await page.goto(`${base}/dev/figures/`);
+    await gotoSettled(page, `${base}/dev/figures/`);
     await page.evaluate(async () => { await document.fonts.ready; });
     report.figures = await page.locator('.textbook-figure').count(); assert.equal(report.figures, 5);
     report.formulas = await page.locator('.katex').count(); assert.equal(report.formulas, 3);
@@ -130,7 +130,7 @@ export async function verify() {
     assert.ok(fontRequests.some((url) => url.includes('KaTeX')));
     assert.deepEqual(errors, []); assert.deepEqual(external, []); assert.deepEqual(failed, []);
     const noJs = await setupContext({ javaScriptEnabled: false }, base);
-    const staticPage = await noJs.newPage(); await staticPage.goto(`${base}/dev/figures/`);
+    const staticPage = await noJs.newPage(); await gotoSettled(staticPage, `${base}/dev/figures/`);
     assert.equal(await staticPage.locator('.textbook-figure svg').count(), 5);
     assert.equal(await staticPage.locator('math').count(), 3);
     await noJs.close();

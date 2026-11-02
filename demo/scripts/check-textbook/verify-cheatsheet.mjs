@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import assert from 'node:assert/strict';
 import { parse } from 'yaml';
-import { CELLS, loadContent, localUrl, routeLocalOnly, hasMath, freshOutput, readBuildReceipt, watchBuildResponses, assertExactLinks, supplementCounts, sourceFeatures, verifyFeatures } from '../rollout-smoke.mjs';
+import { CELLS, loadContent, localUrl, routeLocalOnly, hasMath, freshOutput, readBuildReceipt, watchBuildResponses, assertExactLinks, supplementCounts, sourceFeatures, verifyFeatures, gotoSettled, settlePage } from '../rollout-smoke.mjs';
 
 export function sheetLinks(body) {
   return [...body.replace(/```[\s\S]*?```|`[^`\n]*`/g, '').matchAll(/(?<!!)\[[^\]]*\]\((\/concepts\/[^)]+)\)/g)].map((match) => match[1]);
@@ -55,7 +55,7 @@ export async function verifyCheatsheet() {
   const page = await context.newPage(); page.setDefaultTimeout(10000);
   async function go(path, cell = CELLS[4]) {
     await page.setViewportSize({ width: cell.width, height: cell.height });
-    const response = await page.goto(localUrl(path, base).href, { waitUntil: 'networkidle' }); assert.equal(response?.status(), 200, path);
+    const response = await gotoSettled(page, localUrl(path, base).href, { waitUntil: 'networkidle' }); assert.equal(response?.status(), 200, path);
     await page.evaluate(async (theme) => { document.documentElement.dataset.theme = theme; await document.fonts.ready; await Promise.all([...document.images].map((i) => i.decode().catch(() => undefined))); }, cell.theme);
     assert.equal(await page.locator('html').getAttribute('data-theme'), cell.theme);
   }
@@ -64,7 +64,7 @@ export async function verifyCheatsheet() {
       const path = `/codes/${sheet.code}/cheatsheet/`;
       const entry = { code: sheet.code, path, status: '未執行', links: [], viewports: [] }; report.pages.push(entry);
       try {
-        await go(`/codes/${sheet.code}/`); await page.locator(`a[href="${path}"]`).first().click(); await page.waitForURL((url) => url.pathname === path); await go(path);
+        await go(`/codes/${sheet.code}/`); await settlePage(page); await page.locator(`a[href="${path}"]`).first().click(); await page.waitForURL((url) => url.pathname === path); await settlePage(page); await go(path);
         const body = page.locator('.cheatsheet-body'); await body.waitFor();
         const formulaExpected = hasMath(sheet.body);
         assert.equal(await body.locator('.katex-error').count(), 0);
@@ -83,8 +83,8 @@ export async function verifyCheatsheet() {
         for (const [index, href] of hrefs.entries()) {
           const url = localUrl(href, base); const id = decodeURIComponent(url.hash.slice(1)); assert.ok(id, `看教材需指定小節：${href}`);
           const html = await readFile(resolve(root, 'demo/dist', '.' + url.pathname, 'index.html'), 'utf8'); assert.ok(html.includes(`id="${id}"`), `建置缺目標 ${href}`);
-          await go(path); await page.locator('.cheatsheet-body a[href^="/concepts/"]').nth(index).click();
-          await page.waitForURL((location) => location.pathname === url.pathname && location.hash === url.hash);
+          await go(path); await settlePage(page); await page.locator('.cheatsheet-body a[href^="/concepts/"]').nth(index).click();
+          await page.waitForURL((location) => location.pathname === url.pathname && location.hash === url.hash); await settlePage(page);
           await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; }); assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
           const target = page.locator(`[id=${JSON.stringify(id)}]`); await target.waitFor({ state: 'visible' }); assert.equal(await target.count(), 1);
           entry.links.push({ href, id, builtId: true, clicked: true });
