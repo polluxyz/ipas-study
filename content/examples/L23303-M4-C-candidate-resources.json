@@ -1,0 +1,100 @@
+{
+  "source": "與label-efficiency同次本機實測；需求門檻與單價為教學假設",
+  "dataset_sha256": "56208dde31d6123e81592a099da588425b1b750ff89bd025ac0dc298b124edbd",
+  "requirements": {
+    "train_labels_max": 1000,
+    "validation_macro_f1_mean_min": 0.87,
+    "test_macro_f1_audit_min": 0.85,
+    "process_sampled_peak_rss_mib_max": 512,
+    "artifact_kib_max": 32,
+    "single_predict_p95_ms_max": 5,
+    "search_seconds_mean_max": 5,
+    "explanation": "能列出完整詞或詞組的貢獻；不要求因果證明",
+    "complexity": "單層線性分類器或條件機率基線，無GPU"
+  },
+  "candidates": [
+    {
+      "n": 1000,
+      "ratio": 0.5,
+      "route": "word-lr",
+      "test_f1_mean": 0.8739977332819742,
+      "test_f1_std_ddof0": 0.0029071260534088675,
+      "val_macro_f1_mean": 0.8774483749064631,
+      "test_accuracy_mean": 0.874,
+      "test_positive_recall_mean": 0.8779999999999999,
+      "search_seconds_mean": 0.07701148000051035,
+      "artifact_kib_mean": 29.876953125,
+      "predict_p95_ms_mean": 1.0932350004077307,
+      "features_mean": 798.4,
+      "process_peak_rss_mib_max": 170.90234375,
+      "annotation_twd_assumed": 2000,
+      "compute_twd_assumed": 0.0006417623333375862,
+      "worst_observed": {
+        "artifact_kib": 29.96875,
+        "predict_p95_ms": 1.2110800011214449,
+        "search_seconds": 0.08213660000183154
+      },
+      "feature_range": [
+        797,
+        801
+      ]
+    },
+    {
+      "n": 1000,
+      "ratio": 0.5,
+      "route": "char-svm",
+      "test_f1_mean": 0.8706646073440304,
+      "test_f1_std_ddof0": 0.0038890139830625252,
+      "val_macro_f1_mean": 0.8759446495003024,
+      "test_accuracy_mean": 0.8706666666666667,
+      "test_positive_recall_mean": 0.874,
+      "search_seconds_mean": 0.2707920400003786,
+      "artifact_kib_mean": 67.3865234375,
+      "predict_p95_ms_mean": 1.148788000245986,
+      "features_mean": 2222.4,
+      "process_peak_rss_mib_max": 174.21484375,
+      "annotation_twd_assumed": 2000,
+      "compute_twd_assumed": 0.0022566003333364883,
+      "worst_observed": {
+        "artifact_kib": 67.5869140625,
+        "predict_p95_ms": 1.2855950009907247,
+        "search_seconds": 0.2772925999997824
+      },
+      "feature_range": [
+        2214,
+        2229
+      ]
+    },
+    {
+      "n": 1000,
+      "ratio": 0.5,
+      "route": "word-nb",
+      "test_f1_mean": 0.8753318092342226,
+      "test_f1_std_ddof0": 0.0012472704296469244,
+      "val_macro_f1_mean": 0.8794540792103176,
+      "test_accuracy_mean": 0.8753333333333334,
+      "test_positive_recall_mean": 0.8786666666666667,
+      "search_seconds_mean": 0.07595299999957206,
+      "artifact_kib_mean": 48.4703125,
+      "predict_p95_ms_mean": 0.921437999495538,
+      "features_mean": 798.4,
+      "process_peak_rss_mib_max": 170.85546875,
+      "annotation_twd_assumed": 2000,
+      "compute_twd_assumed": 0.0006329416666631005,
+      "worst_observed": {
+        "artifact_kib": 48.623046875,
+        "predict_p95_ms": 0.994370000444178,
+        "search_seconds": 0.08073809999768855
+      },
+      "feature_range": [
+        797,
+        801
+      ]
+    }
+  ],
+  "limitations": [
+    "合成模板及等比例類別，不能外推真實NLP或生成式AI微調",
+    "共享行程RSS只是初篩；部署須隔離量冷啟動/峰值/併發與端到端延遲",
+    "固定驗證被多次使用可能選擇偏差；測試在預先固定全部實驗後一次彙報，不據此追加搜尋"
+  ]
+}
