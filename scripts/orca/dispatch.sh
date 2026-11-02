@@ -16,7 +16,7 @@ LOG=${LOG:-tmp/rollout/handles.txt}
 TITLE=$1; SPECS=$2; SEARCH=${3:+--search }
 AGENT=${AGENT:-codex}
 # Gemini 用完時 tmp/rollout/quota.md 會有一行未解除的標記（docs/orca-multi-agent.md §4）。有標記就不派 Gemini，改用 claude。
-QUOTA=D:/AI_test/tmp/rollout/quota.md
+QUOTA=D:/ipas-study/tmp/rollout/quota.md
 if [ "$AGENT" = gemini ] && [ -f "$QUOTA" ] && grep "gemini 用完" "$QUOTA" | grep -vq "已恢復"; then
   echo "$TITLE: Gemini 標記為用完（$QUOTA），改派 claude"; AGENT=claude
 fi
@@ -24,15 +24,15 @@ fi
 # 決定工作位置：新 worktree、既有 worktree，或主 checkout。
 if [ -n "$WT" ]; then
   BRANCH=${BRANCH:-content/$WT}
-  WTPATH=$($ORCA worktree create --repo "path:D:\AI_test" --name "$WT" --setup skip --base-branch main --no-parent --json | jget "j.result.worktree.path")
+  WTPATH=$($ORCA worktree create --repo "path:D:\ipas-study" --name "$WT" --setup skip --base-branch main --no-parent --json | jget "j.result.worktree.path")
   [ -z "$WTPATH" ] && { echo "$TITLE worktree create failed"; exit 1; }
   git -C "$WTPATH" branch -m "$BRANCH" || { echo "$TITLE branch rename failed"; exit 1; }
 fi
-PLACE=${WTPATH:-D:\\AI_test}
+PLACE=${WTPATH:-D:\\ipas-study}
 
 SPEC=""; IFS=',' read -ra F <<< "$SPECS"; for f in "${F[@]}"; do SPEC+="$(cat "$f")"$'\n\n'; done
 if [ -n "$WTPATH" ]; then
-  SPEC+="## 工作位置（協調者附加）"$'\n'"你的 worktree 是 \`$WTPATH\`，分支 \`$(git -C "$WTPATH" branch --show-current)\`。只在這裡改檔與 commit，不碰 D:\\AI_test。開工先在 worktree 根目錄跑 \`pnpm --dir demo install --frozen-lockfile\`（套件庫共用，node_modules 各 worktree 獨立）。不要 push、不要開 PR，由協調者處理。"$'\n'
+  SPEC+="## 工作位置（協調者附加）"$'\n'"你的 worktree 是 \`$WTPATH\`，分支 \`$(git -C "$WTPATH" branch --show-current)\`。只在這裡改檔與 commit，不碰 D:\\ipas-study。開工先在 worktree 根目錄跑 \`pnpm --dir demo install --frozen-lockfile\`（套件庫共用，node_modules 各 worktree 獨立）。不要 push、不要開 PR，由協調者處理。"$'\n'
 fi
 
 if [ "$AGENT" != codex ]; then
