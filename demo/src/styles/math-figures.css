@@ -3,6 +3,7 @@
 /* 原型的導覽固定淺色；展示頁的教材區另外驗證真正的深色閱讀背景。 */
 :root[data-theme='dark'] main:has(.s1-figures) { background: #15252b; color: #e4edf1; --sl-color-text: #e4edf1; --sl-color-white: #e4edf1; --ink: #e4edf1; }
 :root[data-theme='dark'] .s1-figures :is(h2, h3, p, .katex, summary) { color: #e4edf1; }
+:root[data-theme='dark'] .s1-figures > p a { color: #78ded2; }
 .textbook-figure { --fig-bg: #f9fbf9; --fig-ink: #263a45; --fig-primary: #006b66; --fig-secondary: #9a3c00; --fig-grid: #d4dfe1; --fig-fill: #edf5f4; margin: 2rem 0; border: 1px solid var(--fig-grid); border-radius: .75rem; padding: 1rem; background: var(--fig-bg); color: var(--fig-ink); }
 :root[data-theme='dark'] .textbook-figure { --fig-bg: #15252b; --fig-ink: #e4edf1; --fig-primary: #78ded2; --fig-secondary: #ffbf86; --fig-grid: #46535e; --fig-fill: #24373d; }
 .textbook-figure .figure-scroll { overflow-x: auto; max-width: 100%; }
