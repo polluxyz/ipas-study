@@ -1,0 +1,35 @@
+id: 115-1-S1-Q27
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 27
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 9
+type: 情境
+codes: [ L21203 ]
+concepts: []
+stem: |
+  某醫院計劃導入一套 AI 醫療影像診斷輔助系統，用於輔助放射科醫師判讀 CT 影像。院方技術委員會討論在人命攸關且需確保最終臨床決策責任由人類承擔的情境下，從系統設計架構層面，最關鍵的安全機制為何？
+options:
+  A: 採用人機協作（Human-in-the-Loop, HITL）架構，由醫師最終審核決策；
+  B: 模型信心低於閾值（Threshold）即自動關機；
+  C: 隨機切換模型並以多數決決策；
+  D: 對輸入影像加入隨機擾動
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

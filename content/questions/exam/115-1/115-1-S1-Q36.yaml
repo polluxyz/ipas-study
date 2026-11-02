@@ -1,0 +1,35 @@
+id: 115-1-S1-Q36
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 36
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 11
+type: 情境
+codes: [ L23302, L23203 ]
+concepts: []
+stem: |
+  某公司希望開發一個工業零件瑕疵辨識分類模型，共有 10 個類別，但每類僅約 50 張人工標註影像（總計約 500 張）。由於標註成本高昂，短期內無法擴充資料集。在此情境下，工程師需要在有限標註資料下建構高效能模型。請問下列哪一種策略最為適合？
+options:
+  A: 使用在大型資料集預訓練完成的卷積神經網路（CNN），並進行遷移學習微調；
+  B: 從頭訓練大型 Vision Transformer（ViT），完全使用現有 500 張影像；
+  C: 使用 K-means 對影像進行分群，並直接將群集結果作為分類模型輸出；
+  D: 複製既有的資料以增加標註影像數量，並從頭訓練深度 CNN 模型
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 11
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

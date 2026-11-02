@@ -1,0 +1,35 @@
+id: 115-1-S1-Q45
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 45
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 14
+type: 情境
+codes: [ L21302 ]
+concepts: []
+stem: |
+  某 AI 平台整合多個外部 AI 微服務（語音辨識 API、NLP 分析 API、知識圖譜查詢服務），在高峰期間某外部服務偶發延遲或逾時（Timeout），導致請求鏈路壅塞，最終造成平台級服務中斷（Cascading Failure）。為從架構層面預防此類連鎖故障，最有效的設計模式為何？
+options:
+  A: 將所有外部 API 呼叫改為同步串行處理，並取消逾時限制，確保每個請求皆完成後再繼續；
+  B: 為外部服務導入斷路器模式（Circuit Breaker），在異常時暫停呼叫並提供替代回應；
+  C: 擴充各微服務的執行緒池（Thread Pool）上限，以提升併發處理能力；
+  D: 停用服務健康檢查，減少不必要的額外負載
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 14
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

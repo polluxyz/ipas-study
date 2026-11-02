@@ -1,0 +1,35 @@
+id: 115-1-S1-Q46
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 46
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 14
+type: 情境
+codes: [ L23401, L21302 ]
+concepts: []
+stem: |
+  某醫院計劃建立混合雲 AI 平台：使用公有雲 GPU 叢集進行 CT 影像模型訓練，但基於 HIPAA（Health Insurance Portability and Accountability Act）法規要求，患者影像原始資料不得離開醫院院內環境。下列何者最符合「利用公有雲算力訓練模型」與「不傳輸原始患者資料」雙重限制的技術方案？
+options:
+  A: 將患者影像資料以 AES-256 加密後上傳至公有雲，並於雲端解密後進行模型訓練；
+  B: 在院內部署同態加密（Homomorphic Encryption）模組，對推論請求進行加密處理；
+  C: 採用聯邦學習（Federated Learning）於院內訓練模型，僅傳送模型更新至雲端聚合，原始資料不外流；
+  D: 建立專線 VPN 連接醫院與雲端，以網路層安全保護資料傳輸
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 14
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

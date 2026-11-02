@@ -1,0 +1,35 @@
+id: 115-1-S1-Q39
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 39
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 12
+type: 情境
+codes: [ L21302, L21301 ]
+concepts: []
+stem: |
+  某 AI 平台工程師正在為多模態模型訓練系統規劃資料儲存架構，需要同時處理原始影像、非結構化文本，以及經過整理的結構化特徵資料。在此情境下，應如何選擇資料湖（Data Lake）與資料倉儲（Data Warehouse）的使用方式？
+options:
+  A: 將原始影像與文本資料儲存在 Data Lake，將整理後的結構化特徵資料儲存在 Data Warehouse；
+  B: 將所有資料統一儲存在 Data Warehouse，以提升查詢效率；
+  C: 將所有資料統一儲存在 Data Lake，但犧牲結構化資料的查詢效率；
+  D: 僅將原始影像資料儲存在 Data Lake，其餘資料統一存入 Data Warehouse
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 12
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

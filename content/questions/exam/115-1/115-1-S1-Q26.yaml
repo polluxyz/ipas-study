@@ -1,0 +1,35 @@
+id: 115-1-S1-Q26
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 26
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 8
+type: 情境
+codes: [ L21203 ]
+concepts: []
+stem: |
+  某銀行導入一套 AI 授信審核系統，針對貸款申請人進行自動化決策。監理單位要求系統必須符合負責任 AI（Responsible AI）原則，特別是對被拒絕的申請人提供每筆決策的具體理由說明。從技術與合規的角度，此要求的核心能力需求為何？
+options:
+  A: 系統必須在收到申請後 10 秒內自動刪除申請人個資；
+  B: 系統應隨機調整部分決策以確保多元性；
+  C: 系統必須保證所有決策準確率達到 100%；
+  D: 系統必須具備可解釋性（Explainability）能力，能提供特徵貢獻說明
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 8
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

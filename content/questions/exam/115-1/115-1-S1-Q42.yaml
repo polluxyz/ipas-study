@@ -1,0 +1,35 @@
+id: 115-1-S1-Q42
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 42
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 13
+type: 情境
+codes: [ L21302, L23303 ]
+concepts: []
+stem: |
+  某保險公司將理賠金額預測模型正式部署上線，MLOps 團隊設計監控機制。三個月後模型整體均方根誤差（RMSE）無明顯變化，但業務單位反映高額理賠案件的預測誤差明顯增加。經分析，高額理賠案件僅佔約 5%的樣本比例，且未被監控機制及時發現。請問最可能的設計缺陷為何？
+options:
+  A: 監控頻率不足，應由每日批次監控改為即時串流監控；
+  B: 高額理賠案件屬於長尾分布，難以透過監控指標偵測，因此無法透過監控機制發現問題；
+  C: RMSE 無法有效反映高額誤差，應改以平均絕對誤差（MAE）作為主要監控指標；
+  D: 僅監控整體 RMSE，未針對不同理賠金額區間進行分群監控
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 13
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

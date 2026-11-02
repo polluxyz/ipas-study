@@ -1,0 +1,35 @@
+id: 115-1-S1-Q28
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 28
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 9
+type: 情境
+codes: [ L21203 ]
+concepts: []
+stem: |
+  一位資料科學家使用 XGBoost 建立信用風險評分模型，並使用 SHAP 解釋模型對某申請人的預測結果。SHAP summary plot 顯示該樣本中「月收入」的 SHAP 值為-2.3，「負債比率」為+1.8，其中 SHAP 值代表各特徵對模型輸出值的影響程度與方向。關於對 SHAP 值的解讀，下列敘述何者正確？
+options:
+  A: 「月收入」的 SHAP 值-2.3 代表該特徵使此申請人的違約預測機率降低了 2.3%；
+  B: 「月收入」的 SHAP 值-2.3 代表相對於基準值（base value），此特徵將模型輸出值往負方向推移了 2.3 個單位，表示月收入對該申請人有降低違約風險的貢獻；
+  C: SHAP 值為負代表該特徵對模型整體來說是不重要的特徵，應考慮從模型中移除；
+  D: 負債比率」SHAP 值+1.8 代表負債比率是整個訓練集中對違約影響最大的特徵
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

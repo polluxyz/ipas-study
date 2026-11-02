@@ -1,0 +1,35 @@
+id: 115-1-S1-Q31
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 31
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 10
+type: 情境
+codes: [ L23202, L23301 ]
+concepts: []
+stem: |
+  某資料工程師嘗試對包含 300 個特徵的使用者行為資料集使用 DBSCAN 進行群集分析，但發現幾乎所有資料點都被判定為雜訊點（Noise Points），難以形成有意義的群集，即使不斷調整ε（Epsilon）與 MinPts 參數也無濟於事。請問下列何者為此問題最可能的根本原因？
+options:
+  A: 在高維空間中，維度詛咒（Curse of Dimensionality）使得資料點之間的距離趨於相近，導致 DBSCAN 的密度估計失效；
+  B: DBSCAN 演算法僅適用於低維資料，無法處理高維資料；
+  C: 300 個特徵的資料必然不具備群集結構，因此無法進行有效的分群；
+  D: 高維空間中核心點的數量會受到數學限制，導致無法形成群集
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 10
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

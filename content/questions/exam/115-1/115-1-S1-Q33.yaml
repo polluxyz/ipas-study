@@ -1,0 +1,35 @@
+id: 115-1-S1-Q33
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 33
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 10
+type: 情境
+codes: [ L23301, L21103 ]
+concepts: []
+stem: |
+  某自駕車公司的 AI 訓練團隊面臨標註成本高的問題，無法取得足夠的真實惡劣天氣（大雨、濃霧）駕駛場景資料，工程師提議使用合成資料（Synthetic Data）來補充訓練集。請問下列何者最能正確敘述合成資料在 AI 訓練中的角色？
+options:
+  A: 合成資料主要用於文字任務的資料擴增，影像任務仍需依賴真實資料；
+  B: 合成資料可完全取代真實資料，直接用於模型訓練；
+  C: 合成資料主要用於降低模型推論時的計算成本；
+  D: 合成資料可在控制條件下產生多樣化場景，用於擴充訓練資料並提升模型的泛化能力
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 10
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

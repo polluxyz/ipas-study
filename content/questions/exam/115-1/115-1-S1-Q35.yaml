@@ -1,0 +1,35 @@
+id: 115-1-S1-Q35
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 35
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 11
+type: 情境
+codes: [ L23301, L21104 ]
+concepts: []
+stem: |
+  某生物醫學研究機構正在建構一個整合「基因序列特徵」與「電子病歷文本特徵」的疾病風險預測模型。由於高維數值特徵和語意文本特徵的性質差異顯著，請問下列哪一種特徵處理與選擇策略最為合適？
+options:
+  A: 將所有特徵合併為單一特徵矩陣後，使用主成分分析（PCA）進行降維，作為模型輸入；
+  B: 採分層策略，先對基因序列特徵進行特徵選擇，再對文本特徵進行語意表示，最後將兩類特徵融合（Feature Fusion）後輸入模型；
+  C: 將所有特徵合併後，使用隨機森林（Random Forest）的特徵重要性進行一次性排序與篩選；
+  D: 將文本特徵轉換為簡單統計特徵（如詞頻）後與基因特徵一併建模，以降低特徵處理複雜度
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 11
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

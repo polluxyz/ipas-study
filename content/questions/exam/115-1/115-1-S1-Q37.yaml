@@ -1,0 +1,35 @@
+id: 115-1-S1-Q37
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 37
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 11
+type: 情境
+codes: [ L23301 ]
+concepts: []
+stem: |
+  某製造廠開發產線瑕疵檢測模型時，資料集存在嚴重類別不平衡問題，其中良品約占 99%，瑕疵品僅占 1%。若直接使用原始資料進行訓練，模型容易偏向預測多數類別（良品），導致對少數類別（瑕疵品）辨識能力不足。在不調整模型架構與學習演算法的前提下，僅透過資料前處理方式改善此問題，下列何者最適當？
+options:
+  A: 使用 SMOTE 等過採樣方法進行少數類別擴增；
+  B: 加入 L1／L2 正則化（Regularization）以防止過擬合；
+  C: 大幅增加深度神經網路的層數，以強化特徵萃取能力；
+  D: 複製更多良品數據，以進一步提升模型的準確率（Accuracy）
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 11
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

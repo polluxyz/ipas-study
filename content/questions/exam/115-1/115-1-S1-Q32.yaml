@@ -1,0 +1,35 @@
+id: 115-1-S1-Q32
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 32
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 10
+type: 情境
+codes: [ L23203, L23302 ]
+concepts: []
+stem: |
+  某工程師正在實作一個 CNN 影像分類模型，在 PyTorch 中定義模型架構時，需要在卷積擷取特徵後接上全連結層（Fully Connected Layer）進行分類。在模型程式碼中，需要在卷積輸出與全連結層之間插入什麼操作？
+options:
+  A: 使用全域平均池化（Global Average Pooling）將特徵圖壓縮後再接全連結層；
+  B: 使用 Flatten 將特徵圖展平成一維向量；
+  C: 直接將卷積輸出接到全連結層，系統會自動轉換維度；
+  D: 先對特徵圖做 Softmax，再輸入全連結層
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 10
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,35 @@
+id: 115-1-S1-Q48
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 48
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 15
+type: 情境
+codes: [ L21203, L21302 ]
+concepts: []
+stem: |
+  某銀行的信用卡風控模型已穩定上線一年，主要用於偵測盜刷交易提醒。近期在未對模型或特徵工程進行調整的情況下，系統觀察到深夜電商交易的核准率明顯上升，盜刷攔截率下降，但模型 AUC 幾乎維持不變，且交易金額、地區與裝置等特徵分布未出現明顯變化。進一步分析發現，疫情後使用者行為改變，使原本被視為高風險的交易型態逐漸轉為一般消費。下列何者最能敘述此現象的原因？
+options:
+  A: 資料漂移（Data Drift），因輸入特徵分布發生變化；
+  B: 訓練與服務偏差（Training-Serving Skew），因線上與離線特徵處理不一致；
+  C: 概念漂移（Concept Drift），因特徵與目標標籤之間的關聯性改變；
+  D: 決策閾值偏移（Threshold Shift），因分類門檻設定不當導致預測偏差
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 15
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

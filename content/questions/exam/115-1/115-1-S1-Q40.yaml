@@ -1,0 +1,35 @@
+id: 115-1-S1-Q40
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 40
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 12
+type: 情境
+codes: [ L21302, L23304 ]
+concepts: []
+stem: |
+  某智慧製造公司在產線上部署工業相機進行即時外觀瑕疵檢測，原先將影像傳至雲端進行 AI 推論，但因網路延遲與連線不穩導致系統無法滿足即時需求（需低於 200ms）。工程師因此改為將模型部署於產線端的邊緣裝置後，但仍未達系統需求。在不更換硬體設備的前提下，下列哪一組技術最能有效降低推論延遲，同時維持合理準確率？
+options:
+  A: 減少訓練資料的使用數量，並重新訓練模型以提升推論效率；
+  B: 使用批次推論（Batch Inference）處理多張影像以提升計算效率；
+  C: 採用模型集成（Model Ensemble），透過多模型投票提升準確率；
+  D: 將模型由 FP32 量化為 INT8，並進行推論加速優化
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 12
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

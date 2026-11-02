@@ -1,0 +1,35 @@
+id: 115-1-S1-Q44
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 44
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 13
+type: 情境
+codes: [ L21302 ]
+concepts: []
+stem: |
+  某 MLOps 工程師正在設計 AI 模型的推論服務 API，需要處理使用者上傳的高解析度影像（平均 5MB）進行即時分類。在 RESTful API 設計時，選擇 HTTP 請求方法與資料傳輸格式的最佳實踐為何？
+options:
+  A: 使用 HTTP GET 方法，將影像資料 Base64 編碼後附加於 URL Query String 中；
+  B: 採用 HTTP POST 請求，將影像資料以 multipart/form-data 或 application/octet-stream 傳輸於 Request Body；
+  C: "使用 HTTP PUT 方法，透過 Content-Type: application/xml 傳遞影像資料；"
+  D: 要求客戶端下載模型於本地推論，僅回傳分類結果
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 13
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

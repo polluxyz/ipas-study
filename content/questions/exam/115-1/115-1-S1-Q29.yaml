@@ -1,0 +1,39 @@
+id: 115-1-S1-Q29
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 29
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 9
+type: 情境
+codes: [ L21203, L21102 ]
+concepts: []
+stem: |
+  某工程師為一套卷積神經網路（CNN）的醫療影像輔助診斷系統設計模型可解釋性機制。該系統需滿足下列需求：
+  1.能向醫師說明影像被判定為異常的原因
+  2.支援近即時推論，每次解釋須於 200 毫秒內完成，且不可進行大量重複採樣計算
+  3.解釋結果須以影像中具代表性的視覺化像素區域呈現
+  在此情境下，下列何種方法最為適合？
+options:
+  A: 使用 LIME，透過超像素擾動取樣分析影像區塊對預測的影響；
+  B: 使用 SHAP KernelExplainer，計算各像素的 Shapley 值並疊加於原始影像；
+  C: 使用 Grad-CAM（Class Activation Map），透過梯度反向傳播生成類別關注區域；
+  D: 使用 SHAP TreeExplainer，計算特徵貢獻並以熱力圖呈現
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null

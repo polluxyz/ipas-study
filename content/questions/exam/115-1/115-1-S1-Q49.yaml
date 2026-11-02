@@ -1,0 +1,35 @@
+id: 115-1-S1-Q49
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 49
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 15
+type: 情境
+codes: [ L21302, L23303 ]
+concepts: []
+stem: |
+  某零售電商平台已建立模型監控儀表板，用於追蹤線上推薦模型的運作狀態與效能表現。維運工程師需判斷哪些指標屬於「線上持續監控（Continuous Monitoring）」的範疇。下列指標中，哪一項最不適合在即時監控系統中追蹤，而應改由離線實驗追蹤系統管理？
+options:
+  A: 訓練實驗中每個 Epoch 的學習率（Learning Rate）變化曲線與超參數（Hyperparameter）設定軌跡；
+  B: 線上推論 API 的 P50/P95/P99 回應延遲與每日請求量（RPS）趨勢；
+  C: 輸入特徵分佈的族群穩定性指數（Population Stability Index, PSI），偵測資料漂移；
+  D: 模型預測結果分佈（如 CTR）與定期回收的人工標註結果之對比
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 15
+    by: EX-E6-codex
+  blind_answer: null
+  dispute: null
