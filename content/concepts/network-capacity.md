@@ -24,13 +24,13 @@ self_check:
       A: 從12增到24，計入輸入權重與隱藏偏差即可
       B: 從17增到33，兩層權重與兩層偏差都計入
       C: 從13增到25，只計兩層權重及輸出偏差
-      D: 從16增到32，只計輸入權重及隱藏層寬
+      D: 從16增到32，兩層權重與隱藏偏差都計入
     answer: B
     explain:
       A: 這漏掉隱藏層到輸出層的權重及輸出偏差。
       B: 公式為3乘隱藏寬度，再加隱藏寬度及1。
       C: 這漏掉隱藏層本身的偏差。
-      D: 這沒有完整核算輸出層與偏差。
+      D: 這漏掉輸出層的1個偏差，因此兩個總數都少1。
   - id: c2
     goal: g1
     type: choice
@@ -49,7 +49,7 @@ self_check:
   - id: c3
     goal: g1
     type: choice
-    prompt: 客服模型加到6個隱藏層後，12輪訓練與驗證損失都偏高；小模型可明顯下降。資料只有96筆訓練。下一步最合理為何？
+    prompt: 客服模型加到6個隱藏層後，12輪訓練與驗證損失都偏高；較淺的基準模型可明顯下降。資料只有96筆訓練。下一步最合理為何？
     options:
       A: 先查深網梯度與初始化，並比較較淺配置的成本與驗證
       B: 先把寬度再加一倍，因為訓練損失高必定是容量不足
@@ -89,7 +89,7 @@ status: draft
 :::supplement[來源：Dive into Deep Learning 5.1；PyTorch Linear]
 實務文件也常只數含可訓練權重的層，閱讀時要先對齊慣例。本頁直接列維度序列與隱藏層數，避免把命名不同誤當模型不同。
 
-若全連接網路的維度依序為$d_0,d_1,\ldots,d_L$，各層含偏差：
+本頁依Linear文件的權重與偏差張量形狀，逐層計數後相加推得下式，並非文件直接列式。若全連接網路的維度依序為$d_0,d_1,\ldots,d_L$，各層含偏差：
 
 $$
 P=\sum_{\ell=1}^{L}(d_{\ell-1}+1)d_\ell
@@ -108,7 +108,7 @@ $P$是參數總數，$L$是含權重的轉換層數；第$\ell$層有$d_{\ell-1}
 
 保持寬4、只增加一個隱藏層成2→4→4→1，多出$4\times4+4=20$個，共37個。寬度與深度都影響參數，但改變方式不同。
 
-| 配置 | 隱藏層 | 參數數 | 第12輪訓練／驗證MSE |
+| 配置 | 隱藏層 | 參數數 | 能源第12輪訓練／驗證MSE |
 |---|---|---|---|
 | 小容量 | 1層、寬1 | 5 | 0.55／0.60 |
 | 基準 | 1層、寬4 | 17 | 0.25／0.30 |
@@ -178,7 +178,7 @@ Linear預設含偏差。ReLU不增加可訓練參數；這段只建立Linear來�
 ### 參考來源
 
 - 科目3指引`guide-3:5-33`～`guide-3:5-35`：支持深寬定義、四類架構、過深過寬及資源問題。
-- [PyTorch Linear](https://docs.pytorch.org/docs/2.9/generated/torch.nn.Linear.html)：支持權重形狀、偏差與參數量公式及程式。
+- [PyTorch Linear](https://docs.pytorch.org/docs/2.9/generated/torch.nn.Linear.html)：直接提供權重與偏差的張量形狀；本頁由形狀計數推得跨層參數總和式，並用程式核對。
 - [Dive into Deep Learning 5.1](https://d2l.ai/chapter_multilayer-perceptrons/mlp.html)：支持層寬、非線性與深度的解釋。
 - [Dive into Deep Learning 5.5](https://d2l.ai/chapter_multilayer-perceptrons/generalization-deep.html)：支持容量、訓練與泛化的區分；本頁日誌為自編數據。
 

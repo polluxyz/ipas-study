@@ -15,12 +15,12 @@ guide_refs: [guide-3:3-27, guide-3:5-52]
 formula_groups:
   - id: value-clipping
     source: https://docs.pytorch.org/docs/2.9/generated/torch.nn.utils.clip_grad_value_.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L23304-B
   - id: global-norm-clipping
     source: https://d2l.ai/chapter_recurrent-neural-networks/rnn-scratch.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L23304-B
 self_check:
   - id: c1
     goal: g1
@@ -103,7 +103,9 @@ status: draft
 ![深色短線沿原向量縮到範數2；虛線逐值截斷後，方向與原來不同。](figure:l23304-gradient-clipping-vector)
 :::
 
-## 定義與公式（補充）
+## 定義與公式
+
+指引3-27以限制梯度最大值說明裁剪的用途，未分列逐值與全域範數兩種公式。以下補充兩種做法，實作時要確認上限限制的是分量還是整體長度。
 
 ### 逐值裁剪（補充）
 
@@ -198,7 +200,7 @@ print('更新參數:', [round(v, 4) for v in q.tolist()])
 :::tip[讀碼重點]
 - 一般流程：backward、clip、step。
 - AMP：scale(loss).backward、unscale_、clip、scaler.step、scaler.update。
-- autocast只包前向與損失，反傳放在區塊外。
+- 本例省略autocast，只核對梯度縮放；實務上若使用autocast，只包前向與損失，反傳放在區塊外。
 :::
 
 多個小批次若累積成一次更新，等該次梯度全部累積完才還原、裁剪與更新。同一優化器每次更新前只呼叫一次`unscale_`，不能每個微批次都還原一次。

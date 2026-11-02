@@ -19,7 +19,7 @@ self_check:
   - id: c1
     goal: g1
     type: choice
-    prompt: 某客服分類器有100萬個FP32參數，只剩6 MB可存優化器狀態，不含權重、梯度及工作區。以下哪個基本配置符合預算？
+    prompt: 某客服分類器有100萬個FP32參數，只剩6 MB可存優化器狀態，不含權重、梯度及工作區。以下哪個敘述正確？
     options:
       A: Adam保存兩份等長狀態，共4 MB，因此符合6 MB上限
       B: 動量法保存一份等長狀態，共4 MB，因此符合6 MB上限
@@ -87,8 +87,12 @@ status: draft
 | Adagrad | 累積逐參數平方 | 稀疏文字、特徵分布不均 | 後期步長可能太小 |
 | Adam | 方向與平方衰減平均 | 深度模型、噪聲或稀疏梯度 | 狀態多、泛化仍要量 |
 
+非凸損失中，優化過程可能停滯於局部最小值或鞍點，不能只看收斂速度。指引列動量係數常用0.5～0.9；累積方向有助減少震盪，也可能幫助越過局部低谷，但不保證跳脫。
+
+指引把Adam列為初學者可先試的通用選擇，也提醒某些情境的泛化可能略遜SGD。「萬用」是候選範圍廣，不是每個任務都最佳。
+
 :::supplement[來源：PyTorch torch.optim及各優化器API]
-只估「與參數等長的歷史狀態」時：
+本頁依各優化器的狀態張量形狀與每元素位元組數推得下式，並非API文件直接列式。只估「與參數等長的歷史狀態」時：
 
 $$
 M_{\mathrm{state}}=sPb
@@ -169,9 +173,11 @@ Adam 等長狀態 MB: 8.0
 
 ## 怎麼用、怎麼判讀
 
-先依模型與梯度特性挑候選，再檢查記憶體是否容許。不要把指引的適用範圍讀成排他規則；SGD也能訓練深層模型，Adam也不是每次都勝出。
+先依模型與梯度特性挑候選，再檢查記憶體是否容許。指引把單純SGD列為較不適合深層模型的選擇；Adam也不一定每次勝出。
 
 :::supplement[來源：Dive into Deep Learning第12章；PyTorch torch.optim]
+實務上，SGD搭配動量與學習率排程仍可用來訓練深層模型。要區分基本SGD與加入穩定策略後的配置，再看實際驗證結果。
+
 能源與客服各128筆沿用同領域的固定索引與種子。每次先只換優化器，固定批次與12輪預算，記錄損失及驗證值；之後為每種方法各自公平調學習率，再比較達標耗時與驗證表現。
 
 相同學習率能隔離更新規則，卻不代表每種方法都處在最佳配置。選定前用多個種子確認差異，最後才對保留測試集做一次評估。
@@ -190,10 +196,10 @@ Adam 等長狀態 MB: 8.0
 
 ## 常見誤解
 
-- 自適應優化器仍需設定初始學習率，不會自動找到最佳值。
-- 二階矩是平方梯度的統計量，不是Hessian矩陣。（補充）
-- 少用狀態不等於整體訓練一定最快，還要看硬體、批次與達標步數。（補充）
-- 非凸模型沒有因改用Adam或動量法就保證到達全域最低點。
+- **自適應優化器不用設學習率。** 仍需設定初始值，不會自動找到最佳值。
+- **二階矩就是Hessian矩陣。** 它記錄平方梯度的統計量，不是二階導數。（補充）
+- **狀態少就一定訓練最快。** 還要看硬體、批次與達標步數。（補充）
+- **換成Adam或動量法就能找到全域解。** 非凸模型沒有這項保證。
 
 ## 進階
 
@@ -202,6 +208,7 @@ Adam 等長狀態 MB: 8.0
 - 科目3指引`guide-3:5-37`～`guide-3:5-42`：支持優化器用途、適用條件、資源與學習率限制。
 - [PyTorch torch.optim](https://docs.pytorch.org/docs/2.9/optim.html)：支持狀態、程式及比較前提；詳細公式另見SGD、動量法、Adagrad、Adam頁。
 - [PyTorch SGD](https://docs.pytorch.org/docs/2.9/generated/torch.optim.SGD.html)、[Adagrad](https://docs.pytorch.org/docs/2.9/generated/torch.optim.Adagrad.html)、[Adam](https://docs.pytorch.org/docs/2.9/generated/torch.optim.Adam.html)：支持等長狀態份數與基本配置；本頁位元組式由元素數乘元素大小估算。
+- [PyTorch Tensor.element_size](https://docs.pytorch.org/docs/2.9/generated/torch.Tensor.element_size.html)：提供每元素位元組數，與狀態張量形狀共同作為本頁記憶體公式的推導依據。
 - [Dive into Deep Learning 12.6](https://d2l.ai/chapter_optimization/momentum.html)、[12.10](https://d2l.ai/chapter_optimization/adam.html)：支持方向平滑、平方尺度及逐步比較的教學順序。
 
 ## 小結
