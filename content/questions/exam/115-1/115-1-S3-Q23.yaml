@@ -1,0 +1,36 @@
+id: 115-1-S3-Q23
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 23
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 6
+type: 情境
+codes: [L23203, L21103]
+concepts: [transformer-model-families]
+stem: |
+  某團隊開發法律文件生成系統，需根據合約前半段內容自動生成後半段條款。工程師分別使用 BERT 與 GPT-2 進行微調，但發現 BERT 的生成效果明顯較差，且即使增加訓練資料也無法改善。下列何者為最主要原因？
+options:
+  A: BERT 缺乏法律領域知識，因此生成能力較差
+  B: BERT 的分詞方式影響語意理解，導致生成效果不佳
+  C: BERT 模型規模較小，因此生成能力不足
+  D: BERT 無法根據前文逐步生成後續文字，較不適合此類任務
+answer: D
+explanation:
+  summary: "答案 D。標準 BERT 的雙向表示任務不直接等於 GPT-2 的逐詞續寫。"
+  correct: "原生 BERT 以遮罩語言建模學習雙向表徵，適合理解及判別；GPT-2 採因果自回歸方式，直接學習由前文預測下一個 token，因此更貼近條款續寫。D 的「無法」須限於原生訓練與使用方式；BERT 經改造或特殊解碼程序並非原理上完全不能生成。參見 [BERT 原始論文](https://arxiv.org/abs/1810.04805)。"
+  wrong:
+    A: "領域知識不足可影響兩種模型，但題幹兩者都微調，這無法解釋訓練目標與續寫方式的根本差異。"
+    B: "分詞可能影響表現，但沒有詞彙切分錯誤的證據，且不能取代對編碼器與自回歸生成差異的分析。"
+    C: "題幹沒有給定模型版本或參數量；規模大小也不能單獨解釋原生 BERT 不直接做因果續寫。"
+  rule: "配對語言模型與任務時，先看預訓練目標、可見上下文與解碼方式。"
+guide_refs: [guide-1:3-23, guide-1:3-24]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 6
+    by: EX-E7
+  blind_answer: D
+  dispute: null

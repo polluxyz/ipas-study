@@ -1,0 +1,36 @@
+id: 115-1-S3-Q06
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 6
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 2
+type: 情境
+codes: [L23301, L23202]
+concepts: [nonlinear-embedding, pca]
+stem: |
+  某資料科學家欲對 512 維詞嵌入向量（共 10 萬筆）進行視覺化以探索群集結構，同時另一工程師需將 200 個製程特徵降維後作為 XGBoost 的輸入特徵。關於 t-SNE 與 PCA 選型，下列敘述何者最正確？
+options:
+  A: t-SNE 保留全局線性結構，適合作為 XGBoost 的降維前處理
+  B: t-SNE 保留局部鄰域結構，適合視覺化；但不保留全局結構，不適合作為模型輸入特徵
+  C: PCA 為非線性降維方法，能保留複雜流形結構
+  D: t-SNE 與 PCA 皆可直接對新資料進行線性外推
+answer: B
+explanation:
+  summary: "答案 B。區分探索用的鄰域嵌入與可一致轉換新資料的降維流程。"
+  correct: "標準 t-SNE 著重呈現局部鄰近關係，適合探索詞向量的低維圖；PCA 則學得固定線性投影，可對訓練資料與後續新樣本做相同轉換。「不保留全局結構」應理解為不能可靠維持全局距離；「不適合作為模型輸入」是通常的選型建議，並非任何特殊流程都不可能。PCA 用於 XGBoost 也仍須驗證是否有益。"
+  wrong:
+    A: "t-SNE 不是保留全局線性結構的方法；其座標也不能像 PCA 一樣直接套固定線性投影給新樣本。"
+    C: "PCA 是線性方法，以正交主成分表示資料，不是以非線性流形為直接建模對象。"
+    D: "PCA 可套既有投影矩陣轉換新樣本；標準非參數 t-SNE 沒有相同形式的線性外推。"
+  rule: "選降維方法時，同時確認要保留的結構與新樣本的轉換方式。"
+guide_refs: [guide-3:4-46, guide-3:4-47, guide-3:5-6]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 2
+    by: EX-E7
+  blind_answer: B
+  dispute: null

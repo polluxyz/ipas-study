@@ -1,0 +1,36 @@
+id: 115-1-S3-Q08
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 8
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 2
+type: 情境
+codes: [L23103, L23303]
+concepts: [learning-rate-schedule, learning-curve]
+stem: |
+  某深度學習工程師訓練 ResNet 時，發現模型在前幾個 Epoch 驗證損失快速下降，但從第 15 個 Epoch 起驗證損失開始上升，而訓練損失持續下降。工程師將學習率調高後，訓練損失反而開始明顯震盪。學習率過大最直接導致下列哪種現象？
+options:
+  A: 梯度消失（Gradient Vanishing）：梯度在反向傳播中逐層縮小趨近於零，底層無法學習
+  B: 損失函數震盪或發散（Oscillation / Divergence）：每次更新步伐過大，參數在最優點兩側反覆跳越，無法穩定收斂
+  C: 過擬合（Overfitting）：模型記憶訓練資料的雜訊，泛化能力下降
+  D: 死亡 ReLU（Dying ReLU）：大量神經元輸出永久為零，停止參與梯度更新
+answer: B
+explanation:
+  summary: "答案 B。題目最後問的是調高學習率造成的直接訓練現象。"
+  correct: "參數更新約為目前參數減去學習率乘梯度。步長過大時容易跨過低損失區，來回震盪甚至發散。前半段訓練損失下降而驗證損失上升提示過擬合，但不能用它取代最後所問的學習率效果。"
+  wrong:
+    A: "梯度消失是梯度在傳遞中變得極小，不是觀察到更新後損失震盪的直接定義。"
+    C: "過擬合解釋前段的訓練與驗證落差；它不是調高學習率後震盪最直接的機制。"
+    D: "過大更新在特定情況下可能造成 ReLU 失活，但題幹沒有神經元長期輸出零的證據，不能由震盪直接判為死亡 ReLU。"
+  rule: "先分清泛化落差與更新不穩，再依題目最後詢問的現象作答。"
+guide_refs: [guide-3:5-31]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 2
+    by: EX-E7
+  blind_answer: B
+  dispute: null

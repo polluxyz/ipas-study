@@ -29,9 +29,9 @@ explanation:
 guide_refs: [guide-1:3-50]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 2
     by: EX-E5
-  blind_answer: null
+  blind_answer: C
   dispute: null

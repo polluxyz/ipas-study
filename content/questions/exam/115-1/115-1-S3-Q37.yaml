@@ -1,0 +1,36 @@
+id: 115-1-S3-Q37
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 37
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 9
+type: 情境
+codes: [L21203, L23302]
+concepts: [shap]
+stem: |
+  某銀行導入 AI 貸款審核系統，監管要求每筆被拒絕的申請須提供可理解的拒絕原因。技術主管評估以下方案，哪一種最能實現個別預測的局部可解釋性（Local Explainability）？
+options:
+  A: SHAP（SHapley Additive exPlanations）值：計算每個特徵對單筆預測的貢獻
+  B: 全域特徵重要性（Global Feature Importance）：說明整體特徵影響，無法解釋單一個案
+  C: Grad-CAM（Gradient-weighted Class Activation Mapping）：以熱力圖解釋影像模型
+  D: 混淆矩陣（Confusion Matrix）：呈現整體分類表現
+answer: A
+explanation:
+  summary: "答案 A。單筆拒貸原因需要局部的特徵貢獻解釋。"
+  correct: "SHAP 可針對特定申請，把預測相對參考值的差異分配到特徵貢獻，協助說明哪些因素推高或拉低該次分數。貢獻方向須配合輸出類別與尺度解讀；它解釋的是模型行為，不單獨證明因果關係或保證符合所有監管要求。"
+  wrong:
+    B: "全局重要性彙整整體資料上的特徵影響，不能直接拿平均排序當成某一申請的拒絕原因。"
+    C: "Grad-CAM 主要定位影像卷積特徵對目標類別的區域貢獻；題幹未提供相應影像模型，不能直接用熱力圖說明一般申貸欄位。"
+    D: "混淆矩陣彙總真實與預測類別的計數，能看整體錯誤，但沒有把某一預測分配給各特徵。"
+  rule: "解釋單一決策要用局部證據，不能用全局排名或整體績效代替。"
+guide_refs: [guide-3:5-15]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 9
+    by: EX-E7
+  blind_answer: A
+  dispute: null

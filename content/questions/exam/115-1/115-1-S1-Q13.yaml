@@ -30,9 +30,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 4
     by: EX-E5
-  blind_answer: null
+  blind_answer: C
   dispute: null
