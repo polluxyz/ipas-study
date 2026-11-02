@@ -1,0 +1,1757 @@
+{
+  "source": "教學合成資料與CPU實際更新；與既有出貨需求、影像驗證序列分開。",
+  "seed": 7,
+  "versions": {
+    "python": "3.12.13",
+    "numpy": "2.5.4",
+    "torch": "2.15.0+cpu"
+  },
+  "objective": "F(w)=mean((w-y_i)^2)/2=(w^2+1)/2；梯度=mean(w-y_i)；參數、目標及損失均無單位",
+  "initial_w": 2.0,
+  "update_steps": 12,
+  "dataset": [
+    {
+      "id": 1,
+      "y": -1.0
+    },
+    {
+      "id": 2,
+      "y": 1.0
+    },
+    {
+      "id": 3,
+      "y": -1.0
+    },
+    {
+      "id": 4,
+      "y": 1.0
+    },
+    {
+      "id": 5,
+      "y": -1.0
+    },
+    {
+      "id": 6,
+      "y": 1.0
+    },
+    {
+      "id": 7,
+      "y": -1.0
+    },
+    {
+      "id": 8,
+      "y": 1.0
+    }
+  ],
+  "split": "八筆僅供優化診斷，全部參與訓練與固定全量目標評估；沒有獨立驗證／測試，不能宣稱泛化成效。",
+  "fixed": "CPU float64、固定列序、不洗牌、無動量／正則化／Dropout、每批更新一次、步後評估同一全量F。",
+  "learning_rate_control": {
+    "only_changed": "learning_rate",
+    "batch_size": 8,
+    "runs": [
+      {
+        "learning_rate": 0.25,
+        "batch_size": 8,
+        "drop_last": false,
+        "steps": [
+          {
+            "step": 0,
+            "w": 2.0,
+            "full_loss": 2.5,
+            "batch_ids": [],
+            "gradient": null
+          },
+          {
+            "step": 1,
+            "w_before": 2.0,
+            "w": 1.5,
+            "full_loss": 1.625,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 2.0,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 2,
+            "w_before": 1.5,
+            "w": 1.125,
+            "full_loss": 1.1328125,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 1.5,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 3,
+            "w_before": 1.125,
+            "w": 0.84375,
+            "full_loss": 0.85595703125,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 1.125,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 4,
+            "w_before": 0.84375,
+            "w": 0.6328125,
+            "full_loss": 0.700225830078125,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.84375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 5,
+            "w_before": 0.6328125,
+            "w": 0.474609375,
+            "full_loss": 0.6126270294189453,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.6328125,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 6,
+            "w_before": 0.474609375,
+            "w": 0.35595703125,
+            "full_loss": 0.5633527040481567,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.474609375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 7,
+            "w_before": 0.35595703125,
+            "w": 0.2669677734375,
+            "full_loss": 0.5356358960270882,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.35595703125,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 8,
+            "w_before": 0.2669677734375,
+            "w": 0.200225830078125,
+            "full_loss": 0.5200451915152371,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.2669677734375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 9,
+            "w_before": 0.200225830078125,
+            "w": 0.15016937255859375,
+            "full_loss": 0.5112754202273209,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.200225830078125,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 10,
+            "w_before": 0.15016937255859375,
+            "w": 0.11262702941894531,
+            "full_loss": 0.506342423877868,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.15016937255859375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 11,
+            "w_before": 0.11262702941894531,
+            "w": 0.08447027206420898,
+            "full_loss": 0.5035676134313007,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.11262702941894531,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 12,
+            "w_before": 0.08447027206420898,
+            "w": 0.06335270404815674,
+            "full_loss": 0.5020067825551067,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.08447027206420898,
+            "learning_rate": 0.25
+          }
+        ]
+      },
+      {
+        "learning_rate": 1.8,
+        "batch_size": 8,
+        "drop_last": false,
+        "steps": [
+          {
+            "step": 0,
+            "w": 2.0,
+            "full_loss": 2.5,
+            "batch_ids": [],
+            "gradient": null
+          },
+          {
+            "step": 1,
+            "w_before": 2.0,
+            "w": -1.6,
+            "full_loss": 1.7800000000000002,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 2.0,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 2,
+            "w_before": -1.6,
+            "w": 1.2800000000000002,
+            "full_loss": 1.3192000000000004,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -1.6,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 3,
+            "w_before": 1.2800000000000002,
+            "w": -1.0240000000000005,
+            "full_loss": 1.0242880000000003,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 1.2800000000000002,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 4,
+            "w_before": -1.0240000000000005,
+            "w": 0.8192000000000004,
+            "full_loss": 0.8355443200000003,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -1.0240000000000005,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 5,
+            "w_before": 0.8192000000000004,
+            "w": -0.6553600000000004,
+            "full_loss": 0.7147483648000001,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.8192000000000004,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 6,
+            "w_before": -0.6553600000000004,
+            "w": 0.5242880000000003,
+            "full_loss": 0.6374389534720002,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -0.6553600000000004,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 7,
+            "w_before": 0.5242880000000003,
+            "w": -0.4194304000000003,
+            "full_loss": 0.5879609302220802,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.5242880000000003,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 8,
+            "w_before": -0.4194304000000003,
+            "w": 0.33554432000000034,
+            "full_loss": 0.5562949953421313,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -0.41943040000000037,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 9,
+            "w_before": 0.33554432000000034,
+            "w": -0.2684354560000003,
+            "full_loss": 0.536028797018964,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.33554432000000034,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 10,
+            "w_before": -0.2684354560000003,
+            "w": 0.21474836480000015,
+            "full_loss": 0.5230584300921369,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -0.26843545600000024,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 11,
+            "w_before": 0.21474836480000015,
+            "w": -0.17179869184000013,
+            "full_loss": 0.5147573952589677,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.21474836480000015,
+            "learning_rate": 1.8
+          },
+          {
+            "step": 12,
+            "w_before": -0.17179869184000013,
+            "w": 0.13743895347200002,
+            "full_loss": 0.5094447329657393,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -0.17179869184000007,
+            "learning_rate": 1.8
+          }
+        ]
+      },
+      {
+        "learning_rate": 2.2,
+        "batch_size": 8,
+        "drop_last": false,
+        "steps": [
+          {
+            "step": 0,
+            "w": 2.0,
+            "full_loss": 2.5,
+            "batch_ids": [],
+            "gradient": null
+          },
+          {
+            "step": 1,
+            "w_before": 2.0,
+            "w": -2.4000000000000004,
+            "full_loss": 3.380000000000001,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 2.0,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 2,
+            "w_before": -2.4000000000000004,
+            "w": 2.880000000000001,
+            "full_loss": 4.647200000000002,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -2.4000000000000004,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 3,
+            "w_before": 2.880000000000001,
+            "w": -3.4560000000000013,
+            "full_loss": 6.471968000000004,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 2.880000000000001,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 4,
+            "w_before": -3.4560000000000013,
+            "w": 4.147200000000002,
+            "full_loss": 9.09963392000001,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -3.4560000000000013,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 5,
+            "w_before": 4.147200000000002,
+            "w": -4.976640000000004,
+            "full_loss": 12.883472844800021,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 4.147200000000002,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 6,
+            "w_before": -4.976640000000004,
+            "w": 5.971968000000007,
+            "full_loss": 18.332200896512038,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -4.976640000000004,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 7,
+            "w_before": 5.971968000000007,
+            "w": -7.166361600000008,
+            "full_loss": 26.178369290977344,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 5.971968000000007,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 8,
+            "w_before": -7.166361600000008,
+            "w": 8.599633920000013,
+            "full_loss": 37.47685177900739,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -7.166361600000009,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 9,
+            "w_before": 8.599633920000013,
+            "w": -10.319560704000018,
+            "full_loss": 53.746666561770674,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 8.599633920000013,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 10,
+            "w_before": -10.319560704000018,
+            "w": 12.383472844800025,
+            "full_loss": 77.17519984894982,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -10.319560704000018,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 11,
+            "w_before": 12.383472844800025,
+            "w": -14.860167413760031,
+            "full_loss": 110.91228778248774,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 12.383472844800025,
+            "learning_rate": 2.2
+          },
+          {
+            "step": 12,
+            "w_before": -14.860167413760031,
+            "w": 17.83220089651204,
+            "full_loss": 159.49369440678242,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": -14.860167413760031,
+            "learning_rate": 2.2
+          }
+        ]
+      }
+    ]
+  },
+  "batch_control": {
+    "only_changed": "batch_size（更新次數固定12，依序循環批次）",
+    "learning_rate": 0.25,
+    "runs": [
+      {
+        "learning_rate": 0.25,
+        "batch_size": 8,
+        "drop_last": false,
+        "steps": [
+          {
+            "step": 0,
+            "w": 2.0,
+            "full_loss": 2.5,
+            "batch_ids": [],
+            "gradient": null
+          },
+          {
+            "step": 1,
+            "w_before": 2.0,
+            "w": 1.5,
+            "full_loss": 1.625,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 2.0,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 2,
+            "w_before": 1.5,
+            "w": 1.125,
+            "full_loss": 1.1328125,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 1.5,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 3,
+            "w_before": 1.125,
+            "w": 0.84375,
+            "full_loss": 0.85595703125,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 1.125,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 4,
+            "w_before": 0.84375,
+            "w": 0.6328125,
+            "full_loss": 0.700225830078125,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.84375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 5,
+            "w_before": 0.6328125,
+            "w": 0.474609375,
+            "full_loss": 0.6126270294189453,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.6328125,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 6,
+            "w_before": 0.474609375,
+            "w": 0.35595703125,
+            "full_loss": 0.5633527040481567,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.474609375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 7,
+            "w_before": 0.35595703125,
+            "w": 0.2669677734375,
+            "full_loss": 0.5356358960270882,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.35595703125,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 8,
+            "w_before": 0.2669677734375,
+            "w": 0.200225830078125,
+            "full_loss": 0.5200451915152371,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.2669677734375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 9,
+            "w_before": 0.200225830078125,
+            "w": 0.15016937255859375,
+            "full_loss": 0.5112754202273209,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.200225830078125,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 10,
+            "w_before": 0.15016937255859375,
+            "w": 0.11262702941894531,
+            "full_loss": 0.506342423877868,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.15016937255859375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 11,
+            "w_before": 0.11262702941894531,
+            "w": 0.08447027206420898,
+            "full_loss": 0.5035676134313007,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.11262702941894531,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 12,
+            "w_before": 0.08447027206420898,
+            "w": 0.06335270404815674,
+            "full_loss": 0.5020067825551067,
+            "batch_ids": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "batch_size_actual": 8,
+            "gradient": 0.08447027206420898,
+            "learning_rate": 0.25
+          }
+        ]
+      },
+      {
+        "learning_rate": 0.25,
+        "batch_size": 1,
+        "drop_last": false,
+        "steps": [
+          {
+            "step": 0,
+            "w": 2.0,
+            "full_loss": 2.5,
+            "batch_ids": [],
+            "gradient": null
+          },
+          {
+            "step": 1,
+            "w_before": 2.0,
+            "w": 1.25,
+            "full_loss": 1.28125,
+            "batch_ids": [
+              1
+            ],
+            "batch_size_actual": 1,
+            "gradient": 3.0,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 2,
+            "w_before": 1.25,
+            "w": 1.1875,
+            "full_loss": 1.205078125,
+            "batch_ids": [
+              2
+            ],
+            "batch_size_actual": 1,
+            "gradient": 0.25,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 3,
+            "w_before": 1.1875,
+            "w": 0.640625,
+            "full_loss": 0.7052001953125,
+            "batch_ids": [
+              3
+            ],
+            "batch_size_actual": 1,
+            "gradient": 2.1875,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 4,
+            "w_before": 0.640625,
+            "w": 0.73046875,
+            "full_loss": 0.7667922973632812,
+            "batch_ids": [
+              4
+            ],
+            "batch_size_actual": 1,
+            "gradient": -0.359375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 5,
+            "w_before": 0.73046875,
+            "w": 0.2978515625,
+            "full_loss": 0.5443577766418457,
+            "batch_ids": [
+              5
+            ],
+            "batch_size_actual": 1,
+            "gradient": 1.73046875,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 6,
+            "w_before": 0.2978515625,
+            "w": 0.473388671875,
+            "full_loss": 0.6120484173297882,
+            "batch_ids": [
+              6
+            ],
+            "batch_size_actual": 1,
+            "gradient": -0.7021484375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 7,
+            "w_before": 0.473388671875,
+            "w": 0.10504150390625,
+            "full_loss": 0.5055168587714434,
+            "batch_ids": [
+              7
+            ],
+            "batch_size_actual": 1,
+            "gradient": 1.473388671875,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 8,
+            "w_before": 0.10504150390625,
+            "w": 0.3287811279296875,
+            "full_loss": 0.5540485150413588,
+            "batch_ids": [
+              8
+            ],
+            "batch_size_actual": 1,
+            "gradient": -0.89495849609375,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 9,
+            "w_before": 0.3287811279296875,
+            "w": -0.003414154052734375,
+            "full_loss": 0.5000058282239479,
+            "batch_ids": [
+              1
+            ],
+            "batch_size_actual": 1,
+            "gradient": 1.3287811279296875,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 10,
+            "w_before": -0.003414154052734375,
+            "w": 0.24743938446044922,
+            "full_loss": 0.530613124491083,
+            "batch_ids": [
+              2
+            ],
+            "batch_size_actual": 1,
+            "gradient": -1.0034141540527344,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 11,
+            "w_before": 0.24743938446044922,
+            "w": -0.06442046165466309,
+            "full_loss": 0.5020749979399,
+            "batch_ids": [
+              3
+            ],
+            "batch_size_actual": 1,
+            "gradient": 1.2474393844604492,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 12,
+            "w_before": -0.06442046165466309,
+            "w": 0.20168465375900269,
+            "full_loss": 0.5203383497809444,
+            "batch_ids": [
+              4
+            ],
+            "batch_size_actual": 1,
+            "gradient": -1.064420461654663,
+            "learning_rate": 0.25
+          }
+        ]
+      },
+      {
+        "learning_rate": 0.25,
+        "batch_size": 3,
+        "drop_last": false,
+        "steps": [
+          {
+            "step": 0,
+            "w": 2.0,
+            "full_loss": 2.5,
+            "batch_ids": [],
+            "gradient": null
+          },
+          {
+            "step": 1,
+            "w_before": 2.0,
+            "w": 1.4166666666666665,
+            "full_loss": 1.5034722222222219,
+            "batch_ids": [
+              1,
+              2,
+              3
+            ],
+            "batch_size_actual": 3,
+            "gradient": 2.3333333333333335,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 2,
+            "w_before": 1.4166666666666665,
+            "w": 1.1458333333333333,
+            "full_loss": 1.1564670138888884,
+            "batch_ids": [
+              4,
+              5,
+              6
+            ],
+            "batch_size_actual": 3,
+            "gradient": 1.0833333333333333,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 3,
+            "w_before": 1.1458333333333333,
+            "w": 0.859375,
+            "full_loss": 0.8692626953125,
+            "batch_ids": [
+              7,
+              8
+            ],
+            "batch_size_actual": 2,
+            "gradient": 1.145833333333333,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 4,
+            "w_before": 0.859375,
+            "w": 0.5611979166666667,
+            "full_loss": 0.6574715508355036,
+            "batch_ids": [
+              1,
+              2,
+              3
+            ],
+            "batch_size_actual": 3,
+            "gradient": 1.1927083333333333,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 5,
+            "w_before": 0.5611979166666667,
+            "w": 0.5042317708333334,
+            "full_loss": 0.6271248393588598,
+            "batch_ids": [
+              4,
+              5,
+              6
+            ],
+            "batch_size_actual": 3,
+            "gradient": 0.2278645833333334,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 6,
+            "w_before": 0.5042317708333334,
+            "w": 0.378173828125,
+            "full_loss": 0.5715077221393585,
+            "batch_ids": [
+              7,
+              8
+            ],
+            "batch_size_actual": 2,
+            "gradient": 0.5042317708333335,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 7,
+            "w_before": 0.378173828125,
+            "w": 0.20029703776041666,
+            "full_loss": 0.520059451667799,
+            "batch_ids": [
+              1,
+              2,
+              3
+            ],
+            "batch_size_actual": 3,
+            "gradient": 0.7115071614583334,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 8,
+            "w_before": 0.20029703776041666,
+            "w": 0.23355611165364581,
+            "full_loss": 0.5272742286453851,
+            "batch_ids": [
+              4,
+              5,
+              6
+            ],
+            "batch_size_actual": 3,
+            "gradient": -0.13303629557291666,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 9,
+            "w_before": 0.23355611165364581,
+            "w": 0.17516708374023438,
+            "full_loss": 0.5153417536130291,
+            "batch_ids": [
+              7,
+              8
+            ],
+            "batch_size_actual": 2,
+            "gradient": 0.23355611165364576,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 10,
+            "w_before": 0.17516708374023438,
+            "w": 0.04804197947184244,
+            "full_loss": 0.5011540158957866,
+            "batch_ids": [
+              1,
+              2,
+              3
+            ],
+            "batch_size_actual": 3,
+            "gradient": 0.5085004170735677,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 11,
+            "w_before": 0.04804197947184244,
+            "w": 0.11936481793721516,
+            "full_loss": 0.5071239798805922,
+            "batch_ids": [
+              4,
+              5,
+              6
+            ],
+            "batch_size_actual": 3,
+            "gradient": -0.2852913538614909,
+            "learning_rate": 0.25
+          },
+          {
+            "step": 12,
+            "w_before": 0.11936481793721516,
+            "w": 0.08952361345291138,
+            "full_loss": 0.5040072386828331,
+            "batch_ids": [
+              7,
+              8
+            ],
+            "batch_size_actual": 2,
+            "gradient": 0.11936481793721515,
+            "learning_rate": 0.25
+          }
+        ]
+      }
+    ]
+  },
+  "gradient_sampling_variation": {
+    "method": "固定w=2，枚舉八筆索引中所有不放回等機率批次；對各批平均梯度計算母體變異ddof=0。與固定列序的更新軌跡分開。",
+    "rows": [
+      {
+        "batch_size": 1,
+        "number_of_batches": 8,
+        "mean_gradient": 2.0,
+        "variance_gradient": 1.0
+      },
+      {
+        "batch_size": 3,
+        "number_of_batches": 56,
+        "mean_gradient": 2.0,
+        "variance_gradient": 0.23809523809523814
+      },
+      {
+        "batch_size": 8,
+        "number_of_batches": 1,
+        "mean_gradient": 2.0,
+        "variance_gradient": 0.0
+      }
+    ]
+  },
+  "sampling_one_epoch": [
+    {
+      "name": "full",
+      "batch_size": 8,
+      "drop_last": false,
+      "groups": [
+        [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      ],
+      "updates": 1
+    },
+    {
+      "name": "single",
+      "batch_size": 1,
+      "drop_last": false,
+      "groups": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ],
+        [
+          5
+        ],
+        [
+          6
+        ],
+        [
+          7
+        ],
+        [
+          8
+        ]
+      ],
+      "updates": 8
+    },
+    {
+      "name": "mini_keep",
+      "batch_size": 3,
+      "drop_last": false,
+      "groups": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6
+        ],
+        [
+          7,
+          8
+        ]
+      ],
+      "updates": 3
+    },
+    {
+      "name": "mini_drop",
+      "batch_size": 3,
+      "drop_last": true,
+      "groups": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6
+        ]
+      ],
+      "updates": 2,
+      "omitted": [
+        7,
+        8
+      ]
+    }
+  ],
+  "scheduler_api_only": {
+    "note": "驗證輸入沿用既有人工序列；與實際參數無關，只教API時序，不能推論排程改善收斂。",
+    "validation_source": "content/examples/L23303-D-rate-schedules.json#plateau.validation",
+    "settings": {
+      "initial_lr": 0.1,
+      "Step": {
+        "step_size": 2,
+        "gamma": 0.5
+      },
+      "Cosine": {
+        "T_max": 10,
+        "eta_min": 0.0125,
+        "last_epoch": -1
+      },
+      "Plateau": {
+        "mode": "min",
+        "threshold_mode": "abs",
+        "threshold": 0.02,
+        "patience": 1,
+        "factor": 0.5,
+        "cooldown": 0,
+        "min_lr": 0.0125,
+        "eps": 1e-08
+      }
+    },
+    "records": {
+      "Step": [
+        {
+          "epoch": 1,
+          "used": 0.1,
+          "next": 0.1,
+          "validation_input": 0.9,
+          "api_only_parameter_after": 0.8,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 2,
+          "used": 0.1,
+          "next": 0.05,
+          "validation_input": 0.82,
+          "api_only_parameter_after": 0.64,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 3,
+          "used": 0.05,
+          "next": 0.05,
+          "validation_input": 0.74,
+          "api_only_parameter_after": 0.5760000000000001,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 4,
+          "used": 0.05,
+          "next": 0.025,
+          "validation_input": 0.66,
+          "api_only_parameter_after": 0.5184000000000001,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 5,
+          "used": 0.025,
+          "next": 0.025,
+          "validation_input": 0.58,
+          "api_only_parameter_after": 0.4924800000000001,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 6,
+          "used": 0.025,
+          "next": 0.0125,
+          "validation_input": 0.575,
+          "api_only_parameter_after": 0.46785600000000005,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 7,
+          "used": 0.0125,
+          "next": 0.0125,
+          "validation_input": 0.57,
+          "api_only_parameter_after": 0.45615960000000005,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 8,
+          "used": 0.0125,
+          "next": 0.00625,
+          "validation_input": 0.61,
+          "api_only_parameter_after": 0.4447556100000001,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 9,
+          "used": 0.00625,
+          "next": 0.00625,
+          "validation_input": 0.65,
+          "api_only_parameter_after": 0.4391961648750001,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 10,
+          "used": 0.00625,
+          "next": 0.003125,
+          "validation_input": 0.69,
+          "api_only_parameter_after": 0.4337062128140626,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        }
+      ],
+      "Cosine": [
+        {
+          "epoch": 1,
+          "used": 0.1,
+          "next": 0.09785872258791298,
+          "validation_input": 0.9,
+          "api_only_parameter_after": 0.8,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 2,
+          "used": 0.09785872258791298,
+          "next": 0.09164449350390395,
+          "validation_input": 0.82,
+          "api_only_parameter_after": 0.6434260438593393,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 3,
+          "used": 0.09164449350390395,
+          "next": 0.0819656047877957,
+          "validation_input": 0.74,
+          "api_only_parameter_after": 0.5254931360659196,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 4,
+          "used": 0.0819656047877957,
+          "next": 0.06976949350390395,
+          "validation_input": 0.66,
+          "api_only_parameter_after": 0.4393484106469626,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 5,
+          "used": 0.06976949350390395,
+          "next": 0.05625000000000001,
+          "validation_input": 0.58,
+          "api_only_parameter_after": 0.37804217848179505,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 6,
+          "used": 0.05625000000000001,
+          "next": 0.04273050649609606,
+          "validation_input": 0.575,
+          "api_only_parameter_after": 0.3355124334025931,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 7,
+          "used": 0.04273050649609606,
+          "next": 0.030534395212204312,
+          "validation_input": 0.57,
+          "api_only_parameter_after": 0.30683920097253214,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 8,
+          "used": 0.030534395212204312,
+          "next": 0.020855506496096056,
+          "validation_input": 0.61,
+          "api_only_parameter_after": 0.2881009021143476,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 9,
+          "used": 0.020855506496096056,
+          "next": 0.014641277412087034,
+          "validation_input": 0.65,
+          "api_only_parameter_after": 0.2760839216431938,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 10,
+          "used": 0.014641277412087034,
+          "next": 0.0125,
+          "validation_input": 0.69,
+          "api_only_parameter_after": 0.267999479071604,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        }
+      ],
+      "Plateau": [
+        {
+          "epoch": 1,
+          "used": 0.1,
+          "next": 0.1,
+          "validation_input": 0.9,
+          "api_only_parameter_after": 0.8,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 2,
+          "used": 0.1,
+          "next": 0.1,
+          "validation_input": 0.82,
+          "api_only_parameter_after": 0.64,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 3,
+          "used": 0.1,
+          "next": 0.1,
+          "validation_input": 0.74,
+          "api_only_parameter_after": 0.512,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 4,
+          "used": 0.1,
+          "next": 0.1,
+          "validation_input": 0.66,
+          "api_only_parameter_after": 0.4096,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 5,
+          "used": 0.1,
+          "next": 0.1,
+          "validation_input": 0.58,
+          "api_only_parameter_after": 0.32768,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 6,
+          "used": 0.1,
+          "next": 0.1,
+          "validation_input": 0.575,
+          "api_only_parameter_after": 0.26214400000000004,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 7,
+          "used": 0.1,
+          "next": 0.05,
+          "validation_input": 0.57,
+          "api_only_parameter_after": 0.20971520000000005,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 8,
+          "used": 0.05,
+          "next": 0.05,
+          "validation_input": 0.61,
+          "api_only_parameter_after": 0.18874368000000002,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 9,
+          "used": 0.05,
+          "next": 0.025,
+          "validation_input": 0.65,
+          "api_only_parameter_after": 0.16986931200000002,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        },
+        {
+          "epoch": 10,
+          "used": 0.025,
+          "next": 0.025,
+          "validation_input": 0.69,
+          "api_only_parameter_after": 0.16137584640000002,
+          "call_order": "讀取本輪lr → zero_grad/backward/optimizer.step → 驗證 → scheduler.step(metric或無參數)"
+        }
+      ]
+    }
+  }
+}

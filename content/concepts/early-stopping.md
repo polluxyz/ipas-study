@@ -37,14 +37,14 @@ goals:
   - id: g1
     text: 套用最小改善幅度與容忍次數，找出停止輪次與應保留的權重
   - id: g2
-    text: 比較先降學習率再早停的時序，以及等待時間長短的取捨
+    text: 比較先降學習率再早停的時序，以及等待時間長短的取捨，並與權重懲罰區分機制
   - id: g3
     text: 區分驗證決策與測試評估，確認停止後是否還原權重
 formula_groups:
   - id: improvement
     source: https://keras.io/api/callbacks/early_stopping/；https://github.com/keras-team/keras/blob/v3.15.1/keras/src/callbacks/monitor_callback.py
     status: verified
-    checked_by: ctx_81ecdebd9e83
+    checked_by: task_e3bba14a08df
 self_check:
   - id: c1
     goal: g1
@@ -91,6 +91,21 @@ self_check:
       B: 錯。測試集參與決策就不再獨立。
       C: 對。權重還原與獨立測試分別處理選模及評估。
       D: 錯。資料角色已改變，舊分數不能代表新模型。
+  - id: c4
+    goal: g2
+    type: choice
+    prompt: 團隊已在訓練目標加入 L2 權重懲罰，也想加早停。哪個說明最精確？
+    options:
+      A: 懲罰改變每步優化的目標，早停限制更新歷程，兩者可並用
+      B: 懲罰只決定停止輪次，早停只縮小每步權重，兩者無法並用
+      C: 懲罰與早停都只讀驗證指標，使用相同 patience 即完全等價
+      D: 懲罰與早停都保證泛化更好，設定後不需要獨立資料再評估
+    answer: A
+    explain:
+      A: 對。兩者操作對象不同，強度與等待時間仍須驗證。
+      B: 錯。兩種機制描述顛倒，也沒有不能並用的限制。
+      C: 錯。權重懲罰進入訓練目標，不用 patience 決定每步梯度。
+      D: 錯。改善沒有保證，測試集仍須保留給最後評估。
 ---
 
 ## 為什麼需要
@@ -200,6 +215,20 @@ print("停止", epoch, "保留", best_epoch)
 
 兩個 patience 的 API 語意不同，不能只看同名參數就認為會同時觸發。最小改善門檻、冷卻期與監控方向也必須明訂。
 
+### 與權重懲罰分清機制（補充）
+
+早停觀察驗證表現，決定何時結束更新及取回哪份權重；它限制的是沿訓練軌跡走多遠。L1、L2 權重懲罰則在資料損失之外增加代價，讓每步優化兼顧權重限制。
+
+| 方法 | 直接操作的對象 | 對本例的意義 |
+|---|---|---|
+| 早停 | 更新歷程、停止點與權重選擇 | 第8輪停止，依門檻回復第5輪 |
+| 權重懲罰 | 優化目標中的權重代價 | 訓練一開始即影響求解方向 |
+| 學習率排程 | 每次參數更新的步長 | 第7輪末降率，第8輪才使用 |
+
+三者可以並用。例如用帶懲罰的訓練目標更新，以一致定義的驗證資料損失供排程與早停監控，再還原所選權重；若監控值含懲罰，要明確記錄，不能與純資料損失混比。
+
+第 8 輪停止、回復第 5 輪仍是既有序列的規則演練，沒有加入懲罰重訓。懲罰過強或等待過短都可能欠擬合；兩者不能統稱「縮小權重」，也不保證泛化改善。
+
 ### 換個場景
 
 | 場景或條件 | 怎麼使用 | 注意事項 |
@@ -232,6 +261,7 @@ print("停止", epoch, "保留", best_epoch)
 - [PyTorch ReduceLROnPlateau](https://docs.pytorch.org/docs/2.9/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html)（支持：先降再停的逐輪規則）。
 - [Dive into Deep Learning 5.5.3](https://d2l.ai/chapter_multilayer-perceptrons/generalization-deep.html)（支持：直覺與標籤雜訊下限制訓練時間的理由）。
 - [scikit-learn：Validation curves](https://scikit-learn.org/stable/modules/learning_curve.html)（支持：驗證選模與獨立測試界線）。
+- [Dive into Deep Learning 3.7](https://d2l.ai/chapter_linear-regression/weight-decay.html)（支持：權重懲罰改變目標及其與資料損失的取捨；本頁不新增懲罰公式）。
 
 ## 小結
 
