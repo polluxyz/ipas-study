@@ -18,20 +18,36 @@ textbook: v2
 summary: 類別不平衡會讓多數類別掩蓋少數類別的訓練與評估問題
 goals:
   - id: g1
-    text: 用少數類別指標評估，並說明類別權重如何改變訓練損失
+    text: 用少數類別與實際子群指標評估，並說明類別權重如何改變訓練損失
   - id: g2
     text: 走完一次 SMOTE 鄰居插值，安排只在訓練摺內重採樣
   - id: g3
     text: 區分 Isolation Forest 與 One-Class SVM 的思路、資料條件及限制
 formula_groups:
   - id: weighted-loss
-    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html
+    source: https://numpy.org/doc/stable/reference/generated/numpy.average.html
     status: verified
-    checked_by: ctx_ce650b18e31c
+    checked_by: task_5bbc5b6241d1
   - id: smote-interpolation
     source: https://imbalanced-learn.org/stable/over_sampling.html
     status: verified
-    checked_by: ctx_ce650b18e31c
+    checked_by: task_5bbc5b6241d1
+  - id: m4-subgroup-metrics
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
+    status: verified
+    checked_by: task_5bbc5b6241d1
+  - id: m4-subgroup-accuracy
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html
+    status: verified
+    checked_by: task_5bbc5b6241d1
+  - id: m4-subgroup-precision
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html
+    status: verified
+    checked_by: task_5bbc5b6241d1
+  - id: m4-subgroup-recall
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html
+    status: verified
+    checked_by: task_5bbc5b6241d1
 self_check:
   - id: c1
     goal: g1
@@ -93,6 +109,11 @@ self_check:
       B: "患者為 5×19×0.2=19，健康者為 95×1×0.2=19；評估集仍應反映原始使用情境。"
       C: "加權損失貢獻相等只改變學習取捨，不能保證患者全部被辨識。"
       D: "訓練加權不要求評估集也重抽樣；複製患者會改變評估比例，扭曲精確率等指標。"
+  - id: c5
+    goal: g1
+    type: short
+    prompt: 一萬筆交易只有50筆盜刷，高金額子群10筆盜刷只抓到1筆，但該群 Accuracy=99%。還需揭露什麼，且與類別權重有何不同？
+    key_points: ["高金額子群n=1000、TP1、FP1、FN9、TN989；Recall=0.1、Precision=0.5", "整體Accuracy=98.96%仍可掩蓋此群漏九成正類", "權重改訓練損失；分群評估是固定模型在保留資料上的觀測，不是權重貢獻"]
 ---
 
 ## 為什麼需要
@@ -121,9 +142,19 @@ $$
 
 $n$ 是訓練筆數，$y_i$ 是標籤，$w_{y_i}$ 是該類權重，$\ell_i$ 是單筆損失。本頁以權重總和正規化；不同框架的 reduction 約定應另外確認。
 
+作為數學加權平均，資料與權重須為有限值，且分母 $\sum_i w_{y_i}\ne0$。
+
+NumPy 的 average 允許負權重，只要求權重總和不為 0，不能把下述訓練條件當成 NumPy 的限制。
+
+本頁把各項解讀為訓練損失的非負貢獻，因此另要求單筆損失非負、權重有限且非負，並且 $\sum_i w_{y_i}>0$；全部權重為 0 就不能計算這個比例。
+
+加權總和除以權重總和的定義見 NumPy average；scikit-learn 的 log_loss 經 _average 採此正規化，精確原始碼列於頁末（補充）。
+
 另假設一份獨立訓練資料也有 5 位患者、95 位健康者，每筆損失暫定相同為 0.2。未加權時，兩類的損失總和分別為 1 與 19，患者只占 5%。
 
-把患者權重設為 19、健康者設為 1，兩類的加權損失總和各為 19。代入得到 $L_w=(19+19)/(5\times19+95\times1)=0.2$，患者的貢獻提升為 50%。
+把患者權重設為 19、健康者設為 1，兩類的加權損失總和各為 19。分母是 $5\times19+95\times1=190$。
+
+代入得到 $L_w=(19+19)/(5\times19+95\times1)=0.2$，患者的貢獻提升為 50%。
 
 這不是模型成績提升的證據，而是「訓練時更重視患者」的示範。權重及類別頻率只依訓練資料設定，再用驗證集選擇合適取捨。
 
@@ -264,6 +295,35 @@ F1 分數或 PR 曲線能補充正類表現，但換指標本身不會修好模�
 | 客服緊急案件（補充） | 急件罕見、人工處理量有限 | 以急件召回率及警報量評估閾值 |
 | 內容違規偵測（補充） | 違規類別少且標籤可能有雜訊 | 檢查錯標，避免過採樣反覆放大雜訊 |
 
+### 不足百分之一與實際子群（補充）
+
+另用固定 10,000 筆合成交易，盜刷=1 共 50 筆，占 0.5%；分數 ≥ 0.5 發警報。
+
+`L23303-M4-E-extreme-subgroups.json` 以連續 ID 區間無損記錄每筆群組、真值及分數，沒有抽樣或重訓；以下金額層是預先指定的實際子群，不是正負類別。
+
+| 子群／筆數 | TP、FP、FN、TN | Accuracy | Precision、Recall、F1 |
+|---|---|---|---|
+| 一般金額／9000 | 36、90、4、8870 | 8906/9000≈98.96% | 36/126≈0.286、36/40=0.900、72/166≈0.434 |
+| 高金額／1000 | 1、1、9、989 | 990/1000=99.00% | 1/2=0.500、1/10=0.100、2/12≈0.167 |
+| 合計／10000 | 37、91、13、9859 | 9896/10000=98.96% | 37/128≈0.289、37/50=0.740、74/178≈0.416 |
+
+若全部猜正常，Accuracy 更高達 9950/10000=99.5%，但 50 筆全漏，Recall=0、F1=0，Precision 未定義。
+
+候選整體 Recall=0.74，仍藏著高金額群只抓到一成的問題；該群也有 99% Accuracy，不能拿整體高分替它背書。
+
+| 決策需求 | 要看什麼 | 原因 |
+|---|---|---|
+| 少漏盜刷 | 各群 Recall、FN及正類數 | 高金額群漏9/10，須揭露小樣本限制 |
+| 人工複檢容量 | Precision、FP及警報量 | 全體128次警報有91次誤報 |
+| 平衡正類兩種錯誤 | F1並列P、R | 相同F1可有不同漏報與誤報 |
+| 整體與分群品質 | 各群樣本數、四格及相同口徑指標 | 整體平均可掩蓋小群，不能只看Accuracy |
+
+這些分數使用 [[accuracy]]、[[precision]]、[[recall]]、[[f1-score]] 的定義重算。
+
+子群可能有不同類別比例、標註品質與難度，需在同條件下追查，不能直接斷言金額造成錯誤。
+
+前述類別權重改的是訓練損失份量，這裡改的是評估切片，兩者不是同一件事。
+
 ## 常見誤解
 
 :::supplement[來源：imbalanced-learn User Guide：Common pitfalls；scikit-learn User Guide：Novelty and Outlier Detection]
@@ -281,9 +341,14 @@ F1 分數或 PR 曲線能補充正類表現，但換指標本身不會修好模�
 
 ### 參考來源
 
+- [scikit-learn f1_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)、[precision_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html)、[recall_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html)、[accuracy_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html)：直接支持新子群表的四指標公式；數值由本站合成計數代入。
+- L23303-M4-E-extreme-subgroups.json：10,000 筆合成標籤的無損區間編碼，非部署或模型訓練成效。
 - 學習指引科目 3，5-10、5-25、5-48～5-49（支持：不平衡、權重、重採樣與指引場景）。
 - [Google 機器學習速成課程：類別不平衡](https://developers.google.com/machine-learning/crash-course/overfitting/imbalanced-datasets)（支持：為什麼需要、訓練與評估的區別）。
-- [scikit-learn：log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html)（支持：樣本加權與正規化損失算例）。
+- [scikit-learn：log_loss](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html)（支持：單筆損失、sample_weight 與 normalize 參數；一般加權平均完整分母另見下列來源）。
+- [NumPy：average](https://numpy.org/doc/stable/reference/generated/numpy.average.html)（直接列出加權總和除以權重總和，要求分母非零；非負貢獻的訓練解讀是本頁另加的條件）。
+- [scikit-learn 固定提交的 _log_loss](https://github.com/scikit-learn/scikit-learn/blob/afe5bcd80ce17fd8ca88c33beb17534bd36423bc/sklearn/metrics/_classification.py#L3449-L3458)（支持：單筆損失交給 _average）。
+- [同提交的 _average](https://github.com/scikit-learn/scikit-learn/blob/afe5bcd80ce17fd8ca88c33beb17534bd36423bc/sklearn/utils/_array_api.py#L796-L859)（支持：NumPy 分支在 normalize=True 時使用 average；其他分支明列加權總和／權重總和及零分母檢查）。
 - [scikit-learn：compute_class_weight](https://scikit-learn.org/stable/modules/generated/sklearn.utils.class_weight.compute_class_weight.html)（支持：自動平衡權重的頻率規則與實測算例）。
 - [imbalanced-learn：過採樣](https://imbalanced-learn.org/stable/over_sampling.html)（支持：SMOTE 插值公式、程式與合成點限制）。
 - [imbalanced-learn：常見陷阱](https://imbalanced-learn.org/stable/common_pitfalls.html)（支持：先切分再重採樣、保留評估比例）。

@@ -19,30 +19,34 @@ textbook: v2
 summary: F1 用調和平均，把精確率與召回率合成一個分數
 goals:
   - id: g1
-    text: 由精確率、召回率或四格計數算出 F1，並處理零分母
+    text: 由精確率、召回率或四格計數算出 F1，並處理零分母，對照醫療與瑕疵的錯誤成本
   - id: g2
-    text: 說明調和平均對較小值的敏感性，以及不使用 TN 的限制
+    text: 說明調和平均對較小值的敏感性，以及不使用 TN 的限制，辨別零售任務的指標邊界
   - id: g3
-    text: 區分二元 F1、macro 與 micro 平均，選對多分類設定
+    text: 區分二元 F1、macro 與 micro 平均，選對多分類設定，並逐類比較跨語言落差
 formula_groups:
   - id: harmonic
     source: guide-3:5-21
     status: verified
-    checked_by: ctx_ce650b18e31c
+    checked_by: task_5bbc5b6241d1
   - id: count-form
     source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
     status: verified
-    checked_by: ctx_ce650b18e31c
+    checked_by: task_5bbc5b6241d1
   - id: multiclass
     source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
     status: verified
-    checked_by: ctx_ce650b18e31c+coordinator
+    checked_by: task_5bbc5b6241d1
+  - id: m4-language-and-domain
+    source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
+    status: verified
+    checked_by: task_5bbc5b6241d1
 self_check:
   - id: c1
     goal: g1
     type: choice
     prompt: 一個瑕疵模型有 TP=9、FP=3、FN=6、TN=82，F1 約為多少？
-    options: { A: '0.91', B: '0.667', C: '0.675', D: '0.75' }
+    options: {A: '0.91', B: '0.667', C: '0.675', D: '0.75'}
     answer: B
     explain:
       A: 0.91 是準確率，F1 不把 TN 加進分子。
@@ -79,6 +83,11 @@ self_check:
       B: micro 先合併計數，樣本多的類別影響較大。
       C: 預設二元設定不適用於六類互斥標籤。
       D: weighted 按類別樣本數加權，稀有類別權重較小。
+  - id: c4
+    goal: g3
+    type: short
+    prompt: 中文與英文各20句、每類10句，macro F1 分別約0.850與0.697。能否認定英文語言本身造成差距？若 F1 由0.8降至2/3，能否斷定 Recall 下降？
+    key_points: ["兩語言逐類P、R、F1需分開看；合成例不能作語言因果", "樣本難度、標註一致性、領域與訓練覆蓋需另查", "同一下降可由P降到4/7且R維持0.8，或P升到1而R降到0.5造成"]
 ---
 
 ## 為什麼需要
@@ -138,6 +147,93 @@ TP 是抓對的正類，FP 是誤報，FN 是漏報。共同資料代入為 $2\t
 
 兩者相等時，F1 等於這個共同數值；兩者落差愈大，F1 愈低於算術平均。這個比較是在固定兩數的前提下，不能用來斷言換閾值後 F1 一定上升。
 
+### 同批四指標與成本（補充）
+
+沿用 C01–C20、正類盜刷、分數 ≥ 0.5 的同一批資料。
+
+先在[混淆矩陣](../confusion-matrix/#算一次補充)核對 TP=6、FP=2、FN=2、TN=10，再讀[準確率](../accuracy/#算一次補充)的 16/20=0.80、[精確率](../precision/#算一次補充)與[召回率](../recall/#算一次補充)的 6/8=0.75，最後讀[F1](../f1-score/#四格計數與零分母補充)的 12/16=0.75。
+
+誤報成本高，先查 Precision 及 FP；漏報成本高，先查 Recall 及 FN；要兼顧兩者可並列 F1，但成本不等時仍看實際代價。
+
+Accuracy 包含 TN，適合作整體摘要，無法替代前述取捨。
+
+資料索引與唯讀來源版本記在 `L23303-M4-E-metric-cases.json`。
+
+### 醫療與瑕疵共用案例（補充）
+
+兩領域各自是一批固定的合成評估資料，不能合併成一批：醫療沿用 `L23303-A2-screening.json` 的 M001–M100。
+
+製造沿用 `L23303-A2-manufacturing.json` 的 D01–D20。
+
+兩者正類分別為疾病個案、瑕疵品，都採分數 ≥ 0.5；本批 JSON 只存來源索引及成本約定。
+
+| 固定資料／方案 | TP、FP、FN、TN | Precision、Recall | F1、Accuracy |
+|---|---|---|---|
+| 醫療候選 | 4、5、1、90 | 4/9≈0.444、4/5=0.800 | 8/14≈0.571、94/100=0.940 |
+| 瑕疵 A | 3、2、1、14 | 3/5=0.600、3/4=0.750 | 6/9≈0.667、17/20=0.850 |
+| 瑕疵 B | 4、4、0、12 | 4/8=0.500、4/4=1.000 | 8/12≈0.667、16/20=0.800 |
+
+醫療的 TP 是患者被轉介、FP 是健康者多做複檢、FN 是患者未被轉介、TN 是健康者正確不轉介；製造則依序是攔到瑕疵、誤攔良品、瑕疵流出、良品放行。同樣的四格名稱，實際損害不同。
+
+醫療若假設一次 FP 為 1 負擔點、一次 FN 為 20 點，候選共 5×1+1×20=25 點，全判健康則為 5×20=100 點。
+
+點數只是教學假設，不是臨床建議。
+
+製造沿用原檔的 FP 每件 50 元、FN 每件 1000 元：A 為 1100 元，B 為 200 元；B 雖 Precision 較低，卻在此成本假設下較合適。
+
+全判健康的醫療基準有 Accuracy=95%，Recall=0、F1=0；全判良品的製造基準有 Accuracy=80%，Recall=0、F1=0。
+
+兩者 Precision 都因沒有正類預測而未定義。
+
+高 Accuracy 不能證明少數類能被偵測，相同 F1 也不能代替錯誤成本。
+
+### 兩語言逐類與 macro F1（補充）
+
+資料為 `L23303-M4-E-multilingual-f1.json`：中文 ZH01–ZH20、英文 EN01–EN20，各 10 句正向、10 句負向。
+
+全部是人工合成評估標籤，無訓練、無抽樣，不是翻譯配對或語言能力實驗。
+
+兩表列均為實際、欄均為預測，次序正向、負向。
+
+| 語言 | 實際正向：預測正／負 | 實際負向：預測正／負 |
+|---|---|---|
+| 中文 | 8／2 | 1／9 |
+| 英文 | 6／4 | 2／8 |
+
+每次輪一個類別當正類，用本頁計數式及 [[precision]]、[[recall]] 的公式。
+
+以中文正向為例，TP=8、FP=1、FN=2，所以 P=8/9、R=8/10、F1=16/19。
+
+| 語言／當正類的標籤 | Precision | Recall | F1 |
+|---|---|---|---|
+| 中文／正向 | 8/9≈0.889 | 8/10=0.800 | 16/19≈0.842 |
+| 中文／負向 | 9/11≈0.818 | 9/10=0.900 | 18/21≈0.857 |
+| 英文／正向 | 6/8=0.750 | 6/10=0.600 | 12/18≈0.667 |
+| 英文／負向 | 8/12≈0.667 | 8/10=0.800 | 16/22≈0.727 |
+
+中文 macro F1=(16/19+18/21)/2≈0.850；英文為 (12/18+16/22)/2≈0.697。
+
+macro 是逐類 F1 的平均，不是先平均 P、R 再算 F1。
+
+英文正向 Recall=0.6 值得追查，但兩種語言的樣本難度、領域、標註一致性與訓練覆蓋尚未控制，不能用語言名稱解釋因果。
+
+### 同樣的 F1 下降，原因不同（補充）
+
+以下三方案各 20 筆，真實正負各 10。基準四格為 TP=8、FP=2、FN=2、TN=8，P=R=F1=0.8。
+
+| 方案 | TP、FP、FN、TN | P、R | F1 |
+|---|---|---|---|
+| 誤報增加 | 8、6、2、4 | 4/7≈0.571、0.8 | 16/24=2/3 |
+| 漏報增加 | 5、0、5、10 | 1、0.5 | 10/15=2/3 |
+
+兩者 F1 都由 0.8 降為 2/3；前者 Recall 未降、Precision 降，後者 Precision 反升、Recall 降。
+
+F1 不能唯一還原 P／R，更不能證明語言造成錯誤。
+
+真實評估若更換樣本或標註規則，也會改變四格；要回查同樣本與標註後才能歸因。
+
+公式與平均規則依 scikit-learn f1_score，以上數字為本站推算的反例。
+
 ## 程式
 
 :::supplement[來源：scikit-learn API：f1_score]
@@ -186,6 +282,22 @@ F1 不使用 TN，不能表達「正常交易被正確放行」的價值；它�
 | 客服緊急案件辨識（補充） | 漏接急件與誤報都耗費資源 | F1 外仍看急件召回率 |
 | 產線瑕疵攔截（補充） | 要攔瑕疵也要少報廢良品 | 用固定正類和閾值比較，另查錯誤成本 |
 
+### 零售任務的指標導讀
+
+沿用[多模態零售的同一案例](../multimodal-application-evaluation/#零售讓每個輸出有對應物件)：影像、銷售用來比較動線熱區與配置，先定義區域再用[IoU](../intersection-over-union/#從框座標求交集補充)。
+
+交易、評論產生推薦清單，先定相關性與清單長度再看[Precision](../precision/#定義與公式)。
+
+評論、社群做情感分類，固定類別與平均方式後看[F1](../f1-score/#多分類的平均方式補充)。
+
+BI 整合影像、POS、評論，應分別驗收各項輸出。
+
+顧客隱私、來源噪聲及處理時效也須另驗：遮蔽或噪聲可能影響區域及分類，離線分數高仍可能回應太慢。
+
+IoU 不能評推薦命中，F1 不能取代幾何定位，Precision 也不能代表整個儀表板品質。
+
+完整跨模態選用由責任頁承接，本頁只是指標導讀；案例索引存於 `L21104-M4-E-metric-links.json`。
+
 ## 常見誤解
 
 :::supplement[來源：scikit-learn API：f1_score；Google Machine Learning Crash Course：Accuracy, recall, precision, and related metrics]
@@ -232,6 +344,9 @@ $\mathrm{TP}_k$ 等是第 $k$ 類的一對其餘計數。兩類合計 TP=16、FP
 
 ### 參考來源
 
+- 科目 1 學習指引，3-79：支持零售的任務／指標與限制，完整案例見[多模態應用與評估設計](../multimodal-application-evaluation/)。
+- L23303-M4-E-metric-cases.json：保存既有醫療／瑕疵資料索引。
+- L23303-M4-E-multilingual-f1.json：本站合成跨語言與反例計數，非外部研究成果。
 - 學習指引科目 3，5-21、5-25：調和平均公式、嚴重不平衡時兼顧精確率與召回率（支持：定義與公式、換個場景）。
 - [scikit-learn：f1_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)（支持：計數公式、零分母、程式、多分類）。
 - [scikit-learn：fbeta_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.fbeta_score.html)（支持：Fβ 的相對重要性與 F1 特例）。
