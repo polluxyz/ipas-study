@@ -42,8 +42,7 @@ self_check:
       B: 國際原則、建議、標準與法規的效力來源不同。
       C: 原則遵循與標準認證不是同一件事。
       D: GPAI 是國際合作機制，並非全球企業的法律許可機關。
-requires:
-  - ai-risk-governance
+requires: []
 guide_refs:
   - guide-1:4-38
   - guide-1:4-39

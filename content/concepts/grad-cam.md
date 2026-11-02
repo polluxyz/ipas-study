@@ -4,7 +4,7 @@ title: Grad-CAM 影像解釋
 kind: technique
 codes: [L21102, L21203]
 aliases: []
-requires: [cnn, backpropagation, image-dataset-preparation]
+requires: [cnn, image-dataset-preparation]
 summary: Grad-CAM以目標分數對卷積特徵的梯度，標出支持該分數的粗略影像區域
 textbook: v2
 author: codex

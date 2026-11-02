@@ -4,7 +4,7 @@ title: 數位基礎與系統整合可行性
 kind: technique
 codes: [L21201]
 aliases: []
-requires: [data-readiness]
+requires: []
 summary: 依訓練、推論與介接需求，盤點現有系統能否支持 AI 的實際運作
 goals:
   - id: g1

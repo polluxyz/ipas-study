@@ -4,7 +4,7 @@ title: 支援向量迴歸
 kind: model
 codes: [L23202]
 aliases: [SVR, ε 容忍帶]
-requires: [feature-scaling, vector-inner-product, support-vector-machine]
+requires: [support-vector-machine]
 guide_refs: [guide-3:4-17, guide-3:4-18, guide-3:4-19]
 summary: 在ε容忍帶內不計預測誤差，以帶外代價和函數平滑程度共同決定迴歸模型
 goals:

@@ -4,7 +4,7 @@ title: 分群體校準
 kind: technique
 codes: [L23402]
 aliases: [Calibration, Group Calibration]
-requires: [conditional-probability, equalized-odds]
+requires: [conditional-probability]
 is_a: [debiasing-strategies]
 summary: 分群比較預測機率與真實發生率，確認相同分數的風險意義
 goals:

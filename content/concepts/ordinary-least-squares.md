@@ -14,7 +14,6 @@ guide_refs:
   - guide-3:3-17
 requires:
   - matrix-operations
-  - vector-inner-product
 goals:
   - id: g1
     text: 由觀測與預測建立殘差平方和，並說明它和平均損失的關係

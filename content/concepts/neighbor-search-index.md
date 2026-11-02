@@ -16,8 +16,7 @@ aliases:
   - 時間複雜度
   - 近鄰索引
 summary: 近鄰索引以區域剪枝減少查詢，成本仍受維度與輸出數量限制
-requires:
-  - dbscan
+requires: []
 guide_refs:
   - guide-3:4-43
   - guide-3:4-44

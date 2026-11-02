@@ -8,7 +8,7 @@ summary: 詞袋把文件變成固定詞序的計數向量，保留詞頻但省�
 goals:
   - id: g1
     text: 從多篇文件建立詞袋計數矩陣，指出語序與語意關係的缺失
-requires: [text-representation, n-gram]
+requires: [text-representation]
 guide_refs: [guide-1:3-16]
 contrasts:
   - target: tf-idf

@@ -10,7 +10,7 @@ goals:
     text: 比較 RNN、LSTM、GRU 的狀態、門控、長期依賴與計算取捨
   - id: g2
     text: 依語音、感測與金融任務的依賴及部署限制選擇待比較模型
-requires: [rnn, lstm, gru]
+requires: [lstm, gru]
 guide_refs: [guide-1:3-24, guide-1:5-10, guide-1:5-11, guide-3:4-74, guide-3:4-75]
 textbook: v2
 author: codex

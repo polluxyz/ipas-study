@@ -21,7 +21,6 @@ goals:
 requires:
   - clip
   - masked-multimodal-pretraining
-  - transformer-encoder-decoder
 guide_refs:
   - guide-1:3-75
   - guide-1:3-77

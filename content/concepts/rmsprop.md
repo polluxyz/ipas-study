@@ -10,7 +10,7 @@ goals:
     text: 以相同序列比較衰減平均與 Adagrad 累積，判斷非平穩梯度場景
   - id: g2
     text: 計算基本 RMSprop 的兩步平方平均與參數更新
-requires: [adagrad]
+requires: [gradient-descent]
 guide_refs: [guide-3:3-25]
 formula_groups:
   - id: square-ema

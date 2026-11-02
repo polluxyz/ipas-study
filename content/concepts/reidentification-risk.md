@@ -58,7 +58,7 @@ self_check:
       B: 尚未實測外部連結，也不能借用其他資料集的結論。
       C: 處理步驟沒有證明風險消除，目的與欄位仍要審查。
       D: 應如實記錄處理及剩餘風險，避免把去識別動作當作釋出保證。
-requires: [data-inventory]
+requires: []
 guide_refs: [guide-3:6-3, guide-3:6-7, guide-3:6-12]
 textbook: v2
 author: codex
