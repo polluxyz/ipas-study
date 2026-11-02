@@ -2,9 +2,12 @@
 /** 沿用 Starlight 的搜尋與可存取導覽，將共通學習狀態集中在頁首。 */
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 import { getData, conceptUrl } from '../lib/content';
+import { resolveRouteContext } from '../lib/navigation';
 interface Props { title: string; description?: string; section?: string; headings?: { depth: number; slug: string; text: string }[]; }
 const { title, description, section = '學習總覽', headings = [] } = Astro.props;
-const { codes, byId } = await getData();
+const { codes, concepts, questions, byId } = await getData();
+const routes = codes.map((entry) => entry.data);
+const currentRoute = resolveRouteContext(Astro.url, routes, concepts.map((entry) => entry.data), questions);
 const chapterNumbers = ['一', '二', '三', '四', '五', '六'];
 const sidebar = [
   { label: '學習總覽', link: '/' }, { label: '概念目錄', link: '/catalog/' }, { label: '概念地圖', link: '/map/' }, { label: '我的錯題本', link: '/wrong-book/' },
@@ -12,14 +15,14 @@ const sidebar = [
     { label: `${entry.data.code} 學習路線`, link: `/codes/${entry.data.code}/` },
     { label: `${entry.data.code} 練習`, link: `/practice/${entry.data.code}/` },
   ] })),
-  ...codes.map((entry) => ({ label: '本次學習路線', items: (entry.data.stages ?? []).map((stage, index) => ({
+  ...(currentRoute?.stages?.length ? [{ label: '本次學習路線', items: currentRoute.stages.map((stage, index) => ({
     label: `${chapterNumbers[index] ?? index + 1}、${stage.title}`, collapsed: true,
     items: stage.concepts.filter((concept) => byId.has(concept.id)).map((concept) => ({ label: byId.get(concept.id)!.data.title, link: conceptUrl(concept.id) })),
-  })) })),
+  })) }] : []),
 ];
 ---
 <StarlightPage frontmatter={{ title, description, tableOfContents: headings.length > 0 }} headings={headings} sidebar={sidebar}>
   <div class="page-eyebrow"><span>中級 AI 應用規劃師</span><span class="dot">/</span>{section}</div>
   <div class="study-content"><slot /></div>
-  <div class="local-note" data-pagefind-ignore>iPAS 中級備考手札 <span>・</span> 範例單元 L23303 <span>・</span> 作答紀錄儲存在此瀏覽器</div>
+  <div class="local-note" data-pagefind-ignore>iPAS 中級備考手札 <span>・</span> 科目 1 與科目 3 <span>・</span> 作答紀錄儲存在此瀏覽器</div>
 </StarlightPage>
