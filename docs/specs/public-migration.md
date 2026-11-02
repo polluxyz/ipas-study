@@ -40,7 +40,7 @@
 
 1. 最後唯一正式 GitHub repo 是 `polluxyz/ipas-study`，visibility 為 PUBLIC，node ID 與舊庫不同；舊庫 ID 已刪除，暫名已清空。
 2. 遠端只有核定的新歷史與 refs；對已知個人 email 的 metadata／檔案掃描為 0；新 CI metadata／logs 無未處理命中。
-3. 與固定來源的 path、mode、blob manifest 相同，核可的規範文件差異另列；官方 PDF／text 雜湊相同。
+3. 與固定來源的 path、mode、blob manifest 相同，核可的規範文件與協調腳本根路徑差異另列；官方 PDF／text 雜湊相同。
 4. 既有教材檢查 0 錯、照抄 0 片段、測試與建置成功；保留既有警告基準與實際結果。
 5. 未登入可讀新公開庫，已知舊污染 SHA 在新庫無法取得；失敗／限流直接記為未驗證。
 6. 新工作環境能正常建立分支與 PR；未合併成果及私有備份具備可讀清單，沒有資料遺失。
