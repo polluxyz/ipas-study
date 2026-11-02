@@ -1,0 +1,480 @@
+{
+  "source": "教學合成零售出貨資料，沿用巢狀頁既有八筆x與y；不是營運成效",
+  "index_base": 0,
+  "units": {
+    "x": "廣告費級距，任意單位",
+    "y": "箱",
+    "mae": "箱"
+  },
+  "samples": [
+    {
+      "index": 0,
+      "id": "R00",
+      "x": 1,
+      "y": 10
+    },
+    {
+      "index": 1,
+      "id": "R01",
+      "x": 2,
+      "y": 20
+    },
+    {
+      "index": 2,
+      "id": "R02",
+      "x": 3,
+      "y": 30
+    },
+    {
+      "index": 3,
+      "id": "R03",
+      "x": 4,
+      "y": 40
+    },
+    {
+      "index": 4,
+      "id": "R04",
+      "x": 5,
+      "y": 50
+    },
+    {
+      "index": 5,
+      "id": "R05",
+      "x": 6,
+      "y": 60
+    },
+    {
+      "index": 6,
+      "id": "R06",
+      "x": 7,
+      "y": 70
+    },
+    {
+      "index": 7,
+      "id": "R07",
+      "x": 8,
+      "y": 100
+    }
+  ],
+  "settings": {
+    "pipeline": "StandardScaler → Ridge",
+    "candidate_alphas": [
+      0.1,
+      1,
+      10
+    ],
+    "inner": {
+      "n_splits": 3,
+      "shuffle": true,
+      "random_state": 11
+    },
+    "outer": {
+      "n_splits": 4,
+      "shuffle": true,
+      "random_state": 7
+    },
+    "scoring": "neg_mean_absolute_error",
+    "refit": true
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "train": [
+        0,
+        1,
+        3,
+        4,
+        6,
+        7
+      ],
+      "outer_validation": [
+        2,
+        5
+      ],
+      "inner_splits": [
+        {
+          "train": [
+            0,
+            1,
+            4,
+            7
+          ],
+          "validation": [
+            3,
+            6
+          ]
+        },
+        {
+          "train": [
+            0,
+            1,
+            3,
+            6
+          ],
+          "validation": [
+            4,
+            7
+          ]
+        },
+        {
+          "train": [
+            3,
+            4,
+            6,
+            7
+          ],
+          "validation": [
+            0,
+            1
+          ]
+        }
+      ],
+      "candidate_alphas": [
+        0.1,
+        1,
+        10
+      ],
+      "inner_mean_mae_per_candidate": [
+        10.243902439024387,
+        7.266666666666666,
+        24.333333333333332
+      ],
+      "selected_alpha": 1,
+      "selected_inner_mae": 7.266666666666666,
+      "outer_mae": 3.3333333333333357,
+      "outer_predictions": [
+        33.076190476190476,
+        63.590476190476195
+      ],
+      "refit_indices": [
+        0,
+        1,
+        3,
+        4,
+        6,
+        7
+      ],
+      "refit_scale_mean": [
+        4.5
+      ],
+      "refit_scale_scale": [
+        2.5
+      ]
+    },
+    {
+      "fold": 2,
+      "train": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7
+      ],
+      "outer_validation": [
+        0,
+        6
+      ],
+      "inner_splits": [
+        {
+          "train": [
+            1,
+            2,
+            4,
+            7
+          ],
+          "validation": [
+            3,
+            5
+          ]
+        },
+        {
+          "train": [
+            1,
+            2,
+            3,
+            5
+          ],
+          "validation": [
+            4,
+            7
+          ]
+        },
+        {
+          "train": [
+            3,
+            4,
+            5,
+            7
+          ],
+          "validation": [
+            1,
+            2
+          ]
+        }
+      ],
+      "candidate_alphas": [
+        0.1,
+        1,
+        10
+      ],
+      "inner_mean_mae_per_candidate": [
+        9.229578010065817,
+        7.568253968253969,
+        19.75736961451247
+      ],
+      "selected_alpha": 1,
+      "selected_inner_mae": 7.568253968253969,
+      "outer_mae": 3.061224489795922,
+      "outer_predictions": [
+        9.591836734693878,
+        75.71428571428572
+      ],
+      "refit_indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7
+      ],
+      "refit_scale_mean": [
+        4.666666666666667
+      ],
+      "refit_scale_scale": [
+        1.9720265943665387
+      ]
+    },
+    {
+      "fold": 3,
+      "train": [
+        0,
+        2,
+        4,
+        5,
+        6,
+        7
+      ],
+      "outer_validation": [
+        1,
+        3
+      ],
+      "inner_splits": [
+        {
+          "train": [
+            0,
+            2,
+            5,
+            7
+          ],
+          "validation": [
+            4,
+            6
+          ]
+        },
+        {
+          "train": [
+            0,
+            2,
+            4,
+            6
+          ],
+          "validation": [
+            5,
+            7
+          ]
+        },
+        {
+          "train": [
+            4,
+            5,
+            6,
+            7
+          ],
+          "validation": [
+            0,
+            2
+          ]
+        }
+      ],
+      "candidate_alphas": [
+        0.1,
+        1,
+        10
+      ],
+      "inner_mean_mae_per_candidate": [
+        13.047378749649567,
+        9.498850574712646,
+        22.436781609195403
+      ],
+      "selected_alpha": 1,
+      "selected_inner_mae": 9.498850574712646,
+      "outer_mae": 3.165266106442578,
+      "outer_predictions": [
+        23.0812324929972,
+        43.24929971988796
+      ],
+      "refit_indices": [
+        0,
+        2,
+        4,
+        5,
+        6,
+        7
+      ],
+      "refit_scale_mean": [
+        5.0
+      ],
+      "refit_scale_scale": [
+        2.3804761428476167
+      ]
+    },
+    {
+      "fold": 4,
+      "train": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "outer_validation": [
+        4,
+        7
+      ],
+      "inner_splits": [
+        {
+          "train": [
+            0,
+            1,
+            3,
+            6
+          ],
+          "validation": [
+            2,
+            5
+          ]
+        },
+        {
+          "train": [
+            0,
+            1,
+            2,
+            5
+          ],
+          "validation": [
+            3,
+            6
+          ]
+        },
+        {
+          "train": [
+            2,
+            3,
+            5,
+            6
+          ],
+          "validation": [
+            0,
+            1
+          ]
+        }
+      ],
+      "candidate_alphas": [
+        0.1,
+        1,
+        10
+      ],
+      "inner_mean_mae_per_candidate": [
+        0.6097560975609723,
+        4.999999999999997,
+        17.857142857142858
+      ],
+      "selected_alpha": 0.1,
+      "selected_inner_mae": 0.6097560975609723,
+      "outer_mae": 10.437158469945352,
+      "outer_predictions": [
+        49.80874316939891,
+        79.31693989071039
+      ],
+      "refit_indices": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "refit_scale_mean": [
+        3.8333333333333335
+      ],
+      "refit_scale_scale": [
+        2.1147629234082532
+      ]
+    }
+  ],
+  "fit_count_evaluation": 40,
+  "fit_count_final_search_and_refit": 10,
+  "fit_count_total": 50,
+  "final": {
+    "train": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "best_alpha": 1,
+    "inner_splits": [
+      {
+        "train": [
+          0,
+          1,
+          3,
+          5,
+          7
+        ],
+        "validation": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "train": [
+          0,
+          1,
+          2,
+          4,
+          6
+        ],
+        "validation": [
+          3,
+          5,
+          7
+        ]
+      },
+      {
+        "train": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "validation": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "mean_selected_inner_mae": 6.235881826798564,
+  "mean_outer_mae": 4.999245599879297,
+  "sklearn_version": "1.9.1"
+}
