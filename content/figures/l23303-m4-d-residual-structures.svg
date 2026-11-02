@@ -1,0 +1,210 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="940" viewBox="0 0 720 940" role="img" aria-labelledby="title desc">
+<title id="title">同尺度比較三種殘差結構</title><desc id="desc">三圖縱軸皆為殘差實際減預測，範圍負6到正6 MW。前兩圖橫軸為預測負載，最後一圖為真正的小時時間索引。</desc>
+<rect width="720" height="100%" fill="#fff"/>
+<g font-family="Noto Sans TC, Microsoft JhengHei, sans-serif" fill="#172c40" font-size="16">
+<text x="24" y="30" font-size="22" text-anchor="start">同尺度殘差對照：看中心與規律</text>
+<text x="24" y="64" font-size="19" text-anchor="start">A 零線附近隨機散布：尚未見明顯型態</text>
+<text x="24" y="85" font-size="16" text-anchor="start">殘差（MW）</text>
+<line x1="80" y1="256.0" x2="680" y2="256.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="261.0" font-size="16" text-anchor="end">-6</text>
+<line x1="80" y1="214.0" x2="680" y2="214.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="219.0" font-size="16" text-anchor="end">-3</text>
+<line x1="80" y1="172.0" x2="680" y2="172.0" stroke="#526779" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="67" y="177.0" font-size="16" text-anchor="end">0</text>
+<line x1="80" y1="130.0" x2="680" y2="130.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="135.0" font-size="16" text-anchor="end">3</text>
+<line x1="80" y1="88.0" x2="680" y2="88.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="93.0" font-size="16" text-anchor="end">6</text>
+<line x1="80" y1="88" x2="80" y2="256" stroke="#96a5b2" stroke-width="1.5" stroke-dasharray=""/>
+<text x="80.0" y="278" font-size="16" text-anchor="middle">40</text>
+<text x="233.1914893617021" y="278" font-size="16" text-anchor="middle">64</text>
+<text x="386.3829787234042" y="278" font-size="16" text-anchor="middle">88</text>
+<text x="539.5744680851064" y="278" font-size="16" text-anchor="middle">112</text>
+<text x="680.0" y="278" font-size="16" text-anchor="middle">134</text>
+<text x="380" y="306" font-size="16" text-anchor="middle">預測負載（MW）</text>
+<circle cx="80.00" cy="166.02" r="3.3" fill="#1463a5"/>
+<circle cx="92.77" cy="192.38" r="3.3" fill="#1463a5"/>
+<circle cx="105.53" cy="157.29" r="3.3" fill="#1463a5"/>
+<circle cx="118.30" cy="153.56" r="3.3" fill="#1463a5"/>
+<circle cx="131.06" cy="210.23" r="3.3" fill="#1463a5"/>
+<circle cx="143.83" cy="197.52" r="3.3" fill="#1463a5"/>
+<circle cx="156.60" cy="169.49" r="3.3" fill="#1463a5"/>
+<circle cx="169.36" cy="178.20" r="3.3" fill="#1463a5"/>
+<circle cx="182.13" cy="172.34" r="3.3" fill="#1463a5"/>
+<circle cx="194.89" cy="188.72" r="3.3" fill="#1463a5"/>
+<circle cx="207.66" cy="154.77" r="3.3" fill="#1463a5"/>
+<circle cx="220.43" cy="156.75" r="3.3" fill="#1463a5"/>
+<circle cx="233.19" cy="170.71" r="3.3" fill="#1463a5"/>
+<circle cx="245.96" cy="149.91" r="3.3" fill="#1463a5"/>
+<circle cx="258.72" cy="162.83" r="3.3" fill="#1463a5"/>
+<circle cx="271.49" cy="188.84" r="3.3" fill="#1463a5"/>
+<circle cx="284.26" cy="164.78" r="3.3" fill="#1463a5"/>
+<circle cx="297.02" cy="190.79" r="3.3" fill="#1463a5"/>
+<circle cx="309.79" cy="154.78" r="3.3" fill="#1463a5"/>
+<circle cx="322.55" cy="172.98" r="3.3" fill="#1463a5"/>
+<circle cx="335.32" cy="175.63" r="3.3" fill="#1463a5"/>
+<circle cx="348.09" cy="185.34" r="3.3" fill="#1463a5"/>
+<circle cx="360.85" cy="148.03" r="3.3" fill="#1463a5"/>
+<circle cx="373.62" cy="175.02" r="3.3" fill="#1463a5"/>
+<circle cx="386.38" cy="180.40" r="3.3" fill="#1463a5"/>
+<circle cx="399.15" cy="178.90" r="3.3" fill="#1463a5"/>
+<circle cx="411.91" cy="161.57" r="3.3" fill="#1463a5"/>
+<circle cx="424.68" cy="164.83" r="3.3" fill="#1463a5"/>
+<circle cx="437.45" cy="163.91" r="3.3" fill="#1463a5"/>
+<circle cx="450.21" cy="163.56" r="3.3" fill="#1463a5"/>
+<circle cx="462.98" cy="130.03" r="3.3" fill="#1463a5"/>
+<circle cx="475.74" cy="179.97" r="3.3" fill="#1463a5"/>
+<circle cx="488.51" cy="182.04" r="3.3" fill="#1463a5"/>
+<circle cx="501.28" cy="187.95" r="3.3" fill="#1463a5"/>
+<circle cx="514.04" cy="159.93" r="3.3" fill="#1463a5"/>
+<circle cx="526.81" cy="149.87" r="3.3" fill="#1463a5"/>
+<circle cx="539.57" cy="174.24" r="3.3" fill="#1463a5"/>
+<circle cx="552.34" cy="188.46" r="3.3" fill="#1463a5"/>
+<circle cx="565.11" cy="188.16" r="3.3" fill="#1463a5"/>
+<circle cx="577.87" cy="159.25" r="3.3" fill="#1463a5"/>
+<circle cx="590.64" cy="157.43" r="3.3" fill="#1463a5"/>
+<circle cx="603.40" cy="161.36" r="3.3" fill="#1463a5"/>
+<circle cx="616.17" cy="185.05" r="3.3" fill="#1463a5"/>
+<circle cx="628.94" cy="167.45" r="3.3" fill="#1463a5"/>
+<circle cx="641.70" cy="169.72" r="3.3" fill="#1463a5"/>
+<circle cx="654.47" cy="167.72" r="3.3" fill="#1463a5"/>
+<circle cx="667.23" cy="154.92" r="3.3" fill="#1463a5"/>
+<circle cx="680.00" cy="167.62" r="3.3" fill="#1463a5"/>
+<text x="24" y="344" font-size="19" text-anchor="start">B 殘差中心彎曲：可能遺漏非線性</text>
+<text x="24" y="365" font-size="16" text-anchor="start">殘差（MW）</text>
+<line x1="80" y1="536.0" x2="680" y2="536.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="541.0" font-size="16" text-anchor="end">-6</text>
+<line x1="80" y1="494.0" x2="680" y2="494.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="499.0" font-size="16" text-anchor="end">-3</text>
+<line x1="80" y1="452.0" x2="680" y2="452.0" stroke="#526779" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="67" y="457.0" font-size="16" text-anchor="end">0</text>
+<line x1="80" y1="410.0" x2="680" y2="410.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="415.0" font-size="16" text-anchor="end">3</text>
+<line x1="80" y1="368.0" x2="680" y2="368.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="373.0" font-size="16" text-anchor="end">6</text>
+<line x1="80" y1="368" x2="80" y2="536" stroke="#96a5b2" stroke-width="1.5" stroke-dasharray=""/>
+<text x="80.0" y="558" font-size="16" text-anchor="middle">40</text>
+<text x="233.1914893617021" y="558" font-size="16" text-anchor="middle">64</text>
+<text x="386.3829787234042" y="558" font-size="16" text-anchor="middle">88</text>
+<text x="539.5744680851064" y="558" font-size="16" text-anchor="middle">112</text>
+<text x="680.0" y="558" font-size="16" text-anchor="middle">134</text>
+<text x="380" y="586" font-size="16" text-anchor="middle">預測負載（MW）</text>
+<circle cx="80.00" cy="413.22" r="3.3" fill="#1463a5"/>
+<circle cx="92.77" cy="420.02" r="3.3" fill="#1463a5"/>
+<circle cx="105.53" cy="423.72" r="3.3" fill="#1463a5"/>
+<circle cx="118.30" cy="426.77" r="3.3" fill="#1463a5"/>
+<circle cx="131.06" cy="438.14" r="3.3" fill="#1463a5"/>
+<circle cx="143.83" cy="438.01" r="3.3" fill="#1463a5"/>
+<circle cx="156.60" cy="442.19" r="3.3" fill="#1463a5"/>
+<circle cx="169.36" cy="446.23" r="3.3" fill="#1463a5"/>
+<circle cx="182.13" cy="448.21" r="3.3" fill="#1463a5"/>
+<circle cx="194.89" cy="445.04" r="3.3" fill="#1463a5"/>
+<circle cx="207.66" cy="456.14" r="3.3" fill="#1463a5"/>
+<circle cx="220.43" cy="452.36" r="3.3" fill="#1463a5"/>
+<circle cx="233.19" cy="464.08" r="3.3" fill="#1463a5"/>
+<circle cx="245.96" cy="461.59" r="3.3" fill="#1463a5"/>
+<circle cx="258.72" cy="461.88" r="3.3" fill="#1463a5"/>
+<circle cx="271.49" cy="462.22" r="3.3" fill="#1463a5"/>
+<circle cx="284.26" cy="463.41" r="3.3" fill="#1463a5"/>
+<circle cx="297.02" cy="464.54" r="3.3" fill="#1463a5"/>
+<circle cx="309.79" cy="469.75" r="3.3" fill="#1463a5"/>
+<circle cx="322.55" cy="471.17" r="3.3" fill="#1463a5"/>
+<circle cx="335.32" cy="467.36" r="3.3" fill="#1463a5"/>
+<circle cx="348.09" cy="471.64" r="3.3" fill="#1463a5"/>
+<circle cx="360.85" cy="475.84" r="3.3" fill="#1463a5"/>
+<circle cx="373.62" cy="475.55" r="3.3" fill="#1463a5"/>
+<circle cx="386.38" cy="474.79" r="3.3" fill="#1463a5"/>
+<circle cx="399.15" cy="469.63" r="3.3" fill="#1463a5"/>
+<circle cx="411.91" cy="470.47" r="3.3" fill="#1463a5"/>
+<circle cx="424.68" cy="467.95" r="3.3" fill="#1463a5"/>
+<circle cx="437.45" cy="471.04" r="3.3" fill="#1463a5"/>
+<circle cx="450.21" cy="467.97" r="3.3" fill="#1463a5"/>
+<circle cx="462.98" cy="465.13" r="3.3" fill="#1463a5"/>
+<circle cx="475.74" cy="466.98" r="3.3" fill="#1463a5"/>
+<circle cx="488.51" cy="462.67" r="3.3" fill="#1463a5"/>
+<circle cx="501.28" cy="464.77" r="3.3" fill="#1463a5"/>
+<circle cx="514.04" cy="461.69" r="3.3" fill="#1463a5"/>
+<circle cx="526.81" cy="459.53" r="3.3" fill="#1463a5"/>
+<circle cx="539.57" cy="459.94" r="3.3" fill="#1463a5"/>
+<circle cx="552.34" cy="451.41" r="3.3" fill="#1463a5"/>
+<circle cx="565.11" cy="451.92" r="3.3" fill="#1463a5"/>
+<circle cx="577.87" cy="447.20" r="3.3" fill="#1463a5"/>
+<circle cx="590.64" cy="442.31" r="3.3" fill="#1463a5"/>
+<circle cx="603.40" cy="438.98" r="3.3" fill="#1463a5"/>
+<circle cx="616.17" cy="434.57" r="3.3" fill="#1463a5"/>
+<circle cx="628.94" cy="433.38" r="3.3" fill="#1463a5"/>
+<circle cx="641.70" cy="430.47" r="3.3" fill="#1463a5"/>
+<circle cx="654.47" cy="425.01" r="3.3" fill="#1463a5"/>
+<circle cx="667.23" cy="426.17" r="3.3" fill="#1463a5"/>
+<circle cx="680.00" cy="420.67" r="3.3" fill="#1463a5"/>
+<text x="24" y="624" font-size="19" text-anchor="start">C 連續同號、反覆起伏：可能遺漏時間結構</text>
+<text x="24" y="645" font-size="16" text-anchor="start">殘差（MW）</text>
+<line x1="80" y1="816.0" x2="680" y2="816.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="821.0" font-size="16" text-anchor="end">-6</text>
+<line x1="80" y1="774.0" x2="680" y2="774.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="779.0" font-size="16" text-anchor="end">-3</text>
+<line x1="80" y1="732.0" x2="680" y2="732.0" stroke="#526779" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="67" y="737.0" font-size="16" text-anchor="end">0</text>
+<line x1="80" y1="690.0" x2="680" y2="690.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="695.0" font-size="16" text-anchor="end">3</text>
+<line x1="80" y1="648.0" x2="680" y2="648.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="653.0" font-size="16" text-anchor="end">6</text>
+<line x1="80" y1="648" x2="80" y2="816" stroke="#96a5b2" stroke-width="1.5" stroke-dasharray=""/>
+<text x="80.0" y="838" font-size="16" text-anchor="middle">0</text>
+<text x="233.1914893617021" y="838" font-size="16" text-anchor="middle">12</text>
+<text x="386.3829787234042" y="838" font-size="16" text-anchor="middle">24</text>
+<text x="539.5744680851064" y="838" font-size="16" text-anchor="middle">36</text>
+<text x="680.0" y="838" font-size="16" text-anchor="middle">47</text>
+<text x="380" y="866" font-size="16" text-anchor="middle">時間 t（小時；01/01 00時起）</text>
+<polyline points="80.00,738.48 92.77,708.89 105.53,681.54 118.30,680.44 131.06,685.35 143.83,697.63 156.60,733.75 169.36,756.39 182.13,785.07 194.89,789.01 207.66,785.16 220.43,761.67 233.19,727.88 245.96,712.47 258.72,681.38 271.49,674.84 284.26,686.42 297.02,711.08 309.79,731.65 322.55,762.59 335.32,779.36 348.09,787.89 360.85,772.64 373.62,761.18 386.38,737.01 399.15,703.12 411.91,682.43 424.68,669.34 437.45,679.42 450.21,702.25 462.98,724.83 475.74,765.82 488.51,783.63 501.28,792.54 514.04,782.41 526.81,766.75 539.57,728.89 552.34,705.09 565.11,690.71 577.87,680.97 590.64,681.96 603.40,699.90 616.17,722.21 628.94,745.72 641.70,778.47 654.47,792.84 667.23,790.94 680.00,758.68" fill="none" stroke="#9e480e" stroke-width="1.8"/>
+<circle cx="80.00" cy="738.48" r="3.3" fill="#9e480e"/>
+<circle cx="92.77" cy="708.89" r="3.3" fill="#9e480e"/>
+<circle cx="105.53" cy="681.54" r="3.3" fill="#9e480e"/>
+<circle cx="118.30" cy="680.44" r="3.3" fill="#9e480e"/>
+<circle cx="131.06" cy="685.35" r="3.3" fill="#9e480e"/>
+<circle cx="143.83" cy="697.63" r="3.3" fill="#9e480e"/>
+<circle cx="156.60" cy="733.75" r="3.3" fill="#9e480e"/>
+<circle cx="169.36" cy="756.39" r="3.3" fill="#9e480e"/>
+<circle cx="182.13" cy="785.07" r="3.3" fill="#9e480e"/>
+<circle cx="194.89" cy="789.01" r="3.3" fill="#9e480e"/>
+<circle cx="207.66" cy="785.16" r="3.3" fill="#9e480e"/>
+<circle cx="220.43" cy="761.67" r="3.3" fill="#9e480e"/>
+<circle cx="233.19" cy="727.88" r="3.3" fill="#9e480e"/>
+<circle cx="245.96" cy="712.47" r="3.3" fill="#9e480e"/>
+<circle cx="258.72" cy="681.38" r="3.3" fill="#9e480e"/>
+<circle cx="271.49" cy="674.84" r="3.3" fill="#9e480e"/>
+<circle cx="284.26" cy="686.42" r="3.3" fill="#9e480e"/>
+<circle cx="297.02" cy="711.08" r="3.3" fill="#9e480e"/>
+<circle cx="309.79" cy="731.65" r="3.3" fill="#9e480e"/>
+<circle cx="322.55" cy="762.59" r="3.3" fill="#9e480e"/>
+<circle cx="335.32" cy="779.36" r="3.3" fill="#9e480e"/>
+<circle cx="348.09" cy="787.89" r="3.3" fill="#9e480e"/>
+<circle cx="360.85" cy="772.64" r="3.3" fill="#9e480e"/>
+<circle cx="373.62" cy="761.18" r="3.3" fill="#9e480e"/>
+<circle cx="386.38" cy="737.01" r="3.3" fill="#9e480e"/>
+<circle cx="399.15" cy="703.12" r="3.3" fill="#9e480e"/>
+<circle cx="411.91" cy="682.43" r="3.3" fill="#9e480e"/>
+<circle cx="424.68" cy="669.34" r="3.3" fill="#9e480e"/>
+<circle cx="437.45" cy="679.42" r="3.3" fill="#9e480e"/>
+<circle cx="450.21" cy="702.25" r="3.3" fill="#9e480e"/>
+<circle cx="462.98" cy="724.83" r="3.3" fill="#9e480e"/>
+<circle cx="475.74" cy="765.82" r="3.3" fill="#9e480e"/>
+<circle cx="488.51" cy="783.63" r="3.3" fill="#9e480e"/>
+<circle cx="501.28" cy="792.54" r="3.3" fill="#9e480e"/>
+<circle cx="514.04" cy="782.41" r="3.3" fill="#9e480e"/>
+<circle cx="526.81" cy="766.75" r="3.3" fill="#9e480e"/>
+<circle cx="539.57" cy="728.89" r="3.3" fill="#9e480e"/>
+<circle cx="552.34" cy="705.09" r="3.3" fill="#9e480e"/>
+<circle cx="565.11" cy="690.71" r="3.3" fill="#9e480e"/>
+<circle cx="577.87" cy="680.97" r="3.3" fill="#9e480e"/>
+<circle cx="590.64" cy="681.96" r="3.3" fill="#9e480e"/>
+<circle cx="603.40" cy="699.90" r="3.3" fill="#9e480e"/>
+<circle cx="616.17" cy="722.21" r="3.3" fill="#9e480e"/>
+<circle cx="628.94" cy="745.72" r="3.3" fill="#9e480e"/>
+<circle cx="641.70" cy="778.47" r="3.3" fill="#9e480e"/>
+<circle cx="654.47" cy="792.84" r="3.3" fill="#9e480e"/>
+<circle cx="667.23" cy="790.94" r="3.3" fill="#9e480e"/>
+<circle cx="680.00" cy="758.68" r="3.3" fill="#9e480e"/>
+<text x="24" y="924" font-size="16" text-anchor="start">各48筆合成資料；同一縱軸 -6～+6 MW；不以一個遠點代表規律。</text>
+</g>
+</svg>

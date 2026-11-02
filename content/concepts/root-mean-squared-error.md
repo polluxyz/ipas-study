@@ -25,16 +25,20 @@ goals:
   - id: g2
     text: 比較 RMSE、MSE 與 MAE 的單位、排序及大小關係
   - id: g3
-    text: 依領域成本與分群結果解讀 RMSE，辨認整體平均的限制
+    text: 依領域成本與分群結果解讀 RMSE，按樣本數合併平方誤差，辨認整體平均的限制
 formula_groups:
   - id: rmse
     source: guide-3:5-23
     status: verified
-    checked_by: ctx_0e5a928bd662
+    checked_by: task_438e98e2097f
   - id: rmse-mae
     source: https://scikit-learn.org/stable/modules/model_evaluation.html
-    status: verified
-    checked_by: ctx_0e5a928bd662
+    status: pending
+    checked_by: null
+  - id: group-rmse
+    source: https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-error
+    status: pending
+    checked_by: null
 self_check:
   - id: c1
     goal: g1
@@ -81,6 +85,21 @@ self_check:
       B: 分群能看出改善與惡化是否在整體數字中互相掩蓋。
       C: 整體固定不代表每個群組固定，其他群組可能同時改善。
       D: 先加總會讓正負誤差抵銷，既不是 RMSE，也無助定位群組。
+  - id: c4
+    goal: g3
+    type: choice
+    prompt: 同十戶估價中，一般住宅九戶 RMSE＝2 萬元，高價住宅一戶 RMSE＝30 萬元。整體 RMSE 與正確解讀是哪一個？
+    options:
+      A: √((9×2²＋1×30²)/10)≈9.675 萬元；仍須另查高價群
+      B: (2＋30)/2＝16 萬元；兩群等權即可代表所有十戶
+      C: (9×2＋30)/10＝4.8 萬元；按樣本數平均各群 RMSE 就能代表整體
+      D: √((2²＋30²)/10)≈9.508 萬元；各群平方只需計一次
+    answer: A
+    explain:
+      A: 各群 RMSE 平方乘樣本數可還原平方誤差和，總和936除以十後再開根號。
+      B: 這是群組指標的等權平均，沒有還原每戶平方誤差，並非整體 RMSE。
+      C: 平均各群 RMSE 即使按人數加權也不等於先平均平方誤差再開根號。
+      D: 一般群有九筆，少乘九會漏算八戶的平方誤差。
 textbook: v2
 ---
 
@@ -128,6 +147,10 @@ $$
 $$
 
 兩個符號分別代表均方根誤差與平均絕對誤差。只有每筆絕對誤差都相同時，兩者才相等。
+
+本關係由定義自行推導：把各筆絕對誤差視為一組數，其平方平均減去平均的平方非負，因此得到上述不等式；差值為零恰對應所有絕對誤差相同。
+
+scikit-learn 的 MAE／MSE 段提供指標定義與 RMSE 開根號關係，未直接列出這個不等式及等號條件。
 
 本例 $7.133\ge3.375$；若只看前七筆，每筆絕對誤差都是 1 箱，兩者就都等於 1 箱。不同資料、不同權重或不同尺度的數字不能套用這個比較。
 
@@ -207,6 +230,58 @@ MAE 偏好甲，RMSE 偏好乙。若大幅少估會造成昂貴的緊急備援�
 
 整體 RMSE 仍是彙總數字。高風險群組變差、其他群組變好時，整體結果可能不變；應同時依金額、時段或設備分群，並保留各群樣本數。
 
+### 房屋估價：整體變好卻掩蓋小群惡化（補充）
+
+`L23303-M4-D-group-rmse.json` 合成十戶：一般住宅九戶各1000萬元，高價住宅一戶5000萬元。同十戶兩組固定預測，未訓練或切分，seed=null。
+
+全例的實際值、預測與殘差都用**萬元**，不混入百分比或標準化數值。一般住宅前後的殘差大小分別為10與2萬元；高價住宅則由低估20變成低估30萬元。
+
+| 群組與樣本數 | 改前平方誤差和（萬元平方） | 改後平方誤差和（萬元平方） | RMSE 改前→改後（萬元） |
+|---|---|---|---|
+| 一般住宅，9戶 | 9×10²＝900 | 9×2²＝36 | 10 → 2 |
+| 高價住宅，1戶 | 1×20²＝400 | 1×30²＝900 | 20 → 30 |
+| 整體，10戶 | 1300 | 936 | √130≈11.402 → √93.6≈9.675 |
+
+整體下降約1.727萬元，不能宣稱高價住宅也變準。九戶改善減少的平方誤差是864，一戶惡化增加500，合併後仍淨減364萬元平方；小群只有10%的權重。
+
+令 $g$ 為互不重疊且合起來涵蓋全部樣本的群組，$n_g$ 是各群筆數，$N=\sum_g n_g$ 是總筆數。每筆等權重且單位相同時，由 RMSE 定義將平方誤差分群加總可得：
+
+$$
+\mathrm{RMSE}_{\mathrm{all}}=
+\sqrt{\frac{\sum_g n_g\,\mathrm{RMSE}_g^2}{N}}
+$$
+
+這由平方誤差定義自行分組推導，scikit-learn 的 MSE 段未直接列出此群組合併完整式。各群 RMSE 平方乘 $n_g$ 還原該群平方誤差和，完整分群才能加成總和。
+
+改後代入 $\sqrt{(9\times2^2+1\times30^2)/10}=\sqrt{93.6}$。若有樣本權重，改用各群權重總和。
+
+**不能直接平均群組 RMSE**：$(2+30)/2=16$，連按人數平均 $(9\times2+30)/10=4.8$ 也不是9.675。先還原各群平方誤差和，再除總筆數、開根號。
+
+高價群只有一戶，這裡能定位該戶惡化，卻不足以估計整個高價市場的長期誤差。監控須同報群組定義、筆數與觀察期間；群組占比不同時，整體數字還會受組成改變影響。
+
+```python
+import json, os
+from pathlib import Path
+data = json.loads((Path(os.environ["IPAS_REPO_ROOT"]) /
+    "content/examples/L23303-M4-D-group-rmse.json").read_text(encoding="utf-8"))
+for stage in ["before", "after"]:
+    for group in ["一般住宅", "高價住宅", "整體"]:
+        rows = [r for r in data["samples"] if group == "整體" or r["group"] == group]
+        sse = sum((r["y_true"] - r["pred_" + stage]) ** 2 for r in rows)
+        print(stage, group, "n=", len(rows), "SSE=", sse,
+              "RMSE=", round((sse / len(rows)) ** 0.5, 3))
+```
+```text
+before 一般住宅 n= 9 SSE= 900 RMSE= 10.0
+before 高價住宅 n= 1 SSE= 400 RMSE= 20.0
+before 整體 n= 10 SSE= 1300 RMSE= 11.402
+after 一般住宅 n= 9 SSE= 36 RMSE= 2.0
+after 高價住宅 n= 1 SSE= 900 RMSE= 30.0
+after 整體 n= 10 SSE= 936 RMSE= 9.675
+```
+
+程式的 SSE 是平方誤差和，單位為萬元平方；輸出的 RMSE 單位是萬元。它重算固定資料的兩組預測，不代表實際部署後的改善。
+
 ## 常見誤解
 
 - **「開根號後就不重視大誤差了。」** 平方階段的放大仍在，RMSE 對大誤差仍敏感。
@@ -226,7 +301,7 @@ MAE 偏好甲，RMSE 偏好乙。若大幅少估會造成昂貴的緊急備援�
 
 - 學習指引科目 3，5.3、5-23（支持：定義與公式、原單位、精度報告場景）。
 - [scikit-learn：root_mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.root_mean_squared_error.html)（支持：程式、樣本權重與聚合方式）。
-- [scikit-learn：Metrics and scoring](https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-error)（支持：RMSE 與 MSE、MAE 關係）。
+- [scikit-learn：Metrics and scoring](https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-error)（支持：MAE／MSE 定義與 RMSE 開根號關係；大小不等式及群組合併由本頁推導，非來源直接列式）。
 - [Hyndman、Athanasopoulos：Forecasting: Principles and Practice，第 5 章](https://otexts.com/fpp3/toolbox.html#scale-dependent-errors)（支持：原單位誤差、指標選擇）。
 
 ## 小結

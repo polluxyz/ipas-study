@@ -28,20 +28,24 @@ status: draft
 summary: 均方誤差把每筆誤差平方後平均，讓大誤差更影響評分
 goals:
   - id: g1
-    text: 逐筆算出 MSE，說明樣本數、平方加總與平均
+    text: 逐筆算出 MSE，說明樣本數、平方加總與平均，並與同批殘差的 MAE 對照
   - id: g2
     text: 判讀平方單位、離群值影響與模型比較條件
   - id: g3
-    text: 分清 MSE 的評估與訓練角色，理解大誤差的梯度影響
+    text: 分清 MSE 的評估與訓練角色，理解大誤差的梯度影響，對照 MAE 導數與零點次梯度
 formula_groups:
   - id: mse
     source: guide-3:5-22
     status: verified
-    checked_by: ctx_0e5a928bd662
+    checked_by: task_438e98e2097f
   - id: mse-gradient
-    source: https://scikit-learn.org/stable/modules/model_evaluation.html
-    status: verified
-    checked_by: ctx_0e5a928bd662
+    source: https://d2l.ai/chapter_linear-regression/linear-regression.html
+    status: pending
+    checked_by: null
+  - id: mse-mae-gradient-comparison
+    source: https://web.stanford.edu/class/ee364b/lectures/subgradients_notes.pdf
+    status: pending
+    checked_by: null
 self_check:
   - id: c1
     goal: g1
@@ -88,6 +92,21 @@ self_check:
       B: MSE 對預測值的導數使用預測減實際，符號與殘差相反。
       C: 導數還包含係數 2 與筆數 8，不能只取負殘差。
       D: −0.25 是把第一筆 MSE 導數 +0.25 反號，不能代表第八筆的導數；MSE 的導數大小會隨誤差改變。
+  - id: c4
+    goal: g3
+    type: choice
+    prompt: 八筆等權重的平均損失，殘差定義為實際減預測。某筆殘差由 +1 變成 +20，並另查零殘差的邊界，哪個判讀正確？
+    options:
+      A: MSE 導數皆固定為 −0.125；MAE 零點次梯度可直接取未縮放的區間 [−1,1]
+      B: MSE 導數由 −0.25 變 −5；MAE 零點導數就是 0
+      C: MSE 導數由 −0.25 變 −5；MAE 零點次梯度在 [−0.125,0.125]
+      D: MSE 導數由 +0.25 變 +5；MAE 零點次梯度只能取正端點 +0.125
+    answer: C
+    explain:
+      A: 固定大小的是非零處 MAE 導數；平均損失的次梯度區間也須除以八。
+      B: 零點左右斜率不同，MAE 的一般導數不存在；0 只是合法次梯度之一。
+      C: MSE 對預測值導數為負二倍殘差除以八；MAE 零點保留整個縮放區間。
+      D: 實際減預測為正時，對預測值的導數為負；零點合法次梯度也不限於正端點。
 textbook: v2
 ---
 
@@ -145,6 +164,8 @@ MSE 非負，只有每筆預測都正確時才等於 0。目標以「箱」計�
 3. 最後一筆占平方誤差 $400/407\approx98.28\%$，值得優先查原因。
 
 同一批資料的平均絕對誤差是 $27/8=3.375$ 箱，均方根誤差約 7.133 箱。它們的單位不同，不能因 MSE 數字較大就說它比較差。
+
+最後一筆占絕對誤差 $20/27\approx74.07\%$，相較於平方誤差的約98.28%較低，但仍超過七成。
 :::
 
 ## 程式
@@ -180,6 +201,8 @@ print(f"套件 MSE: {mean_squared_error(y_true, y_pred):.3f}")
 
 需要放大嚴重偏差時，MSE 是合適的選項；若想以目標原單位報告結果，可同時提供 RMSE。少量離群值不該主導評價時，則搭配 MAE。
 
+指引3-23的「分類使用迴歸損失無效」不是絕對規則。機率與0/1標籤的平方誤差可作布萊爾分數（Brier score）；須按輸出與決策目的選損失，不能由名稱判定不收斂。
+
 ### 換個場景
 
 | 場景 | 為何採用或搭配 MSE |
@@ -194,6 +217,60 @@ print(f"套件 MSE: {mean_squared_error(y_true, y_pred):.3f}")
 要比較模型，須固定評估樣本、目標單位與權重。把出貨量改成十箱為一單位，MSE 數字會縮成原來的百分之一，模型並沒有進步。
 
 訓練時用 MSE 當損失函數，評估時也能用同一公式。前者指引模型更新，後者應在未參與擬合的資料上衡量泛化，兩者的資料角色不同。
+
+### 同一殘差下的兩種導數（補充）
+
+沿用殘差 $e_i=y_i-\hat y_i$，因此對預測值微分時，方向與殘差相反。以下皆為八筆等權重的**平均**損失，不是單筆損失或損失總和。
+
+$$
+\frac{\partial\mathrm{MSE}}{\partial\hat y_i}=-\frac{2e_i}{n},\qquad
+\frac{\partial\mathrm{MAE}}{\partial\hat y_i}=-\frac{\operatorname{sign}(e_i)}{n}\quad(e_i\ne0)
+$$
+
+$n$ 為筆數，$\operatorname{sign}(e_i)$ 在殘差正／負時為 +1／−1。兩式由損失公式微分；D2L的平方損失含 $1/2$，本頁未含，故導數有 2。
+
+| 同批出貨資料 | 殘差（箱） | MSE 對預測的導數 | MAE 對預測的導數 |
+|---|---|---|---|
+| 第 1 筆：實際10、預測11 | −1 | +0.25 | +0.125 |
+| 第 2 筆：實際20、預測19 | +1 | −0.25 | −0.125 |
+| 第 8 筆：實際100、預測80 | +20 | −5 | −0.125 |
+
+殘差由 +1 增至 +20，MSE 導數大小增為 20 倍，MAE 仍為 1/8。重點是各損失如何隨誤差改變；兩種損失的量綱不同，不能單靠跨損失的導數數字決定學習率。
+
+MAE 在 $e_i=0$ 處左右斜率不同，**一般導數不存在**。次梯度（Subgradient）允許用一組合法斜率描述凸函數的尖點；本頁以 $s_i$ 表示其中一個可選值：
+
+$$
+e_i=0:\quad s_i\in\left[-\frac1n,\frac1n\right]
+\quad\Longrightarrow\quad n=8:\ s_i\in[-0.125,0.125]
+$$
+
+這是依 Stanford 次梯度講義第1節的絕對值例子、第3.1～3.3節的縮放、加總與仿射變換規則，將預測減實際代入絕對值，按平均係數 $1/n$ 縮放零點區間 $[-1,1]$。
+
+可取 0，但不能說一般導數等於 0，也不能在八筆平均時選 0.5；MSE 在零點的導數則確實是 0。
+
+上述平均導數對照與零點區間是本頁自行推導，講義未直接列出這組完整式。
+
+合成資料 `L23303-M4-D-loss-gradients.json` 保留原八筆預測，另列零點邊界，**不加入原平均**。以下重算八筆導數，不訓練模型。
+
+```python
+import json, os
+from pathlib import Path
+import numpy as np
+data = json.loads((Path(os.environ["IPAS_REPO_ROOT"]) /
+    "content/examples/L23303-M4-D-loss-gradients.json").read_text(encoding="utf-8"))
+e = np.array([r["y_true"] - r["y_pred"] for r in data["samples"]])
+n = len(e)
+print("MSE 導數:", (-2 * e / n).tolist())
+print("MAE 非零處導數:", (-np.sign(e) / n).tolist())
+print("MAE 零點次梯度區間:", [-1/n, 1/n])
+```
+```text
+MSE 導數: [0.25, -0.25, 0.25, -0.25, 0.25, -0.25, 0.25, -5.0]
+MAE 非零處導數: [0.125, -0.125, 0.125, -0.125, 0.125, -0.125, 0.125, -0.125]
+MAE 零點次梯度區間: [-0.125, 0.125]
+```
+
+資料無隨機抽樣（seed=null），索引1–8不是時間，沒有訓練或切分。[平均絕對誤差](/concepts/mean-absolute-error/#當-mae-作為訓練損失補充)從 MAE 的角度解釋同一對照；[梯度下降](/concepts/gradient-descent/)接續說明如何更新參數。
 
 ## 常見誤解
 
@@ -215,14 +292,20 @@ $$
 
 $\partial/\partial\hat y_i$ 表示只改動第 $i$ 筆預測值時，損失變化的斜率；其餘符號沿用主公式。殘差越大，這個導數的絕對值越大。
 
+此式由本頁 MSE 定義逐項微分得到。D2L 第3.1.1.2節的式(3.1.5)、(3.1.6)含 $1/2$，第3.1.1.3節式(3.1.8)則對模型權重微分。
+
+它們提供推導依據，未直接列出本頁不含 $1/2$、對單筆預測的平均導數完整式。
+
 八筆資料中，第八筆的導數是 $2(80-100)/8=-5$，第一筆是 $2(11-10)/8=0.25$。這是對預測值的導數；更新模型參數還須使用鏈鎖律，不能直接視為參數更新量。
 
 ### 參考來源
 
 - 學習指引科目 3，5.3、5-22～5-23；3.3（支持：定義與公式、適用場景、訓練損失角色）。
 - [scikit-learn：mean_squared_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_error.html)（支持：公式前提、程式、非負值）。
-- [scikit-learn：Metrics and scoring](https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-error)（支持：損失函數、大誤差與梯度延伸）。
+- [scikit-learn：Metrics and scoring](https://scikit-learn.org/stable/modules/model_evaluation.html#mean-squared-error)（支持：平方誤差定義、大誤差及分類的 Brier score 例子）。
 - [Hyndman、Athanasopoulos：Forecasting: Principles and Practice，第 5 章](https://otexts.com/fpp3/toolbox.html#scale-dependent-errors)（支持：原單位指標比較、換個場景的選擇思路）。
+- [Dive into Deep Learning 3.1](https://d2l.ai/chapter_linear-regression/linear-regression.html)（支持：平方損失微分；本頁自行去除其1/2係數並改寫為對單筆預測值的導數）。
+- [Boyd 等：Subgradients，1、3.1～3.3節](https://web.stanford.edu/class/ee364b/lectures/subgradients_notes.pdf)（支持：絕對值次梯度、縮放、加總與仿射變換規則；平均導數對照由本頁推導，非來源直接列式）。
 
 ## 小結
 

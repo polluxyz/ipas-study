@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="650" viewBox="0 0 720 650" role="img" aria-labelledby="title desc">
+<title id="title">同時間資料的殘差 ACF</title><desc id="desc">兩圖橫軸為lag 1到12小時，縱軸負1到正1。虛線為正負0.283的近似參考線。隨機例未超線，週期例在lag1與12均明顯非零。</desc>
+<rect width="720" height="100%" fill="#fff"/>
+<g font-family="Noto Sans TC, Microsoft JhengHei, sans-serif" fill="#172c40" font-size="16">
+<text x="24" y="30" font-size="22" text-anchor="start">由同一時間數列重算 ACF</text>
+<text x="24" y="69" font-size="19" text-anchor="start">A 隨機例（近似白噪音）</text>
+<text x="24" y="92" font-size="16" text-anchor="start">ACF</text>
+<line x1="80" y1="271.0" x2="680" y2="271.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="276.0" font-size="16" text-anchor="end">-1</text>
+<line x1="80" y1="227.0" x2="680" y2="227.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="232.0" font-size="16" text-anchor="end">-0.5</text>
+<line x1="80" y1="183.0" x2="680" y2="183.0" stroke="#526779" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="188.0" font-size="16" text-anchor="end">0</text>
+<line x1="80" y1="139.0" x2="680" y2="139.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="144.0" font-size="16" text-anchor="end">0.5</text>
+<line x1="80" y1="95.0" x2="680" y2="95.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="100.0" font-size="16" text-anchor="end">1</text>
+<line x1="80" y1="207.89534360745665" x2="680" y2="207.89534360745665" stroke="#9e480e" stroke-width="1.5" stroke-dasharray="6 4"/>
+<line x1="80" y1="158.10465639254335" x2="680" y2="158.10465639254335" stroke="#9e480e" stroke-width="1.5" stroke-dasharray="6 4"/>
+<line x1="105.0" y1="183" x2="105.0" y2="183.12928967359602" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="105.00" cy="183.13" r="4" fill="#1463a5"/>
+<text x="105.0" y="293" font-size="16" text-anchor="middle">1</text>
+<line x1="155.0" y1="183" x2="155.0" y2="203.25709948826722" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="155.00" cy="203.26" r="4" fill="#1463a5"/>
+<text x="155.0" y="293" font-size="16" text-anchor="middle">2</text>
+<line x1="205.0" y1="183" x2="205.0" y2="194.15829209816275" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="205.00" cy="194.16" r="4" fill="#1463a5"/>
+<text x="205.0" y="293" font-size="16" text-anchor="middle">3</text>
+<line x1="255.0" y1="183" x2="255.0" y2="170.82594657414057" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="255.00" cy="170.83" r="4" fill="#1463a5"/>
+<text x="255.0" y="293" font-size="16" text-anchor="middle">4</text>
+<line x1="305.0" y1="183" x2="305.0" y2="175.24354752197826" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="305.00" cy="175.24" r="4" fill="#1463a5"/>
+<text x="305.0" y="293" font-size="16" text-anchor="middle">5</text>
+<line x1="355.0" y1="183" x2="355.0" y2="188.17905767480244" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="355.00" cy="188.18" r="4" fill="#1463a5"/>
+<text x="355.0" y="293" font-size="16" text-anchor="middle">6</text>
+<line x1="405.0" y1="183" x2="405.0" y2="201.1668344246662" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="405.00" cy="201.17" r="4" fill="#1463a5"/>
+<text x="405.0" y="293" font-size="16" text-anchor="middle">7</text>
+<line x1="455.0" y1="183" x2="455.0" y2="176.47447132372787" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="455.00" cy="176.47" r="4" fill="#1463a5"/>
+<text x="455.0" y="293" font-size="16" text-anchor="middle">8</text>
+<line x1="505.0" y1="183" x2="505.0" y2="197.77815017519802" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="505.00" cy="197.78" r="4" fill="#1463a5"/>
+<text x="505.0" y="293" font-size="16" text-anchor="middle">9</text>
+<line x1="555.0" y1="183" x2="555.0" y2="182.88942695177317" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="555.00" cy="182.89" r="4" fill="#1463a5"/>
+<text x="555.0" y="293" font-size="16" text-anchor="middle">10</text>
+<line x1="605.0" y1="183" x2="605.0" y2="176.12455892447585" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="605.00" cy="176.12" r="4" fill="#1463a5"/>
+<text x="605.0" y="293" font-size="16" text-anchor="middle">11</text>
+<line x1="655.0" y1="183" x2="655.0" y2="176.04040440102136" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="655.00" cy="176.04" r="4" fill="#1463a5"/>
+<text x="655.0" y="293" font-size="16" text-anchor="middle">12</text>
+<text x="380" y="319" font-size="16" text-anchor="middle">lag（小時）</text>
+<text x="24" y="339" font-size="19" text-anchor="start">C 週期例（仍有時間依賴）</text>
+<text x="24" y="362" font-size="16" text-anchor="start">ACF</text>
+<line x1="80" y1="541.0" x2="680" y2="541.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="546.0" font-size="16" text-anchor="end">-1</text>
+<line x1="80" y1="497.0" x2="680" y2="497.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="502.0" font-size="16" text-anchor="end">-0.5</text>
+<line x1="80" y1="453.0" x2="680" y2="453.0" stroke="#526779" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="458.0" font-size="16" text-anchor="end">0</text>
+<line x1="80" y1="409.0" x2="680" y2="409.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="414.0" font-size="16" text-anchor="end">0.5</text>
+<line x1="80" y1="365.0" x2="680" y2="365.0" stroke="#dce3e9" stroke-width="1.5" stroke-dasharray=""/>
+<text x="67" y="370.0" font-size="16" text-anchor="end">1</text>
+<line x1="80" y1="477.89534360745665" x2="680" y2="477.89534360745665" stroke="#9e480e" stroke-width="1.5" stroke-dasharray="6 4"/>
+<line x1="80" y1="428.10465639254335" x2="680" y2="428.10465639254335" stroke="#9e480e" stroke-width="1.5" stroke-dasharray="6 4"/>
+<line x1="105.0" y1="453" x2="105.0" y2="377.8757284830258" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="105.00" cy="377.88" r="4" fill="#1463a5"/>
+<text x="105.0" y="563" font-size="16" text-anchor="middle">1</text>
+<line x1="155.0" y1="453" x2="155.0" y2="409.29968258215837" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="155.00" cy="409.30" r="4" fill="#1463a5"/>
+<text x="155.0" y="563" font-size="16" text-anchor="middle">2</text>
+<line x1="205.0" y1="453" x2="205.0" y2="450.4791840057119" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="205.00" cy="450.48" r="4" fill="#1463a5"/>
+<text x="205.0" y="563" font-size="16" text-anchor="middle">3</text>
+<line x1="255.0" y1="453" x2="255.0" y2="490.4556939989488" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="255.00" cy="490.46" r="4" fill="#1463a5"/>
+<text x="255.0" y="563" font-size="16" text-anchor="middle">4</text>
+<line x1="305.0" y1="453" x2="305.0" y2="518.9762017047077" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="305.00" cy="518.98" r="4" fill="#1463a5"/>
+<text x="305.0" y="563" font-size="16" text-anchor="middle">5</text>
+<line x1="355.0" y1="453" x2="355.0" y2="529.0467165711576" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="355.00" cy="529.05" r="4" fill="#1463a5"/>
+<text x="355.0" y="563" font-size="16" text-anchor="middle">6</text>
+<line x1="405.0" y1="453" x2="405.0" y2="519.0527932156456" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="405.00" cy="519.05" r="4" fill="#1463a5"/>
+<text x="405.0" y="563" font-size="16" text-anchor="middle">7</text>
+<line x1="455.0" y1="453" x2="455.0" y2="492.77813983078653" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="455.00" cy="492.78" r="4" fill="#1463a5"/>
+<text x="455.0" y="563" font-size="16" text-anchor="middle">8</text>
+<line x1="505.0" y1="453" x2="505.0" y2="457.4789466377744" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="505.00" cy="457.48" r="4" fill="#1463a5"/>
+<text x="505.0" y="563" font-size="16" text-anchor="middle">9</text>
+<line x1="555.0" y1="453" x2="555.0" y2="422.40077055999717" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="555.00" cy="422.40" r="4" fill="#1463a5"/>
+<text x="555.0" y="563" font-size="16" text-anchor="middle">10</text>
+<line x1="605.0" y1="453" x2="605.0" y2="397.12376257372944" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="605.00" cy="397.12" r="4" fill="#1463a5"/>
+<text x="605.0" y="563" font-size="16" text-anchor="middle">11</text>
+<line x1="655.0" y1="453" x2="655.0" y2="387.75174378974145" stroke="#1463a5" stroke-width="1.5" stroke-dasharray=""/>
+<circle cx="655.00" cy="387.75" r="4" fill="#1463a5"/>
+<text x="655.0" y="563" font-size="16" text-anchor="middle">12</text>
+<text x="380" y="589" font-size="16" text-anchor="middle">lag（小時）</text>
+<text x="24" y="636" font-size="16" text-anchor="start">虛線 ±0.283：單一 lag 的近似95%參考，非同時檢定或獨立性證明。</text>
+</g>
+</svg>
