@@ -5,6 +5,7 @@ kind: model
 codes: [L23203]
 aliases: [Dense Connection]
 summary: DenseNet 在密集區塊內拼接先前特徵，讓後層重用資訊並逐層增加通道
+is_a: [cnn]
 requires: [residual-connections]
 contrasts:
   - target: residual-connections
