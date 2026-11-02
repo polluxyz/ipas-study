@@ -4,7 +4,7 @@ title: 自動前處理與目標編碼
 kind: technique
 codes: [L21301]
 aliases: [自動編碼與填補]
-requires: [categorical-encoding, target-encoding, train-val-test-split]
+requires: [target-encoding]
 summary: 依欄位型態組合填補與編碼，並把估計所需資訊留在訓練範圍內
 goals:
   - id: g1

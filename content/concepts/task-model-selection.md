@@ -4,7 +4,7 @@ title: 任務辨識與模型選擇
 kind: technique
 codes: [L21301]
 aliases: [Task Selection, 任務選擇]
-requires: [classification-regression, supervised-learning]
+requires: [supervised-learning]
 summary: 先定義預測目標與資料條件，再比較符合部署限制的候選模型
 goals:
   - id: g1

@@ -4,7 +4,7 @@ title: 可解釋 AI 的需求與方法選用
 kind: technique
 codes: [L21201, L21203, L23302]
 aliases: [Explainability, model-explainability, 可解釋 AI 與透明決策, 可解釋性, 模型解釋性與選用]
-requires: [logistic-regression, random-forest]
+requires: []
 summary: 可解釋 AI 讓受影響者與審查者理解模型依據，並依問題選擇解釋方法
 goals:
   - id: g1

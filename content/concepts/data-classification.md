@@ -39,7 +39,7 @@ self_check:
       B: 開放程度與法定敏感類別是不同問題。
       C: 管理級別協助選控制，但法定特種資料的範圍須另核對。
       D: 移除姓名不足以證明無法識別，也不足以免除法律查核。
-requires: [data-inventory]
+requires: []
 guide_refs: [guide-3:6-4, guide-3:6-5]
 textbook: v2
 author: codex

@@ -10,7 +10,7 @@ goals:
     text: 追蹤時間步的輸入、隱藏狀態與共享權重，讀懂小序列形狀
   - id: g2
     text: 依文字、語音、感測與影片任務選擇序列到標籤或序列的形式
-requires: [tanh]
+requires: [activation-functions]
 guide_refs: [guide-3:4-72, guide-3:4-73, guide-3:4-74, guide-3:4-75, guide-1:3-7, guide-1:3-8, guide-1:5-10]
 textbook: v2
 author: codex

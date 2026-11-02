@@ -10,7 +10,7 @@ goals:
     text: 依語序、維度、語意與成本選擇離散、統計、靜態或語境表示
   - id: g2
     text: 用小向量區分獨立詞位與共享維度，避免把稠密等同於有語意
-requires: [tokenization, n-gram]
+requires: [tokenization]
 guide_refs: [guide-1:3-12, guide-1:3-13, guide-1:3-14, guide-1:3-15]
 textbook: v2
 author: codex

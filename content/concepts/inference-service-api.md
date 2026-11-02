@@ -4,7 +4,7 @@ title: 推論服務與 API 介接
 kind: technique
 codes: [L21302]
 aliases: [REST API, Webhook, gRPC, 模型服務化]
-requires: [data-pipeline-integration]
+requires: []
 summary: 推論服務把模型包成有輸入輸出契約的介面，讓其他系統能可靠呼叫
 goals:
   - id: g1

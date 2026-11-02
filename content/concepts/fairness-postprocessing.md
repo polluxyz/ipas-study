@@ -4,7 +4,7 @@ title: 後處理門檻調整
 kind: technique
 codes: [L23402]
 aliases: [Post-processing, Threshold Adjustment]
-requires: [debiasing-strategies, equalized-odds]
+requires: [debiasing-strategies]
 is_a: [debiasing-strategies]
 summary: 固定模型分數，調整決策閾值前先確認群體資訊在推論時可用
 goals:

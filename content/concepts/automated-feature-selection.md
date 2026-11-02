@@ -4,7 +4,7 @@ title: 自動特徵篩選與驗證回饋
 kind: technique
 codes: [L21301]
 aliases: [Auto Feature Selection]
-requires: [automated-feature-generation, train-val-test-split]
+requires: [train-val-test-split]
 summary: 用重要性與去冗餘提出精簡特徵組，再由驗證回饋決定是否採用
 goals:
   - id: g1

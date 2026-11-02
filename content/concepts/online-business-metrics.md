@@ -11,7 +11,6 @@ aliases:
   - 留存率
 requires:
   - inference-service-api
-  - precision
   - f1-score
 summary: 應用指標確認模型行為，業務指標確認行為是否帶來價值
 goals:

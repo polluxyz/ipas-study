@@ -4,7 +4,7 @@ title: T-接近性
 kind: technique
 codes: [L23401]
 aliases: []
-requires: [k-anonymity, l-diversity, probabilistic-modeling]
+requires: [l-diversity, probabilistic-modeling]
 guide_refs: [guide-3:6-10]
 summary: T-接近性限制每群敏感值分布與全體分布的距離
 goals:

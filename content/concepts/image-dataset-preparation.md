@@ -4,7 +4,7 @@ title: 影像資料準備與分類流程
 kind: technique
 codes: [L21102, L21301, L23301]
 aliases: [Image Classification Workflow, 影像張量, 影像資料清理]
-requires: [computer-vision-tasks, train-val-test-split, image-normalization, data-augmentation]
+requires: [computer-vision-tasks, train-val-test-split, image-normalization]
 summary: 影像分類先整理可信的資料與切分，再以一致的輸入契約訓練和驗證模型
 textbook: v2
 author: codex
