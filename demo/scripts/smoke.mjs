@@ -8,6 +8,12 @@ import { pathToFileURL } from 'node:url';
 import { collectProseSamples, assertProseContrast } from './prose-contrast.mjs';
 import { loadContent, localUrl, localGet, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses, expectedTextbook404, sourceStageChecks, gotoSettled, settlePage, waitForSearch, assertSearchTop3 } from './rollout-smoke.mjs';
 
+/** 側欄負責選單元，單元頁負責進練習；兩步都要存在，不能只靠直接開練習網址。 */
+export function assertPracticeEntryLinks(sidebarLinks, routeLinks, code) {
+  assert.ok(sidebarLinks.includes(`/codes/${code}/`), `${code} 側欄缺學習路線入口`);
+  assert.ok(routeLinks.includes(`/practice/${code}/`), `${code} 路線頁缺練習入口`);
+}
+
 /** 比照手動連結轉換的文字節點及排除區，保留程式、公式與既有連結的原文。 */
 export function hasUnconvertedWikiLink(main) {
   const walker = main.ownerDocument.createTreeWalker(main, 4);
@@ -356,10 +362,18 @@ await runSmokeWithCleanup({ report, finish: async () => {
   await gotoSettled(page, base + '/codes/L23303/');
   assert.equal(await page.locator('main a[href^="/questions/"]').count(), 0, '學習路線不得出現考古題連結');
   assert.equal(await page.locator('.exam-frequency, .session-stats').count(), 0, '學習路線不得出現考試頻率');
-  await gotoSettled(page, base + '/practice/L23303/');
+  assertPracticeEntryLinks(
+    await page.locator('.sidebar-content a[href]').evaluateAll((anchors) => anchors.map((a) => a.getAttribute('href'))),
+    await page.locator('main a[href]').evaluateAll((anchors) => anchors.map((a) => a.getAttribute('href'))),
+    'L23303',
+  );
+  await settlePage(page);
+  await page.locator('main a[href="/practice/L23303/"]:visible').first().click();
+  await page.waitForURL((url) => url.pathname === '/practice/L23303/');
+  await settlePage(page);
+  report.practiceNavigation = { code: 'L23303', from: '/codes/L23303/', to: '/practice/L23303/', clicked: true };
   assert.ok(await page.locator('main a[href^="/questions/"]').count() > 0);
   assert.ok(await page.locator('.exam-frequency').count() > 0);
-  assert.ok(await page.locator('.sidebar-content a[href="/practice/L23303/"]').count() > 0);
   assertSessionStats(await page.locator('.session-stats > span').allTextContents(), content.questions, route.code);
   await gotoSettled(page, base + '/codes/L23303/');
   report.stages = await page.locator('[data-stage]').count(); assert.equal(report.stages, route.stages.length, '章數依原始路線');
