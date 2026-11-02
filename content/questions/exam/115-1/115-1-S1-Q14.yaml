@@ -10,7 +10,7 @@ type: 情境
 codes:
   - L23304
   - L21103
-concepts: []
+concepts: [lora, catastrophic-forgetting, supervised-fine-tuning]
 stem: |
   某工程師計劃將通用 LLM 在醫療問答語料上進行監督微調（Supervised Fine-Tuning, SFT），但發生了災難性遺忘（Catastrophic Forgetting）問題。在計算資源有限的情況下，工程師希望透過調整微調策略來緩解此問題。下列哪一種訓練設計最能有效率地學習新任務的同時保留原有能力？
 options:
@@ -20,13 +20,14 @@ options:
   D: 增加批次大小（Batch Size）以穩定梯度更新，使模型同時保留舊知識與學習新知識
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 A。限制可訓練範圍是選項中兼顧資源與保留舊能力的合理策略。"
+  correct: "A 正確：凍結多數基底權重、只更新小型適配模組，可減少梯度及最佳化器狀態，也限制新領域訓練對模型的擾動。這是選項中最切合資源限制的緩解方式，並不保證完全免於災難性遺忘；開啟 LoRA 後的整體輸出仍會改變，須以舊任務測試確認保留程度。科目 1 指引 3.1 的 LoRA 頁僅支援參數效率，未完整教授遺忘防治，亦參見 [LoRA 原論文](https://arxiv.org/abs/2106.09685)。"
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: "較大學習率可能讓更新偏離原有解更快；縮短步數也不能單獨保證新任務已學好且舊能力未退化。"
+    C: "反覆只學新領域資料會持續偏向新分布，缺少保留舊任務的約束，可能加劇遺忘。"
+    D: "增加批次主要改變梯度估計與資源需求，本身沒有保留舊知識的明確機制，也未必符合記憶體限制。"
+  rule: "參數高效微調能限制更新與資源占用，舊能力是否保留仍須用舊任務驗證。"
+guide_refs: [guide-1:3-29]
 author: codex
 review:
   status: draft

@@ -9,7 +9,7 @@ pdf_page: 3
 type: 情境
 codes:
   - L23203
-concepts: []
+concepts: [sigmoid]
 stem: |
   某工程師在設計一個二元分類器（Binary Classifier）時，考慮在輸出層使用 Sigmoid 函數。請問 Sigmoid 函數的主要特性與限制為何？
 options:
@@ -19,13 +19,14 @@ options:
   D: 可在整個輸入範圍內梯度保持穩定，適合用於深層神經網路
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 B。Sigmoid 適合二元機率輸出，但兩端飽和時導數很小。"
+  correct: "B 正確：σ(x)=1/(1+exp(-x))，有限實數的輸出落在 (0,1)，可作二元事件的機率估計；導數 σ(x)(1−σ(x)) 在 x 的絕對值很大時趨近零。科目 3 指引 5.4 介紹其範圍及輸出用途。機率是否校準仍須評估，數值在此區間不代表預測必然可信。"
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: "Sigmoid 的值受限於 0 與 1 之間，不能自然輸出任意實數；一般無界迴歸常採線性輸出。"
+    C: "互斥多類別且各類機率總和為一，通常使用 Softmax；多個 Sigmoid 可作多標籤的獨立二元判斷，並不自動形成該分布。"
+    D: "其導數最大值只有 1/4，兩端更接近零；深層連乘可能使梯度衰減，不能宣稱全域穩定。"
+  rule: "Sigmoid 可輸出二元機率，但飽和區導數趨零，不保證深層梯度穩定。"
+guide_refs: [guide-3:5-36, guide-3:5-37]
 author: codex
 review:
   status: draft

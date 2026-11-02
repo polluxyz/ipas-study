@@ -10,7 +10,7 @@ type: 情境
 codes:
   - L21203
   - L23303
-concepts: []
+concepts: [audit-reproducibility, nist-ai-rmf]
 stem: |
   某企業欲將其 AI 輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？
 options:
@@ -20,13 +20,14 @@ options:
   D: 擴充訓練資料量至數百萬筆，以統計方式確保模型的泛化能力達標
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 B。第三方重現評估需要可追溯資料、流程與設定。"
+  correct: "B 正確：保存測試資料版本、切分與前處理步驟、模型版本、評估程式、指標定義與關鍵設定，第三方才有相同依據重跑並核對。科目 1 指引 5.2 的版本追蹤支持這個做法，但未介紹題幹所稱的 NIST「可驗證性」。[NIST AI RMF 1.0 第 3 節](https://airc.nist.gov/airmf-resources/airmf/3-sec-characteristics/)並未把 Verifiability 單列為七項可信特性名稱；其有效性與透明性要求可支持此題目的，不能把題幹用語當成官方分類。"
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: "高準確率不提供重跑依據，也沒有所有應用一律以 99% 判定可靠的通用標準；還須考慮資料代表性及錯誤代價。"
+    C: "加快發布可增加版本數，卻不保證保留評估證據；缺少版本與流程紀錄反而更難重現。"
+    D: "大量訓練資料不能保證泛化，更不能代替測試資料與評估流程的可追溯紀錄。"
+  rule: "可重現評估依賴資料、模型、程式與設定的完整版本證據，不能只憑高分或大資料宣稱。"
+guide_refs: [guide-1:5-19]
 author: codex
 review:
   status: draft

@@ -10,7 +10,7 @@ type: 情境
 codes:
   - L21302
   - L23303
-concepts: []
+concepts: [mlops-lifecycle, experiment-tracking]
 stem: |
   某金融科技公司計劃建立完整的 AI 開發到維運流程，希望實現「模型訓練→測試→部署→監控→再訓練」的自動化流程串接，並確保線上模型的版本可追溯。技術主管建議引入 MLOps 框架。MLOps 在此 AI 開發生命週期中的核心角色為何？
 options:
@@ -20,13 +20,14 @@ options:
   D: 確保模型在部署後維持穩定效能，減少後續維運與更新需求
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 C。MLOps 串接模型生命週期並保留可追蹤版本。"
+  correct: "C 正確：MLOps 將資料與程式變動、訓練、測試、部署、監控及再訓練連成受控流程，記錄模型、資料與設定版本，才能追查線上結果並在必要時回復。科目 1 指引 5.2 說明這項生命週期管理。自動化不等於任意新模型直接上線，仍須有驗收與風險門檻。"
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: "資料標註與品質控管只是其中的上游工作，不能涵蓋部署、監控與線上版本追蹤。"
+    B: "自動搜尋模型與超參數主要是 AutoML 的功能，不能取代完整的維運流程與版本治理。"
+    D: "MLOps 協助發現漂移並持續更新，不能保證部署後不需維運；減少人工重複工作不等於省略監控與改進。"
+  rule: "MLOps 管的是可追溯、可驗收並可持續更新的模型全生命週期。"
+guide_refs: [guide-1:5-18, guide-1:5-19]
 author: codex
 review:
   status: draft

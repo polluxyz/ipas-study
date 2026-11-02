@@ -9,7 +9,7 @@ pdf_page: 2
 type: 情境
 codes:
   - L21102
-concepts: []
+concepts: [image-segmentation, object-detection]
 stem: |
   某大型超市的防損系統需要即時偵測多名顧客各自手持的購物籃、手機與商品，並需對每個物件進行精確區域標記（Pixel-level Mask），同時能區分畫面中不同個體（即使不同顧客拿著相同商品，也需分別標記）。請問下列哪一項技術最適合此場景的需求？
 options:
@@ -19,13 +19,14 @@ options:
   D: 語義分割（Semantic Segmentation）
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 C。實例分割同時提供物件遮罩與個體區分。"
+  correct: "C 正確：每個購物籃、手機或商品都需要自己的像素範圍；即使類別相同，也不能合併成一個標籤區域。實例分割的每個實例遮罩可滿足兩項需求，對應科目 1 指引 3.2 的分割任務。是否達到即時速度仍須另做部署效能測試。"
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: "影像分類回答畫面有哪些類別，通常不提供每個物件的位置或像素輪廓。"
+    B: "一般物件偵測給類別及邊界框，能分物件，卻不能僅憑矩形框得到精確的物件像素遮罩。"
+    D: "語意分割能標出商品類別的像素，但不保證為相同商品的不同個體建立不同身分。"
+  rule: "選視覺任務先確認輸出要整圖標籤、物件框，還是可分個體的像素遮罩。"
+guide_refs: [guide-1:3-45, guide-1:3-50]
 author: codex
 review:
   status: draft

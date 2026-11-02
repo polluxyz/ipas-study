@@ -10,7 +10,7 @@ type: 情境
 codes:
   - L23203
   - L21101
-concepts: []
+concepts: [self-attention, transformer]
 stem: |
   某工程師在分析 Transformer 架構時，發現自注意力機制（Self-Attention）能夠有效提升模型對序列中長距離依賴關係的建模能力。請問 Self-Attention 的核心功能為何？
 options:
@@ -20,13 +20,14 @@ options:
   D: 將整個序列壓縮為固定長度表示，以提供後續任務使用
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 B。自注意力依 token 間關聯加權整合序列資訊。"
+  correct: "B 正確：在未受因果或局部遮罩限制的自注意力中，每個位置可直接參考其他位置，按查詢與鍵的匹配程度加權其值向量，所以遠處資訊不必逐步經過遞迴狀態傳遞。對應科目 1 指引 3.1 的 Transformer。B 的「所有」須按允許的注意力範圍理解；因果解碼器不能偷看未來 token。"
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: "這是 RNN 的典型資訊傳遞方式；自注意力不依賴沿時間順序遞迴累積隱藏狀態。"
+    C: "固定局部鄰域較像卷積的基本設計，不能概括標準全域自注意力能直接連結遠距位置的特點。"
+    D: "序列壓成單一固定長度向量可能是後續池化的用途；自注意力本身可為每個位置保留更新後的表示。"
+  rule: "自注意力在遮罩允許的範圍內，依內容關聯直接加權整合其他位置的資訊。"
+guide_refs: [guide-1:3-25]
 author: codex
 review:
   status: draft
