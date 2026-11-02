@@ -1,0 +1,1695 @@
+{
+  "source": "教學合成資料；像素為抽象格網，人物區域等是虛構原始場景的審查註記，並非真實人像",
+  "seed": 42,
+  "epsilon": 0.02,
+  "shape": [
+    4,
+    4
+  ],
+  "split": {
+    "train": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "validation": [
+      8,
+      9
+    ],
+    "test": [
+      10,
+      11
+    ]
+  },
+  "domains": {
+    "manufacturing": [
+      {
+        "id": "M01",
+        "pixels": [
+          [
+            0.49,
+            0.47,
+            0.49,
+            0.51
+          ],
+          [
+            0.48,
+            0.3,
+            0.3,
+            0.54
+          ],
+          [
+            0.51,
+            0.3,
+            0.3,
+            0.46
+          ],
+          [
+            0.54,
+            0.45,
+            0.47,
+            0.49
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "人臉",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "M02",
+        "pixels": [
+          [
+            0.51,
+            0.54,
+            0.45,
+            0.47
+          ],
+          [
+            0.55,
+            0.7,
+            0.7,
+            0.5
+          ],
+          [
+            0.47,
+            0.7,
+            0.7,
+            0.53
+          ],
+          [
+            0.5,
+            0.52,
+            0.54,
+            0.45
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "車牌",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "M03",
+        "pixels": [
+          [
+            0.49,
+            0.5,
+            0.52,
+            0.54
+          ],
+          [
+            0.51,
+            0.3,
+            0.3,
+            0.46
+          ],
+          [
+            0.54,
+            0.3,
+            0.3,
+            0.49
+          ],
+          [
+            0.46,
+            0.48,
+            0.5,
+            0.52
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "兒童畫面",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "M04",
+        "pixels": [
+          [
+            0.51,
+            0.46,
+            0.48,
+            0.5
+          ],
+          [
+            0.47,
+            0.7,
+            0.7,
+            0.53
+          ],
+          [
+            0.5,
+            0.7,
+            0.7,
+            0.45
+          ],
+          [
+            0.53,
+            0.55,
+            0.46,
+            0.48
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "人臉",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "M05",
+        "pixels": [
+          [
+            0.49,
+            0.53,
+            0.55,
+            0.46
+          ],
+          [
+            0.54,
+            0.3,
+            0.3,
+            0.49
+          ],
+          [
+            0.46,
+            0.3,
+            0.3,
+            0.52
+          ],
+          [
+            0.49,
+            0.51,
+            0.53,
+            0.55
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "車牌",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "M06",
+        "pixels": [
+          [
+            0.51,
+            0.49,
+            0.51,
+            0.53
+          ],
+          [
+            0.5,
+            0.7,
+            0.7,
+            0.45
+          ],
+          [
+            0.53,
+            0.7,
+            0.7,
+            0.48
+          ],
+          [
+            0.45,
+            0.47,
+            0.49,
+            0.51
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "兒童畫面",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "M07",
+        "pixels": [
+          [
+            0.49,
+            0.45,
+            0.47,
+            0.49
+          ],
+          [
+            0.46,
+            0.3,
+            0.3,
+            0.52
+          ],
+          [
+            0.49,
+            0.3,
+            0.3,
+            0.55
+          ],
+          [
+            0.52,
+            0.54,
+            0.45,
+            0.47
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "人臉",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "M08",
+        "pixels": [
+          [
+            0.51,
+            0.52,
+            0.54,
+            0.45
+          ],
+          [
+            0.53,
+            0.7,
+            0.7,
+            0.48
+          ],
+          [
+            0.45,
+            0.7,
+            0.7,
+            0.51
+          ],
+          [
+            0.48,
+            0.5,
+            0.52,
+            0.54
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "車牌",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "M09",
+        "pixels": [
+          [
+            0.49,
+            0.48,
+            0.5,
+            0.52
+          ],
+          [
+            0.49,
+            0.3,
+            0.3,
+            0.55
+          ],
+          [
+            0.52,
+            0.3,
+            0.3,
+            0.47
+          ],
+          [
+            0.55,
+            0.46,
+            0.48,
+            0.5
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "兒童畫面",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "M10",
+        "pixels": [
+          [
+            0.51,
+            0.55,
+            0.46,
+            0.48
+          ],
+          [
+            0.45,
+            0.7,
+            0.7,
+            0.51
+          ],
+          [
+            0.48,
+            0.7,
+            0.7,
+            0.54
+          ],
+          [
+            0.51,
+            0.53,
+            0.55,
+            0.46
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "人臉",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線乙"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "M11",
+        "pixels": [
+          [
+            0.49,
+            0.51,
+            0.53,
+            0.55
+          ],
+          [
+            0.52,
+            0.3,
+            0.3,
+            0.47
+          ],
+          [
+            0.55,
+            0.3,
+            0.3,
+            0.5
+          ],
+          [
+            0.47,
+            0.49,
+            0.51,
+            0.53
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "車牌",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線乙"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "M12",
+        "pixels": [
+          [
+            0.51,
+            0.47,
+            0.49,
+            0.51
+          ],
+          [
+            0.48,
+            0.7,
+            0.7,
+            0.54
+          ],
+          [
+            0.51,
+            0.7,
+            0.7,
+            0.46
+          ],
+          [
+            0.54,
+            0.45,
+            0.47,
+            0.49
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "產線瑕疵檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "兒童畫面",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線乙"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      }
+    ],
+    "retail": [
+      {
+        "id": "R01",
+        "pixels": [
+          [
+            0.49,
+            0.5,
+            0.52,
+            0.54
+          ],
+          [
+            0.51,
+            0.3,
+            0.3,
+            0.46
+          ],
+          [
+            0.54,
+            0.3,
+            0.3,
+            0.49
+          ],
+          [
+            0.46,
+            0.48,
+            0.5,
+            0.52
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "人臉",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "R02",
+        "pixels": [
+          [
+            0.51,
+            0.46,
+            0.48,
+            0.5
+          ],
+          [
+            0.47,
+            0.7,
+            0.7,
+            0.53
+          ],
+          [
+            0.5,
+            0.7,
+            0.7,
+            0.45
+          ],
+          [
+            0.53,
+            0.55,
+            0.46,
+            0.48
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "車牌",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "R03",
+        "pixels": [
+          [
+            0.49,
+            0.53,
+            0.55,
+            0.46
+          ],
+          [
+            0.54,
+            0.3,
+            0.3,
+            0.49
+          ],
+          [
+            0.46,
+            0.3,
+            0.3,
+            0.52
+          ],
+          [
+            0.49,
+            0.51,
+            0.53,
+            0.55
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "兒童畫面",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "R04",
+        "pixels": [
+          [
+            0.51,
+            0.49,
+            0.51,
+            0.53
+          ],
+          [
+            0.5,
+            0.7,
+            0.7,
+            0.45
+          ],
+          [
+            0.53,
+            0.7,
+            0.7,
+            0.48
+          ],
+          [
+            0.45,
+            0.47,
+            0.49,
+            0.51
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "人臉",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "R05",
+        "pixels": [
+          [
+            0.49,
+            0.45,
+            0.47,
+            0.49
+          ],
+          [
+            0.46,
+            0.3,
+            0.3,
+            0.52
+          ],
+          [
+            0.49,
+            0.3,
+            0.3,
+            0.55
+          ],
+          [
+            0.52,
+            0.54,
+            0.45,
+            0.47
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "車牌",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "R06",
+        "pixels": [
+          [
+            0.51,
+            0.52,
+            0.54,
+            0.45
+          ],
+          [
+            0.53,
+            0.7,
+            0.7,
+            0.48
+          ],
+          [
+            0.45,
+            0.7,
+            0.7,
+            0.51
+          ],
+          [
+            0.48,
+            0.5,
+            0.52,
+            0.54
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "兒童畫面",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "R07",
+        "pixels": [
+          [
+            0.49,
+            0.48,
+            0.5,
+            0.52
+          ],
+          [
+            0.49,
+            0.3,
+            0.3,
+            0.55
+          ],
+          [
+            0.52,
+            0.3,
+            0.3,
+            0.47
+          ],
+          [
+            0.55,
+            0.46,
+            0.48,
+            0.5
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "人臉",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "R08",
+        "pixels": [
+          [
+            0.51,
+            0.55,
+            0.46,
+            0.48
+          ],
+          [
+            0.45,
+            0.7,
+            0.7,
+            0.51
+          ],
+          [
+            0.48,
+            0.7,
+            0.7,
+            0.54
+          ],
+          [
+            0.51,
+            0.53,
+            0.55,
+            0.46
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "車牌",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "R09",
+        "pixels": [
+          [
+            0.49,
+            0.51,
+            0.53,
+            0.55
+          ],
+          [
+            0.52,
+            0.3,
+            0.3,
+            0.47
+          ],
+          [
+            0.55,
+            0.3,
+            0.3,
+            0.5
+          ],
+          [
+            0.47,
+            0.49,
+            0.51,
+            0.53
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "兒童畫面",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線甲"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "R10",
+        "pixels": [
+          [
+            0.51,
+            0.47,
+            0.49,
+            0.51
+          ],
+          [
+            0.48,
+            0.7,
+            0.7,
+            0.54
+          ],
+          [
+            0.51,
+            0.7,
+            0.7,
+            0.46
+          ],
+          [
+            0.54,
+            0.45,
+            0.47,
+            0.49
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "人臉",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線乙"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      },
+      {
+        "id": "R11",
+        "pixels": [
+          [
+            0.49,
+            0.54,
+            0.45,
+            0.47
+          ],
+          [
+            0.55,
+            0.3,
+            0.3,
+            0.5
+          ],
+          [
+            0.47,
+            0.3,
+            0.3,
+            0.53
+          ],
+          [
+            0.5,
+            0.52,
+            0.54,
+            0.45
+          ]
+        ],
+        "label": 0,
+        "meaning": "無目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "車牌",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線乙"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": -1,
+          "prediction": 0,
+          "attacked_prediction": 1
+        }
+      },
+      {
+        "id": "R12",
+        "pixels": [
+          [
+            0.51,
+            0.5,
+            0.52,
+            0.54
+          ],
+          [
+            0.51,
+            0.7,
+            0.7,
+            0.46
+          ],
+          [
+            0.54,
+            0.7,
+            0.7,
+            0.49
+          ],
+          [
+            0.46,
+            0.48,
+            0.5,
+            0.52
+          ]
+        ],
+        "label": 1,
+        "meaning": "有目標問題",
+        "purpose": "貨架缺貨檢測",
+        "license_id": "own",
+        "origin_scene": {
+          "region": "兒童畫面",
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "group": "光線乙"
+        },
+        "retention_days": 7,
+        "roles": {
+          "raw": [
+            "保全主管"
+          ],
+          "masked": [
+            "標註人員",
+            "模型工程師"
+          ],
+          "aggregate": [
+            "業務分析員"
+          ]
+        },
+        "baseline": {
+          "logit": 1,
+          "prediction": 1,
+          "attacked_prediction": 0
+        }
+      }
+    ]
+  },
+  "licenses": [
+    {
+      "id": "own",
+      "asset": "自行建立的格網",
+      "version": "1",
+      "source": "本組生成規則",
+      "license": "教學自製",
+      "use": true,
+      "modify": true,
+      "redistribute": true,
+      "condition": "保留合成資料說明",
+      "decision": "可作教學資料"
+    },
+    {
+      "id": "photo",
+      "asset": "第三方照片",
+      "version": "1",
+      "source": "虛構供應商附件 A",
+      "license": "僅內部評估",
+      "use": true,
+      "modify": false,
+      "redistribute": false,
+      "condition": "不得商用訓練或對外提供",
+      "decision": "擬作商用訓練，暫停並補授權"
+    },
+    {
+      "id": "weights",
+      "asset": "第三方模型權重",
+      "version": "v2",
+      "source": "虛構模型庫檔案",
+      "license": null,
+      "use": null,
+      "modify": null,
+      "redistribute": null,
+      "condition": "沒有權重授權文件",
+      "decision": "隔離，向權利方確認或替換"
+    },
+    {
+      "id": "code",
+      "asset": "推論軟體",
+      "version": "v1",
+      "source": "虛構程式庫 LICENSE 與 NOTICE",
+      "license": "Apache-2.0",
+      "use": true,
+      "modify": true,
+      "redistribute": true,
+      "condition": "遵守 LICENSE、修改標記及適用 NOTICE 等條件；專利授權有範圍，商標另查",
+      "decision": "條件待逐項確認"
+    },
+    {
+      "id": "cc",
+      "asset": "教學插圖",
+      "version": "v1",
+      "source": "虛構作者頁",
+      "license": "CC BY 4.0",
+      "use": true,
+      "modify": true,
+      "redistribute": true,
+      "condition": "適當署名、授權連結、變更說明，另查其他權利",
+      "decision": "條件待逐項確認"
+    }
+  ],
+  "defense_results": {
+    "manufacturing": {
+      "weights": [
+        -0.0006782159907743335,
+        0.0014150612987577915,
+        -0.0009428935591131449,
+        -0.0009381597628816962,
+        0.0014136313693597913,
+        2.4353995323181152,
+        2.4353995323181152,
+        -0.0009273333707824349,
+        -0.0009381597628816962,
+        2.4353995323181152,
+        2.4353995323181152,
+        -0.0009352767374366522,
+        -0.0009273333707824349,
+        0.00136662763543427,
+        0.0014150612987577915,
+        -0.0009428935591131449
+      ],
+      "clean": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "attack_002": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "attack_025": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "test_ids": [
+        "M11",
+        "M12"
+      ]
+    },
+    "retail": {
+      "weights": [
+        -0.0006782437558285892,
+        0.0013575381599366665,
+        -0.000933640287257731,
+        -0.0009256491903215647,
+        -0.0009331752080470324,
+        2.435401201248169,
+        2.435401201248169,
+        -0.0009363084100186825,
+        -0.0009256491903215647,
+        2.435401201248169,
+        2.435401201248169,
+        -0.0009325627470389009,
+        -0.0009363084100186825,
+        0.001359874615445733,
+        0.0013575381599366665,
+        -0.000933640287257731
+      ],
+      "clean": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "attack_002": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "attack_025": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "test_ids": [
+        "R11",
+        "R12"
+      ]
+    }
+  }
+}
