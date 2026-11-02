@@ -1,0 +1,35 @@
+id: 114-2-S1-Q05
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 5
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 2
+type: 情境
+codes: [ L21101, L23301 ]
+concepts: []
+stem: |
+  某企業以詞頻–逆文件頻率（Term Frequency–Inverse Document Frequency, TF-IDF）方法分析顧客意見內容，但發現模型在處理篇幅較長的回饋文本時，無法準確反映關鍵詞的重要性。下列何者為造成此現象的主要原因？
+options:
+  A: 長文本中的詞頻偏高，導致常見詞權重被過度放大；
+  B: 長文本中缺乏明確句子邊界，造成 TF-IDF 無法計算詞頻；
+  C: TF-IDF 無法同時處理多份文件；
+  D: 長文本會改變 IDF（Inverse Document Frequency）的計算，使所有詞權重趨於相近
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

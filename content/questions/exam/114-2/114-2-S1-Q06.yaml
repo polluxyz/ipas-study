@@ -1,0 +1,35 @@
+id: 114-2-S1-Q06
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 6
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 2
+type: 情境
+codes: [ L21101 ]
+concepts: []
+stem: |
+  某企業嘗試以 N-gram 語言模型（N-gram Language Model）建立客服自動回覆系統，但發現模型生成的句子雖在片段上合理，卻缺乏整體語意連貫性。此問題最可能源自 N-gram 模型的哪一項限制？
+options:
+  A: N-gram 模型在訓練過程中需要龐大計算量，導致長句無法收斂；
+  B: N-gram 模型僅根據固定長度的前序詞建立機率估計，難以捕捉長距離依賴關係（Long-range Dependencies）；
+  C: N-gram 模型缺乏語意嵌入（Semantic Embedding）層，因此無法表徵詞語間的語意相似度；
+  D: N-gram 模型假設詞與詞之間相互獨立，導致無法建構上下文語意關聯
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

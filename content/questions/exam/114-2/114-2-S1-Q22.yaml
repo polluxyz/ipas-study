@@ -1,0 +1,35 @@
+id: 114-2-S1-Q22
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 22
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 6
+type: 情境
+codes: [ L21302, L23101 ]
+concepts: []
+stem: |
+  某電商平台開發的顧客流失預測模型在上線數月後，預測準確率明顯下降。專案團隊懷疑顧客行為模式改變，導致模型輸入特徵的分佈與原始訓練資料不同，出現典型的資料漂移（Data Drift）問題。為了偵測並確認資料分佈是否發生變化，下列哪一種作法最合適？
+options:
+  A: 定期重新訓練模型以應對外部變化；
+  B: 提升模型複雜度以捕捉更多資料變異性；
+  C: 增加測試資料量以提高評估準確度；
+  D: 計算輸入特徵分佈間的 KL 散度（KL Divergence）
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,35 @@
+id: 114-2-S1-Q04
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 4
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 1
+type: 觀念
+codes: [ L21101 ]
+concepts: []
+stem: |
+  在詞向量（Word Embedding）訓練方法中，GloVe（Global Vectors for Word Representation）與 Word2Vec 的主要差異為何？
+options:
+  A: Word2Vec 以詞頻權重訓練詞向量，而 GloVe 以隨機初始化向量進行學習；
+  B: Word2Vec 以全局統計矩陣為基礎，而 GloVe 採用神經網路進行上下文預測；
+  C: Word2Vec 為基於預測的模型，而 GloVe 為基於共現統計的模型；
+  D: Word2Vec 僅能用於靜態文本語料，而 GloVe 可應用於即時語料更新
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

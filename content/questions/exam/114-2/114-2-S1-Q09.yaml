@@ -1,0 +1,35 @@
+id: 114-2-S1-Q09
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 9
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 3
+type: 情境
+codes: [ L23301, L21103 ]
+concepts: []
+stem: |
+  某企業在訓練生成式 AI 模型時，導入資料增強（Data Augmentation）技術以擴充訓練資料，但觀察到模型效能反而下降。下列哪一項最可能的原因與對應改善策略最為正確？
+options:
+  A: 增強樣本未經隨機初始化，導致模型梯度更新不穩定，應重新設計訓練啟動流程；
+  B: 增強後資料的特徵分佈與原始資料不一致，影響模型的泛化能力，應檢查並調整增強策略以維持語意一致性；
+  C: 增強樣本的比例過高，造成模型對特定資料產生偏好，應適度提高增強比例並調整學習率；
+  D: 增強後資料的標註可信度下降，導致訓練訊號偏差，應以半監督學習方式重新校正資料
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

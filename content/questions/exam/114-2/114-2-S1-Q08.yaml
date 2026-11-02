@@ -1,0 +1,35 @@
+id: 114-2-S1-Q08
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 8
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 2
+type: 觀念
+codes: [ L23203 ]
+concepts: []
+stem: |
+  關於 Softmax 與 Max-Pooling，下列敘述何者正確？
+options:
+  A: Softmax 與 Max-Pooling 都會將特徵張量壓縮為單一最大值；
+  B: Max-Pooling 會對輸入進行機率分佈的轉換；
+  C: Softmax 會保留所有輸入資訊，但以比例表示；Max-Pooling 只保留區域最大值；
+  D: Softmax 主要用於特徵降維，而 Max-Pooling 用於分類輸出
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

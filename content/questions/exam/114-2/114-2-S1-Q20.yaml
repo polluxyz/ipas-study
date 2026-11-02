@@ -1,0 +1,35 @@
+id: 114-2-S1-Q20
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 20
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 5
+type: 情境
+codes: [ L21103, L23304 ]
+concepts: []
+stem: |
+  在使用生成對抗網路（GAN）進行人臉影像生成時，若出現「模式崩潰」（Mode Collapse）現象，下列哪一種方法最常被用來有效解決此問題？
+options:
+  A: 在鑑別器中加入梯度懲罰（Gradient Penalty）以穩定訓練過程；
+  B: 採用 Wasserstein 距離（WGAN 損失）替代原始的 GAN 損失函數；
+  C: 對生成器輸入的潛在向量加入隨機擾動；
+  D: 使用多尺度鑑別器架構以提高對多樣性的判別能力
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

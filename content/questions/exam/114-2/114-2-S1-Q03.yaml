@@ -1,0 +1,35 @@
+id: 114-2-S1-Q03
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 3
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 1
+type: 情境
+codes: [ L21101, L23203 ]
+concepts: []
+stem: |
+  某企業計畫應用 BERT（Bidirectional Encoder Representations from Transformers）模型分析大量顧客意見，以強化客服自動回覆系統。在 BERT 的預訓練過程中，「遮罩語言模型（Masked Language Model, MLM）」的主要訓練策略為何？
+options:
+  A: 依序遮罩句尾詞語，讓模型從左到右逐步生成完整句子；
+  B: 隨機遮罩部分詞語，並讓模型根據雙向上下文（Bidirectional Context）預測被遮罩的詞；
+  C: 透過對抗訓練（Adversarial Training）生成語意相似的擾動樣本以提升泛化性；
+  D: 以未遮罩的詞為條件，使用解碼器（Decoder）結構重建整句內容
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

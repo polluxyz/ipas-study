@@ -1,0 +1,35 @@
+id: 114-2-S1-Q24
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 24
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 6
+type: 情境
+codes: [ L23401, L21203 ]
+concepts: []
+stem: |
+  某金融機構的 AI 風控系統遭受對抗性攻擊，駭客透過對輸入特徵進行微小但惡意的擾動，成功欺騙了模型。為了從根本上解決模型自身對這類攻擊的脆弱性，下列何者並非針對此種攻擊型態的技術手段？
+options:
+  A: 強化資料前處理，用以過濾掉格式不符或數值極端異常的輸入；
+  B: 在模型訓練階段導入對抗樣本訓練，以提升模型對惡意特徵擾動的辨識與防禦能力；
+  C: 於推論後階段使用規則引擎，以確保模型的預測結果不違反既有的業務硬性規定；
+  D: 在模型部署環境中強化網路防火牆，以阻擋來自未授權來源的網路連線
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

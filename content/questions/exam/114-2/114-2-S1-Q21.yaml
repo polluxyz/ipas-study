@@ -1,0 +1,35 @@
+id: 114-2-S1-Q21
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 21
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 5
+type: 情境
+codes: [ L21104, L23302 ]
+concepts: []
+stem: |
+  在多模態 AI 模型訓練或推論過程中，遇到某一模態資料缺失（例如僅有影像資料但缺少文本說明），下列哪一種策略最有效維持模型效能？
+options:
+  A: 以零向量或固定向量填充缺失模態輸入；
+  B: 訓練具備模態缺失感知能力的模型，使其適應缺失狀況；
+  C: 利用生成模型（如 GAN 或自迴歸模型）預測並補全缺失模態資料；
+  D: 直接捨棄缺少模態的樣本，避免干擾訓練或推論
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,35 @@
+id: 114-2-S1-Q13
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 13
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 4
+type: 觀念
+codes: [ L21302 ]
+concepts: []
+stem: |
+  下列何者為 Kubernetes 在 AI 模型部署與運行中的核心功能？
+options:
+  A: 自動化管理模型的訓練流程與參數調校；
+  B: 管理與協調模型服務的部署、擴展與運行環境；
+  C: 提供 AI 模型的資料儲存與版本控管功能；
+  D: 負責深度學習推論的 GPU 加速運算
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

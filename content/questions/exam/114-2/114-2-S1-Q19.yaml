@@ -1,0 +1,35 @@
+id: 114-2-S1-Q19
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 19
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 5
+type: 情境
+codes: [ L21101, L23301 ]
+concepts: []
+stem: |
+  某研究團隊正在訓練一個針對低資源語言（如少數民族語言）的語言模型，但該語言僅有約 1 萬筆語料可用。在訓練過程中出現明顯的過擬合現象，若希望在不新增真實語料的前提下提升模型的泛化能力，採用下列哪一種方法最為適合？
+options:
+  A: 將 Transformer 的隱藏層維度擴增至 1024，以提升表徵能力；
+  B: 採用反向翻譯（Back-Translation）技術，以生成額外目標語句的偽平行語料（Pseudo‑Parallel Corpus）；
+  C: 對詞嵌入矩陣（Embedding Matrix），施加 L1 正則化以壓縮模型參數；
+  D: 將多語言 BERT（mBERT）中所有 Transformer 層全部凍結以保留預訓練知識
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

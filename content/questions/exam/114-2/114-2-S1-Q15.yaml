@@ -1,0 +1,35 @@
+id: 114-2-S1-Q15
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 15
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 4
+type: 情境
+codes: [ L21302, L23303 ]
+concepts: []
+stem: |
+  在企業導入的 MLOps（Machine Learning Operations）流程中，Model Registry 最常用於哪一個階段？
+options:
+  A: 用於設定運算資源與執行環境以確保訓練穩定；
+  B: 用於建立可重複使用的資料與特徵版本；
+  C: 用於集中管理模型版本、訓練紀錄與部署狀態；
+  D: 用於追蹤模型上線後的表現與漂移情況
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

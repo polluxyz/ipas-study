@@ -1,0 +1,35 @@
+id: 114-2-S1-Q18
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 18
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 5
+type: 情境
+codes: [ L23304, L23203 ]
+concepts: []
+stem: |
+  當 Transformer 模型發生「注意力分布過於平均（Attention Collapse）」的情形時，導致模型無法有效聚焦於關鍵資訊，下列哪一項策略可有效改善此問題？
+options:
+  A: 提高 Query-Key 點積（Dot Product）的縮放常數；
+  B: 在 Softmax 前加入高斯雜訊（Gaussian Noise）；
+  C: 使用 ReLU 函數取代 Softmax；
+  D: 對注意力權重施加稀疏化約束（Sparsity Constraint）
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

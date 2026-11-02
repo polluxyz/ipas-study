@@ -1,0 +1,35 @@
+id: 114-2-S1-Q25
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 25
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 6
+type: 情境
+codes: [ L21203, L23401 ]
+concepts: []
+stem: |
+  某企業部署生成式 AI 系統協助行銷與內容產出，但近期遭質疑部分生成內容可能涉及著作權侵權。為降低企業在法律層面的潛在責任與風險，下列哪一項策略最能有效預防侵權問題產生？
+options:
+  A: 對生成內容進行語意相似度比對，自動標註可能涉及既有著作的輸出結果，以降低侵權風險；
+  B: 建立訓練資料篩選與授權驗證機制，排除未授權或高風險資料來源；
+  C: 在訓練與微調過程中採用差分隱私技術，避免模型記憶特定受著作權保護的樣本；
+  D: 在模型輸出端嵌入浮水印（Watermarking）或數位指紋（Digital Fingerprint）技術，以確保生成內容可追溯
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

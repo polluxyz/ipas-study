@@ -1,0 +1,35 @@
+id: 114-2-S1-Q11
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 11
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 3
+type: 情境
+codes: [ L23202 ]
+concepts: []
+stem: |
+  企業資料分析團隊使用 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法進行顧客行為分群，並希望模型能自動區分主要群集與雜訊資料。在此演算法中，決定聚類結果的兩個主要超參數為下列何者？
+options:
+  A: 特徵數與學習率；
+  B: K 值與距離閾值；
+  C: 鄰域半徑（Epsilon ε）與最小點數（MinPts）；
+  D: 交叉熵（Cross Entropy）與權重初始化
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

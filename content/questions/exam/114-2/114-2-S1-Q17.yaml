@@ -1,0 +1,35 @@
+id: 114-2-S1-Q17
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 17
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 4
+type: 觀念
+codes: [ L21101, L21103 ]
+concepts: []
+stem: |
+  在自然語言處理中，檢索增強生成（Retrieval-Augmented Generation, RAG）是一種結合語言模型與向量搜尋的技術，可有效減少模型知識過時與產生幻覺的問題。若要建立一套高效能的 RAG 系統，下列何者為在「檢索階段」最關鍵的挑戰？
+options:
+  A: 確保檢索到的文件能被完整納入語言模型的上下文視窗（Context Window）中進行生成；
+  B: 選擇使用 Faiss 或 ScaNN 等近似最近鄰搜尋函式庫；
+  C: 降低嵌入模型（Embedding Model）在高維空間中的計算成本與記憶體占用；
+  D: 避免向量檢索結果僅具語意相似但與查詢意圖無實質關聯的情況
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

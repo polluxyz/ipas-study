@@ -1,0 +1,35 @@
+id: 114-2-S1-Q23
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 23
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 6
+type: 情境
+codes: [ L21202, L21302 ]
+concepts: []
+stem: |
+  某大型醫院即將部署一套輔助診斷的 AI 系統，為降低對臨床流程的衝擊，同時確保風險可控與回饋可收斂，應採取何種『漸進式部署』（Phased Rollout）策略最為合適？
+options:
+  A: 從單一專科（如放射科）或特定病房開始啟用，逐步擴展至全院；
+  B: 先部署於病例量較高的急診單位，加速收集高頻使用回饋；
+  C: 僅在夜班或離峰時段啟用，避免影響主要臨床工作負載；
+  D: 在使用者界面啟用提示模式，讓全院同步體驗但不影響診斷流程
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

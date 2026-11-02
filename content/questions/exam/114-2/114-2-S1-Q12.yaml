@@ -1,0 +1,35 @@
+id: 114-2-S1-Q12
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 12
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 3
+type: 情境
+codes: [ L23301, L23202 ]
+concepts: []
+stem: |
+  某金融科技公司建立房價預測模型，使用多項特徵（如建坪、房齡、樓層、總價等）進行線性迴歸分析（Linear Regression Analysis）。資料分析師發現多個特徵之間存在高度相關性，導致模型係數不穩定、預測誤差上升。為解決此問題，下列哪一種方法最適合？
+options:
+  A: 繼續保留所有特徵，不進行任何處理；
+  B: 使用主成分分析（PCA）將相關特徵轉換為彼此獨立的主成分；
+  C: 新增更多原始變數以提升模型表現；
+  D: 改用分類模型進行預測
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null

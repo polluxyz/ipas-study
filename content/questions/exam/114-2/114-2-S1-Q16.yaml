@@ -1,0 +1,35 @@
+id: 114-2-S1-Q16
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 16
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 4
+type: 觀念
+codes: [ L21101, L23203 ]
+concepts: []
+stem: |
+  下列哪一種情境中最適合使用「序列到序列（Seq2Seq）」模型？
+options:
+  A: 預測銷售趨勢曲線，輸出未來數值序列；
+  B: 辨識文本中出現的人名、地名與組織名稱等實體資訊；
+  C: 對輸入文本中的關鍵字進行頻率統計與可視化；
+  D: 將輸入文字轉換成語意等價的另一段文字，如自動翻譯或摘要生成
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E1-Codex
+  blind_answer: null
+  dispute: null
