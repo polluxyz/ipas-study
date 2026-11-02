@@ -15,12 +15,12 @@ goals:
 formula_groups:
   - id: gradient-weighted-map
     source: https://arxiv.org/html/1610.02391v4
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L21102-D
   - id: display-normalization
     source: https://keras.io/examples/vision/grad_cam/
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L21102-D
 self_check:
   - id: c1
     goal: g1
@@ -73,7 +73,7 @@ self_check:
 
 分類器說「異常」，可能只看到亮點。Grad-CAM（Gradient-weighted Class Activation Mapping）標出一次預測的粗略區域，協助追查依據。
 
-兩本科目的指引沒有完整教授此方法，因此本頁正文是補充。它延伸卷積神經網路與反向傳播，並連回影像資料準備的品質檢查。
+兩本科目的指引都沒有提到此方法，因此本頁正文是補充。它延伸卷積神經網路與反向傳播，並連回影像資料準備的品質檢查。
 
 ## 直覺（補充）
 
@@ -217,7 +217,7 @@ for name, image in [("原圖", torch.tensor(raw / 255, dtype=torch.float32)[None
 
 ### 換個場景
 
-兩本指引未替Grad-CAM列出完整適用場景，以下都是補充應用。
+兩本指引都沒有提到Grad-CAM，以下都是補充應用。
 
 | 場景 | 區域檢查 | 需要搭配的證據 |
 |---|---|---|
