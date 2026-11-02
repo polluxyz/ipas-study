@@ -1,0 +1,35 @@
+id: 115-1-S3-Q06
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 6
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 2
+type: 情境
+codes: [ L23301, L23202 ]
+concepts: []
+stem: |
+  某資料科學家欲對 512 維詞嵌入向量（共 10 萬筆）進行視覺化以探索群集結構，同時另一工程師需將 200 個製程特徵降維後作為 XGBoost 的輸入特徵。關於 t-SNE 與 PCA 選型，下列敘述何者最正確？
+options:
+  A: t-SNE 保留全局線性結構，適合作為 XGBoost 的降維前處理
+  B: t-SNE 保留局部鄰域結構，適合視覺化；但不保留全局結構，不適合作為模型輸入特徵
+  C: PCA 為非線性降維方法，能保留複雜流形結構
+  D: t-SNE 與 PCA 皆可直接對新資料進行線性外推
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E7
+  blind_answer: null
+  dispute: null

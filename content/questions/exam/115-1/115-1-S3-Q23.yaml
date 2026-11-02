@@ -1,0 +1,35 @@
+id: 115-1-S3-Q23
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 23
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 6
+type: 情境
+codes: [ L23203, L21103 ]
+concepts: []
+stem: |
+  某團隊開發法律文件生成系統，需根據合約前半段內容自動生成後半段條款。工程師分別使用 BERT 與 GPT-2 進行微調，但發現 BERT 的生成效果明顯較差，且即使增加訓練資料也無法改善。下列何者為最主要原因？
+options:
+  A: BERT 缺乏法律領域知識，因此生成能力較差
+  B: BERT 的分詞方式影響語意理解，導致生成效果不佳
+  C: BERT 模型規模較小，因此生成能力不足
+  D: BERT 無法根據前文逐步生成後續文字，較不適合此類任務
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E7
+  blind_answer: null
+  dispute: null

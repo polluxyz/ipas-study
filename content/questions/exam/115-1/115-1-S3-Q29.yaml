@@ -1,0 +1,35 @@
+id: 115-1-S3-Q29
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 29
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 7
+type: 情境
+codes: [ L23201 ]
+concepts: []
+stem: |
+  某工廠設備監測系統需偵測馬達軸承的異常振動，但過去僅記錄了大量正常運作的振動時序資料，缺乏任何已確認故障的標註樣本。請問下列何種任務範疇最符合此情境下的異常偵測需求？
+options:
+  A: 監督式二元分類（Supervised Binary Classification）
+  B: 非監督或半監督異常偵測（Unsupervised / Semi-supervised Anomaly Detection）
+  C: 強化學習（Reinforcement Learning）
+  D: 自監督學習（Self-supervised Learning）
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 7
+    by: EX-E7
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,35 @@
+id: 115-1-S3-Q33
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 33
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 8
+type: 情境
+codes: [ L23304, L23301 ]
+concepts: []
+stem: |
+  某工程師的多元線性迴歸模型包含 150 個特徵，其中許多特徵高度相關（如「建坪」與「總面積」）。他同時希望控制過擬合且保留所有特徵的解釋能力，不讓任何特徵係數歸零，下列哪一項正則化方案最適當？
+options:
+  A: Lasso 迴歸（L1 正則化）：透過絕對值懲罰使部分係數歸零，具有特徵選擇效果
+  B: Ridge 迴歸（L2 正則化）：透過平方懲罰縮小所有係數，在共線性下穩定估計且不歸零
+  C: Elastic Net（L1+L2）：結合稀疏性與穩定性，但部分係數仍可能被壓為 0
+  D: 無正則化的 OLS 迴歸：不控制過擬合，在共線性下係數估計不穩定
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 8
+    by: EX-E7
+  blind_answer: null
+  dispute: null

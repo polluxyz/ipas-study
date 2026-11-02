@@ -1,0 +1,35 @@
+id: 115-1-S3-Q35
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 35
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 9
+type: 情境
+codes: [ L23304, L21103 ]
+concepts: []
+stem: |
+  某團隊使用 LoRA 微調大型語言模型進行法律摘要任務，發現模型在複雜條款的摘要上常出現內容遺漏，但 GPU 顯存已接近上限。下列哪種調整方式最能在不明顯增加記憶體使用的前提下改善模型表現？
+options:
+  A: 提高 LoRA rank 以增強模型表達能力
+  B: 改用完整微調（Full Fine-tuning）以學習更多細節
+  C: 降低 LoRA rank 以釋放記憶體並增加 Batch Size
+  D: 降低 LoRA rank 但套用到更多層，保持 trainable 總參數不變
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E7
+  blind_answer: null
+  dispute: null

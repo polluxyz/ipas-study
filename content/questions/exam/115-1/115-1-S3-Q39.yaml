@@ -1,0 +1,35 @@
+id: 115-1-S3-Q39
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 39
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 10
+type: 情境
+codes: [ L23402 ]
+concepts: []
+stem: |
+  某銀行信貸模型上線後稽核發現，女性申請者中「實際具有還款能力卻被模型拒絕」的比例顯著高於男性，但法務限制不允許在推論階段使用性別欄位調整輸出。下列去偏策略何者在此限制下仍可執行？
+options:
+  A: 訓練中（In-processing）：在損失函數加入公平性懲罰項，降低不同群體的錯誤拒絕比例差異
+  B: 前處理（Pre-processing）：僅於訓練資料進行重新採樣，無法直接修正既有模型在推論階段的偏誤
+  C: 後處理（Post-processing）：依性別分組調整決策門檻，使不同群體的錯誤拒絕比例一致
+  D: 改用人口統計均等指標（Demographic Parity），錯誤拒絕比例差異將自動消失
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 10
+    by: EX-E7
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,35 @@
+id: 115-1-S3-Q16
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 16
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 4
+type: 情境
+codes: [ L23202, L23304 ]
+concepts: []
+stem: |
+  某資料科學家在信用評分任務中使用 XGBoost 建立模型，發現模型在訓練集表現良好但驗證集出現過擬合跡象。他檢視其模型設計，發現 XGBoost 在目標函數（Objective Function）中引入額外的正則化機制以控制模型複雜度。相較於傳統梯度提升決策樹（GBDT），XGBoost 在其核心目標函數中加入了下列哪一種關鍵設計，使其具備更強的防過擬合能力？
+options:
+  A: 加入樹的複雜度懲罰項（包含深度、葉節點數量與葉節點權重的 L2 正則化）
+  B: 加入動態學習率（Dynamic Learning Rate）的強制衰減機制
+  C: 加入卷積運算（Convolution）以萃取特徵間的空間關係
+  D: 強制所有決策樹深度為 1（Decision Stumps）
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E7
+  blind_answer: null
+  dispute: null

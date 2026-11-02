@@ -1,0 +1,35 @@
+id: 115-1-S3-Q38
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 38
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 10
+type: 情境
+codes: [ L23402 ]
+concepts: []
+stem: |
+  某公司導入 AI 履歷篩選系統，用於自動決定是否進入面試。模型對男性應徵者的面試通過率為 55%，對女性應徵者為 30%。在其他條件不變的情況下，工程師需評估模型是否符合統計均等（Statistical Parity）的公平性定義。下列何者最正確？
+options:
+  A: 符合統計均等，因為模型未使用性別作為輸入特徵
+  B: 符合統計均等，因為兩個族群皆有部分應徵者被錄取
+  C: 不符合統計均等，因為不同群體的正向決策比例（通過率）存在明顯差異
+  D: 不符合統計均等，因為女性族群的預測準確率較低
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 10
+    by: EX-E7
+  blind_answer: null
+  dispute: null

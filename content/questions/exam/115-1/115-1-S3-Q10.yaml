@@ -1,0 +1,35 @@
+id: 115-1-S3-Q10
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 10
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 3
+type: 情境
+codes: [ L23201, L23103 ]
+concepts: []
+stem: |
+  某工程師同時開發兩個模型：一個預測使用者「隔日 App 使用時長（分鐘）」，另一個預測使用者「隔日是否流失（是/否）」。關於上述兩個任務，他應分別選擇哪種適當的損失函數？
+options:
+  A: 使用時長預測：均方誤差（MSE）；流失預測：二元交叉熵（Binary Cross-Entropy）
+  B: 使用時長預測：交叉熵損失（Cross-Entropy）；流失預測：均方誤差（MSE）
+  C: 使用時長預測：Hinge 損失（Hinge Loss）；流失預測：MAE（平均絕對誤差）
+  D: 兩個任務均使用交叉熵損失，因為兩者的輸出都有不確定性
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E7
+  blind_answer: null
+  dispute: null

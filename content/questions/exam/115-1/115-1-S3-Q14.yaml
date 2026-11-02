@@ -1,0 +1,35 @@
+id: 115-1-S3-Q14
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 14
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 4
+type: 情境
+codes: [ L23202, L23301 ]
+concepts: []
+stem: |
+  某電商平台使用樸素貝氏分類器（Naive Bayes Classifier）建立垃圾郵件過濾模型。訓練集準確率（Accuracy）達 92%，但上線後發現，包含「限時優惠、立即下單享折扣」等關鍵字的正常促銷郵件，常被誤判為垃圾信。經分析發現，這些詞彙在訓練資料中多出現在垃圾郵件中，導致其類別條件機率偏高。請問造成此現象的最主要原因與較適當的改善方式為何？
+options:
+  A: 應禁用 Naive Bayes，改用其他更先進演算法
+  B: 模型過擬合於訓練資料，應增加 Epoch 數以提升泛化能力
+  C: 類別條件機率受訓練資料分布影響，導致促銷關鍵字被視為垃圾信特徵，應重新平衡資料或調整先驗機率
+  D: 模型未進行特徵標準化（Feature Scaling），導致分類邊界偏移，應先進行正規化處理
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E7
+  blind_answer: null
+  dispute: null

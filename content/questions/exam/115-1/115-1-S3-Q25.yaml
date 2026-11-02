@@ -1,0 +1,35 @@
+id: 115-1-S3-Q25
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 25
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 7
+type: 情境
+codes: [ L23301 ]
+concepts: []
+stem: |
+  某工程師建立房價預測模型，輸入特徵包含屋齡與距捷運站距離（公尺）。他發現距捷運站距離分布嚴重右偏，經對數（Log）轉換後模型表現明顯改善；但將同樣轉換套用於屋齡後，模型表現反而下降。下列何者為最可能的原因？
+options:
+  A: 屋齡與房價若呈線性關係，Log 轉換反而破壞此結構
+  B: Log 轉換會壓縮所有特徵的變異數，導致模型失去鑑別能力
+  C: Log 轉換不適用於有單位的連續變數，應改用 Box-Cox
+  D: 兩特徵須套用相同轉換，否則尺度不一致導致梯度不穩定
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 7
+    by: EX-E7
+  blind_answer: null
+  dispute: null

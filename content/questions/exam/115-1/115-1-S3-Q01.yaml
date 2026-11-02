@@ -1,0 +1,35 @@
+id: 115-1-S3-Q01
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 1
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 1
+type: 情境
+codes: [ L23101 ]
+concepts: []
+stem: |
+  某量化投資團隊需估算某投資組合未來 30 日的風險值。由於衍生性金融商品的定價模型過於複雜，無法以解析解直接求得，工程師因此採用隨機模擬方式，產生大量市場情境模擬並估計損失分布。此方法屬於下列哪一種技術框架？
+options:
+  A: 馬可夫鏈（Markov Chain）：以狀態轉移機率描述系統演變的隨機過程
+  B: 梯度下降最佳化（Gradient Descent）：透過迭代更新參數以最小化損失函數
+  C: 蒙地卡羅方法（Monte Carlo Method）：透過大量隨機抽樣近似機率分布或數值結果
+  D: 貝氏推論（Bayesian Inference）：結合先驗分布與資料更新後驗機率
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E7
+  blind_answer: null
+  dispute: null

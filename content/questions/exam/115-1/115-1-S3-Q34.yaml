@@ -1,0 +1,35 @@
+id: 115-1-S3-Q34
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 34
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 9
+type: 計算
+codes: [ L23304, L23303 ]
+concepts: []
+stem: |
+  某工程師使用 XGBoost 模型進行調參，需對以下超參數進行網格搜尋（Grid Search）：learning_rate（3 個候選值）、max_depth（4 個）、n_estimators（5 個）、subsample（3 個）、colsample_bytree（3 個）。每組參數組合皆需完整進行 5-Fold 交叉驗證。請問總共需要訓練幾個模型？
+options:
+  A: 3 + 4 + 5 + 3 + 3 = 18 個
+  B: 5 × 5 = 25 個
+  C: max(3,4,5,3,3) × 5 = 25 個
+  D: 3 × 4 × 5 × 3 × 3 × 5 = 2,700 個
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E7
+  blind_answer: null
+  dispute: null

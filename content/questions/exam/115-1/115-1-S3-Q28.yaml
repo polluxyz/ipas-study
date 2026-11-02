@@ -1,0 +1,35 @@
+id: 115-1-S3-Q28
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 28
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 7
+type: 情境
+codes: [ L23302, L23202 ]
+concepts: []
+stem: |
+  某房仲平台要預測物件成交價，資料集含 50 個特徵，其中部分特徵與房價呈非線性關係，且業務單位要求模型須能提供整體特徵重要性以供稽核。下列哪一種模型選擇策略最符合需求？
+options:
+  A: 使用羅吉斯迴歸（Logistic Regression），透過線性係數解釋特徵影響，但無法有效建模非線性關係
+  B: 使用隨機森林迴歸（Random Forest Regression），可處理非線性關係，並提供整體特徵重要性（Feature Importance）作為解釋依據
+  C: 用 K-means 分群（K-means Clustering）後分別建立迴歸模型，以提升預測準確度並間接提升可解釋性
+  D: 使用支持向量迴歸（Support Vector Regression, SVR），透過核函數（Kernel Function）捕捉非線性關係，並以支持向量解釋模型決策
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 7
+    by: EX-E7
+  blind_answer: null
+  dispute: null

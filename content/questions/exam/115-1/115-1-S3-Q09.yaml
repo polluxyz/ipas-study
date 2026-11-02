@@ -1,0 +1,35 @@
+id: 115-1-S3-Q09
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 9
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 2
+type: 情境
+codes: [ L23103, L23303 ]
+concepts: []
+stem: |
+  某工程師訓練深度神經網路時發現損失函數震盪嚴重且收斂速度慢，改用 Adam 優化器後訓練變得穩定且收斂更快。下列何者為 Adam 能改善此問題的主要原因？
+options:
+  A: 同時結合一階動量（Momentum）與自適應學習率（Adaptive Learning Rate），為每個參數調整更新步長
+  B: 強制所有參數使用相同學習率（Learning Rate），避免梯度差異造成不穩定
+  C: 透過批次正規化（Batch Normalization）重新分布輸入資料
+  D: 將梯度裁剪為固定範圍以避免梯度爆炸（Gradient Explosion）
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E7
+  blind_answer: null
+  dispute: null

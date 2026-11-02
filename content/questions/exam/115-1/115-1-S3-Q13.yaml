@@ -1,0 +1,35 @@
+id: 115-1-S3-Q13
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 13
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 3
+type: 情境
+codes: [ L23304, L23303 ]
+concepts: []
+stem: |
+  某工程師訓練文本情感分類模型，訓練集 F1=0.96、驗證集 F1=0.71，落差明顯，顯示模型出現過擬合。下列哪一種策略能最直接從降低模型複雜度的角度緩解過擬合？
+options:
+  A: 增加訓練 Epoch 數至 200，讓模型充分學習訓練資料的所有細節
+  B: 引入更多原始文本特徵（包括原始 URL、HTML 標籤），增加特徵多樣性
+  C: 對 Embedding 層與全連結層加入 L2 權重衰減（Weight Decay），懲罰參數值
+  D: 移除驗證集並將其併入訓練集，以增加模型可見的訓練樣本數
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E7
+  blind_answer: null
+  dispute: null

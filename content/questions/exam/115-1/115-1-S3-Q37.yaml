@@ -1,0 +1,35 @@
+id: 115-1-S3-Q37
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 37
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 9
+type: 情境
+codes: [ L21203, L23302 ]
+concepts: []
+stem: |
+  某銀行導入 AI 貸款審核系統，監管要求每筆被拒絕的申請須提供可理解的拒絕原因。技術主管評估以下方案，哪一種最能實現個別預測的局部可解釋性（Local Explainability）？
+options:
+  A: SHAP（SHapley Additive exPlanations）值：計算每個特徵對單筆預測的貢獻
+  B: 全域特徵重要性（Global Feature Importance）：說明整體特徵影響，無法解釋單一個案
+  C: Grad-CAM（Gradient-weighted Class Activation Mapping）：以熱力圖解釋影像模型
+  D: 混淆矩陣（Confusion Matrix）：呈現整體分類表現
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E7
+  blind_answer: null
+  dispute: null

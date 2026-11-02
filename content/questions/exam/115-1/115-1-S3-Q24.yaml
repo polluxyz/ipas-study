@@ -1,0 +1,35 @@
+id: 115-1-S3-Q24
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 24
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 6
+type: 情境
+codes: [ L23301 ]
+concepts: []
+stem: |
+  某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情境下，下列哪一種編碼方式最容易造成維度爆炸問題？
+options:
+  A: 目標編碼（Target Encoding）
+  B: 標籤編碼（Label Encoding）
+  C: Embedding 層（Categorical Embedding）
+  D: One-Hot 編碼（One-Hot Encoding）
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E7
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,35 @@
+id: 115-1-S3-Q05
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 5
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 1
+type: 情境
+codes: [ L23303, L23101 ]
+concepts: []
+stem: |
+  某工程師完成多元線性迴歸模型後，繪製殘差圖（Residual Plot），發現殘差隨預測值增大而呈現擴散現象（右側明顯比左側分散）。此現象最可能代表什麼問題？
+options:
+  A: 殘差之間存在關聯
+  B: 特徵之間高度相關
+  C: 殘差變異數不一致
+  D: 殘差不符合常態分布
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E7
+  blind_answer: null
+  dispute: null

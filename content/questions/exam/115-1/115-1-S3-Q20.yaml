@@ -1,0 +1,35 @@
+id: 115-1-S3-Q20
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 20
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 5
+type: 情境
+codes: [ L23203, L23103 ]
+concepts: []
+stem: |
+  工程師在 PyTorch 中建構貓、狗、鳥三分類 CNN，並使用交叉熵損失函數（CrossEntropyLoss）作為訓練目標。由於此損失函數在內部已包含 Softmax 計算，輸出層的設計需特別注意。請問輸出層的激活函數（Activation Function）與輸出維度應如何設定？
+options:
+  A: 使用 ReLU 作為激活函數，輸出維度設為 1，直接輸出單一數值作為預測結果
+  B: 使用 Sigmoid 作為激活函數，輸出維度設為 3，使每個類別獨立輸出 0 到 1 的機率
+  C: 不使用任何激活函數，直接輸出未經正規化的 logits，輸出維度設為 3 對應三個類別
+  D: 使用 Softmax 作為激活函數，輸出維度設為 3，輸出為已正規化的機率分布
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E7
+  blind_answer: null
+  dispute: null

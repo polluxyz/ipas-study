@@ -1,0 +1,35 @@
+id: 115-1-S3-Q17
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 17
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 5
+type: 情境
+codes: [ L23203, L23304 ]
+concepts: []
+stem: |
+  某醫療新創團隊將原有 3 層 CNN 升級為 16 層架構以提升 CT 影像腫瘤偵測率，但發現訓練損失反而高於 3 層版本且收斂困難。工程師懷疑是網路深度造成的訓練問題，下列診斷與對策何者最正確？
+options:
+  A: 網路層數增加導致參數量過多，應減少每層卷積濾波器（Filters）數量以降低模型複雜度
+  B: 深層網路可能出現梯度消失問題，導致淺層權重難以更新；應採用 ResNet 的殘差連接（Skip Connection）以改善梯度傳遞
+  C: 16 層模型對 CT 影像而言仍過淺，應進一步增加網路深度以學習更高階特徵
+  D: 問題可能來自激活函數（Activation Function），將 ReLU 改為 Sigmoid 可改善梯度傳遞問題
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E7
+  blind_answer: null
+  dispute: null

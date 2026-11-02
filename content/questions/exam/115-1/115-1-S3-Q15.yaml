@@ -1,0 +1,35 @@
+id: 115-1-S3-Q15
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 15
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 4
+type: 情境
+codes: [ L23202 ]
+concepts: []
+stem: |
+  某資料科學家將客戶資料進行分群，使用 K-means（K=5）後發現部分群集呈現半月形（非凸）結構，且資料中存在少數離群值（Outliers）。他同時觀察到每次執行結果略有不同。下列敘述何者最完整且準確地反映 K-means 在此情境中的已知限制？
+options:
+  A: K-means 無法處理維度超過 10 的資料，在高維空間中距離計算失效
+  B: K-means 假設群集為高斯分佈，無法處理任何非球形群集
+  C: K-means 對 K 值敏感，但初始化不影響最終結果（演算法保證全局最優）
+  D: K-means 需預先指定 K；以歐氏距離為基礎，難以處理非凸群集；對初始化與離群值敏感
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E7
+  blind_answer: null
+  dispute: null

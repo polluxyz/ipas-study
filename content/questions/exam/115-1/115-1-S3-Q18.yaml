@@ -1,0 +1,35 @@
+id: 115-1-S3-Q18
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 18
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 5
+type: 情境
+codes: [ L23203, L23302 ]
+concepts: []
+stem: |
+  某工程師設計用於醫療 X 光影像分類的 CNN，發現卷積層後直接接全連結層導致參數量高達 5,000 萬，訓練速度極慢。為降低模型參數量與計算成本，他在卷積層後加入池化層（Pooling Layer）。下列何者為池化層在此設計中最主要解決的問題？
+options:
+  A: 降低特徵圖空間維度，減少參數與計算量
+  B: 提供非線性表達能力，以提升模型學習複雜度
+  C: 改善梯度消失問題，以強化反向傳播穩定性
+  D: 提升模型泛化能力而不影響特徵維度
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E7
+  blind_answer: null
+  dispute: null

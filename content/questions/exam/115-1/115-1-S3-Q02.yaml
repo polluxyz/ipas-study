@@ -1,0 +1,35 @@
+id: 115-1-S3-Q02
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 2
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 1
+type: 情境
+codes: [ L23103, L23303 ]
+concepts: []
+stem: |
+  某工程師在建立房價預測模型時，訓練資料中存在少數豪宅（成交價超過一般物件 10 倍以上）。若工程師希望模型對這些極端高價物件的預測誤差更敏感，並在訓練時產生較大的梯度更新影響，應優先選擇下列哪種損失函數？
+options:
+  A: 平均絕對誤差（MAE）：對誤差進行線性懲罰，對離群值較不敏感，梯度近似固定
+  B: Huber 損失（Huber Loss）：小誤差採平方懲罰，大誤差轉為線性懲罰，以降低離群值影響
+  C: 均方誤差（MSE）：對誤差進行平方處理，使大誤差產生更大的懲罰與梯度
+  D: 交叉熵損失（Cross-Entropy Loss）：用於分類問題的機率分布差異衡量
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E7
+  blind_answer: null
+  dispute: null

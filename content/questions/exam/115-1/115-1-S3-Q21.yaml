@@ -1,0 +1,35 @@
+id: 115-1-S3-Q21
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 21
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 6
+type: 情境
+codes: [ L23304 ]
+concepts: []
+stem: |
+  某工程師將一個大型預訓練模型部署至資源受限的行動裝置，發現模型體積過大且推論效率不足。為降低模型大小並提升推論速度，他將原本 32-bit 浮點數權重轉換為 8-bit 整數。在不重新訓練模型的前提下，請問此過程稱為何？
+options:
+  A: 知識蒸餾（Knowledge Distillation）
+  B: 權重剪枝（Pruning）
+  C: 張量分解（Tensor Decomposition）
+  D: 模型量化（Quantization）
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E7
+  blind_answer: null
+  dispute: null

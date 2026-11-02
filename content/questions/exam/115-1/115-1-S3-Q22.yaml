@@ -1,0 +1,35 @@
+id: 115-1-S3-Q22
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 22
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 6
+type: 情境
+codes: [ L21101, L21103 ]
+concepts: []
+stem: |
+  某工程師建置企業內部知識問答的 RAG 系統，上線後發現部分問題檢索結果與查詢語意不符。分析後確認問題出在向量搜尋的語意匹配不準確。於檢索階段，採取下列哪種方法最能直接改善此問題？
+options:
+  A: 將切片大小（Chunk Size）由 512tokens 縮小至 128tokens，以提升檢索精細度
+  B: 調整向量相似度閾值（Similarity Threshold），以過濾低相關檢索結果
+  C: 採用混合搜尋（Hybrid Search）：結合語意向量搜尋與關鍵字搜尋（BM25），並以 RRF（Reciprocal Rank Fusion）融合排序
+  D: 將檢索結果隨機洗牌（Shuffle）後回傳給 LLM，避免位置偏誤（Position Bias）
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E7
+  blind_answer: null
+  dispute: null

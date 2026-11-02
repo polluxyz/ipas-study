@@ -1,0 +1,35 @@
+id: 115-1-S3-Q31
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 31
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 8
+type: 情境
+codes: [ L23201 ]
+concepts: []
+stem: |
+  某倉儲自動化公司以強化學習（Reinforcement Learning, RL）訓練機器手臂進行揀貨，獎勵函數設計為「每成功抓取一個貨品得+1 分」。部署後發現機器手臂學會反覆放開再抓取同一物品，以累積分數，但實際完成任務的效率極低。請問此現象的核心問題為何？應如何修正獎勵設計？
+options:
+  A: 獎勵塑形（Reward Shaping）：將獎勵改為「成功完成一次揀貨任務」而非單次抓取行為
+  B: 策略退化（Policy Degradation）：降低學習率以穩定訓練
+  C: 信用分配問題（Credit Assignment Problem）：引入優勢函數（Advantage Function）
+  D: 災難性遺忘（Catastrophic Forgetting）：加入經驗回放（Replay Buffer）
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 8
+    by: EX-E7
+  blind_answer: null
+  dispute: null
