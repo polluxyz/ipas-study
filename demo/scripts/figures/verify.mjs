@@ -6,11 +6,32 @@ import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
 import { freshOutput, localUrl, readBuildReceipt, verifyBuildReceipt, guardBuildContext, routeLocalOnly, gotoSettled } from '../rollout-smoke.mjs';
 
+// KaTeX 被排除後空白可能改變；只忽略空白，並要求原句中的每個查詢字都被 Pagefind 標記。
+export function formulaWitness(result, base) {
+  const sentence = '精確率與召回率的調和平均稱為F1分數。';
+  const normalize = (text) => text.replace(/\s/gu, '');
+  const figure = result.figures.find((page) => {
+    const url = new URL(page.url, base);
+    return url.origin === base && url.pathname === '/dev/figures/';
+  });
+  if (!figure || !normalize(figure.content).includes(sentence)) return false;
+  return figure.sub_results.some((section) => {
+    const url = new URL(section.url, base);
+    if (url.origin !== base || url.pathname !== '/dev/figures/' || decodeURIComponent(url.hash) !== '#公式與搜尋' || section.anchor?.id !== '公式與搜尋' || section.title !== '公式與搜尋') return false;
+    const chars = Array.from(section.text, (char, index) => ({ char, marked: section.marked[index] })).filter(({ char }) => !/\s/u.test(char));
+    const text = chars.map(({ char }) => char).join('');
+    const start = text.indexOf(sentence);
+    if (start < 0) return false;
+    const hit = start + sentence.indexOf('召回率');
+    return chars.slice(hit, hit + 3).length === 3 && chars.slice(hit, hit + 3).every(({ marked }) => marked === true);
+  });
+}
+
 export async function verify() {
   assert.ok(process.env.FIGURES_OUTPUT, '請指定獨立 FIGURES_OUTPUT');
   const output = await freshOutput(resolve(process.env.FIGURES_OUTPUT));
   const errors = [], external = [], failed = [], assets = [], fontRequests = [];
-  const report = { completed: false, figures: 0, formulas: 0, mathml: 0, searchable: false, collapsed: false, mobileWidth: 0, fonts: fontRequests, errors, external, failed, browserErrors: errors, externalRequests: external, assetFailures: assets, buildResponses: [] };
+  const report = { completed: false, figures: 0, formulas: 0, mathml: 0, searchable: false, formulaSearchWitness: { query: '召回率', status: '未執行' }, generalChineseSearchPrecision: { query: '精確率', status: '未執行', limitation: '此診斷不代表一般中文搜尋限制已修復或獲接受。' }, collapsed: false, mobileWidth: 0, fonts: fontRequests, errors, external, failed, browserErrors: errors, externalRequests: external, assetFailures: assets, buildResponses: [] };
   const checks = [];
   let browser, page, binding, failure;
   const setupContext = async (options, base) => {
@@ -55,13 +76,38 @@ export async function verify() {
     await page.locator('.figure-values > summary').first().click();
     assert.ok(await page.locator('.figure-values table').first().isVisible());
     await page.locator('.figure-values > summary').first().click();
-    const search = await page.evaluate(async () => {
+    const searchQuery = async (query) => page.evaluate(async (term) => {
       const pagefind = await import('/pagefind/pagefind.js');
-      const result = await pagefind.search('精確率');
+      const result = await pagefind.search(term);
       const pages = await Promise.all(result.results.map((r) => r.data()));
-      return pages.map((p) => p.url);
-    });
-    report.searchable = search.some((url) => url.includes('/dev/figures/')); assert.ok(report.searchable, 'Pagefind 搜得到公式周圍中文');
+      const figures = pages.filter((p) => new URL(p.url, location.origin).origin === location.origin && new URL(p.url, location.origin).pathname === '/dev/figures/').map((p) => ({
+        url: p.url, content: p.content,
+        sub_results: p.sub_results.map((s) => {
+          const template = document.createElement('template'); template.innerHTML = s.excerpt;
+          const text = [], marked = [];
+          const visit = (node, hit = false) => {
+            if (node.nodeType === Node.TEXT_NODE) for (const char of node.textContent) { text.push(char); marked.push(hit); }
+            else for (const child of node.childNodes) visit(child, hit || node.nodeName === 'MARK');
+          };
+          visit(template.content);
+          return { title: s.title, url: s.url, anchor: s.anchor, locations: s.locations, excerpt: s.excerpt, text: text.join(''), marked };
+        }),
+      }));
+      return { total: result.results.length, urls: pages.map((p) => p.url), figures, ...(term === '精確率' ? { pages } : {}) };
+    }, query);
+    let diagnosticError;
+    try {
+      const precision = await searchQuery('精確率');
+      Object.assign(report.generalChineseSearchPrecision, { status: precision.figures.length ? '找到展示頁' : '未找到展示頁', result: precision });
+    } catch (error) {
+      diagnosticError = error;
+      Object.assign(report.generalChineseSearchPrecision, { status: '查詢錯誤', error: String(error) });
+    }
+    const search = await searchQuery('召回率');
+    report.searchable = formulaWitness(search, base);
+    Object.assign(report.formulaSearchWitness, { status: report.searchable ? '通過' : '未通過', result: search });
+    assert.ok(report.searchable, 'Pagefind 的公式小節須命中原句中的召回率');
+    if (diagnosticError) throw diagnosticError;
     await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; window.scrollTo({ top: 0, behavior: 'instant' }); });
     await screenshot('s1-desktop.png');
     await page.setViewportSize({ width: 375, height: 812 });

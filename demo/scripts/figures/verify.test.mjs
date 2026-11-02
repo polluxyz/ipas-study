@@ -16,6 +16,21 @@ import { assertCompanion } from '../rollout-smoke.mjs';
 
 const binding = { receipt: { sha: 'test-sha' }, receiptDigest: 'test-digest' };
 let baseDir, serial = 0, contexts, settings;
+const originalSentence = '精確率 與召回率 的調和平均稱為 F1 分數。';
+function witnessResult(kind = '正例') {
+  const text = `公式與搜尋. ${originalSentence}公式前後的中文說明可以搜尋。`;
+  const start = text.indexOf('召回率');
+  const section = { title: '公式與搜尋', url: '/dev/figures/#%E5%85%AC%E5%BC%8F%E8%88%87%E6%90%9C%E5%B0%8B', anchor: { id: '公式與搜尋' }, text, marked: Array.from(text, (_, i) => i >= start && i < start + 3), excerpt: '精確率 與<mark>召回</mark><mark>率 </mark>的調和平均稱為 F1 分數。', locations: [44, 46, 47] };
+  const figure = { url: '/dev/figures/', content: `公式與搜尋. ${originalSentence}`, sub_results: [section] };
+  if (kind === '只有頁名') figure.sub_results = [];
+  if (kind === '只有圖表') { section.title = 'PR 曲線'; section.anchor.id = 'pr-曲線'; section.url = '/dev/figures/#pr-曲線'; }
+  if (kind === '原句缺失') section.text = section.text.replace('調和平均', '平均');
+  if (kind === '內容原句缺失') figure.content = '公式與搜尋';
+  if (kind === '命中詞缺失') section.marked.fill(false);
+  if (kind === '命中詞不完整') section.marked[start + 2] = false;
+  if (kind === '錯誤路徑') figure.url = '/dev/figures/other/';
+  return { total: 1, urls: [figure.url], figures: [figure] };
+}
 class FakeContext extends EventEmitter {
   constructor(options) { super(); this.options = options; }
   async newPage() {
@@ -34,9 +49,16 @@ class FakeContext extends EventEmitter {
       click: async () => {}, first() { return this; }, isVisible: async () => true,
     });
     page.getByText = () => ({ isVisible: async () => true });
-    page.evaluate = async (fn) => {
+    page.evaluate = async (fn, query) => {
       const body = String(fn);
-      if (body.includes('pagefind.search')) return ['/dev/figures/'];
+      if (body.includes('pagefind.search')) {
+        settings.queries.push(query);
+        if (query === '精確率') {
+          if (settings.precisionError) throw new Error('precision query failed');
+          return { total: 3, urls: ['/a/', '/b/', '/c/'], figures: [], pages: [{ url: '/a/' }, { url: '/b/' }, { url: '/c/' }] };
+        }
+        return witnessResult(settings.witness);
+      }
       if (body.includes('document.documentElement.scrollWidth')) return 375;
       return undefined;
     };
@@ -48,7 +70,7 @@ class FakeContext extends EventEmitter {
   async close() {}
 }
 async function run(options = {}) {
-  settings = options; contexts = [];
+  settings = { ...options, queries: [] }; contexts = [];
   process.env.FIGURES_OUTPUT = resolve(baseDir, `case-${serial++}`);
   fake.launch.mockImplementation(async () => ({
     newContext: async (options) => { const context = new FakeContext(options); contexts.push(context); return context; },
@@ -57,8 +79,8 @@ async function run(options = {}) {
   return verify();
 }
 beforeEach(async () => {
-  await mkdir(resolve('..', 'tmp/rollout/figures-evidence/writer-evidence'), { recursive: true });
-  baseDir = await mkdtemp(resolve('..', 'tmp/rollout/figures-evidence/writer-evidence/test-'));
+  await mkdir(resolve('..', 'tmp/rollout/figure-search-witness/tests'), { recursive: true });
+  baseDir = await mkdtemp(resolve('..', 'tmp/rollout/figure-search-witness/tests/test-'));
   process.env.DEMO_URL = 'http://127.0.0.1:4321'; process.env.BUILD_RECEIPT = 'fake-receipt';
   fake.read.mockReset().mockResolvedValue(binding); fake.verify.mockReset().mockResolvedValue();
   fake.route.mockReset().mockResolvedValue();
@@ -92,8 +114,27 @@ describe('figures 收件接線（替身，非真 UI）', () => {
     expect(fake.guard).toHaveBeenCalledTimes(2); expect(fake.route).toHaveBeenCalledTimes(2);
     expect(fake.gotoSettled).toHaveBeenCalledTimes(2);
     expect(report.buildResponses.every((x) => x.sealed)).toBe(true);
+    expect(settings.queries).toEqual(['精確率', '召回率']);
+    expect(report.searchable).toBe(true);
+    expect(report.generalChineseSearchPrecision.status).toBe('未找到展示頁');
+    expect(report.generalChineseSearchPrecision.result).toEqual({ total: 3, urls: ['/a/', '/b/', '/c/'], figures: [], pages: [{ url: '/a/' }, { url: '/b/' }, { url: '/c/' }] });
     expect(() => assertCompanion('figures', report, binding, {})).not.toThrow();
     expect(await recorded()).toEqual(report);
+  });
+  it.each(['只有頁名', '只有圖表', '原句缺失', '內容原句缺失', '命中詞缺失', '命中詞不完整', '錯誤路徑'])('%s 不得當成公式見證', async (witness) => {
+    await expect(run({ witness })).rejects.toThrow('Pagefind 的公式小節須命中原句中的召回率');
+    const report = await recorded();
+    expect(report.searchable).toBe(false); expect(report.completed).toBe(false);
+    expect(report.generalChineseSearchPrecision.status).toBe('未找到展示頁');
+    expect(settings.queries).toEqual(['精確率', '召回率']);
+  });
+  it('精確率查詢錯誤仍執行公式見證並如實保存錯誤', async () => {
+    await expect(run({ precisionError: true })).rejects.toThrow('precision query failed');
+    const report = await recorded();
+    expect(settings.queries).toEqual(['精確率', '召回率']);
+    expect(report.searchable).toBe(true); expect(report.completed).toBe(false);
+    expect(report.generalChineseSearchPrecision.status).toBe('查詢錯誤');
+    expect(report.generalChineseSearchPrecision.error).toContain('precision query failed');
   });
   it('no-JS 的 pageerror 與 requestfailed 均阻止完成', async () => {
     await expect(run({ noJsFailure: true })).rejects.toThrow();
