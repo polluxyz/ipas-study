@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 9
 type: 計算
 codes: [ L23304, L23303 ]
-concepts: []
+concepts: [grid-search, k-fold-cross-validation]
 stem: |
   某工程師使用 XGBoost 模型進行調參，需對以下超參數進行網格搜尋（Grid Search）：learning_rate（3 個候選值）、max_depth（4 個）、n_estimators（5 個）、subsample（3 個）、colsample_bytree（3 個）。每組參數組合皆需完整進行 5-Fold 交叉驗證。請問總共需要訓練幾個模型？
 options:
@@ -18,12 +18,13 @@ options:
   D: 3 × 4 × 5 × 3 × 3 × 5 = 2,700 個
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 D。候選組合數相乘，再乘每組交叉驗證的訓練次數。"
+  correct: "五個超參數的完整交叉組合為 3×4×5×3×3 = 540 組；每組 5 折各訓練一次，合計 540×5 = 2,700 次。這只計題幹的交叉驗證；若使用 GridSearchCV 且 refit=True，選好參數後在全資料重訓會另加一次。科目 3 指引未明確教授此搜尋計數，因此未填頁碼；實作差異參見 [GridSearchCV 官方文件](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html)。"
   wrong:
-    A: ""
-    B: ""
-    C: ""
+    A: "相加只得到各軸候選數總和，沒有列舉不同超參數彼此搭配的組合，也漏掉每組的五折訓練。"
+    B: "第一個 5 沒有代表五個軸的完整組合；只有其中 n_estimators 有 5 個值，其他軸不能忽略。"
+    C: "取最大候選數不能取代笛卡兒積，無法涵蓋所有候選組合。"
+  rule: "完整網格的交叉驗證訓練次數等於各軸候選數的乘積再乘折數。"
 guide_refs: []
 author: codex
 review:

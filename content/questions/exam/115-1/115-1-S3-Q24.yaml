@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 6
 type: 情境
 codes: [ L23301 ]
-concepts: []
+concepts: [one-hot-encoding]
 stem: |
   某推薦系統工程師處理商品類別特徵，該特徵包含約 3,000 個不同商品項目，每一種商品或其規格皆視為一個獨立類別。請問在高基數（High Cardinality）的情境下，下列哪一種編碼方式最容易造成維度爆炸問題？
 options:
@@ -18,13 +18,14 @@ options:
   D: One-Hot 編碼（One-Hot Encoding）
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 D。One-hot 的輸出欄數隨類別基數增長。"
+  correct: "每個商品類別各占一欄，約 3,000 個類別通常產生約 3,000 維；若刪掉基準類別可少一欄，但仍隨基數線性增長。稀疏格式能節省非零元素的儲存，並不代表邏輯維度消失。"
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: "目標編碼以目標統計表示類別，通常不為每個類別各新增一欄；需另防止使用同筆目標造成洩漏。"
+    B: "標籤編碼常以一個整數欄表示類別，不會形成 3,000 個輸入欄，但可能帶入不合理的順序關係。"
+    C: "Embedding 的輸出維度由設計者指定，可小於類別數；查表參數仍隨類別數增加，但這不同於 One-hot 的輸入維度膨脹。"
+  rule: "評估高基數編碼時，分別計算輸出維度、參數表大小與稀疏儲存成本。"
+guide_refs: [guide-3:5-8]
 author: codex
 review:
   status: draft

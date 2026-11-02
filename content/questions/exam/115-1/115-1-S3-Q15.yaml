@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 4
 type: 情境
 codes: [ L23202 ]
-concepts: []
+concepts: [k-means]
 stem: |
   某資料科學家將客戶資料進行分群，使用 K-means（K=5）後發現部分群集呈現半月形（非凸）結構，且資料中存在少數離群值（Outliers）。他同時觀察到每次執行結果略有不同。下列敘述何者最完整且準確地反映 K-means 在此情境中的已知限制？
 options:
@@ -18,13 +18,14 @@ options:
   D: K-means 需預先指定 K；以歐氏距離為基礎，難以處理非凸群集；對初始化與離群值敏感
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 D。K-means 的質心與平方距離目標限制了它的群集形狀。"
+  correct: "K-means 要先給群數 K，反覆依最近質心分派樣本並重算平均。這種分割不擅長還原彎曲的半月形群集，離群點會拉動平均，而不同初始質心也可能導致不同局部解，因此 D 最完整。"
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: "沒有維度超過 10 就不能使用的硬性限制；高維距離品質是需評估的問題，不能用這個固定門檻概括。"
+    B: "標準目標不要求資料真的來自高斯分布；偏好緊密、近球狀群集不等於以高斯生成模型作為必要假設。"
+    C: "K 與初始質心都會影響結果；一般迭代法不保證找到全局最佳分割。"
+  rule: "使用 K-means 前，檢查群數、群集形狀、離群點與初始化敏感性。"
+guide_refs: [guide-3:4-41, guide-3:4-42]
 author: codex
 review:
   status: draft

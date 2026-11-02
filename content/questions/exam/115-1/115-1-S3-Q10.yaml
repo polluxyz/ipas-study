@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 3
 type: 情境
 codes: [ L23201, L23103 ]
-concepts: []
+concepts: [loss-function-selection, mean-squared-error, output-loss-contract]
 stem: |
   某工程師同時開發兩個模型：一個預測使用者「隔日 App 使用時長（分鐘）」，另一個預測使用者「隔日是否流失（是/否）」。關於上述兩個任務，他應分別選擇哪種適當的損失函數？
 options:
@@ -18,13 +18,14 @@ options:
   D: 兩個任務均使用交叉熵損失，因為兩者的輸出都有不確定性
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 A。使用時長屬迴歸，是否流失屬二元分類。"
+  correct: "分鐘數是連續目標，可用 MSE 衡量預測與真值的平方差；流失標籤可設為 0/1，用二元交叉熵學習流失機率。選擇損失時要一起核對輸出表示與標籤型態，不能只看兩個任務都有不確定性。"
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: "此搭配把連續分鐘數當分類機率處理，卻沒有定義類別化的輸出；二元分類雖可另設平方機率損失，整個選項仍不如標準搭配。"
+    C: "Hinge 主要用於分類間隔，不能直接作為未定義間隔形式的分鐘數迴歸；MAE 也不是此處二元機率學習的標準搭配。"
+    D: "交叉熵需要相應的類別或分布表示；不確定性本身不會把連續分鐘數變成分類標籤。"
+  rule: "先辨認目標是連續值還是類別，再核對輸出、標籤與損失是否匹配。"
+guide_refs: [guide-3:3-22, guide-3:4-62]
 author: codex
 review:
   status: draft

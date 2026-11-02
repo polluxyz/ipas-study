@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 7
 type: 情境
 codes: [ L23302, L23202 ]
-concepts: []
+concepts: [random-forest, task-model-matching]
 stem: |
   某房仲平台要預測物件成交價，資料集含 50 個特徵，其中部分特徵與房價呈非線性關係，且業務單位要求模型須能提供整體特徵重要性以供稽核。下列哪一種模型選擇策略最符合需求？
 options:
@@ -18,13 +18,14 @@ options:
   D: 使用支持向量迴歸（Support Vector Regression, SVR），透過核函數（Kernel Function）捕捉非線性關係，並以支持向量解釋模型決策
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 B。隨機森林迴歸同時符合連續目標、非線性與整體重要性需求。"
+  correct: "迴歸樹可經多次分割表示非線性及交互作用，隨機森林整合多棵樹的數值預測，並能彙整特徵重要性。重要性可作為稽核線索，但內建不純度重要性可能偏好高基數欄位，相關特徵也會分攤或替代貢獻；不代表因果影響或已滿足所有稽核要求。"
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: "羅吉斯迴歸通常預測類別機率，不能直接拿來預測連續成交價，首先就與目標型態不符。"
+    C: "分群後另建迴歸可能是可行流程，但不保證較準，也未直接提供題目要求的統一整體特徵重要性。"
+    D: "核 SVR 可做非線性迴歸，但支持向量表示的是關鍵訓練樣本，不等同於各輸入特徵的全局重要性；須另加解釋方法。"
+  rule: "模型選型先符合目標型態，再逐一核對非線性能力與解釋需求。"
+guide_refs: [guide-3:4-21, guide-3:4-22, guide-3:5-15]
 author: codex
 review:
   status: draft

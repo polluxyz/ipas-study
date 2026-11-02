@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 2
 type: 情境
 codes: [ L23103, L23303 ]
-concepts: []
+concepts: [adam]
 stem: |
   某工程師訓練深度神經網路時發現損失函數震盪嚴重且收斂速度慢，改用 Adam 優化器後訓練變得穩定且收斂更快。下列何者為 Adam 能改善此問題的主要原因？
 options:
@@ -18,13 +18,14 @@ options:
   D: 將梯度裁剪為固定範圍以避免梯度爆炸（Gradient Explosion）
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 A。Adam 用梯度歷史平滑方向，並調整各參數的有效步長。"
+  correct: "Adam 維護梯度的指數移動平均與梯度平方的指數移動平均，通常再作偏差修正；更新時以一階估計決定方向，並由二階估計縮放步長。這能在部分問題減少震盪並加速學習，但仍須設定合適的基礎學習率，不能保證所有任務都更快收斂。"
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: "雖然可設定共同的基礎學習率，Adam 的歷史統計會使各參數有不同的有效更新尺度，並非強制相同步長。"
+    C: "批次正規化是另一種網路層與訓練機制，Adam 不會自行新增 BatchNorm 或重新處理輸入分布。"
+    D: "梯度裁剪須另行設定，並非 Adam 定義中的必要步驟；二階估計的縮放也不等於固定範圍裁剪。"
+  rule: "辨認 Adam 時，找梯度一階與二階歷史估計及逐參數步長縮放。"
+guide_refs: [guide-3:3-25, guide-3:5-41]
 author: codex
 review:
   status: draft

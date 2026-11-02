@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 1
 type: 計算
 codes: [ L23102 ]
-concepts: []
+concepts: [matrix-shapes, matrix-operations]
 stem: |
   某工程師在撰寫 Transformer 的 Attention 層時，需手動驗證矩陣維度是否相容。輸入矩陣 Q 已攤平成形狀為(1, 10)，Query 投影權重矩陣 WQ 形狀為(10, 64)。執行 Q x WQ 後輸出的形狀為何？
 options:
@@ -18,13 +18,14 @@ options:
   D: 維度不相容，無法相乘
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: "答案 A。矩陣相乘後保留左矩陣列數與右矩陣欄數。"
+  correct: "Q 的形狀是 (1, 10)，WQ 的形狀是 (10, 64)；內側的 10 相等，所以可相乘，結果為 (1, 64)。一筆含 10 個分量的輸入因此投影為 64 個分量，並非計算 Q 與自身的乘積。"
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: "(10, 10) 沒有保留這次運算的外側維度，混淆了被加總的內側維度與輸出維度。"
+    C: "(64, 1) 是正確輸出轉置後的形狀，原式沒有轉置運算。"
+    D: "左矩陣欄數與右矩陣列數都是 10，已滿足相容條件。"
+  rule: "矩陣乘法先核對內維度，再以兩個外維度決定結果形狀。"
+guide_refs: [guide-3:3-10]
 author: codex
 review:
   status: draft
