@@ -8,7 +8,9 @@ const { entry } = Astro.props;
 const { headings } = await render(entry);
 const concepts = await getCollection('concepts');
 const conceptHeadings = new Map(await Promise.all(concepts.map(async (concept) => [concept.data.id, (await render(concept)).headings] as const)));
-const html = normalizeCheatsheetLinks(entry.rendered?.html ?? '', conceptHeadings);
+// 僅標記表格文字尾端的補充註記，讓列印時可將這個短語留在同一行。
+const html = normalizeCheatsheetLinks(entry.rendered?.html ?? '', conceptHeadings)
+  .replace(/（補充）(?=<\/(?:td|th)>)/g, '<span class="cheatsheet-print-supplement">（補充）</span>');
 ---
 <StudyPage title={entry.data.title} section={`${entry.data.code} 速查`} headings={headings}>
   <article class="cheatsheet">
@@ -53,6 +55,10 @@ const html = normalizeCheatsheetLinks(entry.rendered?.html ?? '', conceptHeading
     .cheatsheet-body :global(.textbook-table-scroll) { overflow: visible; }
     .cheatsheet-body :global(table) { min-width: 0; width: 100%; font-size: 9pt; }
     .cheatsheet-body :global(.textbook-table-scroll .table-short-cell), .cheatsheet-body :global(.textbook-table-scroll .table-long-cell) { min-width: 0; white-space: normal; }
+    /* 給來源欄足夠空間容納短連結；英文詞仍可在必要時折行，長句照常換行。 */
+    .cheatsheet-body :global(th), .cheatsheet-body :global(td) { overflow-wrap: break-word; }
+    .cheatsheet-body :global(.textbook-table-scroll th:last-child), .cheatsheet-body :global(.textbook-table-scroll td:last-child) { min-width: 5.5em; }
+    .cheatsheet-body :global(.cheatsheet-print-supplement) { white-space: nowrap; }
     .cheatsheet-body :global(tr) { break-inside: avoid; }
     .cheatsheet-body :global(thead) { display: table-header-group; }
     .cheatsheet-body :global(h2), .cheatsheet-body :global(h3) { break-after: avoid; }
