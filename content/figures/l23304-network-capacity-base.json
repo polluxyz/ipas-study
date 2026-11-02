@@ -1,0 +1,74 @@
+{
+  "id": "l23304-network-capacity-base",
+  "kind": "learning-curve",
+  "title": "寬度4的訓練與驗證",
+  "description": "教學設計的12輪日誌；比較兩曲線的差距及後期走向，不把曲線單獨當成原因證明",
+  "source": {
+    "type": "synthetic",
+    "note": "content/examples/L23304-B-training.json，能源合成日誌，非實測成效"
+  },
+  "metric": "平均平方誤差",
+  "unit": "標準化指標平方",
+  "points": [
+    {
+      "epoch": 1,
+      "train": 1.2,
+      "validation": 1.3
+    },
+    {
+      "epoch": 2,
+      "train": 0.95,
+      "validation": 1.05
+    },
+    {
+      "epoch": 3,
+      "train": 0.75,
+      "validation": 0.85
+    },
+    {
+      "epoch": 4,
+      "train": 0.6,
+      "validation": 0.7
+    },
+    {
+      "epoch": 5,
+      "train": 0.5,
+      "validation": 0.58
+    },
+    {
+      "epoch": 6,
+      "train": 0.43,
+      "validation": 0.5
+    },
+    {
+      "epoch": 7,
+      "train": 0.38,
+      "validation": 0.44
+    },
+    {
+      "epoch": 8,
+      "train": 0.34,
+      "validation": 0.4
+    },
+    {
+      "epoch": 9,
+      "train": 0.31,
+      "validation": 0.36
+    },
+    {
+      "epoch": 10,
+      "train": 0.28,
+      "validation": 0.33
+    },
+    {
+      "epoch": 11,
+      "train": 0.26,
+      "validation": 0.31
+    },
+    {
+      "epoch": 12,
+      "train": 0.25,
+      "validation": 0.3
+    }
+  ]
+}
