@@ -23,9 +23,9 @@ Codex 兩段式：
 
 ```bash
 ORCA=/c/Users/Administrator/AppData/Local/Programs/orca/resources/bin/orca
-H=$($ORCA terminal create --worktree "path:D:\\AI_test" --title "<任務代號>" \
+H=$($ORCA terminal create --worktree "path:D:\\ipas-study" --title "<任務代號>" \
   --command "codex --dangerously-bypass-approvals-and-sandbox -m gpt-6.1-sol -c model_reasoning_effort=high -c check_for_update_on_startup=false" --json | <取 handle>)
-$ORCA orchestration worker-start --spec "$(cat <task spec 檔>)" --terminal "$H" --worktree "path:D:\\AI_test" --from <協調者 handle> --json
+$ORCA orchestration worker-start --spec "$(cat <task spec 檔>)" --terminal "$H" --worktree "path:D:\\ipas-study" --from <協調者 handle> --json
 ```
 
 - 要上網就在 `codex` 後面加 `--search`。
@@ -97,7 +97,7 @@ orca orchestration worker-list --run <run_id> --json
 
 ### 5.4 由舊 session 開新 session
 
-1. `orca terminal create --worktree "path:D:\\AI_test" --title "協調者" --command "codex --dangerously-bypass-approvals-and-sandbox -m gpt-6.1-sol -c model_reasoning_effort=xhigh -c check_for_update_on_startup=false" --json`（中文提示不要塞進 `--command`）。
+1. `orca terminal create --worktree "path:D:\\ipas-study" --title "協調者" --command "codex --dangerously-bypass-approvals-and-sandbox -m gpt-6.1-sol -c model_reasoning_effort=xhigh -c check_for_update_on_startup=false" --json`（中文提示不要塞進 `--command`）。
 2. `orca terminal wait --terminal <新 handle> --for tui-idle --timeout-ms 120000 --json`。
 3. `orca terminal send --terminal <新 handle> --text "讀 docs/handoff.md，接手。先唯讀確認下一步與待核可事項，回報後等使用者指示。" --enter --wait-submit 30 --json`。
 4. 報告新舊 handle 與 `orca terminal close --terminal <舊 handle>`，由使用者關舊分頁。舊 session 不自己關自己。
