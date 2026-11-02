@@ -1,0 +1,2279 @@
+{
+  "source": "教學合成紀錄；程式重播核算，不是實機或廠牌效能",
+  "seed": 42,
+  "units": {
+    "time": "ms",
+    "memory": "MB=1000000 bytes"
+  },
+  "records": [
+    {
+      "id": "vision-01",
+      "domain": "vision",
+      "index": 1,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "vision-02",
+      "domain": "vision",
+      "index": 2,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "vision-03",
+      "domain": "vision",
+      "index": 3,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "vision-04",
+      "domain": "vision",
+      "index": 4,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": true,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "vision-05",
+      "domain": "vision",
+      "index": 5,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "vision-06",
+      "domain": "vision",
+      "index": 6,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "vision-07",
+      "domain": "vision",
+      "index": 7,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 0,
+      "detector_target_found": false,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "vision-08",
+      "domain": "vision",
+      "index": 8,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": true,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "vision-09",
+      "domain": "vision",
+      "index": 9,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "vision-10",
+      "domain": "vision",
+      "index": 10,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "vision-11",
+      "domain": "vision",
+      "index": 11,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "vision-12",
+      "domain": "vision",
+      "index": 12,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": true,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "vision-13",
+      "domain": "vision",
+      "index": 13,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "vision-14",
+      "domain": "vision",
+      "index": 14,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "vision-15",
+      "domain": "vision",
+      "index": 15,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "vision-16",
+      "domain": "vision",
+      "index": 16,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": true,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "vision-17",
+      "domain": "vision",
+      "index": 17,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "vision-18",
+      "domain": "vision",
+      "index": 18,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "vision-19",
+      "domain": "vision",
+      "index": 19,
+      "split": "test",
+      "public_allowed": false,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 0,
+      "detector_target_found": false,
+      "cloud_detector_target_found": false,
+      "cell": 2,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "vision-20",
+      "domain": "vision",
+      "index": 20,
+      "split": "test",
+      "public_allowed": false,
+      "hard": true,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "vision-21",
+      "domain": "vision",
+      "index": 21,
+      "split": "test",
+      "public_allowed": false,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "vision-22",
+      "domain": "vision",
+      "index": 22,
+      "split": "test",
+      "public_allowed": false,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "vision-23",
+      "domain": "vision",
+      "index": 23,
+      "split": "test",
+      "public_allowed": false,
+      "hard": false,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": false,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "vision-24",
+      "domain": "vision",
+      "index": 24,
+      "split": "test",
+      "public_allowed": false,
+      "hard": true,
+      "model_version": "vision-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 10,
+      "route_model": {
+        "edge": "vision",
+        "private": "vision",
+        "public": "vision"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 2,
+          "pre_ms": 6,
+          "queue_ms": 0,
+          "kernel_ms": 18,
+          "response_ms": 4
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 6,
+          "queue_ms": 8,
+          "kernel_ms": 20,
+          "response_ms": 4
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 6,
+          "queue_ms": 12,
+          "kernel_ms": 8,
+          "response_ms": 4
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "summary-01",
+      "domain": "summary",
+      "index": 1,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "summary-02",
+      "domain": "summary",
+      "index": 2,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "summary-03",
+      "domain": "summary",
+      "index": 3,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "summary-04",
+      "domain": "summary",
+      "index": 4,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": true,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "summary-05",
+      "domain": "summary",
+      "index": 5,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "summary-06",
+      "domain": "summary",
+      "index": 6,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "summary-07",
+      "domain": "summary",
+      "index": 7,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 0,
+      "detector_target_found": false,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "summary-08",
+      "domain": "summary",
+      "index": 8,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": true,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "summary-09",
+      "domain": "summary",
+      "index": 9,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "summary-10",
+      "domain": "summary",
+      "index": 10,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "summary-11",
+      "domain": "summary",
+      "index": 11,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "summary-12",
+      "domain": "summary",
+      "index": 12,
+      "split": "calibration",
+      "public_allowed": true,
+      "hard": true,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "summary-13",
+      "domain": "summary",
+      "index": 13,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "summary-14",
+      "domain": "summary",
+      "index": 14,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "summary-15",
+      "domain": "summary",
+      "index": 15,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "summary-16",
+      "domain": "summary",
+      "index": 16,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": true,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "summary-17",
+      "domain": "summary",
+      "index": 17,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "summary-18",
+      "domain": "summary",
+      "index": 18,
+      "split": "validation",
+      "public_allowed": true,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "summary-19",
+      "domain": "summary",
+      "index": 19,
+      "split": "test",
+      "public_allowed": false,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 0,
+      "detector_target_found": false,
+      "cloud_detector_target_found": false,
+      "cell": 2,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "summary-20",
+      "domain": "summary",
+      "index": 20,
+      "split": "test",
+      "public_allowed": false,
+      "hard": true,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "summary-21",
+      "domain": "summary",
+      "index": 21,
+      "split": "test",
+      "public_allowed": false,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 0,
+      "dwell_seconds": 2
+    },
+    {
+      "id": "summary-22",
+      "domain": "summary",
+      "index": 22,
+      "split": "test",
+      "public_allowed": false,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 1,
+      "dwell_seconds": 3
+    },
+    {
+      "id": "summary-23",
+      "domain": "summary",
+      "index": 23,
+      "split": "test",
+      "public_allowed": false,
+      "hard": false,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 1,
+      "classifier_prediction": 1,
+      "detector_target_found": false,
+      "cloud_detector_target_found": true,
+      "cell": 2,
+      "dwell_seconds": 4
+    },
+    {
+      "id": "summary-24",
+      "domain": "summary",
+      "index": 24,
+      "split": "test",
+      "public_allowed": false,
+      "hard": true,
+      "model_version": "summary-v2",
+      "preprocess_version": "prep-v1",
+      "capture_ms": 0,
+      "route_model": {
+        "edge": "small_summary",
+        "private": "summary",
+        "public": "summary"
+      },
+      "routes": {
+        "edge": {
+          "transfer_ms": 0,
+          "pre_ms": 20,
+          "queue_ms": 0,
+          "kernel_ms": 260,
+          "response_ms": 20
+        },
+        "private": {
+          "transfer_ms": 6,
+          "pre_ms": 20,
+          "queue_ms": 20,
+          "kernel_ms": 180,
+          "response_ms": 20
+        },
+        "public": {
+          "transfer_ms": 40,
+          "pre_ms": 20,
+          "queue_ms": 30,
+          "kernel_ms": 120,
+          "response_ms": 20
+        }
+      },
+      "label": 0,
+      "classifier_prediction": 0,
+      "detector_target_found": true,
+      "cloud_detector_target_found": true,
+      "cell": 3,
+      "dwell_seconds": 2
+    }
+  ],
+  "models": {
+    "vision": {
+      "parameters": 80000000,
+      "bits": [
+        32,
+        8
+      ],
+      "other_mb": 120,
+      "budget_mb": 256
+    },
+    "summary": {
+      "parameters": 400000000,
+      "bits": [
+        32,
+        8
+      ],
+      "other_mb": 240,
+      "budget_mb": 768
+    },
+    "small_summary": {
+      "parameters": 120000000,
+      "bits": [
+        8
+      ],
+      "other_mb": 160,
+      "budget_mb": 384
+    }
+  },
+  "visual_profiles": [
+    {
+      "name": "MobileNet 分類頭",
+      "kernel_ms": 12,
+      "memory_mb": 62,
+      "task": "classification"
+    },
+    {
+      "name": "輕量 YOLO 偵測器",
+      "kernel_ms": 18,
+      "memory_mb": 200,
+      "task": "detection"
+    },
+    {
+      "name": "雲端偵測器",
+      "kernel_ms": 8,
+      "memory_mb": 900,
+      "task": "detection"
+    }
+  ],
+  "device_budgets_mb": {
+    "phone": 384,
+    "pc": 768,
+    "iot": 64
+  },
+  "gpu": {
+    "domain": "vision",
+    "arrivals_ms": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "outside_ms": 30,
+    "deadline_ms": 160,
+    "host_per_batch_ms": 4,
+    "policies": [
+      {
+        "name": "single",
+        "batch": 1,
+        "kernel_ms": 8
+      },
+      {
+        "name": "batch4",
+        "batch": 4,
+        "kernel_ms": 16
+      }
+    ]
+  },
+  "lora": {
+    "base_parameters": 400000000,
+    "adapter_parameters": 2000000,
+    "bits": 16
+  },
+  "costs": {
+    "requests": 24,
+    "public_compute_per_request": 2,
+    "public_transfer_per_request": 1,
+    "private_reserved_per_window": 90,
+    "private_capacity_per_window": 24
+  }
+}
