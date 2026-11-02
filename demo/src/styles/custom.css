@@ -382,5 +382,7 @@ progress::-webkit-progress-value { background: #779b62; border-radius: 1rem; }
 :root[data-theme='dark'] .concept-prose .textbook-table-scroll :is(th, td):not(.textbook-supplement *) { color: #344941; }
 :root[data-theme='dark'] .concept-prose .expressive-code pre { color: #403f53; }
 :root[data-theme='dark'] .concept-prose :is(p, li, h2, h3, h4, summary, code):not(.textbook-figure *, .starlight-aside *, .textbook-supplement *, pre *) { color: #344941; }
+/* 無獨立底色的公式沿用淺紙正文色；有獨立背景的區塊保留自身配色。 */
+:root[data-theme='dark'] .concept-prose .katex:not(.textbook-figure *, .starlight-aside *, .textbook-supplement *) { color: #344941; }
 :root[data-theme='dark'] .concept-prose a:not(.textbook-figure *, .starlight-aside *, .textbook-supplement *) { color: #286653; }
 :root[data-theme='dark'] .concept-prose .expressive-code pre span[style*='--0:'] { color: var(--1, #403f53) !important; }

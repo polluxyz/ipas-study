@@ -2,15 +2,16 @@
 import { describe, expect, it } from 'vitest';
 import { assertProseContrast, contrastOf } from './prose-contrast.mjs';
 const good = (kind) => ({ kind, text: '可讀', foreground: 'rgb(37, 61, 55)', layers: ['rgba(0, 0, 0, 0)', 'rgb(255, 254, 250)'], opacity: 1 });
-const kinds = ['prose', 'tables', 'figureHeaders', 'code', 'output'];
+const kinds = ['prose', 'tables', 'figureHeaders', 'code', 'output', 'formula'];
 describe('概念頁文字對比', () => {
   it('透明祖先與 alpha 前景須在實際背景上合成', () => {
     expect(contrastOf({ ...good('prose'), foreground: 'rgba(0, 0, 0, 0.5)', layers: ['rgba(255, 0, 0, 0.5)', 'rgba(0, 0, 0, 0)', 'rgb(255, 255, 255)'] })).toBeCloseTo(3.18, 2);
     expect(contrastOf({ ...good('prose'), foreground: 'rgb(0, 0, 0)', layers: ['rgba(0, 0, 0, 0)', 'rgb(255, 255, 255)'] })).toBeCloseTo(21, 5);
   });
-  it('四類都有文字且配對色可讀時通過，缺類不得通過', () => {
+  it('六類都有文字且配對色可讀時通過，缺類不得通過', () => {
     expect(() => assertProseContrast(kinds.map(good))).not.toThrow();
     expect(() => assertProseContrast(kinds.slice(0, 4).map(good))).toThrow('output 沒有可見文字');
+    expect(() => assertProseContrast(kinds.slice(0, 5).map(good))).toThrow('formula 沒有可見文字');
   });
   it('拒絕淺色背景上淡字及深色圖卡上的深色表頭', () => {
     const cases = [
@@ -19,6 +20,8 @@ describe('概念頁文字對比', () => {
       { kind: 'tables', text: '盜刷（正類）', foreground: 'rgb(227, 233, 223)', layers: ['rgba(0, 0, 0, 0)', 'rgb(250, 251, 247)'] },
       { kind: 'figureHeaders', foreground: 'rgb(37, 61, 55)', layers: ['rgb(21, 37, 43)'] },
       { kind: 'code', text: '[', foreground: 'rgb(217, 245, 221)', layers: ['rgba(0, 0, 0, 0)', 'rgb(237, 241, 231)'] },
+      // c04d58e 的 ROC 顯示公式，實測可見 KaTeX 分子。
+      { kind: 'formula', text: '10.3125', foreground: 'rgb(227, 233, 223)', layers: ['rgba(0, 0, 0, 0)', 'rgb(250, 251, 247)'] },
     ];
     for (const bad of cases) expect(() => assertProseContrast(kinds.map((kind) => kind === bad.kind ? { ...good(kind), ...bad } : good(kind)))).toThrow(/對比/);
   });
