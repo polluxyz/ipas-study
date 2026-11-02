@@ -1,0 +1,2682 @@
+{
+  "source": "教學合成資料；影像、音訊及文字路徑只是索引，不存在真實媒體檔，分數及時間不是實測效能。",
+  "seed": 42,
+  "mask_order": [
+    "image",
+    "text",
+    "sensor"
+  ],
+  "split_rule": "每領域 01–12 train、13–16 validation、17–24 test；不同事件與 entity_id 不跨集合；不宣稱為縱向外推實驗。",
+  "offset_convention": "raw_timestamp_ms = event_time_ms + clock_offset_ms；先減去偏移再配對。",
+  "sampling_hz": {
+    "image": 20,
+    "sensor": 10
+  },
+  "alignment_tolerance_ms": 20,
+  "threshold": 0.5,
+  "approved_auto_masks": [
+    "111",
+    "110",
+    "101",
+    "011"
+  ],
+  "fallback_rule": "本教學假設四種雙來源以上組合已通過驗證；有效分支分數取等權平均，>=0.5為正；其他組合轉人工。實務須各組重驗。",
+  "stress_masks": [
+    "111",
+    "110",
+    "101",
+    "011",
+    "100",
+    "010",
+    "001",
+    "000"
+  ],
+  "latency_budget_ms": {
+    "total": 100,
+    "acquisition_wait": 20,
+    "preprocess": 10,
+    "branches_parallel": [
+      35,
+      25
+    ],
+    "fusion": 5,
+    "delivery": 10
+  },
+  "dtw": {
+    "local_cost": "absolute_difference",
+    "tie_break": "diagonal,up,left",
+    "index_base": 1
+  },
+  "domains": [
+    {
+      "id": "factory",
+      "task": "泵浦巡檢",
+      "events": [
+        {
+          "sample_id": "F01",
+          "entity_id": "F-unit-01",
+          "split": "train",
+          "event_time_ms": 10000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 10000,
+            "text": 10020,
+            "sensor": 10050
+          },
+          "image_ref": "synthetic://F01/image",
+          "image_description": "外殼裂紋",
+          "text_ref": "synthetic://F01/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F01/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 4.8,
+          "sensor_unit": "mm/s",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.9,
+            "text": 0.8,
+            "sensor": 0.9
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 10000,
+            "first_playable_audio": 10350
+          }
+        },
+        {
+          "sample_id": "F02",
+          "entity_id": "F-unit-02",
+          "split": "train",
+          "event_time_ms": 11000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 11000,
+            "text": 11020,
+            "sensor": 11050
+          },
+          "image_ref": "synthetic://F02/image",
+          "image_description": "外觀完整",
+          "text_ref": "synthetic://F02/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F02/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 1.2,
+          "sensor_unit": "mm/s",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.7,
+            "text": 0.2,
+            "sensor": 0.2
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 11000,
+            "first_playable_audio": 11360
+          }
+        },
+        {
+          "sample_id": "F03",
+          "entity_id": "F-unit-03",
+          "split": "train",
+          "event_time_ms": 12000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 12000,
+            "text": 12020,
+            "sensor": 12050
+          },
+          "image_ref": "synthetic://F03/image",
+          "image_description": "外殼裂紋",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://F03/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 5.0,
+          "sensor_unit": "mm/s",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.8,
+            "text": null,
+            "sensor": 0.8
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 12000,
+            "first_playable_audio": 12370
+          }
+        },
+        {
+          "sample_id": "F04",
+          "entity_id": "F-unit-04",
+          "split": "train",
+          "event_time_ms": 13000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 13000,
+            "text": 13020,
+            "sensor": 13050
+          },
+          "image_ref": "synthetic://F04/image",
+          "image_description": "外觀完整",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://F04/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 1.0,
+          "sensor_unit": "mm/s",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.2,
+            "text": null,
+            "sensor": 0.3
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 13000,
+            "first_playable_audio": 13380
+          }
+        },
+        {
+          "sample_id": "F05",
+          "entity_id": "F-unit-05",
+          "split": "train",
+          "event_time_ms": 14000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 14000,
+            "text": 14020,
+            "sensor": 14050
+          },
+          "image_ref": "synthetic://F05/image",
+          "image_description": "外殼裂紋",
+          "text_ref": "synthetic://F05/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F05/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": null,
+          "sensor_unit": "mm/s",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.4,
+            "text": 0.9,
+            "sensor": null
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 14000,
+            "first_playable_audio": 14390
+          }
+        },
+        {
+          "sample_id": "F06",
+          "entity_id": "F-unit-06",
+          "split": "train",
+          "event_time_ms": 15000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 15000,
+            "text": 15020,
+            "sensor": 15050
+          },
+          "image_ref": "synthetic://F06/image",
+          "image_description": "外觀完整",
+          "text_ref": "synthetic://F06/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F06/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": null,
+          "sensor_unit": "mm/s",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.1,
+            "text": 0.95,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 15000,
+            "first_playable_audio": 15400
+          }
+        },
+        {
+          "sample_id": "F07",
+          "entity_id": "F-unit-07",
+          "split": "train",
+          "event_time_ms": 16000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 16000,
+            "text": 16020,
+            "sensor": 16050
+          },
+          "image_ref": null,
+          "image_description": "外殼裂紋",
+          "text_ref": "synthetic://F07/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F07/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 4.7,
+          "sensor_unit": "mm/s",
+          "present_mask": "011",
+          "branch_scores": {
+            "image": null,
+            "text": 0.7,
+            "sensor": 0.9
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 16000,
+            "first_playable_audio": 16410
+          }
+        },
+        {
+          "sample_id": "F08",
+          "entity_id": "F-unit-08",
+          "split": "train",
+          "event_time_ms": 17000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 17000,
+            "text": 17020,
+            "sensor": 17050
+          },
+          "image_ref": null,
+          "image_description": "外觀完整",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://F08/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": null,
+          "sensor_unit": "mm/s",
+          "present_mask": "000",
+          "branch_scores": {
+            "image": null,
+            "text": null,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 17000,
+            "first_playable_audio": 17420
+          }
+        },
+        {
+          "sample_id": "F09",
+          "entity_id": "F-unit-09",
+          "split": "train",
+          "event_time_ms": 18000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 18000,
+            "text": 18020,
+            "sensor": 18050
+          },
+          "image_ref": "synthetic://F09/image",
+          "image_description": "外殼裂紋",
+          "text_ref": "synthetic://F09/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F09/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 4.8,
+          "sensor_unit": "mm/s",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.9,
+            "text": 0.8,
+            "sensor": 0.9
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 18000,
+            "first_playable_audio": 18350
+          }
+        },
+        {
+          "sample_id": "F10",
+          "entity_id": "F-unit-10",
+          "split": "train",
+          "event_time_ms": 19000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 19000,
+            "text": 19020,
+            "sensor": 19050
+          },
+          "image_ref": "synthetic://F10/image",
+          "image_description": "外觀完整",
+          "text_ref": "synthetic://F10/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F10/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 1.2,
+          "sensor_unit": "mm/s",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.7,
+            "text": 0.2,
+            "sensor": 0.2
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 19000,
+            "first_playable_audio": 19360
+          }
+        },
+        {
+          "sample_id": "F11",
+          "entity_id": "F-unit-11",
+          "split": "train",
+          "event_time_ms": 20000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 20000,
+            "text": 20020,
+            "sensor": 20050
+          },
+          "image_ref": "synthetic://F11/image",
+          "image_description": "外殼裂紋",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://F11/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 5.0,
+          "sensor_unit": "mm/s",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.8,
+            "text": null,
+            "sensor": 0.8
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 20000,
+            "first_playable_audio": 20370
+          }
+        },
+        {
+          "sample_id": "F12",
+          "entity_id": "F-unit-12",
+          "split": "train",
+          "event_time_ms": 21000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 21000,
+            "text": 21020,
+            "sensor": 21050
+          },
+          "image_ref": "synthetic://F12/image",
+          "image_description": "外觀完整",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://F12/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 1.0,
+          "sensor_unit": "mm/s",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.2,
+            "text": null,
+            "sensor": 0.3
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 21000,
+            "first_playable_audio": 21380
+          }
+        },
+        {
+          "sample_id": "F13",
+          "entity_id": "F-unit-13",
+          "split": "validation",
+          "event_time_ms": 22000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 22000,
+            "text": 22020,
+            "sensor": 22050
+          },
+          "image_ref": "synthetic://F13/image",
+          "image_description": "外殼裂紋",
+          "text_ref": "synthetic://F13/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F13/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": null,
+          "sensor_unit": "mm/s",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.4,
+            "text": 0.9,
+            "sensor": null
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 22000,
+            "first_playable_audio": 22390
+          }
+        },
+        {
+          "sample_id": "F14",
+          "entity_id": "F-unit-14",
+          "split": "validation",
+          "event_time_ms": 23000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 23000,
+            "text": 23020,
+            "sensor": 23050
+          },
+          "image_ref": "synthetic://F14/image",
+          "image_description": "外觀完整",
+          "text_ref": "synthetic://F14/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F14/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": null,
+          "sensor_unit": "mm/s",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.1,
+            "text": 0.95,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 23000,
+            "first_playable_audio": 23400
+          }
+        },
+        {
+          "sample_id": "F15",
+          "entity_id": "F-unit-15",
+          "split": "validation",
+          "event_time_ms": 24000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 24000,
+            "text": 24020,
+            "sensor": 24050
+          },
+          "image_ref": null,
+          "image_description": "外殼裂紋",
+          "text_ref": "synthetic://F15/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F15/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 4.7,
+          "sensor_unit": "mm/s",
+          "present_mask": "011",
+          "branch_scores": {
+            "image": null,
+            "text": 0.7,
+            "sensor": 0.9
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 24000,
+            "first_playable_audio": 24410
+          }
+        },
+        {
+          "sample_id": "F16",
+          "entity_id": "F-unit-16",
+          "split": "validation",
+          "event_time_ms": 25000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 25000,
+            "text": 25020,
+            "sensor": 25050
+          },
+          "image_ref": null,
+          "image_description": "外觀完整",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://F16/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": null,
+          "sensor_unit": "mm/s",
+          "present_mask": "000",
+          "branch_scores": {
+            "image": null,
+            "text": null,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 25000,
+            "first_playable_audio": 25420
+          }
+        },
+        {
+          "sample_id": "F17",
+          "entity_id": "F-unit-17",
+          "split": "test",
+          "event_time_ms": 26000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 26000,
+            "text": 26020,
+            "sensor": 26050
+          },
+          "image_ref": "synthetic://F17/image",
+          "image_description": "外殼裂紋",
+          "text_ref": "synthetic://F17/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F17/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 4.8,
+          "sensor_unit": "mm/s",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.9,
+            "text": 0.8,
+            "sensor": 0.9
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 26000,
+            "first_playable_audio": 26350
+          }
+        },
+        {
+          "sample_id": "F18",
+          "entity_id": "F-unit-18",
+          "split": "test",
+          "event_time_ms": 27000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 27000,
+            "text": 27020,
+            "sensor": 27050
+          },
+          "image_ref": "synthetic://F18/image",
+          "image_description": "外觀完整",
+          "text_ref": "synthetic://F18/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F18/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 1.2,
+          "sensor_unit": "mm/s",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.7,
+            "text": 0.2,
+            "sensor": 0.2
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 27000,
+            "first_playable_audio": 27360
+          }
+        },
+        {
+          "sample_id": "F19",
+          "entity_id": "F-unit-19",
+          "split": "test",
+          "event_time_ms": 28000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 28000,
+            "text": 28020,
+            "sensor": 28050
+          },
+          "image_ref": "synthetic://F19/image",
+          "image_description": "外殼裂紋",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://F19/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 5.0,
+          "sensor_unit": "mm/s",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.8,
+            "text": null,
+            "sensor": 0.8
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 28000,
+            "first_playable_audio": 28370
+          }
+        },
+        {
+          "sample_id": "F20",
+          "entity_id": "F-unit-20",
+          "split": "test",
+          "event_time_ms": 29000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 29000,
+            "text": 29020,
+            "sensor": 29050
+          },
+          "image_ref": "synthetic://F20/image",
+          "image_description": "外觀完整",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://F20/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 1.0,
+          "sensor_unit": "mm/s",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.2,
+            "text": null,
+            "sensor": 0.3
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 29000,
+            "first_playable_audio": 29380
+          }
+        },
+        {
+          "sample_id": "F21",
+          "entity_id": "F-unit-21",
+          "split": "test",
+          "event_time_ms": 30000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 30000,
+            "text": 30020,
+            "sensor": 30050
+          },
+          "image_ref": "synthetic://F21/image",
+          "image_description": "外殼裂紋",
+          "text_ref": "synthetic://F21/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F21/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": null,
+          "sensor_unit": "mm/s",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.4,
+            "text": 0.9,
+            "sensor": null
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 30000,
+            "first_playable_audio": 30390
+          }
+        },
+        {
+          "sample_id": "F22",
+          "entity_id": "F-unit-22",
+          "split": "test",
+          "event_time_ms": 31000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 31000,
+            "text": 31020,
+            "sensor": 31050
+          },
+          "image_ref": "synthetic://F22/image",
+          "image_description": "外觀完整",
+          "text_ref": "synthetic://F22/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F22/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": null,
+          "sensor_unit": "mm/s",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.1,
+            "text": 0.95,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 31000,
+            "first_playable_audio": 31400
+          }
+        },
+        {
+          "sample_id": "F23",
+          "entity_id": "F-unit-23",
+          "split": "test",
+          "event_time_ms": 32000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 32000,
+            "text": 32020,
+            "sensor": 32050
+          },
+          "image_ref": null,
+          "image_description": "外殼裂紋",
+          "text_ref": "synthetic://F23/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://F23/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": 4.7,
+          "sensor_unit": "mm/s",
+          "present_mask": "011",
+          "branch_scores": {
+            "image": null,
+            "text": 0.7,
+            "sensor": 0.9
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 32000,
+            "first_playable_audio": 32410
+          }
+        },
+        {
+          "sample_id": "F24",
+          "entity_id": "F-unit-24",
+          "split": "test",
+          "event_time_ms": 33000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 33000,
+            "text": 33020,
+            "sensor": 33050
+          },
+          "image_ref": null,
+          "image_description": "外觀完整",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://F24/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "設備",
+            "狀態"
+          ],
+          "sensor_name": "振動 RMS",
+          "sensor_value": null,
+          "sensor_unit": "mm/s",
+          "present_mask": "000",
+          "branch_scores": {
+            "image": null,
+            "text": null,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 33000,
+            "first_playable_audio": 33420
+          }
+        }
+      ],
+      "sequence_pairs": [
+        {
+          "id": "F-S1",
+          "x": [
+            1,
+            2,
+            3
+          ],
+          "y": [
+            1,
+            1,
+            2,
+            3
+          ],
+          "unit": "正規化進度特徵"
+        },
+        {
+          "id": "F-S2",
+          "x": [
+            0,
+            1,
+            0
+          ],
+          "y": [
+            0,
+            0,
+            1,
+            0
+          ],
+          "unit": "正規化進度特徵"
+        },
+        {
+          "id": "F-S3",
+          "x": [
+            1,
+            3,
+            2
+          ],
+          "y": [
+            1,
+            2,
+            3,
+            2
+          ],
+          "unit": "正規化進度特徵"
+        },
+        {
+          "id": "F-S4",
+          "x": [
+            2,
+            2,
+            4
+          ],
+          "y": [
+            2,
+            4,
+            4
+          ],
+          "unit": "正規化進度特徵"
+        }
+      ]
+    },
+    {
+      "id": "traffic",
+      "task": "路口壅塞",
+      "events": [
+        {
+          "sample_id": "T01",
+          "entity_id": "T-unit-01",
+          "split": "train",
+          "event_time_ms": 10000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 10000,
+            "text": 10020,
+            "sensor": 10050
+          },
+          "image_ref": "synthetic://T01/image",
+          "image_description": "車道排隊",
+          "text_ref": "synthetic://T01/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T01/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 48,
+          "sensor_unit": "輛/min",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.8,
+            "text": 0.9,
+            "sensor": 0.8
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 10000,
+            "first_playable_audio": 10350
+          }
+        },
+        {
+          "sample_id": "T02",
+          "entity_id": "T-unit-02",
+          "split": "train",
+          "event_time_ms": 11000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 11000,
+            "text": 11020,
+            "sensor": 11050
+          },
+          "image_ref": "synthetic://T02/image",
+          "image_description": "車道暢通",
+          "text_ref": "synthetic://T02/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T02/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 12,
+          "sensor_unit": "輛/min",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.3,
+            "text": 0.4,
+            "sensor": 0.6
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 11000,
+            "first_playable_audio": 11360
+          }
+        },
+        {
+          "sample_id": "T03",
+          "entity_id": "T-unit-03",
+          "split": "train",
+          "event_time_ms": 12000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 12000,
+            "text": 12020,
+            "sensor": 12050
+          },
+          "image_ref": "synthetic://T03/image",
+          "image_description": "車道排隊",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://T03/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 50,
+          "sensor_unit": "輛/min",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.7,
+            "text": null,
+            "sensor": 0.9
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 12000,
+            "first_playable_audio": 12370
+          }
+        },
+        {
+          "sample_id": "T04",
+          "entity_id": "T-unit-04",
+          "split": "train",
+          "event_time_ms": 13000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 13000,
+            "text": 13020,
+            "sensor": 13050
+          },
+          "image_ref": "synthetic://T04/image",
+          "image_description": "車道暢通",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://T04/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 10,
+          "sensor_unit": "輛/min",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.9,
+            "text": null,
+            "sensor": 0.2
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 13000,
+            "first_playable_audio": 13380
+          }
+        },
+        {
+          "sample_id": "T05",
+          "entity_id": "T-unit-05",
+          "split": "train",
+          "event_time_ms": 14000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 14000,
+            "text": 14020,
+            "sensor": 14050
+          },
+          "image_ref": "synthetic://T05/image",
+          "image_description": "車道排隊",
+          "text_ref": "synthetic://T05/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T05/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": null,
+          "sensor_unit": "輛/min",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.4,
+            "text": 0.8,
+            "sensor": null
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 14000,
+            "first_playable_audio": 14390
+          }
+        },
+        {
+          "sample_id": "T06",
+          "entity_id": "T-unit-06",
+          "split": "train",
+          "event_time_ms": 15000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 15000,
+            "text": 15020,
+            "sensor": 15050
+          },
+          "image_ref": "synthetic://T06/image",
+          "image_description": "車道暢通",
+          "text_ref": "synthetic://T06/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T06/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": null,
+          "sensor_unit": "輛/min",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.2,
+            "text": 0.7,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 15000,
+            "first_playable_audio": 15400
+          }
+        },
+        {
+          "sample_id": "T07",
+          "entity_id": "T-unit-07",
+          "split": "train",
+          "event_time_ms": 16000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 16000,
+            "text": 16020,
+            "sensor": 16050
+          },
+          "image_ref": null,
+          "image_description": "車道排隊",
+          "text_ref": "synthetic://T07/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T07/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 47,
+          "sensor_unit": "輛/min",
+          "present_mask": "011",
+          "branch_scores": {
+            "image": null,
+            "text": 0.9,
+            "sensor": 0.7
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 16000,
+            "first_playable_audio": 16410
+          }
+        },
+        {
+          "sample_id": "T08",
+          "entity_id": "T-unit-08",
+          "split": "train",
+          "event_time_ms": 17000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 17000,
+            "text": 17020,
+            "sensor": 17050
+          },
+          "image_ref": null,
+          "image_description": "車道暢通",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://T08/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": null,
+          "sensor_unit": "輛/min",
+          "present_mask": "000",
+          "branch_scores": {
+            "image": null,
+            "text": null,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 17000,
+            "first_playable_audio": 17420
+          }
+        },
+        {
+          "sample_id": "T09",
+          "entity_id": "T-unit-09",
+          "split": "train",
+          "event_time_ms": 18000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 18000,
+            "text": 18020,
+            "sensor": 18050
+          },
+          "image_ref": "synthetic://T09/image",
+          "image_description": "車道排隊",
+          "text_ref": "synthetic://T09/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T09/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 48,
+          "sensor_unit": "輛/min",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.8,
+            "text": 0.9,
+            "sensor": 0.8
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 18000,
+            "first_playable_audio": 18350
+          }
+        },
+        {
+          "sample_id": "T10",
+          "entity_id": "T-unit-10",
+          "split": "train",
+          "event_time_ms": 19000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 19000,
+            "text": 19020,
+            "sensor": 19050
+          },
+          "image_ref": "synthetic://T10/image",
+          "image_description": "車道暢通",
+          "text_ref": "synthetic://T10/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T10/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 12,
+          "sensor_unit": "輛/min",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.3,
+            "text": 0.4,
+            "sensor": 0.6
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 19000,
+            "first_playable_audio": 19360
+          }
+        },
+        {
+          "sample_id": "T11",
+          "entity_id": "T-unit-11",
+          "split": "train",
+          "event_time_ms": 20000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 20000,
+            "text": 20020,
+            "sensor": 20050
+          },
+          "image_ref": "synthetic://T11/image",
+          "image_description": "車道排隊",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://T11/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 50,
+          "sensor_unit": "輛/min",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.7,
+            "text": null,
+            "sensor": 0.9
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 20000,
+            "first_playable_audio": 20370
+          }
+        },
+        {
+          "sample_id": "T12",
+          "entity_id": "T-unit-12",
+          "split": "train",
+          "event_time_ms": 21000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 21000,
+            "text": 21020,
+            "sensor": 21050
+          },
+          "image_ref": "synthetic://T12/image",
+          "image_description": "車道暢通",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://T12/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 10,
+          "sensor_unit": "輛/min",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.9,
+            "text": null,
+            "sensor": 0.2
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 21000,
+            "first_playable_audio": 21380
+          }
+        },
+        {
+          "sample_id": "T13",
+          "entity_id": "T-unit-13",
+          "split": "validation",
+          "event_time_ms": 22000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 22000,
+            "text": 22020,
+            "sensor": 22050
+          },
+          "image_ref": "synthetic://T13/image",
+          "image_description": "車道排隊",
+          "text_ref": "synthetic://T13/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T13/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": null,
+          "sensor_unit": "輛/min",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.4,
+            "text": 0.8,
+            "sensor": null
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 22000,
+            "first_playable_audio": 22390
+          }
+        },
+        {
+          "sample_id": "T14",
+          "entity_id": "T-unit-14",
+          "split": "validation",
+          "event_time_ms": 23000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 23000,
+            "text": 23020,
+            "sensor": 23050
+          },
+          "image_ref": "synthetic://T14/image",
+          "image_description": "車道暢通",
+          "text_ref": "synthetic://T14/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T14/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": null,
+          "sensor_unit": "輛/min",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.2,
+            "text": 0.7,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 23000,
+            "first_playable_audio": 23400
+          }
+        },
+        {
+          "sample_id": "T15",
+          "entity_id": "T-unit-15",
+          "split": "validation",
+          "event_time_ms": 24000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 24000,
+            "text": 24020,
+            "sensor": 24050
+          },
+          "image_ref": null,
+          "image_description": "車道排隊",
+          "text_ref": "synthetic://T15/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T15/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 47,
+          "sensor_unit": "輛/min",
+          "present_mask": "011",
+          "branch_scores": {
+            "image": null,
+            "text": 0.9,
+            "sensor": 0.7
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 24000,
+            "first_playable_audio": 24410
+          }
+        },
+        {
+          "sample_id": "T16",
+          "entity_id": "T-unit-16",
+          "split": "validation",
+          "event_time_ms": 25000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 25000,
+            "text": 25020,
+            "sensor": 25050
+          },
+          "image_ref": null,
+          "image_description": "車道暢通",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://T16/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": null,
+          "sensor_unit": "輛/min",
+          "present_mask": "000",
+          "branch_scores": {
+            "image": null,
+            "text": null,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 25000,
+            "first_playable_audio": 25420
+          }
+        },
+        {
+          "sample_id": "T17",
+          "entity_id": "T-unit-17",
+          "split": "test",
+          "event_time_ms": 26000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 26000,
+            "text": 26020,
+            "sensor": 26050
+          },
+          "image_ref": "synthetic://T17/image",
+          "image_description": "車道排隊",
+          "text_ref": "synthetic://T17/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T17/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 48,
+          "sensor_unit": "輛/min",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.8,
+            "text": 0.9,
+            "sensor": 0.8
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 26000,
+            "first_playable_audio": 26350
+          }
+        },
+        {
+          "sample_id": "T18",
+          "entity_id": "T-unit-18",
+          "split": "test",
+          "event_time_ms": 27000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 27000,
+            "text": 27020,
+            "sensor": 27050
+          },
+          "image_ref": "synthetic://T18/image",
+          "image_description": "車道暢通",
+          "text_ref": "synthetic://T18/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T18/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 12,
+          "sensor_unit": "輛/min",
+          "present_mask": "111",
+          "branch_scores": {
+            "image": 0.3,
+            "text": 0.4,
+            "sensor": 0.6
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 27000,
+            "first_playable_audio": 27360
+          }
+        },
+        {
+          "sample_id": "T19",
+          "entity_id": "T-unit-19",
+          "split": "test",
+          "event_time_ms": 28000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 28000,
+            "text": 28020,
+            "sensor": 28050
+          },
+          "image_ref": "synthetic://T19/image",
+          "image_description": "車道排隊",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://T19/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 50,
+          "sensor_unit": "輛/min",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.7,
+            "text": null,
+            "sensor": 0.9
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 28000,
+            "first_playable_audio": 28370
+          }
+        },
+        {
+          "sample_id": "T20",
+          "entity_id": "T-unit-20",
+          "split": "test",
+          "event_time_ms": 29000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 29000,
+            "text": 29020,
+            "sensor": 29050
+          },
+          "image_ref": "synthetic://T20/image",
+          "image_description": "車道暢通",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://T20/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 10,
+          "sensor_unit": "輛/min",
+          "present_mask": "101",
+          "branch_scores": {
+            "image": 0.9,
+            "text": null,
+            "sensor": 0.2
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 29000,
+            "first_playable_audio": 29380
+          }
+        },
+        {
+          "sample_id": "T21",
+          "entity_id": "T-unit-21",
+          "split": "test",
+          "event_time_ms": 30000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 30000,
+            "text": 30020,
+            "sensor": 30050
+          },
+          "image_ref": "synthetic://T21/image",
+          "image_description": "車道排隊",
+          "text_ref": "synthetic://T21/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T21/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": null,
+          "sensor_unit": "輛/min",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.4,
+            "text": 0.8,
+            "sensor": null
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 30000,
+            "first_playable_audio": 30390
+          }
+        },
+        {
+          "sample_id": "T22",
+          "entity_id": "T-unit-22",
+          "split": "test",
+          "event_time_ms": 31000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 31000,
+            "text": 31020,
+            "sensor": 31050
+          },
+          "image_ref": "synthetic://T22/image",
+          "image_description": "車道暢通",
+          "text_ref": "synthetic://T22/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T22/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "四號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": null,
+          "sensor_unit": "輛/min",
+          "present_mask": "110",
+          "branch_scores": {
+            "image": 0.2,
+            "text": 0.7,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 31000,
+            "first_playable_audio": 31400
+          }
+        },
+        {
+          "sample_id": "T23",
+          "entity_id": "T-unit-23",
+          "split": "test",
+          "event_time_ms": 32000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 32000,
+            "text": 32020,
+            "sensor": 32050
+          },
+          "image_ref": null,
+          "image_description": "車道排隊",
+          "text_ref": "synthetic://T23/note",
+          "note": "現場標註待複核",
+          "audio_ref": "synthetic://T23/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": 47,
+          "sensor_unit": "輛/min",
+          "present_mask": "011",
+          "branch_scores": {
+            "image": null,
+            "text": 0.9,
+            "sensor": 0.7
+          },
+          "truth": true,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 32000,
+            "first_playable_audio": 32410
+          }
+        },
+        {
+          "sample_id": "T24",
+          "entity_id": "T-unit-24",
+          "split": "test",
+          "event_time_ms": 33000,
+          "clock_offset_ms": {
+            "image": 0,
+            "text": 20,
+            "sensor": 50
+          },
+          "raw_timestamp_ms": {
+            "image": 33000,
+            "text": 33020,
+            "sensor": 33050
+          },
+          "image_ref": null,
+          "image_description": "車道暢通",
+          "text_ref": null,
+          "note": null,
+          "audio_ref": "synthetic://T24/audio",
+          "speech_reference_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "asr_hypothesis_tokens": [
+            "請",
+            "查詢",
+            "三號",
+            "路口",
+            "狀態"
+          ],
+          "sensor_name": "每分鐘車流",
+          "sensor_value": null,
+          "sensor_unit": "輛/min",
+          "present_mask": "000",
+          "branch_scores": {
+            "image": null,
+            "text": null,
+            "sensor": null
+          },
+          "truth": false,
+          "data_version": "data-v1",
+          "label_version": "label-v1",
+          "calibration_version": "cal-v1",
+          "response_timing_ms": {
+            "speech_end": 33000,
+            "first_playable_audio": 33420
+          }
+        }
+      ],
+      "sequence_pairs": [
+        {
+          "id": "T-S1",
+          "x": [
+            1,
+            2,
+            3
+          ],
+          "y": [
+            1,
+            1,
+            2,
+            3
+          ],
+          "unit": "正規化進度特徵"
+        },
+        {
+          "id": "T-S2",
+          "x": [
+            0,
+            1,
+            0
+          ],
+          "y": [
+            0,
+            0,
+            1,
+            0
+          ],
+          "unit": "正規化進度特徵"
+        },
+        {
+          "id": "T-S3",
+          "x": [
+            1,
+            3,
+            2
+          ],
+          "y": [
+            1,
+            2,
+            3,
+            2
+          ],
+          "unit": "正規化進度特徵"
+        },
+        {
+          "id": "T-S4",
+          "x": [
+            2,
+            2,
+            4
+          ],
+          "y": [
+            2,
+            4,
+            4
+          ],
+          "unit": "正規化進度特徵"
+        }
+      ]
+    }
+  ]
+}
