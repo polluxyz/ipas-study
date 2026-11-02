@@ -1,0 +1,37 @@
+id: 114-2-S1-Q28
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 28
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 7
+type: 情境
+codes:
+  - L23301
+concepts: [feature-scaling, target-encoding, interaction-features, data-leakage]
+stem: |
+  在一個同時包含連續型特徵與類別型特徵的資料集中，若希望透過適當的特徵工程流程來提升模型整體表現，下列哪一種作法最為合適？
+options:
+  A: 將類別型特徵使用標籤編碼（Label Encoding）轉換後，與連續特徵直接合併進行模型訓練；
+  B: 將連續特徵進行離散化（Discretization）或分桶（Binning）轉為類別型特徵，統一以類別方式處理；
+  C: 對連續特徵做標準化（Standardization），類別特徵採用目標編碼（Target Encoding），並生成交互特徵提升模型表現；
+  D: 只保留連續特徵，忽略類別型變量以簡化模型
+answer: C
+explanation:
+  summary: "答案 C。混合型資料可分別處理尺度、類別統計與交互作用，但效果取決於模型及驗證。"
+  correct: "C 在四個選項中最完整：對尺度敏感的模型可受益於連續值標準化，高基數類別可考慮目標編碼，再驗證交互特徵是否有用。目標編碼必須在訓練折內以折外統計等方式防止標籤洩漏，並處理稀有或未見類別；不能先用全資料的目標標籤計算類別統計再切分。題目未給模型與類別基數，因此 C 是條件式最佳方案，並不保證普遍最優；見 [TargetEncoder 文件](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.TargetEncoder.html)。"
+  wrong:
+    A: "標籤編碼可用於有序類別或支援此表示的模型，但任意整數會讓部分模型誤認類別有大小與距離；直接合併也未考慮連續欄位尺度，不能作為通用流程。"
+    B: "分桶在某些任務有效，卻可能丟掉桶內數值差異；沒有資料與模型依據就全面離散化，無法保證提升表現。"
+    D: "類別欄位可能含有關鍵預測訊息，僅因處理方便而全部刪除，缺少實證依據；應先評估貢獻與洩漏風險。"
+  rule: "特徵工程須配合模型與資料型態，使用目標統計時尤其要防止標籤洩漏。"
+guide_refs: [guide-3:5-7, guide-3:5-8, guide-3:5-10]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 7
+    by: EX-E2-Codex
+  blind_answer: C
+  dispute: null

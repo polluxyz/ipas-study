@@ -1,0 +1,36 @@
+id: 115-1-S1-Q45
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 45
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 14
+type: 情境
+codes: [L21302]
+concepts: [circuit-breaker]
+stem: |
+  某 AI 平台整合多個外部 AI 微服務（語音辨識 API、NLP 分析 API、知識圖譜查詢服務），在高峰期間某外部服務偶發延遲或逾時（Timeout），導致請求鏈路壅塞，最終造成平台級服務中斷（Cascading Failure）。為從架構層面預防此類連鎖故障，最有效的設計模式為何？
+options:
+  A: 將所有外部 API 呼叫改為同步串行處理，並取消逾時限制，確保每個請求皆完成後再繼續；
+  B: 為外部服務導入斷路器模式（Circuit Breaker），在異常時暫停呼叫並提供替代回應；
+  C: 擴充各微服務的執行緒池（Thread Pool）上限，以提升併發處理能力；
+  D: 停用服務健康檢查，減少不必要的額外負載
+answer: B
+explanation:
+  summary: "B。斷路器以快速失敗及降級回應，阻止下游故障耗盡上游資源。"
+  correct: "B 在失敗或逾時達門檻後開路，暫停一般呼叫，回傳快取、替代結果或明確錯誤；冷卻後以有限探測確認恢復。應搭配逾時與有界重試，避免大量等待擴散為平台故障。[Microsoft 斷路器模式](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker)"
+  wrong:
+    A: "串行並取消逾時會讓後續工作一直等待，反而加劇阻塞，不能保證每次呼叫完成。"
+    C: "只放大執行緒池可能使更多請求卡住，壓垮下游及記憶體，並沒有隔離故障。"
+    D: "停健康檢查不會修復逾時，還可能延後故障發現。"
+  rule: "下游持續故障時限制等待與呼叫，用斷路及降級控制影響範圍。"
+guide_refs: [guide-1:5-15]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 14
+    by: EX-E6-codex
+  blind_answer: B
+  dispute: null

@@ -1,0 +1,43 @@
+id: 115-1-S3-Q49
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 49
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 17
+type: 情境
+codes: [L23203, L23302]
+concepts: [residual-connections, cnn-architectures]
+stem: |
+  某人工智慧團隊正在開發一套自動光學檢測（Automated Optical Inspection, AOI）系統，目標是透過機械手臂上的相機，自動辨識晶圓表面是否存在「劃傷（Scratch）」或「污點（Spot）」等瑕疵。目前系統開發面臨以下挑戰：
+  ● 資料極度不平衡，正常晶圓影像約佔 99%，有瑕疵影像僅佔 1%。
+  ● 輸入影像品質不一致，包含不同解析度，且部分影像因機械手臂震動而出現模糊。
+  ● 在使用深層卷積神經網路（CNN）訓練時，Loss 曲線震盪劇烈，甚至偶爾出現數值溢出（NaN）情形。
+
+  請根據上述情境，回答第 49~50 題。
+
+  若團隊需要建立一個超過 50 層的深層神經網路，以捕捉晶圓表面細微的劃傷特徵，但又擔心傳統深層網路常見的梯度消失（Vanishing Gradient）問題，則下列哪一種經典架構最適合優先考慮？
+options:
+  A: VGG（Visual Geometry Group）：透過重複堆疊 3×3 卷積層與池化層來維持梯度穩定
+  B: GoogLeNet：透過 Inception 模塊並行使用不同大小的卷積核，以避免深層網路的梯度問題
+  C: ResNet（Residual Network）：透過殘差連接（Residual Connection / Skip Connection），使梯度能跨層傳遞並降低深層訓練困難
+  D: Vision Transformer（ViT）：完全捨棄卷積，因此不會出現任何深層模型的訓練問題
+answer: C
+explanation:
+  summary: 答案為 C；ResNet 的殘差捷徑讓訊號與梯度有跨層路徑，較直接回應極深網路的訓練困難。
+  correct: 對維度相容的殘差區塊，可將輸出寫為 y=x+F(x)，梯度除了經過殘差分支 F，也能沿捷徑回傳，減輕深層堆疊的優化困難。題目聚焦超過 50 層及梯度傳遞，因此 ResNet 最符合選架構的需求；它不保證所有梯度問題都消失，也不會自動解決背景中的類別不平衡或影像模糊。
+  wrong:
+    A: VGG 的小卷積核堆疊能增加表示深度，但一般堆疊本身沒有提供殘差捷徑，不能據此主張梯度穩定，也不是本題跨層傳遞需求的優先解法。
+    B: Inception 的平行卷積與池化主要用來結合多尺度特徵；這項設計本身不等於殘差連接，不能只靠並行卷積核便宣稱避免深層梯度問題。
+    D: ViT 以自注意力為核心，不代表不再需要穩定的初始化、正規化與訓練策略；捨棄卷積不能推出沒有任何深層訓練問題。
+  rule: 面對極深網路的優化與梯度傳遞困難，優先辨認是否提供殘差或其他跨層捷徑。
+guide_refs: [guide-3:4-71, guide-3:5-34]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 17
+    by: EX-E8
+  blind_answer: C
+  dispute: null

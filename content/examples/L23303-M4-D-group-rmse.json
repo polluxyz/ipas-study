@@ -1,0 +1,84 @@
+{
+  "source": "本站手工合成房屋估價教學資料，非實際模型成效。",
+  "unit": "萬元",
+  "index": "H01–H10；同十戶、同群組、同單位比較兩組固定預測",
+  "split": "直接評估固定預測；沒有擬合或資料切分",
+  "seed": null,
+  "parameters": {
+    "reduction": "mean",
+    "sample_weight": "每戶等權重",
+    "group_rule": "H01–H09 一般住宅；H10 高價住宅"
+  },
+  "samples": [
+    {
+      "sample_id": "H01",
+      "group": "一般住宅",
+      "y_true": 1000,
+      "pred_before": 990,
+      "pred_after": 998
+    },
+    {
+      "sample_id": "H02",
+      "group": "一般住宅",
+      "y_true": 1000,
+      "pred_before": 1010,
+      "pred_after": 1002
+    },
+    {
+      "sample_id": "H03",
+      "group": "一般住宅",
+      "y_true": 1000,
+      "pred_before": 990,
+      "pred_after": 998
+    },
+    {
+      "sample_id": "H04",
+      "group": "一般住宅",
+      "y_true": 1000,
+      "pred_before": 1010,
+      "pred_after": 1002
+    },
+    {
+      "sample_id": "H05",
+      "group": "一般住宅",
+      "y_true": 1000,
+      "pred_before": 990,
+      "pred_after": 998
+    },
+    {
+      "sample_id": "H06",
+      "group": "一般住宅",
+      "y_true": 1000,
+      "pred_before": 1010,
+      "pred_after": 1002
+    },
+    {
+      "sample_id": "H07",
+      "group": "一般住宅",
+      "y_true": 1000,
+      "pred_before": 990,
+      "pred_after": 998
+    },
+    {
+      "sample_id": "H08",
+      "group": "一般住宅",
+      "y_true": 1000,
+      "pred_before": 1010,
+      "pred_after": 1002
+    },
+    {
+      "sample_id": "H09",
+      "group": "一般住宅",
+      "y_true": 1000,
+      "pred_before": 990,
+      "pred_after": 998
+    },
+    {
+      "sample_id": "H10",
+      "group": "高價住宅",
+      "y_true": 5000,
+      "pred_before": 4980,
+      "pred_after": 4970
+    }
+  ]
+}

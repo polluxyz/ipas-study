@@ -1,0 +1,38 @@
+id: 114-2-S1-Q50
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 50
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 14
+type: 情境
+codes:
+  - L21104
+  - L21103
+concepts: [cross-modal-alignment, clip, diffusion-model]
+stem: |
+  某設計師使用公司內部建置的生成式 AI 工具製作行銷素材，並輸入提示語（Prompt）：「請生成一張模特兒手持品牌飲料、背景為海邊夕陽的照片」。系統能正確生成主要主題與場景，但輸出的圖像中，品牌標誌顏色常有誤差，或人物手部姿勢顯得不自然。若從多模態生成模型的技術機制分析，此現象最可能是下列哪一項原因所造成？
+options:
+  A: 擴散式生成模型的去雜訊過程出現隨機梯度漂移，導致影像像素錯誤；
+  B: 提示語過長造成 Transformer 的位置編碼超出上下文限制，導致生成混亂；
+  C: CLIP 模型中的文字編碼器與影像編碼器在語意嵌入空間未充分對齊，導致跨模態理解偏差；
+  D: 模型未採用對比學習（Contrastive Learning）損失函數，無法建立多模態語意關聯
+answer: C
+explanation:
+  summary: "官方答案 C。四個候選中，圖文對齊是最佳機制方向，仍須確認系統是否使用 CLIP 及其他誤差來源。"
+  correct: "四個選項中，官方 C 所指的圖文語意對齊，是較合理的優先檢查方向。若系統確實依賴 CLIP 的圖文表示，且細部屬性對應不足，跨模態表示可能是應檢查的一環；這個最佳候選判斷不代表根因已確診。題幹沒有指定 CLIP，也沒提供編碼器對齊的診斷證據；品牌顏色、手部形狀還可能受資料、條件注入、生成器能力或有損編碼影響。以 [Stable Diffusion 官方模型卡](https://huggingface.co/CompVis/stable-diffusion-v1-4#limitations)為例，人物、組合關係與有損編碼是分別列出的限制，不能都歸因於 CLIP 的兩個編碼器。"
+  wrong:
+    A: "一般擴散推論是在固定參數下逐步更新噪聲樣本，不能把局部畫錯直接稱為隨機梯度漂移；題目也沒有提供異常梯度或取樣診斷證據。"
+    B: "題目提示語並未呈現異常長度，也沒有提供 tokenizer 與上下文限制；不能直接推論位置編碼越界造成混亂。"
+    D: "對比損失是建立跨模態表示的一種方法，條件生成或其他配對學習目標也能建立語意關聯；未用對比損失不等於無法處理多模態。"
+  rule: "生成瑕疵須沿資料、表示、條件化與生成流程診斷，不能只憑外觀指定某個編碼器為根因。"
+guide_refs: [guide-1:3-74, guide-1:3-80]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 14
+    by: EX-E2-Codex
+  blind_answer: C
+  dispute: null
