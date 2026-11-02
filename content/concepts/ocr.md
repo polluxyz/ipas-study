@@ -60,7 +60,7 @@ self_check:
 textbook: v2
 author: codex
 status: draft
-guide_refs: [guide-1:3-45, guide-1:3-53]
+guide_refs: [guide-1:3-45, guide-1:3-50, guide-1:3-53]
 ---
 
 ## 為什麼需要
@@ -92,6 +92,8 @@ guide_refs: [guide-1:3-45, guide-1:3-53]
 ### 成對的真值
 
 共用檔使用原圖座標 `[x1,y1,x2,y2]`，右下不含。M09 為製造銘牌，T09 為交通車牌；兩種領域都必須把文字框連到該框的正確字串。
+
+此文字框與同事件其他任務的框各自獨立；不拿人臉框或瑕疵框代替文字區域。
 
 | 事件 | 文字真值框 | 正確字串 |
 |---|---|---|
@@ -146,7 +148,7 @@ guide_refs: [guide-1:3-45, guide-1:3-53]
 
 ### 參考來源
 
-- 科目 1 學習指引 `guide-1:3-45`、`guide-1:3-53`：文字框與字串的成對標註、車牌流程及應用。
+- 科目 1 學習指引 `guide-1:3-45`、`guide-1:3-50`、`guide-1:3-53`：文字框與字串的成對標註、智慧停車及車牌流程。
 - [OpenCV 文字定位與辨識教學](https://docs.opencv.org/4.x/d4/d43/tutorial_dnn_text_spotting.html)：直覺與三段流程、局部文字輸入。
 - [Tesseract ImproveQuality](https://tesseract-ocr.github.io/tessdoc/ImproveQuality.html)：裁切、傾斜、畫質及字元限制的補充。
 - [ML Kit Text Recognition](https://developers.google.com/ml-kit/vision/text-recognition/v2)：區塊、行、字元結構與框、文字輸出，支持標註粒度說明。

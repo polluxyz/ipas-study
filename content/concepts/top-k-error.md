@@ -12,8 +12,8 @@ goals:
 formula_groups:
   - id: top-k-complement
     source: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.top_k_accuracy_score.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L21102-C
 self_check:
   - id: c1
     goal: g1
@@ -63,7 +63,7 @@ self_check:
 textbook: v2
 author: codex
 status: draft
-guide_refs: [guide-1:3-49]
+guide_refs: [guide-1:3-48, guide-1:3-49]
 ---
 
 ## 為什麼需要
@@ -82,6 +82,12 @@ Top-k 正確率（Top-k Accuracy）衡量真實類別是否進前 $k$ 名；Top-
 
 指引將 Top-5 放在多分類影像評估中，說明真實類別落在前五名就算正確，常見於 ImageNet 這類類別多的資料。這個判定是「命中」，錯誤率要再計算未命中的比例。
 
+:::supplement[來源：scikit-learn top_k_accuracy_score；必要前置：固定候選範圍與同分規則]
+本頁採單標籤六類，要求 $1\le k\le6$；每筆有一個真值、六個分數。資料不可為空；$k$ 涵蓋全部類別時必然命中，難以比較模型。
+
+同分必須有固定規則。本例採較大類別索引優先，與該 API 相同；分數欄位順序也必須對應固定類別表。若只有三類，Top-5 沒有相同的候選意義，不應直接拿來比較。
+:::
+
 ### 命中比例與互補（補充）
 
 $$
@@ -95,11 +101,9 @@ $N$ 是樣本數，$y_i$ 是第 $i$ 筆真實類別；$S_{i,k}$ 是該筆分數�
 
 若 4 筆有 3 筆進前五名，則 $\mathrm{Acc}@5=3/4=0.75$，$\mathrm{Err}@5=1-0.75=0.25$。分母是 4 筆影像，不是 20 個候選。
 
-本頁採單標籤六類，要求 $1\le k\le6$；每筆有一個真值、六個分數。資料不可為空；$k$ 涵蓋全部類別時必然命中，難以比較模型。來源：scikit-learn。
+## 算一次
 
-同分必須有固定規則。本例採較大類別索引優先，與該 API 相同；分數欄位順序也必須對應固定類別表。若只有三類，Top-5 沒有相同的候選意義，不應直接拿來比較。
-
-## 算一次（補充）
+:::supplement[來源：scikit-learn top_k_accuracy_score；核心延伸：以六類教學資料判定命中與互補]
 
 共用檔的製造六類索引是：0 正常、1 刮痕、2 凹痕、3 汙點、4 裂紋、5 缺角。輸入是各事件中 `[40,0,48,8]` 的獨立裁切圖，與偵測框的真值分開。
 
@@ -115,6 +119,7 @@ Top-1 正確率為 $1/4=0.25$、錯誤率為 $3/4=0.75$。Top-5 正確率為 $3/
 交通測試 T09–T12 改用六種交通類別，真值名次仍是 1、2、5、6，得到相同分數。只用各領域 09–12 測試事件，不把訓練或驗證資料加進分母。
 
 本算例以六類示範候選判定；它不是 ImageNet 實測，也不代表增加候選數會讓唯一分類結果變正確。來源：scikit-learn 指標定義與本站教學合成資料。
+:::
 
 ## 程式（補充）
 
@@ -192,7 +197,7 @@ k 超出類別範圍
 
 ### 參考來源
 
-- 科目 1 學習指引 `guide-1:3-49`：Top-5 命中條件與 ImageNet 多分類場景。
+- 科目 1 學習指引 `guide-1:3-48`～`guide-1:3-49`：影像分類評估、Top-5 命中條件與 ImageNet 多分類場景。
 - [scikit-learn top_k_accuracy_score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.top_k_accuracy_score.html)：公式、類別順序、同分與程式 API。
 - [Stanford CS231n 分類課程](https://cs231n.github.io/classification/)：從影像到多類分數、再用真值核對的教學思路，支持直覺與任務邊界。
 
