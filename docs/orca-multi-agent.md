@@ -49,7 +49,7 @@ WTPATH=<worktree 路徑> AGENT=claude EFFORT=medium bash scripts/orca/dispatch.s
 WTPATH=<worktree 路徑> AGENT=gemini bash scripts/orca/dispatch.sh "R-L23102-A" <spec 檔>
 ```
 
-- worktree 建在 `E:/orca/workspaces/AI_test/<名>`（E: 是 Dev Drive；2026-11-01 前開的舊 worktree 仍在 `C:/Users/Administrator/orca/workspaces/AI_test/<名>`）。協調腳本用 `tmp/rollout/coord/wtpath.sh` 從 `git worktree list` 查路徑，不寫死。腳本會在 spec 末尾附上路徑、分支，並要求 worker 先跑 `pnpm --dir demo install --frozen-lockfile`、不 push。
+- worktree 建在 `E:/orca/workspaces/ipas-study/<名>`（E: 是 Dev Drive）。2026-11-02 已從舊根完整遷移，舊 `AI_test` 工作樹僅留本機離線備份；活動工作統一新 repo ID `555621aa-2814-4352-83be-7ccb05ac7de4`。協調腳本用 `tmp/rollout/coord/wtpath.sh` 從 `git worktree list` 查路徑，不寫死。腳本會在 spec 末尾附上路徑、分支，並要求 worker 先跑 `pnpm --dir demo install --frozen-lockfile`、不 push。
 - 套件管理用 pnpm（2026-11-01 改用）。所有 worktree 共用 `E:.pnpm-store`（內容定址的套件庫），各 worktree 的 `node_modules` 用硬連結指向它，仍各自獨立。目的是減少重複檔案，降低 Defender 掃描負擔。
 - push、開 PR、合併由協調者做。PR 合併後執行 `bash scripts/orca/wt-rm.sh <worktree 路徑>`，清掉 worktree 與本機分支。這會丟掉未 commit 的修改。
 
