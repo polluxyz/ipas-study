@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="550" viewBox="0 0 360 550" role="img" aria-labelledby="title desc">
+<title id="title">影像生成與編輯的條件入口</title>
+<desc id="desc">文字編碼與結構圖分別引導生成，結構圖透過 ControlNet 接入；另一條原圖加指令的路徑經指令編輯模型產生修改圖。生成和編輯結果最後都要人工驗收。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#334155"/></marker></defs>
+<rect width="360" height="550" fill="#f8fafc"/>
+<g font-family="sans-serif" fill="#0f172a" font-size="16" text-anchor="middle">
+<text x="180" y="28" font-size="19" font-weight="bold">先決定要控制什麼</text>
+<rect x="15" y="50" width="145" height="64" rx="7" fill="#dbeafe" stroke="#2563eb"/><text x="87" y="77">文字提示</text><text x="87" y="101" font-size="14">內容、色彩、風格</text>
+<rect x="195" y="50" width="150" height="64" rx="7" fill="#fef3c7" stroke="#a16207"/><text x="270" y="77">姿態、邊緣圖</text><text x="270" y="101" font-size="14">空間布局條件</text>
+<path d="M87 115V139M270 115V139" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="15" y="144" width="145" height="40" rx="7" fill="#dbeafe" stroke="#2563eb"/><text x="87" y="170">文字編碼</text>
+<rect x="195" y="144" width="150" height="40" rx="7" fill="#fef3c7" stroke="#a16207"/><text x="270" y="170">ControlNet</text>
+<path d="M87 185V208H180M270 185V208H180" fill="none" stroke="#334155" stroke-width="2"/>
+<path d="M180 208V230" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="45" y="234" width="270" height="52" rx="7" fill="#dcfce7" stroke="#15803d"/><text x="180" y="257">基底生成模型</text><text x="180" y="278" font-size="14">噪聲與條件 → 生成圖</text>
+<rect x="15" y="316" width="330" height="112" rx="7" fill="#ede9fe" stroke="#7c3aed"/>
+<text x="180" y="341" font-weight="bold">另一條路：已有原圖要修改</text><text x="180" y="367">原圖＋文字編輯指令</text><text x="180" y="394">↓ InstructPix2Pix ↓</text><text x="180" y="417">修改後影像</text>
+<path d="M315 260H338V450H240V472" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M180 429V472" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="35" y="475" width="290" height="53" rx="7" fill="#fff" stroke="#334155"/><text x="180" y="498">驗收：品牌色、輪廓、文字</text><text x="180" y="519" font-size="14">嚴格局部保留另查遮罩與後製</text>
+</g></svg>

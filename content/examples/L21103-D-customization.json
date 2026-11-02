@@ -1,0 +1,922 @@
+{
+  "source": "教學合成資料；沒有呼叫模型、沒有臨床資料",
+  "seed": 42,
+  "split_rule": "各領域索引 01–12 訓練、13–16 驗證、17–20 最終測試；同索引同切分",
+  "budget": {
+    "d_in": 6,
+    "d_out": 8,
+    "r": 2,
+    "alpha": 2,
+    "layers": 2,
+    "modules_per_layer": 1,
+    "soft_tokens": 4,
+    "embedding_dim": 6,
+    "bytes_per_parameter": 4,
+    "W": [
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "A": [
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "B": [
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "x": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "configurations": [
+      {
+        "r": 2,
+        "layers": 2
+      },
+      {
+        "r": 4,
+        "layers": 1
+      }
+    ],
+    "update_modules": {
+      "full": "兩層的 W；教學預算僅計指定矩陣",
+      "lora": "兩層的 A、B，W 凍結",
+      "prompt_tuning": "輸入端 P，基底與詞嵌入凍結",
+      "prompting": "無參數更新"
+    }
+  },
+  "prompt_trials": [
+    {
+      "version": "v0",
+      "domain": "客服問答",
+      "input_id": "S13",
+      "prompt": "幫我回覆。",
+      "output": "已核准退款 230 元，今日入帳。",
+      "format": false,
+      "content": false,
+      "reliability": false
+    },
+    {
+      "version": "v1",
+      "domain": "客服問答",
+      "input_id": "S13",
+      "prompt": "背景：客服；任務：分類後回覆；語氣：禮貌；風格：服務說明；長度：40 字內；格式：類別：回覆；限制：不得虛構退款進度。",
+      "output": "退款：請提供訂單編號以確認取消進度。",
+      "format": true,
+      "content": true,
+      "reliability": true
+    },
+    {
+      "version": "v0",
+      "domain": "客服問答",
+      "input_id": "S14",
+      "prompt": "幫我回覆。",
+      "output": "重設密碼即可。",
+      "format": false,
+      "content": true,
+      "reliability": true
+    },
+    {
+      "version": "v1",
+      "domain": "客服問答",
+      "input_id": "S14",
+      "prompt": "沿用客服 v1 範本",
+      "output": "帳號：請透過已登記信箱辦理密碼重設。",
+      "format": true,
+      "content": true,
+      "reliability": true
+    },
+    {
+      "version": "v0",
+      "domain": "醫療摘要",
+      "input_id": "M13",
+      "prompt": "摘要一下。",
+      "output": "已確診偏頭痛。",
+      "format": false,
+      "content": false,
+      "reliability": false
+    },
+    {
+      "version": "v1",
+      "domain": "醫療摘要",
+      "input_id": "M13",
+      "prompt": "背景：紀錄整理；任務：抽出症狀及缺漏；語氣：中性；風格：紀錄式；長度：20 字內；格式：症狀；缺漏；限制：不得補未記載事實。",
+      "output": "頭痛；診斷未記載。",
+      "format": true,
+      "content": true,
+      "reliability": true
+    },
+    {
+      "version": "v0",
+      "domain": "醫療摘要",
+      "input_id": "M14",
+      "prompt": "摘要一下。",
+      "output": "咳嗽；處方未記載。",
+      "format": true,
+      "content": true,
+      "reliability": true
+    },
+    {
+      "version": "v1",
+      "domain": "醫療摘要",
+      "input_id": "M14",
+      "prompt": "沿用醫療 v1 範本",
+      "output": "咳嗽；處方未記載。",
+      "format": true,
+      "content": true,
+      "reliability": true
+    }
+  ],
+  "records": [
+    {
+      "id": "S01",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 110 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 110 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S02",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S2 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "S03",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 130 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 130 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S04",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S4 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "S05",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 150 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 150 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S06",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S6 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "S07",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 170 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 170 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S08",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S8 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "S09",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 190 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 190 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S10",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S10 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "S11",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 210 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 210 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S12",
+      "domain": "客服問答",
+      "split": "train",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S12 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "S13",
+      "domain": "客服問答",
+      "split": "validation",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 230 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 230 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S14",
+      "domain": "客服問答",
+      "split": "validation",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S14 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "S15",
+      "domain": "客服問答",
+      "split": "validation",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 250 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 250 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S16",
+      "domain": "客服問答",
+      "split": "validation",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S16 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "S17",
+      "domain": "客服問答",
+      "split": "test",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 270 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 270 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S18",
+      "domain": "客服問答",
+      "split": "test",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S18 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "S19",
+      "domain": "客服問答",
+      "split": "test",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "訂單金額 290 元，尚未出貨，想取消退款。",
+      "ideal_answer": "退款：請提供訂單編號以確認取消進度。",
+      "label": "退款",
+      "preference": {
+        "chosen": "退款：請提供訂單編號以確認取消進度。",
+        "rejected": "已核准退款 290 元，今日入帳。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不虛構承諾"
+    },
+    {
+      "id": "S20",
+      "domain": "客服問答",
+      "split": "test",
+      "task": "分類並回覆客服訊息",
+      "instruction": "先標類別再禮貌回覆，不虛構處理結果。",
+      "input": "帳號 S20 無法登入，想重設密碼。",
+      "ideal_answer": "帳號：請透過已登記信箱辦理密碼重設。",
+      "label": "帳號",
+      "preference": {
+        "chosen": "帳號：請透過已登記信箱辦理密碼重設。",
+        "rejected": "請把密碼與驗證碼回傳客服。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "不索取密碼與驗證碼"
+    },
+    {
+      "id": "M01",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M1：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M02",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M2：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M03",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M3：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M04",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M4：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M05",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M5：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M06",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M6：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M07",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M7：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M08",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M8：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M09",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M9：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M10",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M10：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M11",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M11：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M12",
+      "domain": "醫療摘要",
+      "split": "train",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M12：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M13",
+      "domain": "醫療摘要",
+      "split": "validation",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M13：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M14",
+      "domain": "醫療摘要",
+      "split": "validation",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M14：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M15",
+      "domain": "醫療摘要",
+      "split": "validation",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M15：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M16",
+      "domain": "醫療摘要",
+      "split": "validation",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M16：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M17",
+      "domain": "醫療摘要",
+      "split": "test",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M17：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M18",
+      "domain": "醫療摘要",
+      "split": "test",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M18：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M19",
+      "domain": "醫療摘要",
+      "split": "test",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M19：主訴頭痛，已記錄症狀，未記載診斷。",
+      "ideal_answer": "頭痛；診斷未記載。",
+      "label": "頭痛",
+      "preference": {
+        "chosen": "頭痛；診斷未記載。",
+        "rejected": "已確診偏頭痛。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    },
+    {
+      "id": "M20",
+      "domain": "醫療摘要",
+      "split": "test",
+      "task": "僅根據紀錄摘要",
+      "instruction": "寫出症狀及缺漏欄位，不補診斷或處方。",
+      "input": "紀錄 M20：主訴咳嗽，已記錄症狀，未記載處方。",
+      "ideal_answer": "咳嗽；處方未記載。",
+      "label": "咳嗽",
+      "preference": {
+        "chosen": "咳嗽；處方未記載。",
+        "rejected": "已開立抗生素處方。",
+        "chosen_rank": 1,
+        "rejected_rank": 2
+      },
+      "preference_basis": "忠實原文、不補未記載事實"
+    }
+  ]
+}
