@@ -25,7 +25,7 @@ vi.mock('node:fs/promises', async (original) => {
   return { ...actual, ...Object.fromEntries(['readFile', 'readdir', 'stat'].map((name) =>
     [name, (file, ...args) => actual[name](redirect(file), ...args)])) };
 });
-import { assertCompanion, distSnapshot, gotoSettled, guardBuildContext, routeLocalOnly, searchSnapshot, settlePage, sourceSnapshot, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
+import { assertCompanion, claimSearchInput, distSnapshot, gotoSettled, guardBuildContext, routeLocalOnly, searchSnapshot, settlePage, sourceSnapshot, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
 
 const base = 'http://127.0.0.1:4321';
 const navigatedAway = 'response.body: Protocol error (Network.getResponseBody): No resource with given identifier found\nResponse body is not available for a response that was navigated away from.';
@@ -53,15 +53,33 @@ describe('搜尋完成與前三頁契約', () => {
     expect(snapshot({ message: `No results for ${query}`, rows: [] }).results).toHaveLength(0);
     expect(snapshot({ message: `3 results for ${query}`, rows: old }).results.map((r) => r.path)).toEqual([target, '/b/', '/c/']);
   });
-  it('清空舊畫面後再提交並讀取完成快照，錯誤逾時向上傳遞', async () => {
+  it('只接受乾淨的欄位與畫面，同欄不可再次使用', () => {
+    function fixture({ value = '', area = false, message = '', otherInput = false } = {}) {
+      const attributes = new Set();
+      const input = { value, hasAttribute: (name) => attributes.has(name), setAttribute: (name) => attributes.add(name) };
+      const document = { querySelector: (selector) => {
+        if (selector === '.pagefind-ui__search-input') return otherInput ? {} : input;
+        if (selector === '.pagefind-ui__message') return { textContent: message };
+        return area ? {} : null;
+      } };
+      return () => runInNewContext(`(${claimSearchInput.toString()})(input)`, { document, input });
+    }
+    const clean = fixture();
+    expect(clean).not.toThrow();
+    expect(clean).toThrow('請重新導覽');
+    for (const options of [{ value: '舊詞' }, { area: true }, { message: 'Searching for old...' }, { message: '3 results for old' }, { otherInput: true }]) {
+      expect(fixture(options)).toThrow('請重新導覽');
+    }
+  });
+  it('先取得欄位使用權再提交並讀取完成快照，錯誤逾時向上傳遞', async () => {
     const calls = [], expected = { query, count: 1, results: [{ path: target }] };
-    const input = { fill: async (value) => { calls.push(value); } };
+    const input = { evaluate: async (fn) => { expect(fn).toBe(claimSearchInput); calls.push('claim'); }, fill: async (value) => { calls.push(value); } };
     const page = { waitForFunction: async (fn, arg) => {
-      calls.push(arg ?? '清空屏障');
+      calls.push(arg);
       if (fn === searchSnapshot) return { jsonValue: async () => expected, dispose: async () => calls.push('dispose') };
     } };
     expect(await waitForSearch(page, input, query)).toEqual(expected);
-    expect(calls).toEqual(['', '清空屏障', query, query, 'dispose']);
+    expect(calls).toEqual(['claim', query, query, 'dispose']);
     page.waitForFunction = async (fn) => { if (fn === searchSnapshot) throw new Error('查詢失敗逾時'); };
     await expect(waitForSearch(page, input, query)).rejects.toThrow('查詢失敗逾時');
   });

@@ -56,10 +56,19 @@ export function searchSnapshot(query) {
   return { query, count, message, results };
 }
 
-/** 清除前次查詢，等待完成訊息與本次詞吻合且各列載入；無結果立即回報，錯誤逾時不冒充完成。 */
+/** 僅供受控全新導覽使用：標記本欄已由 QA 使用，並拒絕可見的既有查詢狀態。 */
+export function claimSearchInput(input) {
+  if (input !== document.querySelector('.pagefind-ui__search-input') || input.value !== '' ||
+      input.hasAttribute('data-qa-search-used') || document.querySelector('.pagefind-ui__results-area, .pagefind-ui__results') ||
+      document.querySelector('.pagefind-ui__message')?.textContent?.trim()) {
+    throw new Error('搜尋 QA 需要全新導覽且尚未查詢的乾淨輸入欄與畫面；請重新導覽');
+  }
+  input.setAttribute('data-qa-search-used', '');
+}
+
+/** 每次全新導覽只查一次；無法辨識外部先查詢再清空的歷史，未受控頁面須重新導覽。 */
 export async function waitForSearch(page, input, query) {
-  await input.fill('');
-  await page.waitForFunction(() => !document.querySelector('.pagefind-ui__results-area'));
+  await input.evaluate(claimSearchInput);
   await input.fill(query);
   const handle = await page.waitForFunction(searchSnapshot, query);
   try { return await handle.jsonValue(); } finally { await handle.dispose(); }
