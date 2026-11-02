@@ -3,22 +3,53 @@ import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
+import { loadContent, localUrl, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses } from './rollout-smoke.mjs';
+import { execFileSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 
-async function main() {
-  const base = process.env.DEMO_URL ?? 'http://127.0.0.1:4321';
+export function expectedMapNodes(content, route) {
+  return route.stages.flatMap((stage) => stage.concepts.map((item) => {
+    const concept = content.concepts.find((c) => c.id === item.id); assert.ok(concept);
+    return { id: item.id, stage: stage.id, title: concept.title, goal: item.goal };
+  }));
+}
+export function assertMapNodes(nodes, expected) {
+  assert.deepEqual(nodes.map(({ id, stage, title, goal }) => ({ id, stage, title, goal })), expected, '地圖節點的歸屬、名稱、目標須依真實內容');
+}
+export async function main() {
+  const base = localUrl(process.env.DEMO_URL ?? 'http://127.0.0.1:4321', process.env.DEMO_URL ?? 'http://127.0.0.1:4321').origin;
   const output = process.env.SMOKE_OUTPUT ? resolve(process.env.SMOKE_OUTPUT) : resolve(import.meta.dirname, '../../tmp/demo-shots');
-  await mkdir(output, { recursive: true });
+  assert.ok(process.env.SMOKE_OUTPUT, '請指定獨立 SMOKE_OUTPUT');
+  assert.equal(new URL(base).hostname, '127.0.0.1');
+  const binding = await readBuildReceipt();
+  const content = await loadContent();
+  const route = content.codes.find((entry) => entry.code === 'L23303');
+  assert.ok(route?.stages?.length, 'L23303 必須有實際路線');
+  const expectedNodeIds = route.stages.flatMap((stage) => stage.concepts.map((item) => item.id));
+  const expectedNodes = expectedMapNodes(content, route);
+  const included = new Set(expectedNodeIds);
+  const expectedEdges = content.concepts.filter((concept) => included.has(concept.id)).flatMap((concept) =>
+    ['is_a', 'part_of', 'requires', 'mitigates', 'contrasts'].flatMap((type) => (concept[type] ?? []).flatMap((relation) => {
+      const target = typeof relation === 'string' ? relation : relation.target;
+      return included.has(target) ? [{ id: `${type}:${concept.id}:${target}`, source: concept.id, target, type, note: typeof relation === 'string' ? null : relation.note ?? null, sources: typeof relation === 'string' ? [] : relation.source }] : [];
+    })));
+  await freshOutput(output);
   const browser = await chromium.launch({ headless: true, ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE } : {}) });
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1100 }, deviceScaleFactor: 1 });
-  const errors = []; const external = [];
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1100 }, deviceScaleFactor: 1, serviceWorkers: 'block' });
+  const finishBuildCheck = watchBuildResponses(context, binding, base);
+  const buildChecks = [finishBuildCheck];
+  const errors = []; const external = []; const assets = [];
+  const watchAssets = (ctx) => {
+    ctx.on('response', (r) => { if (r.status() !== 200) assets.push({ url: r.url(), status: r.status() }); });
+    ctx.on('requestfailed', (r) => assets.push({ url: r.url(), error: r.failure()?.errorText }));
+  };
+  watchAssets(context);
   context.on('page', (page) => page.on('pageerror', (error) => errors.push(error.message)));
-  await context.route('**/*', (route) => {
-    const url = new URL(route.request().url());
-    if (['http:', 'https:'].includes(url.protocol) && !['127.0.0.1', 'localhost'].includes(url.hostname)) { external.push(url.href); return route.abort(); }
-    return route.continue();
-  });
+  await routeLocalOnly(context, base, external, assets);
   const report = {
-    browserErrors: errors, externalRequests: external,
+    sha: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: resolve(import.meta.dirname, '../..'), encoding: 'utf8' }).trim(),
+    buildSha: binding.receipt.sha, receiptDigest: binding.receiptDigest,
+    browserErrors: errors, externalRequests: external, assetFailures: assets,
     previousSmokeGap: '上一輪只驗證節點下緣的 focused class，未驗證方格提示內容；正式連線提示反而被斷言為成功，且未掃描穿越方格與空白處的命中歸屬。',
     interactionFix: '停用所有連線事件，使用方格 renderedBoundingBox 統一判斷真實滑鼠位置；固定邊框寬度避免 hover 改變命中範圍，提示概念名稱、中文章節與 goal，選取後面板保留所有關係 note 與來源。',
     gridScanMethod: '整張畫布每 10px 一點，以 page.mouse.move 逐點移動；獨立監聽器立即比對節點 renderedBoundingBox 與提示內容，未露出的列先捲入視窗，不略過任何畫布網格點。',
@@ -153,11 +184,15 @@ async function main() {
   try {
     const response = await page.goto(base + '/map/'); assert.equal(response.status(), 200); await ready();
     const data = JSON.parse(await page.locator('#concept-map-data').textContent());
-    assert.equal(data.nodes.length, 30); assert.equal(data.edges.filter((edge) => edge.type !== 'body').length, 37);
-    assert.equal(data.stages.length, 6); report.concepts = data.nodes.length;
+    report.baselineDifference = { oldNodes: 30, actualNodes: data.nodes.length, oldTypedRelations: 37, actualTypedRelations: data.edges.filter((edge) => edge.type !== 'body').length, expectedTypedRelations: expectedEdges.length };
+    console.log('目前路線／真實關係與早期基準的差異', JSON.stringify(report.baselineDifference));
+    assert.deepEqual(data.nodes.map((node) => node.id), expectedNodeIds, '地圖仍限實際 L23303 路線及順序');
+    assertMapNodes(data.nodes, expectedNodes);
+    assert.deepEqual(data.edges.filter((edge) => edge.type !== 'body').map((edge) => ({ ...edge, note: edge.note ?? null })).sort((a, b) => a.id.localeCompare(b.id)), expectedEdges.sort((a, b) => a.id.localeCompare(b.id)), '每型關係的方向、註解與來源必須和內容一致');
+    assert.deepEqual(data.stages.map((stage) => ({ id: stage.id, title: stage.title })), route.stages.map((stage) => ({ id: stage.id, title: stage.title }))); report.concepts = data.nodes.length;
     report.typedRelations = data.edges.filter((edge) => edge.type !== 'body').length;
     report.bodyLinks = data.edges.filter((edge) => edge.type === 'body').length;
-    assert.equal((await graph(page)).nodes, 30); assert.equal((await graph(page)).edges, 37);
+    assert.equal((await graph(page)).nodes, expectedNodeIds.length); assert.equal((await graph(page)).edges, expectedEdges.length);
     assert.equal(await page.locator('#map-body').isChecked(), false); report.bodyHiddenByDefault = true;
     for (const layer of await graph(page, 'layers')) assert.deepEqual(layer, { x: 0, y: 0, width: 0, height: 0 }, '繪圖層與命中座標必須對齊');
     report.canvasLayersAligned = true;
@@ -198,19 +233,23 @@ async function main() {
     for (const type of ['is_a', 'part_of', 'requires', 'mitigates', 'contrasts']) {
       const control = page.locator(`[data-map-relation][value="${type}"]`);
       await control.uncheck();
-      assert.equal((await graph(page)).edges, 37 - data.edges.filter((edge) => edge.type === type).length);
+      const actualTypeCount = data.edges.filter((edge) => edge.type === type).length;
+      const expectedTypeCount = expectedEdges.filter((edge) => edge.type === type).length;
+      assert.equal(actualTypeCount, expectedTypeCount, `${type} 數量須符合真實內容，零條也需驗篩選`);
+      report.relationTypes ??= []; report.relationTypes.push({ type, actual: actualTypeCount, expected: expectedTypeCount });
+      assert.equal((await graph(page)).edges, expectedEdges.length - data.edges.filter((edge) => edge.type === type).length);
       await control.check();
     }
     report.filters = [];
-    for (const stage of data.stages) {
+    for (const stage of route.stages) {
       await page.locator('#map-stage').selectOption(stage.id);
-      const state = await graph(page); const count = data.nodes.filter((node) => node.stage === stage.id).length;
+      const state = await graph(page); const count = expectedNodes.filter((node) => node.stage === stage.id).length;
       assert.equal(state.nodes, count); report.filters.push({ stage: stage.id, nodes: count });
     }
     await page.locator('#map-reset').click();
     await page.locator('#map-canvas').scrollIntoViewIfNeeded();
     // 從空白處移入各節點高度 85% 的位置，避免只驗文字附近的中心點。
-    for (const node of data.nodes) {
+    for (const node of expectedNodes) {
       await page.mouse.move(surface.x + 10, surface.y + 10);
       const lower = await graph(page, 'bottom', node.id);
       await page.mouse.move(lower.x, lower.y);
@@ -218,8 +257,8 @@ async function main() {
       assert.equal(await page.locator('#map-tooltip').isVisible(), true);
       const text = await page.locator('#map-tooltip').innerText();
       assert.ok(text.includes(node.title)); assert.ok(text.includes(node.goal));
-      const stageIndex = data.stages.findIndex((stage) => stage.id === node.stage);
-      assert.ok(text.includes(`${['一', '二', '三', '四', '五', '六'][stageIndex]}、${data.stages[stageIndex].title}`));
+      const stageIndex = route.stages.findIndex((stage) => stage.id === node.stage);
+      assert.ok(text.includes(chapterLabel(stageIndex, route.stages[stageIndex].title)));
     }
     report.nodeBottomHover = data.nodes.length;
     await page.evaluate(() => window.scrollTo({ top: 300, behavior: 'instant' }));
@@ -262,13 +301,12 @@ async function main() {
     await gridScan({ width: 1440, height: 900 }, 0);
     await gridScan({ width: 1920, height: 1080 }, 0);
     await gridScan({ width: 1440, height: 900 }, 300);
-    const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1 });
+    const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1, serviceWorkers: 'block' });
+    watchAssets(mobileContext);
+    const finishMobileBuildCheck = watchBuildResponses(mobileContext, binding, base);
+    buildChecks.push(finishMobileBuildCheck);
     mobileContext.on('page', (mobile) => mobile.on('pageerror', (error) => errors.push(error.message)));
-    await mobileContext.route('**/*', (route) => {
-      const url = new URL(route.request().url());
-      if (['http:', 'https:'].includes(url.protocol) && !['127.0.0.1', 'localhost'].includes(url.hostname)) { external.push(url.href); return route.abort(); }
-      return route.continue();
-    });
+    await routeLocalOnly(mobileContext, base, external, assets);
     const mobile = await mobileContext.newPage(); await mobile.goto(base + '/map/'); await ready(mobile);
     assert.equal(await mobile.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
     await shot(mobile, 'map-mobile.png');
@@ -284,11 +322,21 @@ async function main() {
     }
     await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     assert.notDeepEqual((await graph(mobile)).pan, zoomed.pan); report.mobilePan = true;
-    await mobile.locator('#map-stage').selectOption('prevent-leakage'); assert.equal((await graph(mobile)).nodes, 3);
+    await mobile.locator('#map-stage').selectOption('prevent-leakage'); assert.equal((await graph(mobile)).nodes, expectedNodes.filter((node) => node.stage === 'prevent-leakage').length);
     report.mobileOverflow = false;
     assert.deepEqual(errors, []); assert.deepEqual(external, []);
+    assert.deepEqual(assets, []); await finishBuildCheck(); await finishMobileBuildCheck();
+    report.buildResponses = buildChecks.map((finish) => finish.evidence());
+    assert.deepEqual(errors, []); assert.deepEqual(external, []); assert.deepEqual(assets, []); report.completed = true;
     await writeFile(resolve(output, 'map-verification.json'), JSON.stringify(report, null, 2)); console.log(JSON.stringify(report, null, 2));
-  } catch (error) { await shot(page, 'map-failure.png'); await writeFile(resolve(output, 'map-verification.json'), JSON.stringify({ ...report, failure: error.message }, null, 2)); throw error; }
-  finally { await browser.close(); }
+  } catch (error) { await shot(page, 'map-failure.png').catch(() => undefined); report.failure = error.message; throw error; }
+  finally {
+    const settled = await Promise.allSettled(buildChecks.map((finish) => finish()));
+    report.buildResponses = buildChecks.map((finish) => finish.evidence());
+    const failed = settled.filter((entry) => entry.status === 'rejected');
+    if (failed.length) { report.completed = false; report.failure = failed.map((entry) => String(entry.reason)).join('\n'); }
+    await writeFile(resolve(output, 'map-verification.json'), JSON.stringify(report, null, 2)); await browser.close();
+    if (failed.length) throw new AggregateError(failed.map((entry) => entry.reason), '地圖建置回應失敗');
+  }
 }
-await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) await main();
