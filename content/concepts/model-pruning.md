@@ -2,7 +2,7 @@
 id: model-pruning
 title: 模型剪枝
 kind: technique
-codes: [L21302, L23304]
+codes: [L23304, L21302]
 aliases: [Pruning, 結構化剪枝, 非結構化剪枝]
 summary: 模型剪枝移除部分連線或單元，實際省多少取決於結構與執行方式
 goals:

@@ -2,7 +2,7 @@
 id: gradient-clipping
 title: 梯度裁剪與迴圈位置
 kind: technique
-codes: [L23103, L23203, L23304]
+codes: [L23304, L23103, L23203]
 aliases: [Gradient Clipping, clip_grad_norm_, clip_grad_value_, 梯度裁剪]
 summary: 梯度裁剪在反傳後更新前限制梯度，降低過大梯度造成的不穩定
 goals:

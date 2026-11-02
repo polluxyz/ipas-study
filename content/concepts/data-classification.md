@@ -2,7 +2,7 @@
 id: data-classification
 title: 資料分級
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [Access Level, Sensitivity Level]
 summary: 資料分級分開判斷開放程度與敏感程度，再決定存取保護
 goals:

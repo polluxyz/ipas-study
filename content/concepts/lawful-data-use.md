@@ -2,7 +2,7 @@
 id: lawful-data-use
 title: 合法資料利用與同意
 kind: regulation
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [Consent, 合法依據, 資料使用同意]
 summary: 合法利用須核對來源、目的與處理依據，依同意處理時還要能撤回
 goals:

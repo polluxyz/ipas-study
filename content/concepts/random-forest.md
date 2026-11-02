@@ -2,7 +2,7 @@
 id: "random-forest"
 title: "隨機森林"
 kind: "model"
-codes: ["L21301", "L23202"]
+codes: ["L23202", "L21301"]
 aliases: ["Random Forest", "隨機森林分類", "隨機森林迴歸"]
 requires: ["bagging", "decision-tree"]
 guide_refs: ["guide-1:5-8", "guide-3:4-21", "guide-3:4-22", "guide-3:4-38", "guide-3:4-39"]

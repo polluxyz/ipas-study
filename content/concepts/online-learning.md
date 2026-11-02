@@ -2,7 +2,7 @@
 id: online-learning
 title: 線上與增量學習
 kind: technique
-codes: [L21301, L21302]
+codes: [L21302, L21301]
 aliases: [Online Learning]
 summary: 隨新資料到達延續模型狀態更新，仍須驗證、控制污染並保留回復點
 requires: [feedback-loop]

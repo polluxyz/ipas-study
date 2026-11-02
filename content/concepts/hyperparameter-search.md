@@ -2,7 +2,7 @@
 id: hyperparameter-search
 title: 超參數搜尋策略
 kind: technique
-codes: [L21301, L23304]
+codes: [L23304, L21301]
 aliases: []
 summary: 依候選空間與實驗成本，選擇網格、隨機或依歷史結果安排搜尋
 goals:

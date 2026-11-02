@@ -2,7 +2,7 @@
 id: text-generation-platforms
 title: 語言模型與對話平台
 kind: tool
-codes: [L21101, L21103]
+codes: [L21103, L21101]
 aliases: [ChatGPT, Claude, GPT 系列, Gemini]
 summary: 語言模型提供生成能力，對話產品把能力包成可互動的服務
 goals:

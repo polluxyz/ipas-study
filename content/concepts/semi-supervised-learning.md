@@ -3,8 +3,8 @@ id: semi-supervised-learning
 title: 半監督學習
 kind: technique
 codes:
-  - L21102
   - L23201
+  - L21102
   - L23301
 aliases:
   - Semi-supervised Learning

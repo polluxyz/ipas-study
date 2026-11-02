@@ -2,7 +2,7 @@
 id: hipaa
 title: HIPAA 醫療資訊隱私與安全
 kind: regulation
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 summary: HIPAA 依受規範角色保護醫療資訊，安全規則要求三類相互配合的措施
 goals:

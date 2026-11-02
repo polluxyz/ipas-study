@@ -2,7 +2,7 @@
 id: cnn
 title: 卷積神經網路
 kind: model
-codes: [L21102, L21301, L23203]
+codes: [L23203, L21102, L21301]
 aliases: [Convolutional Neural Network, convolutional-neural-network]
 summary: 卷積神經網路逐層學習局部模式並組合特徵，供影像等有結構資料的預測使用
 requires: [convolution-layer, pooling, flatten, backpropagation]

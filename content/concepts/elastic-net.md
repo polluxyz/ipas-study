@@ -2,7 +2,7 @@
 id: elastic-net
 title: Elastic Net
 kind: technique
-codes: [L23202, L23304]
+codes: [L23304, L23202]
 aliases: [L1加L2, 彈性網路]
 requires: [l1-regularization, l2-regularization]
 is_a: [regularization]

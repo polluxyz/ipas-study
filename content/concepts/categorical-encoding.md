@@ -2,7 +2,7 @@
 id: categorical-encoding
 title: 類別特徵編碼
 kind: technique
-codes: [L21301, L23301]
+codes: [L23301, L21301]
 aliases: [Label Encoding, Ordinal Encoding, ordinal-encoding, 有序類別編碼, 類別編碼]
 requires: [train-val-test-split]
 summary: 先辨認類別有無順序，再選擇模型能理解且不扭曲語意的表示

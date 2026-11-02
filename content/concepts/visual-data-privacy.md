@@ -2,7 +2,7 @@
 id: visual-data-privacy
 title: 視覺資料的隱私保護
 kind: technique
-codes: [L21102, L21203, L23401]
+codes: [L23401, L21102, L21203]
 aliases: [人臉遮罩, 影像去識別化, 視覺個資]
 requires: [computer-vision-tasks, privacy-governance]
 guide_refs: [guide-1:3-53, guide-1:3-56, guide-1:3-57]

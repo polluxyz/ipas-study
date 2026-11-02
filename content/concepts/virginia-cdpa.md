@@ -2,7 +2,7 @@
 id: virginia-cdpa
 title: 維吉尼亞州消費者資料保護法
 kind: regulation
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 summary: 維吉尼亞州以適用門檻、消費者權利及敏感資料要求規範個資利用
 goals:

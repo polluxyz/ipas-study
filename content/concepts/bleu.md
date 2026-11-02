@@ -2,7 +2,7 @@
 id: bleu
 title: BLEU 文本評估
 kind: metric
-codes: [L21101, L21103]
+codes: [L21103, L21101]
 aliases: [Brevity Penalty]
 summary: BLEU 比較候選與參考的連續詞片段重疊，再修正過短輸出的分數
 goals:

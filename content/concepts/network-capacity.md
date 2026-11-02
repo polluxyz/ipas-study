@@ -2,7 +2,7 @@
 id: network-capacity
 title: 網路深度、寬度與容量
 kind: component
-codes: [L23203, L23302, L23304]
+codes: [L23304, L23203, L23302]
 aliases: [Network Depth, Network Width]
 summary: 深度與寬度改變網路表示能力，容量要配合資料、擬合狀況與資源
 goals:

@@ -2,7 +2,7 @@
 id: image-augmentation
 title: 影像增強與標籤語意
 kind: technique
-codes: [L21102, L23301]
+codes: [L23301, L21102]
 aliases: [ColorJitter, Image Augmentation, RandomHorizontalFlip]
 requires: [image-resizing, color-space-conversion]
 is_a: [data-augmentation]

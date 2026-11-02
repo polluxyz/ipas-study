@@ -2,7 +2,7 @@
 id: diffusion-model
 title: 擴散模型與取樣
 kind: model
-codes: [L21102, L21103, L21301, L23203]
+codes: [L21103, L21102, L21301, L23203]
 aliases: [CFG, DDPM, Diffusion Model, Diffusion Models, Stable Diffusion, 擴散模型]
 summary: 擴散模型學習去噪，生成時從噪聲逐步形成符合條件的資料
 requires: [generative-discriminative-models]

@@ -2,7 +2,7 @@
 id: data-minimization
 title: 資料最小化與目的限制
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [Data Minimization, Purpose Limitation]
 summary: 依具體目的只使用必要資料，並追蹤存取、留存與目的外利用
 goals:

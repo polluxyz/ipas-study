@@ -2,7 +2,7 @@
 id: model-assisted-labeling
 title: 模型輔助標註
 kind: technique
-codes: [L21102, L23301]
+codes: [L23301, L21102]
 aliases: [Auto-labeling, 自動標註, 預標註]
 requires: [supervised-learning]
 summary: 模型先提出標籤建議，再由人員校對與抽查，減少從零標註的工作

@@ -3,9 +3,9 @@ id: pretraining-fine-tuning
 title: 預訓練、下游微調與提示的分工
 kind: technique
 codes:
+  - L23203
   - L21101
   - L21103
-  - L23203
 aliases:
   - Fine-Tuning
   - Pre-training

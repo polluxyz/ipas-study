@@ -2,7 +2,7 @@
 id: ai-license-governance
 title: AI 資料與模型授權查核
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 requires: [privacy-governance]
 guide_refs: [guide-1:4-32, guide-1:4-36]

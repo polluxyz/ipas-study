@@ -2,7 +2,7 @@
 id: privacy-regulations
 title: 個資保護法規比較
 kind: regulation
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [CCPA, PDPA, 個人資料保護法]
 summary: 比較個資法規先確認法域與適用條件，再查權利、義務及跨境要求
 goals:

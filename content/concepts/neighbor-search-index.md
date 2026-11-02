@@ -3,9 +3,9 @@ id: neighbor-search-index
 title: 近鄰搜尋與距離索引
 kind: technique
 codes:
+  - L23202
   - L21301
   - L23201
-  - L23202
 aliases:
   - Ball Tree
   - DBSCAN 鄰域搜尋與距離索引

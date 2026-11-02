@@ -2,7 +2,7 @@
 id: adversarial-training
 title: 對抗訓練與防禦邊界
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 requires: [adversarial-examples]
 mitigates:

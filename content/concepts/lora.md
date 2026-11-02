@@ -2,7 +2,7 @@
 id: lora
 title: LoRA 低秩自適應
 kind: technique
-codes: [L21101, L21103, L21104, L23304]
+codes: [L21103, L21101, L21104, L23304]
 aliases: [LoRA 低秩適應, Low-Rank Adaptation, 低秩自適應, 低秩適應]
 summary: 凍結基底權重，以兩個小矩陣學習低秩更新來適應任務
 goals:

@@ -2,7 +2,7 @@
 id: cnn-architectures
 title: 經典 CNN 架構的演進與選用
 kind: model
-codes: [L21102, L23203]
+codes: [L23203, L21102]
 aliases: [AlexNet, AlexNet、VGG 與 Inception 架構比較, GoogLeNet, Inception, LeNet, VGG, VGG16, VGGNet, classic-cnn-architectures, 經典 CNN 架構的演進與取捨]
 summary: CNN 架構演進以更深的堆疊、多尺度分支與捷徑，處理特徵學習及訓練成本
 requires: [cnn]

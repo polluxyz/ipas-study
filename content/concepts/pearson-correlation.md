@@ -2,7 +2,7 @@
 id: pearson-correlation
 title: 皮爾森相關係數
 kind: metric
-codes: [L21301, L23101]
+codes: [L23101, L21301]
 aliases: [Pearson Correlation, 相關係數]
 requires: [descriptive-statistics]
 summary: 衡量兩個數值變數的線性關聯，不能單靠它判定因果或獨立

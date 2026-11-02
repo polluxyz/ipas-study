@@ -2,7 +2,7 @@
 id: knn
 title: K 最近鄰
 kind: model
-codes: [L21301, L23202]
+codes: [L23202, L21301]
 aliases: [K-Nearest Neighbors, k-nearest-neighbors, KNN]
 requires: [classification-regression, feature-scaling]
 summary: K最近鄰先找離新樣本最近的K筆訓練資料，再依鄰居標籤投票

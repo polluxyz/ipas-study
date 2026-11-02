@@ -3,8 +3,8 @@ id: disparate-impact
 title: 不利影響比
 kind: metric
 codes:
-  - L21203
   - L23402
+  - L21203
 aliases:
   - 80% Rule
   - Disparate Impact

@@ -2,7 +2,7 @@
 id: data-outsourcing-governance
 title: 跨境與委外資料治理
 kind: technique
-codes: [L21201, L21202, L21203]
+codes: [L21203, L21201, L21202]
 aliases: []
 summary: 沿資料流確認委外用途、跨境地點、契約保障與交付責任
 goals:

@@ -2,7 +2,7 @@
 id: "gradient-boosted-trees"
 title: "梯度提升與 XGBoost"
 kind: "model"
-codes: ["L21301", "L23202"]
+codes: ["L23202", "L21301"]
 aliases: ["GBDT", "Gradient Boosting", "Gradient Boosting Decision Tree", "gradient-boosting", "梯度提升決策樹"]
 requires: ["boosting", "regression-tree"]
 guide_refs: ["guide-1:5-8", "guide-1:5-9", "guide-3:4-22", "guide-3:4-39"]

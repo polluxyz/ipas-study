@@ -3,8 +3,8 @@ id: self-attention
 title: 自注意力與多頭注意力
 kind: component
 codes:
-  - L21101
   - L23203
+  - L21101
 aliases:
   - Key
   - Query

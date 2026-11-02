@@ -2,7 +2,7 @@
 id: speech-recognition-pipeline
 title: 語音辨識、理解與回應串接
 kind: technique
-codes: [L21101, L21103, L21104]
+codes: [L21104, L21101, L21103]
 aliases: [ASR, Whisper, 語音助理, 語音辨識]
 summary: 語音串接依序把聲音轉文字、理解意圖、執行任務，再形成回應
 goals:

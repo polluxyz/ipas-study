@@ -2,7 +2,7 @@
 id: sensor-fusion
 title: 感測器融合
 kind: technique
-codes: [L21102, L21104, L21302]
+codes: [L21104, L21102, L21302]
 aliases: [LiDAR, Sensor Fusion, 感測同步, 感測融合與同步, 雷達融合]
 summary: 感測器融合把互補量測對準同一事件，協助判斷環境與狀態
 goals:

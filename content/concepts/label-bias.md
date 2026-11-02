@@ -3,9 +3,9 @@ id: label-bias
 title: 標註偏見
 kind: problem
 codes:
+  - L23402
   - L21203
   - L23301
-  - L23402
 aliases:
   - Label Bias
   - labeling-bias

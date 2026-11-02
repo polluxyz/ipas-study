@@ -3,8 +3,8 @@ id: pca
 title: 主成分分析
 kind: technique
 codes:
-  - L21301
   - L23102
+  - L21301
   - L23202
   - L23301
 aliases:

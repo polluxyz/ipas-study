@@ -2,7 +2,7 @@
 id: privacy-governance
 title: 隱私治理
 kind: regulation
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [Privacy Governance]
 summary: 隱私治理把資料用途、保護措施與責任安排到整個模型生命週期
 goals:

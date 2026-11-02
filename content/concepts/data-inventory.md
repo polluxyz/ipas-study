@@ -2,7 +2,7 @@
 id: data-inventory
 title: 資料清冊與資料地圖
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [Data Inventory, Data Map]
 summary: 資料清冊記下資料在哪裡、誰能用，資料地圖畫出它如何流動
 goals:

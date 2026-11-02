@@ -3,8 +3,8 @@ id: historical-bias
 title: 歷史偏見
 kind: problem
 codes:
-  - L21203
   - L23402
+  - L21203
 aliases:
   - Historical Bias
 requires: []

@@ -2,7 +2,7 @@
 id: data-hashing
 title: 資料雜湊
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [Hashing, SHA-256, 雜湊處理]
 requires: [de-identification]
 guide_refs: [guide-3:6-8]

@@ -2,7 +2,7 @@
 id: softmax
 title: Softmax
 kind: component
-codes: [L21102, L23203, L23304]
+codes: [L23203, L21102, L23304]
 aliases: [正規化指數函數]
 summary: Softmax 把同一筆資料的多類分數轉成總和為一的機率向量
 goals:

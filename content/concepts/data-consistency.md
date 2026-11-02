@@ -2,7 +2,7 @@
 id: data-consistency
 title: 重複資料與主鍵去重
 kind: technique
-codes: [L21301, L23301]
+codes: [L23301, L21301]
 aliases: [Data Consistency, Deduplication, duplicate-data, 資料去重, 重複樣本與單位一致性]
 requires: [data-preparation]
 summary: 先界定一列代表的事件，再用主鍵與一致的欄位辨認重送紀錄

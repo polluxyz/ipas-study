@@ -2,7 +2,7 @@
 id: missing-value-imputation
 title: 缺失值處理
 kind: technique
-codes: [L21301, L23301]
+codes: [L23301, L21301]
 aliases: [Imputation, Mean Imputation, Median Imputation, Missing Value, Missing Values, simple-imputation, 刪除與簡單補值]
 requires: [descriptive-statistics, missingness-mechanisms, train-val-test-split]
 summary: 依型態、缺失原因與時間邊界選擇刪除或補值，並檢查資訊損失

@@ -2,7 +2,7 @@
 id: phased-rollout
 title: 漸進式部署與擴量門檻
 kind: technique
-codes: [L21202, L21302]
+codes: [L21302, L21202]
 aliases: [Phased Rollout, 漸進式部署, 漸進式部署與擴量決策]
 requires: [release-strategies]
 summary: 漸進式部署先限制影響範圍，再按服務與業務門檻決定擴量、暫停或回復

@@ -2,7 +2,7 @@
 id: information-gain
 title: 資訊增益
 kind: metric
-codes: [L21301, L23202]
+codes: [L23202, L21301]
 aliases: [Information Gain]
 requires: [conditional-probability]
 summary: 資訊增益用分割前後的加權熵差，衡量特徵或條件減少多少不確定性

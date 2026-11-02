@@ -2,7 +2,7 @@
 id: catastrophic-forgetting
 title: 災難性遺忘
 kind: problem
-codes: [L21103, L23304]
+codes: [L23304, L21103]
 aliases: [Catastrophic Forgetting, 災難遺忘]
 summary: 模型接續學習新任務後，仍需保留的舊任務能力明顯退化
 goals:

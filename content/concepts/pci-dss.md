@@ -2,7 +2,7 @@
 id: pci-dss
 title: PCI DSS 支付卡資料安全標準
 kind: regulation
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 summary: PCI DSS 沿支付卡資料流檢查網路、資料保護、存取及安全驗證
 goals:

@@ -3,8 +3,8 @@ id: clip
 title: CLIP 圖文共享表示
 kind: model
 codes:
-  - L21102
   - L21104
+  - L21102
 aliases:
   - CLIP 圖文對比與零樣本分類
   - Contrastive Language-Image Pre-Training

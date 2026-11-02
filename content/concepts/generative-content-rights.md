@@ -2,7 +2,7 @@
 id: generative-content-rights
 title: 生成素材授權與來源追溯
 kind: technique
-codes: [L21103, L21104, L21203]
+codes: [L21203, L21103, L21104]
 aliases: [內容權利查核, 生成素材授權]
 requires: [corpus-copyright]
 mitigates:

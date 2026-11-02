@@ -2,7 +2,7 @@
 id: lime
 title: LIME 局部替代解釋
 kind: technique
-codes: [L21203, L23302]
+codes: [L23302, L21203]
 aliases: [LIME 局部代理解釋, Local Interpretable Model-Agnostic Explanations]
 requires: [explainable-ai, linear-regression]
 summary: LIME 在指定個案附近擾動輸入，以距離加權的簡單模型近似原模型

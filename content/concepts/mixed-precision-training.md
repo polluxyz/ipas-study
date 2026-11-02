@@ -2,7 +2,7 @@
 id: mixed-precision-training
 title: 混合精度訓練
 kind: technique
-codes: [L23203, L23304]
+codes: [L23304, L23203]
 aliases: [AMP, Gradient Scaling, Mixed Precision]
 summary: 混合精度訓練讓不同運算使用合適精度，省資源時仍須管理梯度尺度
 goals:

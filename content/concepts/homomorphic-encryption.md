@@ -2,7 +2,7 @@
 id: homomorphic-encryption
 title: 同態加密
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [FHE, HE, Homomorphic Encryption]
 requires: [secure-communication]
 summary: 同態加密讓受支援的運算在密文上進行，再由持鑰者解密結果

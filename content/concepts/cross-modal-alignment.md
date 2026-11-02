@@ -3,8 +3,8 @@ id: cross-modal-alignment
 title: 跨模態語意對齊
 kind: technique
 codes:
-  - L21102
   - L21104
+  - L21102
 aliases:
   - Cross-Modal Alignment
   - 共享語意空間

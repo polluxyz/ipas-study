@@ -3,8 +3,8 @@ id: multimodal-ai
 title: 多模態任務與資料特性
 kind: theory
 codes:
-  - L21103
   - L21104
+  - L21103
 aliases:
   - ImageBind
   - Multimodal AI

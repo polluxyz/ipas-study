@@ -3,8 +3,8 @@ id: nonlinear-embedding
 title: t-SNE 與 UMAP 非線性嵌入比較
 kind: technique
 codes:
-  - L21301
   - L23202
+  - L21301
   - L23301
 aliases:
   - Nonlinear Embedding

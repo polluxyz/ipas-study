@@ -2,7 +2,7 @@
 id: random-search
 title: 隨機搜尋
 kind: technique
-codes: [L21301, L23304]
+codes: [L23304, L21301]
 aliases: [Random Search, RandomizedSearchCV]
 summary: 在指定分布內抽取有限候選，用固定預算探索超參數空間
 goals:

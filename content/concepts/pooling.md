@@ -2,7 +2,7 @@
 id: pooling
 title: 池化與特徵圖縮減
 kind: component
-codes: [L21102, L23203]
+codes: [L23203, L21102]
 aliases: [Average Pooling, Global Average Pooling, Max Pooling, Max-Pooling, 最大池化, 池化與降採樣]
 summary: 池化把每個通道的局部區域摘要成較少數值，換取更小的特徵圖
 guide_refs: [guide-1:3-48, guide-3:4-68, guide-3:4-69]

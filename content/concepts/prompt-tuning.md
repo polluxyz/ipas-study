@@ -2,7 +2,7 @@
 id: prompt-tuning
 title: 軟提示微調
 kind: technique
-codes: [L21101, L21103, L23304]
+codes: [L21103, L21101, L23304]
 aliases: [Prompt Tuning, Soft Prompt, soft-prompt-tuning, 提示微調, 軟提示]
 summary: 凍結語言模型，透過訓練調整加在輸入端的連續提示向量
 goals:

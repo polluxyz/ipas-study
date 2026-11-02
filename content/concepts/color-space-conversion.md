@@ -2,7 +2,7 @@
 id: color-space-conversion
 title: 色彩空間轉換
 kind: technique
-codes: [L21102, L23301]
+codes: [L23301, L21102]
 aliases: [Grayscale, HSV, RGB, 灰階化]
 requires: [numpy-data-operations]
 summary: 色彩空間轉換改變顏色的表示方式，選擇時要先確認哪些訊號必須保留

@@ -2,7 +2,7 @@
 id: optimizer-selection
 title: 優化器選擇
 kind: technique
-codes: [L23103, L23203, L23304]
+codes: [L23304, L23103, L23203]
 aliases: [Optimizer, 優化器比較]
 summary: 依梯度特性、驗證表現與狀態記憶體選優化器，沒有通用贏家
 goals:

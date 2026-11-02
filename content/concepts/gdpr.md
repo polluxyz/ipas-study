@@ -2,7 +2,7 @@
 id: gdpr
 title: GDPR 個資權利與處理依據
 kind: regulation
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 summary: GDPR 讓個人控制資料利用，並要求組織逐用途說明合法依據
 goals:

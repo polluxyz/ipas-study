@@ -2,7 +2,7 @@
 id: class-weighting
 title: 類別權重
 kind: technique
-codes: [L23301, L23304, L23402]
+codes: [L23304, L23301, L23402]
 aliases: [Class Weighting, 類別重加權]
 requires: [class-imbalance, cross-entropy-loss]
 mitigates:

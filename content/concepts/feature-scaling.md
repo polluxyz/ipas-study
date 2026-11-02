@@ -2,7 +2,7 @@
 id: feature-scaling
 title: 特徵縮放與標準化
 kind: technique
-codes: [L21301, L23301]
+codes: [L23301, L21301]
 aliases: [Feature Scaling, Min-Max Scaling, "Min-Max、Z-score 與 Robust Scaling", MinMaxScaler, Normalization, RobustScaler, StandardScaler, Standardization, Z-score 標準化]
 requires: [descriptive-statistics, train-val-test-split]
 summary: 以訓練資料的範圍或離散程度調整尺度，避免量級支配模型

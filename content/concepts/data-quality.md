@@ -2,7 +2,7 @@
 id: data-quality
 title: 資料品質檢核
 kind: technique
-codes: [L21101, L21301]
+codes: [L21301, L21101]
 aliases: [Corpus Quality, Data Quality, NLP 語料品質與標註一致性, nlp-corpus-quality, 語料品質]
 summary: 以五種品質面向查核資料，並檢查語料標籤一致性與代表性
 goals:

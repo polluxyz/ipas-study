@@ -2,7 +2,7 @@
 id: data-augmentation
 title: 資料增強與標籤語意
 kind: technique
-codes: [L21102, L21301, L23301, L23304]
+codes: [L23301, L21102, L21301, L23304]
 aliases: [Data Augmentation, 資料增強, 資料擴增]
 requires: [train-val-test-split]
 mitigates:

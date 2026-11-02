@@ -3,8 +3,8 @@ id: hierarchical-clustering
 title: 階層式分群
 kind: model
 codes:
-  - L21301
   - L23202
+  - L21301
 aliases:
   - Dendrogram
   - Hierarchical Clustering

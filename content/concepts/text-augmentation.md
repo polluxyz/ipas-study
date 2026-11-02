@@ -2,7 +2,7 @@
 id: text-augmentation
 title: 文字增強與反向翻譯
 kind: technique
-codes: [L21101, L23301]
+codes: [L23301, L21101]
 aliases: [Back-Translation, Text Augmentation, 偽平行語料, 反向翻譯資料增強, 同義詞替換]
 requires: [supervised-learning]
 summary: 改寫訓練文字以增加表達變化，保留前須確認語意與標籤仍適用

@@ -2,7 +2,7 @@
 id: reinforcement-learning
 title: 強化學習的任務與獎勵
 kind: theory
-codes: [L21301, L23201]
+codes: [L23201, L21301]
 aliases: [RL, Reinforcement Learning]
 summary: 強化學習從互動回饋調整決策，追求長期累積獎勵
 goals:

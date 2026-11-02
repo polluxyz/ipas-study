@@ -2,7 +2,7 @@
 id: regularization
 title: 正則化方法選用
 kind: technique
-codes: [L23203, L23302, L23304]
+codes: [L23304, L23203, L23302]
 aliases: [L1, L2, 正則化, 正規化懲罰]
 requires: [bias-variance-tradeoff]
 mitigates:
