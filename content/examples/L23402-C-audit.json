@@ -1,0 +1,663 @@
+{
+  "source": "教學合成資料；不代表真實招聘、信貸、族群或語言表現",
+  "seed": 23402,
+  "procedure_version": "C-eval-v1",
+  "environment": "Python 3.12、NumPy；以實測報告記錄確切版本",
+  "predecessors": [
+    "L23402-B-recruitment.json",
+    "L23402-B-credit.json",
+    "L21302-E-operations.json：只沿用真值成熟、分群監控與責任回應原則，不沿用其1000筆或日期因果"
+  ],
+  "domains": [
+    {
+      "id": "recruitment",
+      "source": "content/examples/L23402-B-recruitment.json",
+      "dataset_version": "L23402-B-v1",
+      "seed": 23402,
+      "split": "fixed_audit",
+      "record_ids": [
+        "R-A-01",
+        "R-A-02",
+        "R-A-03",
+        "R-A-04",
+        "R-A-05",
+        "R-A-06",
+        "R-A-07",
+        "R-A-08",
+        "R-A-09",
+        "R-A-10",
+        "R-A-11",
+        "R-A-12",
+        "R-A-13",
+        "R-A-14",
+        "R-A-15",
+        "R-A-16",
+        "R-A-17",
+        "R-A-18",
+        "R-A-19",
+        "R-A-20",
+        "R-B-01",
+        "R-B-02",
+        "R-B-03",
+        "R-B-04",
+        "R-B-05",
+        "R-B-06",
+        "R-B-07",
+        "R-B-08",
+        "R-B-09",
+        "R-B-10",
+        "R-B-11",
+        "R-B-12",
+        "R-B-13",
+        "R-B-14",
+        "R-B-15",
+        "R-B-16",
+        "R-B-17",
+        "R-B-18",
+        "R-B-19",
+        "R-B-20"
+      ],
+      "versions": [
+        {
+          "version": "base-v1",
+          "column": "y_pred",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 8,
+              "fn": 2,
+              "fp": 2,
+              "tn": 8,
+              "selection_rate": 0.5,
+              "TPR": 0.8,
+              "FPR": 0.2
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 8,
+              "fn": 2,
+              "fp": 6,
+              "tn": 4,
+              "selection_rate": 0.7,
+              "TPR": 0.8,
+              "FPR": 0.6
+            }
+          ]
+        },
+        {
+          "version": "middle-v2",
+          "column": "constraint_middle_pred",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 7,
+              "fn": 3,
+              "fp": 3,
+              "tn": 7,
+              "selection_rate": 0.5,
+              "TPR": 0.7,
+              "FPR": 0.3
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4
+            }
+          ]
+        },
+        {
+          "version": "strict-v3",
+          "column": "constraint_strict_pred",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4
+            }
+          ]
+        }
+      ],
+      "weeks": [
+        {
+          "week": "W1",
+          "date": "2026-07-01/2026-07-07",
+          "version": "base-v1",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 8,
+              "fn": 2,
+              "fp": 2,
+              "tn": 8,
+              "selection_rate": 0.5,
+              "TPR": 0.8,
+              "FPR": 0.2,
+              "owner": "風險負責人林員",
+              "action": "既有版超標，風險負責人接手並人工覆核"
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 8,
+              "fn": 2,
+              "fp": 6,
+              "tn": 4,
+              "selection_rate": 0.7,
+              "TPR": 0.8,
+              "FPR": 0.6,
+              "owner": "風險負責人林員",
+              "action": "既有版超標，風險負責人接手並人工覆核"
+            }
+          ],
+          "labels": "教學真值於窗尾完整可用；真實信貸須另等結果成熟"
+        },
+        {
+          "week": "W2",
+          "date": "2026-07-08/2026-07-14",
+          "version": "middle-v2",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 7,
+              "fn": 3,
+              "fp": 3,
+              "tn": 7,
+              "selection_rate": 0.5,
+              "TPR": 0.7,
+              "FPR": 0.3,
+              "owner": "風險負責人林員",
+              "action": "重大更新通過事前審查，維運持續監控"
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4,
+              "owner": "風險負責人林員",
+              "action": "重大更新通過事前審查，維運持續監控"
+            }
+          ],
+          "labels": "教學真值於窗尾完整可用；真實信貸須另等結果成熟"
+        },
+        {
+          "week": "W3",
+          "date": "2026-07-15/2026-07-21",
+          "version": "middle-v2",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 7,
+              "fn": 3,
+              "fp": 3,
+              "tn": 7,
+              "selection_rate": 0.5,
+              "TPR": 0.7,
+              "FPR": 0.3,
+              "owner": "風險負責人林員",
+              "action": "B群假陽例增加，啟動調查及人工覆核"
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 6,
+              "tn": 4,
+              "selection_rate": 0.6,
+              "TPR": 0.6,
+              "FPR": 0.6,
+              "owner": "風險負責人林員",
+              "action": "B群假陽例增加，啟動調查及人工覆核"
+            }
+          ],
+          "labels": "教學真值於窗尾完整可用；真實信貸須另等結果成熟"
+        },
+        {
+          "week": "W4",
+          "date": "2026-07-22/2026-07-28",
+          "version": "middle-v2",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 7,
+              "fn": 3,
+              "fp": 3,
+              "tn": 7,
+              "selection_rate": 0.5,
+              "TPR": 0.7,
+              "FPR": 0.3,
+              "owner": "風險負責人林員",
+              "action": "修正資料處理，重核後恢復例行監控"
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4,
+              "owner": "風險負責人林員",
+              "action": "修正資料處理，重核後恢復例行監控"
+            }
+          ],
+          "labels": "教學真值於窗尾完整可用；真實信貸須另等結果成熟"
+        }
+      ],
+      "policy": {
+        "accuracy_min": 0.65,
+        "equalized_odds_gap_max": 0.1,
+        "min_group_count": 20,
+        "note": "教學風險門檻，非法律或統計顯著性標準"
+      },
+      "complaint": {
+        "id": "AP-R-01",
+        "week": "W3",
+        "issue": "應徵者指出不同語言履歷可能被誤讀",
+        "owner": "申訴窗口陳員",
+        "deadline": "2個工作日回應，5個工作日提出調查與修正安排",
+        "closure": "通知個案覆核結果；保留異議及修正版本；W4驗證後追蹤"
+      },
+      "note": "版本比較沿用B組40筆；版本輸出是預設候選，非工具訓練。每週為獨立40筆合成事件，計數可相同但非重複使用固定稽核人員；W3不是訓練來源。"
+    },
+    {
+      "id": "credit",
+      "source": "content/examples/L23402-B-credit.json",
+      "dataset_version": "L23402-B-v1",
+      "seed": 23402,
+      "split": "fixed_audit",
+      "record_ids": [
+        "C-A-01",
+        "C-A-02",
+        "C-A-03",
+        "C-A-04",
+        "C-A-05",
+        "C-A-06",
+        "C-A-07",
+        "C-A-08",
+        "C-A-09",
+        "C-A-10",
+        "C-A-11",
+        "C-A-12",
+        "C-A-13",
+        "C-A-14",
+        "C-A-15",
+        "C-A-16",
+        "C-A-17",
+        "C-A-18",
+        "C-A-19",
+        "C-A-20",
+        "C-B-01",
+        "C-B-02",
+        "C-B-03",
+        "C-B-04",
+        "C-B-05",
+        "C-B-06",
+        "C-B-07",
+        "C-B-08",
+        "C-B-09",
+        "C-B-10",
+        "C-B-11",
+        "C-B-12",
+        "C-B-13",
+        "C-B-14",
+        "C-B-15",
+        "C-B-16",
+        "C-B-17",
+        "C-B-18",
+        "C-B-19",
+        "C-B-20"
+      ],
+      "versions": [
+        {
+          "version": "base-v1",
+          "column": "y_pred",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 8,
+              "fn": 2,
+              "fp": 2,
+              "tn": 8,
+              "selection_rate": 0.5,
+              "TPR": 0.8,
+              "FPR": 0.2
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 8,
+              "fn": 2,
+              "fp": 6,
+              "tn": 4,
+              "selection_rate": 0.7,
+              "TPR": 0.8,
+              "FPR": 0.6
+            }
+          ]
+        },
+        {
+          "version": "middle-v2",
+          "column": "constraint_middle_pred",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 7,
+              "fn": 3,
+              "fp": 3,
+              "tn": 7,
+              "selection_rate": 0.5,
+              "TPR": 0.7,
+              "FPR": 0.3
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4
+            }
+          ]
+        },
+        {
+          "version": "strict-v3",
+          "column": "constraint_strict_pred",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4
+            }
+          ]
+        }
+      ],
+      "weeks": [
+        {
+          "week": "W1",
+          "date": "2026-07-01/2026-07-07",
+          "version": "base-v1",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 8,
+              "fn": 2,
+              "fp": 2,
+              "tn": 8,
+              "selection_rate": 0.5,
+              "TPR": 0.8,
+              "FPR": 0.2,
+              "owner": "風險負責人林員",
+              "action": "既有版超標，風險負責人接手並人工覆核"
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 8,
+              "fn": 2,
+              "fp": 6,
+              "tn": 4,
+              "selection_rate": 0.7,
+              "TPR": 0.8,
+              "FPR": 0.6,
+              "owner": "風險負責人林員",
+              "action": "既有版超標，風險負責人接手並人工覆核"
+            }
+          ],
+          "labels": "教學真值於窗尾完整可用；真實信貸須另等結果成熟"
+        },
+        {
+          "week": "W2",
+          "date": "2026-07-08/2026-07-14",
+          "version": "middle-v2",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 7,
+              "fn": 3,
+              "fp": 3,
+              "tn": 7,
+              "selection_rate": 0.5,
+              "TPR": 0.7,
+              "FPR": 0.3,
+              "owner": "風險負責人林員",
+              "action": "重大更新通過事前審查，維運持續監控"
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4,
+              "owner": "風險負責人林員",
+              "action": "重大更新通過事前審查，維運持續監控"
+            }
+          ],
+          "labels": "教學真值於窗尾完整可用；真實信貸須另等結果成熟"
+        },
+        {
+          "week": "W3",
+          "date": "2026-07-15/2026-07-21",
+          "version": "middle-v2",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 7,
+              "fn": 3,
+              "fp": 3,
+              "tn": 7,
+              "selection_rate": 0.5,
+              "TPR": 0.7,
+              "FPR": 0.3,
+              "owner": "風險負責人林員",
+              "action": "B群假陽例增加，啟動調查及人工覆核"
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 6,
+              "tn": 4,
+              "selection_rate": 0.6,
+              "TPR": 0.6,
+              "FPR": 0.6,
+              "owner": "風險負責人林員",
+              "action": "B群假陽例增加，啟動調查及人工覆核"
+            }
+          ],
+          "labels": "教學真值於窗尾完整可用；真實信貸須另等結果成熟"
+        },
+        {
+          "week": "W4",
+          "date": "2026-07-22/2026-07-28",
+          "version": "middle-v2",
+          "groups": [
+            {
+              "group": "A",
+              "count": 20,
+              "tp": 7,
+              "fn": 3,
+              "fp": 3,
+              "tn": 7,
+              "selection_rate": 0.5,
+              "TPR": 0.7,
+              "FPR": 0.3,
+              "owner": "風險負責人林員",
+              "action": "修正資料處理，重核後恢復例行監控"
+            },
+            {
+              "group": "B",
+              "count": 20,
+              "tp": 6,
+              "fn": 4,
+              "fp": 4,
+              "tn": 6,
+              "selection_rate": 0.5,
+              "TPR": 0.6,
+              "FPR": 0.4,
+              "owner": "風險負責人林員",
+              "action": "修正資料處理，重核後恢復例行監控"
+            }
+          ],
+          "labels": "教學真值於窗尾完整可用；真實信貸須另等結果成熟"
+        }
+      ],
+      "policy": {
+        "accuracy_min": 0.65,
+        "equalized_odds_gap_max": 0.1,
+        "min_group_count": 20,
+        "note": "教學風險門檻，非法律或統計顯著性標準"
+      },
+      "complaint": {
+        "id": "AP-C-01",
+        "week": "W3",
+        "issue": "申請者要求說明核准判定與群體落差",
+        "owner": "申訴窗口陳員",
+        "deadline": "2個工作日回應，5個工作日提出調查與修正安排",
+        "closure": "通知個案覆核結果；保留異議及修正版本；W4驗證後追蹤"
+      },
+      "note": "版本比較沿用B組40筆；版本輸出是預設候選，非工具訓練。每週為獨立40筆合成事件，計數可相同但非重複使用固定稽核人員；W3不是訓練來源。"
+    }
+  ],
+  "slices": [
+    {
+      "domain": "language",
+      "group": "主流語言",
+      "count": 40,
+      "tp": 18,
+      "fn": 2,
+      "fp": 2,
+      "tn": 18,
+      "selection_rate": 0.5,
+      "TPR": 0.9,
+      "FPR": 0.1,
+      "version": "slice-v1",
+      "split": "independent_slice_audit",
+      "owner": "語言覆核員",
+      "action": "覆核錯例、補足條件覆蓋、修正後以新資料復評"
+    },
+    {
+      "domain": "language",
+      "group": "少數語言",
+      "count": 40,
+      "tp": 14,
+      "fn": 6,
+      "fp": 6,
+      "tn": 14,
+      "selection_rate": 0.5,
+      "TPR": 0.7,
+      "FPR": 0.3,
+      "version": "slice-v1",
+      "split": "independent_slice_audit",
+      "owner": "語言覆核員",
+      "action": "覆核錯例、補足條件覆蓋、修正後以新資料復評"
+    },
+    {
+      "domain": "vision",
+      "group": "標準光照",
+      "count": 40,
+      "tp": 18,
+      "fn": 2,
+      "fp": 2,
+      "tn": 18,
+      "selection_rate": 0.5,
+      "TPR": 0.9,
+      "FPR": 0.1,
+      "version": "slice-v1",
+      "split": "independent_slice_audit",
+      "owner": "影像覆核員",
+      "action": "覆核錯例、補足條件覆蓋、修正後以新資料復評"
+    },
+    {
+      "domain": "vision",
+      "group": "低光低解析",
+      "count": 40,
+      "tp": 12,
+      "fn": 8,
+      "fp": 8,
+      "tn": 12,
+      "selection_rate": 0.5,
+      "TPR": 0.6,
+      "FPR": 0.4,
+      "version": "slice-v1",
+      "split": "independent_slice_audit",
+      "owner": "影像覆核員",
+      "action": "覆核錯例、補足條件覆蓋、修正後以新資料復評"
+    }
+  ],
+  "review_roles": {
+    "policy": "風險負責人林員",
+    "model": "模型工程師周員",
+    "data": "資料負責人吳員",
+    "appeal": "申訴窗口陳員",
+    "approval": "跨部門委員會召集人許員",
+    "verification": "獨立查核員黃員"
+  }
+}

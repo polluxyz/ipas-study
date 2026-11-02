@@ -4,7 +4,7 @@
 
 ## 啟動與入口
 
-在專案根目錄 `D:\AI_test`：
+在專案根目錄 `D:\ipas-study`：
 
 ```powershell
 pnpm --dir demo install --frozen-lockfile

@@ -1,0 +1,943 @@
+{
+  "source": "教學合成資料；人物、組織、案件與訂單皆為虛構，不代表真實規則",
+  "seed": 42,
+  "span_convention": "Python Unicode 字元索引，0 起算，左含右不含，保留原始標點；本資料只含 BMP 字元",
+  "split": {
+    "train": [
+      "E01",
+      "E02",
+      "E03",
+      "E05",
+      "E06",
+      "E07",
+      "E09",
+      "E10",
+      "E11",
+      "E13",
+      "E14",
+      "E15"
+    ],
+    "test": [
+      "E04",
+      "E08",
+      "E12",
+      "E16"
+    ]
+  },
+  "customer": [
+    {
+      "id": "E01",
+      "text": "訂單A101尚未出貨，請取消並退款300元。",
+      "language": "zh-Hant",
+      "intent": "退款",
+      "sentiment": "中立",
+      "dialogue_state": "等待確認",
+      "handoff": false,
+      "summary_reference": "A101未出貨，申請取消及退款300元。",
+      "entities": [
+        {
+          "id": "E01-order",
+          "text": "A101",
+          "start": 2,
+          "end": 6,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E02",
+      "text": "訂單A102想辦退款，請告訴我退款步驟。",
+      "language": "zh-Hant",
+      "intent": "退款",
+      "sentiment": "中立",
+      "dialogue_state": "補齊資料",
+      "handoff": false,
+      "summary_reference": "詢問A102的退款步驟。",
+      "entities": [
+        {
+          "id": "E02-order",
+          "text": "A102",
+          "start": 2,
+          "end": 6,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E03",
+      "text": "訂單A103取消了，請將款項退回原帳戶。",
+      "language": "zh-Hant",
+      "intent": "退款",
+      "sentiment": "中立",
+      "dialogue_state": "等待確認",
+      "handoff": false,
+      "summary_reference": "A103已取消，要求退回原帳戶。",
+      "entities": [
+        {
+          "id": "E03-order",
+          "text": "A103",
+          "start": 2,
+          "end": 6,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E04",
+      "text": "謝謝，訂單A104請辦退款。",
+      "language": "zh-Hant",
+      "intent": "退款",
+      "sentiment": "中立",
+      "dialogue_state": "等待確認",
+      "handoff": false,
+      "summary_reference": "申請A104退款。",
+      "entities": [
+        {
+          "id": "E04-order",
+          "text": "A104",
+          "start": 5,
+          "end": 9,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "test"
+    },
+    {
+      "id": "E05",
+      "text": "訂單A105的包裹到哪裡了？",
+      "language": "zh-Hant",
+      "intent": "配送",
+      "sentiment": "中立",
+      "dialogue_state": "查詢配送",
+      "handoff": false,
+      "summary_reference": "查詢A105包裹位置。",
+      "entities": [
+        {
+          "id": "E05-order",
+          "text": "A105",
+          "start": 2,
+          "end": 6,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E06",
+      "text": "請查訂單A106出貨日期與物流進度。",
+      "language": "zh-Hant",
+      "intent": "配送",
+      "sentiment": "中立",
+      "dialogue_state": "查詢配送",
+      "handoff": false,
+      "summary_reference": "查詢A106出貨與物流進度。",
+      "entities": [
+        {
+          "id": "E06-order",
+          "text": "A106",
+          "start": 4,
+          "end": 8,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E07",
+      "text": "訂單A107包裹何時送達？麻煩查物流。",
+      "language": "zh-Hant",
+      "intent": "配送",
+      "sentiment": "中立",
+      "dialogue_state": "查詢配送",
+      "handoff": false,
+      "summary_reference": "查詢A107預計送達時間。",
+      "entities": [
+        {
+          "id": "E07-order",
+          "text": "A107",
+          "start": 2,
+          "end": 6,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E08",
+      "text": "請查訂單A108的包裹配送進度。",
+      "language": "zh-Hant",
+      "intent": "配送",
+      "sentiment": "中立",
+      "dialogue_state": "查詢配送",
+      "handoff": false,
+      "summary_reference": "查詢A108配送進度。",
+      "entities": [
+        {
+          "id": "E08-order",
+          "text": "A108",
+          "start": 4,
+          "end": 8,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "test"
+    },
+    {
+      "id": "E09",
+      "text": "這款耳機有藍色嗎？售價多少？",
+      "language": "zh-Hant",
+      "intent": "詢問",
+      "sentiment": "中立",
+      "dialogue_state": "回答商品",
+      "handoff": false,
+      "summary_reference": "詢問耳機藍色款與售價。",
+      "entities": [],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E10",
+      "text": "請問耳機的保固多久，是否支援退換？",
+      "language": "zh-Hant",
+      "intent": "詢問",
+      "sentiment": "中立",
+      "dialogue_state": "回答商品",
+      "handoff": false,
+      "summary_reference": "詢問耳機保固及退換規則。",
+      "entities": [],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E11",
+      "text": "耳機規格與價格可以提供嗎？謝謝。",
+      "language": "zh-Hant",
+      "intent": "詢問",
+      "sentiment": "中立",
+      "dialogue_state": "回答商品",
+      "handoff": false,
+      "summary_reference": "索取耳機規格與價格。",
+      "entities": [],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E12",
+      "text": "請問藍色耳機售價與保固期限？",
+      "language": "zh-Hant",
+      "intent": "詢問",
+      "sentiment": "中立",
+      "dialogue_state": "回答商品",
+      "handoff": false,
+      "summary_reference": "詢問藍色耳機售價及保固。",
+      "entities": [],
+      "triples": [],
+      "split": "test"
+    },
+    {
+      "id": "E13",
+      "text": "真棒，訂單A113又延遲三天。",
+      "language": "zh-Hant",
+      "intent": "客訴",
+      "sentiment": "負面",
+      "dialogue_state": "轉人工",
+      "handoff": true,
+      "summary_reference": "對A113再次延遲三天表示不滿。",
+      "entities": [
+        {
+          "id": "E13-order",
+          "text": "A113",
+          "start": 5,
+          "end": 9,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E14",
+      "text": "服務不是不好，是退款等太久。",
+      "language": "zh-Hant",
+      "intent": "客訴",
+      "sentiment": "負面",
+      "dialogue_state": "轉人工",
+      "handoff": true,
+      "summary_reference": "肯定服務但不滿退款等待時間。",
+      "entities": [],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E15",
+      "text": "客服態度很好，但訂單A115破損讓我失望。",
+      "language": "zh-Hant",
+      "intent": "客訴",
+      "sentiment": "負面",
+      "dialogue_state": "轉人工",
+      "handoff": true,
+      "summary_reference": "肯定客服態度，但對A115破損感到失望。",
+      "entities": [
+        {
+          "id": "E15-order",
+          "text": "A115",
+          "start": 10,
+          "end": 14,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "train"
+    },
+    {
+      "id": "E16",
+      "text": "訂單A116破損很失望，請主管處理投訴。",
+      "language": "zh-Hant",
+      "intent": "客訴",
+      "sentiment": "負面",
+      "dialogue_state": "轉人工",
+      "handoff": true,
+      "summary_reference": "A116破損，要求主管處理投訴。",
+      "entities": [
+        {
+          "id": "E16-order",
+          "text": "A116",
+          "start": 2,
+          "end": 6,
+          "type": "ORDER"
+        }
+      ],
+      "triples": [],
+      "split": "test"
+    }
+  ],
+  "documents": [
+    {
+      "id": "M01",
+      "domain": "醫療行政",
+      "text": "林安於青禾醫院掛號，日期為11月5日。",
+      "language": "zh-Hant",
+      "intent": "行政文件",
+      "sentiment": "中立",
+      "summary_reference": "林安於11月5日在青禾醫院掛號。",
+      "summary_points": [
+        "林安於11月5日在青禾醫院掛號。"
+      ],
+      "entities": [
+        {
+          "id": "M01-e1",
+          "text": "林安",
+          "start": 0,
+          "end": 2,
+          "type": "PERSON"
+        },
+        {
+          "id": "M01-e2",
+          "text": "青禾醫院",
+          "start": 3,
+          "end": 7,
+          "type": "ORG"
+        },
+        {
+          "id": "M01-e3",
+          "text": "11月5日",
+          "start": 13,
+          "end": 18,
+          "type": "DATE"
+        }
+      ],
+      "triples": [
+        {
+          "subject": "M01-e1",
+          "predicate": "掛號於",
+          "object": "M01-e2",
+          "evidence_id": "M01"
+        }
+      ],
+      "review": false,
+      "handoff": false,
+      "glossary": {}
+    },
+    {
+      "id": "M02",
+      "domain": "醫療行政",
+      "text": "補件可於11月5日前完成，無須重新掛號。",
+      "language": "zh-Hant",
+      "intent": "行政文件",
+      "sentiment": "中立",
+      "summary_reference": "可於11月5日前補件，不必重新掛號。",
+      "summary_points": [
+        "可於11月5日前補件，不必重新掛號。"
+      ],
+      "entities": [
+        {
+          "id": "M02-e1",
+          "text": "11月5日",
+          "start": 4,
+          "end": 9,
+          "type": "DATE"
+        }
+      ],
+      "triples": [],
+      "review": true,
+      "handoff": true,
+      "glossary": {
+        "掛號": "registration",
+        "補件": "submit supplementary documents"
+      }
+    },
+    {
+      "id": "M03",
+      "domain": "醫療行政",
+      "text": "周晴向青禾醫院申請掛號證明。",
+      "language": "zh-Hant",
+      "intent": "行政文件",
+      "sentiment": "中立",
+      "summary_reference": "周晴向青禾醫院申請掛號證明。",
+      "summary_points": [
+        "周晴向青禾醫院申請掛號證明。"
+      ],
+      "entities": [
+        {
+          "id": "M03-e1",
+          "text": "周晴",
+          "start": 0,
+          "end": 2,
+          "type": "PERSON"
+        },
+        {
+          "id": "M03-e2",
+          "text": "青禾醫院",
+          "start": 3,
+          "end": 7,
+          "type": "ORG"
+        },
+        {
+          "id": "M03-e3",
+          "text": "掛號證明",
+          "start": 9,
+          "end": 13,
+          "type": "DOCUMENT"
+        }
+      ],
+      "triples": [
+        {
+          "subject": "M03-e1",
+          "predicate": "申請文件",
+          "object": "M03-e3",
+          "evidence_id": "M03"
+        }
+      ],
+      "review": false,
+      "handoff": false,
+      "glossary": {}
+    },
+    {
+      "id": "M04",
+      "domain": "醫療行政",
+      "text": "青禾醫院將掛號證明交給林安。",
+      "language": "zh-Hant",
+      "intent": "行政文件",
+      "sentiment": "中立",
+      "summary_reference": "青禾醫院交付掛號證明給林安。",
+      "summary_points": [
+        "青禾醫院交付掛號證明給林安。"
+      ],
+      "entities": [
+        {
+          "id": "M04-e1",
+          "text": "青禾醫院",
+          "start": 0,
+          "end": 4,
+          "type": "ORG"
+        },
+        {
+          "id": "M04-e2",
+          "text": "掛號證明",
+          "start": 5,
+          "end": 9,
+          "type": "DOCUMENT"
+        },
+        {
+          "id": "M04-e3",
+          "text": "林安",
+          "start": 11,
+          "end": 13,
+          "type": "PERSON"
+        }
+      ],
+      "triples": [
+        {
+          "subject": "M04-e1",
+          "predicate": "交付文件",
+          "object": "M04-e2",
+          "evidence_id": "M04"
+        },
+        {
+          "subject": "M04-e2",
+          "predicate": "收件人",
+          "object": "M04-e3",
+          "evidence_id": "M04"
+        }
+      ],
+      "review": false,
+      "handoff": false,
+      "glossary": {}
+    },
+    {
+      "id": "M05",
+      "domain": "醫療行政",
+      "text": "林安與周晴在青禾醫院等候。",
+      "language": "zh-Hant",
+      "intent": "行政文件",
+      "sentiment": "中立",
+      "summary_reference": "林安與周晴在青禾醫院等候，關係未明。",
+      "summary_points": [
+        "林安與周晴在青禾醫院等候，關係未明。"
+      ],
+      "entities": [
+        {
+          "id": "M05-e1",
+          "text": "林安",
+          "start": 0,
+          "end": 2,
+          "type": "PERSON"
+        },
+        {
+          "id": "M05-e2",
+          "text": "周晴",
+          "start": 3,
+          "end": 5,
+          "type": "PERSON"
+        },
+        {
+          "id": "M05-e3",
+          "text": "青禾醫院",
+          "start": 6,
+          "end": 10,
+          "type": "ORG"
+        }
+      ],
+      "triples": [],
+      "review": true,
+      "handoff": true,
+      "glossary": {}
+    },
+    {
+      "id": "M06",
+      "domain": "醫療行政",
+      "text": "青禾醫院行政處收到周晴的申請。",
+      "language": "zh-Hant",
+      "intent": "行政文件",
+      "sentiment": "中立",
+      "summary_reference": "青禾醫院行政處收到周晴申請。",
+      "summary_points": [
+        "青禾醫院行政處收到周晴申請。"
+      ],
+      "entities": [
+        {
+          "id": "M06-e1",
+          "text": "青禾醫院行政處",
+          "start": 0,
+          "end": 7,
+          "type": "ORG"
+        },
+        {
+          "id": "M06-e2",
+          "text": "周晴",
+          "start": 9,
+          "end": 11,
+          "type": "PERSON"
+        }
+      ],
+      "triples": [
+        {
+          "subject": "M06-e1",
+          "predicate": "收到申請自",
+          "object": "M06-e2",
+          "evidence_id": "M06"
+        }
+      ],
+      "review": true,
+      "handoff": true,
+      "glossary": {},
+      "overlap_candidates": [
+        {
+          "text": "青禾醫院",
+          "start": 0,
+          "end": 4,
+          "type": "ORG"
+        },
+        {
+          "text": "青禾醫院行政處",
+          "start": 0,
+          "end": 7,
+          "type": "ORG"
+        }
+      ]
+    },
+    {
+      "id": "L01",
+      "domain": "法律",
+      "text": "晴川法院受理星禾公司提出的甲案。",
+      "language": "zh-Hant",
+      "intent": "案件文件",
+      "sentiment": "中立",
+      "summary_reference": "晴川法院受理星禾公司提出的甲案。",
+      "summary_points": [
+        "晴川法院受理星禾公司提出的甲案。"
+      ],
+      "entities": [
+        {
+          "id": "L01-e1",
+          "text": "晴川法院",
+          "start": 0,
+          "end": 4,
+          "type": "COURT"
+        },
+        {
+          "id": "L01-e2",
+          "text": "星禾公司",
+          "start": 6,
+          "end": 10,
+          "type": "ORG"
+        },
+        {
+          "id": "L01-e3",
+          "text": "甲案",
+          "start": 13,
+          "end": 15,
+          "type": "CASE"
+        }
+      ],
+      "triples": [
+        {
+          "subject": "L01-e1",
+          "predicate": "受理",
+          "object": "L01-e3",
+          "evidence_id": "L01"
+        },
+        {
+          "subject": "L01-e2",
+          "predicate": "提出",
+          "object": "L01-e3",
+          "evidence_id": "L01"
+        }
+      ],
+      "review": false,
+      "handoff": false,
+      "glossary": {}
+    },
+    {
+      "id": "L02",
+      "domain": "法律",
+      "text": "星禾公司尚未委任林安代理甲案。",
+      "language": "zh-Hant",
+      "intent": "案件文件",
+      "sentiment": "中立",
+      "summary_reference": "星禾公司尚未委任林安代理甲案。",
+      "summary_points": [
+        "星禾公司尚未委任林安代理甲案。"
+      ],
+      "entities": [
+        {
+          "id": "L02-e1",
+          "text": "星禾公司",
+          "start": 0,
+          "end": 4,
+          "type": "ORG"
+        },
+        {
+          "id": "L02-e2",
+          "text": "林安",
+          "start": 8,
+          "end": 10,
+          "type": "PERSON"
+        },
+        {
+          "id": "L02-e3",
+          "text": "甲案",
+          "start": 12,
+          "end": 14,
+          "type": "CASE"
+        }
+      ],
+      "triples": [],
+      "review": true,
+      "handoff": true,
+      "glossary": {},
+      "rejected_candidates": [
+        {
+          "subject": "星禾公司",
+          "predicate": "委任",
+          "object": "林安",
+          "reason": "尚未：否定已成立的委任"
+        }
+      ]
+    },
+    {
+      "id": "L03",
+      "domain": "法律",
+      "text": "周晴於晴川法院遞交乙案文件。",
+      "language": "zh-Hant",
+      "intent": "案件文件",
+      "sentiment": "中立",
+      "summary_reference": "周晴在晴川法院遞交乙案文件。",
+      "summary_points": [
+        "周晴在晴川法院遞交乙案文件。"
+      ],
+      "entities": [
+        {
+          "id": "L03-e1",
+          "text": "周晴",
+          "start": 0,
+          "end": 2,
+          "type": "PERSON"
+        },
+        {
+          "id": "L03-e2",
+          "text": "晴川法院",
+          "start": 3,
+          "end": 7,
+          "type": "COURT"
+        },
+        {
+          "id": "L03-e3",
+          "text": "乙案",
+          "start": 9,
+          "end": 11,
+          "type": "CASE"
+        }
+      ],
+      "triples": [
+        {
+          "subject": "L03-e1",
+          "predicate": "遞交文件於",
+          "object": "L03-e2",
+          "evidence_id": "L03"
+        }
+      ],
+      "review": false,
+      "handoff": false,
+      "glossary": {}
+    },
+    {
+      "id": "L04",
+      "domain": "法律",
+      "text": "甲案文件由林安送至晴川法院。",
+      "language": "zh-Hant",
+      "intent": "案件文件",
+      "sentiment": "中立",
+      "summary_reference": "林安將甲案文件送至晴川法院。",
+      "summary_points": [
+        "林安將甲案文件送至晴川法院。"
+      ],
+      "entities": [
+        {
+          "id": "L04-e1",
+          "text": "甲案",
+          "start": 0,
+          "end": 2,
+          "type": "CASE"
+        },
+        {
+          "id": "L04-e2",
+          "text": "林安",
+          "start": 5,
+          "end": 7,
+          "type": "PERSON"
+        },
+        {
+          "id": "L04-e3",
+          "text": "晴川法院",
+          "start": 9,
+          "end": 13,
+          "type": "COURT"
+        }
+      ],
+      "triples": [
+        {
+          "subject": "L04-e2",
+          "predicate": "送件至",
+          "object": "L04-e3",
+          "evidence_id": "L04"
+        }
+      ],
+      "review": false,
+      "handoff": false,
+      "glossary": {}
+    },
+    {
+      "id": "L05",
+      "domain": "法律",
+      "text": "星禾公司可能委任周晴處理乙案。",
+      "language": "zh-Hant",
+      "intent": "案件文件",
+      "sentiment": "中立",
+      "summary_reference": "星禾公司可能委任周晴處理乙案，尚未確定。",
+      "summary_points": [
+        "星禾公司可能委任周晴處理乙案，尚未確定。"
+      ],
+      "entities": [
+        {
+          "id": "L05-e1",
+          "text": "星禾公司",
+          "start": 0,
+          "end": 4,
+          "type": "ORG"
+        },
+        {
+          "id": "L05-e2",
+          "text": "周晴",
+          "start": 8,
+          "end": 10,
+          "type": "PERSON"
+        },
+        {
+          "id": "L05-e3",
+          "text": "乙案",
+          "start": 12,
+          "end": 14,
+          "type": "CASE"
+        }
+      ],
+      "triples": [],
+      "review": true,
+      "handoff": true,
+      "glossary": {},
+      "rejected_candidates": [
+        {
+          "subject": "星禾公司",
+          "predicate": "委任",
+          "object": "周晴",
+          "reason": "可能：未確定的委任"
+        }
+      ]
+    },
+    {
+      "id": "L06",
+      "domain": "法律",
+      "text": "晴川法院通知星禾公司於11月5日前補件。",
+      "language": "zh-Hant",
+      "intent": "案件文件",
+      "sentiment": "中立",
+      "summary_reference": "晴川法院通知星禾公司於11月5日前補件。",
+      "summary_points": [
+        "晴川法院通知星禾公司於11月5日前補件。"
+      ],
+      "entities": [
+        {
+          "id": "L06-e1",
+          "text": "晴川法院",
+          "start": 0,
+          "end": 4,
+          "type": "COURT"
+        },
+        {
+          "id": "L06-e2",
+          "text": "星禾公司",
+          "start": 6,
+          "end": 10,
+          "type": "ORG"
+        },
+        {
+          "id": "L06-e3",
+          "text": "11月5日",
+          "start": 11,
+          "end": 16,
+          "type": "DATE"
+        }
+      ],
+      "triples": [
+        {
+          "subject": "L06-e1",
+          "predicate": "通知補件",
+          "object": "L06-e2",
+          "evidence_id": "L06"
+        }
+      ],
+      "review": true,
+      "handoff": true,
+      "glossary": {}
+    }
+  ],
+  "dialogues": {
+    "booking": [
+      {
+        "turn": 1,
+        "user": "我要11月5日的機票。",
+        "state": {
+          "date": "11月5日",
+          "destination": null
+        },
+        "action": "追問目的地"
+      },
+      {
+        "turn": 2,
+        "user": "去台南，還沒確定人數。",
+        "state": {
+          "date": "11月5日",
+          "destination": "台南",
+          "passengers": null
+        },
+        "action": "追問人數；不建立訂單"
+      },
+      {
+        "turn": 3,
+        "user": "改11月6日，兩人。",
+        "state": {
+          "date": "11月6日",
+          "destination": "台南",
+          "passengers": 2
+        },
+        "action": "重述並請確認；尚未付款"
+      }
+    ],
+    "open_qa": [
+      {
+        "turn": 1,
+        "user": "旅行時如何安排休息？",
+        "action": "提供一般建議"
+      },
+      {
+        "turn": 2,
+        "user": "沿用剛才的安排，改成兩天呢？",
+        "action": "參照前文調整；資訊不足先追問"
+      }
+    ]
+  },
+  "translations": [
+    {
+      "source_id": "M02",
+      "reference": "Supplementary documents may be submitted by November 5; no new registration is required.",
+      "bad": "You must register again by November 5.",
+      "checks": [
+        "可：不得變成必須",
+        "無須：不得漏否定",
+        "掛號：registration，不是 numbered ticket",
+        "11月5日：不得變更日期"
+      ]
+    },
+    {
+      "source_id": "L02",
+      "reference": "Xinghe Company has not yet appointed Lin An to represent it in Case A.",
+      "bad": "Xinghe Company has appointed Lin An to represent it in Case A.",
+      "checks": [
+        "尚未：not yet",
+        "委任：appoint，不是 admit",
+        "甲案：Case A，不是 Company A"
+      ]
+    }
+  ]
+}
