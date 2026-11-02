@@ -1,0 +1,37 @@
+id: 115-1-S1-Q10
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 10
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 3
+type: 情境
+codes:
+  - L21102
+  - L23302
+concepts: []
+stem: |
+  某工廠導入即時影像瑕疵偵測系統，需在高頻影像流中進行快速推論。工程師在 YOLO 與 Faster R-CNN 兩種物件偵測架構之間進行評估，請問下列哪一個針對兩者在偵測流程設計上的差異最為正確？
+options:
+  A: YOLO 採用單階段偵測，直接從整張影像預測物件位置與類別；Faster R-CNN 則先產生候選區域再進行分類；
+  B: YOLO 與 Faster R-CNN 皆採用兩階段流程，但在特徵擷取方式上有所不同；
+  C: YOLO 採用單階段架構，主要透過增加候選區域數量來提升偵測準確率；
+  D: Faster R-CNN 採用單階段偵測方式，將物件定位與分類整合於同一模型中
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E5
+  blind_answer: null
+  dispute: null

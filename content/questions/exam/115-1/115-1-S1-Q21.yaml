@@ -1,0 +1,44 @@
+id: 115-1-S1-Q21
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 21
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 7
+type: 情境
+codes:
+  - L21202
+  - L21103
+concepts: []
+stem: |
+  一位機器學習工程師正在優化公司內部的 RAG 法律文件問答系統。近期因營運成本壓力，公司要求在不更換模型且不影響回答品質的前提下，將整體 token 成本降低至目前的 60%，且目前成本主要集中於輸入 tokens。工程師在檢查系統後，盤點出目前的使用情況如下：
+  ◆使用模型：GPT-4o（輸入$5／1M tokens、輸出 $15／1M tokens）
+  ◆每次查詢：將前 10 筆檢索文件區塊全部加入 Prompt（每塊約 600 tokens）
+  ◆System Prompt：每次請求均包含約 500tokens 的公司背景說明
+  ◆對話機制：保留完整對話歷史，平均累積約 8,000tokens
+  ◆每日查詢量：約 5,000 次
+  ◆平均輸出：約 300tokens／次
+  在上述限制與系統現況下，請問下列哪一項優化組合，最能在維持回答品質的前提下有效降低 token 成本？
+options:
+  A: 將輸出 max_tokens 從 1,000 壓縮至 200，強制模型給出更短的回答，以降低輸出費用；
+  B: 將 System Prompt 改為 Prompt Caching 或靜態前綴重用，並對對話歷史實作摘要壓縮，以保留語意而非完整對話；
+  C: 將所有查詢改為 Batch API 模式送出，透過非同步處理降低單次費用；
+  D: 在 Prompt 中明確要求模型「回答時盡量簡短」，透過指令引導模型自行縮減輸出長度
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 7
+    by: EX-E5
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,37 @@
+id: 115-1-S1-Q19
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 19
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 6
+type: 圖表
+codes:
+  - L21201
+  - L23303
+concepts: []
+stem: |
+  一家電商公司已將推薦系統 AI 模型上線三個月，業務主管要求專案團隊評估導入成效。團隊根據下圖數據得出結論：「因為 AUC 高達 0.91，模型表現優異，AI 導入成效良好。」請問此評估結論存在什麼根本問題？
+options:
+  A: 僅依賴離線指標 AUC 判斷模型成效，忽略線上業務指標（如 CTR 與營收）的變化，可能導致錯誤結論；
+  B: AUC 已達 0.91，代表模型排序能力優異，即使 CTR 略為下降，仍可視為推薦品質提升；
+  C: CTR 從 3.2%降至 3.1%，顯示模型效果變差，應立即還原（Rollback）至舊模型；
+  D: 平均訂單金額提升至$1,020，代表模型已成功優化營收，因此無需考慮其他指標
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E5
+  blind_answer: null
+  dispute: null

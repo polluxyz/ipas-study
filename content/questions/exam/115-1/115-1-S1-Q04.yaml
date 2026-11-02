@@ -1,0 +1,37 @@
+id: 115-1-S1-Q04
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 4
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 1
+type: 情境
+codes:
+  - L21101
+  - L23201
+concepts: []
+stem: |
+  某金融科技公司的工程師正在準備內部客服對話與交易紀錄文本，進行 BERT 模型的預訓練，以提升模型對金融語境的理解能力，並採用遮蔽語言建模（Masked Language Model, MLM）作為訓練任務。請問 MLM 的核心訓練目標為何？
+options:
+  A: 讓模型自左至右逐 token 生成句子，學習自迴歸語言模型（Autoregressive LM）能力；
+  B: 透過對抗訓練（Adversarial Training）縮小真實句與生成句之間的語意差異；
+  C: 隨機遮蔽輸入序列中部分 token，訓練模型根據雙向上下文預測被遮蔽的原始內容；
+  D: 透過遮蔽低頻詞來減少詞彙表大小，降低 Embedding 的記憶體使用
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E5
+  blind_answer: null
+  dispute: null

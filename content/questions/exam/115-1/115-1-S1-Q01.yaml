@@ -1,0 +1,36 @@
+id: 115-1-S1-Q01
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 1
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 1
+type: 情境
+codes:
+  - L21101
+concepts: []
+stem: |
+  某工程師正在建置一套法律文件解析系統，在進行資訊擷取（Information Extraction）前，需要對文本進行詞性標註（Part-of-Speech Tagging, POS Tagging）。請問此步驟的主要目的為何？
+options:
+  A: 將文本翻譯為其他語言以利跨語言分析；
+  B: 將文本切分為基本詞彙單位，以便後續處理；
+  C: 判斷文本中各詞彙的情感傾向；
+  D: 為每個詞彙標記其語法類別，如名詞、動詞與形容詞
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E5
+  blind_answer: null
+  dispute: null

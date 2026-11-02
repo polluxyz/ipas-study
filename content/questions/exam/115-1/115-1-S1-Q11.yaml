@@ -1,0 +1,37 @@
+id: 115-1-S1-Q11
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 11
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 3
+type: 情境
+codes:
+  - L23203
+  - L21101
+concepts: []
+stem: |
+  某工程師在分析 Transformer 架構時，發現自注意力機制（Self-Attention）能夠有效提升模型對序列中長距離依賴關係的建模能力。請問 Self-Attention 的核心功能為何？
+options:
+  A: 透過隱藏狀態的遞迴傳遞，逐步累積序列中的上下文資訊；
+  B: 讓序列中每個 token 能與其他所有 token 建立關聯，並根據重要性分配權重；
+  C: 對輸入序列進行局部運算，以捕捉相鄰詞之間的關係；
+  D: 將整個序列壓縮為固定長度表示，以提供後續任務使用
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 3
+    by: EX-E5
+  blind_answer: null
+  dispute: null

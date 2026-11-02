@@ -1,0 +1,37 @@
+id: 115-1-S1-Q25
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 25
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 8
+type: 情境
+codes:
+  - L21203
+  - L23303
+concepts: []
+stem: |
+  某企業欲將其 AI 輔助決策系統提交給外部稽核單位審查，並宣稱符合 NIST《AI 風險管理框架》（NIST AI RMF）中可驗證性（Verifiability）的要求。為讓第三方稽核人員能獨立重現模型評估結果，下列哪一項技術實踐最直接符合此要求？
+options:
+  A: 將模型測試準確率優化至 99%以上，以達到業界公認的高可靠標準；
+  B: 建立可追溯的測試資料與評估流程，並記錄模型訓練與評估過程中的關鍵設定，以確保結果可被重現；
+  C: 加快模型迭代速度，縮短版本發布週期以盡快累積外部驗證數據；
+  D: 擴充訓練資料量至數百萬筆，以統計方式確保模型的泛化能力達標
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 8
+    by: EX-E5
+  blind_answer: null
+  dispute: null

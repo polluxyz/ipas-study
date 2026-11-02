@@ -1,0 +1,36 @@
+id: 115-1-S1-Q03
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 3
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 1
+type: 情境
+codes:
+  - L21101
+concepts: []
+stem: |
+  某工程師在建構搜尋引擎的詞向量模型時，語料庫規模達數十億 token，且包含大量長尾詞彙（Long-tail Terms）。他在 Word2Vec 的 CBOW 與 Skip-gram 兩種訓練策略之間進行選擇，需考量訓練效率與低頻詞表示品質之差異。下列何者最能準確地反映兩者在此情境下的取捨？
+options:
+  A: CBOW 對長尾詞表現更好，因為它透過多個上下文詞的平均來強化稀疏詞的訓練訊號；
+  B: CBOW 訓練速度較快、整體語意平滑，但對低頻詞的向量品質較差；Skip-gram 以中心詞預測周圍詞，對長尾詞累積更多訓練樣本，向量品質較優；
+  C: Skip-gram 訓練速度更快，因為每次只需預測單一目標詞，計算量低於 CBOW；
+  D: 兩者對低頻詞的表現完全相同，差異僅在於訓練時的 Batch 組織方式
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E5
+  blind_answer: null
+  dispute: null

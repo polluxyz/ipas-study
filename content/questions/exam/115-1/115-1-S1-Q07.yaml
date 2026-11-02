@@ -1,0 +1,36 @@
+id: 115-1-S1-Q07
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 7
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 2
+type: 情境
+codes:
+  - L21102
+concepts: []
+stem: |
+  某大型超市的防損系統需要即時偵測多名顧客各自手持的購物籃、手機與商品，並需對每個物件進行精確區域標記（Pixel-level Mask），同時能區分畫面中不同個體（即使不同顧客拿著相同商品，也需分別標記）。請問下列哪一項技術最適合此場景的需求？
+options:
+  A: 影像分類（Image Classification）；
+  B: 目標檢測（Object Detection）；
+  C: 實例分割（Instance Segmentation）；
+  D: 語義分割（Semantic Segmentation）
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E5
+  blind_answer: null
+  dispute: null

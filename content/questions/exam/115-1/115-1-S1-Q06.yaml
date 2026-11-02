@@ -1,0 +1,36 @@
+id: 115-1-S1-Q06
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 6
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 2
+type: 情境
+codes:
+  - L21102
+concepts: []
+stem: |
+  某自駕車感知系統需要在同一張影像中同時完成道路、建築、行人的逐像素分類，並且能夠區分畫面中兩名相鄰行人（標記為「行人#1」和「行人#2」）。工程師在選擇語義分割（Semantic Segmentation）與實例分割（Instance Segmentation）時，請問兩者的根本差異為何？
+options:
+  A: 實例分割對每個像素進行分類但不產生 Bounding Box；語義分割產生 Bounding Box 但不進行像素級標記；
+  B: 實例分割僅用於影像層級的類別分類，語義分割才進行逐像素標記；
+  C: 語義分割將每個像素分配至預定義類別，但同一類別內的不同個體無法區分；實例分割能對同一類別的不同物件（如兩名行人）分別建立獨立遮罩（Mask）；
+  D: 語義分割與實例分割皆為逐像素分類任務，但兩者在是否需要區分不同物件個體上並無差異
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E5
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,37 @@
+id: 115-1-S1-Q14
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 14
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 4
+type: 情境
+codes:
+  - L23304
+  - L21103
+concepts: []
+stem: |
+  某工程師計劃將通用 LLM 在醫療問答語料上進行監督微調（Supervised Fine-Tuning, SFT），但發生了災難性遺忘（Catastrophic Forgetting）問題。在計算資源有限的情況下，工程師希望透過調整微調策略來緩解此問題。下列哪一種訓練設計最能有效率地學習新任務的同時保留原有能力？
+options:
+  A: 凍結大部分預訓練參數，僅對少量新增模組（如 LoRA 層）進行微調，並控制更新範圍以減少對原有知識的干擾；
+  B: 提高學習率（Learning Rate）並縮短訓練步數，使模型快速收斂至新任務，避免長時間訓練造成遺忘；
+  C: 僅使用醫療語料進行多輪訓練，強化模型對新任務的專注程度；
+  D: 增加批次大小（Batch Size）以穩定梯度更新，使模型同時保留舊知識與學習新知識
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E5
+  blind_answer: null
+  dispute: null

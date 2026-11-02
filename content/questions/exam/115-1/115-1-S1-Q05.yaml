@@ -1,0 +1,37 @@
+id: 115-1-S1-Q05
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 5
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 2
+type: 情境
+codes:
+  - L21101
+  - L23301
+concepts: []
+stem: |
+  某電商平台的工程師在開發商品評論情感分析系統時，發現使用 One-Hot 編碼無法表達詞語之間的語意關係，且隨著詞彙表擴大，向量維度與記憶體需求快速增加。工程師因此改用 Word2Vec 進行詞語表示。請問 Word2Vec 從根本上解決了上述問題的哪項限制？
+options:
+  A: 建立詞語之間的序列依賴關係，以捕捉長距離上下文語意；
+  B: 根據詞語在語料中的出現頻率調整其重要性，使模型更重視高頻詞；
+  C: 降低詞彙表示的維度，同時保留語意結構，避免高維稀疏表示所帶來的限制；
+  D: 透過監督式學習利用標註語料，提升詞語分類的準確性
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 2
+    by: EX-E5
+  blind_answer: null
+  dispute: null

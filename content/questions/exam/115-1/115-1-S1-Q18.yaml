@@ -1,0 +1,36 @@
+id: 115-1-S1-Q18
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 18
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 6
+type: 情境
+codes:
+  - L21104
+concepts: []
+stem: |
+  某醫院的 AI 研究團隊正在開發一套整合「CT 影像+電子病歷文本+基因序列」三種模態資料的癌症預測模型。請問在此場景中採用「跨模態對齊（Cross-Modal Alignment）」技術主要解決什麼問題？
+options:
+  A: 使模型僅聚焦於 CT 影像資料，避免文本與基因資料引入雜訊；
+  B: 自動生成跨模態配對標註，以減少人工標記需求；
+  C: 降低多模態資料的儲存與計算成本，以提升訓練效率；
+  D: 將不同模態的資料表示對齊至共同語意空間，使模型能建立跨模態之間的語意關聯
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 6
+    by: EX-E5
+  blind_answer: null
+  dispute: null

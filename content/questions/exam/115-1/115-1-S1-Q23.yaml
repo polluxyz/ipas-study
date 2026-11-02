@@ -1,0 +1,37 @@
+id: 115-1-S1-Q23
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 23
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 8
+type: 情境
+codes:
+  - L21202
+  - L23302
+concepts: []
+stem: |
+  某製造業公司計劃將 AI 導入生產線瑕疵檢測流程，目前瑕疵樣本約 800 張（含各類瑕疵類型）、正常樣本約 15,000 張，現有 IT 基礎設施為地端伺服器且無 GPU，且生產線環境需於地端即時完成推論，檢測需求為每片零件須在 100 毫秒內完成檢測，且預算為中等、無法於短期內大規模採購硬體。工程師正在規劃第一階段的 AI 導入方案，請問下列哪一種規劃最為合適？
+options:
+  A: 從零訓練一個大型 CNN 模型，並採購高階 GPU 伺服器以滿足推論速度需求；
+  B: 採用預訓練模型進行 Transfer Learning，針對瑕疵樣本進行 Fine-tuning，並使用模型量化（Quantization）或蒸餾（Distillation）技術壓縮模型以符合延遲需求，部署於地端；
+  C: 因樣本數不足，建議先暫緩 AI 導入，待蒐集至少 10 萬筆瑕疵樣本後再啟動專案；
+  D: 將所有影像上傳至雲端，使用第三方 AutoML 平台自動訓練並部署，以節省開發時間
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 8
+    by: EX-E5
+  blind_answer: null
+  dispute: null

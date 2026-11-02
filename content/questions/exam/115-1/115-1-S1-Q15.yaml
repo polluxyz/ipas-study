@@ -1,0 +1,37 @@
+id: 115-1-S1-Q15
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 15
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 4
+type: 情境
+codes:
+  - L21103
+  - L21302
+concepts: []
+stem: |
+  某企業建置一套多代理人（Multi-Agent）系統，由一個 Orchestrator Agent 負責任務分配，多個 Worker Agent 分別執行網路搜尋、程式撰寫與結果彙整。若 Orchestrator 發現某 Worker Agent 回傳結果品質不符合預期，從系統容錯與任務可靠性角度，下列哪一項機制最能確保整體任務仍能正確完成？
+options:
+  A: 直接採用該 Worker Agent 的輸出，避免重試機制造成延遲；
+  B: Orchestrator 具備結果評估能力，對不合格結果觸發重試（Retry）或重新分配給不同 Worker，並記錄失敗原因供後續改善；
+  C: 強制所有 Worker Agent 統一使用相同的 LLM 模型，以減少輸出差異；
+  D: 當任何一個 Worker 失敗時，整個 Multi-Agent 任務直接中止並通知使用者重新啟動
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 4
+    by: EX-E5
+  blind_answer: null
+  dispute: null

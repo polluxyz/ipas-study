@@ -1,0 +1,37 @@
+id: 115-1-S1-Q02
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 2
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 1
+type: 情境
+codes:
+  - L21103
+  - L23304
+concepts: []
+stem: |
+  一家新創公司希望對 Llama3 70B 模型進行領域微調（Domain Fine-Tuning）以建立企業專用助理，但 GPU 記憶體有限，無法支撐完整模型的反向傳播梯度計算。工程師希望凍結（freeze）原模型權重、僅訓練少量額外參數的前提下，評估採用 LoRA（Low-Rank Adaptation）方案。請問 LoRA 在此場景下的主要優勢為何？
+options:
+  A: 透過知識蒸餾（Knowledge Distillation）將 70B 模型壓縮為較小的學生模型；
+  B: 對原始模型各層權重進行剪枝（Pruning），移除低重要性參數後再進行微調；
+  C: 凍結原始預訓練權重，僅在各層加入低秩分解的可訓練矩陣，大幅降低可訓練參數量與 GPU 記憶體需求；
+  D: 將模型中的注意力機制改為稀疏注意力（Sparse Attention），以降低長序列計算成本
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 1
+    by: EX-E5
+  blind_answer: null
+  dispute: null

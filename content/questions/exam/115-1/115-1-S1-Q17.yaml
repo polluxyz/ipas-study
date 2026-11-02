@@ -1,0 +1,37 @@
+id: 115-1-S1-Q17
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 17
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 5
+type: 情境
+codes:
+  - L21104
+  - L23302
+concepts: []
+stem: |
+  某醫療新創公司正在開發一套「多模態患者風險評估系統」，需同時處理三種異質資料來源：胸腔 X 光影像（影像模態）、臨床診斷筆記（文字模態），以及心率與血氧的時序感測資料（數值時序模態）。工程師在進行各模態的特徵擷取模型選擇時，需為每種模態挑選最適合的模型架構。下列哪一組模型配置最符合三種模態各自的資料特性？
+options:
+  A: 影像模態用 LSTM、文字模態用 CNN、時序模態用 BERT；
+  B: 影像模態用 TF-IDF、文字模態用 ResNet、時序模態用 Word2Vec；
+  C: 三種模態統一使用 BERT，因為 Transformer 架構具備通用性，可處理任意形式的輸入資料；
+  D: 影像模態用 CNN、文字模態用 Transformer、時序模態用 LSTM 或 Temporal CNN
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 5
+    by: EX-E5
+  blind_answer: null
+  dispute: null
