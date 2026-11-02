@@ -1,6 +1,7 @@
 /** 離線驗證巡檢工具的文字排除區、主責導覽與錯誤收尾。 */
 import { describe, expect, it } from 'vitest';
-import { assertNavigation, expectedNavigation, hasUnconvertedWikiLink, runSmokeWithCleanup } from './smoke.mjs';
+import { assertNavigation, assertSessionStats, expectedNavigation, expectedSessionStats, hasUnconvertedWikiLink, runSmokeWithCleanup } from './smoke.mjs';
+import { loadContent } from './rollout-smoke.mjs';
 
 // 只模擬巡檢需要的 DOM API；不啟動瀏覽器或修改正式資料。
 function mainWithText(...nodes) {
@@ -25,6 +26,48 @@ const content = {
     { code: 'foreign', concepts: ['b', 'unlisted', 'cross', 'unavailable', 'a'] },
   ],
 };
+
+describe('練習頁場次科目統計', () => {
+  const questions = [
+    { source: 'exam', session: '114-2', subject: 1, codes: ['L23303'] },
+    { source: 'exam', session: '114-2', subject: 1, codes: ['other'] },
+    { source: 'exam', session: '114-2', subject: 3, codes: ['L23303', 'other'] },
+    { source: 'exam', session: '115-1', subject: 1, codes: ['L23303'] },
+    { source: 'exam', session: '115-1', subject: 3, codes: ['L23303'] },
+    { source: 'mock', session: '114-2', subject: 1, codes: ['L23303'] },
+  ];
+  const rows = [
+    '114-2 科1 1 題／目前載入 2 題（50%）', '114-2 科3 1 題／目前載入 1 題（100%）',
+    '115-1 科1 1 題／目前載入 1 題（100%）', '115-1 科3 1 題／目前載入 1 題（100%）',
+  ];
+  it('依代碼、場次及科目計算，排除模擬題，並逐格比對', () => {
+    expect(expectedSessionStats(questions, 'L23303')).toEqual(rows);
+    expect(() => assertSessionStats([...rows].reverse(), questions, 'L23303')).not.toThrow();
+  });
+  it('百分比四捨五入，原有 114-2 兩科目門檻不可因來源缺題消失', () => {
+    const extra = { source: 'exam', session: '114-2', subject: 1, codes: ['other'] };
+    expect(expectedSessionStats([...questions, extra], 'L23303')[0]).toBe('114-2 科1 1 題／目前載入 3 題（33%）');
+    const missing = questions.filter((question) => !(question.session === '114-2' && question.subject === 3));
+    expect(() => assertSessionStats(expectedSessionStats(missing, 'L23303'), missing, 'L23303')).toThrow('114-2 科3');
+  });
+  it.each([
+    ['錯分子', rows.map((row, index) => index === 0 ? row.replace('1 題／', '2 題／') : row)],
+    ['錯分母', rows.map((row, index) => index === 0 ? row.replace('載入 2', '載入 3') : row)],
+    ['缺場次', rows.slice(0, 3)],
+    ['重複場次', [...rows.slice(0, 3), rows[0]]],
+    ['錯比例', rows.map((row, index) => index === 0 ? row.replace('50%', '51%') : row)],
+    ['舊文案', rows.map((row, index) => index === 0 ? row.replace('目前載入', '樣本') : row)],
+  ])('拒絕%s', (_label, actual) => {
+    expect(() => assertSessionStats(actual, questions, 'L23303')).toThrow();
+  });
+  it('真實題庫四組數字與比例', async () => {
+    const { questions: source } = await loadContent();
+    expect(expectedSessionStats(source, 'L23303')).toEqual([
+      '114-2 科1 9 題／目前載入 50 題（18%）', '114-2 科3 15 題／目前載入 50 題（30%）',
+      '115-1 科1 8 題／目前載入 50 題（16%）', '115-1 科3 14 題／目前載入 50 題（28%）',
+    ]);
+  });
+});
 
 describe('未轉換的手動概念連結', () => {
   it('正文的完整 wikilink 必須被攔下', () => {

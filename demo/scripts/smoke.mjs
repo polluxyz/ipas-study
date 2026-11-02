@@ -37,6 +37,32 @@ export async function assertNavigation(previous, next, expected, id) {
   }
 }
 
+/** 由題庫計算單元考古題各場次科目的分子、分母及四捨五入後百分比。 */
+export function expectedSessionStats(questions, code) {
+  const groups = new Map();
+  for (const question of questions) {
+    if (question.source !== 'exam') continue;
+    const key = `${question.session} 科${question.subject}`;
+    const group = groups.get(key) ?? { label: key, count: 0, total: 0 };
+    group.total++;
+    if (question.codes.includes(code)) group.count++;
+    groups.set(key, group);
+  }
+  return [...groups.values()].filter((group) => group.count > 0)
+    .map(({ label, count, total }) => `${label} ${count} 題／目前載入 ${total} 題（${Math.round(count / total * 100)}%）`)
+    .sort();
+}
+
+/** 每格各自比較，避免漏場次、重複場次或數字混到另一格。 */
+export function assertSessionStats(actual, questions, code) {
+  const expected = expectedSessionStats(questions, code);
+  assert.ok(expected.length >= 3, '原驗收要求至少三組場次科目');
+  for (const label of ['114-2 科1', '114-2 科3']) {
+    assert.ok(expected.some((text) => text.startsWith(`${label} `)), `原驗收要求 ${label}`);
+  }
+  assert.deepEqual(actual.map((text) => text.replace(/\s+/g, ' ').trim()).sort(), expected, `${code} 場次科目統計須與題庫一致`);
+}
+
 /** 保留主流程與收尾錯誤，再以非零結果交給呼叫端。 */
 export async function runSmokeWithCleanup({ report, run, finish, evidence, save, close, onFailure }) {
   let initialError, cleanupError;
@@ -320,9 +346,7 @@ await runSmokeWithCleanup({ report, finish: finishBuildCheck, evidence: () => fi
   assert.ok(await page.locator('main a[href^="/questions/"]').count() > 0);
   assert.ok(await page.locator('.exam-frequency').count() > 0);
   assert.ok(await page.locator('.sidebar-content a[href="/practice/L23303/"]').count() > 0);
-  assert.ok(await page.locator('.session-stats > span').count() >= 3);
-  assert.match(await page.locator('.session-stats').innerText(), /114-2 科1.*\d+ 題／樣本 \d+ 題/);
-  assert.match(await page.locator('.session-stats').innerText(), /114-2 科3.*\d+ 題／樣本 \d+ 題/);
+  assertSessionStats(await page.locator('.session-stats > span').allTextContents(), content.questions, route.code);
   await page.goto(base + '/codes/L23303/');
   report.stages = await page.locator('[data-stage]').count(); assert.equal(report.stages, route.stages.length, '章數依原始路線');
   const stageCatalog = JSON.parse(await page.locator('#route-progress-catalog').textContent());
