@@ -5,10 +5,6 @@ kind: technique
 codes: [L23301, L23304]
 aliases: [欠取樣]
 requires: [class-imbalance]
-contrasts:
-  - target: oversampling
-    note: 欠採樣減少多數類別，過採樣增加少數類別，兩者的資訊代價不同
-    source: [guide-3:5-48]
 mitigates:
   - target: class-imbalance
     note: 減少多數類訓練樣本，但可能刪掉重要的多數類型態

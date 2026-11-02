@@ -16,7 +16,7 @@ mitigates:
     source: [guide-3:4-75, guide-1:3-24]
 contrasts:
   - target: lstm
-    note: GRU 只有更新及重置兩門，沒有 LSTM 那樣獨立傳遞的細胞狀態
+    note: GRU 以更新及重置兩門更新單一隱藏狀態；LSTM 分別保有細胞與隱藏狀態
     source: [guide-3:4-75]
 guide_refs: [guide-3:4-75, guide-1:3-24]
 textbook: v2

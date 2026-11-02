@@ -19,11 +19,6 @@ goals:
     text: 區分選取率與準確率，對照統計均等及 Demographic Parity
   - id: g2
     text: 計算兩群選取率與差值，說明相同通過率不能保證錯誤率相同
-contrasts:
-  - target: equal-opportunity
-    note: 全群選取比例與真實正例內獲選比例的分母不同
-    source:
-      - guide-3:6-18
 formula_groups:
   - id: selection-and-difference
     source: https://fairlearn.org/main/user_guide/assessment/common_fairness_metrics.html

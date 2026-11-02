@@ -16,10 +16,6 @@ mitigates:
   - target: recurrent-gradients
     note: 細胞狀態提供加法記憶路徑以減輕長期依賴困難，但不保證所有梯度皆穩定
     source: [guide-3:4-75]
-contrasts:
-  - target: gru
-    note: LSTM 分別保有細胞與隱藏狀態；GRU 以兩門更新單一隱藏狀態
-    source: [guide-3:4-75]
 guide_refs: [guide-3:4-75, guide-1:3-7, guide-1:3-8, guide-1:3-24, guide-1:5-11]
 textbook: v2
 author: codex
