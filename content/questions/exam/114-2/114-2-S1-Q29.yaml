@@ -1,0 +1,37 @@
+id: 114-2-S1-Q29
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 29
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 8
+type: 情境
+codes:
+  - L21302
+concepts: [continuous-integration]
+stem: |
+  某 AI 開發團隊為提升模型開發效率及品質控制，計畫實施持續整合（Continuous Integration, CI）流程。下列哪一項做法最符合 CI 的核心實踐，且能有效減少整合風險？
+options:
+  A: 在主分支（Main Branch）每日固定時間手動合併並執行完整測試流程；
+  B: 每次程式碼提交（Commit）後自動觸發建置、單元測試及靜態程式碼分析；
+  C: 於模型訓練完成後，定期安排開發團隊回顧並合併程式碼；
+  D: 透過自動化部署腳本，將模型在特定時間點批次釋出到測試環境
+answer: B
+explanation:
+  summary: "答案 B。CI 的重點是程式變更後自動驗證，及早發現整合問題。"
+  correct: "B 把提交變更與自動建置、單元測試、靜態分析連接起來，讓錯誤在變更尚小時就能回饋給開發者。模型專案還可依變更種類加入資料驗證與模型品質門檻；每次提交不一定都要跑昂貴的完整訓練。"
+  wrong:
+    A: "固定每日手動整合仍可能找到問題，但會延後回饋，也依賴人工啟動，未充分實踐每次變更即自動檢查的核心要求。"
+    C: "等模型訓練完才回顧合併，會累積較大的變更差異與衝突，無法及早驗證程式整合。"
+    D: "定時批次釋出屬部署排程；若缺少提交後的建置與測試，不能以部署自動化代替持續整合。"
+  rule: "CI 讓小幅且頻繁的程式變更自動接受建置與測試，以縮短缺陷回饋時間。"
+guide_refs: [guide-1:5-19]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 8
+    by: EX-E2-Codex
+  blind_answer: B
+  dispute: null

@@ -1,0 +1,38 @@
+id: 114-2-S1-Q45
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 45
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 12
+type: 情境
+codes:
+  - L23301
+  - L23202
+concepts: [pca, support-vector-machine, overfitting]
+stem: |
+  進行影像分類任務時，研究團隊嘗試利用主成分分析（Principal Component Analysis, PCA）將輸入特徵從 1024 維降至 100 維，並將降維後的資料輸入支持向量機（Support Vector Machine, SVM）模型進行訓練。關於此作法，下列哪一項描述最為合理？
+options:
+  A: PCA 保留的主成分必然能提升 SVM 的分類準確率；
+  B: 使用原始高維資料通常更能保留資訊，因此 PCA 沒有實際意義；
+  C: PCA 可讓 SVM 自動適用於非線性（Nonlinear）資料集；
+  D: 降維後可降低訓練時間並減少過擬合（Overfitting）風險
+answer: D
+explanation:
+  summary: "答案 D。PCA 可減少特徵成本及冗餘，但是否改善 SVM 的泛化仍須驗證。"
+  correct: "D 最合理：把每筆資料從 1024 維變成 100 維，後續 SVM 的特徵運算量可下降；若移除的方向主要是噪聲或冗餘，也可能降低過擬合風險。這是可能效益，不是保證；端到端時間還要計入 PCA 擬合與投影成本。PCA 必須只在訓練資料或交叉驗證的訓練折擬合，再轉換驗證與測試資料。"
+  wrong:
+    A: "PCA 最大化保留的變異量，並未利用類別標籤；低變異方向也可能有辨識力，因此降維後準確率可能上升或下降。"
+    B: "保留全部維度也可能保留噪聲與冗餘，增加記憶體及運算負擔；PCA 是否有意義應以品質與成本衡量。"
+    C: "標準 PCA 是線性投影，不會自動建立非線性分類邊界；SVM 是否能處理非線性關係仍與核函數或其他特徵映射有關。"
+  rule: "PCA 保留高變異方向而非保證保留分類訊息，降維後仍須驗證品質與總成本。"
+guide_refs: [guide-3:4-44, guide-3:4-45]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 12
+    by: EX-E2-Codex
+  blind_answer: D
+  dispute: null
