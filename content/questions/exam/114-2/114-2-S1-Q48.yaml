@@ -21,7 +21,7 @@ options:
 answer: B
 explanation:
   summary: "答案 B。距離索引可加速鄰域查詢，但高維資料不保證受益或解決記憶體問題。"
-  correct: "官方 B 的優點是保留 DBSCAN 的半徑鄰域與密度連通規則，只替換尋找鄰居的方式；在資料結構與距離度量適合時，可略過不必要的距離計算。但題幹強調高維，KD-Tree 可能退化，Ball Tree 也依資料結構而定；大量鄰居的保存成本仍可能過高，不能保證 B 最有效。指引教 DBSCAN 與高維限制，未教索引選型；見 [官方近鄰搜尋文件](https://scikit-learn.org/stable/modules/neighbors.html#nearest-neighbor-algorithms)及 [DBSCAN 文件](https://scikit-learn.org/stable/modules/clustering.html#dbscan)。"
+  correct: "四個選項中，官方 B 最符合保留 DBSCAN 核心分群規則的方向：保留半徑鄰域與密度連通規則，只替換尋找鄰居的方式；在資料結構與距離度量適合時，可略過不必要的距離計算。但題幹強調高維，KD-Tree 可能退化，Ball Tree 也依資料結構而定；大量鄰居的保存成本仍可能過高，不能保證 B 最有效。指引教 DBSCAN 與高維限制，未教索引選型；見 [官方近鄰搜尋文件](https://scikit-learn.org/stable/modules/neighbors.html#nearest-neighbor-algorithms)及 [DBSCAN 文件](https://scikit-learn.org/stable/modules/clustering.html#dbscan)。"
   wrong:
     A: "階層式群集以另一套合併規則建構群集，已替換演算法核心，不符合保留 DBSCAN 邏輯的限制，且大資料下仍可能昂貴。"
     C: "縮小 ε 雖可能減少鄰居數，卻會改變核心點、密度連通與噪聲判定，不能為了省資源而任意更動分群意義。"

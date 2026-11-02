@@ -20,7 +20,7 @@ options:
   D: 含 L1 正則化的 LASSO 迴歸模型
 answer: D
 explanation:
-  summary: "答案 D。題目考正則化如何處理相關特徵；但未限定線性模型，使決策樹也有合理性。"
+  summary: "官方答案 D。L1 正則化可收縮與篩選線性係數；題幹未限定線性模型，決策樹也有合理性。"
   correct: "官方選 D。若要保留線性係數模型並減少冗餘變數，LASSO 以 L1 懲罰縮小係數，並可讓部分係數變成零，符合出題意圖。不過，高度相關特徵之間的選取仍可能不穩；若重點是係數穩定，Ridge 或 Elastic Net 也應比較。題幹未限定線性模型，故 D 不能視為無條件唯一解；[scikit-learn 線性模型文件](https://scikit-learn.org/stable/modules/linear_model.html#elastic-net)亦提醒 Lasso 對相關特徵的選取問題。"
   wrong:
     A: "決策樹不以反解線性係數估計房價，確實能避開同類共線性問題，因此不能直接判它學理錯誤；若考點限於線性係數的收縮與篩選，LASSO 才更直接。題幹缺少此限制，需保留多解疑義。"
