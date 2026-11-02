@@ -1,0 +1,36 @@
+id: 114-2-S1-Q29
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 29
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 8
+type: 情境
+codes:
+  - L21302
+concepts: []
+stem: |
+  某 AI 開發團隊為提升模型開發效率及品質控制，計畫實施持續整合（Continuous Integration, CI）流程。下列哪一項做法最符合 CI 的核心實踐，且能有效減少整合風險？
+options:
+  A: 在主分支（Main Branch）每日固定時間手動合併並執行完整測試流程；
+  B: 每次程式碼提交（Commit）後自動觸發建置、單元測試及靜態程式碼分析；
+  C: 於模型訓練完成後，定期安排開發團隊回顧並合併程式碼；
+  D: 透過自動化部署腳本，將模型在特定時間點批次釋出到測試環境
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 8
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

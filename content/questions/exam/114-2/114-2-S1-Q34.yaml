@@ -1,0 +1,36 @@
+id: 114-2-S1-Q34
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 34
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 9
+type: 情境
+codes:
+  - L21102
+concepts: []
+stem: |
+  在自駕車影像辨識系統中，開發團隊希望模型能同時辨識每個像素所屬的物件類別（例如道路、建築、行人），又能區分出同類物件的不同個體（例如多位行人）。此時最適合採用下列哪一項電腦視覺技術？
+options:
+  A: 語義分割（Semantic Segmentation）；
+  B: 物件偵測（Object Detection）；
+  C: 實例分割（Instance Segmentation）；
+  D: 全景分割（Panoptic Segmentation）
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

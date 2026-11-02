@@ -1,0 +1,37 @@
+id: 114-2-S1-Q48
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 48
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 13
+type: 情境
+codes:
+  - L23202
+  - L23304
+concepts: []
+stem: |
+  某數據工程師使用 DBSCAN 演算法對一份數百萬筆的高維顧客資料進行聚類分析，但發現程式執行速度極慢，甚至出現記憶體不足的情況。若要在不改變演算法核心邏輯的前提下，最有效提升其運算效率的作法為何？
+options:
+  A: 改用以平均連結（Average Linkage）為基礎的階層式群集法（Hierarchical Clustering）；
+  B: 採用高效率的距離索引結構（Distance Index Structure），例如 KD-Tree 或 Ball Tree；
+  C: 將 ε（Epsilon）參數調得極小，以減少鄰近點的數量；
+  D: 在資料前處理時增加標準化後的特徵維度數
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 13
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

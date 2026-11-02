@@ -1,0 +1,37 @@
+id: 114-2-S1-Q42
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 42
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 11
+type: 情境
+codes:
+  - L21302
+  - L21103
+concepts: []
+stem: |
+  若部署一個深度學習模型至金融風控系統，該模型採用鑑別式架構（如 Transformer Classifier）。然而上線後，模型對新樣本的分類錯誤率顯著上升，經檢查發現，輸入資料分佈已與原訓練集明顯不同。針對此情形，下列哪一種應對策略最為適合？
+options:
+  A: 改用生成對抗網路（GAN）生成新樣本並混入訓練集；
+  B: 改用邏輯迴歸模型（Logistic Regression）以提升穩定性；
+  C: 增加模型容量（Model Capacity），以學習更多樣本差異；
+  D: 使用變分自編碼器（VAE）監控潛在空間分佈，偵測輸入資料偏移
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 11
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

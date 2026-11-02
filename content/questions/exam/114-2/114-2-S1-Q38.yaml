@@ -1,0 +1,37 @@
+id: 114-2-S1-Q38
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 38
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 10
+type: 情境
+codes:
+  - L21103
+concepts: []
+stem: |
+  某影像設計團隊在使用 Stable Diffusion 生成 4K 級產品圖時，發現影像邊緣與細節存在顆粒化與模糊現象。
+  若僅能在生成階段進行調整，希望提升畫面清晰度與紋理層次，同時避免過度平滑，下列哪一項作法最適合？
+options:
+  A: 降低取樣步數，以縮短生成時間；
+  B: 增加取樣步數並選擇高品質取樣器，以強化細節還原度；
+  C: 提高 CFG（Classifier-Free Guidance）值，使生成結果更具創意與多樣性；
+  D: 改用低解析度輸入以降低計算成本
+answer: B
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 10
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

@@ -1,0 +1,37 @@
+id: 114-2-S1-Q49
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 49
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 14
+type: 情境
+codes:
+  - L23402
+  - L21101
+concepts: []
+stem: |
+  某電商平台導入 AI 情感分析模型，用以自動偵測顧客評論中的負面情緒並觸發客服機制。然而，上線後發現模型在面對不同語言或族群書寫風格的評論時表現不一致，例如部分語氣強烈的正面評論被誤判為負面，而禮貌但含批評意圖的評論卻被判為中性。若從技術與資料治理的角度分析，下列哪一項描述不正確？
+options:
+  A: 模型未啟用詞嵌入正規化（Embedding Normalization）可能造成語意距離不穩定，導致預測誤差；
+  B: 訓練語料若偏向特定文化或語氣特徵，可能使模型產生內隱偏誤（Implicit Bias）；
+  C: 模型若訓練資料來源不平衡，容易導致對不同語言或族群風格的情緒判斷不準確；
+  D: Transformer 架構能捕捉上下文語意，但若訓練資料偏差仍存在，模型仍可能學習到偏誤判斷
+answer: A
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    B: ""
+    C: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 14
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

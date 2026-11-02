@@ -1,0 +1,37 @@
+id: 114-2-S1-Q26
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 26
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 7
+type: 情境
+codes:
+  - L23302
+  - L23202
+concepts: []
+stem: |
+  在房價預測任務中，若發現特徵如「房間數」與「坪數」存在高度多重共線性（Multicollinearity），為降低共線性對模型參數估計的負面影響，應優先選擇下列哪種模型？
+options:
+  A: 不受多重共線性影響的決策樹模型；
+  B: 傳統線性迴歸模型，不含正則化項；
+  C: 支持向量機搭配線性核函數；
+  D: 含 L1 正則化的 LASSO 迴歸模型
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 7
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

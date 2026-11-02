@@ -1,0 +1,36 @@
+id: 114-2-S1-Q27
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 27
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 7
+type: 情境
+codes:
+  - L23301
+concepts: []
+stem: |
+  某企業需分析半結構化的系統日誌（JSON 格式），以提取關鍵的時序特徵供故障預測模型使用。考量日誌結構複雜且包含巢狀欄位（Nested Fields），下列哪一種策略最有效且實務可行？
+options:
+  A: 先將 JSON 資料扁平化轉成 CSV，再對欄位計算統計量（如均值、次數）作為特徵；
+  B: 使用遞歸神經網路（RNN）直接輸入原始 JSON 字串進行時序特徵抽取；
+  C: 設計遞迴函式展開巢狀欄位，並基於時間窗口（Time Window）進行聚合與特徵萃取；
+  D: 只保留時間戳記欄位，忽略其他巢狀內容以簡化特徵工程
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 7
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

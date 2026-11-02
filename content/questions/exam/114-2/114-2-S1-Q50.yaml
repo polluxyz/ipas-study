@@ -1,0 +1,37 @@
+id: 114-2-S1-Q50
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 50
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 14
+type: 情境
+codes:
+  - L21104
+  - L21103
+concepts: []
+stem: |
+  某設計師使用公司內部建置的生成式 AI 工具製作行銷素材，並輸入提示語（Prompt）：「請生成一張模特兒手持品牌飲料、背景為海邊夕陽的照片」。系統能正確生成主要主題與場景，但輸出的圖像中，品牌標誌顏色常有誤差，或人物手部姿勢顯得不自然。若從多模態生成模型的技術機制分析，此現象最可能是下列哪一項原因所造成？
+options:
+  A: 擴散式生成模型的去雜訊過程出現隨機梯度漂移，導致影像像素錯誤；
+  B: 提示語過長造成 Transformer 的位置編碼超出上下文限制，導致生成混亂；
+  C: CLIP 模型中的文字編碼器與影像編碼器在語意嵌入空間未充分對齊，導致跨模態理解偏差；
+  D: 模型未採用對比學習（Contrastive Learning）損失函數，無法建立多模態語意關聯
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 14
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

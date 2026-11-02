@@ -1,0 +1,37 @@
+id: 114-2-S1-Q32
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 32
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 8
+type: 情境
+codes:
+  - L21302
+concepts: []
+stem: |
+  某企業已將 AI 模型部署於生產環境，為確保系統持續穩定運作，並能提前偵測模型效能可能衰退，技術團隊希望透過監控指標進行預警。
+  下列哪一項監控指標最具預測效力，能提早發現模型效能下滑風險？
+options:
+  A: 系統 CPU 與記憶體使用率波動幅度；
+  B: 模型推論結果的置信度（Confidence）分佈變化趨勢；
+  C: API 平均回應時間與延遲百分位數變化；
+  D: 輸入特徵與訓練資料分布差異的 PSI（Population Stability Index）指數
+answer: D
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    C: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 8
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

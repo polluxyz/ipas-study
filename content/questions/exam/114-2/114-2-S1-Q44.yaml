@@ -1,0 +1,37 @@
+id: 114-2-S1-Q44
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 44
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 12
+type: 情境
+codes:
+  - L23302
+  - L21103
+concepts: []
+stem: |
+  某電信公司希望建立一個模型來預測顧客是否即將流失，並進一步模擬不同促銷或服務策略下顧客的行為變化，以生成多樣化的虛擬樣本資料進行 A/B 測試與行銷策略評估。若要同時兼顧預測與資料生成的需求，最適合採用下列哪一種方法？
+options:
+  A: 使用傳統隨機森林（Random Forest）；
+  B: 使用邏輯迴歸（Logistic Regression）模型；
+  C: 使用變分自編碼器（Variational Autoencoder, VAE）或生成對抗網路（Generative Adversarial Network, GAN）；
+  D: 使用強化學習代理（Reinforcement Learning Agent）
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 12
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

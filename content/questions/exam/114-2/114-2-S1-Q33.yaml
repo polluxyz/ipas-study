@@ -1,0 +1,36 @@
+id: 114-2-S1-Q33
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 33
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 9
+type: 情境
+codes:
+  - L21101
+concepts: []
+stem: |
+  企業團隊在使用 Word2Vec 模型訓練客服文本語料時，若訓練資料量龐大且希望模型能更有效捕捉罕見詞的語意關聯，下列哪一種訓練策略最為適合？
+options:
+  A: 採用 Skip-gram 模型，但以隨機初始化權重加快高頻詞的訓練收斂；
+  B: 採用 CBOW 模型（Continuous Bag of Words Model）並結合 TF-IDF 權重以強化低頻詞表示；
+  C: 採用 Skip-gram 模型，利用中心詞預測周圍詞語，能更有效學習低頻詞關係；
+  D: 採用 CBOW 模型（Continuous Bag of Words Model），利用周圍詞預測中心詞，能提升罕見詞的語意穩定度
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 9
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null

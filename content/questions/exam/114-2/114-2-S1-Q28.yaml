@@ -1,0 +1,36 @@
+id: 114-2-S1-Q28
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 28
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 7
+type: 情境
+codes:
+  - L23301
+concepts: []
+stem: |
+  在一個同時包含連續型特徵與類別型特徵的資料集中，若希望透過適當的特徵工程流程來提升模型整體表現，下列哪一種作法最為合適？
+options:
+  A: 將類別型特徵使用標籤編碼（Label Encoding）轉換後，與連續特徵直接合併進行模型訓練；
+  B: 將連續特徵進行離散化（Discretization）或分桶（Binning）轉為類別型特徵，統一以類別方式處理；
+  C: 對連續特徵做標準化（Standardization），類別特徵採用目標編碼（Target Encoding），並生成交互特徵提升模型表現；
+  D: 只保留連續特徵，忽略類別型變量以簡化模型
+answer: C
+explanation:
+  summary: ""
+  correct: ""
+  wrong:
+    A: ""
+    B: ""
+    D: ""
+guide_refs: []
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 7
+    by: EX-E2-Codex
+  blind_answer: null
+  dispute: null
