@@ -3,19 +3,38 @@ import { chromium } from 'playwright';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
+import { loadContent, localUrl, localGet, routeLocalOnly, chapterLabel, freshOutput, readBuildReceipt, watchBuildResponses, expectedTextbook404, sourceStageChecks } from './rollout-smoke.mjs';
 
-const base = process.env.DEMO_URL ?? 'http://127.0.0.1:4321';
+export async function main() {
+const base = localUrl(process.env.DEMO_URL ?? 'http://127.0.0.1:4321', process.env.DEMO_URL ?? 'http://127.0.0.1:4321').origin;
 const output = process.env.SMOKE_OUTPUT ? resolve(process.env.SMOKE_OUTPUT) : resolve(import.meta.dirname, '../../tmp/demo-shots');
-const textbookShots = resolve(import.meta.dirname, '../../tmp/textbook/shots');
+assert.ok(process.env.SMOKE_OUTPUT, '請由協調者指定獨立 SMOKE_OUTPUT，勿寫入共享截圖目錄');
+assert.equal(new URL(base).hostname, '127.0.0.1', '驗收 origin 固定使用 127.0.0.1');
+const binding = await readBuildReceipt();
+const content = await loadContent();
+const route = content.codes.find((c) => c.code === 'L23303');
+assert.ok(route?.stages?.length);
+const textbookShots = resolve(output, 'textbook');
+await freshOutput(output);
 await mkdir(textbookShots, { recursive: true });
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ headless: true, ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE } : {}) });
-const context = await browser.newContext({ viewport: { width: 1440, height: 1050 }, deviceScaleFactor: 1, acceptDownloads: true });
+const context = await browser.newContext({ viewport: { width: 1440, height: 1050 }, deviceScaleFactor: 1, acceptDownloads: true, serviceWorkers: 'block' });
+const finishBuildCheck = watchBuildResponses(context, binding, base, { allowTextbook404: process.env.TEXTBOOK_TEST_FIXTURES !== '1' });
 const page = await context.newPage();
-const errors = []; const external = [];
+const errors = []; const external = []; const assets = [];
+context.on('page', (target) => target.on('pageerror', (error) => errors.push(error.message)));
 page.on('pageerror', (error) => errors.push(error.message));
-await context.route('**/*', (route) => { const url = new URL(route.request().url()); if (!['127.0.0.1', 'localhost'].includes(url.hostname) && ['http:', 'https:'].includes(url.protocol)) { external.push(url.href); return route.abort(); } return route.continue(); });
+context.on('response', (response) => { if (response.status() !== 200 && !(process.env.TEXTBOOK_TEST_FIXTURES !== '1' && expectedTextbook404(response, base))) assets.push({ url: response.url(), status: response.status() }); });
+context.on('requestfailed', (request) => assets.push({ url: request.url(), error: request.failure()?.errorText }));
+await routeLocalOnly(context, base, external, assets);
 const report = { pages: 0, links: 0, wrongBook: false, exportImport: false, quiz: false, stages: 0, readingProgress: false, readingBackup: false, stageQuiz: false, searchFirst: null, mobile: [], visuals: { diagramLabelsInsideNodes: 0, wrongAndCorrectDistinct: false, codeContrast: {} }, browserErrors: errors, externalRequests: external };
+report.sha = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: resolve(import.meta.dirname, '../..'), encoding: 'utf8' }).trim();
+report.buildSha = process.env.BUILD_SHA ?? null;
+report.buildSha = binding.receipt.sha; report.receiptDigest = binding.receiptDigest;
+report.assetFailures = assets;
 report.selfCheckOrdering = { conceptPages: 0, stagePages: 0, fixtureConcept: false, fixtureStage: false };
 async function assertCheckOrder(cards, label) {
   const types = await cards.evaluateAll((elements) => elements.map((element) => element.dataset.checkType));
@@ -242,7 +261,7 @@ try {
     assert.equal(await page.locator('main').innerText().then((text) => text.includes('[[')), false, `${url} 未轉換概念連結`);
     for (const href of await page.locator('main a[href^="/"]').evaluateAll((anchors) => anchors.map((a) => a.getAttribute('href')))) links.add(href.split('#')[0]);
   }
-  for (const href of links) { const response = await page.request.get(base + href); assert.equal(response.status(), 200, `連結失效 ${href}`); report.links++; }
+  for (const href of links) { await localGet(page.request, href, base); report.links++; }
   await page.goto(base + '/codes/L23303/');
   assert.equal(await page.locator('main a[href^="/questions/"]').count(), 0, '學習路線不得出現考古題連結');
   assert.equal(await page.locator('.exam-frequency, .session-stats').count(), 0, '學習路線不得出現考試頻率');
@@ -254,10 +273,12 @@ try {
   assert.match(await page.locator('.session-stats').innerText(), /114-2 科1.*\d+ 題／樣本 \d+ 題/);
   assert.match(await page.locator('.session-stats').innerText(), /114-2 科3.*\d+ 題／樣本 \d+ 題/);
   await page.goto(base + '/codes/L23303/');
-  report.stages = await page.locator('[data-stage]').count(); assert.ok(report.stages >= 2, '路線應依 stages 分階段');
+  report.stages = await page.locator('[data-stage]').count(); assert.equal(report.stages, route.stages.length, '章數依原始路線');
   const stageCatalog = JSON.parse(await page.locator('#route-progress-catalog').textContent());
+  assert.deepEqual(stageCatalog.map((s) => ({ id: s.id, concepts: s.concepts, checks: s.checks })), route.stages.map((s) => ({ id: s.id, concepts: s.concepts.map((c) => c.id), checks: sourceStageChecks(content, s).map((check) => check.id) })));
   const stageTitles = await page.locator('.route-stage h2').allTextContents();
-  const readingOrder = stageCatalog.flatMap((stage) => stage.concepts);
+  assert.deepEqual(stageTitles.map((s) => s.trim()), route.stages.map((s) => s.title));
+  const readingOrder = route.stages.flatMap((stage) => stage.concepts.map((c) => c.id));
   report.conceptNavigation = 0;
   report.conceptLinks = { pages: [], totalAutomatic: 0, maximumPerPage: 0 };
   for (const [index, id] of readingOrder.entries()) {
@@ -278,11 +299,12 @@ try {
     await assertCheckOrder(page.locator('[data-self-check]'), id); report.selfCheckOrdering.conceptPages++;
   }
   await page.goto(base + '/concepts/data-leakage/');
-  const chapterSummaries = page.locator('.sidebar-content summary').filter({ hasText: /^[一二三四五六]、/ });
-  report.sidebarChapters = await chapterSummaries.count(); assert.equal(report.sidebarChapters, 6);
+  const chapterSummaries = page.locator('.sidebar-content summary').filter({ hasText: /^(?:[一二三四五六七八九十百]+|\d+)、/ });
+  report.sidebarChapters = await chapterSummaries.count(); assert.equal(report.sidebarChapters, route.stages.length, '只列目前單元的章節');
   for (let index = 0; index < report.sidebarChapters; index++) {
     const summary = chapterSummaries.nth(index); const group = summary.locator('..');
-    assert.equal((await summary.innerText()).trim(), `${['一', '二', '三', '四', '五', '六'][index]}、${stageTitles[index]}`);
+    const label = (await summary.innerText()).trim();
+    assert.equal(label, chapterLabel(index, route.stages[index].title), '側欄編號、標題與原始路線完全一致');
     const wasOpen = await group.evaluate((element) => element.open);
     await summary.click(); assert.equal(await group.evaluate((element) => element.open), !wasOpen);
     await summary.click(); assert.equal(await group.evaluate((element) => element.open), wasOpen);
@@ -349,6 +371,7 @@ try {
   await page.goto(base + '/questions/115-1-S3-Q44/');
   for (const theme of ['light', 'dark']) {
     const result = await codeContrast(page, theme); report.visuals.codeContrast[theme] = result;
+    assert.equal(await page.locator('html').getAttribute('data-theme'), theme);
     assert.ok(result.minimum >= 4.5, `${theme} 程式碼最低對比 ${result.minimum} 未達 4.5:1`);
   }
   await page.locator('.question-code').screenshot({ path: resolve(output, '06-code-dark.png'), animations: 'disabled' });
@@ -535,7 +558,15 @@ try {
   await mobile.locator('.sl-menu-button').click();
   await screenshot(mobile, '05-home-mobile.png');
   assert.deepEqual(errors, []); assert.deepEqual(external, []);
+  assert.deepEqual(assets, []); await finishBuildCheck(); report.buildResponses = [finishBuildCheck.evidence()];
+  assert.deepEqual(errors, []); assert.deepEqual(external, []); assert.deepEqual(assets, []); report.completed = true;
   await writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)); console.log(JSON.stringify(report, null, 2));
   }
-} catch (error) { await page.screenshot({ path: resolve(output, 'failure.png'), fullPage: true }); await writeFile(resolve(output, 'verification.json'), JSON.stringify({ ...report, failure: error.message }, null, 2)); throw error; }
-finally { await browser.close(); }
+} catch (error) { report.failure = error.message; await page.screenshot({ path: resolve(output, 'failure.png'), fullPage: true }).catch(() => undefined); throw error; }
+finally {
+  try { await finishBuildCheck(); }
+  catch (error) { report.completed = false; report.failure = String(error); throw error; }
+  finally { report.buildResponses = [finishBuildCheck.evidence()]; await writeFile(resolve(output, 'verification.json'), JSON.stringify(report, null, 2)); await browser.close(); }
+}
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) await main();
