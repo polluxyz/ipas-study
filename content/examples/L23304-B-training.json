@@ -1,0 +1,4326 @@
+{
+  "source": "教學合成資料；日誌與對錯遮罩為設計情境，不是實際訓練產生的成效",
+  "seed": 23103,
+  "upstream_gradients": "content/examples/L23103-C-updates.json",
+  "gradients_note": "固定梯度重播只核對更新器；不是兩領域每次真實反傳都會得到同一梯度",
+  "parameter_initial": [
+    1,
+    -1
+  ],
+  "domains": {
+    "energy": {
+      "source_file": "content/examples/L23103-C-energy.json",
+      "meaning": "能源標準化需求指標回歸；新舊任務評分另以是否達容許誤差二元化",
+      "split": {
+        "train": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "validation": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "test": [
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ]
+      },
+      "rows": [
+        {
+          "id": 0,
+          "x": [
+            3,
+            4
+          ],
+          "target": -2
+        },
+        {
+          "id": 1,
+          "x": [
+            -1,
+            2
+          ],
+          "target": -4
+        },
+        {
+          "id": 2,
+          "x": [
+            1.5,
+            0.25
+          ],
+          "target": 3.25
+        },
+        {
+          "id": 3,
+          "x": [
+            -1,
+            1
+          ],
+          "target": -1
+        },
+        {
+          "id": 4,
+          "x": [
+            0.75,
+            -1
+          ],
+          "target": 0.5
+        },
+        {
+          "id": 5,
+          "x": [
+            -1.75,
+            -0.25
+          ],
+          "target": -3.75
+        },
+        {
+          "id": 6,
+          "x": [
+            0,
+            0.5
+          ],
+          "target": 0.5
+        },
+        {
+          "id": 7,
+          "x": [
+            1.75,
+            1.25
+          ],
+          "target": 4.75
+        },
+        {
+          "id": 8,
+          "x": [
+            -0.75,
+            -0.75
+          ],
+          "target": -2.25
+        },
+        {
+          "id": 9,
+          "x": [
+            1,
+            0
+          ],
+          "target": 2
+        },
+        {
+          "id": 10,
+          "x": [
+            -1.5,
+            0.75
+          ],
+          "target": -2.25
+        },
+        {
+          "id": 11,
+          "x": [
+            0.25,
+            -1.25
+          ],
+          "target": -0.75
+        },
+        {
+          "id": 12,
+          "x": [
+            2,
+            -0.5
+          ],
+          "target": 3.5
+        },
+        {
+          "id": 13,
+          "x": [
+            -0.5,
+            0.25
+          ],
+          "target": -0.75
+        },
+        {
+          "id": 14,
+          "x": [
+            1.25,
+            1
+          ],
+          "target": 3.5
+        },
+        {
+          "id": 15,
+          "x": [
+            -1.25,
+            -1
+          ],
+          "target": -3.5
+        },
+        {
+          "id": 16,
+          "x": [
+            0.5,
+            -0.25
+          ],
+          "target": 0.75
+        },
+        {
+          "id": 17,
+          "x": [
+            -2,
+            0.5
+          ],
+          "target": -3.5
+        },
+        {
+          "id": 18,
+          "x": [
+            -0.25,
+            1.25
+          ],
+          "target": 0.75
+        },
+        {
+          "id": 19,
+          "x": [
+            1.5,
+            -0.75
+          ],
+          "target": 2.25
+        },
+        {
+          "id": 20,
+          "x": [
+            -1,
+            0
+          ],
+          "target": -2
+        },
+        {
+          "id": 21,
+          "x": [
+            0.75,
+            0.75
+          ],
+          "target": 2.25
+        },
+        {
+          "id": 22,
+          "x": [
+            -1.75,
+            -1.25
+          ],
+          "target": -4.75
+        },
+        {
+          "id": 23,
+          "x": [
+            0,
+            -0.5
+          ],
+          "target": -0.5
+        },
+        {
+          "id": 24,
+          "x": [
+            1.75,
+            0.25
+          ],
+          "target": 3.75
+        },
+        {
+          "id": 25,
+          "x": [
+            -0.75,
+            1
+          ],
+          "target": -0.5
+        },
+        {
+          "id": 26,
+          "x": [
+            1,
+            -1
+          ],
+          "target": 1
+        },
+        {
+          "id": 27,
+          "x": [
+            -1.5,
+            -0.25
+          ],
+          "target": -3.25
+        },
+        {
+          "id": 28,
+          "x": [
+            0.25,
+            0.5
+          ],
+          "target": 1
+        },
+        {
+          "id": 29,
+          "x": [
+            2,
+            1.25
+          ],
+          "target": 5.25
+        },
+        {
+          "id": 30,
+          "x": [
+            -0.5,
+            -0.75
+          ],
+          "target": -1.75
+        },
+        {
+          "id": 31,
+          "x": [
+            1.25,
+            0
+          ],
+          "target": 2.5
+        },
+        {
+          "id": 32,
+          "x": [
+            -1.25,
+            0.75
+          ],
+          "target": -1.75
+        },
+        {
+          "id": 33,
+          "x": [
+            0.5,
+            -1.25
+          ],
+          "target": -0.25
+        },
+        {
+          "id": 34,
+          "x": [
+            -2,
+            -0.5
+          ],
+          "target": -4.5
+        },
+        {
+          "id": 35,
+          "x": [
+            -0.25,
+            0.25
+          ],
+          "target": -0.25
+        },
+        {
+          "id": 36,
+          "x": [
+            1.5,
+            1
+          ],
+          "target": 4
+        },
+        {
+          "id": 37,
+          "x": [
+            -1,
+            -1
+          ],
+          "target": -3
+        },
+        {
+          "id": 38,
+          "x": [
+            0.75,
+            -0.25
+          ],
+          "target": 1.25
+        },
+        {
+          "id": 39,
+          "x": [
+            -1.75,
+            0.5
+          ],
+          "target": -3
+        },
+        {
+          "id": 40,
+          "x": [
+            0,
+            1.25
+          ],
+          "target": 1.25
+        },
+        {
+          "id": 41,
+          "x": [
+            1.75,
+            -0.75
+          ],
+          "target": 2.75
+        },
+        {
+          "id": 42,
+          "x": [
+            -0.75,
+            0
+          ],
+          "target": -1.5
+        },
+        {
+          "id": 43,
+          "x": [
+            1,
+            0.75
+          ],
+          "target": 2.75
+        },
+        {
+          "id": 44,
+          "x": [
+            -1.5,
+            -1.25
+          ],
+          "target": -4.25
+        },
+        {
+          "id": 45,
+          "x": [
+            0.25,
+            -0.5
+          ],
+          "target": 0
+        },
+        {
+          "id": 46,
+          "x": [
+            2,
+            0.25
+          ],
+          "target": 4.25
+        },
+        {
+          "id": 47,
+          "x": [
+            -0.5,
+            1
+          ],
+          "target": 0
+        },
+        {
+          "id": 48,
+          "x": [
+            1.25,
+            -1
+          ],
+          "target": 1.5
+        },
+        {
+          "id": 49,
+          "x": [
+            -1.25,
+            -0.25
+          ],
+          "target": -2.75
+        },
+        {
+          "id": 50,
+          "x": [
+            0.5,
+            0.5
+          ],
+          "target": 1.5
+        },
+        {
+          "id": 51,
+          "x": [
+            -2,
+            1.25
+          ],
+          "target": -2.75
+        },
+        {
+          "id": 52,
+          "x": [
+            -0.25,
+            -0.75
+          ],
+          "target": -1.25
+        },
+        {
+          "id": 53,
+          "x": [
+            1.5,
+            0
+          ],
+          "target": 3
+        },
+        {
+          "id": 54,
+          "x": [
+            -1,
+            0.75
+          ],
+          "target": -1.25
+        },
+        {
+          "id": 55,
+          "x": [
+            0.75,
+            -1.25
+          ],
+          "target": 0.25
+        },
+        {
+          "id": 56,
+          "x": [
+            -1.75,
+            -0.5
+          ],
+          "target": -4
+        },
+        {
+          "id": 57,
+          "x": [
+            0,
+            0.25
+          ],
+          "target": 0.25
+        },
+        {
+          "id": 58,
+          "x": [
+            1.75,
+            1
+          ],
+          "target": 4.5
+        },
+        {
+          "id": 59,
+          "x": [
+            -0.75,
+            -1
+          ],
+          "target": -2.5
+        },
+        {
+          "id": 60,
+          "x": [
+            1,
+            -0.25
+          ],
+          "target": 1.75
+        },
+        {
+          "id": 61,
+          "x": [
+            -1.5,
+            0.5
+          ],
+          "target": -2.5
+        },
+        {
+          "id": 62,
+          "x": [
+            0.25,
+            1.25
+          ],
+          "target": 1.75
+        },
+        {
+          "id": 63,
+          "x": [
+            2,
+            -0.75
+          ],
+          "target": 3.25
+        },
+        {
+          "id": 64,
+          "x": [
+            -0.5,
+            0
+          ],
+          "target": -1
+        },
+        {
+          "id": 65,
+          "x": [
+            1.25,
+            0.75
+          ],
+          "target": 3.25
+        },
+        {
+          "id": 66,
+          "x": [
+            -1.25,
+            -1.25
+          ],
+          "target": -3.75
+        },
+        {
+          "id": 67,
+          "x": [
+            0.5,
+            -0.5
+          ],
+          "target": 0.5
+        },
+        {
+          "id": 68,
+          "x": [
+            -2,
+            0.25
+          ],
+          "target": -3.75
+        },
+        {
+          "id": 69,
+          "x": [
+            -0.25,
+            1
+          ],
+          "target": 0.5
+        },
+        {
+          "id": 70,
+          "x": [
+            1.5,
+            -1
+          ],
+          "target": 2
+        },
+        {
+          "id": 71,
+          "x": [
+            -1,
+            -0.25
+          ],
+          "target": -2.25
+        },
+        {
+          "id": 72,
+          "x": [
+            0.75,
+            0.5
+          ],
+          "target": 2
+        },
+        {
+          "id": 73,
+          "x": [
+            -1.75,
+            1.25
+          ],
+          "target": -2.25
+        },
+        {
+          "id": 74,
+          "x": [
+            0,
+            -0.75
+          ],
+          "target": -0.75
+        },
+        {
+          "id": 75,
+          "x": [
+            1.75,
+            0
+          ],
+          "target": 3.5
+        },
+        {
+          "id": 76,
+          "x": [
+            -0.75,
+            0.75
+          ],
+          "target": -0.75
+        },
+        {
+          "id": 77,
+          "x": [
+            1,
+            -1.25
+          ],
+          "target": 0.75
+        },
+        {
+          "id": 78,
+          "x": [
+            -1.5,
+            -0.5
+          ],
+          "target": -3.5
+        },
+        {
+          "id": 79,
+          "x": [
+            0.25,
+            0.25
+          ],
+          "target": 0.75
+        },
+        {
+          "id": 80,
+          "x": [
+            2,
+            1
+          ],
+          "target": 5
+        },
+        {
+          "id": 81,
+          "x": [
+            -0.5,
+            -1
+          ],
+          "target": -2
+        },
+        {
+          "id": 82,
+          "x": [
+            1.25,
+            -0.25
+          ],
+          "target": 2.25
+        },
+        {
+          "id": 83,
+          "x": [
+            -1.25,
+            0.5
+          ],
+          "target": -2
+        },
+        {
+          "id": 84,
+          "x": [
+            0.5,
+            1.25
+          ],
+          "target": 2.25
+        },
+        {
+          "id": 85,
+          "x": [
+            -2,
+            -0.75
+          ],
+          "target": -4.75
+        },
+        {
+          "id": 86,
+          "x": [
+            -0.25,
+            0
+          ],
+          "target": -0.5
+        },
+        {
+          "id": 87,
+          "x": [
+            1.5,
+            0.75
+          ],
+          "target": 3.75
+        },
+        {
+          "id": 88,
+          "x": [
+            -1,
+            -1.25
+          ],
+          "target": -3.25
+        },
+        {
+          "id": 89,
+          "x": [
+            0.75,
+            -0.5
+          ],
+          "target": 1
+        },
+        {
+          "id": 90,
+          "x": [
+            -1.75,
+            0.25
+          ],
+          "target": -3.25
+        },
+        {
+          "id": 91,
+          "x": [
+            0,
+            1
+          ],
+          "target": 1
+        },
+        {
+          "id": 92,
+          "x": [
+            1.75,
+            -1
+          ],
+          "target": 2.5
+        },
+        {
+          "id": 93,
+          "x": [
+            -0.75,
+            -0.25
+          ],
+          "target": -1.75
+        },
+        {
+          "id": 94,
+          "x": [
+            1,
+            0.5
+          ],
+          "target": 2.5
+        },
+        {
+          "id": 95,
+          "x": [
+            -1.5,
+            1.25
+          ],
+          "target": -1.75
+        },
+        {
+          "id": 96,
+          "x": [
+            0.25,
+            -0.75
+          ],
+          "target": -0.25
+        },
+        {
+          "id": 97,
+          "x": [
+            2,
+            0
+          ],
+          "target": 4
+        },
+        {
+          "id": 98,
+          "x": [
+            -0.5,
+            0.75
+          ],
+          "target": -0.25
+        },
+        {
+          "id": 99,
+          "x": [
+            1.25,
+            -1.25
+          ],
+          "target": 1.25
+        },
+        {
+          "id": 100,
+          "x": [
+            -1.25,
+            -0.5
+          ],
+          "target": -3
+        },
+        {
+          "id": 101,
+          "x": [
+            0.5,
+            0.25
+          ],
+          "target": 1.25
+        },
+        {
+          "id": 102,
+          "x": [
+            -2,
+            1
+          ],
+          "target": -3
+        },
+        {
+          "id": 103,
+          "x": [
+            -0.25,
+            -1
+          ],
+          "target": -1.5
+        },
+        {
+          "id": 104,
+          "x": [
+            1.5,
+            -0.25
+          ],
+          "target": 2.75
+        },
+        {
+          "id": 105,
+          "x": [
+            -1,
+            0.5
+          ],
+          "target": -1.5
+        },
+        {
+          "id": 106,
+          "x": [
+            0.75,
+            1.25
+          ],
+          "target": 2.75
+        },
+        {
+          "id": 107,
+          "x": [
+            -1.75,
+            -0.75
+          ],
+          "target": -4.25
+        },
+        {
+          "id": 108,
+          "x": [
+            0,
+            0
+          ],
+          "target": 0
+        },
+        {
+          "id": 109,
+          "x": [
+            1.75,
+            0.75
+          ],
+          "target": 4.25
+        },
+        {
+          "id": 110,
+          "x": [
+            -0.75,
+            -1.25
+          ],
+          "target": -2.75
+        },
+        {
+          "id": 111,
+          "x": [
+            1,
+            -0.5
+          ],
+          "target": 1.5
+        },
+        {
+          "id": 112,
+          "x": [
+            -1.5,
+            0.25
+          ],
+          "target": -2.75
+        },
+        {
+          "id": 113,
+          "x": [
+            0.25,
+            1
+          ],
+          "target": 1.5
+        },
+        {
+          "id": 114,
+          "x": [
+            2,
+            -1
+          ],
+          "target": 3
+        },
+        {
+          "id": 115,
+          "x": [
+            -0.5,
+            -0.25
+          ],
+          "target": -1.25
+        },
+        {
+          "id": 116,
+          "x": [
+            1.25,
+            0.5
+          ],
+          "target": 3
+        },
+        {
+          "id": 117,
+          "x": [
+            -1.25,
+            1.25
+          ],
+          "target": -1.25
+        },
+        {
+          "id": 118,
+          "x": [
+            0.5,
+            -0.75
+          ],
+          "target": 0.25
+        },
+        {
+          "id": 119,
+          "x": [
+            -2,
+            0
+          ],
+          "target": -4
+        },
+        {
+          "id": 120,
+          "x": [
+            -0.25,
+            0.75
+          ],
+          "target": 0.25
+        },
+        {
+          "id": 121,
+          "x": [
+            1.5,
+            -1.25
+          ],
+          "target": 1.75
+        },
+        {
+          "id": 122,
+          "x": [
+            -1,
+            -0.5
+          ],
+          "target": -2.5
+        },
+        {
+          "id": 123,
+          "x": [
+            0.75,
+            0.25
+          ],
+          "target": 1.75
+        },
+        {
+          "id": 124,
+          "x": [
+            -1.75,
+            1
+          ],
+          "target": -2.5
+        },
+        {
+          "id": 125,
+          "x": [
+            0,
+            -1
+          ],
+          "target": -1
+        },
+        {
+          "id": 126,
+          "x": [
+            1.75,
+            -0.25
+          ],
+          "target": 3.25
+        },
+        {
+          "id": 127,
+          "x": [
+            -0.75,
+            0.5
+          ],
+          "target": -1
+        }
+      ],
+      "capacity_logs": {
+        "small": [
+          {
+            "epoch": 1,
+            "train": 1.2,
+            "validation": 1.3
+          },
+          {
+            "epoch": 2,
+            "train": 0.99,
+            "validation": 1.1
+          },
+          {
+            "epoch": 3,
+            "train": 0.85,
+            "validation": 0.98
+          },
+          {
+            "epoch": 4,
+            "train": 0.76,
+            "validation": 0.88
+          },
+          {
+            "epoch": 5,
+            "train": 0.7,
+            "validation": 0.8
+          },
+          {
+            "epoch": 6,
+            "train": 0.66,
+            "validation": 0.75
+          },
+          {
+            "epoch": 7,
+            "train": 0.63,
+            "validation": 0.7
+          },
+          {
+            "epoch": 8,
+            "train": 0.6,
+            "validation": 0.67
+          },
+          {
+            "epoch": 9,
+            "train": 0.58,
+            "validation": 0.64
+          },
+          {
+            "epoch": 10,
+            "train": 0.57,
+            "validation": 0.62
+          },
+          {
+            "epoch": 11,
+            "train": 0.56,
+            "validation": 0.61
+          },
+          {
+            "epoch": 12,
+            "train": 0.55,
+            "validation": 0.6
+          }
+        ],
+        "base": [
+          {
+            "epoch": 1,
+            "train": 1.2,
+            "validation": 1.3
+          },
+          {
+            "epoch": 2,
+            "train": 0.95,
+            "validation": 1.05
+          },
+          {
+            "epoch": 3,
+            "train": 0.75,
+            "validation": 0.85
+          },
+          {
+            "epoch": 4,
+            "train": 0.6,
+            "validation": 0.7
+          },
+          {
+            "epoch": 5,
+            "train": 0.5,
+            "validation": 0.58
+          },
+          {
+            "epoch": 6,
+            "train": 0.43,
+            "validation": 0.5
+          },
+          {
+            "epoch": 7,
+            "train": 0.38,
+            "validation": 0.44
+          },
+          {
+            "epoch": 8,
+            "train": 0.34,
+            "validation": 0.4
+          },
+          {
+            "epoch": 9,
+            "train": 0.31,
+            "validation": 0.36
+          },
+          {
+            "epoch": 10,
+            "train": 0.28,
+            "validation": 0.33
+          },
+          {
+            "epoch": 11,
+            "train": 0.26,
+            "validation": 0.31
+          },
+          {
+            "epoch": 12,
+            "train": 0.25,
+            "validation": 0.3
+          }
+        ],
+        "wide": [
+          {
+            "epoch": 1,
+            "train": 1.2,
+            "validation": 1.3
+          },
+          {
+            "epoch": 2,
+            "train": 0.85,
+            "validation": 1
+          },
+          {
+            "epoch": 3,
+            "train": 0.55,
+            "validation": 0.8
+          },
+          {
+            "epoch": 4,
+            "train": 0.32,
+            "validation": 0.64
+          },
+          {
+            "epoch": 5,
+            "train": 0.2,
+            "validation": 0.56
+          },
+          {
+            "epoch": 6,
+            "train": 0.13,
+            "validation": 0.54
+          },
+          {
+            "epoch": 7,
+            "train": 0.09,
+            "validation": 0.56
+          },
+          {
+            "epoch": 8,
+            "train": 0.06,
+            "validation": 0.6
+          },
+          {
+            "epoch": 9,
+            "train": 0.04,
+            "validation": 0.65
+          },
+          {
+            "epoch": 10,
+            "train": 0.03,
+            "validation": 0.7
+          },
+          {
+            "epoch": 11,
+            "train": 0.025,
+            "validation": 0.75
+          },
+          {
+            "epoch": 12,
+            "train": 0.02,
+            "validation": 0.8
+          }
+        ],
+        "deep": [
+          {
+            "epoch": 1,
+            "train": 1.2,
+            "validation": 1.3
+          },
+          {
+            "epoch": 2,
+            "train": 1.16,
+            "validation": 1.26
+          },
+          {
+            "epoch": 3,
+            "train": 1.12,
+            "validation": 1.22
+          },
+          {
+            "epoch": 4,
+            "train": 1.09,
+            "validation": 1.18
+          },
+          {
+            "epoch": 5,
+            "train": 1.06,
+            "validation": 1.14
+          },
+          {
+            "epoch": 6,
+            "train": 1.03,
+            "validation": 1.1
+          },
+          {
+            "epoch": 7,
+            "train": 1,
+            "validation": 1.06
+          },
+          {
+            "epoch": 8,
+            "train": 0.98,
+            "validation": 1.03
+          },
+          {
+            "epoch": 9,
+            "train": 0.96,
+            "validation": 1
+          },
+          {
+            "epoch": 10,
+            "train": 0.94,
+            "validation": 0.98
+          },
+          {
+            "epoch": 11,
+            "train": 0.92,
+            "validation": 0.96
+          },
+          {
+            "epoch": 12,
+            "train": 0.9,
+            "validation": 0.95
+          }
+        ]
+      },
+      "forgetting": {
+        "validation_indices": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "note": "舊任務與新任務為同索引的兩套獨立留樣任務；布林值表示該任務是否判斷正確，並非原回歸/分類模型預測",
+        "before": {
+          "old": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "new": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "full_log": [
+          {
+            "epoch": 1,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 2,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 3,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 4,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 5,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 6,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 7,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 8,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 9,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 10,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 11,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ]
+          },
+          {
+            "epoch": 12,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ]
+          }
+        ],
+        "strategies": {
+          "before": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          "full": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ]
+          },
+          "freeze": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          "lora": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ]
+          },
+          "replay": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ]
+          }
+        }
+      }
+    },
+    "text": {
+      "source_file": "content/examples/L23103-C-text.json",
+      "meaning": "客服目標意圖二元分類",
+      "split": {
+        "train": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "validation": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "test": [
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ]
+      },
+      "rows": [
+        {
+          "id": 0,
+          "x": [
+            1,
+            1
+          ],
+          "label": 1
+        },
+        {
+          "id": 1,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 2,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 3,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 4,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 5,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 6,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 7,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 8,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 9,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 10,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 11,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 12,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 13,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 14,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 15,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 16,
+          "x": [
+            1,
+            1
+          ],
+          "label": 1
+        },
+        {
+          "id": 17,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 18,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 19,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 20,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 21,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 22,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 23,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 24,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 25,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 26,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 27,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 28,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 29,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 30,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 31,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 32,
+          "x": [
+            1,
+            1
+          ],
+          "label": 1
+        },
+        {
+          "id": 33,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 34,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 35,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 36,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 37,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 38,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 39,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 40,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 41,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 42,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 43,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 44,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 45,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 46,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 47,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 48,
+          "x": [
+            1,
+            1
+          ],
+          "label": 1
+        },
+        {
+          "id": 49,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 50,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 51,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 52,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 53,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 54,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 55,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 56,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 57,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 58,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 59,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 60,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 61,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 62,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 63,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 64,
+          "x": [
+            1,
+            1
+          ],
+          "label": 1
+        },
+        {
+          "id": 65,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 66,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 67,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 68,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 69,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 70,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 71,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 72,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 73,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 74,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 75,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 76,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 77,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 78,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 79,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 80,
+          "x": [
+            1,
+            1
+          ],
+          "label": 1
+        },
+        {
+          "id": 81,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 82,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 83,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 84,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 85,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 86,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 87,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 88,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 89,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 90,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 91,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 92,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 93,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 94,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 95,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 96,
+          "x": [
+            1,
+            1
+          ],
+          "label": 1
+        },
+        {
+          "id": 97,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 98,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 99,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 100,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 101,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 102,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 103,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 104,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 105,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 106,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 107,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 108,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 109,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 110,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 111,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 112,
+          "x": [
+            1,
+            1
+          ],
+          "label": 1
+        },
+        {
+          "id": 113,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 114,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 115,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 116,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 117,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 118,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 119,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 120,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 121,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 122,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 123,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 124,
+          "x": [
+            1,
+            0
+          ],
+          "label": 1
+        },
+        {
+          "id": 125,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 126,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        },
+        {
+          "id": 127,
+          "x": [
+            0,
+            0
+          ],
+          "label": 0
+        }
+      ],
+      "capacity_logs": {
+        "small": [
+          {
+            "epoch": 1,
+            "train": 1.2,
+            "validation": 1.3
+          },
+          {
+            "epoch": 2,
+            "train": 0.99,
+            "validation": 1.1
+          },
+          {
+            "epoch": 3,
+            "train": 0.85,
+            "validation": 0.98
+          },
+          {
+            "epoch": 4,
+            "train": 0.76,
+            "validation": 0.88
+          },
+          {
+            "epoch": 5,
+            "train": 0.7,
+            "validation": 0.8
+          },
+          {
+            "epoch": 6,
+            "train": 0.66,
+            "validation": 0.75
+          },
+          {
+            "epoch": 7,
+            "train": 0.63,
+            "validation": 0.7
+          },
+          {
+            "epoch": 8,
+            "train": 0.6,
+            "validation": 0.67
+          },
+          {
+            "epoch": 9,
+            "train": 0.58,
+            "validation": 0.64
+          },
+          {
+            "epoch": 10,
+            "train": 0.57,
+            "validation": 0.62
+          },
+          {
+            "epoch": 11,
+            "train": 0.56,
+            "validation": 0.61
+          },
+          {
+            "epoch": 12,
+            "train": 0.55,
+            "validation": 0.6
+          }
+        ],
+        "base": [
+          {
+            "epoch": 1,
+            "train": 1.2,
+            "validation": 1.3
+          },
+          {
+            "epoch": 2,
+            "train": 0.95,
+            "validation": 1.05
+          },
+          {
+            "epoch": 3,
+            "train": 0.75,
+            "validation": 0.85
+          },
+          {
+            "epoch": 4,
+            "train": 0.6,
+            "validation": 0.7
+          },
+          {
+            "epoch": 5,
+            "train": 0.5,
+            "validation": 0.58
+          },
+          {
+            "epoch": 6,
+            "train": 0.43,
+            "validation": 0.5
+          },
+          {
+            "epoch": 7,
+            "train": 0.38,
+            "validation": 0.44
+          },
+          {
+            "epoch": 8,
+            "train": 0.34,
+            "validation": 0.4
+          },
+          {
+            "epoch": 9,
+            "train": 0.31,
+            "validation": 0.36
+          },
+          {
+            "epoch": 10,
+            "train": 0.28,
+            "validation": 0.33
+          },
+          {
+            "epoch": 11,
+            "train": 0.26,
+            "validation": 0.31
+          },
+          {
+            "epoch": 12,
+            "train": 0.25,
+            "validation": 0.3
+          }
+        ],
+        "wide": [
+          {
+            "epoch": 1,
+            "train": 1.2,
+            "validation": 1.3
+          },
+          {
+            "epoch": 2,
+            "train": 0.85,
+            "validation": 1
+          },
+          {
+            "epoch": 3,
+            "train": 0.55,
+            "validation": 0.8
+          },
+          {
+            "epoch": 4,
+            "train": 0.32,
+            "validation": 0.64
+          },
+          {
+            "epoch": 5,
+            "train": 0.2,
+            "validation": 0.56
+          },
+          {
+            "epoch": 6,
+            "train": 0.13,
+            "validation": 0.54
+          },
+          {
+            "epoch": 7,
+            "train": 0.09,
+            "validation": 0.56
+          },
+          {
+            "epoch": 8,
+            "train": 0.06,
+            "validation": 0.6
+          },
+          {
+            "epoch": 9,
+            "train": 0.04,
+            "validation": 0.65
+          },
+          {
+            "epoch": 10,
+            "train": 0.03,
+            "validation": 0.7
+          },
+          {
+            "epoch": 11,
+            "train": 0.025,
+            "validation": 0.75
+          },
+          {
+            "epoch": 12,
+            "train": 0.02,
+            "validation": 0.8
+          }
+        ],
+        "deep": [
+          {
+            "epoch": 1,
+            "train": 1.2,
+            "validation": 1.3
+          },
+          {
+            "epoch": 2,
+            "train": 1.16,
+            "validation": 1.26
+          },
+          {
+            "epoch": 3,
+            "train": 1.12,
+            "validation": 1.22
+          },
+          {
+            "epoch": 4,
+            "train": 1.09,
+            "validation": 1.18
+          },
+          {
+            "epoch": 5,
+            "train": 1.06,
+            "validation": 1.14
+          },
+          {
+            "epoch": 6,
+            "train": 1.03,
+            "validation": 1.1
+          },
+          {
+            "epoch": 7,
+            "train": 1,
+            "validation": 1.06
+          },
+          {
+            "epoch": 8,
+            "train": 0.98,
+            "validation": 1.03
+          },
+          {
+            "epoch": 9,
+            "train": 0.96,
+            "validation": 1
+          },
+          {
+            "epoch": 10,
+            "train": 0.94,
+            "validation": 0.98
+          },
+          {
+            "epoch": 11,
+            "train": 0.92,
+            "validation": 0.96
+          },
+          {
+            "epoch": 12,
+            "train": 0.9,
+            "validation": 0.95
+          }
+        ]
+      },
+      "forgetting": {
+        "validation_indices": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111
+        ],
+        "note": "舊任務與新任務為同索引的兩套獨立留樣任務；布林值表示該任務是否判斷正確，並非原回歸/分類模型預測",
+        "before": {
+          "old": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false
+          ],
+          "new": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        "full_log": [
+          {
+            "epoch": 1,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 2,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 3,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 4,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 5,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 6,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 7,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 8,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 9,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 10,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ]
+          },
+          {
+            "epoch": 11,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ]
+          },
+          {
+            "epoch": 12,
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ]
+          }
+        ],
+        "strategies": {
+          "before": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          "full": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false
+            ]
+          },
+          "freeze": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          "lora": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ]
+          },
+          "replay": {
+            "old": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ],
+            "new": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            ]
+          }
+        }
+      }
+    }
+  },
+  "architectures": {
+    "small": [
+      2,
+      1,
+      1
+    ],
+    "base": [
+      2,
+      4,
+      1
+    ],
+    "wide": [
+      2,
+      32,
+      1
+    ],
+    "deep": [
+      2,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      1
+    ]
+  },
+  "comparison_contract": {
+    "fixed": [
+      "資料索引",
+      "切分",
+      "種子",
+      "批次順序",
+      "激活函數",
+      "學習率",
+      "12輪預算"
+    ],
+    "capacity_change": "每個候選相對base只改隱藏寬度或隱藏層數",
+    "forgetting_change": "相同新任務資料與更新預算，各候選相對full只改一項保留策略；replay每批16筆含舊4新12，其他每批新16"
+  }
+}
