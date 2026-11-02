@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術�
 pdf_page: 1
 type: 情境
 codes: [ L23203, L21101 ]
-concepts: []
+concepts: [transformer, self-attention]
 stem: |
   某跨國金融科技公司導入 Transformer 架構開發多語客服系統，以提升長篇金融文件的自動翻譯品質。下列何者為該模型能顯著改善翻譯準確度的主要原因？
 options:
@@ -18,13 +18,14 @@ options:
   D: 透過資料增強（Data Augmentation）平衡多語語料比例
 answer: A
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 A；自注意力讓遠距詞語能直接交換語境資訊。
+  correct: 在可關注的序列範圍內，每個位置以 Query 與其他位置的 Key 計算關聯，再加權整合 Value。相距很遠的主詞與動詞也能直接建立關聯，減少逐步傳遞資訊的負擔，有助於翻譯長句與長段落。實際準確度仍取決於資料、訓練和可用上下文長度。
   wrong:
-    B: ""
-    C: ""
-    D: ""
-guide_refs: []
+    B: 原始 Transformer 以注意力為核心，卷積不是其改善長距離語境建模的必要機制。
+    C: 標準 Transformer 翻譯訓練不必使用強化學習；生成策略的後續調整不能解釋架構本身的主要優勢。
+    D: 調整多語資料比例可能改善資料品質，但不屬於 Transformer 架構特有的長距離建模能力。
+  rule: 問架構為何能掌握遠距語境時，先找能連結不同序列位置的資訊傳遞機制。
+guide_refs: [guide-1:3-25]
 author: codex
 review:
   status: draft

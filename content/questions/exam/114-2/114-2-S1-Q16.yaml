@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術�
 pdf_page: 4
 type: 觀念
 codes: [ L21101, L23203 ]
-concepts: []
+concepts: [seq2seq]
 stem: |
   下列哪一種情境中最適合使用「序列到序列（Seq2Seq）」模型？
 options:
@@ -18,13 +18,14 @@ options:
   D: 將輸入文字轉換成語意等價的另一段文字，如自動翻譯或摘要生成
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: 官方答案 D；文字翻譯與摘要是典型 Seq2Seq 任務，但 A 也可成立。
+  correct: Seq2Seq 以輸入序列的表示產生輸出序列，兩者長度可以不同。D 的翻譯與摘要符合指引列出的典型應用，因此可理解命題選 D；摘要通常保留重點，並非要求逐句語意完全等價。不過題幹未限定文字任務，A 的未來銷售數值序列同樣能由 Seq2Seq 預測，無法僅依模型定義排除，應交複審判定多解。數值序列反例見 [多步需求預測原始論文](https://arxiv.org/abs/1711.11053)。
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: 這不是必錯選項；將歷史銷售序列映射成未來多步數值序列，也符合 Seq2Seq 結構。題目缺乏能比較 A 與 D 何者最適合的限制。
+    B: 命名實體辨識通常視為逐詞序列標註，可直接用編碼器加標註層；也能改寫成生成任務，但不是本題典型的另一段文字生成需求。
+    C: 詞頻統計與可視化可用計數及圖表完成，沒有必要訓練序列生成模型。
+  rule: 只要輸入與輸出都是序列就可考慮 Seq2Seq，是否最適合還需比較任務與成本。
+guide_refs: [guide-1:3-25]
 author: codex
 review:
   status: draft

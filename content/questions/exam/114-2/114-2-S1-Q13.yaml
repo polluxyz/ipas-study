@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術�
 pdf_page: 4
 type: 觀念
 codes: [ L21302 ]
-concepts: []
+concepts: [container-orchestration]
 stem: |
   下列何者為 Kubernetes 在 AI 模型部署與運行中的核心功能？
 options:
@@ -18,13 +18,14 @@ options:
   D: 負責深度學習推論的 GPU 加速運算
 answer: B
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 B；Kubernetes 協調容器服務的部署與運行。
+  correct: 把模型推論服務封裝成容器後，Kubernetes 可排程工作負載、維持設定的副本數，並配合服務探索、擴縮及故障恢復管理運行環境。它處理的是服務在哪裡及如何持續運行，因此 B 最符合其核心職責。
   wrong:
-    A: ""
-    C: ""
-    D: ""
-guide_refs: []
+    A: 訓練工作可以在 Kubernetes 上執行，但訓練流程編排與超參數搜尋通常由額外的 ML 工具或控制器負責。
+    C: Kubernetes 可掛載儲存空間並管理設定，卻不是專門追蹤資料及模型版本的登錄系統。
+    D: Kubernetes 可分配 GPU 資源；實際執行加速運算的是 GPU、驅動及深度學習運算函式庫。
+  rule: 分辨部署工具時，區分容器編排、模型版本管理與實際數值運算的責任。
+guide_refs: [guide-1:5-16]
 author: codex
 review:
   status: draft

@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術�
 pdf_page: 3
 type: 情境
 codes: [ L23202 ]
-concepts: []
+concepts: [dbscan]
 stem: |
   企業資料分析團隊使用 DBSCAN（Density-Based Spatial Clustering of Applications with Noise）演算法進行顧客行為分群，並希望模型能自動區分主要群集與雜訊資料。在此演算法中，決定聚類結果的兩個主要超參數為下列何者？
 options:
@@ -18,13 +18,14 @@ options:
   D: 交叉熵（Cross Entropy）與權重初始化
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 C；DBSCAN 以鄰域範圍和核心點的密度門檻形成群集。
+  correct: ε 決定多近的點算鄰居，MinPts 決定鄰域要有多少樣本才足以讓該點成為核心點。演算法由核心點向密度可達的鄰居擴展；未被任何群集納入的點可標為雜訊。這兩個參數共同影響群集與雜訊的辨識；scikit-learn 的對應名稱為 eps 與 min_samples，後者計入該點本身。
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: 特徵數會影響距離的意義，但不是此處定義密度門檻的參數；標準 DBSCAN 也不使用梯度學習率。
+    B: DBSCAN 不必事先指定群集數 K；只有距離閾值還不夠，仍需要最小鄰域點數判斷核心點。
+    D: 交叉熵和權重初始化常見於神經網路訓練，不是 DBSCAN 的兩項核心超參數。
+  rule: DBSCAN 的密度條件由距離半徑與鄰域最少點數共同決定，不預設群集數。
+guide_refs: [guide-3:4-43, guide-3:4-44]
 author: codex
 review:
   status: draft

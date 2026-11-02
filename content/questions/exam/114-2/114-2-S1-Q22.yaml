@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術�
 pdf_page: 6
 type: 情境
 codes: [ L21302, L23101 ]
-concepts: []
+concepts: [data-drift, distribution-drift-detection]
 stem: |
   某電商平台開發的顧客流失預測模型在上線數月後，預測準確率明顯下降。專案團隊懷疑顧客行為模式改變，導致模型輸入特徵的分佈與原始訓練資料不同，出現典型的資料漂移（Data Drift）問題。為了偵測並確認資料分佈是否發生變化，下列哪一種作法最合適？
 options:
@@ -18,13 +18,14 @@ options:
   D: 計算輸入特徵分佈間的 KL 散度（KL Divergence）
 answer: D
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 D；KL 散度直接比較參考期與上線期的輸入分佈。
+  correct: 先以一致的特徵定義、區間與取樣方式估計兩期機率分佈 P、Q，再計算 KL(P∥Q)=Σ P(x) log(P(x)/Q(x))；較大的值表示分佈差異較明顯。KL 不對稱，若 P 為正而 Q 為零可能無限大，須處理平滑與告警門檻。逐特徵比較也可能漏掉特徵間關係的變化；偵測到漂移不等於已證明它造成準確率下降。指引介紹漂移監控，計算定義另見 [SciPy 官方文件](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.entropy.html)。
   wrong:
-    A: ""
-    B: ""
-    C: ""
-guide_refs: []
+    A: 重新訓練是可能的因應措施，沒有直接量測兩期輸入是否改變，也不保證新模型變好。
+    B: 提高複雜度是改模型的作法；既不能證明資料漂移，還可能增加過擬合與成本。
+    C: 增加測試量可提高某些效能估計的精度，但若不比較分佈，就不能直接確認輸入特徵是否漂移。
+  rule: 偵測問題先量測兩期分佈，確認影響後再決定是否重訓或調整模型。
+guide_refs: [guide-1:4-42, guide-1:4-43]
 author: codex
 review:
   status: draft

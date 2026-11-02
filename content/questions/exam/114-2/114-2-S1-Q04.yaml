@@ -8,7 +8,7 @@ pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術�
 pdf_page: 1
 type: 觀念
 codes: [ L21101 ]
-concepts: []
+concepts: [word2vec, glove]
 stem: |
   在詞向量（Word Embedding）訓練方法中，GloVe（Global Vectors for Word Representation）與 Word2Vec 的主要差異為何？
 options:
@@ -18,13 +18,14 @@ options:
   D: Word2Vec 僅能用於靜態文本語料，而 GloVe 可應用於即時語料更新
 answer: C
 explanation:
-  summary: ""
-  correct: ""
+  summary: 答案 C；Word2Vec 側重上下文預測，GloVe 直接利用共現統計訓練。
+  correct: Word2Vec 的 CBOW 用周圍詞預測中心詞，Skip-gram 則反過來預測周圍詞。GloVe 先彙整整份語料中的詞對共現次數，再學習符合這些統計關係的向量。這是訓練目標的差別；兩者都能從語料的上下文學到靜態詞向量。指引 3-21 的 GloVe 段落前後措辭不順，應以全域共現統計的說明理解。
   wrong:
-    A: ""
-    B: ""
-    D: ""
-guide_refs: []
+    A: 隨機初始化可以用於多種詞向量方法；是否初始化與詞頻權重不能構成兩者的主要區別。
+    B: 此選項把兩者的代表性訓練方式對調；全域共現統計是 GloVe 的重點，上下文預測則是 Word2Vec 的重點。
+    D: 是否能處理新語料取決於訓練流程與工具；GloVe 並沒有因此天生支援即時更新，而 Word2Vec 也非原理上禁止增量訓練。
+  rule: 比較詞向量方法時，先看訓練目標使用預測任務還是顯式共現統計。
+guide_refs: [guide-1:3-20, guide-1:3-21]
 author: codex
 review:
   status: draft
