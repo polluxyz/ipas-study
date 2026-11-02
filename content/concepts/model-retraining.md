@@ -2,7 +2,7 @@
 id: model-retraining
 title: 再訓練驗證與版本晉升
 kind: technique
-codes: [L21203, L21302]
+codes: [L21302, L21203]
 aliases: []
 requires: [model-monitoring, train-val-test-split]
 summary: 再訓練先產生候選，再以獨立品質、群體與資源證據決定晉升

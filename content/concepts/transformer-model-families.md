@@ -3,9 +3,9 @@ id: transformer-model-families
 title: BERT、GPT 與 T5 的訓練任務比較
 kind: model
 codes:
+  - L23203
   - L21101
   - L21103
-  - L23203
 aliases:
   - Autoregressive Language Model
   - BERT

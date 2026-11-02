@@ -3,11 +3,11 @@ id: edge-inference
 title: 即時視覺與邊緣推論
 kind: technique
 codes:
+  - L21302
   - L21102
   - L21103
   - L21104
   - L21301
-  - L21302
 aliases:
   - Edge AI
   - Edge Computing

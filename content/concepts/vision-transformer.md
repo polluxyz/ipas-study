@@ -3,8 +3,8 @@ id: vision-transformer
 title: 視覺 Transformer
 kind: model
 codes:
-  - L21102
   - L23203
+  - L21102
 aliases:
   - Patch
   - ViT

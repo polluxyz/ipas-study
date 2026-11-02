@@ -2,7 +2,7 @@
 id: knowledge-distillation
 title: 知識蒸餾
 kind: technique
-codes: [L21103, L21302, L23304]
+codes: [L23304, L21103, L21302]
 aliases: [Knowledge Distillation, 教師學生模型]
 summary: 知識蒸餾用教師的輸出教學生，換取較小模型的部署成本
 goals:

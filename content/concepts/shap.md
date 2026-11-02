@@ -2,7 +2,7 @@
 id: shap
 title: SHAP 特徵貢獻與輸出尺度
 kind: technique
-codes: [L21203, L23302]
+codes: [L23302, L21203]
 aliases: [SHAP 特徵貢獻解釋, SHAP值, SHapley Additive exPlanations]
 requires: [explainable-ai]
 summary: SHAP 把單筆模型輸出相對基準的差異分攤給特徵，解讀時須先確認尺度

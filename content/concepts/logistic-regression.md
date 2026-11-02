@@ -2,7 +2,7 @@
 id: logistic-regression
 title: 邏輯迴歸
 kind: model
-codes: [L21301, L23202]
+codes: [L23202, L21301]
 aliases: [Logistic Regression, 羅吉斯迴歸]
 requires: [classification-regression, conditional-probability]
 contrasts:

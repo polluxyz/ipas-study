@@ -2,7 +2,7 @@
 id: data-protection-impact-assessment
 title: DPIA 資料保護影響評估
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [DPIA]
 summary: DPIA 在高風險處理前記錄目的、必要性、個人風險及控制證據
 goals:

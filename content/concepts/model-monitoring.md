@@ -2,7 +2,7 @@
 id: model-monitoring
 title: 模型監控、告警與回退
 kind: technique
-codes: [L21101, L21102, L21203, L21302]
+codes: [L21302, L21101, L21102, L21203]
 aliases: [Continuous Monitoring, Grafana, Model Monitoring, NLP 上線品質與維運風險, NLP 維運, Prometheus, data-drift-monitoring, nlp-operations, vision-model-monitoring, 影像品質監測, 模型效能與分群監控, 版本回退, 線上模型監控與告警, 視覺模型的場域監測與回退, 視覺模型維運, 輸入分布監控與調查]
 requires: [drift-detection, service-performance-metrics]
 summary: 監控把資料、預測及服務訊號轉成有人接手的調查與處置

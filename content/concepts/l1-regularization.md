@@ -2,7 +2,7 @@
 id: l1-regularization
 title: L1 正則化與 Lasso
 kind: technique
-codes: [L23202, L23301, L23304]
+codes: [L23304, L23202, L23301]
 aliases: [L1 Regularization, L1 正則化]
 requires: [regularization]
 is_a: [regularization]

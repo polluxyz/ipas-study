@@ -2,7 +2,7 @@
 id: de-identification
 title: 去識別化、假名化與匿名化
 kind: technique
-codes: [L21101, L23401]
+codes: [L23401, L21101]
 aliases: [Anonymization, Pseudonymization, 匿名化, 去識別化]
 requires: [reidentification-risk]
 guide_refs: [guide-1:3-33, guide-1:3-34, guide-3:6-7, guide-3:6-12]

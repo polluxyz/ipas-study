@@ -3,11 +3,11 @@ id: fairness-audit
 title: 視覺偏見稽核與可靠度
 kind: technique
 codes:
+  - L23402
   - L21101
   - L21102
   - L21203
   - L21302
-  - L23402
 aliases:
   - Bias Audit
   - Fairness Audit

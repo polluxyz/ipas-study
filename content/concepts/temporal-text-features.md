@@ -2,7 +2,7 @@
 id: temporal-text-features
 title: 時間與文字欄位的特徵設計
 kind: technique
-codes: [L21301, L23301]
+codes: [L23301, L21301]
 aliases: [Temporal Features, 時間特徵]
 requires: [train-val-test-split]
 summary: 把時間戳拆成日曆欄位，把原文字轉成可供模型使用的數值表示

@@ -2,7 +2,7 @@
 id: gan
 title: 生成對抗網路
 kind: model
-codes: [L21103, L21301, L23203]
+codes: [L23203, L21103, L21301]
 aliases: [Discriminator, Generative Adversarial Network, Generator, WGAN, generative-adversarial-network, 生成對抗網路 GAN]
 summary: 生成對抗網路透過生成器造樣本、判別器辨真偽的競爭學習資料分布
 requires: [output-loss-contract, backpropagation]

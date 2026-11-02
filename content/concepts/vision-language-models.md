@@ -3,8 +3,8 @@ id: vision-language-models
 title: 視覺語言模型的任務比較
 kind: model
 codes:
-  - L21102
   - L21104
+  - L21102
 aliases:
   - BLIP
   - BLIP-2

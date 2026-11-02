@@ -2,7 +2,7 @@
 id: decision-tree
 title: 決策樹分類與迴歸
 kind: model
-codes: [L21301, L23202]
+codes: [L23202, L21301]
 aliases: [Decision Tree]
 requires: [classification-regression]
 guide_refs: [guide-1:5-7, guide-1:5-8, guide-3:4-19, guide-3:4-20]

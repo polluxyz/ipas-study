@@ -2,7 +2,7 @@
 id: image-normalization
 title: 影像像素正規化與標準化
 kind: technique
-codes: [L21102, L23301]
+codes: [L23301, L21102]
 aliases: [Pixel Normalization, 影像標準化]
 requires: [numpy-data-operations]
 summary: 正規化調整像素範圍，標準化再按指定均值與標準差調整尺度

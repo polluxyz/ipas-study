@@ -2,7 +2,7 @@
 id: dropout
 title: Dropout
 kind: technique
-codes: [L23203, L23304]
+codes: [L23304, L23203]
 aliases: [隨機失活, 隨機屏蔽]
 requires: [regularization]
 is_a: [regularization]

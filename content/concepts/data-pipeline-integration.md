@@ -2,7 +2,7 @@
 id: data-pipeline-integration
 title: 資料管線與儲存介接
 kind: technique
-codes: [L21301, L21302]
+codes: [L21302, L21301]
 aliases: [Data Lake, Data Pipeline, Data Warehouse]
 requires: [mlops-lifecycle]
 summary: 資料管線把異質來源整理成模型可用資料，並依時效分配儲存與讀取路徑

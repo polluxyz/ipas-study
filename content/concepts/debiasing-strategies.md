@@ -2,7 +2,7 @@
 id: debiasing-strategies
 title: 去偏策略三階段
 kind: technique
-codes: [L21101, L21102, L23402]
+codes: [L23402, L21101, L21102]
 aliases: [Pre-processing/In-processing/Post-processing, 去偏策略]
 requires: [algorithmic-bias, statistical-parity]
 summary: 先找群體落差，再依資料、重訓與推論條件選擇介入階段

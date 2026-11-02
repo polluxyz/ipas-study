@@ -3,8 +3,8 @@ id: risk-response-strategies
 title: AI 風險處置策略
 kind: technique
 codes:
-  - L21201
   - L21203
+  - L21201
 aliases:
   - Risk Acceptance
   - Risk Avoidance

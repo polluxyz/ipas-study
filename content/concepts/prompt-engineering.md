@@ -2,7 +2,7 @@
 id: prompt-engineering
 title: 提示設計與少樣本推論
 kind: technique
-codes: [L21101, L21103]
+codes: [L21103, L21101]
 aliases: [Few-shot, Few-shot Prompting, Prompt Engineering, Zero-shot, Zero-shot Prompting, 提示工程, 提示工程與輸出控制]
 summary: 提示交代任務與示例，在權重固定時引導輸出並接受驗收
 goals:

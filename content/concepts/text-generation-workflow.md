@@ -2,7 +2,7 @@
 id: text-generation-workflow
 title: 文本生成工作流
 kind: technique
-codes: [L21101, L21103]
+codes: [L21103, L21101]
 aliases: [教學生成, 文件草擬, 程式碼生成]
 summary: 把任務、來源、生成與人工驗收串成可檢查的文本產製流程
 goals:

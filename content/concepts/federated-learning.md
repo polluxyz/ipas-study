@@ -2,7 +2,7 @@
 id: federated-learning
 title: 聯邦學習
 kind: technique
-codes: [L21203, L21302, L23401]
+codes: [L23401, L21203, L21302]
 aliases: [Federated Learning]
 requires: [data-inventory]
 summary: 聯邦學習讓原始資料留在各方，以本地模型更新協作訓練

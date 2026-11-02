@@ -2,7 +2,7 @@
 id: adversarial-examples
 title: 對抗樣本與模型脆弱性
 kind: problem
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 requires: [computer-vision-tasks]
 summary: 對抗樣本刻意修改模型輸入，使原本可辨識的內容被判錯

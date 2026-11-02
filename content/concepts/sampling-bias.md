@@ -3,9 +3,9 @@ id: sampling-bias
 title: 取樣偏差與群體代表性
 kind: problem
 codes:
+  - L23402
   - L21203
   - L23301
-  - L23402
 aliases:
   - Sampling Bias
   - Selection Bias

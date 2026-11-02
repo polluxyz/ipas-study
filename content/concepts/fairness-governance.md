@@ -3,8 +3,8 @@ id: fairness-governance
 title: 公平性治理
 kind: regulation
 codes:
-  - L21203
   - L23402
+  - L21203
 aliases:
   - Fairness Governance
   - 公平性委員會

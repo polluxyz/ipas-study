@@ -3,12 +3,12 @@ id: algorithmic-bias
 title: 演算法偏見與歧視影響
 kind: problem
 codes:
+  - L23402
   - L21101
   - L21102
   - L21103
   - L21104
   - L21203
-  - L23402
 aliases:
   - Algorithmic Bias
   - Generative Bias

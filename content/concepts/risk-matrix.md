@@ -3,8 +3,8 @@ id: risk-matrix
 title: 風險矩陣與優先等級
 kind: technique
 codes:
-  - L21201
   - L21203
+  - L21201
   - L23401
 aliases:
   - Risk Matrix

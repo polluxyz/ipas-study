@@ -2,7 +2,7 @@
 id: smote
 title: SMOTE 少數類別合成
 kind: technique
-codes: [L21301, L23301, L23304, L23402]
+codes: [L23301, L21301, L23304, L23402]
 aliases: [SMOTE 少數類合成, Synthetic Minority Over-sampling Technique, Synthetic Minority Oversampling, Synthetic Minority Oversampling Technique]
 requires: [class-imbalance, feature-scaling]
 mitigates:

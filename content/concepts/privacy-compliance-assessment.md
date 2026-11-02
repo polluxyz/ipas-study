@@ -2,7 +2,7 @@
 id: privacy-compliance-assessment
 title: 個資用途與合規適用性盤點
 kind: technique
-codes: [L21101, L21201, L21203, L23401]
+codes: [L23401, L21101, L21201, L21203]
 aliases: [Corpus Privacy, NLP 語料隱私與授權風險, nlp-corpus-privacy, 語料隱私]
 summary: 依來源、用途、角色與地區追查資料流，分開檢查個資暴露和利用授權
 goals:

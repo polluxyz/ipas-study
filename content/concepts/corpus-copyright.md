@@ -2,7 +2,7 @@
 id: corpus-copyright
 title: 語料與生成內容的來源授權
 kind: problem
-codes: [L21101, L21203]
+codes: [L21203, L21101]
 aliases: [Corpus Licensing, 語料著作權]
 guide_refs: [guide-1:3-35, guide-1:3-36]
 summary: 語料可取得不代表可任意使用，訓練來源與生成文字都要查核權利

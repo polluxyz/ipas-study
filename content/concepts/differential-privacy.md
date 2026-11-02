@@ -2,7 +2,7 @@
 id: differential-privacy
 title: 差分隱私
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [DP, Differential Privacy]
 requires: [noise-injection, probabilistic-modeling]
 guide_refs: [guide-3:6-12]

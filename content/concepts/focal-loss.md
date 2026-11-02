@@ -2,7 +2,7 @@
 id: focal-loss
 title: Focal Loss 焦點損失
 kind: theory
-codes: [L23103, L23304]
+codes: [L23304, L23103]
 aliases: [Focal Loss]
 requires: [cross-entropy-loss, class-imbalance]
 summary: Focal Loss 降低容易樣本的相對損失貢獻，讓訓練更關注難例

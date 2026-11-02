@@ -2,7 +2,7 @@
 id: rouge
 title: ROUGE 摘要評估
 kind: metric
-codes: [L21101, L21103, L21104]
+codes: [L21103, L21101, L21104]
 aliases: [ROUGE-L, ROUGE-N, ROUGE-S]
 summary: ROUGE 比較摘要與參考的片段及序列，檢查關鍵內容覆蓋程度
 goals:

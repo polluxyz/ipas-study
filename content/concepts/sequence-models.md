@@ -2,7 +2,7 @@
 id: sequence-models
 title: RNN、LSTM 與 GRU 的選用比較
 kind: model
-codes: [L21101, L21301, L23203]
+codes: [L23203, L21101, L21301]
 aliases: [RNN、LSTM 與 GRU, RNN、LSTM 與 GRU 序列模型, recurrent-neural-network]
 summary: 選序列模型要一起看狀態、門控、依賴距離與資源，並以相同資料驗證
 goals:

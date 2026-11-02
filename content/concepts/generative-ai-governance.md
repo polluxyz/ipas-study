@@ -2,7 +2,7 @@
 id: generative-ai-governance
 title: 生成與多模態 AI 治理查核
 kind: technique
-codes: [L21103, L21104, L21203]
+codes: [L21203, L21103, L21104]
 aliases: [多模態倫理治理, 生成式 AI 治理]
 requires: [ai-risk-governance, generative-content-rights]
 guide_refs: [guide-1:3-71, guide-1:3-72, guide-1:3-82, guide-1:3-83]

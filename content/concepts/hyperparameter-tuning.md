@@ -2,7 +2,7 @@
 id: hyperparameter-tuning
 title: 超參數調校
 kind: technique
-codes: [L21301, L23304]
+codes: [L23304, L21301]
 aliases: [Hyperparameter Tuning, 超參數搜尋]
 summary: 用驗證結果選訓練設定，固定流程後才以測試集評估
 goals:

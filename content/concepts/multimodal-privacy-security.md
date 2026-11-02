@@ -2,7 +2,7 @@
 id: multimodal-privacy-security
 title: 跨模態隱私與系統安全
 kind: technique
-codes: [L21104, L21203, L23401]
+codes: [L21203, L21104, L23401]
 aliases: [多模態安全, 跨模態隱私]
 guide_refs: [guide-1:3-82]
 summary: 跨模態安全同時檢查資料聯結、存取權限與偽造濫用，避免單一控制漏掉風險

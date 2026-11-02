@@ -3,8 +3,8 @@ id: multimodal-deployment-optimization
 title: 多模態部署優化與加速
 kind: technique
 codes:
-  - L21104
   - L21302
+  - L21104
   - L23304
 aliases:
   - OpenVINO

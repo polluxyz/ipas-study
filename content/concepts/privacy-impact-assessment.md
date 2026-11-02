@@ -2,7 +2,7 @@
 id: privacy-impact-assessment
 title: 隱私影響評估
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [PIA, Privacy Impact Assessment]
 summary: 隱私影響評估沿資料流找風險，記錄影響、控制及治理責任
 goals:

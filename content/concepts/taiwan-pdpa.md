@@ -2,7 +2,7 @@
 id: taiwan-pdpa
 title: 臺灣個人資料保護法
 kind: regulation
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 summary: 臺灣個資法要求依目的合法利用個資，並落實告知、權利及安全維護
 goals:

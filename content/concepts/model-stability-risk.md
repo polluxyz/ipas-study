@@ -3,8 +3,8 @@ id: model-stability-risk
 title: 資料品質與模型穩定性風險
 kind: problem
 codes:
-  - L21201
   - L21203
+  - L21201
 aliases: []
 summary: 資料缺口或使用情境改變，可能讓模型輸出失準或不穩定
 goals:

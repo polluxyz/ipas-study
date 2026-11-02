@@ -2,7 +2,7 @@
 id: batch-normalization
 title: 批次正規化
 kind: component
-codes: [L23103, L23203]
+codes: [L23203, L23103]
 aliases: [BN, Batch Normalization, BatchNorm]
 summary: 批次正規化調整中間特徵的尺度，訓練與推論使用不同統計來源
 goals:

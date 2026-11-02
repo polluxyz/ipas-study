@@ -2,7 +2,7 @@
 id: cnn-tensor-shapes
 title: CNN 張量尺寸、參數與成本
 kind: technique
-codes: [L21102, L23203]
+codes: [L23203, L21102]
 aliases: [卷積輸出尺寸, 參數量]
 summary: 先追蹤每層形狀，再分開計算參數、乘加與記憶體，才能讀懂 CNN 摘要
 requires: [convolution-layer, pooling, flatten]

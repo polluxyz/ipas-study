@@ -2,7 +2,7 @@
 id: non-repudiation
 title: 不可否認性與簽章稽核
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 requires: [secure-communication]
 summary: 數位簽章結合可信金鑰與稽核紀錄，支持事後追查誰簽了哪些內容

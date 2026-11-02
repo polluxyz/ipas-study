@@ -3,8 +3,8 @@ id: dbscan
 title: DBSCAN 密度分群
 kind: model
 codes:
-  - L21301
   - L23202
+  - L21301
 aliases:
   - Eps
   - MinPts

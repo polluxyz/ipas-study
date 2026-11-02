@@ -2,7 +2,7 @@
 id: grid-search
 title: 網格搜尋
 kind: technique
-codes: [L21301, L23304]
+codes: [L23304, L21301]
 aliases: [Grid Search, GridSearchCV]
 summary: 列舉指定超參數值的交叉組合，逐組驗證後選出設定
 goals:

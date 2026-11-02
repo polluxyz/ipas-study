@@ -2,7 +2,7 @@
 id: undersampling
 title: 欠採樣
 kind: technique
-codes: [L23301, L23304]
+codes: [L23304, L23301]
 aliases: [欠取樣]
 requires: [class-imbalance]
 mitigates:

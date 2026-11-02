@@ -3,10 +3,10 @@ id: transformer
 title: Transformer、位置資訊與平行化
 kind: model
 codes:
+  - L23203
   - L21101
   - L21103
   - L21301
-  - L23203
 aliases:
   - Transformer 架構
   - Transformer 架構選用

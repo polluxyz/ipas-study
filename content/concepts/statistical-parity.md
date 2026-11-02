@@ -3,8 +3,8 @@ id: statistical-parity
 title: 統計均等
 kind: metric
 codes:
-  - L21203
   - L23402
+  - L21203
 aliases:
   - Demographic Parity
   - Statistical Parity

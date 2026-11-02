@@ -2,7 +2,7 @@
 id: one-hot-encoding
 title: One-hot 編碼與高基數成本
 kind: technique
-codes: [L21101, L23301]
+codes: [L23301, L21101]
 aliases: [High Cardinality, One-hot Encoding, One-hot 獨熱編碼, 獨熱編碼]
 is_a: [categorical-encoding]
 requires: [categorical-encoding]

@@ -2,7 +2,7 @@
 id: sigmoid
 title: Sigmoid
 kind: component
-codes: [L21103, L23203, L23304]
+codes: [L23203, L21103, L23304]
 aliases: [邏輯激活函數]
 summary: Sigmoid 把單一分數壓到零與一之間，適合逐個二元標籤輸出
 goals:

@@ -2,7 +2,7 @@
 id: quantization
 title: 模型量化
 kind: technique
-codes: [L21301, L21302, L23304]
+codes: [L23304, L21301, L21302]
 aliases: [FP32, INT8, PTQ, QAT, model-quantization, 模型量化與邊緣加速, 量化感知訓練]
 summary: 模型量化用較少位元表示數值，容量縮減與實際加速須分開驗收
 goals:

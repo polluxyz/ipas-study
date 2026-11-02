@@ -2,7 +2,7 @@
 id: power-transforms
 title: 對數與冪次轉換
 kind: technique
-codes: [L21301, L23301]
+codes: [L23301, L21301]
 aliases: [Box-Cox, Log Transform, Power Transform, Yeo-Johnson]
 requires: [feature-scaling]
 summary: 以非線性轉換調整偏態與間距，選法先看分布及數值定義域

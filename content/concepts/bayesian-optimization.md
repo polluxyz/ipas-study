@@ -2,7 +2,7 @@
 id: bayesian-optimization
 title: 貝氏最佳化
 kind: technique
-codes: [L21301, L23304]
+codes: [L23304, L21301]
 aliases: [Bayesian Optimization, 貝葉斯優化]
 summary: 以歷史評分建立代理模型，兼顧預期品質與未知區域來選下一個實驗
 goals:

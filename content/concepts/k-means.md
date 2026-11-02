@@ -3,8 +3,8 @@ id: k-means
 title: K-means 分群
 kind: model
 codes:
-  - L21301
   - L23202
+  - L21301
 aliases:
   - K 均值
   - K-means Clustering

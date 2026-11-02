@@ -2,7 +2,7 @@
 id: l2-regularization
 title: L2 正則化與 Ridge
 kind: technique
-codes: [L23202, L23304]
+codes: [L23304, L23202]
 aliases: [L2 Regularization, 權重衰減]
 requires: [regularization]
 is_a: [regularization]

@@ -2,7 +2,7 @@
 id: reidentification-risk
 title: 識別與再識別風險
 kind: problem
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: [PII, Quasi-identifiers, 再識別, 準識別資訊]
 summary: 移除姓名後，欄位組合仍可能連上外部資料而揭露個人資訊
 goals:

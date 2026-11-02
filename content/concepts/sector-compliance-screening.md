@@ -2,7 +2,7 @@
 id: sector-compliance-screening
 title: 產業法規與安全標準盤點
 kind: technique
-codes: [L21203, L23401]
+codes: [L23401, L21203]
 aliases: []
 summary: 依產業、用途、資料與角色列出應查規範，並留下版本與適用證據
 goals:

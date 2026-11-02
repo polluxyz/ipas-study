@@ -2,7 +2,7 @@
 id: hallucination
 title: 模型幻覺與生成內容審核
 kind: problem
-codes: [L21101, L21103, L21203]
+codes: [L21103, L21101, L21203]
 aliases: [事實一致性, 幻覺, 模型幻覺, 生成幻覺與一致性]
 summary: 模型可能把無依據或錯誤資訊寫得自然，內容必須另做查核
 goals:

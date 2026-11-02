@@ -2,7 +2,7 @@
 id: unsupervised-learning
 title: 非監督式任務與異常偵測選型
 kind: theory
-codes: [L21301, L23201]
+codes: [L23201, L21301]
 aliases: [Unsupervised Learning, 非監督式學習, 非監督式學習與結構探索]
 summary: 無標籤時依需求探索群組、低維表示或異常，結果仍須查核語意
 goals:

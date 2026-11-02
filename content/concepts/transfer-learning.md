@@ -2,7 +2,7 @@
 id: transfer-learning
 title: 遷移學習與預訓練模型選擇
 kind: technique
-codes: [L21301, L21302, L23203, L23302]
+codes: [L23302, L21301, L21302, L23203]
 aliases: [Feature Extraction, Transfer Learning, requires_grad, 凍結層, 遷移學習, 遷移學習、凍結與微調, 遷移學習與微調]
 requires: [pytorch]
 summary: 遷移學習沿用已學得的表示，再依新任務的資料與成本決定更新範圍

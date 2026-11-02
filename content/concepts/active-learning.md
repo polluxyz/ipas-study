@@ -2,7 +2,7 @@
 id: active-learning
 title: 主動學習
 kind: technique
-codes: [L21102, L23301]
+codes: [L23301, L21102]
 aliases: [Active Learning, 不確定性取樣]
 requires: [supervised-learning]
 contrasts:

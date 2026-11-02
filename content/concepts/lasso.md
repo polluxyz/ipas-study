@@ -2,7 +2,7 @@
 id: lasso
 title: Lasso 迴歸
 kind: model
-codes: [L21301, L23202, L23304]
+codes: [L23202, L21301, L23304]
 aliases: [Lasso Regression, Lasso 與 L1 特徵篩選, lasso-regression]
 requires: [linear-regression, feature-scaling]
 guide_refs: [guide-1:5-5, guide-3:4-14, guide-3:4-15, guide-3:4-16, guide-3:4-17]

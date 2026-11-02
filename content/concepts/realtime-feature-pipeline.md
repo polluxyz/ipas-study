@@ -2,7 +2,7 @@
 id: realtime-feature-pipeline
 title: 即時特徵管線與延遲規劃
 kind: technique
-codes: [L21202, L21302]
+codes: [L21302, L21202]
 aliases: []
 requires: [data-pipeline-integration, service-performance-metrics]
 summary: 依新鮮度與回應預算，把特徵計算分到批次、串流及低延遲讀取路徑

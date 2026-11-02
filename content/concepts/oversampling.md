@@ -2,7 +2,7 @@
 id: oversampling
 title: 過採樣
 kind: technique
-codes: [L23301, L23304]
+codes: [L23304, L23301]
 aliases: [過取樣]
 requires: [class-imbalance]
 mitigates:

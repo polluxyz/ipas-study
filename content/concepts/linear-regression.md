@@ -2,7 +2,7 @@
 id: linear-regression
 title: 線性迴歸
 kind: model
-codes: [L21301, L23202]
+codes: [L23202, L21301]
 aliases: [Linear Regression, 多元線性迴歸]
 requires: [vector-norm-linear-combination, ordinary-least-squares]
 guide_refs: [guide-1:5-7, guide-1:5-8, guide-3:4-12, guide-3:4-13, guide-3:4-14]
