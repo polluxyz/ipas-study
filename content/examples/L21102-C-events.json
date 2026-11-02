@@ -1,0 +1,2370 @@
+{
+  "source": "教學合成資料；沒有真實照片、個資或模型推論",
+  "seed": 21102,
+  "box_convention": "[x1,y1,x2,y2]，左上原點，右下邊界不含，單位為示意像素",
+  "scoring": {
+    "split": "test",
+    "iou_threshold": 0.5,
+    "ap": "全點精確率包絡積分，非 COCO 101 點平均",
+    "confidence_tie": "event_id 再 prediction_id 升序",
+    "top_k_tie": "類別索引較大者先"
+  },
+  "domains": [
+    {
+      "id": "manufacturing",
+      "classes": [
+        "正常",
+        "刮痕",
+        "凹痕",
+        "汙點",
+        "裂紋",
+        "缺角"
+      ],
+      "detection_classes": [
+        "刮痕",
+        "凹痕"
+      ]
+    },
+    {
+      "id": "traffic",
+      "classes": [
+        "轎車",
+        "貨車",
+        "機車",
+        "公車",
+        "自行車",
+        "行人"
+      ],
+      "detection_classes": [
+        "轎車",
+        "貨車"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "event_id": "M01",
+      "domain": "manufacturing",
+      "clip_id": "M-clip0",
+      "split": "train",
+      "timestamp_ms": 0,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M01-g1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M01-p1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 0,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-205",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "LOT-205"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.1,
+          0,
+          1
+        ],
+        "yaw_degrees": 0,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "M02",
+      "domain": "manufacturing",
+      "clip_id": "M-clip0",
+      "split": "train",
+      "timestamp_ms": 100,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M02-g1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M02-p1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 1,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-206",
+        "predicted_region": [
+          10,
+          10,
+          60,
+          30
+        ],
+        "predicted_transcript": "LOT-20"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.2,
+          0,
+          1
+        ],
+        "yaw_degrees": 5,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "M03",
+      "domain": "manufacturing",
+      "clip_id": "M-clip0",
+      "split": "train",
+      "timestamp_ms": 200,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M03-g1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M03-p1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 2,
+        "scores": [
+          0.24,
+          0.18,
+          0.3,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-207",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "LOT-Z07"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.3,
+          0,
+          1
+        ],
+        "yaw_degrees": 10,
+        "valid": true,
+        "gesture": "pinch",
+        "virtual_scale": 1.2
+      }
+    },
+    {
+      "event_id": "M04",
+      "domain": "manufacturing",
+      "clip_id": "M-clip0",
+      "split": "train",
+      "timestamp_ms": 300,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M04-g1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M04-p1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 3,
+        "scores": [
+          0.3,
+          0.24,
+          0.13,
+          0.18,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-208",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "LOT-208"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.4,
+          0,
+          1
+        ],
+        "yaw_degrees": 15,
+        "valid": false,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "M05",
+      "domain": "manufacturing",
+      "clip_id": "M-clip1",
+      "split": "validation",
+      "timestamp_ms": 0,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M05-g1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M05-p1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 4,
+        "scores": [
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.3,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-209",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "LOT-209"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.1,
+          0,
+          1
+        ],
+        "yaw_degrees": 0,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "M06",
+      "domain": "manufacturing",
+      "clip_id": "M-clip1",
+      "split": "validation",
+      "timestamp_ms": 100,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M06-g1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M06-p1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 5,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.09,
+          0.06,
+          0.13
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-210",
+        "predicted_region": [
+          10,
+          10,
+          60,
+          30
+        ],
+        "predicted_transcript": "LOT-21"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.2,
+          0,
+          1
+        ],
+        "yaw_degrees": 5,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "M07",
+      "domain": "manufacturing",
+      "clip_id": "M-clip1",
+      "split": "validation",
+      "timestamp_ms": 200,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M07-g1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M07-p1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 0,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-211",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "LOT-Z11"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.3,
+          0,
+          1
+        ],
+        "yaw_degrees": 10,
+        "valid": true,
+        "gesture": "pinch",
+        "virtual_scale": 1.2
+      }
+    },
+    {
+      "event_id": "M08",
+      "domain": "manufacturing",
+      "clip_id": "M-clip1",
+      "split": "validation",
+      "timestamp_ms": 300,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M08-g1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M08-p1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 1,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-212",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "LOT-212"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.4,
+          0,
+          1
+        ],
+        "yaw_degrees": 15,
+        "valid": false,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "M09",
+      "domain": "manufacturing",
+      "clip_id": "M-clip2",
+      "split": "test",
+      "timestamp_ms": 0,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M09-g1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M09-p1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.95
+          },
+          {
+            "id": "M09-p2",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.9
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 2,
+        "scores": [
+          0.24,
+          0.18,
+          0.3,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-204",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "LOT-204"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.1,
+          0,
+          1
+        ],
+        "yaw_degrees": 0,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "M10",
+      "domain": "manufacturing",
+      "clip_id": "M-clip2",
+      "split": "test",
+      "timestamp_ms": 100,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M10-g1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M10-p1",
+            "class": "刮痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.8
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 3,
+        "scores": [
+          0.3,
+          0.18,
+          0.13,
+          0.24,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P02",
+        "candidate_identity": "P01",
+        "similarity": 0.82
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-214",
+        "predicted_region": [
+          10,
+          10,
+          60,
+          30
+        ],
+        "predicted_transcript": "LOT-21"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.2,
+          0,
+          1
+        ],
+        "yaw_degrees": 5,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "M11",
+      "domain": "manufacturing",
+      "clip_id": "M-clip2",
+      "split": "test",
+      "timestamp_ms": 200,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M11-g1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M11-p1",
+            "class": "凹痕",
+            "box": [
+              3,
+              0,
+              7,
+              4
+            ],
+            "confidence": 0.94
+          },
+          {
+            "id": "M11-p2",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.85
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 4,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-215",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "LOT-Z15"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.3,
+          0,
+          1
+        ],
+        "yaw_degrees": 10,
+        "valid": true,
+        "gesture": "pinch",
+        "virtual_scale": 1.2
+      }
+    },
+    {
+      "event_id": "M12",
+      "domain": "manufacturing",
+      "clip_id": "M-clip2",
+      "split": "test",
+      "timestamp_ms": 300,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "M12-g1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "M12-p1",
+            "class": "凹痕",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.75
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 5,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "LOT-216",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "LOT-216"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.4,
+          0,
+          1
+        ],
+        "yaw_degrees": 15,
+        "valid": false,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "T01",
+      "domain": "traffic",
+      "clip_id": "T-clip0",
+      "split": "train",
+      "timestamp_ms": 0,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T01-g1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T01-p1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 0,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-205",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "QX-205"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.1,
+          0,
+          1
+        ],
+        "yaw_degrees": 0,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "T02",
+      "domain": "traffic",
+      "clip_id": "T-clip0",
+      "split": "train",
+      "timestamp_ms": 100,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T02-g1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T02-p1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 1,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-206",
+        "predicted_region": [
+          10,
+          10,
+          60,
+          30
+        ],
+        "predicted_transcript": "QX-20"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.2,
+          0,
+          1
+        ],
+        "yaw_degrees": 5,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "T03",
+      "domain": "traffic",
+      "clip_id": "T-clip0",
+      "split": "train",
+      "timestamp_ms": 200,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T03-g1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T03-p1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 2,
+        "scores": [
+          0.24,
+          0.18,
+          0.3,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-207",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "QX-Z07"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.3,
+          0,
+          1
+        ],
+        "yaw_degrees": 10,
+        "valid": true,
+        "gesture": "pinch",
+        "virtual_scale": 1.2
+      }
+    },
+    {
+      "event_id": "T04",
+      "domain": "traffic",
+      "clip_id": "T-clip0",
+      "split": "train",
+      "timestamp_ms": 300,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T04-g1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T04-p1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 3,
+        "scores": [
+          0.3,
+          0.24,
+          0.13,
+          0.18,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-208",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "QX-208"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.4,
+          0,
+          1
+        ],
+        "yaw_degrees": 15,
+        "valid": false,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "T05",
+      "domain": "traffic",
+      "clip_id": "T-clip1",
+      "split": "validation",
+      "timestamp_ms": 0,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T05-g1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T05-p1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 4,
+        "scores": [
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.3,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-209",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "QX-209"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.1,
+          0,
+          1
+        ],
+        "yaw_degrees": 0,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "T06",
+      "domain": "traffic",
+      "clip_id": "T-clip1",
+      "split": "validation",
+      "timestamp_ms": 100,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T06-g1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T06-p1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 5,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.09,
+          0.06,
+          0.13
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-210",
+        "predicted_region": [
+          10,
+          10,
+          60,
+          30
+        ],
+        "predicted_transcript": "QX-21"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.2,
+          0,
+          1
+        ],
+        "yaw_degrees": 5,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "T07",
+      "domain": "traffic",
+      "clip_id": "T-clip1",
+      "split": "validation",
+      "timestamp_ms": 200,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T07-g1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T07-p1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 0,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-211",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "QX-Z11"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.3,
+          0,
+          1
+        ],
+        "yaw_degrees": 10,
+        "valid": true,
+        "gesture": "pinch",
+        "virtual_scale": 1.2
+      }
+    },
+    {
+      "event_id": "T08",
+      "domain": "traffic",
+      "clip_id": "T-clip1",
+      "split": "validation",
+      "timestamp_ms": 300,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T08-g1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T08-p1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.7
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 1,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-212",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "QX-212"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.4,
+          0,
+          1
+        ],
+        "yaw_degrees": 15,
+        "valid": false,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "T09",
+      "domain": "traffic",
+      "clip_id": "T-clip2",
+      "split": "test",
+      "timestamp_ms": 0,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T09-g1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T09-p1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.95
+          },
+          {
+            "id": "T09-p2",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.9
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 2,
+        "scores": [
+          0.24,
+          0.18,
+          0.3,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-204",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "QX-204"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.1,
+          0,
+          1
+        ],
+        "yaw_degrees": 0,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "T10",
+      "domain": "traffic",
+      "clip_id": "T-clip2",
+      "split": "test",
+      "timestamp_ms": 100,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T10-g1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T10-p1",
+            "class": "轎車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.8
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 3,
+        "scores": [
+          0.3,
+          0.18,
+          0.13,
+          0.24,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P02",
+        "candidate_identity": "P01",
+        "similarity": 0.82
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-214",
+        "predicted_region": [
+          10,
+          10,
+          60,
+          30
+        ],
+        "predicted_transcript": "QX-21"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.2,
+          0,
+          1
+        ],
+        "yaw_degrees": 5,
+        "valid": true,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    },
+    {
+      "event_id": "T11",
+      "domain": "traffic",
+      "clip_id": "T-clip2",
+      "split": "test",
+      "timestamp_ms": 200,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T11-g1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T11-p1",
+            "class": "貨車",
+            "box": [
+              3,
+              0,
+              7,
+              4
+            ],
+            "confidence": 0.94
+          },
+          {
+            "id": "T11-p2",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.85
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 4,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-215",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "QX-Z15"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.3,
+          0,
+          1
+        ],
+        "yaw_degrees": 10,
+        "valid": true,
+        "gesture": "pinch",
+        "virtual_scale": 1.2
+      }
+    },
+    {
+      "event_id": "T12",
+      "domain": "traffic",
+      "clip_id": "T-clip2",
+      "split": "test",
+      "timestamp_ms": 300,
+      "image_size": [
+        80,
+        40
+      ],
+      "detection": {
+        "ground_truth": [
+          {
+            "id": "T12-g1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ]
+          }
+        ],
+        "predictions": [
+          {
+            "id": "T12-p1",
+            "class": "貨車",
+            "box": [
+              0,
+              0,
+              4,
+              4
+            ],
+            "confidence": 0.75
+          }
+        ]
+      },
+      "classification": {
+        "region": [
+          40,
+          0,
+          48,
+          8
+        ],
+        "true_class": 5,
+        "scores": [
+          0.3,
+          0.24,
+          0.18,
+          0.13,
+          0.09,
+          0.06
+        ]
+      },
+      "face": {
+        "box": [
+          8,
+          4,
+          16,
+          16
+        ],
+        "detection_confidence": 0.97,
+        "identity_code": "P01",
+        "candidate_identity": "P01",
+        "similarity": 0.86
+      },
+      "ocr": {
+        "region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "transcript": "QX-216",
+        "predicted_region": [
+          10,
+          10,
+          70,
+          30
+        ],
+        "predicted_transcript": "QX-216"
+      },
+      "tracking": {
+        "track_id": "track-A",
+        "world_position_m": [
+          0.4,
+          0,
+          1
+        ],
+        "yaw_degrees": 15,
+        "valid": false,
+        "gesture": "open",
+        "virtual_scale": 1
+      }
+    }
+  ]
+}
