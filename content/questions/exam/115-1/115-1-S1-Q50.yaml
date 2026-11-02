@@ -7,7 +7,7 @@ number: 50
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 15
 type: 情境
-codes: [ L21104 ]
+codes: [L21104]
 concepts: [multimodal-fusion]
 stem: |
   某醫療團隊建立肺炎診斷系統，採用晚期融合（Late Fusion）策略，將胸腔 X 光影像與病患問診文字分別進行預測後再整合結果。測試發現，當問診紀錄品質不佳（如描述簡短或資訊缺漏）時，整體模型效能僅小幅下降。關於此現象，下列何者最不可能為其原因？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:3-77]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 15
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: D
   dispute: null

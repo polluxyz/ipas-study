@@ -7,7 +7,7 @@ number: 28
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 9
 type: 情境
-codes: [ L21203 ]
+codes: [L21203]
 concepts: [shap]
 stem: |
   一位資料科學家使用 XGBoost 建立信用風險評分模型，並使用 SHAP 解釋模型對某申請人的預測結果。SHAP summary plot 顯示該樣本中「月收入」的 SHAP 值為-2.3，「負債比率」為+1.8，其中 SHAP 值代表各特徵對模型輸出值的影響程度與方向。關於對 SHAP 值的解讀，下列敘述何者正確？
@@ -19,7 +19,7 @@ options:
 answer: B
 explanation:
   summary: "B。SHAP 是指定模型輸出尺度上的局部貢獻，不能直接當成百分比。"
-  correct: "B 在輸出越高代表違約風險越高的前提下成立。基準輸出加上該樣本的全部 SHAP 值，可還原被解釋的模型輸出；月收入 -2.3 表示向下貢獻 2.3 個輸出單位。XGBoost 二元分類若解釋 raw margin，通常使用對數勝算尺度，須確認所解釋的類別與 model_output。[SHAP 官方文件](https://shap.readthedocs.io/en/latest/generated/shap.TreeExplainer.html)"
+  correct: "B 在輸出越高代表違約風險越高的前提下成立。基準輸出加上該樣本的全部 SHAP 值，可還原被解釋的模型輸出；月收入 -2.3 表示向下貢獻 2.3 個輸出單位。XGBoost 二元分類若解釋 raw margin，通常使用對數勝算尺度，須確認所解釋的類別與 model_output。單筆預測通常用 waterfall 或 force 圖解釋；summary plot 通常彙整多筆樣本的全域歸因分布，題幹的圖名不改變此處對單筆貢獻的判讀。[SHAP 輸出尺度](https://shap.readthedocs.io/en/latest/generated/shap.TreeExplainer.html)；[單筆 waterfall 圖](https://shap.readthedocs.io/en/latest/example_notebooks/api_examples/plots/waterfall.html)；[全域 summary 圖](https://shap.readthedocs.io/en/latest/example_notebooks/api_examples/plots/beeswarm.html)"
   wrong:
     A: "題目未指定機率尺度，-2.3 不能直接讀成機率下降 2.3%；對數勝算還須經非線性轉換才得到機率。"
     C: "負號表示這一筆的影響方向，不代表不重要；絕對值大的負貢獻也可能非常重要。"
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:5-15]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 9
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: B
   dispute: null

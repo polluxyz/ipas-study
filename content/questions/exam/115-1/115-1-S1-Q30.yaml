@@ -7,7 +7,7 @@ number: 30
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 10
 type: 情境
-codes: [ L23102, L23301 ]
+codes: [L23102, L23301]
 concepts: [pca, eigenvalue-decomposition]
 stem: |
   某資料科學家正在處理一份包含 200 個感測器特徵的工廠設備監測資料集，為了降低模型複雜度並保留主要變異資訊，他先對資料進行標準化（Standardization），再使用主成分分析（PCA）進行降維。在 PCA 過程中，為了找出能最大化資料變異量的主成分方向，演算法主要依賴哪一項數學操作？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:3-13, guide-3:3-14, guide-3:4-45]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 10
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

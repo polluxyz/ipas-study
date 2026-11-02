@@ -7,7 +7,7 @@ number: 39
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 12
 type: 情境
-codes: [ L21302, L21301 ]
+codes: [L21302, L21301]
 concepts: [data-pipeline-integration]
 stem: |
   某 AI 平台工程師正在為多模態模型訓練系統規劃資料儲存架構，需要同時處理原始影像、非結構化文本，以及經過整理的結構化特徵資料。在此情境下，應如何選擇資料湖（Data Lake）與資料倉儲（Data Warehouse）的使用方式？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:5-14]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 12
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: A
   dispute: null

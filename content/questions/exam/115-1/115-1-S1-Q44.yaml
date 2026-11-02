@@ -7,7 +7,7 @@ number: 44
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 13
 type: 情境
-codes: [ L21302 ]
+codes: [L21302]
 concepts: [inference-service-api]
 stem: |
   某 MLOps 工程師正在設計 AI 模型的推論服務 API，需要處理使用者上傳的高解析度影像（平均 5MB）進行即時分類。在 RESTful API 設計時，選擇 HTTP 請求方法與資料傳輸格式的最佳實踐為何？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:5-15]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 13
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: B
   dispute: null

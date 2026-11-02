@@ -7,7 +7,7 @@ number: 43
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 13
 type: 情境
-codes: [ L21302, L23303 ]
+codes: [L21302, L23303]
 concepts: [release-strategies, phased-rollout]
 stem: |
   某電商平台的演算法工程師開發了一個新版商品推薦模型，在離線 A/B 測試中，新模型的各項評估指標（AUC、NDCG@10）均顯著優於現行線上模型。然而，離線測試無法完全反映真實使用者的互動行為（點擊、購買、停留時間）。在正式全面上線前，若希望在可控制風險下量化真實業務指標，應採用下列何種線上驗證策略？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:5-19, guide-1:5-21]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 13
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

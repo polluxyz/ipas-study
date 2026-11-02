@@ -7,7 +7,7 @@ number: 37
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 11
 type: 情境
-codes: [ L23301 ]
+codes: [L23301]
 concepts: [class-imbalance, smote]
 stem: |
   某製造廠開發產線瑕疵檢測模型時，資料集存在嚴重類別不平衡問題，其中良品約占 99%，瑕疵品僅占 1%。若直接使用原始資料進行訓練，模型容易偏向預測多數類別（良品），導致對少數類別（瑕疵品）辨識能力不足。在不調整模型架構與學習演算法的前提下，僅透過資料前處理方式改善此問題，下列何者最適當？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:5-10, guide-3:5-25]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 11
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: A
   dispute: null

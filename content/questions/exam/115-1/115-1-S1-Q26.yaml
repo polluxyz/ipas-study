@@ -7,7 +7,7 @@ number: 26
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 8
 type: 情境
-codes: [ L21203 ]
+codes: [L21203]
 concepts: [explainable-ai, responsible-ai-principles]
 stem: |
   某銀行導入一套 AI 授信審核系統，針對貸款申請人進行自動化決策。監理單位要求系統必須符合負責任 AI（Responsible AI）原則，特別是對被拒絕的申請人提供每筆決策的具體理由說明。從技術與合規的角度，此要求的核心能力需求為何？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:4-38]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 8
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: D
   dispute: null

@@ -7,7 +7,7 @@ number: 32
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 10
 type: 情境
-codes: [ L23203, L23302 ]
+codes: [L23203, L23302]
 concepts: [flatten, pooling, cnn-tensor-shapes]
 stem: |
   某工程師正在實作一個 CNN 影像分類模型，在 PyTorch 中定義模型架構時，需要在卷積擷取特徵後接上全連結層（Fully Connected Layer）進行分類。在模型程式碼中，需要在卷積輸出與全連結層之間插入什麼操作？
@@ -18,19 +18,19 @@ options:
   D: 先對特徵圖做 Softmax，再輸入全連結層
 answer: B
 explanation:
-  summary: "官方答案 B；一般展平分類頭適用，但未排除全域平均池化的替代架構。"
+  summary: "官方答案 B，對應典型 Flatten 分類頭；題幹未給足架構條件，無法排除 A 的全域平均池化。"
   correct: "B 適用於分類頭使用每張影像全部卷積特徵的架構：N×C×H×W 經 torch.flatten(x, 1) 變成 N×(C·H·W)，再接 in_features=C·H·W 的 nn.Linear；須保留批次軸 N。但 A 也可構成有效分類頭，題幹條件不足，不能宣稱所有 CNN 都須直接展平全部空間特徵。[PyTorch Linear 文件](https://docs.pytorch.org/docs/2.15/generated/torch.nn.Linear.html)"
   wrong:
-    A: "這不是普遍錯誤的設計。全域平均池化先彙整每通道的空間資訊；AdaptiveAvgPool2d(1) 輸出 N×C×1×1，再以 flatten(1) 或適當 squeeze 轉為 N×C，就可接 Linear(C, 類別數)。題幹未限制分類頭大小，應保留此合理替代解。[PyTorch 池化形狀](https://docs.pytorch.org/docs/2.15/generated/torch.nn.AdaptiveAvgPool2d.html)"
+    A: "A 也有合法實作，不能一概判錯。全域平均池化彙整每通道的空間資訊，例如 x.mean(dim=(2, 3)) 可直接把 N×C×H×W 變成 N×C，不需另加 Flatten，就能接 Linear(C, 類別數)，也保留批次軸。若選用 AdaptiveAvgPool2d(1)，其輸出才是 N×C×1×1，須再整理形狀；不能由這個 API 推論所有池化架構都必須展平。題幹未限制分類頭大小或池化實作，因此 A 是合理替代架構。[PyTorch 多軸平均](https://docs.pytorch.org/docs/2.15/generated/torch.mean.html)；[池化輸出形狀](https://docs.pytorch.org/docs/2.15/generated/torch.nn.AdaptiveAvgPool2d.html)"
     C: "nn.Linear 對最後一軸運算，不會自動合併卷積軸；直接接入可能尺寸不符，或只沿寬度運算而非完成預期整張影像分類。"
     D: "Softmax 改變數值分布而不合併張量軸，不能解決卷積輸出與分類頭的形狀銜接。"
   rule: "卷積接分類頭先核對批次軸與 Linear 的最後一軸，展平與池化後分類都可行。"
 guide_refs: [guide-3:4-69]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 10
     by: EX-E6-codex
-  blind_answer: null
-  dispute: null
+  blind_answer: B
+  dispute: 官方答案 B。Flatten 是典型 CNN 與全連接層的銜接方式；但 A 的一般全域平均池化也可直接得到保留批次軸的 N×C 表示，接分類頭時不需特定 Flatten。題面未限定分類頭或特定 API，保留官方 B 與架構條件不足的疑義。

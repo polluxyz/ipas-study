@@ -7,7 +7,7 @@ number: 42
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 13
 type: 情境
-codes: [ L21302, L23303 ]
+codes: [L21302, L23303]
 concepts: [model-monitoring, root-mean-squared-error]
 stem: |
   某保險公司將理賠金額預測模型正式部署上線，MLOps 團隊設計監控機制。三個月後模型整體均方根誤差（RMSE）無明顯變化，但業務單位反映高額理賠案件的預測誤差明顯增加。經分析，高額理賠案件僅佔約 5%的樣本比例，且未被監控機制及時發現。請問最可能的設計缺陷為何？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:5-19, guide-3:5-23]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 13
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: D
   dispute: null

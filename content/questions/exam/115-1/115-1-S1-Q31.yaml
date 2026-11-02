@@ -7,7 +7,7 @@ number: 31
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 10
 type: 情境
-codes: [ L23202, L23301 ]
+codes: [L23202, L23301]
 concepts: [dbscan]
 stem: |
   某資料工程師嘗試對包含 300 個特徵的使用者行為資料集使用 DBSCAN 進行群集分析，但發現幾乎所有資料點都被判定為雜訊點（Noise Points），難以形成有意義的群集，即使不斷調整ε（Epsilon）與 MinPts 參數也無濟於事。請問下列何者為此問題最可能的根本原因？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:4-33, guide-3:4-43, guide-3:4-44]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 10
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: A
   dispute: null

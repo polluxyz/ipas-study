@@ -7,7 +7,7 @@ number: 45
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 14
 type: 情境
-codes: [ L21302 ]
+codes: [L21302]
 concepts: [circuit-breaker]
 stem: |
   某 AI 平台整合多個外部 AI 微服務（語音辨識 API、NLP 分析 API、知識圖譜查詢服務），在高峰期間某外部服務偶發延遲或逾時（Timeout），導致請求鏈路壅塞，最終造成平台級服務中斷（Cascading Failure）。為從架構層面預防此類連鎖故障，最有效的設計模式為何？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:5-15]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 14
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: B
   dispute: null

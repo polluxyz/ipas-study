@@ -7,7 +7,7 @@ number: 49
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 15
 type: 情境
-codes: [ L21302, L23303 ]
+codes: [L21302, L23303]
 concepts: [experiment-tracking, model-monitoring]
 stem: |
   某零售電商平台已建立模型監控儀表板，用於追蹤線上推薦模型的運作狀態與效能表現。維運工程師需判斷哪些指標屬於「線上持續監控（Continuous Monitoring）」的範疇。下列指標中，哪一項最不適合在即時監控系統中追蹤，而應改由離線實驗追蹤系統管理？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-1:5-19]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 15
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: A
   dispute: null

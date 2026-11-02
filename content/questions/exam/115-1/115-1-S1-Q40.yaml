@@ -7,7 +7,7 @@ number: 40
 pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
 pdf_page: 12
 type: 情境
-codes: [ L21302, L23304 ]
+codes: [L21302, L23304]
 concepts: [quantization, edge-inference]
 stem: |
   某智慧製造公司在產線上部署工業相機進行即時外觀瑕疵檢測，原先將影像傳至雲端進行 AI 推論，但因網路延遲與連線不穩導致系統無法滿足即時需求（需低於 200ms）。工程師因此改為將模型部署於產線端的邊緣裝置後，但仍未達系統需求。在不更換硬體設備的前提下，下列哪一組技術最能有效降低推論延遲，同時維持合理準確率？
@@ -28,9 +28,9 @@ explanation:
 guide_refs: [guide-3:5-51]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 12
     by: EX-E6-codex
-  blind_answer: null
+  blind_answer: D
   dispute: null
