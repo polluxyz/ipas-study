@@ -16,6 +16,10 @@ goals:
   - id: g2
     text: 用同一份四格計數區分機會平等與均衡機率
 contrasts:
+  - target: statistical-parity
+    note: 機會平等比較各群真實正例內的獲選比例（TPR），統計均等比較各群全體的選取比例，兩者分母不同
+    source:
+      - guide-3:6-18
   - target: equalized-odds
     note: 機會平等只約束TPR，均衡機率另約束FPR
     source:
