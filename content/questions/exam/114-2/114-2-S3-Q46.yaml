@@ -53,11 +53,7 @@ answer: B
 explanation:
   summary: 答案：B。PCA() 在本題保留全部 64 個主成分，投影再重建幾乎原樣保留了雜訊。
   correct: >-
-    這組資料有 1,797 筆、64 維；未指定 n_components 的 PCA 在題示預設設定下保留全部 64 個方向。
-    `fit(noisy)` 學投影方向，`transform` 轉到主成分座標，`inverse_transform` 轉回像素座標；保留全部方向只是更換座標系，無法藉捨棄成分濾除雜訊。
-    因此應修改 B，例如 `PCA(n_components=20)`，保留部分方向再重建。
-    20 只是可嘗試的設定，並非保證最佳；去噪須以主要訊號集中於保留方向、部分雜訊落在捨棄方向為條件，應比較重建與後續驗證表現。
-    指引介紹 PCA 的降維及雜訊過濾用途；預設保留量與重建 API 見 [PCA 官方文件](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)。
+    這組資料有 1,797 筆、64 維；未指定 n_components 的 PCA 在題示預設設定下保留全部 64 個方向。 `fit(noisy)` 學投影方向，`transform` 轉到主成分座標，`inverse_transform` 轉回像素座標；保留全部方向只是更換座標系，無法藉捨棄成分濾除雜訊。 因此應修改 B，例如 `PCA(n_components=20)`，保留部分方向再重建。 20 只是可嘗試的設定，並非保證最佳；去噪須以主要訊號集中於保留方向、部分雜訊落在捨棄方向為條件，應比較重建與後續驗證表現。 指引介紹 PCA 的降維及雜訊過濾用途；預設保留量與重建 API 見 [PCA 官方文件](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html)。
   wrong:
     A: >-
       匯入 sklearn.decomposition 的 PCA 類別並沒有錯；只更換匯入步驟，不會解決保留全部主成分的問題。
@@ -69,9 +65,10 @@ explanation:
 guide_refs: [guide-3:4-44, guide-3:4-45, guide-3:5-6]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 15
     by: EX-E4-Codex
-  blind_answer: null
+  blind_answer: B
   dispute: null
+image: 114-2-S3-Q46.png

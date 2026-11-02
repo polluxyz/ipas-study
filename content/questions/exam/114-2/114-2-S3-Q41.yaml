@@ -38,10 +38,7 @@ answer: D
 explanation:
   summary: 答案：D。估計 P(A∣B) 時，只在滿足 B 的模擬結果中計算 A 也發生的比例。
   correct: >-
-    已知 B 發生後，分母應是 B 的次數，分子則是 A 與 B 同時發生的次數，即 `A_and_B.sum() / B.sum()`。
-    程式先以 `randint(1, 7)` 產生 1～6，再用布林遮罩表示事件；`&` 取交集，布林陣列的 sum 計算 True 的個數。
-    公平骰子的 B={4,5,6}、交集={4,6}，所以理論條件機率是 2/3。
-    本題的有限次 Monte Carlo 模擬則給出 33,288 / 49,888，約 0.667255，無須恰好等於 2/3；估計式以 B.sum()>0 為前提。
+    已知 B 發生後，分母應是 B 的次數，分子則是 A 與 B 同時發生的次數，即 `A_and_B.sum() / B.sum()`。 程式先以 `randint(1, 7)` 產生 1～6，再用布林遮罩表示事件；`&` 取交集，布林陣列的 sum 計算 True 的個數。 公平骰子的 B={4,5,6}、交集={4,6}，所以理論條件機率是 2/3。 本題的有限次 Monte Carlo 模擬則給出 33,288 / 49,888，約 0.667255，無須恰好等於 2/3；估計式以 B.sum()>0 為前提。
   wrong:
     A: >-
       將 A 與 B 的次數相乘沒有對應到所求的條件樣本數；隨模擬次數增加，此比值還會因分母多乘一次樣本量而趨近 0。
@@ -53,9 +50,9 @@ explanation:
 guide_refs: [guide-3:3-5]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 10
     by: EX-E4-Codex
-  blind_answer: null
+  blind_answer: D
   dispute: null

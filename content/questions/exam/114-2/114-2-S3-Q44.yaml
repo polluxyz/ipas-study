@@ -87,9 +87,7 @@ answer: D
 explanation:
   summary: 答案：D。VGG16 的 16 指 13 個卷積層加 3 個全連接層，題示共有 138,357,544 個參數。
   correct: >-
-    按摘要逐層數出 13 個 Conv2d 與 3 個 Linear；VGG16 名稱中的 16 不把 ReLU、Dropout 與池化另算成有權重的層。
-    卷積參數 14,714,688 加上全連接參數 123,642,856，得到 138,357,544，約 138.36M。
-    資料會先經 features、AdaptiveAvgPool2d，再攤平進 classifier；此處自適應池化明確輸出 7×7，所以不能沿用先前的 4×4 尺寸。
+    按摘要逐層數出 13 個 Conv2d 與 3 個 Linear；VGG16 名稱中的 16 不把 ReLU、Dropout 與池化另算成有權重的層。 卷積參數 14,714,688 加上全連接參數 123,642,856，得到 138,357,544，約 138.36M。 資料會先經 features、AdaptiveAvgPool2d，再攤平進 classifier；此處自適應池化明確輸出 7×7，所以不能沿用先前的 4×4 尺寸。
   wrong:
     A: >-
       4×4 是 MaxPool2d-31 的輸出；下一層自適應平均池化已改成 7×7，因此攤平維度為 512×7×7=25,088，而非 8,192。
@@ -101,9 +99,9 @@ explanation:
 guide_refs: [guide-3:4-69, guide-3:4-71]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 13
     by: EX-E4-Codex
-  blind_answer: null
+  blind_answer: D
   dispute: null

@@ -92,10 +92,7 @@ answer: C
 explanation:
   summary: 答案：C。9 維輸入接 10 個單元需 100 個參數，接著的 10 到 10 層需 110 個參數。
   correct: >-
-    `dataset_train[:, 0:9]` 取得第 0～8 欄，所以模型輸入有 9 個特徵；第 9 欄 survived 是標籤，不應另算成輸入。
-    Dense 預設使用偏差，參數數目是輸入維度×輸出單元數 + 輸出單元數：第一層為 9×10+10=100，第二層為 10×10+10=110。
-    最後 10 到 1 層則有 10×1+1=11 個，和摘要一致；三層合計 221 個。
-    `Input` 只指定形狀，ReLU、Sigmoid 激活也不額外增加這些 Dense 層的可訓練參數，參見 [Dense 官方文件](https://keras.io/api/layers/core_layers/dense/)。
+    `dataset_train[:, 0:9]` 取得第 0～8 欄，所以模型輸入有 9 個特徵；第 9 欄 survived 是標籤，不應另算成輸入。 Dense 預設使用偏差，參數數目是輸入維度×輸出單元數 + 輸出單元數：第一層為 9×10+10=100，第二層為 10×10+10=110。 最後 10 到 1 層則有 10×1+1=11 個，和摘要一致；三層合計 221 個。 `Input` 只指定形狀，ReLU、Sigmoid 激活也不額外增加這些 Dense 層的可訓練參數，參見 [Dense 官方文件](https://keras.io/api/layers/core_layers/dense/)。
   wrong:
     A: >-
       題示公式 1/(1+e^(-x)) 是 Sigmoid；預設 ReLU 是 max(0,x)，負輸入變為 0，正輸入保留。
@@ -107,9 +104,9 @@ explanation:
 guide_refs: [guide-3:3-10, guide-3:4-57, guide-3:4-65]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 18
     by: EX-E4-Codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

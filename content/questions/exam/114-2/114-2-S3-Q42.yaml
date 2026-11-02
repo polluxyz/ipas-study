@@ -87,10 +87,7 @@ answer: B
 explanation:
   summary: 答案：B。題示 VGG16 的三個 Linear 層合計約占 89.36% 的參數。
   correct: >-
-    直接加總摘要中的三個全連接層：102,764,544 + 16,781,312 + 4,097,000 = 123,642,856。
-    相較之下，13 個卷積層共 14,714,688 個參數，因此全連接層最多。
-    主要來源是第一個 Linear：AdaptiveAvgPool2d 產生 512×7×7 個數值，攤平後有 25,088 維，連到 4,096 個單元並包含偏差，就要 (25,088+1)×4,096 個參數。
-    這是儲存及學習的參數數目，不等於每次推論的運算次數。
+    直接加總摘要中的三個全連接層：102,764,544 + 16,781,312 + 4,097,000 = 123,642,856。 相較之下，13 個卷積層共 14,714,688 個參數，因此全連接層最多。 主要來源是第一個 Linear：AdaptiveAvgPool2d 產生 512×7×7 個數值，攤平後有 25,088 維，連到 4,096 個單元並包含偏差，就要 (25,088+1)×4,096 個參數。 這是儲存及學習的參數數目，不等於每次推論的運算次數。
   wrong:
     A: >-
       卷積會在不同空間位置重用同一組卷積核；雖然層數較多，合計參數仍少於題示三個 Linear 層。
@@ -102,9 +99,9 @@ explanation:
 guide_refs: [guide-3:4-68, guide-3:4-69, guide-3:4-71]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 13
     by: EX-E4-Codex
-  blind_answer: null
+  blind_answer: B
   dispute: null

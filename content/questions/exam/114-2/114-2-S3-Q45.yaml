@@ -116,16 +116,10 @@ options:
     ```
 answer: B
 explanation:
-  summary: 官方答案：B。若 classifier 指整個分類器，B 符合；若只指最後一個 Linear，A 也符合，題意有歧義。
-  correct: >-
-    把題幹的 classifier 解讀為整個分類器時，B 只對 `model.features.parameters()` 設定 `requires_grad=False`，凍結卷積部分而保留 classifier 的三個 Linear 可訓練。
-    再把 `classifier[6]` 換成輸出 10 類的新 Linear，其參數預設可訓練；後續仍須把欲更新的參數交給 optimizer。
-    但「只訓練最後全連接層」也可指僅最後一個 Linear，此時 A 才是精確作法，因此不能無條件排除 A。
-    指引談過預訓練與微調概念，未教授 VGG 的凍結迴圈、classifier 範圍及新層的梯度預設值，故此題不填假借 API 教學的指引頁碼。
-    依據：[VGG 官方結構](https://docs.pytorch.org/vision/stable/_modules/torchvision/models/vgg.html) 及 [PyTorch 遷移學習教學](https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html#convnet-as-fixed-feature-extractor)。
+  summary: "官方答案：B。題幹的 classifier 指向 VGG 分類器模組，B 最符合重新訓練最後幾層的要求。"
+  correct: "B 只對 `model.features.parameters()` 設定 `requires_grad=False`，凍結卷積部分，保留 classifier 的三個 Linear 可訓練。再把 `classifier[6]` 換成輸出 10 類的新 Linear，其參數預設也可訓練；後續仍須把欲更新的參數交給 optimizer。題幹說重新訓練「最後幾層」，括號 classifier 也是 VGG 的分類器模組名，兩者支持 B 的讀法。若把要求縮成只訓練最後一個 Linear，A 也做得到，但這比題幹的模組範圍更窄。指引談過預訓練與微調概念，未教授 VGG 的凍結迴圈、classifier 範圍及新層的梯度預設值，因此不填無法直接支持 API 的指引頁碼。依據：[VGG 官方結構](https://docs.pytorch.org/vision/stable/_modules/torchvision/models/vgg.html) 及 [PyTorch 遷移學習教學](https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html#convnet-as-fixed-feature-extractor)。"
   wrong:
-    A: >-
-      先凍結所有既有參數，再換上的 Linear 預設 requires_grad=True，所以只有新的 classifier[6] 可訓練；它不符合「整個 classifier 都要訓練」的解讀，卻符合「只訓練最後一層」的解讀，不能直接說它無法學習。
+    A: "先凍結所有既有參數，再換上的 Linear 預設 requires_grad=True，所以只有新的 classifier[6] 可訓練。這能做到只訓練最後一個 Linear，不能說它無法學習；但題幹的「最後幾層」及 classifier 模組名指向整個分類器，B 更符合此範圍。"
     C: >-
       凍結的是舊 classifier，並未凍結 features；換上新層後，卷積與最後 Linear 仍可訓練，違反凍結卷積的要求。
     D: >-
@@ -134,9 +128,9 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 13
     by: EX-E4-Codex
-  blind_answer: null
+  blind_answer: B
   dispute: null

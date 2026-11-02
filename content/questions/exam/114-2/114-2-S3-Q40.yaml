@@ -31,10 +31,7 @@ answer: C
 explanation:
   summary: 答案：C。兩個一維陣列的 dot 是內積，數值為 32；np.int64 的型別寫法有環境條件。
   correct: >-
-    一維輸入的 `np.dot(v1, v2)` 先將對應位置相乘，再加總，得到 1×4 + 2×5 + 3×6 = 32。
-    若兩個陣列採預設的 int64 整數型別，結果就是 `np.int64(32)`，因此官方答案 C 在此條件下成立。
-    但題目沒有指定 NumPy 版本、平台或 dtype，不能把 int64 當成跨環境保證：例如舊版 Windows 的預設整數可能是 int32，數值仍為 32。
-    這是型別敘述的條件不足，不影響內積運算的判讀；版本差異見 [NumPy 2.0 的 Windows 整數遷移說明](https://numpy.org/doc/stable/numpy_2_0_migration_guide.html#windows-default-integer)。
+    一維輸入的 `np.dot(v1, v2)` 先將對應位置相乘，再加總，得到 1×4 + 2×5 + 3×6 = 32。 若兩個陣列採預設的 int64 整數型別，結果就是 `np.int64(32)`，因此官方答案 C 在此條件下成立。 但題目沒有指定 NumPy 版本、平台或 dtype，不能把 int64 當成跨環境保證：例如舊版 Windows 的預設整數可能是 int32，數值仍為 32。 這是型別敘述的條件不足，不影響內積運算的判讀；版本差異見 [NumPy 2.0 的 Windows 整數遷移說明](https://numpy.org/doc/stable/numpy_2_0_migration_guide.html#windows-default-integer)。
   wrong:
     A: >-
       `np.linalg.inv(A)` 求反矩陣，得到 [[-2, 1], [1.5, -0.5]]；行列式應用 `np.linalg.det(A)`，本例數值為 -2。
@@ -46,9 +43,9 @@ explanation:
 guide_refs: [guide-3:3-10, guide-3:3-13, guide-3:3-14]
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 10
     by: EX-E4-Codex
-  blind_answer: null
+  blind_answer: C
   dispute: null

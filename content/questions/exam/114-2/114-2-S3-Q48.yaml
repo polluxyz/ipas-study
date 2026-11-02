@@ -86,12 +86,7 @@ answer: C
 explanation:
   summary: 官方答案：C（敘述 A、D）。A 成立，但 D 若解讀為保證防止梯度爆炸或消失，則過強且沒有完全正確的組合。
   correct: >-
-    將 D 理解為「有助改善尺度造成的訓練不穩」時，官方組合 A、D 最接近出題意圖。
-    `axis=0` 沿樣本方向計算各欄統計量；減平均使每欄均值接近 0，再除以非零標準差使標準差接近 1，浮點運算會有微小誤差。
-    不過標準化無法保證梯度穩定，權重、網路深度與激活函數仍會造成爆炸或消失；嚴格依 D 的「防止」解讀，只有 A 正確，而選項沒有 A 單獨，故須交爭議審查。
-    題示也錯在用測試集自己的統計量：應先用未修改的 X_train 計算 mu、sigma，令零標準差欄的縮放因子為 1，再讓訓練與測試資料都套用 (X-mu)/sigma。
-    標準化也不會把任意資料變成常態分布，指引 5-7 的說法需澄清。
-    參見 [StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html) 與 [MLP 的縮放指引](https://scikit-learn.org/stable/modules/neural_networks_supervised.html#tips-on-practical-use)。
+    將 D 理解為「有助改善尺度造成的訓練不穩」時，官方組合 A、D 最接近出題意圖。 `axis=0` 沿樣本方向計算各欄統計量；減平均使每欄均值接近 0，再除以非零標準差使標準差接近 1，浮點運算會有微小誤差。 不過標準化無法保證梯度穩定，權重、網路深度與激活函數仍會造成爆炸或消失；嚴格依 D 的「防止」解讀，只有 A 正確，而選項沒有只含 A 的組合，因此嚴格依此措辭判斷，沒有完全正確的組合。 題示也錯在用測試集自己的統計量：應先用未修改的 X_train 計算 mu、sigma，令零標準差欄的縮放因子為 1，再讓訓練與測試資料都套用 (X-mu)/sigma。 標準化也不會把任意資料變成常態分布，指引 5-7 的說法需澄清。 參見 [StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html) 與 [MLP 的縮放指引](https://scikit-learn.org/stable/modules/neural_networks_supervised.html#tips-on-practical-use)。
   wrong:
     A: >-
       此組合包含錯誤敘述 B 與 C：除以標準差會使標準差約為 1，並非 0；Z-score 也不限制在 [0,1]，可能有負值或大於 1 的值。
@@ -103,9 +98,9 @@ explanation:
 guide_refs: [guide-3:5-6, guide-3:5-7]
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 17
     by: EX-E4-Codex
-  blind_answer: null
-  dispute: null
+  blind_answer: C
+  dispute: 官方答案為 C（A、D）。若把 D 的「防止」理解為有助改善梯度尺度，符合出題意圖；但標準化無法保證防止梯度爆炸或消失，嚴格依題面只有 A 成立，選項缺少僅 A 的組合。官方計分答案保留 C，技術限制見解析。
