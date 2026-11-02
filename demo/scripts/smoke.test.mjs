@@ -1,6 +1,6 @@
 /** 離線驗證巡檢工具的文字排除區、主責導覽與錯誤收尾。 */
 import { describe, expect, it } from 'vitest';
-import { assertNavigation, assertSessionStats, expectedNavigation, expectedSessionStats, finishSmokePages, hasUnconvertedWikiLink, runSmokeWithCleanup } from './smoke.mjs';
+import { assertNavigation, assertPracticeEntryLinks, assertSessionStats, expectedNavigation, expectedSessionStats, finishSmokePages, hasUnconvertedWikiLink, runSmokeWithCleanup } from './smoke.mjs';
 import { loadContent } from './rollout-smoke.mjs';
 
 // 只模擬巡檢需要的 DOM API；不啟動瀏覽器或修改正式資料。
@@ -15,6 +15,21 @@ function mainWithText(...nodes) {
   }) } };
 }
 const link = (href) => ({ count: async () => href ? 1 : 0, getAttribute: async () => href });
+
+describe('科目分組後的練習入口', () => {
+  it('側欄只列路線、單元頁有練習時通過', () => {
+    expect(() => assertPracticeEntryLinks(['/codes/L23303/'], ['/practice/L23303/'], 'L23303')).not.toThrow();
+  });
+  it('只有舊側欄練習連結不能取代單元頁入口', () => {
+    expect(() => assertPracticeEntryLinks(['/codes/L23303/', '/practice/L23303/'], [], 'L23303')).toThrow('路線頁缺練習入口');
+  });
+  it('不能以其他單元的練習連結通過', () => {
+    expect(() => assertPracticeEntryLinks(['/codes/L23303/'], ['/practice/L21101/'], 'L23303')).toThrow('路線頁缺練習入口');
+  });
+  it('單元頁有練習仍須有可找到的側欄路線', () => {
+    expect(() => assertPracticeEntryLinks(['/codes/L21101/'], ['/practice/L23303/'], 'L23303')).toThrow('側欄缺學習路線入口');
+  });
+});
 const content = {
   concepts: [
     { id: 'a', codes: ['owner'] }, { id: 'cross', codes: ['owner', 'foreign'] },
