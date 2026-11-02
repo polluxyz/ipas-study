@@ -118,7 +118,7 @@ export async function localGet(request, value, base) {
 // 每個 context 的封口狀態只在明確安裝時建立，import 不觸發 I/O。
 const buildContexts = new WeakMap();
 function buildContextState(context) {
-  if (!buildContexts.has(context)) buildContexts.set(context, { accepting: true, routes: new Set(), failures: [], expected: [] });
+  if (!buildContexts.has(context)) buildContexts.set(context, { accepting: true, routes: new Set(), responses: new Map(), failures: [], expected: [] });
   return buildContexts.get(context);
 }
 /** 唯一容許的故障回應：舊 smoke 明確探測不存在的教材 fixture；不放寬其他 404。 */
@@ -129,27 +129,35 @@ export function expectedTextbook404(response, base) {
 export async function routeLocalOnly(context, base, external, failures) {
   const state = buildContextState(context);
   await context.route('**/*', (route) => {
-    const value = route.request().url();
-    const task = (async () => {
-      if (!state.accepting) return route.abort(); // 封口是同步狀態轉換，沒有下一次 fetch 的空窗。
+    const request = route.request(), value = request.url();
+    // 先把整個 producer 登記，再開始非同步工作，收尾不會漏掉剛進入的 handler。
+    const task = Promise.resolve().then(async () => {
       if (!/^https?:/i.test(value)) return route.continue(); // data／blob 不會產生 HTTP 出站。
       let response;
       try {
         try { localUrl(value, base); } catch (error) { external.push(value); throw error; }
+        if (!state.accepting) return await route.abort(); // 封口後沒有下一次 fetch 的空窗。
         response = await route.fetch({ maxRedirects: 0 });
         localUrl(response.url(), base);
+        assert.equal(response.url(), value, 'fetch 回應 URL 與原請求不符');
         assert.ok(response.status() < 300 || response.status() >= 400, `禁止 redirect HTTP ${response.status()}：${value} → ${response.headers().location ?? ''}`);
-        if (response.status() !== 200) {
+        const url = response.url(), status = response.status();
+        // API response 不依賴頁面的 DevTools body。私有字串固定真 bytes，每次取用再解碼成獨立副本。
+        const encoded = (await response.body()).toString('base64');
+        const captured = Object.freeze({ url: () => url, status: () => status, body: async () => Buffer.from(encoded, 'base64') });
+        if (status !== 200) {
           assert.ok(state.allowTextbook404 && expectedTextbook404(response, base), `HTTP 非 200：${response.status()} ${value}`);
           state.expected.push({ url: response.url(), status: response.status(), phase: 'route' });
-        } else if (state.binding) await verifyResponseBytes(response, state.binding, base);
-        await route.fulfill({ response });
+        } else if (state.binding) await verifyResponseBytes(captured, state.binding, base);
+        assert.ok(!state.responses.has(request), '同一 request 不得重複產生回應證據');
+        state.responses.set(request, captured); // 必須早於 fulfill，response 事件才能立即以物件身份配對。
+        await route.fulfill({ response, status, body: await captured.body() });
       } catch (error) {
         failures.push({ url: value, error: String(error) });
         state.failures.push(String(error));
         await route.abort().catch(() => undefined);
       } finally { await response?.dispose(); }
-    })().catch((error) => { failures.push({ url: value, error: String(error) }); state.failures.push(String(error)); });
+    }).catch((error) => { failures.push({ url: value, error: String(error) }); state.failures.push(String(error)); });
     state.routes.add(task);
     task.finally(() => state.routes.delete(task));
     return task;
@@ -236,12 +244,18 @@ export function watchBuildResponses(context, binding, base, options = {}) {
     const task = (async () => {
       if (!/^https?:/.test(response.url())) return; // 行內 data／blob 圖不會出站，另由圖片解碼與來源核對。
       localUrl(response.url(), base);
+      const request = response.request?.(), captured = state.responses.get(request);
+      assert.ok(captured, `HTTP 回應缺少精確對應的 request 證據：${response.url()}`);
+      state.responses.delete(request); // 一份 producer 證據只能核對一次回應，同 URL 的其他 request 不能借用。
+      assert.equal(request.url(), captured.url(), '原請求 URL 已改變');
+      assert.equal(response.url(), captured.url(), 'browser 回應 URL 與原請求不符');
+      assert.equal(response.status(), captured.status(), 'browser 回應 status 與真 HTTP 狀態不符');
       if (response.status() !== 200) {
         assert.ok(state.allowTextbook404 && expectedTextbook404(response, base), `HTTP 非 200：${response.status()} ${response.url()}`);
         state.expected.push({ url: response.url(), status: response.status(), phase: 'response' });
         return;
       }
-      seen.add(await verifyResponseBytes(response, binding, base));
+      seen.add(await verifyResponseBytes(captured, binding, base));
     })().catch((error) => failures.push(String(error)));
     pending.add(task); task.finally(() => pending.delete(task));
   };
@@ -250,11 +264,18 @@ export function watchBuildResponses(context, binding, base, options = {}) {
   const assertComplete = () => {
     assert.equal(state.routes.size, 0, 'route handler 尚未排空');
     assert.equal(pending.size, 0, 'response body 尚未排空');
+    assert.equal(state.responses.size, 0, '已 fulfill 的真 HTTP 證據缺少 browser 回應核對');
     assert.equal(sealed, true, 'context 尚未確認關閉封口');
     assert.deepEqual([...state.failures, ...failures], []);
     assert.ok(seen.has('index.html') || [...seen].some((path) => path.endsWith('/index.html')), '沒有核對 HTML 回應');
   };
   const evidence = () => ({ seen: [...seen].sort(), failures: [...state.failures, ...failures], pending: pending.size, routes: state.routes.size, sealed, expectedNon200: state.expected.map((entry) => ({ ...entry })) });
+  const frozenEvidence = () => {
+    const current = evidence();
+    Object.freeze(current.seen); Object.freeze(current.failures);
+    current.expectedNon200.forEach(Object.freeze); Object.freeze(current.expectedNon200);
+    return Object.freeze(current);
+  };
   const close = context.close.bind(context);
   const finish = async () => {
     // 只共用進行中的收尾；已完成後仍重新斷言，不能快取成功掩蓋晚到失敗。
@@ -269,7 +290,7 @@ export function watchBuildResponses(context, binding, base, options = {}) {
         await verifyBuildReceipt(binding); // 這段非同步期間 listener 持續有效。
         await drain();
       } catch (error) { errors.push(error); }
-      // context.close 是事件來源的封口屏障；關閉前後的 body 都要核對到完成。
+      // context.close 是事件來源的封口屏障；關閉期間交付的回應仍用先前保存的真 bytes 核對。
       try { await close(); sealed = true; } catch (error) { failures.push(`context 關閉失敗：${error}`); errors.push(error); }
       while (state.routes.size) await Promise.all([...state.routes]);
       await drain();
@@ -280,16 +301,14 @@ export function watchBuildResponses(context, binding, base, options = {}) {
       finalized = true;
       try { assertComplete(); } catch (error) { errors.push(error); }
       if (errors.length) failures.push(...errors.map(String));
-      snapshot = evidence();
-      Object.freeze(snapshot.seen); Object.freeze(snapshot.failures);
-      snapshot.expectedNon200.forEach(Object.freeze); Object.freeze(snapshot.expectedNon200); Object.freeze(snapshot);
+      snapshot = frozenEvidence();
       if (errors.length) throw new AggregateError(errors, '建置回應收尾失敗');
       return snapshot;
     })();
     try { return await finalizing; } finally { finalizing = undefined; }
   };
   // 留實際成功路徑與失敗原因；回應不在收據內也不能默默略過。
-  finish.evidence = () => snapshot ?? evidence();
+  finish.evidence = () => finalized ? frozenEvidence() : evidence();
   return finish;
 }
 
@@ -301,7 +320,7 @@ export function guardBuildContext(context, binding, base, report) {
   const drain = async () => {
     try { await finish(); }
     catch (error) { report.assetFailures.push({ context: entry.context, error: String(error) }); throw error; }
-    finally { if (!Object.isFrozen(entry)) { Object.assign(entry, finish.evidence()); Object.freeze(entry); } }
+    finally { report.buildResponses[entry.context] = Object.freeze({ context: entry.context, ...finish.evidence() }); }
   };
   context.close = drain;
   // 結尾一併關閉仍開啟的 context，不能在核對之後留下繼續接收回應的頁面。
