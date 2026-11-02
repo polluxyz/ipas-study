@@ -30,3 +30,7 @@
 - 2026-11-02：前次 advisor 建議快照新庫；使用者指定僅留同名新庫並刪舊。本機 user.email 已設 GitHub noreply；author／committer／完整訊息及 Actions 的歷史 email 命中已確認。
 - 協調者已啟動既有內容審查與核算，並讓已驗收的 6 組合併 queue 繼續執行；遷移不得遺失這些工作。
 - 同名／刪舊順序的唯讀複核：`tmp/advisor/public-repo-single.md`；詳細私有盤點與備份不進版控。
+- 2026-11-02 已完成：新庫 node ID `R_kgDOVfp2dg` 取得正式名稱並公開；匿名 API／頁面皆 HTTP 200，無認證 clone 的 tree 完全相同，與舊歷史交集 0。舊庫 node ID `R_kgDOVev-fQ` 刪除回應 HTTP 204，依 numeric ID 查詢為 404；帳號下相關名稱只剩新庫。
+- 本機保全驗證 14 個 worktree、11,586 個檔案，差異 0；bundle 還原與 refs 比對成功。原始 PDF／text 及 1,067 個受保護資料檔案無差異。新 PR／main CI 全綠；3 份 Actions logs 掃描共 45 項、敏感命中 0。
+- 恢復 12 組未合併成果的新歷史分支，137 個擁有權內 tracked 檔案逐位元組一致；新 Orca repo ID `555621aa-2814-4352-83be-7ccb05ac7de4`。協調工具已改用新工作根目錄，worker 已繼續核算、修正與複審。
+- 計畫調整：為讓教材工作持續，已在 private staging 階段註冊新 Orca 根目錄並恢復 worker；所有派工明傳新 repo ID，切換完成前禁止 worker push／PR。舊本機 remote 改指退役名稱且 push URL 停用；未刪除本機資料。
