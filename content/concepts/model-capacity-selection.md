@@ -15,9 +15,9 @@ author: codex
 status: draft
 formula_groups:
   - id: dense-parameters
-    source: https://docs.pytorch.org/docs/2.12/generated/torch.nn.Linear.html
+    source: https://wiredspace.wits.ac.za/server/api/core/bitstreams/fd18261d-c81a-41ad-9b8e-38c0b3d0d704/content
     status: verified
-    checked_by: codex-gpt-6.1-sol:CK-W-L23302-A
+    checked_by: task_96b06ca84f70
 self_check:
   - id: c1
     goal: g1
@@ -93,11 +93,13 @@ $$
 
 $P$ 是可訓練參數總數，$pH$ 是第一層權重，第一個 H 是隱藏層偏差，第二個 H 是輸出層權重，1 是輸出偏差。激活函數假設沒有額外可訓練參數。
 
+來源界線：依 PyTorch Linear 的 `weight`、`bias` 形狀分兩層計數再相加，是本頁的自行推導；該文件沒有直接列出整個網路的完整計數式。Hirschowitz 的原始研究報告第 2.2.2 節、印刷第 9 頁另直接列出同一完整總數式；原文以小寫 `h` 表示本頁的隱藏寬度，輸入仍為 `p`，含兩層偏差與單一輸出。該式只支持這個架構的參數計數，不能推成任意深度、多輸出或含可訓練激活參數的通式。
+
 本例 p＝8，H＝4 時 $P=4(8+2)+1=41$；H＝32 時 $P=32(8+2)+1=321$。這只是同架構內的容量線索，不能把不同模型的參數數當成通用效果排名。
 
 ## 算一次
 
-:::supplement[來源：PyTorch Linear 文件；本站 L23302-A 教學合成資料]
+:::supplement[來源：依 PyTorch Linear 形狀自行計數；本站 L23302-A 教學合成資料]
 
 共用能源與製造都只有 104 週。第一摺只用前 52 週，八週輸入預測下一週，可用目標是第 9–52 週，共 44 筆；不能拿全 104 週當成第一摺的訓練量。
 
@@ -168,7 +170,8 @@ for width in d["capacity"]["hidden_widths"]:
 ### 參考來源
 
 - 科目 3 指引 `guide-3:5-13`～`guide-3:5-14`：支持小中大資料、候選與擴展性；已看 PDF 147～148 頁。
-- [PyTorch Linear](https://docs.pytorch.org/docs/2.12/generated/torch.nn.Linear.html)：支持權重與偏差形狀及參數核算。
+- [PyTorch Linear](https://docs.pytorch.org/docs/2.12/generated/torch.nn.Linear.html)：直接支持權重與偏差形狀；逐層計數加總為本頁自行推導，文件未列整個網路的完整式。
+- [Hirschowitz，The interaction of sampling ratio and modelling method in prediction of binary target with rare target class](https://wiredspace.wits.ac.za/server/api/core/bitstreams/fd18261d-c81a-41ad-9b8e-38c0b3d0d704/content)：University of the Witwatersrand 碩士研究報告，第 2.2.2 節、印刷第 9 頁直接列完整總數式；只採用單隱藏層、單輸出且兩層含偏差的計數，不引申其分類實驗結論。
 - [scikit-learn Validation curves](https://scikit-learn.org/stable/modules/learning_curve.html)：支持分開讀取訓練、驗證與複雜度。
 - [scikit-learn 欠擬合與過擬合範例](https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html)：參考以同資料比較容量的教學安排。
 - [Dive into Deep Learning 5.5](https://d2l.ai/chapter_multilayer-perceptrons/generalization-deep.html)：支持容量與泛化之間的條件性限制。
