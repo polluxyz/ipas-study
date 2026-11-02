@@ -139,8 +139,13 @@ describe('共用路由 guard 的離線替身', () => {
   it('close 期間晚到的 response 仍排空並納入收尾證據', async () => {
     const actual = await vi.importActual('../rollout-smoke.mjs'); const ctx = new EventEmitter();
     const body = Buffer.from('html'); const url = 'http://127.0.0.1:4321/dev/figures/';
-    ctx.close = async () => { ctx.emit('response', { url: () => url, status: () => 200, body: async () => { await Promise.resolve(); return body; } }); };
+    const request = { url: () => url };
+    ctx.route = async (_pattern, handler) => { ctx.handler = handler; };
+    ctx.close = async () => { ctx.emit('response', { request: () => request, url: () => url, status: () => 200, body: async () => { await Promise.resolve(); return body; } }); };
     const finish = actual.watchBuildResponses(ctx, { receipt: { inventory: [{ path: 'dev/figures/index.html', sha256: createHash('sha256').update(body).digest('hex') }] }, receiptDigest: 'fake' }, 'http://127.0.0.1:4321');
+    // 真 browser 回應必定有先前的 route；保留 close 才交付事件的原時序與全部斷言。
+    await actual.routeLocalOnly(ctx, 'http://127.0.0.1:4321', [], []);
+    await ctx.handler({ request: () => request, fetch: async () => ({ url: () => url, status: () => 200, headers: () => ({}), body: async () => body, dispose: async () => {} }), fulfill: async () => {}, abort: async () => {} });
     await expect(finish()).rejects.toThrow(); // 替身收據刻意不符真實工作樹。
     expect(finish.evidence().seen).toContain('dev/figures/index.html'); expect(finish.evidence().pending).toBe(0); expect(finish.evidence().sealed).toBe(true);
   });
