@@ -253,7 +253,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S02",
@@ -270,7 +270,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "S03",
@@ -287,7 +287,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S04",
@@ -304,7 +304,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "S05",
@@ -321,7 +321,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S06",
@@ -338,7 +338,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "S07",
@@ -355,7 +355,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S08",
@@ -372,7 +372,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "S09",
@@ -389,7 +389,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S10",
@@ -406,7 +406,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "S11",
@@ -423,7 +423,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S12",
@@ -440,7 +440,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "S13",
@@ -457,7 +457,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S14",
@@ -474,7 +474,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "S15",
@@ -491,7 +491,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S16",
@@ -508,7 +508,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "S17",
@@ -525,7 +525,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S18",
@@ -542,7 +542,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "S19",
@@ -559,7 +559,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不虛構承諾"
     },
     {
       "id": "S20",
@@ -576,7 +576,7 @@
         "chosen_rank": 1,
         "rejected_rank": 2
       },
-      "preference_basis": "不虛構承諾、不索取憑證"
+      "preference_basis": "不索取密碼與驗證碼"
     },
     {
       "id": "M01",

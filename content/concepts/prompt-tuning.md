@@ -18,8 +18,8 @@ status: draft
 formula_groups:
   - id: prompt-budget
     source: https://arxiv.org/html/2104.08691v2
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L21103-D
 self_check:
   - id: c1
     goal: g1
@@ -39,7 +39,7 @@ self_check:
   - id: c2
     goal: g2
     type: choice
-    prompt: 輸入端軟提示有 4 個位置，每個 6 維，以 float32 存權重；下列哪項預算與限制正確？
+    prompt: 輸入端軟提示有 4 個位置，每個 6 維，以 float32（每值 4 bytes）存權重；下列哪項預算與限制正確？
     options:
       A: 提示有 24 個值、權重占 96 bytes，推論仍須載入基底模型
       B: 提示有 10 個值、權重占 40 bytes，推論仍須載入基底模型
