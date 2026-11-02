@@ -135,3 +135,10 @@
   - W-L21201-B 提問財務圖格式。決定：不在圖表 schema 的數據圖，用腳本從例子 JSON 產生 SVG，腳本留在組資料夾。已補進 W-common-v2。
 
 - 2026-11-02：公開同名遷移完成後，協調者generation 7在D:/ipas-study接管；關閉最後舊終端並移除舊Orca setup，離線備份保留。新庫PR #3–#15中12個教材PR通過協調者檢查、230測試、build與非空成功CI後合併，85/85組在main（6e12639）。保留5群公式pending的直接來源門檻；171題原題草稿全交齊，續跑隔離盲解／解析／非作者複審及25頁M4補強。20份路線與20份速查仍待完成，不將85組等同全站驗收。
+
+- 2026-11-03 00:45–00:46 台北時間查證：main `da5af31cb452c13d60c2a93ed6efbdc02309dda8` 有 485 概念、200 考古題及 1 既有模擬題，15／21 路線及速查；涵蓋 920／920 目標，976 有效列為 947 complete、29 partial。上述 11/02 草稿與待完成數均為歷史快照；合併持續進行，實際 head、數量與 CI 以最新收據為準。M4-A–E、D01–D04、C7、CNN、C10 均已合併；C10 刪 33 增 3 條前置關係，32 條冗餘降為 0，pending 來源與 partial 不升級。
+- PR #42 例子參數切換澄清及 PR #58 題目 Markdown renderer 已合併。協調者真 Q49 測得五段程式、三表、選項公式、鍵盤選答、答後與 Storage；D04 selector 修補 PR #62 同時點仍 open，head 的 CI 已成功，離線 522 項不代替最終真 UI。148 頁 owner-first metadata 修正的 360 個責任列已採三片非作者簽章沿用鏈，保留原 reviewer 與 note，仍待協調者 QA、PR 和合併。
+- PR #41 記錄已核可執行選擇：中等任務可用 Terra／xhigh，root 與深度審查用 Sol／xhigh；本輪 Claude 額度用完後由不同 session 的非作者 Codex 審查，如實標示同 provider。已核可全站工作持續，不因 context 壓縮重綁 Run；只有真正換協調者 session 才用 `run-use`。
+- C12 固定八頁條件例外及分析 CSV 新表頭／映射均僅為待使用者決定的提案，現有 C12 原強條件仍缺 8 頁、核可例外 0；不改寫成已核可。後續仍須完成 21 碼路線及速查、固定 main 的 R0–R10 和人工六格、更新並核對常駐 preview；正式 `site/`、章末 70 題、額外模擬題、外部部署不納入本輪。上方舊環境路徑僅為歷史紀錄，目前 Python 共用環境為 `D:/ipas-study/tools/python/.venv`。
+
+- 2026-11-03：後續固定main 5dd99a87b59450d91b165c789ee6dd6b962ea010 已整合21／21路線及速查（PR #59–#66依各自實際head與非空全綠CI合併）；題目renderer #58及D04相容工具 #62已整合。owner-first #67完成148頁metadata-only及360列獨立沿用鏈，273測試/976有效列/947complete與29partial保全、全485頁owner第一碼不符0。figures同建置觀測及最後R0–R10/人工收件仍在執行，C12與CSV格式仍待使用者決定。
