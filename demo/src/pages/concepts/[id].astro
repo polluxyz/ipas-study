@@ -10,7 +10,7 @@ import { conceptLearning } from '../../lib/textbook';
 import Diagrams from '../../components/Diagrams.astro';
 import ReadingToggle from '../../components/ReadingToggle.astro';
 import { getData, conceptUrl, questionUrl, sourceLabel, prerequisiteOrder, categoryPaths } from '../../lib/content';
-import { flattenStages } from '../../lib/learning-route';
+import { conceptNavigation, getRouteLinks } from '../../lib/navigation';
 import { relatedPastQuestionIds } from '../../lib/relation-sources';
 export async function getStaticPaths() { const { concepts } = await getData(); return concepts.map((entry) => ({ params: { id: entry.data.id }, props: { entry } })); }
 const { entry } = Astro.props;
@@ -18,11 +18,9 @@ const { Content, headings } = await render(entry);
 const { concepts, questions, byId, codes } = await getData();
 const data = entry.data;
 const learning = conceptLearning(data);
-const route = codes.find((code) => code.data.code === 'L23303');
-const readingOrder = flattenStages(route?.data.stages ?? []).filter((id) => byId.has(id));
-const readingIndex = readingOrder.indexOf(data.id);
-const previousId = readingIndex > 0 ? readingOrder[readingIndex - 1] : undefined;
-const nextId = readingIndex >= 0 ? readingOrder[readingIndex + 1] : undefined;
+const { previousId, nextId } = conceptNavigation(data, codes.map((code) => code.data), byId.keys());
+const routeCodes = new Set(codes.map((code) => code.data.code));
+const reviewStatus = data.status === 'draft' ? '內容狀態：草稿' : data.status ? `內容狀態：${data.status}` : '未標示內容狀態';
 const required = prerequisiteOrder(data.id, concepts);
 const paths = categoryPaths(data.id, concepts);
 const solutions = concepts.flatMap((c) => c.data.mitigates.filter((r) => r.target === data.id).map((r) => ({ concept: c, ...r })));
@@ -39,7 +37,7 @@ const titleOf = (id: string) => byId.get(id)?.data.title ?? id;
 const toc = [...headings, { depth: 2, slug: 'connections', text: '把觀念串起來' }, ...(learning.checks.length ? [{ depth: 2, slug: 'self-check', text: '檢核小題' }] : [])];
 ---
 <StudyPage title={data.title} section="概念手札" headings={toc}>
-  <div class="metadata"><span class="pill">{labels[data.kind] ?? data.kind}</span>{data.codes.map((code) => code === 'L23303' ? <a href="/codes/L23303/">{code}</a> : <span>{code}</span>)}<span class="draft-badge">範例內容・{data.status === 'reviewed' ? '已審查' : '待審查'}</span></div>
+  <div class="metadata"><span class="pill">{labels[data.kind] ?? data.kind}</span>{data.codes.map((code) => { const href = getRouteLinks(code, routeCodes).routeHref; return href ? <a href={href}>{code}</a> : <span>{code}</span>; })}<span class="draft-badge">{reviewStatus}</span></div>
   <div class="aliases">{data.aliases.join(' ／ ')}</div>
   <ConceptIntro data={data} />
   {paths.some((path) => path.length > 1) && <nav class="classification" aria-label="概念分類">{paths.map((path) => <div>{path.map((c, i) => <>{i > 0 && <span aria-hidden="true"> › </span>}<a href={conceptUrl(c.data.id)}>{c.data.title}</a></>)}</div>)}</nav>}
@@ -63,7 +61,7 @@ const toc = [...headings, { depth: 2, slug: 'connections', text: '把觀念串�
     {previousId && <a class="concept-previous" rel="prev" href={conceptUrl(previousId)}><small>← 上一節</small><span>{titleOf(previousId)}</span></a>}
     {nextId && <a class="concept-next" rel="next" href={conceptUrl(nextId)}><small>下一節 →</small><span>{titleOf(nextId)}</span></a>}
   </nav>
-  <p class="fine-print">{data.guide_refs.length > 0 ? <>教材對照：<Sources sources={data.guide_refs} />。</> : '本頁尚無學習指引對應頁碼。'}範例筆記與解析仍需內容審查。</p>
+  <p class="fine-print">{data.guide_refs.length > 0 ? <>教材對照：<Sources sources={data.guide_refs} />。</> : '本頁尚無學習指引對應頁碼。'}本頁{reviewStatus}。狀態標記不代表全頁審查完成。</p>
   <details class="past-question-links"><summary>相關考古題</summary>{pastQuestionIds.length ? <ul>{pastQuestionIds.map((id) => { const q = questionById.get(id); return <li>{q ? <a href={questionUrl(id)}>{sourceLabel(q)}</a> : <span>{id}（題目尚未收錄）</span>}</li>; })}</ul> : <p class="muted">目前尚無相關考古題。</p>}</details>
 </StudyPage>
 <script>
