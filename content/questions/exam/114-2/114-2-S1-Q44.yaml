@@ -1,0 +1,38 @@
+id: 114-2-S1-Q44
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 44
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 12
+type: 情境
+codes:
+  - L23302
+  - L21103
+concepts: [generative-discriminative-models, variational-autoencoder, gan]
+stem: |
+  某電信公司希望建立一個模型來預測顧客是否即將流失，並進一步模擬不同促銷或服務策略下顧客的行為變化，以生成多樣化的虛擬樣本資料進行 A/B 測試與行銷策略評估。若要同時兼顧預測與資料生成的需求，最適合採用下列哪一種方法？
+options:
+  A: 使用傳統隨機森林（Random Forest）；
+  B: 使用邏輯迴歸（Logistic Regression）模型；
+  C: 使用變分自編碼器（Variational Autoencoder, VAE）或生成對抗網路（Generative Adversarial Network, GAN）；
+  D: 使用強化學習代理（Reinforcement Learning Agent）
+answer: C
+explanation:
+  summary: "答案 C。生成模型可供樣本模擬，但流失預測與策略效果評估仍需額外設計。"
+  correct: "官方 C 最符合生成多樣虛擬顧客資料的需求；要同時預測流失，還須對顧客、策略與流失標籤建立合適的聯合或條件模型，或搭配監督式分類器。普通 VAE 或 GAN 不會自動輸出可靠的流失機率，也不會僅由觀察資料識別促銷的因果效果；合成樣本模擬不能替代真實隨機 A/B 測試。可參照 [Conditional GAN](https://arxiv.org/abs/1411.1784)的條件化設計與 [CausalGAN](https://arxiv.org/abs/1709.02023)另外引入因果結構的做法。"
+  wrong:
+    A: "傳統隨機森林分類器能估計流失風險，但主要學習由特徵到標籤的關係，未直接提供完整顧客資料分布的生成機制。"
+    B: "邏輯迴歸可建模流失機率，卻不會因為輸出機率就成為可生成多樣顧客特徵的模型。"
+    D: "強化學習代理通常依狀態與回饋選擇行動；若沒有另建環境或世界模型，代理本身不等同顧客樣本生成器，也未直接解決流失分類。"
+  rule: "能生成觀察資料的模型，不會自動具備監督式預測或策略因果效果估計能力。"
+guide_refs: [guide-1:3-62, guide-1:5-13]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 12
+    by: EX-E2-Codex
+  blind_answer: C
+  dispute: null

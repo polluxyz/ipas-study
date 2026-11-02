@@ -1,0 +1,38 @@
+id: 115-1-S1-Q13
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 13
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 4
+type: 情境
+codes:
+  - L21103
+  - L23304
+concepts: [prompt-tuning, pretraining-fine-tuning]
+stem: |
+  某公司評估兩種方案，將大型語言模型客製化為內部客服助理：方案 A 為提示微調（Prompt Tuning），在輸入端加入可學習的軟提示（Soft Prompt）；方案 B 為傳統微調（Fine-Tuning），以標註問答資料調整模型。兩方案最本質的技術差異為何？
+options:
+  A: 提示微調主要用於降低推論延遲，而傳統微調則用於提升模型容量；
+  B: 兩者技術本質相同，差別僅在於學習率（Learning Rate）設定不同；
+  C: 傳統微調通常需要更新模型參數，而提示微調主要透過調整輸入表示來影響模型行為；
+  D: 提示微調與傳統微調的差異僅在於是否使用預訓練模型
+answer: C
+explanation:
+  summary: "答案 C。軟提示微調與傳統微調的差別在可訓練參數的位置。"
+  correct: "C 正確：依本題的軟提示設定，基底模型保持凍結，只學習輸入端的一組連續提示向量；傳統微調則更新模型本身的權重，不一定必須更新全部層。軟提示也需要訓練，並非手動改提示文字。科目 1 指引 3.1 有提示學習與微調概述，但未明確教授軟提示的參數分工，故不列直接頁碼；依據為 [Prompt Tuning 原論文](https://arxiv.org/abs/2104.08691)。"
+  wrong:
+    A: "兩種方法都旨在適應任務；降低推論延遲或增加容量不是它們的本質區別，軟提示還可能增加輸入長度。"
+    B: "學習率可各自調整，但凍結哪些權重、更新哪些向量才是核心差異。"
+    D: "兩種方案都可從預訓練模型開始；是否使用預訓練模型不是此處的區分標準。"
+  rule: "比較微調方法先問哪些參數會更新：軟提示更新輸入向量，傳統微調更新模型權重。"
+guide_refs: []
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 4
+    by: EX-E5
+  blind_answer: C
+  dispute: null

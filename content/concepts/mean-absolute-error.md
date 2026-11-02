@@ -39,16 +39,16 @@ goals:
   - id: g2
     text: 用共用資料比較 MAE 與 MSE 對離群值的反應
   - id: g3
-    text: 依錯誤成本選用 MAE 或 RMSE，理解 MAE 損失的梯度特性
+    text: 依錯誤成本選用 MAE、MSE 或 RMSE，理解 MAE 損失的梯度特性與零點次梯度界線
 formula_groups:
   - id: mae
     source: guide-3:5-23
     status: verified
-    checked_by: ctx_0e5a928bd662
+    checked_by: task_438e98e2097f
   - id: mae-gradient
-    source: https://scikit-learn.org/stable/modules/model_evaluation.html
-    status: verified
-    checked_by: ctx_0e5a928bd662
+    source: https://web.stanford.edu/class/ee364b/lectures/subgradients_notes.pdf
+    status: pending
+    checked_by: null
 self_check:
   - id: c1
     goal: g1
@@ -95,6 +95,21 @@ self_check:
       B: 平方型指標不必然符合線性成本，這裡應以 MAE 比較。
       C: 甲的 RMSE 是 √(64/4)＝4，不能把 MAE 當成 RMSE。
       D: 固定單位偏差成本對應絕對誤差，甲的平均成本較低。
+  - id: c4
+    goal: g3
+    type: choice
+    prompt: 同一批八筆等權重資料，殘差為實際減預測。某筆殘差為 +20 箱，另有一筆恰好預測正確；哪個 MAE 梯度敘述正確？
+    options:
+      A: 大殘差處導數為 −5；零點的左右斜率都等於 0，因此存在一般導數
+      B: 大殘差處導數為 −0.125；零點次梯度可取 [−0.125,0.125]
+      C: 大殘差處導數為 +0.125；零點的次梯度可以任選整個實數軸的值
+      D: 大殘差處導數為 −1；零點次梯度仍為 [−1,1]，完全不需按樣本數再縮放
+    answer: B
+    explain:
+      A: −5 是同批 MSE 導數；MAE 零點左右斜率不同，一般導數不存在。
+      B: 正殘差使對預測的導數為負；八筆平均也把零點合法區間縮成正負八分之一。
+      C: 對預測值微分的符號與殘差相反；零點仍有有限的合法次梯度區間。
+      D: −1 是單筆絕對損失的斜率；本題平均損失必須除以八。
 textbook: v2
 ---
 
@@ -208,16 +223,9 @@ print(f"套件 MAE: {mean_absolute_error(y_true, y_pred):.3f}")
 
 甲的絕對誤差和為 8，MAE＝2；平方和為 64，RMSE＝4。乙的絕對誤差和為 12，MAE＝3；平方和為 36，RMSE＝3。
 
+同批 MSE 分別是甲 $64/4=16$、乙 $36/4=9$ MW平方，因此 MSE 與 RMSE 都偏好乙，MAE 則偏好甲。兩者差別在錯誤的計價方式，不是挑數字看起來最小的指標。
+
 若每偏差 1 MW 的成本大致固定，MAE 偏好甲。若大幅少估會增加緊急備援成本，RMSE 偏好乙；若低估與高估代價不同，還需另訂有方向的成本指標。
-
-## 常見誤解
-
-- **「MAE 對離群值完全免疫。」** 大誤差仍線性累加，共用例子的團購日就占絕對誤差約 74%。
-- **「MAE 小就沒有嚴重失準。」** 平均會合併不同樣本，仍須檢查殘差與高風險群組。
-- **「MAE 與 RMSE 一定選出同一模型。」** 電力例子中兩者排序相反，因為對大誤差的計價不同。（補充）
-- **「MAE 是有方向的平均偏差。」** 絕對值已去掉正負號，不能用來辨認低估。（補充）
-
-## 進階
 
 ### 當 MAE 作為訓練損失（補充）
 
@@ -232,14 +240,46 @@ $\operatorname{sign}$ 只取正負方向，正數為 +1、負數為 −1；其�
 
 出貨例子第一筆導數為 +1/8，第八筆為 −1/8；雖然誤差大小相差 20 倍，導數絕對值相同。在誤差為 0 處一般導數不存在，優化工具可用次梯度處理。
 
+固定 $e_i=y_i-\hat y_i$，正值表示低估，上式也等於 $-\operatorname{sign}(e_i)/n$。以下用同八筆資料，皆對**預測值**微分，含平均係數。
+
+| 殘差（箱） | MSE 導數 $-2e_i/8$ | MAE 非零處導數 | 判讀 |
+|---|---|---|---|
+| −1（第1筆） | +0.25 | +0.125 | 梯度下降將預測往下推 |
+| +1（第2筆） | −0.25 | −0.125 | 梯度下降將預測往上推 |
+| +20（第8筆） | −5 | −0.125 | MSE 隨誤差增大；MAE 大小固定 |
+
+在 $e_i=0$ 處，單筆絕對損失可取的次梯度是 $[-1,1]$。平均損失須乘上 $1/n$，所以以 $s_i$ 表示所選次梯度時：
+
+$$
+s_i\in[-1/n,1/n],\qquad n=8\Rightarrow s_i\in[-0.125,0.125]
+$$
+
+端點與區間內的值都合法；0 是常用選擇之一，不代表一般導數存在。未除以八的 $[-1,1]$ 不適用於這個平均版本；例如 0.5 已超出合法範圍。
+
+上述非零處導數與零點區間，由本頁依 Stanford 講義第1節的絕對值例子、第3.1～3.3節的縮放、加總與仿射變換規則自行推導：以預測減實際代入絕對值，再乘平均係數 $1/n$。
+
+講義未直接列出這個平均 MAE 對預測的完整式。[均方誤差](/concepts/mean-squared-error/#同一殘差下的兩種導數補充)提供共用JSON的八筆程式輸出；零點案例獨立檢查，不改原平均。
+
 這個比較是對預測值的導數；模型參數的更新還取決於模型結構及優化器。
+
+MSE 的量綱是箱平方、MAE 是箱，兩種導數的量綱也不同。這裡比較的是各自隨殘差增大的反應，不表示換成 MAE 後可以沿用相同學習率而保證收斂。
+
+## 常見誤解
+
+- **「MAE 對離群值完全免疫。」** 大誤差仍線性累加，共用例子的團購日就占絕對誤差約 74%。
+- **「MAE 小就沒有嚴重失準。」** 平均會合併不同樣本，仍須檢查殘差與高風險群組。
+- **「MAE 與 RMSE 一定選出同一模型。」** 電力例子中兩者排序相反，因為對大誤差的計價不同。（補充）
+- **「MAE 是有方向的平均偏差。」** 絕對值已去掉正負號，不能用來辨認低估。（補充）
+
+## 進階
 
 ### 參考來源
 
 - 學習指引科目 3，5.3、5-23；3.3（支持：MAE 定義、偏態與極端值場景）。
 - [scikit-learn：mean_absolute_error](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_absolute_error.html)（支持：程式、非負值與等權重設定）。
-- [scikit-learn：Metrics and scoring](https://scikit-learn.org/stable/modules/model_evaluation.html#mean-absolute-error)（支持：絕對誤差損失與導數延伸）。
+- [scikit-learn：Metrics and scoring](https://scikit-learn.org/stable/modules/model_evaluation.html#mean-absolute-error)（支持：絕對誤差損失與評估；次梯度另據下列 Stanford 講義）。
 - [Hyndman、Athanasopoulos：Forecasting: Principles and Practice，第 5 章](https://otexts.com/fpp3/toolbox.html#scale-dependent-errors)（支持：MAE 與 RMSE 選擇、原單位判讀）。
+- [Boyd 等：Subgradients，1、3.1～3.3節](https://web.stanford.edu/class/ee364b/lectures/subgradients_notes.pdf)（支持：絕對值次梯度、縮放、加總與仿射變換規則；平均導數及符號方向由本頁推導，非來源直接列式）。
 
 ## 小結
 

@@ -1,0 +1,39 @@
+id: 114-2-S1-Q47
+rev: 1
+source: exam
+session: 114-2
+subject: 1
+number: 47
+pdf_file: 114年第二梯次中級AI應用規劃師第一科人工智慧技術應用與規劃(當次試題公告114_20251226000616.pdf
+pdf_page: 13
+type: 情境
+codes:
+  - L23304
+  - L23203
+concepts: [multitask-learning]
+stem: |
+  某金融科技公司導入多任務學習架構，讓單一 Transformer 模型同時執行 OCR（Optical Character Recognition）後的文檔分類以及命名實體辨識（Named Entity Recognition, NER）任務，
+  以協助自動歸檔與抽取關鍵金融資訊。在部署初期，團隊發現當模型的 NER 準確率（Accuracy）提升時，文檔分類準確率反而下降。若模型架構正確且資料品質良好，下列哪一項最可能是造成此現象的原因？
+options:
+  A: 模型架構無法同時支援文字分類與序列標註任務（Sequence Labeling）；
+  B: 文檔分類任務不需要語意化表徵（Contextualized Representation）；
+  C: 損失函數（Loss Function）未進行權重平衡，導致任務間競爭；
+  D: 所使用的 BERT 模型無法支援多任務輸出頭（Multi-Head Outputs）
+answer: C
+explanation:
+  summary: "答案 C。共享參數的任務若損失尺度或權重失衡，可能出現一個變好、另一個變差。"
+  correct: "C 是合理的優先檢查點：共享 Transformer 的參數同時受文檔分類與 NER 損失的梯度影響，若 NER 的加權梯度主導或與分類梯度衝突，就可能造成負遷移。可檢查各任務的損失尺度、權重、樣本比例與梯度方向，再調整並分別驗證品質；不是只把損失數值調成相同就保證解決。指引介紹 Transformer 可做分類與 NER，未教多任務損失平衡；相關原理見 [多任務損失加權研究](https://arxiv.org/abs/1705.07115)。"
+  wrong:
+    A: "共享文字編碼器可分別接文件級分類頭與逐詞標註頭，架構上能同時支援這兩類任務；題目也已假設架構正確。"
+    B: "文檔分類同樣可能需要上下文表示來理解語意與判斷主題，不能以不需要語意表示解釋任務衝突。"
+    D: "BERT 的輸出可供不同任務頭使用，沒有不能接多任務輸出頭的限制；此處的任務輸出頭也不應與注意力機制的多頭混為一談。"
+  rule: "共享參數的多任務訓練須檢查損失權重與梯度干擾，並分別驗證每個任務。"
+guide_refs: [guide-1:3-26]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 13
+    by: EX-E2-Codex
+  blind_answer: C
+  dispute: null

@@ -1,0 +1,36 @@
+id: 115-1-S1-Q39
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 39
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 12
+type: 情境
+codes: [L21302, L21301]
+concepts: [data-pipeline-integration]
+stem: |
+  某 AI 平台工程師正在為多模態模型訓練系統規劃資料儲存架構，需要同時處理原始影像、非結構化文本，以及經過整理的結構化特徵資料。在此情境下，應如何選擇資料湖（Data Lake）與資料倉儲（Data Warehouse）的使用方式？
+options:
+  A: 將原始影像與文本資料儲存在 Data Lake，將整理後的結構化特徵資料儲存在 Data Warehouse；
+  B: 將所有資料統一儲存在 Data Warehouse，以提升查詢效率；
+  C: 將所有資料統一儲存在 Data Lake，但犧牲結構化資料的查詢效率；
+  D: 僅將原始影像資料儲存在 Data Lake，其餘資料統一存入 Data Warehouse
+answer: A
+explanation:
+  summary: "A。依處理階段與查詢用途，分別儲存原始資料與結構化特徵。"
+  correct: "A 是常見分工：資料湖保留原始影像與文本，便於重新處理；資料倉儲保存清理後且有明確結構的特徵，支援一致查詢與分析。這是題目需求下的合適方案，不表示現代資料湖只能放非結構化資料。"
+  wrong:
+    B: "倉儲可存檔案參照或部分半結構化欄位，但大量原始影像與文本通常更適合另行保留，不宜只以查詢效率將所有內容塞入。"
+    C: "全放資料湖也可能可行，但未回應本題的分析分工需求；查詢效率取決於格式、索引與引擎，不是使用資料湖就必然犧牲效率。"
+    D: "原始文本也是非結構化資料，不能只依「不是影像」就一律放入倉儲。"
+  rule: "儲存選型看資料結構、處理階段與查詢需求，不只看檔案名稱。"
+guide_refs: [guide-1:5-14]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 12
+    by: EX-E6-codex
+  blind_answer: A
+  dispute: null

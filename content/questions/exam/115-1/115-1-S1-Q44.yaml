@@ -1,0 +1,36 @@
+id: 115-1-S1-Q44
+rev: 1
+source: exam
+session: 115-1
+subject: 1
+number: 44
+pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應用與規劃_公告試題_20260615003359.pdf
+pdf_page: 13
+type: 情境
+codes: [L21302]
+concepts: [inference-service-api]
+stem: |
+  某 MLOps 工程師正在設計 AI 模型的推論服務 API，需要處理使用者上傳的高解析度影像（平均 5MB）進行即時分類。在 RESTful API 設計時，選擇 HTTP 請求方法與資料傳輸格式的最佳實踐為何？
+options:
+  A: 使用 HTTP GET 方法，將影像資料 Base64 編碼後附加於 URL Query String 中；
+  B: 採用 HTTP POST 請求，將影像資料以 multipart/form-data 或 application/octet-stream 傳輸於 Request Body；
+  C: "使用 HTTP PUT 方法，透過 Content-Type: application/xml 傳遞影像資料；"
+  D: 要求客戶端下載模型於本地推論，僅回傳分類結果
+answer: B
+explanation:
+  summary: "B。大型影像用 POST 請求主體傳輸，符合提交內容進行推論的語意。"
+  correct: "B 用 POST 送影像供服務端分類；multipart/form-data 可同時帶檔案與欄位，application/octet-stream 則可直接帶二進位。兩者都避免把約 5MB 資料塞進 URL。[HTTP Semantics：POST](https://www.rfc-editor.org/rfc/rfc9110.html#name-post)"
+  wrong:
+    A: "Base64 膨脹傳輸量，長 URL 還可能超出客戶端、代理或伺服器限制，不適合大型影像。"
+    C: "PUT 主要表達建立或替換指定資源狀態，不是本題的推論處理用途；XML 也不比二進位主體更適合大型影像。"
+    D: "客戶端推論屬另一種部署架構，沒有回答既定服務端 API 的方法及格式，還增加模型交付與裝置相容要求。"
+  rule: "大型二進位推論輸入放請求主體，HTTP 方法依處理語意選擇。"
+guide_refs: [guide-1:5-15]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 13
+    by: EX-E6-codex
+  blind_answer: B
+  dispute: null
