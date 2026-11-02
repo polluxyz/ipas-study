@@ -20,8 +20,8 @@ goals:
 formula_groups:
   - id: array-and-weight-capacity
     source: https://numpy.org/doc/stable/reference/generated/numpy.ndarray.nbytes.html
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L21103-B
 self_check:
   - id: c1
     goal: g1
@@ -82,7 +82,7 @@ self_check:
 
 | 指引中的工具 | 流程位置 | 適合先評估的需求 |
 |---|---|---|
-| Midjourney | 雲端提示與概念探索 | 藝術風格及創意靈感 |
+| Midjourney | 雲端，經 Discord 或網頁提示 | 藝術風格及創意靈感 |
 | Stable Diffusion WebUI | 本機生成介面與設定 | 模型、參數及控制自訂 |
 | Adobe Firefly | 生成結合設計軟體編修 | 專業影像或視覺素材製作 |
 | Canva AI | 生成素材接平台設計 | 輕量製圖及快速內容應用 |
@@ -93,8 +93,10 @@ self_check:
 
 Stable Diffusion 是模型家族；WebUI 是讓人操作模型的介面。LoRA 是低秩適配方法，ControlNet 則把姿態、邊緣等結構條件接入生成流程。
 
-:::supplement[來源：AUTOMATIC1111 WebUI「Features」；Diffusers「ControlNet」]
+:::supplement[來源：AUTOMATIC1111 WebUI「Features」；Mikubill「sd-webui-controlnet」；Diffusers「ControlNet」]
 載入既有 LoRA 權重與訓練新的 LoRA 是兩個工作。換 WebUI 外觀不會自動訓練模型，載入風格適配權重也不等於取得每張圖的姿態控制。
+
+AUTOMATIC1111 WebUI 使用 ControlNet 時須另裝擴充，例如 sd-webui-controlnet；它不是 WebUI 本體內建的控制模型。
 
 本機使用仍需確認模型、適配權重與擴充元件的版本相容性。介面支援某個功能，不表示每個模型版本都能直接使用。
 :::
@@ -204,6 +206,7 @@ toy weight bytes: 2000000
 - 科目 1 指引（版本未標示），guide-1:3-67～3-68：支持四工具定位、本機自訂與專業／輕量流程；平台內部機制在本文保留查核界線。
 - [Midjourney：Getting Started Guide](https://docs.midjourney.com/hc/en-us/articles/33329261836941-Getting-Started-Guide)、[Prompt Basics](https://docs.midjourney.com/hc/en-us/articles/32023408776205-Prompt-Basics)：官方操作定義及提示教學，支持雲端流程；未據此推定內部架構。
 - [AUTOMATIC1111 WebUI：Features](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Features)：支持本機介面與模型、LoRA 功能的區分。
+- [Mikubill：sd-webui-controlnet](https://github.com/Mikubill/sd-webui-controlnet)：支持 AUTOMATIC1111 的 ControlNet 擴充安裝與模型相容性說明。
 - [Diffusers：ControlNet](https://huggingface.co/docs/diffusers/using-diffusers/controlnet)、[Reduce memory usage](https://huggingface.co/docs/diffusers/optimization/memory)：支持結構控制及執行時資源盤點。
 - [Adobe：Photoshop Generative Fill](https://www.adobe.com/products/photoshop/generative-fill.html)、[Canva：Use Magic Media](https://www.canva.com/help/using-magic-media/?query=magic+media)：官方教學的選區編修與生成後加入設計，支持兩種交付流程。
 - [NumPy：ndarray.nbytes](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.nbytes.html)：支持元素數乘每元素容量及不含管理成本的定義。

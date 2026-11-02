@@ -20,12 +20,12 @@ goals:
 formula_groups:
   - id: forward-noising
     source: https://arxiv.org/html/2006.11239v2
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L21103-B
   - id: cfg-noise-prediction
     source: https://github.com/huggingface/diffusers/blob/main/src/diffusers/pipelines/stable_diffusion/pipeline_stable_diffusion.py
-    status: pending
-    checked_by: null
+    status: verified
+    checked_by: codex-gpt-6.1-sol:CK-W-L21103-B
 self_check:
   - id: c1
     goal: g1
@@ -59,13 +59,13 @@ self_check:
     prompt: 遊戲要大量產出 512×512 場景草稿，另一專案要補全語音缺段。哪種規劃合理？
     options:
       A: 兩案共用 20 步文生圖管線，只驗收場景美感與語音音量
-      B: 兩案共用 40 步文生圖管線，只驗收場景美感與語音音量
+      B: 兩案各選適配管線，以步數比例推算耗時且省略品質驗收
       C: 兩案各選適配管線，將步數直接當成所有硬體的固定秒數
       D: 兩案各選適配管線，量測生成耗時並查核各自的補全品質
     answer: D
     explain:
       A: 文生圖模型不會因指定語音任務就具備語音補全能力，音量也不足以驗收內容。
-      B: 增加步數不會把影像模型變成語音模型，驗收項目仍不完整。
+      B: 不同模型的每步成本未必相同，只按比例推算且省略品質檢查不足以規劃。
       C: 步數是運算流程設定，不是跨硬體固定的時間單位。
       D: 選用適合資料表示與條件的模型，再量測實際成本和任務品質才合理。
 ---
@@ -167,7 +167,7 @@ CFG: [1.5, -0.5]
 
 ### 固定條件比較取樣設定（補充）
 
-共用卡指定模型版本、提示、輪廓、512×512 解析度及種子清單 42、43、44。下表是實驗計畫，尚未執行影像生成，沒有預填耗時或品質分數。
+比較前須另行固定並記錄模型版本；共用卡已記錄提示、輪廓、512×512 解析度及種子清單 42、43、44。下表是實驗計畫，尚未執行影像生成，沒有預填耗時或品質分數。
 
 | 比較 | 基準 | 只改一項 | 要觀察的結果 |
 |---|---|---|---|
@@ -178,6 +178,8 @@ CFG: [1.5, -0.5]
 每一列以同一種子配對，再用多個種子看波動。固定種子只控制隨機輸入；跨版本、裝置與取樣器仍可能不同，不能要求所有管線逐像素一致。
 
 取樣器決定如何更新與選取時間步；同樣 20 步不保證網路評估次數或品質相同。提高 CFG 也可能犧牲樣式變化，需看整批輸出而非只挑最好一張。
+
+DDIM 論文的少步數實驗顯示，DDPM 通常需要更多步才能維持品質。此處只比較兩者在 20 步預算下的表現，不能據此判定取樣器的整體優劣；完整選型還要各測品質與成本的取捨。
 
 ### 換個場景
 
@@ -213,6 +215,7 @@ CFG: [1.5, -0.5]
 
 - 科目 1 指引（版本未標示），guide-1:3-63～3-64、guide-1:3-67、guide-1:5-13：支持去噪、代表模型、用途與成本。語音文本屬生成模型整體場景。
 - [Ho 等：DDPM 論文](https://arxiv.org/html/2006.11239v2)，第 2–3 節：支持加噪公式與訓練／生成的差異。
+- [Song 等：Denoising Diffusion Implicit Models](https://arxiv.org/abs/2010.02502)，第 5 節：支持少步數比較的限制，不把固定 20 步結果當成整體排名。
 - [Hugging Face：The Annotated Diffusion Model](https://huggingface.co/blog/annotated-diffusion)：參考雙向流程及抽時間步的教法。
 - [Diffusers：Stable Diffusion Text-to-image](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/text2img)：支持步數、引導強度及 CFG 寫法。
 - [StableDiffusionPipeline 原始碼](https://github.com/huggingface/diffusers/blob/main/src/diffusers/pipelines/stable_diffusion/pipeline_stable_diffusion.py)：支持本頁使用的 CFG 組合慣例。

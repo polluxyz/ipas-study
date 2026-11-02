@@ -10,6 +10,6 @@
 <rect x="15" y="178" width="330" height="132" rx="8" fill="#fef3c7" stroke="#a16207"/>
 <text x="180" y="202" font-weight="bold">GAN：真偽對抗</text><text x="180" y="230">噪聲 → 生成器 → 假資料</text><text x="180" y="256">真資料、假資料 → 判別器</text><text x="180" y="286">判別器回饋 → 更新生成器</text>
 <rect x="15" y="326" width="330" height="115" rx="8" fill="#dcfce7" stroke="#15803d"/>
-<text x="180" y="350" font-weight="bold">擴散：噪聲目標</text><text x="180" y="378">乾淨資料 → 加噪 → 去噪器</text><text x="180" y="407">預測噪聲，對照已知加噪量</text><text x="180" y="429" font-size="14">生成時從噪聲反覆更新</text>
+<text x="180" y="350" font-weight="bold">擴散：噪聲目標</text><text x="180" y="378">乾淨資料 → 加噪 → 去噪器</text><text x="180" y="407">預測噪聲，對照實際加入的噪聲</text><text x="180" y="429" font-size="14">生成時從噪聲反覆更新</text>
 <text x="180" y="475" font-size="14">文字與圖像的對齊需要另外設計</text>
 </g></svg>
