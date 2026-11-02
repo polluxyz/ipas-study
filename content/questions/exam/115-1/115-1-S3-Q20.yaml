@@ -1,0 +1,36 @@
+id: 115-1-S3-Q20
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 20
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 5
+type: 情境
+codes: [L23203, L23103]
+concepts: [output-loss-contract, pytorch]
+stem: |
+  工程師在 PyTorch 中建構貓、狗、鳥三分類 CNN，並使用交叉熵損失函數（CrossEntropyLoss）作為訓練目標。由於此損失函數在內部已包含 Softmax 計算，輸出層的設計需特別注意。請問輸出層的激活函數（Activation Function）與輸出維度應如何設定？
+options:
+  A: 使用 ReLU 作為激活函數，輸出維度設為 1，直接輸出單一數值作為預測結果
+  B: 使用 Sigmoid 作為激活函數，輸出維度設為 3，使每個類別獨立輸出 0 到 1 的機率
+  C: 不使用任何激活函數，直接輸出未經正規化的 logits，輸出維度設為 3 對應三個類別
+  D: 使用 Softmax 作為激活函數，輸出維度設為 3，輸出為已正規化的機率分布
+answer: C
+explanation:
+  summary: "答案 C。PyTorch CrossEntropyLoss 的三分類輸入應是三個 logits。"
+  correct: "每筆輸出三個未正規化分數，批次形狀通常為 (N, 3)；類別索引標籤形狀為 (N,)，取值 0、1、2 且為整數型別。對此標籤模式，CrossEntropyLoss 等價於 LogSoftmax 接 NLLLoss，所以損失前不必再接 Softmax。推論若要顯示機率，可另對 logits 取 Softmax。指引有一般交叉熵說明，API 細節依 [PyTorch 官方文件](https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html)。"
+  wrong:
+    A: "一個 ReLU 輸出不能提供三個互斥類別的分數，且把負 logits 截為零也不是此損失要求的輸入。"
+    B: "逐類 Sigmoid 常用於獨立多標籤搭配相應二元損失；此處是互斥三分類，不能把 Sigmoid 機率當作預期 logits。"
+    D: "先做 Softmax 再送入 CrossEntropyLoss 會讓損失再把機率當分數正規化，改變目標與梯度；可能仍可運算，但搭配不正確。"
+  rule: "決定輸出層前，先查損失 API 接收 logits 還是機率，以及標籤形狀。"
+guide_refs: [guide-3:4-62]
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 5
+    by: EX-E7
+  blind_answer: C
+  dispute: null

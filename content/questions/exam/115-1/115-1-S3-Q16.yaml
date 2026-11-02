@@ -1,0 +1,36 @@
+id: 115-1-S3-Q16
+rev: 1
+source: exam
+session: 115-1
+subject: 3
+number: 16
+pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與應用_公告試題_20260615003428.pdf
+pdf_page: 4
+type: 情境
+codes: [L23202, L23304]
+concepts: [xgboost]
+stem: |
+  某資料科學家在信用評分任務中使用 XGBoost 建立模型，發現模型在訓練集表現良好但驗證集出現過擬合跡象。他檢視其模型設計，發現 XGBoost 在目標函數（Objective Function）中引入額外的正則化機制以控制模型複雜度。相較於傳統梯度提升決策樹（GBDT），XGBoost 在其核心目標函數中加入了下列哪一種關鍵設計，使其具備更強的防過擬合能力？
+options:
+  A: 加入樹的複雜度懲罰項（包含深度、葉節點數量與葉節點權重的 L2 正則化）
+  B: 加入動態學習率（Dynamic Learning Rate）的強制衰減機制
+  C: 加入卷積運算（Convolution）以萃取特徵間的空間關係
+  D: 強制所有決策樹深度為 1（Decision Stumps）
+answer: A
+explanation:
+  summary: "官方答案 A。核心為樹複雜度正則化，但選項對深度的描述不精確。"
+  correct: "A 所指的正則化方向正確。典型樹懲罰為 Ω(f) = γT + λΣwⱼ²/2，T 是葉數，wⱼ 是葉輸出權重；它對新增葉與過大葉權重增加成本。但標準公式沒有另外直接懲罰深度的項，max_depth 是生長限制，不能與目標函數懲罰混為一談。參見 [XGBoost 官方推導](https://xgboost.readthedocs.io/en/stable/tutorials/model.html)。"
+  wrong:
+    B: "學習率縮減可影響 boosting 訓練，但沒有強制必須動態衰減的規定，也不是所問的目標式正則化設計。"
+    C: "樹的分裂與葉輸出不靠卷積操作，不能把 CNN 的空間特徵機制套在此處。"
+    D: "XGBoost 可訓練不同深度的樹，不強制全部為單層樹樁；限制為樹樁也不是核心目標函數的必要條件。"
+  rule: "辨認樹正則化時，分清目標中的懲罰項與生長時的結構限制。"
+guide_refs: [guide-3:4-23, guide-3:4-24]
+author: codex
+review:
+  status: disputed
+  answer_checked:
+    pdf_page: 4
+    by: EX-E7
+  blind_answer: A
+  dispute: 官方答案 A。典型 XGBoost 正則化目標為葉節點數與葉權重懲罰，樹深度由結構或超參數控制，不能直接把深度寫成該核心目標的獨立懲罰項。A 最接近出題意圖但有此實質措辭瑕疵，官方計分保留 A。
