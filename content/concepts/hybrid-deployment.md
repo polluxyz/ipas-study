@@ -17,6 +17,7 @@ goals:
 requires:
   - cloud-deployment-options
 guide_refs:
+  - guide-1:3-58
   - guide-1:5-15
   - guide-1:5-18
 self_check:
@@ -109,11 +110,15 @@ status: draft
 4. 私密摘要留在可容納模型的個人電腦或私有服務；公有摘要可承接允許外送的需求。
 5. 用請求 ID 關聯執行位置、模型版、前處理版、狀態與耗時；失敗回報待處理，不能假記成功。
 
-### 版本不一致時（補充）
+### 版本不一致時
 
-若裝置仍用 vision-v1，私有服務已用 vision-v2，同一輸入可能得到不同結果。先依實際版本比對，不要把舊紀錄覆寫成「最新版」。
+若裝置仍用 vision-v1，私有服務已用 vision-v2，同一輸入可能得到不同結果。
+
+:::supplement[來源：教學合成部署情境 L21302-B]
+先依實際版本比對，不要把舊紀錄覆寫成「最新版」。
 
 可以先讓少數裝置驗收 v2，確認模型與前處理配套後才擴大更新。斷線裝置保留可用版本，重連後再回報版本並補送允許交換的事件。
+:::
 
 ## 怎麼用、怎麼判讀
 
@@ -142,6 +147,7 @@ status: draft
 
 ### 參考來源
 
+- guide-1:3-58：支援「版本不一致時」的版本管理風險；具體驗收、紀錄及斷線處理為補充情境。
 - guide-1:5-15、guide-1:5-18：跨環境同步、服務調用與混合部署分工，支援圖與三種責任。
 - [NIST：Hybrid cloud](https://csrc.nist.gov/glossary/term/hybrid_cloud)：支援「定義與公式」的名詞界線。
 - [Google Cloud：混合與多雲架構模式](https://cloud.google.com/architecture/hybrid-multicloud-patterns-and-practices)：架構教學參考，支援分工及整合限制。
