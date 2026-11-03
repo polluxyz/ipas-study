@@ -55,10 +55,19 @@ export function searchSnapshot(query) {
     return { href: link.getAttribute('href'), path: new URL(link.href).pathname, summary: excerpt?.textContent ?? '', html: excerpt?.innerHTML ?? '' };
   });
   if (results.some((result) => !result)) return false;
+  const visible = (element) => element.getClientRects().length > 0 && typeof element.checkVisibility === 'function'
+    && element.checkVisibility({ visibilityProperty: true, opacityProperty: true });
+  const finish = (pairs, extra = {}) => {
+    const shown = pairs.filter(([link]) => visible(link));
+    // 標記已驗到的實際首筆，讓鍵盤流程沿用同一元素；不改焦點或連結。
+    for (const prior of document.querySelectorAll('[data-qa-search-first]')) prior.removeAttribute('data-qa-search-first');
+    shown[0]?.[0].setAttribute('data-qa-search-first', query);
+    return { query, count, message, results: shown.slice(0, 3).map(([, result]) => result), ...extra };
+  };
   const panel = document.querySelector('[data-search-title-matches]');
-  if (!panel || panel.hidden || !panel.getClientRects().length) return { query, count, message, results };
+  if (!panel || panel.hidden || !visible(panel)) return finish(links.map((link, index) => [link, results[index]]));
   if (panel.dataset.searchTitleQuery !== query) return false;
-  const nameLinks = Array.from(panel.querySelectorAll('[data-search-title-link]')).filter((link) => link.getClientRects().length > 0);
+  const nameLinks = Array.from(panel.querySelectorAll('[data-search-title-link]')).filter(visible);
   const names = nameLinks.map((link) => {
     const excerpt = link.parentElement?.querySelector('[data-search-title-summary]');
     if (!link.getAttribute('href')) return null;
@@ -68,9 +77,21 @@ export function searchSnapshot(query) {
   const byLink = new Map([...links.map((link, index) => [link, results[index]]), ...nameLinks.map((link, index) => [link, names[index]])]);
   // 不去重，也不先分區取前三；可見的重複入口仍占用一筆。
   const ordered = Array.from(document.querySelectorAll('[data-search-title-link], .pagefind-ui__result-inner > .pagefind-ui__result-title > a.pagefind-ui__result-link'))
-    .filter((link) => byLink.has(link) && link.getClientRects().length > 0)
-    .map((link) => byLink.get(link));
-  return { query, count, message, results: ordered.slice(0, 3), nativeResults: results, nameResults: names };
+    .filter((link) => byLink.has(link)).map((link) => [link, byLink.get(link)]);
+  return finish(ordered, { nativeResults: results, nameResults: names });
+}
+
+/** 取回收件器已核實的首筆；後續仍走真正Tab與Enter，不直接設定焦點。 */
+export async function searchKeyboardTarget(page, query, firstPath) {
+  const link = page.locator('[data-qa-search-first]');
+  assert.equal(await link.count(), 1, '搜尋首筆標記缺失或重複');
+  assert.equal(await link.getAttribute('data-qa-search-first'), query, '搜尋首筆標記仍是舊查詢');
+  const href = await link.getAttribute('href');
+  assert.ok(href, '搜尋首筆沒有連結');
+  const url = new URL(href, page.url());
+  assert.equal(url.origin, new URL(page.url()).origin, '搜尋首筆必須在同站');
+  assert.equal(url.pathname, firstPath, '鍵盤目標與真實首筆不一致');
+  return link;
 }
 
 /** 僅供受控全新導覽使用：標記本欄已由 QA 使用，並拒絕可見的既有查詢狀態。 */
@@ -1089,7 +1110,7 @@ export async function runRollout(options) {
       const readiness = { count: snapshot.count, message: snapshot.message };
       report.search.push({ query, ...cell, top, summaries, openTabs, readiness });
       assertSearchTop3(snapshot.results[0]?.href, top, `/concepts/${id}/`);
-      const link = page.locator('.pagefind-ui__results > .pagefind-ui__result').first().locator('.pagefind-ui__result-inner > .pagefind-ui__result-title > a.pagefind-ui__result-link');
+      const link = await searchKeyboardTarget(page, query, top[0]);
       const resultTabs = await tabTo(page, link); await page.keyboard.press('Shift+Tab'); const returnTabs = await tabTo(page, link);
       await settlePage(page); await page.keyboard.press('Enter'); await page.waitForURL((url) => url.pathname === top[0]); await settlePage(page);
       await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, cell.theme);
