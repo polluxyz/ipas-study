@@ -73,7 +73,7 @@
             "candidates": [
               {
                 "id": "ai-project-roles",
-                "sha256": "df69c3234718fd9a7682288ee5149f3c45a020e39eeca38c1f6be50fe9594515"
+                "sha256": "a53ffe1951c6dd8e6b8c1c908278c112e943f437c6be15956af315a20f4a3214"
               },
               {
                 "id": "cross-functional-collaboration",
@@ -95,7 +95,7 @@
             "candidates": [
               {
                 "id": "ai-project-roles",
-                "sha256": "df69c3234718fd9a7682288ee5149f3c45a020e39eeca38c1f6be50fe9594515"
+                "sha256": "a53ffe1951c6dd8e6b8c1c908278c112e943f437c6be15956af315a20f4a3214"
               },
               {
                 "id": "cross-functional-collaboration",
@@ -112,7 +112,7 @@
               },
               {
                 "id": "ai-change-management",
-                "sha256": "dd67a1669b99c475452c6dd29bcb5f6737c389a20e61764539d48d84ebccb608"
+                "sha256": "82f4acaa06f94cf48aecca7f15496ea1390d1b7fa1214cacebda25c015f07ab0"
               }
             ],
             "reason": "模型穩定風險含資料與情境變化；變革管理也非problem。人才盤點不能整頁當成它們的直接對策。"
@@ -121,11 +121,11 @@
             "candidates": [
               {
                 "id": "ai-project-roles",
-                "sha256": "df69c3234718fd9a7682288ee5149f3c45a020e39eeca38c1f6be50fe9594515"
+                "sha256": "a53ffe1951c6dd8e6b8c1c908278c112e943f437c6be15956af315a20f4a3214"
               },
               {
                 "id": "ai-change-management",
-                "sha256": "dd67a1669b99c475452c6dd29bcb5f6737c389a20e61764539d48d84ebccb608"
+                "sha256": "82f4acaa06f94cf48aecca7f15496ea1390d1b7fa1214cacebda25c015f07ab0"
               }
             ],
             "reason": "指引分列職責、阻力與技能風險，未要求把整頁概念當成易混淆的一對。"
@@ -243,7 +243,7 @@
       "id": "multimodal-privacy-security",
       "target": {
         "file": "content/concepts/multimodal-privacy-security.md",
-        "sha256": "7ceb3190ba8898a85784ccaeb77af5a533ebdb5a89bb72289a70c0661da86bde"
+        "sha256": "306387063d940c8313e63433f6b1439e8e61361474ef02cc0ea610a9dbd10d76"
       },
       "source": {
         "file": "content/codes/L21104.md",
@@ -308,7 +308,7 @@
             "candidates": [
               {
                 "id": "data-protection-impact-assessment",
-                "sha256": "36b56881d73cde0648855321960603ac8ed6013f790af8b6e9d3ce6c80315ae1"
+                "sha256": "5e11c405ed839627cf0c1dd648b772c1ad431cfd41252e14b0dfd51ae327b041"
               },
               {
                 "id": "adversarial-training",
@@ -334,7 +334,7 @@
               },
               {
                 "id": "data-protection-impact-assessment",
-                "sha256": "36b56881d73cde0648855321960603ac8ed6013f790af8b6e9d3ce6c80315ae1"
+                "sha256": "5e11c405ed839627cf0c1dd648b772c1ad431cfd41252e14b0dfd51ae327b041"
               }
             ],
             "reason": "多模態檢查與一般治理／DPIA的範圍不同，不是來源指定的易混淆對。"
@@ -421,7 +421,7 @@
             "candidates": [
               {
                 "id": "online-business-metrics",
-                "sha256": "242f8a4066b2cc6a01a27f4c7053b0e5e594329e29cea408683b02d41394e365"
+                "sha256": "d64a8a9e8fe7dec55026f0323cf887a9bbf7853df9d8c27561849e4793109df2"
               },
               {
                 "id": "roc-auc",
@@ -463,7 +463,7 @@
         "questions": [
           {
             "id": "115-1-S1-Q02",
-            "sha256": "786932017a00ce1e6fdd4845a3bc2b72f790c03f633443327c66ab152413207c",
+            "sha256": "16fc8d53cb8ef7169db0fca9762297b2b784167fadb40149d09f589301d3c396",
             "reason": "Llama3只是LoRA場景；決勝在凍結基底及低秩參數，不在下載權重或使用權利。"
           }
         ],
@@ -494,11 +494,11 @@
             "candidates": [
               {
                 "id": "ai-license-governance",
-                "sha256": "c02c2422fe062b34c48cebeeda0da1e6afabcd36879815ae03e74de903d0479a"
+                "sha256": "ce9d1133cc5a9ffbbc5ffc5878a8b433a5d823de8e21ab5d8789384b1b3b5cf3"
               },
               {
                 "id": "pretraining-fine-tuning",
-                "sha256": "c92c35e08b6cced8fccaebe05b80b3c576ed82921e678e6d39121f959d348630"
+                "sha256": "ebfef4c3483e5902964a3cc00db284654f6f866faa8e3fb3165e527268ef732e"
               }
             ],
             "reason": "可先理解權重取得與本頁查核清單，不必先學整頁授權治理或訓練流程；反向也非必要。"
@@ -559,7 +559,7 @@
           },
           {
             "id": "115-1-S1-Q21",
-            "sha256": "850e840cd206a46033fabbd490d713f221fcc96d370f5e88690cdb92a053be3a",
+            "sha256": "125731fab1a67bea7cf04ec2ec8d781d8ae1d256a7c2bf1ee89224b290225fb9",
             "reason": "指定GPT-4o是費率與快取場景；決勝在token成本組合，不在比較平台。"
           }
         ],
@@ -568,7 +568,7 @@
             "candidates": [
               {
                 "id": "generative-content-types",
-                "sha256": "97f9a6c1267f00d80b3756c14eca293533594321eca18045c8a0c4cc40eae9f8"
+                "sha256": "d8daba373d55871b1f0eb73f166a3342dd4ff70d0008b814d8c963be101c3308"
               },
               {
                 "id": "open-weight-models",
@@ -581,7 +581,7 @@
             "candidates": [
               {
                 "id": "text-generation-workflow",
-                "sha256": "aa19920573c0a41142f54fc7bb09b473a0b085f4231c185f4f65c901a32a7197"
+                "sha256": "27bb108b76082bed352ef9cd0e2fe7555d4d83c2a9257fc3066d6c03c22b49ba"
               }
             ],
             "reason": "工作流可替換工具，本頁列舉的模型／產品不是每個工作流的固定元件。"
@@ -743,7 +743,7 @@
       "id": "text-generation-workflow",
       "target": {
         "file": "content/concepts/text-generation-workflow.md",
-        "sha256": "aa19920573c0a41142f54fc7bb09b473a0b085f4231c185f4f65c901a32a7197"
+        "sha256": "27bb108b76082bed352ef9cd0e2fe7555d4d83c2a9257fc3066d6c03c22b49ba"
       },
       "source": {
         "file": "content/codes/L21103.md",
@@ -775,12 +775,12 @@
         "questions": [
           {
             "id": "115-1-S1-Q16",
-            "sha256": "5823eaaa0b70eda7226edc2b16a69e8f069174bcc1666e20482839a4acd5aeff",
+            "sha256": "3d11a56c28c9ed0a35f1b0f8cb70725578b009a392fbd2a85f197f8813b2427f",
             "reason": "考ReAct工具行動、觀察與來源時效，不考多任務的草稿交付流程。"
           },
           {
             "id": "115-1-S1-Q21",
-            "sha256": "850e840cd206a46033fabbd490d713f221fcc96d370f5e88690cdb92a053be3a",
+            "sha256": "125731fab1a67bea7cf04ec2ec8d781d8ae1d256a7c2bf1ee89224b290225fb9",
             "reason": "考檢索、歷史摘要及快取成本，沒有要求安排專業驗收順序。"
           },
           {
@@ -794,11 +794,11 @@
             "candidates": [
               {
                 "id": "generative-content-types",
-                "sha256": "97f9a6c1267f00d80b3756c14eca293533594321eca18045c8a0c4cc40eae9f8"
+                "sha256": "d8daba373d55871b1f0eb73f166a3342dd4ff70d0008b814d8c963be101c3308"
               },
               {
                 "id": "ai-agent",
-                "sha256": "209e49a184f7bc820e1662df30e0137ecb60ea489fc43c7277ca76c7979bb287"
+                "sha256": "9bd3acea102b443621f62ed44b3624d6d70c322cb7bc2d983013f69b858412de"
               }
             ],
             "reason": "本頁是文本產製安排，不是內容模態的分類節點，也不要求代理自主工具行動。"
@@ -807,7 +807,7 @@
             "candidates": [
               {
                 "id": "ai-agent",
-                "sha256": "209e49a184f7bc820e1662df30e0137ecb60ea489fc43c7277ca76c7979bb287"
+                "sha256": "9bd3acea102b443621f62ed44b3624d6d70c322cb7bc2d983013f69b858412de"
               },
               {
                 "id": "human-generation-evaluation",
@@ -842,7 +842,7 @@
               },
               {
                 "id": "ai-agent",
-                "sha256": "209e49a184f7bc820e1662df30e0137ecb60ea489fc43c7277ca76c7979bb287"
+                "sha256": "9bd3acea102b443621f62ed44b3624d6d70c322cb7bc2d983013f69b858412de"
               }
             ],
             "reason": "相鄰流程與方法分工不等於來源指定易混淆的一對，不能只因同場景就補比較邊。"
