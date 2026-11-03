@@ -32,8 +32,10 @@ const searchCases = [
   ['Statistical Parity', 'statistical-parity'], ['NIST AI RMF', 'nist-ai-rmf'],
 ];
 
-/** Pagefind 1.5.2 的完成訊息與有序結果列；前三列各自載入後才能讀取，子結果不算另一頁。 */
+/** 先核對原搜尋完成與前三列載入，再按畫面順序讀名稱入口及全文結果。 */
 export function searchSnapshot(query) {
+  // 連未完成或失敗的查詢也先清除舊標記，不能留下前一次首筆。
+  for (const prior of document.querySelectorAll('[data-qa-search-first]')) prior.removeAttribute('data-qa-search-first');
   const input = document.querySelector('.pagefind-ui__search-input');
   const message = document.querySelector('.pagefind-ui__message')?.textContent?.trim();
   if (input?.value !== query || !message) return false;
@@ -43,24 +45,62 @@ export function searchSnapshot(query) {
   const count = zero ? 0 : Number(match[1].replaceAll(',', ''));
   if (!Number.isSafeInteger(count) || (!zero && count < 1)) return false;
   const list = document.querySelector('.pagefind-ui__results');
-  if (!list) return false;
-  const rows = Array.from(list.children).slice(0, Math.min(3, count));
+  if (!list && count > 0) return false;
+  const rows = Array.from(list?.children ?? []).slice(0, Math.min(3, count));
   if (rows.length !== Math.min(3, count)) return false;
+  const links = [];
   const results = rows.map((row) => {
     const link = row.querySelector('.pagefind-ui__result-inner > .pagefind-ui__result-title > a.pagefind-ui__result-link');
     const excerpt = row.querySelector('.pagefind-ui__result-excerpt');
     if (!link || !link.getAttribute('href')) return null;
+    links.push(link);
     return { href: link.getAttribute('href'), path: new URL(link.href).pathname, summary: excerpt?.textContent ?? '', html: excerpt?.innerHTML ?? '' };
   });
   if (results.some((result) => !result)) return false;
-  return { query, count, message, results };
+  const visible = (element) => element.getClientRects().length > 0 && typeof element.checkVisibility === 'function'
+    && element.checkVisibility({ visibilityProperty: true, opacityProperty: true });
+  const finish = (pairs, extra = {}) => {
+    const shown = pairs.filter(([link]) => visible(link));
+    // 標記已驗到的實際首筆，讓鍵盤流程沿用同一元素；不改焦點或連結。
+    shown[0]?.[0].setAttribute('data-qa-search-first', query);
+    return { query, count, message, results: shown.slice(0, 3).map(([, result]) => result), ...extra };
+  };
+  const panel = document.querySelector('[data-search-title-matches]');
+  if (!panel || panel.hidden || !visible(panel)) return finish(links.map((link, index) => [link, results[index]]));
+  if (panel.dataset.searchTitleQuery !== query) return false;
+  const nameLinks = Array.from(panel.querySelectorAll('[data-search-title-link]')).filter(visible);
+  const names = nameLinks.map((link) => {
+    const excerpt = link.parentElement?.querySelector('[data-search-title-summary]');
+    if (!link.getAttribute('href')) return null;
+    return { href: link.getAttribute('href'), path: new URL(link.href).pathname, summary: excerpt?.textContent ?? '', html: excerpt?.innerHTML ?? '' };
+  });
+  if (names.some((result) => !result)) return false;
+  const byLink = new Map([...links.map((link, index) => [link, results[index]]), ...nameLinks.map((link, index) => [link, names[index]])]);
+  // 不去重，也不先分區取前三；可見的重複入口仍占用一筆。
+  const ordered = Array.from(document.querySelectorAll('[data-search-title-link], .pagefind-ui__result-inner > .pagefind-ui__result-title > a.pagefind-ui__result-link'))
+    .filter((link) => byLink.has(link)).map((link) => [link, byLink.get(link)]);
+  return finish(ordered, { nativeResults: results, nameResults: names });
+}
+
+/** 取回收件器已核實的首筆；後續仍走真正Tab與Enter，不直接設定焦點。 */
+export async function searchKeyboardTarget(page, query, firstPath) {
+  const link = page.locator('[data-qa-search-first]');
+  assert.equal(await link.count(), 1, '搜尋首筆標記缺失或重複');
+  assert.equal(await link.getAttribute('data-qa-search-first'), query, '搜尋首筆標記仍是舊查詢');
+  const href = await link.getAttribute('href');
+  assert.ok(href, '搜尋首筆沒有連結');
+  const url = new URL(href, page.url());
+  assert.equal(url.origin, new URL(page.url()).origin, '搜尋首筆必須在同站');
+  assert.equal(url.pathname, firstPath, '鍵盤目標與真實首筆不一致');
+  return link;
 }
 
 /** 僅供受控全新導覽使用：標記本欄已由 QA 使用，並拒絕可見的既有查詢狀態。 */
 export function claimSearchInput(input) {
+  const names = document.querySelector('[data-search-title-matches]');
   if (input !== document.querySelector('.pagefind-ui__search-input') || input.value !== '' ||
       input.hasAttribute('data-qa-search-used') || document.querySelector('.pagefind-ui__results-area, .pagefind-ui__results') ||
-      document.querySelector('.pagefind-ui__message')?.textContent?.trim()) {
+      document.querySelector('.pagefind-ui__message')?.textContent?.trim() || (names && !names.hidden && names.getClientRects().length > 0)) {
     throw new Error('搜尋 QA 需要全新導覽且尚未查詢的乾淨輸入欄與畫面；請重新導覽');
   }
   input.setAttribute('data-qa-search-used', '');
@@ -1071,7 +1111,7 @@ export async function runRollout(options) {
       const readiness = { count: snapshot.count, message: snapshot.message };
       report.search.push({ query, ...cell, top, summaries, openTabs, readiness });
       assertSearchTop3(snapshot.results[0]?.href, top, `/concepts/${id}/`);
-      const link = page.locator('.pagefind-ui__results > .pagefind-ui__result').first().locator('.pagefind-ui__result-inner > .pagefind-ui__result-title > a.pagefind-ui__result-link');
+      const link = await searchKeyboardTarget(page, query, top[0]);
       const resultTabs = await tabTo(page, link); await page.keyboard.press('Shift+Tab'); const returnTabs = await tabTo(page, link);
       await settlePage(page); await page.keyboard.press('Enter'); await page.waitForURL((url) => url.pathname === top[0]); await settlePage(page);
       await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, cell.theme);

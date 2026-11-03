@@ -1,0 +1,47 @@
+---
+/** 沿用 Starlight 搜尋視窗與 Pagefind，只在完整名稱命中時補概念入口。 */
+import DefaultSearch from '@astrojs/starlight/components/Search.astro';
+import { getCollection } from 'astro:content';
+
+const titles = (await getCollection('concepts')).map(({ data: { id, title, aliases, summary } }) => ({ id, title, aliases, summary }));
+---
+
+<DefaultSearch {...Astro.props} />
+<script type="application/json" id="search-concept-titles" set:html={JSON.stringify(titles).replaceAll('<', '\\u003c')} />
+
+<script>
+  import { bindSearchTitles, type SearchTitle } from '../lib/search-titles';
+
+  const root = document.querySelector<HTMLElement>('site-search');
+  const data = document.getElementById('search-concept-titles');
+  if (root && data?.textContent) {
+    const entries: SearchTitle[] = JSON.parse(data.textContent);
+    bindSearchTitles(root, entries);
+  }
+</script>
+
+<style is:global>
+  .search-title-matches[hidden] { display: none; }
+  .search-title-matches { margin-block: 1rem; color: var(--sl-color-white); }
+  .search-title-matches p { font-size: var(--sl-text-sm); margin-block: 0 .5rem; }
+  .search-title-matches ul { list-style: none; margin: 0; padding: 0; }
+  .search-title-matches li {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: .25rem;
+    background: var(--sl-color-black);
+  }
+  .search-title-matches li + li { margin-block-start: .5rem; }
+  .search-title-matches a {
+    display: block;
+    padding: .75rem 1rem;
+    color: var(--sl-color-white);
+    font-weight: 600;
+  }
+  .search-title-matches .search-title-summary {
+    color: var(--sl-color-gray-2);
+    padding: 0 1rem .75rem;
+    margin: 0;
+  }
+  .search-title-matches a:hover,
+  .search-title-matches a:focus-visible { outline: 2px solid var(--sl-color-accent); outline-offset: 2px; }
+</style>

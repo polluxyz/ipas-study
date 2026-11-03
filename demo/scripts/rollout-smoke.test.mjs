@@ -25,7 +25,7 @@ vi.mock('node:fs/promises', async (original) => {
   return { ...actual, ...Object.fromEntries(['readFile', 'readdir', 'stat'].map((name) =>
     [name, (file, ...args) => actual[name](redirect(file), ...args)])) };
 });
-import { assertCompanion, claimSearchInput, distSnapshot, gotoSettled, guardBuildContext, routeLocalOnly, searchSnapshot, settlePage, sourceSnapshot, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
+import { assertCompanion, assertSearchSummaries, claimSearchInput, distSnapshot, gotoSettled, guardBuildContext, routeLocalOnly, searchKeyboardTarget, searchSnapshot, settlePage, sourceSnapshot, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
 
 const base = 'http://127.0.0.1:4321';
 const navigatedAway = 'response.body: Protocol error (Network.getResponseBody): No resource with given identifier found\nResponse body is not available for a response that was navigated away from.';
@@ -33,15 +33,22 @@ const html = '<!doctype html><title>離線換頁 fixture</title>';
 
 describe('搜尋完成與前三頁契約', () => {
   const query = '資料洩漏', target = '/concepts/data-leakage/';
-  const row = (path, loaded = true) => ({ querySelector: (selector) => {
-    if (selector.includes('result-link')) return loaded ? { href: `http://127.0.0.1:4321${path}`, getAttribute: () => path } : null;
-    return { textContent: '摘要', innerHTML: '摘要' };
-  } });
+  const anchor = (path, style = '') => {
+    const attributes = new Map([['href', path]]);
+    return { get href() { return new URL(attributes.get('href'), base).href; }, getAttribute: (name) => attributes.get(name) ?? null,
+      setAttribute: (name, value) => attributes.set(name, value), removeAttribute: (name) => attributes.delete(name), getClientRects: () => [{}],
+      // CSS隱藏仍保有矩形；只有明確開啟可見性選項才會拒絕。
+      checkVisibility: (options = {}) => !(style === 'visibility' && options.visibilityProperty) && !(style === 'opacity' && options.opacityProperty) };
+  };
+  const row = (path, loaded = true) => {
+    const link = anchor(path);
+    return { link, querySelector: (selector) => selector.includes('result-link') ? loaded ? link : null : { textContent: '摘要', innerHTML: '摘要' } };
+  };
   function snapshot({ input = query, message, rows = [], list = true }) {
     const document = { querySelector: (selector) => ({
       '.pagefind-ui__search-input': { value: input }, '.pagefind-ui__message': { textContent: message },
       '.pagefind-ui__results': list ? { children: rows } : null,
-    })[selector] };
+    })[selector], querySelectorAll: () => rows.map((entry) => entry.link).filter((link) => link.getAttribute('data-qa-search-first') !== null) };
     return runInNewContext(`(${searchSnapshot.toString()})(query)`, { document, query, URL });
   }
   it('拒絕舊結果、搜尋中、未完成的前三列與失敗，無結果則回傳空結果供驗收拒絕', () => {
@@ -54,12 +61,13 @@ describe('搜尋完成與前三頁契約', () => {
     expect(snapshot({ message: `3 results for ${query}`, rows: old }).results.map((r) => r.path)).toEqual([target, '/b/', '/c/']);
   });
   it('只接受乾淨的欄位與畫面，同欄不可再次使用', () => {
-    function fixture({ value = '', area = false, message = '', otherInput = false } = {}) {
+    function fixture({ value = '', area = false, message = '', otherInput = false, namesVisible = false } = {}) {
       const attributes = new Set();
       const input = { value, hasAttribute: (name) => attributes.has(name), setAttribute: (name) => attributes.add(name) };
       const document = { querySelector: (selector) => {
         if (selector === '.pagefind-ui__search-input') return otherInput ? {} : input;
         if (selector === '.pagefind-ui__message') return { textContent: message };
+        if (selector === '[data-search-title-matches]') return { hidden: !namesVisible, getClientRects: () => namesVisible ? [{}] : [] };
         return area ? {} : null;
       } };
       return () => runInNewContext(`(${claimSearchInput.toString()})(input)`, { document, input });
@@ -67,7 +75,7 @@ describe('搜尋完成與前三頁契約', () => {
     const clean = fixture();
     expect(clean).not.toThrow();
     expect(clean).toThrow('請重新導覽');
-    for (const options of [{ value: '舊詞' }, { area: true }, { message: 'Searching for old...' }, { message: '3 results for old' }, { otherInput: true }]) {
+    for (const options of [{ value: '舊詞' }, { area: true }, { message: 'Searching for old...' }, { message: '3 results for old' }, { otherInput: true }, { namesVisible: true }]) {
       expect(fixture(options)).toThrow('請重新導覽');
     }
   });
@@ -97,6 +105,99 @@ describe('搜尋完成與前三頁契約', () => {
   it('拒絕第四名、缺頁、缺新欄與偽造第一名', () => {
     for (const report of [envelope(['/a/', '/b/', '/c/', target]), envelope(['/a/', '/b/', '/c/']), envelope(undefined, target), envelope(['/a/', target, '/c/'], target), envelope([], null)]) {
       expect(() => assertCompanion('smoke', report, binding, content)).toThrow();
+    }
+  });
+
+  // 獨立模擬使用者可見節點，不呼叫產品的名稱比對函式產生期待值。
+  function combined({ native = ['/a/', '/b/', '/c/'], names = [{ path: target, summary: '真實概念摘要' }], message = `${native.length} results for ${query}`, panelQuery = query, hidden = false, panelVisible = true, panelStyle = '', nameStyle = '', list = true, unloaded = [], order, details = false } = {}) {
+    const nativeLinks = native.map(anchor);
+    const rows = native.map((path, index) => ({ querySelector: (selector) => selector.includes('result-link')
+      ? unloaded.includes(index) ? null : nativeLinks[index] : { textContent: '原摘要', innerHTML: '原摘要' } }));
+    const nameLinks = names.map(({ path, summary }) => ({ ...anchor(path, nameStyle), parentElement: { querySelector: () => ({ textContent: summary, innerHTML: summary }) } }));
+    const panel = { hidden, dataset: { searchTitleQuery: panelQuery }, getClientRects: () => panelVisible ? [{}] : [], checkVisibility: (options = {}) => !(panelStyle === 'visibility' && options.visibilityProperty) && !(panelStyle === 'opacity' && options.opacityProperty), querySelectorAll: () => nameLinks };
+    const ordered = order ? order.map(([kind, index]) => kind === 'name' ? nameLinks[index] : nativeLinks[index]) : [...nameLinks, ...nativeLinks];
+    const document = {
+      querySelector: (selector) => ({ '.pagefind-ui__search-input': { value: query }, '.pagefind-ui__message': { textContent: message }, '.pagefind-ui__results': list ? { children: rows } : null, '[data-search-title-matches]': panel })[selector],
+      querySelectorAll: (selector) => selector === '[data-qa-search-first]' ? ordered.filter((link) => link.getAttribute('data-qa-search-first') !== null) : ordered,
+    };
+    const result = runInNewContext(`(${searchSnapshot.toString()})(query)`, { document, query, URL });
+    return details ? { snapshot: result, links: ordered, nativeLinks, marked: () => ordered.filter((link) => link.getAttribute('data-qa-search-first') !== null) } : result;
+  }
+  it('名稱入口與全文結果只取實際前三，另保留原結果', () => {
+    const result = combined();
+    expect(result.results.map((entry) => entry.path)).toEqual([target, '/a/', '/b/']);
+    expect(result.nativeResults.map((entry) => entry.path)).toEqual(['/a/', '/b/', '/c/']);
+    expect(result.nameResults).toHaveLength(1);
+    expect(() => assertSearchSummaries(result.results)).not.toThrow();
+  });
+  it('舊詞面板不能混入本次結果，隱藏面板不能提供命中', () => {
+    expect(combined({ panelQuery: '舊詞' })).toBe(false);
+    for (const options of [{ hidden: true }, { panelVisible: false }]) {
+      expect(combined(options).results.map((entry) => entry.path)).toEqual(['/a/', '/b/', '/c/']);
+    }
+  });
+  it('名稱命中仍不能略過原搜尋完成或前三列載入', () => {
+    for (const message of [`Searching for ${query}...`, '3 results for 舊詞', 'Search failed']) expect(combined({ message })).toBe(false);
+    expect(combined({ unloaded: [1] })).toBe(false);
+  });
+  it('原零結果且沒有清單時，仍能觀測真正可見的名稱入口', () => {
+    const result = combined({ native: [], message: `No results for ${query}`, list: false });
+    expect(result.results.map((entry) => entry.path)).toEqual([target]);
+    expect(result.nativeResults).toHaveLength(0);
+    expect(result.count).toBe(0);
+  });
+  it('不能把名稱區第四筆或去重後第三筆冒充真正前三', () => {
+    const late = combined({ order: [['native', 0], ['native', 1], ['native', 2], ['name', 0]] });
+    expect(late.results.map((entry) => entry.path)).toEqual(['/a/', '/b/', '/c/']);
+    const duplicate = combined({ native: ['/a/', '/b/', target], names: [{ path: '/a/', summary: '重複入口' }] });
+    expect(duplicate.results.map((entry) => entry.path)).toEqual(['/a/', '/a/', '/b/']);
+  });
+  it('名稱摘要缺失或遭公式污染時仍由原摘要門檻拒絕', () => {
+    for (const summary of ['', '\\frac{a}{b}', '<math><mi>x</mi></math>']) {
+      expect(() => assertSearchSummaries(combined({ names: [{ path: target, summary }] }).results)).toThrow();
+    }
+  });
+  it('名稱命中不能掩蓋原結果少列或缺少正數結果清單', () => {
+    expect(combined({ native: ['/a/', '/b/'], message: `3 results for ${query}` })).toBe(false);
+    expect(combined({ list: false })).toBe(false);
+  });
+  it('CSS不可見面板或入口保有矩形時，仍不能提供命中', () => {
+    for (const options of [{ panelStyle: 'visibility' }, { panelStyle: 'opacity' }, { nameStyle: 'visibility' }, { nameStyle: 'opacity' }]) {
+      expect(combined(options).results.map((entry) => entry.path)).toEqual(['/a/', '/b/', '/c/']);
+    }
+  });
+  function keyboardPage(fixture) {
+    const marked = { count: async () => fixture.marked().length, getAttribute: async (name) => fixture.marked()[0]?.getAttribute(name) };
+    return { marked, page: { url: () => base, locator: (selector) => selector === '[data-qa-search-first]' ? marked : { count: async () => fixture.nativeLinks.length } } };
+  }
+  it('鍵盤沿用實際已驗的名稱首筆，不會選回不同的原首筆', async () => {
+    const fixture = combined({ details: true });
+    const { marked, page } = keyboardPage(fixture);
+    expect(fixture.nativeLinks[0].getAttribute('href')).toBe('/a/');
+    expect(fixture.marked()).toHaveLength(1);
+    expect(fixture.marked()[0].getAttribute('href')).toBe(target);
+    expect(await searchKeyboardTarget(page, query, fixture.snapshot.results[0].path)).toBe(marked);
+  });
+  it('鍵盤拒絕舊查詢、重複標記或與snapshot不同的目標', async () => {
+    for (const kind of ['stale', 'duplicate', 'wrong-target']) {
+      const fixture = combined({ details: true });
+      if (kind === 'stale') fixture.marked()[0].setAttribute('data-qa-search-first', '舊詞');
+      if (kind === 'duplicate') fixture.nativeLinks[0].setAttribute('data-qa-search-first', query);
+      if (kind === 'wrong-target') fixture.marked()[0].setAttribute('href', '/different/');
+      await expect(searchKeyboardTarget(keyboardPage(fixture).page, query, fixture.snapshot.results[0].path)).rejects.toThrow();
+    }
+  });
+  it('查詢改詞、載入中或失敗的早退分支也會清除舊首筆標記', () => {
+    for (const kind of ['changed-input', 'loading', 'failed']) {
+      const stale = anchor(target);
+      stale.setAttribute('data-qa-search-first', '舊詞');
+      const document = {
+        querySelectorAll: () => stale.getAttribute('data-qa-search-first') === null ? [] : [stale],
+        querySelector: (selector) => selector === '.pagefind-ui__search-input' ? { value: kind === 'changed-input' ? '其他詞' : query }
+          : selector === '.pagefind-ui__message' ? { textContent: kind === 'failed' ? 'Search failed' : `Searching for ${query}...` } : null,
+      };
+      expect(runInNewContext(`(${searchSnapshot.toString()})(query)`, { document, query, URL })).toBe(false);
+      expect(stale.getAttribute('data-qa-search-first')).toBeNull();
     }
   });
 });
