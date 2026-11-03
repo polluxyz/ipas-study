@@ -506,7 +506,7 @@ export function sourceFigureTable(data) {
   }));
 }
 
-/** 檢查正文是否逐字直排；公式內的分子、分母與輔助文字不當作正文行。 */
+/** 檢查正文是否逐字直排；略過公式與標點，避免公式間的標點誤報或掩蓋正文直排。 */
 export function collectSingleColumnCells(selector = 'main .textbook-table-scroll :is(th,td)') {
   const bad = [];
   for (const cell of document.querySelectorAll(selector)) {
@@ -516,7 +516,7 @@ export function collectSingleColumnCells(selector = 'main .textbook-table-scroll
       const node = walker.currentNode;
       if (node.parentElement?.closest('.katex')) continue;
       for (let i = 0; i < node.textContent.length; i++) {
-        if (/\s/.test(node.textContent[i])) continue;
+        if (/[\s\p{P}]/u.test(node.textContent[i])) continue;
         const range = document.createRange(); range.setStart(node, i); range.setEnd(node, i + 1);
         const rect = range.getBoundingClientRect();
         if (rect.width) { const y = Math.round(rect.y); lines.set(y, (lines.get(y) ?? 0) + 1); }
