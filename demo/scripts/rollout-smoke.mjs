@@ -34,6 +34,8 @@ const searchCases = [
 
 /** 先核對原搜尋完成與前三列載入，再按畫面順序讀名稱入口及全文結果。 */
 export function searchSnapshot(query) {
+  // 連未完成或失敗的查詢也先清除舊標記，不能留下前一次首筆。
+  for (const prior of document.querySelectorAll('[data-qa-search-first]')) prior.removeAttribute('data-qa-search-first');
   const input = document.querySelector('.pagefind-ui__search-input');
   const message = document.querySelector('.pagefind-ui__message')?.textContent?.trim();
   if (input?.value !== query || !message) return false;
@@ -60,7 +62,6 @@ export function searchSnapshot(query) {
   const finish = (pairs, extra = {}) => {
     const shown = pairs.filter(([link]) => visible(link));
     // 標記已驗到的實際首筆，讓鍵盤流程沿用同一元素；不改焦點或連結。
-    for (const prior of document.querySelectorAll('[data-qa-search-first]')) prior.removeAttribute('data-qa-search-first');
     shown[0]?.[0].setAttribute('data-qa-search-first', query);
     return { query, count, message, results: shown.slice(0, 3).map(([, result]) => result), ...extra };
   };

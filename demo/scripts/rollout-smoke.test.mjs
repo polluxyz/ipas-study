@@ -187,6 +187,19 @@ describe('搜尋完成與前三頁契約', () => {
       await expect(searchKeyboardTarget(keyboardPage(fixture).page, query, fixture.snapshot.results[0].path)).rejects.toThrow();
     }
   });
+  it('查詢改詞、載入中或失敗的早退分支也會清除舊首筆標記', () => {
+    for (const kind of ['changed-input', 'loading', 'failed']) {
+      const stale = anchor(target);
+      stale.setAttribute('data-qa-search-first', '舊詞');
+      const document = {
+        querySelectorAll: () => stale.getAttribute('data-qa-search-first') === null ? [] : [stale],
+        querySelector: (selector) => selector === '.pagefind-ui__search-input' ? { value: kind === 'changed-input' ? '其他詞' : query }
+          : selector === '.pagefind-ui__message' ? { textContent: kind === 'failed' ? 'Search failed' : `Searching for ${query}...` } : null,
+      };
+      expect(runInNewContext(`(${searchSnapshot.toString()})(query)`, { document, query, URL })).toBe(false);
+      expect(stale.getAttribute('data-qa-search-first')).toBeNull();
+    }
+  });
 });
 let binding;
 beforeAll(async () => {
