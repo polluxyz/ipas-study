@@ -1,0 +1,843 @@
+{
+  "content": {
+    "concepts": [
+      {
+        "id": "ai-team-capability",
+        "file": "content/concepts/ai-team-capability.md",
+        "fileSha256": "69a1bc34c998880e69dbbe1488c8f0a09e839e52d49c5a0b0cc893b36d77649f",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "cyclic-time-features",
+        "file": "content/concepts/cyclic-time-features.md",
+        "fileSha256": "d5a17a6d5efdffb7fee79b067ea404f5c65e6d9bd2aedeebb2e900b2773984e7",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "multimodal-privacy-security",
+        "file": "content/concepts/multimodal-privacy-security.md",
+        "fileSha256": "c1946f16ba0c2b3ecfe58964b64e21898895e6cc4ca53462c356c10bcff75a40",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "ndcg",
+        "file": "content/concepts/ndcg.md",
+        "fileSha256": "375417db3aeb89a944de9b24fb9a1b60f3835d1781aa638798c40b7425a166c7",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "open-weight-models",
+        "file": "content/concepts/open-weight-models.md",
+        "fileSha256": "8a57ed28adf85e4daeaf88cc0c726be78787f55dde6cdeb7f570b62d42b806f5",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "text-generation-platforms",
+        "file": "content/concepts/text-generation-platforms.md",
+        "fileSha256": "a8b6f4a38c95ba5be76b9cfdd2ca034f9664b28fab2220d5e28cb2a3c5d42e36",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "development-toolchain",
+        "file": "content/concepts/development-toolchain.md",
+        "fileSha256": "2abd082e8ef1b6615888823b7f7faeb3a8d5f25b5bda92be77dcf99bf48ccec3",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "text-generation-workflow",
+        "file": "content/concepts/text-generation-workflow.md",
+        "fileSha256": "aad9340f4d130af46df5ef8c1a45a0456082d226ee3a5135609b01c75cee50b8",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "fixture-parent",
+        "file": "content/concepts/fixture-parent.md",
+        "fileSha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "fixture-child",
+        "file": "content/concepts/fixture-child.md",
+        "fileSha256": "eeb210b744c373f998805eb0ea000f718d56a45cf3505884b7c941420eab984f",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n",
+        "requires": [
+          "fixture-parent"
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "id": "fixture-question",
+        "source": "exam",
+        "file": "content/questions/fixture-question.yaml",
+        "fileSha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+        "concepts": [
+          "fixture-parent"
+        ]
+      }
+    ],
+    "codes": [
+      {
+        "code": "L00001",
+        "file": "content/codes/L00001.md",
+        "stages": [
+          {
+            "id": "planned-reading",
+            "intro": "先確認問題，再讀各頁解釋及例子。",
+            "concepts": [
+              {
+                "id": "ai-team-capability",
+                "goal": "說得出ai-team-capability的學習目的"
+              },
+              {
+                "id": "cyclic-time-features",
+                "goal": "說得出cyclic-time-features的學習目的"
+              },
+              {
+                "id": "multimodal-privacy-security",
+                "goal": "說得出multimodal-privacy-security的學習目的"
+              },
+              {
+                "id": "ndcg",
+                "goal": "說得出ndcg的學習目的"
+              },
+              {
+                "id": "open-weight-models",
+                "goal": "說得出open-weight-models的學習目的"
+              },
+              {
+                "id": "text-generation-platforms",
+                "goal": "說得出text-generation-platforms的學習目的"
+              },
+              {
+                "id": "development-toolchain",
+                "goal": "說得出development-toolchain的學習目的"
+              },
+              {
+                "id": "text-generation-workflow",
+                "goal": "說得出text-generation-workflow的學習目的"
+              }
+            ]
+          }
+        ],
+        "fileSha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+      }
+    ]
+  },
+  "evidence": {
+    "version": 1,
+    "basisFiles": [
+      {
+        "file": "docs/specs/fixture-approval.md",
+        "sha256": "8510cb021f0de2e3a3ffea96141da948f7f82703d8b60ee731858f45a3dbe6fc"
+      }
+    ],
+    "entries": [
+      {
+        "id": "ai-team-capability",
+        "target": {
+          "file": "content/concepts/ai-team-capability.md",
+          "sha256": "69a1bc34c998880e69dbbe1488c8f0a09e839e52d49c5a0b0cc893b36d77649f"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/ai-team-capability/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出ai-team-capability的學習目的"
+        },
+        "purpose": "先讀ai-team-capability以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "cyclic-time-features",
+        "target": {
+          "file": "content/concepts/cyclic-time-features.md",
+          "sha256": "d5a17a6d5efdffb7fee79b067ea404f5c65e6d9bd2aedeebb2e900b2773984e7"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/cyclic-time-features/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出cyclic-time-features的學習目的"
+        },
+        "purpose": "先讀cyclic-time-features以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "multimodal-privacy-security",
+        "target": {
+          "file": "content/concepts/multimodal-privacy-security.md",
+          "sha256": "c1946f16ba0c2b3ecfe58964b64e21898895e6cc4ca53462c356c10bcff75a40"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/multimodal-privacy-security/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出multimodal-privacy-security的學習目的"
+        },
+        "purpose": "先讀multimodal-privacy-security以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "ndcg",
+        "target": {
+          "file": "content/concepts/ndcg.md",
+          "sha256": "375417db3aeb89a944de9b24fb9a1b60f3835d1781aa638798c40b7425a166c7"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/ndcg/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出ndcg的學習目的"
+        },
+        "purpose": "先讀ndcg以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "open-weight-models",
+        "target": {
+          "file": "content/concepts/open-weight-models.md",
+          "sha256": "8a57ed28adf85e4daeaf88cc0c726be78787f55dde6cdeb7f570b62d42b806f5"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/open-weight-models/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出open-weight-models的學習目的"
+        },
+        "purpose": "先讀open-weight-models以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "text-generation-platforms",
+        "target": {
+          "file": "content/concepts/text-generation-platforms.md",
+          "sha256": "a8b6f4a38c95ba5be76b9cfdd2ca034f9664b28fab2220d5e28cb2a3c5d42e36"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/text-generation-platforms/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出text-generation-platforms的學習目的"
+        },
+        "purpose": "先讀text-generation-platforms以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "development-toolchain",
+        "target": {
+          "file": "content/concepts/development-toolchain.md",
+          "sha256": "2abd082e8ef1b6615888823b7f7faeb3a8d5f25b5bda92be77dcf99bf48ccec3"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/development-toolchain/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出development-toolchain的學習目的"
+        },
+        "purpose": "先讀development-toolchain以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "text-generation-workflow",
+        "target": {
+          "file": "content/concepts/text-generation-workflow.md",
+          "sha256": "aad9340f4d130af46df5ef8c1a45a0456082d226ee3a5135609b01c75cee50b8"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/text-generation-workflow/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出text-generation-workflow的學習目的"
+        },
+        "purpose": "先讀text-generation-workflow以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "rendered": {
+    "content/concepts/ai-team-capability.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/cyclic-time-features.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/multimodal-privacy-security.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/ndcg.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/open-weight-models.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/text-generation-platforms.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/development-toolchain.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/text-generation-workflow.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/fixture-parent.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/fixture-child.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/codes/L00001.md": "<section data-stage=\"planned-reading\"><p class=\"stage-intro\">先確認問題，再讀各頁解釋及例子。</p><ol><li data-route-concept=\"ai-team-capability\"><a class=\"route-concept\" ><strong>ai-team-capability</strong><p class=\"route-goal\">說得出ai-team-capability的學習目的</p></a></li><li data-route-concept=\"cyclic-time-features\"><a class=\"route-concept\" href=\"/concepts/cyclic-time-features/\"><strong>cyclic-time-features</strong><p class=\"route-goal\">說得出cyclic-time-features的學習目的</p></a></li><li data-route-concept=\"multimodal-privacy-security\"><a class=\"route-concept\" href=\"/concepts/multimodal-privacy-security/\"><strong>multimodal-privacy-security</strong><p class=\"route-goal\">說得出multimodal-privacy-security的學習目的</p></a></li><li data-route-concept=\"ndcg\"><a class=\"route-concept\" href=\"/concepts/ndcg/\"><strong>ndcg</strong><p class=\"route-goal\">說得出ndcg的學習目的</p></a></li><li data-route-concept=\"open-weight-models\"><a class=\"route-concept\" href=\"/concepts/open-weight-models/\"><strong>open-weight-models</strong><p class=\"route-goal\">說得出open-weight-models的學習目的</p></a></li><li data-route-concept=\"text-generation-platforms\"><a class=\"route-concept\" href=\"/concepts/text-generation-platforms/\"><strong>text-generation-platforms</strong><p class=\"route-goal\">說得出text-generation-platforms的學習目的</p></a></li><li data-route-concept=\"development-toolchain\"><a class=\"route-concept\" href=\"/concepts/development-toolchain/\"><strong>development-toolchain</strong><p class=\"route-goal\">說得出development-toolchain的學習目的</p></a></li><li data-route-concept=\"text-generation-workflow\"><a class=\"route-concept\" href=\"/concepts/text-generation-workflow/\"><strong>text-generation-workflow</strong><p class=\"route-goal\">說得出text-generation-workflow的學習目的</p></a></li></ol></section>"
+  },
+  "sourceFiles": {
+    "content/concepts/ai-team-capability.md": "---\nid: ai-team-capability\n---\n\n固定教材正文\n",
+    "content/concepts/cyclic-time-features.md": "---\nid: cyclic-time-features\n---\n\n固定教材正文\n",
+    "content/concepts/multimodal-privacy-security.md": "---\nid: multimodal-privacy-security\n---\n\n固定教材正文\n",
+    "content/concepts/ndcg.md": "---\nid: ndcg\n---\n\n固定教材正文\n",
+    "content/concepts/open-weight-models.md": "---\nid: open-weight-models\n---\n\n固定教材正文\n",
+    "content/concepts/text-generation-platforms.md": "---\nid: text-generation-platforms\n---\n\n固定教材正文\n",
+    "content/concepts/development-toolchain.md": "---\nid: development-toolchain\n---\n\n固定教材正文\n",
+    "content/concepts/text-generation-workflow.md": "---\nid: text-generation-workflow\n---\n\n固定教材正文\n",
+    "content/concepts/fixture-parent.md": "---\nid: fixture-parent\n---\n\n固定教材正文\n",
+    "content/concepts/fixture-child.md": "---\nid: fixture-child\n---\n\n固定教材正文\n",
+    "content/codes/L00001.md": "固定路線來源\n",
+    "docs/specs/fixture-approval.md": "固定核可依據"
+  }
+}
