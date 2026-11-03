@@ -11,6 +11,7 @@ codes:
 concepts:
   - word2vec
   - word-embedding
+  - temporal-text-features
 stem: 下列何者為自然語言處理（NLP）中的詞嵌入技術，能將文字轉換為向量以利機器學習處理？
 options:
   A: TF-IDF

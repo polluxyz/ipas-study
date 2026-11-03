@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第三科_機器學習技術與
 pdf_page: 7
 type: 情境
 codes: [L23301]
-concepts: [temporal-features]
+concepts: [temporal-features, automated-feature-generation]
 stem: |
   在時間序列資料的特徵工程中，工程師常使用滑動窗口（Sliding Window）方法，將過去多個時間點的觀測值組合為模型輸入。下列何者為此方法的主要目的？
 options:
