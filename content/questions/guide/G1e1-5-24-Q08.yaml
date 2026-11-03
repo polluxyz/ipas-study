@@ -1,0 +1,36 @@
+id: G1e1-5-24-Q08
+rev: 1
+source: guide
+subject: 1
+number: 8
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 165
+type: 觀念
+codes:
+  - L21302
+concepts:
+  - edge-inference
+stem: 在邊緣運算架構中，AI 模型的推論通常會發生在哪裡？
+options:
+  A: 雲端 GPU 伺服器
+  B: 終端裝置本地端
+  C: 資料標註平台
+  D: 資料儲存庫
+answer: B
+explanation:
+  summary: 辨識邊緣推論的執行位置。
+  correct: 邊緣推論把計算放在資料產生處附近，例如攝影機、手機或現場閘道。本題選項中，終端裝置本地端最符合此特性。
+  wrong:
+    A: 雲端 GPU 伺服器屬集中式雲端運算，並非本題的終端本地推論。
+    C: 資料標註平台用來製作訓練標籤，並未表示模型在邊緣執行。
+    D: 資料儲存庫保存資料，不等於執行模型推論的終端。
+  rule: 邊緣推論把模型放在終端或靠近資料來源的節點。
+guide_refs:
+  - guide-1:5-24
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 166
+    by: codex-author-task_050714761596
+  dispute: null

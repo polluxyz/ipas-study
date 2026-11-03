@@ -1,0 +1,36 @@
+id: G1e1-3-84-Q02
+rev: 1
+source: guide
+subject: 1
+number: 2
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 91
+type: 觀念
+codes:
+  - L21101
+concepts:
+  - named-entity-recognition
+stem: 在自然語言處理應用中，哪一項任務主要目的是從文字中識別出人名、地名、組織等資訊？
+options:
+  A: 情感分析
+  B: 主題建模
+  C: 命名實體識別
+  D: 語音辨識
+answer: C
+explanation:
+  summary: 辨識抽取人名、地名與組織名的任務。
+  correct: 命名實體識別會在句子中標出具名片段，再賦予人名、地點或組織等類型，符合題目的輸出要求。
+  wrong:
+    A: 情感分析判斷文字的正負情緒或態度，輸出不是人名與地名。
+    B: 主題建模找出文件的潛在主題，並不以標出每個具名片段為主要目標。
+    D: 語音辨識把聲音轉成文字，後續才可能對轉錄文字做實體識別。
+  rule: 先看任務要輸出情緒、主題、具名片段或轉錄文字。
+guide_refs:
+  - guide-1:3-84
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 93
+    by: codex-author-task_050714761596
+  dispute: null

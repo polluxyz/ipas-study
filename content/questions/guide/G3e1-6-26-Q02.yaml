@@ -1,0 +1,36 @@
+id: G3e1-6-26-Q02
+rev: 1
+source: guide
+subject: 3
+number: 2
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 218
+type: 觀念
+codes:
+  - L23401
+concepts:
+  - noise-injection
+stem: 以下哪一種資料處理方式屬於「隨機擾動（Noise Injection）」？
+options:
+  A: 把姓名改成代號
+  B: 將薪資加入隨機誤差
+  C: 將地址改成縣市級別
+  D: 以星號遮蔽身分證號
+answer: B
+explanation:
+  summary: 辨識向數值加入隨機誤差的擾動方法。
+  correct: 在薪資數值上加入隨機誤差，會以隨機方式改動原值，因此符合 Noise Injection。只有加入雜訊並不能保證已達成差分隱私，仍需明確的機制及參數。
+  wrong:
+    A: 把姓名改成代號是代碼替代，不必然涉及隨機改動原數值。
+    C: 把地址改成較粗的縣市層級是泛化，並非向數值加隨機誤差。
+    D: 以星號遮住部分內容屬遮蔽，不是隨機擾動數值。
+  rule: 向觀測值加入隨機誤差是擾動；它不自動等於差分隱私。
+guide_refs:
+  - guide-3:6-26
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 221
+    by: codex-author-task_050714761596
+  dispute: 原指引 6-29 第2題雖印 Ans（B），答案標籤卻是「強化匿名化技術」，解析亦談再識別；這與本題隨機擾動的題幹及 B 選項不符。保留官方字母 B，作者解析依實際選項說明。

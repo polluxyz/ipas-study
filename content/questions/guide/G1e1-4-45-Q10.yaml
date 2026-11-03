@@ -1,0 +1,37 @@
+id: G1e1-4-45-Q10
+rev: 1
+source: guide
+subject: 1
+number: 10
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 139
+type: 情境
+codes:
+  - L21203
+concepts:
+  - drift-detection
+  - retraining-pipeline
+stem: AI 模型部署後，若長期輸入資料分佈逐漸改變，導致模型效能下降，最適合採取下列哪一項作法進行風險管理？
+options:
+  A: 定期重啟伺服器以排除效能問題
+  B: 加入多個冗餘模型以進行同時預測
+  C: 建置概念漂移監控與觸發模型再訓練流程
+  D: 縮減模型層數以降低計算成本
+answer: C
+explanation:
+  summary: 辨識部署後分佈變動的監控與重訓措施。
+  correct: 監控輸入分佈與可取得的效能指標，並在符合條件時啟動重訓及驗證，可持續處理資料環境改變。官方 C 最符合此管理流程；僅輸入分佈改變應先稱資料漂移。
+  wrong:
+    A: 重啟伺服器不會讓模型學到新的資料規律。
+    B: 多個冗餘模型可支援備援，但若都未更新，仍可能一起受到分佈變動影響。
+    D: 減少模型層數可能降低運算量，沒有直接監測或修復分佈變動。
+  rule: 輸入分佈變動先辨識為資料漂移；輸入與目標關係變動才是概念漂移。
+guide_refs:
+  - guide-1:4-45
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 141
+    by: codex-author-task_050714761596
+  dispute: 題幹只明示輸入資料分佈改變，原解析卻直接定義為概念漂移；需區分 P(X) 與 P(Y|X)。官方 C 的監控及重訓方向保留。

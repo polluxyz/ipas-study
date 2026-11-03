@@ -1,0 +1,36 @@
+id: G1e1-3-85-Q07
+rev: 1
+source: guide
+subject: 1
+number: 7
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 92
+type: 觀念
+codes:
+  - L21103
+concepts:
+  - controlled-image-generation
+stem: 在以下哪一個任務中，生成式 AI 技術最常被應用？
+options:
+  A: 詐欺偵測
+  B: 語音辨識
+  C: 圖片風格轉換
+  D: 資料壓縮
+answer: C
+explanation:
+  summary: 辨識生成式 AI 的典型影像應用。
+  correct: 圖片風格轉換會依原圖內容與目標風格產出新影像，例如保留人物輪廓並轉成水彩風格，符合生成新內容的特性。
+  wrong:
+    A: 詐欺偵測主要判斷交易是否可疑，通常是分類或異常偵測。生成式方法可輔助，但不是此選項的典型核心任務。
+    B: 語音辨識的目標是轉錄已存在的語音，雖可使用生成式模型，四個選項中仍以風格轉換最直接對應生成新影像。
+    D: 資料壓縮的主要目標是減少表示所需空間，並非創作新的內容。
+  rule: 依任務的主要輸出判斷是否在生成新內容。
+guide_refs:
+  - guide-1:3-85
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 93
+    by: codex-author-task_050714761596
+  dispute: null

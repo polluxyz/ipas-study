@@ -1,0 +1,36 @@
+id: G3e1-6-26-Q03
+rev: 1
+source: guide
+subject: 3
+number: 3
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 218
+type: 觀念
+codes:
+  - L23402
+concepts:
+  - fairness-postprocessing
+stem: 在 AI 偏見治理中，對不同群體調整模型預測閾值，屬於哪一種偏見修正方法？
+options:
+  A: 資料泛化
+  B: 結果門檻調整
+  C: 模型剪枝
+  D: 資料增強
+answer: B
+explanation:
+  summary: 辨識訓練完成後調整決策門檻的去偏方法。
+  correct: 在既有預測分數上，為不同群體選擇決策門檻，屬結果門檻調整。它改變模型輸出如何轉成最後決策，分類為後處理方法。
+  wrong:
+    A: 資料泛化改變資料精細程度，並非對預測分數設定不同門檻。
+    C: 模型剪枝移除參數或結構，並非本題的群體門檻設定。
+    D: 資料增強產生額外訓練樣本，發生在不同的處理階段。
+  rule: 模型分數已產生後再調整決策門檻，屬後處理。
+guide_refs:
+  - guide-3:6-26
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 221
+    by: codex-author-task_050714761596
+  dispute: null

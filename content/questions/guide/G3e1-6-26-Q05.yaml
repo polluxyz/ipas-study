@@ -1,0 +1,36 @@
+id: G3e1-6-26-Q05
+rev: 1
+source: guide
+subject: 3
+number: 5
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 218
+type: 觀念
+codes:
+  - L23402
+concepts:
+  - adversarial-debiasing
+stem: 若企業欲在 AI 專案中降低敏感特徵（如性別）的影響，可以採取哪種模型內部處理方式？
+options:
+  A: 對抗式去偏模型
+  B: 模型蒸餾
+  C: 雜湊處理
+  D: 結果門檻調整
+answer: A
+explanation:
+  summary: 辨識訓練階段抑制敏感屬性資訊的方法。
+  correct: 對抗式去偏加入預測敏感屬性的對抗目標，讓主模型一面完成主要任務，一面降低表示或輸出洩露敏感資訊的程度。這是訓練中處理。
+  wrong:
+    B: 一般模型蒸餾傳遞教師知識，若未加入公平性設計，不會自動去偏。
+    C: 雜湊改變資料編碼，並不直接限制模型內部對敏感資訊的利用。
+    D: 結果門檻調整是在預測分數產生後修改決策，屬後處理而非模型內部訓練。
+  rule: 訓練時加入對抗目標以抑制敏感資訊，屬模型內部去偏。
+guide_refs:
+  - guide-3:6-26
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 221
+    by: codex-author-task_050714761596
+  dispute: null

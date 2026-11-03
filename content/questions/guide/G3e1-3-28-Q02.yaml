@@ -1,0 +1,36 @@
+id: G3e1-3-28-Q02
+rev: 1
+source: guide
+subject: 3
+number: 2
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 35
+type: 觀念
+codes:
+  - L23101
+concepts:
+  - bernoulli-binomial
+stem: 若一個隨機變數服從伯努利分佈（Bernoulli Distribution），則該變數可能取值為下列哪一組？
+options:
+  A: 任何實數
+  B: 0 或 1
+  C: 正整數
+  D: 任意整數
+answer: B
+explanation:
+  summary: 辨識伯努利變數的兩個標準取值。
+  correct: 伯努利變數以 1 表示成功、0 表示失敗。若成功機率為 p，兩個取值的機率分別是 p 與 1-p。
+  wrong:
+    A: 任何實數的取值範圍不符合單次二元試驗的標準編碼。
+    C: 正整數集合不包含 0，也不限於單次試驗的兩個結果。
+    D: 任意整數包含許多其他數值，超出伯努利變數的兩個標準取值。
+  rule: 單次二元試驗用伯努利分佈，標準編碼為 0 與 1。
+guide_refs:
+  - guide-3:3-28
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 37
+    by: codex-author-task_050714761596
+  dispute: null

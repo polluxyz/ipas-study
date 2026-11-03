@@ -1,0 +1,37 @@
+id: G3e1-3-28-Q03
+rev: 1
+source: guide
+subject: 3
+number: 3
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 35
+type: 觀念
+codes:
+  - L23102
+concepts:
+  - pca
+  - eigenvalue-decomposition
+stem: 在主成分分析（PCA）中，常使用哪一種矩陣分解技術來找出資料的主軸方向？
+options:
+  A: 矩陣求逆
+  B: 矩陣轉置
+  C: 特徵值分解
+  D: 條件機率分解
+answer: C
+explanation:
+  summary: 辨識主成分方向的矩陣分解方法。
+  correct: 可對中心化資料的協方差矩陣做特徵值分解，以特徵向量表示主軸，並依特徵值大小選取保留方向。PCA 也可透過資料矩陣的奇異值分解計算。
+  wrong:
+    A: 矩陣求逆用於解線性系統等問題，不會直接列出協方差的主方向。
+    B: 轉置只交換列與欄，沒有分離出主要變異方向。
+    D: 條件機率分解描述機率關係，並非本題需要的線性代數操作。
+  rule: PCA 的主軸可由協方差矩陣的特徵向量取得。
+guide_refs:
+  - guide-3:3-28
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 37
+    by: codex-author-task_050714761596
+  dispute: null

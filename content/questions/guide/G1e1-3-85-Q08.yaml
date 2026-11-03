@@ -1,0 +1,37 @@
+id: G1e1-3-85-Q08
+rev: 1
+source: guide
+subject: 1
+number: 8
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 92
+type: 觀念
+codes:
+  - L21104
+concepts:
+  - multimodal-ai
+  - multimodal-fusion
+stem: 多模態人工智慧的核心目標為何？
+options:
+  A: 提升硬體運算效能
+  B: 同時處理並整合來自不同感知類型的資料
+  C: 專注於純文字輸入的分析
+  D: 僅適用於影像分類任務
+answer: B
+explanation:
+  summary: 辨識多模態 AI 的資料整合目標。
+  correct: 文字、聲音與影像提供不同線索。多模態 AI 將這些線索合併或對齊，讓模型利用單一資料類型缺少的資訊。
+  wrong:
+    A: 更快的硬體有助於運算，但不是多模態技術的核心定義。
+    C: 只分析純文字屬於單一模態，沒有整合其他資料類型。
+    D: 多模態可用於對話、檢索及影片理解，範圍不只影像分類。
+  rule: 多模態的判斷重點是整合不同類型的資料。
+guide_refs:
+  - guide-1:3-85
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 93
+    by: codex-author-task_050714761596
+  dispute: null

@@ -1,0 +1,37 @@
+id: G1e1-4-44-Q04
+rev: 1
+source: guide
+subject: 1
+number: 4
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 138
+type: 觀念
+codes:
+  - L21202
+concepts:
+  - ai-project-roles
+  - ai-implementation-plan
+stem: 在 AI 導入專案的初期規劃階段，下列哪一項屬於「人員規劃」的重點內容？
+options:
+  A: API 規格設計
+  B: 模型優化參數
+  C: AI 專案所需的跨部門協作角色
+  D: 作業系統版本
+answer: C
+explanation:
+  summary: 區分人員規劃與技術設計。
+  correct: 人員規劃需列出業務、資料、開發與維運等角色，並明確指定各角色的責任與合作方式。跨部門協作角色符合此需求。
+  wrong:
+    A: API 規格描述系統如何交換資料，屬介面設計。
+    B: 模型優化參數屬模型訓練與調校，並非人員分工。
+    D: 作業系統版本是執行環境條件，並非專案角色。
+  rule: 人員規劃回答誰負責，以及各角色如何合作。
+guide_refs:
+  - guide-1:4-44
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 140
+    by: codex-author-task_050714761596
+  dispute: null

@@ -1,0 +1,37 @@
+id: G3e1-6-27-Q09
+rev: 1
+source: guide
+subject: 3
+number: 9
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 219
+type: 觀念
+codes:
+  - L23402
+concepts:
+  - smote
+  - fairness-preprocessing
+stem: 若企業欲降低 AI 模型因少數群體樣本過少而造成的過擬合風險，可以採用哪種資料增強方法？
+options:
+  A: SMOTE
+  B: Softmax
+  C: Momentum
+  D: Dropout
+answer: A
+explanation:
+  summary: 辨識以插值合成少數類別樣本的方法。
+  correct: SMOTE 在少數類別樣本與其近鄰之間合成新點，是四項中直接增加訓練樣本的方法。是否改善泛化與公平性需另行驗證，不能保證一定降低過擬合。
+  wrong:
+    B: Softmax 將分數轉成類別機率，不會生成新訓練樣本。
+    C: Momentum 平滑訓練更新方向，不會擴增少數樣本。
+    D: Dropout 能提供正則化，但它不屬於合成少數類別樣本的資料增強方法。
+  rule: SMOTE 合成的是少數目標類別樣本；公平性改善仍需分群驗證。
+guide_refs:
+  - guide-3:6-27
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 222
+    by: codex-author-task_050714761596
+  dispute: 原題將少數群體與少數目標類別混用，且原解析暗示 SMOTE 必能降低過擬合。標準 SMOTE 依類別合成樣本，未必改善敏感群體公平性；補樣必須只在訓練切分內進行。

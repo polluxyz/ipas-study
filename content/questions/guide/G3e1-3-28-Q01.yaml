@@ -1,0 +1,37 @@
+id: G3e1-3-28-Q01
+rev: 1
+source: guide
+subject: 3
+number: 1
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 35
+type: 觀念
+codes:
+  - L23101
+concepts:
+  - continuous-random-variable
+  - discrete-random-variable
+stem: 若欲描述隨機變數在連續範圍內取值的機率分佈，最適合使用下列哪一種函數？
+options:
+  A: 機率質量函數（PMF）
+  B: 條件機率
+  C: 機率密度函數（PDF）
+  D: 累積分佈函數（CDF）
+answer: C
+explanation:
+  summary: 區分機率密度與累積機率的表示。
+  correct: 官方答案為機率密度函數。對有密度的連續型變數，密度曲線的區間面積才是該區間的機率，曲線高度不是單點機率。
+  wrong:
+    A: 機率質量函數列出離散取值的機率，與本題預期的連續密度不同。
+    B: 條件機率是在指定事件或條件下計算機率，沒有直接指定連續分佈的表示方式。
+    D: 累積分佈函數同樣能完整描述連續型變數的分佈，且可由兩端累積值之差求區間機率。因此 D 不能被一概判錯，原題用語有歧義。
+  rule: 連續密度以積分求區間機率；累積分佈以端點值之差求機率。
+guide_refs:
+  - guide-3:3-28
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 37
+    by: codex-author-task_050714761596
+  dispute: 題幹只問「描述連續範圍內取值的機率分佈」，未明說機率密度。CDF 也能描述該分佈，C 為官方答案但不是唯一合理的分佈表示。

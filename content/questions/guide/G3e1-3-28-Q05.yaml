@@ -1,0 +1,36 @@
+id: G3e1-3-28-Q05
+rev: 1
+source: guide
+subject: 3
+number: 5
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 35
+type: 觀念
+codes:
+  - L23103
+concepts:
+  - gradient-descent
+stem: 在梯度下降（Gradient Descent）中，「梯度」代表下列哪一項？
+options:
+  A: 資料點個數
+  B: 模型精確度
+  C: 損失函數對參數的偏微分
+  D: 模型計算速度
+answer: C
+explanation:
+  summary: 辨識梯度包含的參數偏導數。
+  correct: 梯度把損失對每個參數的偏導數組成向量，表示各參數微小改動時損失的局部變化。梯度下降沿負梯度方向更新參數。
+  wrong:
+    A: 資料點個數是樣本數，沒有描述損失對參數的敏感度。
+    B: 模型精確度是評估結果；梯度來自可微的訓練目標，不等於精確度數值。
+    D: 計算速度是執行效能，並非損失函數的導數。
+  rule: 梯度收集損失對各參數的偏導數，下降更新取反方向。
+guide_refs:
+  - guide-3:3-28
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 37
+    by: codex-author-task_050714761596
+  dispute: null

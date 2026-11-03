@@ -1,0 +1,36 @@
+id: G1e1-5-24-Q07
+rev: 1
+source: guide
+subject: 1
+number: 7
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 165
+type: 觀念
+codes:
+  - L21302
+concepts:
+  - mlops-lifecycle
+stem: MLOps 的主要目的為何？
+options:
+  A: 壓縮模型參數
+  B: 簡化使用者介面設計
+  C: 實現 AI 模型的自動化開發、部署與持續維運流程
+  D: 將 AI 模型嵌入硬體晶片
+answer: C
+explanation:
+  summary: 辨識 MLOps 管理的工作範圍。
+  correct: MLOps 將資料、訓練、驗證、發布與監控串成可重複的流程，讓模型能持續更新並追蹤各版本的狀態。
+  wrong:
+    A: 參數壓縮只是可能採用的優化方法，並非 MLOps 的整體目標。
+    B: 介面設計屬產品開發工作，不能概括模型生命週期管理。
+    D: 嵌入硬體晶片是一種部署形式，MLOps 不限定此形式。
+  rule: MLOps 關注模型從開發到維運的完整流程。
+guide_refs:
+  - guide-1:5-24
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 166
+    by: codex-author-task_050714761596
+  dispute: null

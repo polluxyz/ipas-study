@@ -1,0 +1,37 @@
+id: G3e1-4-94-Q07
+rev: 1
+source: guide
+subject: 3
+number: 7
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 132
+type: 觀念
+codes:
+  - L23203
+concepts:
+  - regularization
+  - overfitting
+stem: 若想在機器學習中降低模型過度擬合風險，可採用哪種方法？
+options:
+  A: 提高學習率
+  B: 減少資料量
+  C: 正則化（Regularization）
+  D: 隨機刪除特徵
+answer: C
+explanation:
+  summary: 辨識降低過擬合的直接方法。
+  correct: 正則化會對可使用的模型或參數加上限制，例如懲罰過大的權重，以減少模型追隨訓練雜訊的程度。強度仍須以驗證資料選擇。
+  wrong:
+    A: 提高學習率主要改變更新步幅，可能造成訓練不穩定，並非本題最直接的泛化控制方式。
+    B: 減少資料通常使估計更不穩健，也可能加重過擬合。
+    D: 隨機刪除特徵可能移除重要資訊。它不是此處有明確設計與驗證的正則化策略。
+  rule: 以正則化限制模型追隨訓練雜訊，再用驗證資料選強度。
+guide_refs:
+  - guide-3:4-94
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 133
+    by: codex-author-task_050714761596
+  dispute: null

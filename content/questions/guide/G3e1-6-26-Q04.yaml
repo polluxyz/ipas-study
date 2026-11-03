@@ -1,0 +1,36 @@
+id: G3e1-6-26-Q04
+rev: 1
+source: guide
+subject: 3
+number: 4
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 218
+type: 觀念
+codes:
+  - L23402
+concepts:
+  - equal-opportunity
+stem: 若企業想確保 AI 模型在不同群體間「真正該被選擇者」皆有同等機會被正確預測，應採用哪一個公平性指標？
+options:
+  A: Equal Opportunity
+  B: Demographic Parity
+  C: K-Anonymity
+  D: T-Closeness
+answer: A
+explanation:
+  summary: 辨識要求不同群體真陽率一致的公平性。
+  correct: Equal Opportunity 比較各群體中真實正例被正確預測為正例的比例，也就是真陽率。題目強調真正該被選擇的人，因此符合此指標。
+  wrong:
+    B: Demographic Parity 比較各群體整體被選中的比例，不以真實正例為條件。
+    C: K-Anonymity 是資料發布時的匿名性條件，不是分類真陽率的群體公平指標。
+    D: T-Closeness 限制敏感屬性的分佈差異，主要處理資料揭露風險。
+  rule: 只比較真實正例在各群體的真陽率，對應機會平等。
+guide_refs:
+  - guide-3:6-26
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 221
+    by: codex-author-task_050714761596
+  dispute: null

@@ -1,0 +1,37 @@
+id: G3e1-5-54-Q06
+rev: 1
+source: guide
+subject: 3
+number: 6
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 188
+type: 觀念
+codes:
+  - L23303
+concepts:
+  - leave-one-out-cv
+  - k-fold-cross-validation
+stem: 交叉驗證中，哪一種方法在每次驗證中只留下一筆樣本作為驗證集，其餘皆用於訓練？
+options:
+  A: K-fold
+  B: Stratified K-fold
+  C: LOOCV
+  D: Repeated K-fold
+answer: C
+explanation:
+  summary: 辨識每次只保留一筆驗證樣本的切分法。
+  correct: 留一法對 n 筆資料建立 n 次切分，每次用其中 1 筆驗證、其餘 n-1 筆訓練。每筆樣本恰好輪流作為一次驗證資料。
+  wrong:
+    A: 一般 K-fold 每次保留一整摺，只有 K 等於樣本數時才等同留一法，因此 C 是更精確的名稱。
+    B: Stratified K-fold 著重各摺類別比例，不以每次驗證只有一筆為定義。
+    D: Repeated K-fold 反覆進行 K 摺切分，並未限定每摺只有一筆。
+  rule: 每次驗證 1 筆、共驗證 n 次，稱為留一法。
+guide_refs:
+  - guide-3:5-54
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 190
+    by: codex-author-task_050714761596
+  dispute: null

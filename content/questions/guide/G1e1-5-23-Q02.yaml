@@ -1,0 +1,36 @@
+id: G1e1-5-23-Q02
+rev: 1
+source: guide
+subject: 1
+number: 2
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 164
+type: 觀念
+codes:
+  - L21301
+concepts:
+  - feature-scaling
+stem: 在特徵工程中，進行特徵標準化（如 Z-score 標準化）的主要目的是？
+options:
+  A: 增加欄位數量
+  B: 提升資料壓縮效率
+  C: 將特徵縮放至相同尺度，利於模型學習
+  D: 將文字轉換為向量
+answer: C
+explanation:
+  summary: 辨識特徵標準化處理尺度差異的用途。
+  correct: Z-score 以訓練資料的平均數與標準差換算各特徵，使不同單位的數值能在相近尺度下使用。這對依距離或梯度訓練的模型尤其有幫助。
+  wrong:
+    A: 標準化換算既有欄位數值，不以增加欄位為目的。
+    B: 標準化不是資料壓縮演算法，也不保證檔案變小。
+    D: 文字轉向量需編碼或嵌入方法，並非 Z-score 的功能。
+  rule: 標準化調整特徵尺度；參數只由訓練資料估計。
+guide_refs:
+  - guide-1:5-23
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 166
+    by: codex-author-task_050714761596
+  dispute: null

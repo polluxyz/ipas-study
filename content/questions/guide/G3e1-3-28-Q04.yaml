@@ -1,0 +1,36 @@
+id: G3e1-3-28-Q04
+rev: 1
+source: guide
+subject: 3
+number: 4
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 35
+type: 觀念
+codes:
+  - L23102
+concepts:
+  - pca
+stem: 若想將高維資料映射至較低維度空間，同時保留資料的主要變異，常用下列哪一種方法？
+options:
+  A: 邊際機率估計
+  B: 矩陣轉置
+  C: 主成分分析
+  D: 累積機率計算
+answer: C
+explanation:
+  summary: 辨識保留主要變異的線性降維方法。
+  correct: 主成分分析在互相正交的方向上依序保留最大變異。將資料投影到前幾個方向，可用較少座標近似原資料。
+  wrong:
+    A: 邊際機率估計是在移除其他變數後描述某變數的分佈，並非最大變異投影。
+    B: 矩陣轉置只調整資料排列，沒有選取較少的主成分。
+    D: 累積機率計算描述低於門檻的機率，不會產生低維投影。
+  rule: 需要線性降維並保留主要變異時，可考慮 PCA。
+guide_refs:
+  - guide-3:3-28
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 37
+    by: codex-author-task_050714761596
+  dispute: null

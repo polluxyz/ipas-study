@@ -1,0 +1,36 @@
+id: G3e1-3-29-Q09
+rev: 1
+source: guide
+subject: 3
+number: 9
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 36
+type: 觀念
+codes:
+  - L23103
+concepts:
+  - gradient-clipping
+stem: 當深度學習模型在訓練時出現梯度爆炸現象，應優先採用哪種技術加以處理？
+options:
+  A: 增大學習率
+  B: 梯度裁剪（Gradient Clipping）
+  C: 減少資料量
+  D: 刪除輸入特徵
+answer: B
+explanation:
+  summary: 辨識直接限制過大梯度的方法。
+  correct: 梯度裁剪限制梯度分量或整體範數，避免單次更新因梯度過大而失控。若訓練仍不穩定，還需檢查學習率及模型結構。
+  wrong:
+    A: 更大的學習率會放大更新量，可能使梯度爆炸造成的失控更嚴重。
+    C: 減少資料量沒有直接限制梯度，還可能降低訓練代表性。
+    D: 刪除輸入特徵改變資料表示，並非限制過大梯度的直接措施。
+  rule: 出現梯度爆炸時，先辨識可直接限制梯度的裁剪方法。
+guide_refs:
+  - guide-3:3-29
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 38
+    by: codex-author-task_050714761596
+  dispute: null

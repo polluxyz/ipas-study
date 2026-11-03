@@ -1,0 +1,36 @@
+id: G3e1-5-54-Q07
+rev: 1
+source: guide
+subject: 3
+number: 7
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 188
+type: 觀念
+codes:
+  - L23304
+concepts:
+  - dropout
+stem: 在訓練深度學習模型時，隨機將部分神經元暫時關閉以減少過擬合的技術是什麼？
+options:
+  A: Early Stopping
+  B: Dropout
+  C: Batch Normalization
+  D: Quantization
+answer: B
+explanation:
+  summary: 辨識隨機歸零中間輸出的正則化。
+  correct: Dropout 在訓練時隨機把部分單元的輸出設為零，降低模型對特定組合的依賴。它不會永久刪掉這些參數，推論時通常停用隨機遮罩。
+  wrong:
+    A: Early Stopping 根據驗證表現決定何時停止訓練，不會在每一步隨機關閉單元。
+    C: Batch Normalization 調整中間輸出的尺度與位置，並非隨機歸零。
+    D: Quantization 降低數值表示精度，與隨機遮罩單元不同。
+  rule: 訓練時隨機關閉部分單元，是 Dropout 的辨識線索。
+guide_refs:
+  - guide-3:5-54
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 191
+    by: codex-author-task_050714761596
+  dispute: null

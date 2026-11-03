@@ -1,0 +1,36 @@
+id: G3e1-6-27-Q08
+rev: 1
+source: guide
+subject: 3
+number: 8
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 219
+type: 觀念
+codes:
+  - L23402
+concepts:
+  - fairness-governance
+stem: 在 AI 公平性治理中，企業應建立什麼跨部門組織，確保公平性納入日常決策流程？
+options:
+  A: 模型剪枝委員會
+  B: AI 蒸餾中心
+  C: 公平性審查委員會
+  D: 隨機抽樣團隊
+answer: C
+explanation:
+  summary: 辨識將公平性納入企業決策的組織安排。
+  correct: 公平性審查委員會讓技術、業務與法務等角色共同決定評估指標、風險門檻及處理責任，並持續追蹤結果。它能把公平性納入治理流程。
+  wrong:
+    A: 模型剪枝著重結構壓縮，沒有涵蓋跨部門的公平性判斷。
+    B: 蒸餾中心若只負責模型壓縮，無法取代公平性治理職責。
+    D: 隨機抽樣團隊可支援資料工作，但缺少公平性決策與追蹤的完整責任。
+  rule: 公平性治理需要跨部門共同訂標準、審查與追蹤。
+guide_refs:
+  - guide-3:6-27
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 222
+    by: codex-author-task_050714761596
+  dispute: null

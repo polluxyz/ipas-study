@@ -1,0 +1,37 @@
+id: G1e1-4-44-Q05
+rev: 1
+source: guide
+subject: 1
+number: 5
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 138
+type: 觀念
+codes:
+  - L21202
+concepts:
+  - ai-project-roles
+  - ai-implementation-plan
+stem: 在 AI 導入規劃過程中，為確保專案順利推進並落實業務需求，下列哪一項規劃內容最能避免部門間溝通斷裂與責任不清的風險？
+options:
+  A: 確認所採用演算法的最新研究成果
+  B: 由高階主管全權拍板模型選擇與部署方式
+  C: 建立跨部門協作機制與角色分工
+  D: 優先採購效能最佳的 GPU 運算資源
+answer: C
+explanation:
+  summary: 辨識預防跨部門責任不清的規劃方式。
+  correct: 先訂合作流程、溝通窗口與責任歸屬，才能讓需求、資料、開發及部署的交接有明確負責者。
+  wrong:
+    A: 最新演算法研究可改善技術選擇，卻沒有安排各部門如何交接工作。
+    B: 主管決策不能取代業務與技術部門的持續溝通，也未解決日常責任分配。
+    D: 更強的 GPU 提供算力，但不能處理部門間的角色與溝通缺口。
+  rule: 溝通與責任問題要用協作流程及分工處理。
+guide_refs:
+  - guide-1:4-44
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 140
+    by: codex-author-task_050714761596
+  dispute: null

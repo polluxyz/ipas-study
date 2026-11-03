@@ -1,0 +1,36 @@
+id: G3e1-4-93-Q04
+rev: 1
+source: guide
+subject: 3
+number: 4
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 131
+type: 觀念
+codes:
+  - L23202
+concepts:
+  - support-vector-regression
+stem: 支援向量機（Support Vector Machine, SVM）若用於迴歸問題，稱為什麼？
+options:
+  A: Logistic Regression
+  B: Decision Tree Regression
+  C: Random Forest
+  D: Support Vector Regression
+answer: D
+explanation:
+  summary: 辨識支援向量方法的迴歸版本。
+  correct: Support Vector Regression 是支援向量迴歸。它以容忍誤差帶及帶外懲罰建模連續目標，並控制函數複雜度。
+  wrong:
+    A: Logistic Regression 雖含迴歸一詞，通常用於分類機率估計，並非 SVM 的迴歸版本。
+    B: Decision Tree Regression 以樹的分裂及葉節點值做預測，屬另一種模型。
+    C: Random Forest 是多棵決策樹的集成，並非支援向量方法的名稱。
+  rule: SVM 對應的連續目標模型稱為 SVR。
+guide_refs:
+  - guide-3:4-93
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 133
+    by: codex-author-task_050714761596
+  dispute: null

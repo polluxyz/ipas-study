@@ -1,0 +1,36 @@
+id: G1e1-3-85-Q06
+rev: 1
+source: guide
+subject: 1
+number: 6
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 92
+type: 觀念
+codes:
+  - L21103
+concepts:
+  - gan
+stem: 生成對抗網路（GAN）的訓練包含哪兩個核心組件？
+options:
+  A: 分類器與分群器
+  B: 產生器與鑑別器
+  C: 強化器與回饋器
+  D: 解碼器與編碼器
+answer: B
+explanation:
+  summary: 辨識生成對抗網路的兩個訓練角色。
+  correct: 產生器嘗試做出能混淆鑑別器的樣本。鑑別器學習區分真實樣本與生成樣本，兩者交替更新形成對抗訓練。
+  wrong:
+    A: 分類器與分群器分別解決分類和群組探索，並非 GAN 的標準角色搭配。
+    C: 強化器與回饋器不是 GAN 的標準組件名稱。
+    D: 編碼器與解碼器可用於自編碼器；這組名稱沒有表達 GAN 必要的真假對抗角色。
+  rule: GAN 以產生器製造樣本，以鑑別器判斷真偽。
+guide_refs:
+  - guide-1:3-85
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 93
+    by: codex-author-task_050714761596
+  dispute: null

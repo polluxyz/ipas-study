@@ -1,0 +1,36 @@
+id: G3e1-5-53-Q03
+rev: 1
+source: guide
+subject: 3
+number: 3
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 187
+type: 觀念
+codes:
+  - L23301
+concepts:
+  - embedded-feature-selection
+stem: 下列哪一種特徵選擇方法會直接在模型訓練過程中進行特徵挑選？
+options:
+  A: Filter 方法
+  B: Wrapper 方法
+  C: Embedded 方法
+  D: One-hot Encoding
+answer: C
+explanation:
+  summary: 辨識與模型訓練一起發生的特徵選擇。
+  correct: Embedded 方法將特徵取捨納入擬合過程，例如 L1 懲罰可讓部分係數變成零。原指引提到的 Ridge 通常只縮小係數，不能直接當作會產生零係數的特徵篩選。
+  wrong:
+    A: Filter 先依統計關聯或變異等準則評分特徵，不把模型擬合納入同一個選擇機制。
+    B: Wrapper 以外部搜尋反覆試驗特徵子集，與擬合本身內含取捨的方式不同。
+    D: One-hot Encoding 改變類別的表示方式，本身沒有判定哪些特徵應保留。
+  rule: 特徵選擇若內含於擬合機制，屬 Embedded 方法。
+guide_refs:
+  - guide-3:5-53
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 190
+    by: codex-author-task_050714761596
+  dispute: 原解析把 Lasso 與 Ridge 並列為特徵選擇例子；L1 可產生零係數，單純 L2 的 Ridge 通常不會自動刪除特徵。

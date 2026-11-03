@@ -1,0 +1,37 @@
+id: G1e1-5-23-Q03
+rev: 1
+source: guide
+subject: 1
+number: 3
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 164
+type: 情境
+codes:
+  - L21301
+concepts:
+  - task-model-selection
+  - classification-regression
+stem: 若某企業的目標是預測顧客是否會流失，最適合選用下列哪一種模型任務？
+options:
+  A: 分類任務
+  B: 迴歸任務
+  C: 生成任務
+  D: 分群任務
+answer: A
+explanation:
+  summary: 依預測目標辨識顧客流失任務。
+  correct: 題目要區分顧客會流失或不會流失，目標只有兩種類別，因此是二元分類。若預測流失前還有多少天，才是另一種數值預測問題。
+  wrong:
+    B: 迴歸預測連續數值，與本題的是非結果不同。
+    C: 生成任務產生文字或影像等內容，不直接對應流失標籤。
+    D: 分群探索資料的群組，並非利用已知流失標籤預測結果。
+  rule: 目標是離散類別用分類；目標是連續數值用迴歸。
+guide_refs:
+  - guide-1:5-23
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 166
+    by: codex-author-task_050714761596
+  dispute: null

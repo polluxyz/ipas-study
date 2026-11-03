@@ -1,0 +1,37 @@
+id: G1e1-4-44-Q01
+rev: 1
+source: guide
+subject: 1
+number: 1
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 138
+type: 觀念
+codes:
+  - L21201
+concepts:
+  - business-needs-analysis
+  - ai-adoption-assessment
+stem: 在評估企業 AI 導入可行性時，下列哪一項屬於「商業價值評估」的考量？
+options:
+  A: 模型參數量大小
+  B: 開發人員數量
+  C: 預期效益與回報
+  D: 演算法選擇難度
+answer: C
+explanation:
+  summary: 區分商業價值與技術、人力條件。
+  correct: 商業價值評估關心專案能帶來多少成果，以及成果是否值得投入資源。預期效益與回報直接回答這個問題。
+  wrong:
+    A: 模型參數量主要影響運算與部署成本，不能單獨表示專案能創造的商業價值。
+    B: 開發人員數量是人力條件，仍須與成本及成果一起評估才可判斷價值。
+    D: 演算法選擇難度屬技術可行性考量，不等於預期回報。
+  rule: 商業價值先看能改善什麼業務成果。
+guide_refs:
+  - guide-1:4-44
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 140
+    by: codex-author-task_050714761596
+  dispute: null

@@ -1,0 +1,36 @@
+id: G3e1-4-94-Q06
+rev: 1
+source: guide
+subject: 3
+number: 6
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 132
+type: 觀念
+codes:
+  - L23203
+concepts:
+  - activation-functions
+stem: 在深度學習中，哪一個是為了引入非線性，使神經網路能學習複雜模式的元件？
+options:
+  A: 損失函數（Loss Function）
+  B: 激活函數（Activation Function）
+  C: 隱藏層（Hidden Layer）
+  D: 梯度下降（Gradient Descent）
+answer: B
+explanation:
+  summary: 辨識神經網路非線性的來源。
+  correct: ReLU 等激活函數會對線性運算結果施加非線性轉換。若只堆疊仿射層而無其他非線性操作，整體仍能合併成一次仿射映射。
+  wrong:
+    A: 損失函數提供訓練目標，不是隱藏表示的激活轉換。
+    C: 隱藏層只有搭配非線性操作才具備題目要求的作用，單純增加線性層數並不足夠。
+    D: 梯度下降負責更新參數，不是網路前向運算的非線性元件。
+  rule: 增加層數本身不保證非線性，還要看層內的激活操作。
+guide_refs:
+  - guide-3:4-94
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 133
+    by: codex-author-task_050714761596
+  dispute: null

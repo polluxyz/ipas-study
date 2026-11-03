@@ -1,0 +1,36 @@
+id: G3e1-5-53-Q04
+rev: 1
+source: guide
+subject: 3
+number: 4
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 187
+type: 觀念
+codes:
+  - L23301
+concepts:
+  - power-transforms
+stem: 在進行特徵轉換時，若資料存在極端偏高的右偏分佈，常用哪種轉換以降低偏態？
+options:
+  A: 平方根轉換（Square Root Transform）
+  B: 對數轉換（Log Transform）
+  C: Label Encoding
+  D: 缺失指標編碼
+answer: B
+explanation:
+  summary: 辨識壓縮較大正值的右偏轉換。
+  correct: 對數對較大的正值壓縮較多，常用來減弱長右尾的影響。一般對數需要正值；含零或負值時應另選合適轉換，不能保證轉換後必為常態。
+  wrong:
+    A: 平方根也能減輕右偏，但通常壓縮程度較弱；題目指定極端偏高時，官方偏向對數。
+    C: Label Encoding 為類別指定代碼，不會針對數值長尾進行壓縮。
+    D: 缺失指標記錄缺值狀態，不會調整已觀測數值的偏態。
+  rule: 正值右偏資料可考慮對數轉換，並先檢查定義域。
+guide_refs:
+  - guide-3:5-53
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 190
+    by: codex-author-task_050714761596
+  dispute: null

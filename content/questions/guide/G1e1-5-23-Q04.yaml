@@ -1,0 +1,37 @@
+id: G1e1-5-23-Q04
+rev: 1
+source: guide
+subject: 1
+number: 4
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 164
+type: 觀念
+codes:
+  - L21301
+concepts:
+  - task-model-selection
+  - resource-aware-model-selection
+stem: 關於模型選擇，下列哪一項敘述較為正確？
+options:
+  A: 模型越複雜越好
+  B: 模型應優先考慮開發成本與可部署性
+  C: 只要準確率高就不需考慮其他指標
+  D: 模型無須考慮資料量大小
+answer: B
+explanation:
+  summary: 辨識模型選擇需要兼顧實務限制。
+  correct: 模型必須能在可用預算與環境中開發、部署及維護。B 在四項中較合理，但實務仍須先滿足任務品質、資料適配及其他必要限制。
+  wrong:
+    A: 複雜模型可能增加成本或過擬合，不能只因較複雜就判定較好。
+    C: 高準確率可能掩蓋少數類別的錯誤，也不反映延遲、成本與可解釋性。
+    D: 資料量影響可訓練的模型與泛化能力，不能完全忽略。
+  rule: 模型選擇要同時檢查品質、資料條件與部署成本。
+guide_refs:
+  - guide-1:5-23
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 166
+    by: codex-author-task_050714761596
+  dispute: null

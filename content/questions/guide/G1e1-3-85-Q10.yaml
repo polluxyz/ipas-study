@@ -1,0 +1,37 @@
+id: G1e1-3-85-Q10
+rev: 1
+source: guide
+subject: 1
+number: 10
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 92
+type: 觀念
+codes:
+  - L21104
+concepts:
+  - multimodal-ai
+  - multimodal-application-evaluation
+stem: 在多模態 AI 應用中，以下哪一情境最能展現其優勢？
+options:
+  A: SQL 資料查詢
+  B: 純圖片壓縮
+  C: 影片自動生成字幕
+  D: 單一感測器故障排除
+answer: C
+explanation:
+  summary: 辨識結合影音與文字的應用情境。
+  correct: 影片字幕可把音訊轉成文字，並結合畫面情境協助判讀，因此在四個情境中最能對應多模態應用。僅用音軌轉錄的字幕系統不一定會使用影像。
+  wrong:
+    A: SQL 查詢是一種資料查詢方式，題目沒有要求整合多種感知資料。
+    B: 純圖片壓縮只處理影像，題目沒有指出其他模態。
+    D: 單一感測器可能只提供一種訊號，並未直接展現跨模態整合。
+  rule: 影片字幕若同時利用影音線索，即可形成多模態應用。
+guide_refs:
+  - guide-1:3-85
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 94
+    by: codex-author-task_050714761596
+  dispute: 「影片自動生成字幕」也能僅靠音軌轉錄，題幹未明示使用畫面；官方 C 是相對最適答案，不能推成所有字幕系統都會融合影像。

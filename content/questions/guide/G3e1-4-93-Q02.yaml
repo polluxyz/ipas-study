@@ -1,0 +1,36 @@
+id: G3e1-4-93-Q02
+rev: 1
+source: guide
+subject: 3
+number: 2
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 131
+type: 觀念
+codes:
+  - L23201
+concepts:
+  - classification-regression
+stem: 在監督式學習中，當模型要預測一個連續數值時，這種任務稱為什麼？
+options:
+  A: 分類（Classification）
+  B: 迴歸（Regression）
+  C: 聚類（Clustering）
+  D: 降維（Dimensionality Reduction）
+answer: B
+explanation:
+  summary: 依目標型態區分迴歸與分類。
+  correct: 迴歸以有標籤樣本學習連續數值的預測，例如估計房價或耗電量。題目明確指定連續目標，因此選迴歸。
+  wrong:
+    A: 分類預測離散類別，與本題的連續數值不同。
+    C: 聚類依相似性分組，通常沒有已知目標數值供監督訓練。
+    D: 降維簡化資料表示，並非此處的連續目標預測任務。
+  rule: 先看目標型態：離散類別用分類，連續數值用迴歸。
+guide_refs:
+  - guide-3:4-93
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 133
+    by: codex-author-task_050714761596
+  dispute: null

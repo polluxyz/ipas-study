@@ -1,0 +1,37 @@
+id: G3e1-5-53-Q05
+rev: 1
+source: guide
+subject: 3
+number: 5
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 187
+type: 觀念
+codes:
+  - L23303
+concepts:
+  - overfitting
+  - train-val-test-split
+stem: 在模型訓練過程中，若模型在訓練集表現良好，但測試集效能不佳，可能是發生了什麼問題？
+options:
+  A: 欠擬合
+  B: 特徵縮放失敗
+  C: 過擬合
+  D: 批次大小過小
+answer: C
+explanation:
+  summary: 辨識訓練與測試表現的泛化落差。
+  correct: 訓練表現很好而未見資料表現差，與過擬合的典型現象一致。仍須排除訓練與測試分佈不同或評估流程錯誤，不能只憑分數落差斷定唯一原因。
+  wrong:
+    A: 欠擬合通常連訓練資料也無法充分擬合，不符合題目主要線索。
+    B: 尺度處理錯誤可能影響預測，但題目未提供此原因的直接證據。
+    D: 小批次會影響梯度變異，單憑測試表現較差無法判定批次一定過小。
+  rule: 先以訓練與測試的表現差距辨識過擬合，再排除分佈與流程問題。
+guide_refs:
+  - guide-3:5-53
+author: codex
+review:
+  status: draft
+  answer_checked:
+    pdf_page: 190
+    by: codex-author-task_050714761596
+  dispute: null
