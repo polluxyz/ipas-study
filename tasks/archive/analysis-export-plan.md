@@ -22,3 +22,9 @@ Root舊L候選固定到邊界停止；本功能在獨立worktree完成。整合�
 - 最終完整測試 489/489（28 檔）。教材檢查 485 頁、21 份速查，錯誤 0、警告 85；照抄 0。1,451 個 content/text/根目錄 PDF 的來源雜湊不變。原始日誌與各輪來源快照分別留在 `tmp/analysis-export/`。
 - 最後版本完整建置 760 頁，退出 0。最後測試與建置使用相同 scripts／fixtures bytes。建置後兩表仍逐 byte 相同。完整命令、來源快照、差異與限制見 `tmp/analysis-export/report.md`。
 - 未改相依、CI、content、PDF、text、其他驗收工具或畫面。沒有計畫外的格式變更。本 worker 不簽全站驗收；非作者複核、協調者 QA 與 PR 由原負責者執行。
+
+### 協調者驗收與合併，2026-11-03
+
+PR #98已合併。Root獨立489測試、760頁建置、976有效映射、920目標與照抄0；來源前後相同。非作者另外逐欄核算200題／680條，50項專用測試及14項邊界驗證通過，4種刻意破壞均被測試抓到，高0中0低0。CI實際排隊後通過，1分33秒。未偏離核可格式。
+
+完整證據在Root的`tmp/acceptance-20261103/analysis-export-review/`及`archive/analysis-export/`。後者保留作者與Root原始QA、294份tmp檔案及已驗證Git bundle。分支與工作樹已清理。整合後總站驗收另案進行。

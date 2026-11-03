@@ -21,3 +21,7 @@ Ownership：Root只改spec／plan；worker改docs/acceptance/concept-entry-excep
 驗證：`pnpm --dir demo test`通過28個檔案、479個測試，其中本工具40個。`node demo/scripts/check-textbook/cli.mjs --json`為485概念、21速查、0錯誤、85個既有T3警告；976列映射為947 complete、29 partial。`node scripts/tools/check-copy.cjs content/concepts content/codes content/questions content/cheatsheets`為0片段。首輪`pnpm --dir demo run build --force`成功建置760頁，Astro check為0錯誤、0警告、7提示。最終凍結建置的commit、原始命令、stdout、stderr、exit及雜湊另記`tmp/concept-entries/`當次報告，避免自我雜湊循環。
 
 未修改content、PDF、text、package、lock、CI、前端或既有驗收程式。與原核可計畫無方向偏離。ndcg與development-toolchain的主入口位於補充內容，完整教材模式保留，指引模式會隱藏；未做HTTP、鍵盤或視覺驗收，仍待非作者語意及Root最終簽核。
+
+2026-11-03協調者更新：PR #99已合併。Root另跑479測試、760頁、976有效映射及照抄0。非作者逐8頁入口、17題近鄰與40條關係排除接受，高0中0低1；專用40測試及另4項表格正反驗證通過。低項為fixture README宣稱表格測試，而現有產品測試只有段落；獨立4項表格檢查補足本輪行為證據，但未改README或產品測試。
+
+Root於#100預覽同版再跑技術檢查：485概念、201題、680關係，C12原始結構警告0、原強缺口8、有效例外8、技術剩餘0。真HTTP入口、可見目的及最終新候選整合仍待完成，不把技術結果代替該步。證據在`tmp/acceptance-20261103/concept-entry-review/`、`archive/approved-concept-entries/`及`tmp/rollout/binomial-notation-preview-20261103/entries.log`。原工作樹已保全與移除。
