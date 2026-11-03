@@ -127,7 +127,10 @@ $$
 本頁具有密度的連續模型也滿足：
 
 $$
-P(a\leq X\leq b)=F(b)-F(a)=\int_a^b f(x)\,dx
+\begin{aligned}
+P(a\leq X\leq b)&=F(b)-F(a)\\
+&=\int_a^b f(x)\,dx
+\end{aligned}
 $$
 
 區間機率既可用兩端累積值相減，也可用密度下的區間面積計算。
