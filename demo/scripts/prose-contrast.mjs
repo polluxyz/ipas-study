@@ -40,6 +40,33 @@ export function collectProseSamples(rootSelector = '#concept-body') {
   return samples;
 }
 
+/** 行內程式也可能獨自帶底色；逐個文字節點量測，不能只驗所在表格。 */
+export function collectInlineCodeSamples(rootSelector) {
+  const root = document.querySelector(rootSelector);
+  if (!root) throw new Error('缺少行內程式檢查區域');
+  const samples = [];
+  for (const code of root.querySelectorAll('code')) {
+    if (code.closest('pre')) continue;
+    const walker = document.createTreeWalker(code, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) {
+      const node = walker.currentNode, element = node.parentElement;
+      if (!node.textContent.trim()) continue;
+      if (!element?.checkVisibility({ visibilityProperty: true, contentVisibilityAuto: true })) throw new Error('行內程式文字不可見');
+      const range = document.createRange(); range.selectNodeContents(node);
+      if (![...range.getClientRects()].some((rect) => rect.width > 0 && rect.height > 0)) throw new Error('行內程式文字沒有可見範圍');
+      const layers = [];
+      for (let current = element; current; current = current.parentElement) {
+        const style = getComputedStyle(current);
+        if (style.backgroundImage !== 'none') throw new Error('行內程式背景圖片無法量測');
+        if (Number(style.opacity) !== 1) throw new Error('行內程式群組透明度不支援');
+        layers.push(style.backgroundColor);
+      }
+      samples.push({ text: node.textContent.trim().slice(0, 80), foreground: getComputedStyle(element).color, layers, opacity: 1 });
+    }
+  }
+  return samples;
+}
+
 function rgba(value) {
   const match = value.match(/^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:\s*[,/]\s*([\d.]+))?\s*\)$/);
   assert.ok(match, `不支援的色彩 ${value}`);
@@ -59,6 +86,13 @@ export function contrastOf(sample) {
   const ink = over(fg, bg), a = luminance(ink), b = luminance(bg);
   return (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
 }
+/** 沒有行內程式的頁面回報0；實際存在的文字仍須逐筆達到原4.5門檻。 */
+export function assertInlineCodeContrast(samples) {
+  const measured = samples.map((sample) => ({ ...sample, ratio: contrastOf(sample) }));
+  for (const sample of measured) assert.ok(sample.ratio >= 4.5, `行內程式對比 ${sample.ratio.toFixed(3)} < 4.5：${sample.text}`);
+  return { count: measured.length, minimum: measured.length ? Math.min(...measured.map((sample) => sample.ratio)) : null, samples: measured };
+}
+
 export function assertProseContrast(samples) {
   const result = {};
   for (const kind of ['prose', 'tables', 'figureHeaders', 'code', 'output', 'formula', 'filterLabel', 'filterDescription', 'filterStatus']) {

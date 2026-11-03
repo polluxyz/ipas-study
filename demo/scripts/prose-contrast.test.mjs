@@ -1,9 +1,42 @@
 /** 以透明祖先、半透明前景及舊版低對比案例驗證量測門檻。 */
 import { describe, expect, it, vi } from 'vitest';
-import { assertProseContrast, collectProseSamples, contrastOf } from './prose-contrast.mjs';
+import { assertInlineCodeContrast, assertProseContrast, collectInlineCodeSamples, collectProseSamples, contrastOf } from './prose-contrast.mjs';
 const good = (kind) => ({ kind, text: '可讀', foreground: 'rgb(37, 61, 55)', layers: ['rgba(0, 0, 0, 0)', 'rgb(255, 254, 250)'], opacity: 1 });
 const kinds = ['prose', 'tables', 'figureHeaders', 'code', 'output', 'formula', 'filterLabel', 'filterDescription', 'filterStatus'];
 describe('概念頁文字對比', () => {
+  it('行內程式在實際淡底配淡字時拒絕，配深字及無此類文字時照實回報', () => {
+    const bad = { text: 'fit', foreground: 'rgb(228, 237, 241)', layers: ['rgb(237, 241, 231)', 'rgb(26, 45, 49)'], opacity: 1 };
+    expect(() => assertInlineCodeContrast([bad])).toThrow('行內程式對比');
+    const result = assertInlineCodeContrast([{ ...bad, foreground: 'rgb(37, 61, 55)' }]);
+    expect(result.count).toBe(1);
+    expect(result.minimum).toBeGreaterThanOrEqual(4.5);
+    expect(assertInlineCodeContrast([])).toEqual({ count: 0, minimum: null, samples: [] });
+    expect(() => assertInlineCodeContrast([{ ...bad, foreground: 'rgba(37, 61, 55, 0)' }])).toThrow('行內程式對比');
+  });
+  it('逐一採集行內程式子節點的實際配色，排除程式區並拒絕隱藏或無幾何文字', () => {
+    let visible = true, width = 20;
+    const code = { closest: () => null, parentElement: null };
+    const element = { parentElement: code, checkVisibility: () => visible };
+    const preCode = { closest: () => ({}) };
+    const node = { textContent: 'fit', parentElement: element };
+    const walkerRoots = [];
+    vi.stubGlobal('document', {
+      querySelector: (selector) => selector === '.cheatsheet-body' ? { querySelectorAll: () => [code, preCode] } : null,
+      createTreeWalker: (root) => { walkerRoots.push(root); let visited = false; return { currentNode: node, nextNode: () => visited ? false : (visited = true) }; },
+      createRange: () => ({ selectNodeContents: () => {}, getClientRects: () => [{ width, height: 16 }] }),
+    });
+    vi.stubGlobal('NodeFilter', { SHOW_TEXT: 4 });
+    vi.stubGlobal('getComputedStyle', (current) => ({ backgroundImage: 'none', opacity: '1', backgroundColor: current === code ? 'rgb(237, 241, 231)' : 'rgba(0, 0, 0, 0)', color: 'rgb(228, 237, 241)' }));
+    try {
+      const samples = collectInlineCodeSamples('.cheatsheet-body');
+      expect(samples).toHaveLength(1); expect(walkerRoots).toEqual([code]);
+      expect(samples[0]).toMatchObject({ text: 'fit', foreground: 'rgb(228, 237, 241)', layers: ['rgba(0, 0, 0, 0)', 'rgb(237, 241, 231)'] });
+      expect(() => assertInlineCodeContrast(samples)).toThrow('行內程式對比');
+      visible = false; expect(() => collectInlineCodeSamples('.cheatsheet-body')).toThrow('行內程式文字不可見');
+      visible = true; width = 0; expect(() => collectInlineCodeSamples('.cheatsheet-body')).toThrow('行內程式文字沒有可見範圍');
+      expect(() => collectInlineCodeSamples('.missing')).toThrow('缺少行內程式檢查區域');
+    } finally { vi.unstubAllGlobals(); }
+  });
   it('預設採集概念正文，也可指定既有示範正文；表頭不可漏採', () => {
     const el = { checkVisibility: () => true, closest: (selector) => selector === 'table', parentElement: null };
     const node = { textContent: '設定', parentElement: el };
