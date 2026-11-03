@@ -8,7 +8,7 @@ pdf_file: 115年第一次中級AI應用規劃師_第一科_人工智慧技術應
 pdf_page: 11
 type: 情境
 codes: [L23302, L23201]
-concepts: [incremental-learning]
+concepts: [incremental-learning, online-learning]
 stem: |
   某廣告技術公司的點擊率（CTR）預測系統每天新增數百個用戶行為特徵（如新廣告位、新設備類型），特徵空間持續動態擴展。若採用傳統靜態模型每週批次重訓一次，會導致嚴重的模型過期問題。為在特徵空間頻繁變化的情況下維持模型即時準確度，最適合的模型架構方向為何？
 options:

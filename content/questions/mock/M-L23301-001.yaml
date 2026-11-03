@@ -8,6 +8,7 @@ codes:
 concepts:
   - missing-value-imputation
   - feature-scaling
+  - data-preparation
 stem: 某流失模型有 6,000 筆資料，其中收入缺失 12%，且收入與年齡尺度不同。團隊已先固定訓練、驗證、測試分割。若要用中位數補值與標準化，哪個流程最適當？
 options:
   A: 只在訓練集擬合補值與縮放，再原樣轉換驗證及測試

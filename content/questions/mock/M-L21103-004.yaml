@@ -8,6 +8,7 @@ codes:
 concepts:
   - human-generation-evaluation
   - rouge
+  - text-generation-summarization
 stem: 某團隊比較兩個公告摘要模型，各用同一批 150 份文件評估。模型甲的 ROUGE 較高，但人工抽查發現甲把「不得提前解約」寫成「得提前解約」。下一輪驗收應如何設計？
 options:
   A: 只提高 ROUGE 門檻，讓其他評估項目沿用原樣
