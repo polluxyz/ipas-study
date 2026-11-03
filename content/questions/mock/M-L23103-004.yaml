@@ -1,0 +1,34 @@
+id: M-L23103-004
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23103
+concepts:
+  - mini-batch-gradient-descent
+stem: 某模型每輪使用 1,030 筆訓練資料，批次大小 128，保留最後不足一批的資料。每批都做 1 次反向傳播與 1 次參數更新，沒有梯度累積。每輪更新幾次？
+options:
+  A: 8 次
+  B: 128 次
+  C: 1,030 次
+  D: 9 次
+answer: D
+explanation:
+  summary: 每輪小批次更新次數。
+  correct: 1,030=8×128+6，8 個完整批次加上最後 6 筆的小批次，共 9 次更新。
+  wrong:
+    A: 這只計完整批次，忽略題目指定保留的最後 6 筆。
+    B: 128 是每批最多樣本數，與每輪批次個數不同。
+    C: 這相當於每筆更新一次，與本題批次大小 128 的設定不符。
+guide_refs:
+  - guide-3:3-23
+  - guide-3:3-24
+  - guide-3:5-18
+  - guide-3:5-19
+  - guide-3:5-33
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

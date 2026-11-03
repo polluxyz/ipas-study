@@ -1,0 +1,38 @@
+id: M-L23103-003
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23103
+concepts:
+  - gradient-clipping
+stem: 某工程師在反向傳播後得到同一組參數的梯度 (6,8)。以下以 L2 全域範數上限 5 裁剪，再供優化器更新。忽略實作中的極小穩定項，裁後梯度最接近何者？
+options:
+  A: (5,5)，各元素分別截到 5
+  B: (6,8)，因為裁剪只影響下一次反向傳播
+  C: (3,4)，整組等比例縮小
+  D: (0.6,0.8)，固定將範數設成 1
+answer: C
+explanation:
+  summary: 梯度範數裁剪。
+  correct: 原梯度範數為 √(36+64)=10。範數上限為 5，比例為 5/10，因此整組乘 0.5，方向維持不變。
+  wrong:
+    A: 這是逐元素裁剪的思路，不是程式使用的全域範數裁剪。
+    B: clip_grad_norm_ 直接調整目前梯度，位置在反向傳播後、參數更新前。
+    D: 程式上限為 5，並非無條件把梯度正規化到單位長度。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:5-52
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+code: |
+  import torch
+  parameter = torch.nn.Parameter(torch.zeros(2))
+  parameter.grad = torch.tensor([6.0, 8.0])
+  torch.nn.utils.clip_grad_norm_([parameter], max_norm=5.0)
+  print([round(x, 3) for x in parameter.grad.tolist()])
+code_lang: python

@@ -1,0 +1,35 @@
+id: M-L21102-003
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21102
+concepts:
+  - image-augmentation
+  - image-annotation
+stem: 某工程師增強寬 640、高 480 像素的貨箱影像。框使用連續邊界座標 (xmin,ymin,xmax,ymax)，原框為 (80,40,200,160)。影像做水平翻轉後，哪個安排能維持標註一致？
+options:
+  A: 將框改為 (440,40,560,160)，並將增強結果只加入訓練集
+  B: 框仍用 (80,40,200,160)，由模型自己學會座標差異
+  C: 將框改為 (80,320,200,440)，其餘資料安排不變
+  D: 框改為 (440,40,560,160)，再把原圖與翻轉圖分放訓練和驗證
+answer: A
+explanation:
+  summary: 影像增強同步修改標註。
+  correct: 水平翻轉把左右邊界改成 W-xmax 與 W-xmin，因此得到 440 與 560。高度不變，且增強資料須與原訓練來源留在同側。
+  wrong:
+    B: 影像已翻轉，舊框仍指向原位置。這會造成影像與標註不一致。
+    C: 這個框改的是上下邊界，對應垂直翻轉，與題目水平翻轉不符。
+    D: 框雖正確，同源影像跨越訓練與驗證仍會削弱評估獨立性。
+guide_refs:
+  - guide-1:3-47
+  - guide-3:5-9
+  - guide-3:5-47
+  - guide-1:3-45
+  - guide-1:3-46
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

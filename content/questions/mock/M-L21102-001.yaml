@@ -1,0 +1,33 @@
+id: M-L21102-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21102
+concepts:
+  - image-segmentation
+  - image-mask-annotation
+stem: 某果園用俯視影像估計每顆果實的表面病斑。畫面常有 3 至 5 顆果實互相接觸，系統必須分開每顆果實的像素範圍，才能逐顆統計。哪種輸出最適合？
+options:
+  A: 為每張影像輸出是否有病斑的二元標籤
+  B: 為所有果實像素標成同一類，不保留個體編號
+  C: 為每顆果實輸出獨立的實例遮罩與個體編號
+  D: 只為每顆果實輸出矩形邊界框
+answer: C
+explanation:
+  summary: 實例分割的輸出需求。
+  correct: 實例分割同時給出像素範圍與個體區分，能把相鄰同類果實分開，再依個體計算病斑比例。
+  wrong:
+    A: 整圖分類無法把病斑歸到特定果實，也不提供每顆果實的像素範圍。
+    B: 語意分割可找果實像素，但互相接觸的同類個體仍可能合併，無法直接逐顆統計。
+    D: 邊界框包含背景或相鄰物體，不能直接提供題目要求的精確像素範圍。
+guide_refs:
+  - guide-1:3-45
+  - guide-1:3-46
+  - guide-1:3-50
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

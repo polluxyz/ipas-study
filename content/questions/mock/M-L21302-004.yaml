@@ -1,0 +1,31 @@
+id: M-L21302-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - data-model-versioning
+  - model-registry
+stem: 某團隊需重現 3 個月前的模型事故。模型登錄只有檔名 final_model.bin，沒有資料快照、程式版本或前處理設定。哪項改善最能支持之後的追溯？
+options:
+  A: 將模型版本連到資料快照、程式版本、前處理及驗證紀錄
+  B: 每次都覆寫相同檔名，減少工程師誤用舊檔的機會
+  C: 只記錄當天最高的離線分數，省略資料與程式版本
+  D: 保留權重檔的大小與建立日期，其他資訊由作者回憶
+answer: A
+explanation:
+  summary: 資料與模型版本追溯。
+  correct: 可重現性需要追到產物如何形成，而非只有權重檔。模型登錄應連結來源與狀態，讓發布版本可對應到訓練與驗證證據。
+  wrong:
+    B: 覆寫會失去歷史對應，反而更難查回事故時實際使用的版本。
+    C: 單一分數無法重建資料、前處理與訓練流程，也無法證明事故使用了哪個模型。
+    D: 大小與日期不足以唯一確定來源，依記憶也無法提供可重現的證據鏈。
+guide_refs:
+  - guide-1:5-19
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

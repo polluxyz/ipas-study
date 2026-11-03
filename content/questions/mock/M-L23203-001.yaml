@@ -1,0 +1,43 @@
+id: M-L23203-001
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - pytorch
+  - output-loss-contract
+stem: 某工程師建立 3 類單標籤分類器。以下 logits 有 2 筆資料，每筆 3 個分數，targets 是整數類別編號。以 PyTorch CrossEntropyLoss 計算損失，哪個說明正確？
+options:
+  A: 必須先對 logits 做 Softmax，才能使用相同損失函數
+  B: 必須將 targets 改成 shape=(2,1) 的浮點類別編號
+  C: 應把輸出改成 1 個 Sigmoid，再直接保留類別 0、1、2
+  D: 可直接輸入未經 Softmax 的 logits，targets 使用 long 類別索引
+answer: D
+explanation:
+  summary: PyTorch 輸出與損失契約。
+  correct: CrossEntropyLoss 支援以原始類別分數搭配整數類別索引。這裡每筆恰有一個目標類別，不必先把分數變成機率。
+  wrong:
+    A: 此用法期待原始分數，內部會做相應的對數正規化；預先 Softmax 會改變計算的輸入意義。
+    B: 整數索引模式需要每筆一個 long 索引。本題沒有使用與 logits 同形狀的機率目標模式。
+    C: 單一 Sigmoid 不能在此設定下表示 3 個互斥類別，且與保留 0、1、2 索引的契約不符。
+guide_refs:
+  - guide-3:4-91
+  - guide-3:4-92
+  - guide-3:4-61
+  - guide-3:4-62
+  - guide-3:4-65
+  - guide-3:4-66
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+code: |
+  import torch
+  logits = torch.tensor([[2.0, 0.0, -1.0], [0.0, 1.0, 2.0]])
+  targets = torch.tensor([0, 2], dtype=torch.long)
+  loss = torch.nn.CrossEntropyLoss()(logits, targets)
+  print(torch.isfinite(loss).item())
+code_lang: python

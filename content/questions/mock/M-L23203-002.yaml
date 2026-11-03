@@ -1,0 +1,51 @@
+id: M-L23203-002
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - transfer-learning
+  - pytorch
+stem: 某工程師用 2 維特徵做遷移學習。以下 backbone 與 head 都是新建立、沒有舊梯度的線性層；backbone 權重設單位矩陣，head 權重設為 1。凍結 backbone 後反向傳播，兩個印出結果為何？
+options:
+  A: True、True；backbone 沒有參數梯度，head 有參數梯度
+  B: False、False；凍結 backbone 會凍結整條計算流程
+  C: True、False；只有 backbone 輸出可訓練
+  D: False、True；backbone 仍會保留本次非零梯度
+answer: A
+explanation:
+  summary: 凍結參數與梯度。
+  correct: requires_grad=False 使凍結權重不累積梯度，但其輸出仍可作為可訓練 head 的輸入。此程式 head 的梯度非零，凍結不等於停止所有後續學習。
+  wrong:
+    B: 凍結 backbone 參數不會自動凍結後面的 head，head 仍參與可微運算。
+    C: backbone 的參數已凍結，head 卻仍要求梯度；此敘述把兩者的狀態弄反。
+    D: 本題已排除舊梯度，並在反向傳播前凍結 backbone；不會為其參數建立本次梯度。
+guide_refs:
+  - guide-1:3-8
+  - guide-1:3-9
+  - guide-1:3-22
+  - guide-1:3-26
+  - guide-3:4-82
+  - guide-3:4-91
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+code: |
+  import torch
+  backbone = torch.nn.Linear(2, 2, bias=False)
+  head = torch.nn.Linear(2, 1, bias=False)
+  with torch.no_grad():
+      backbone.weight.copy_(torch.eye(2))
+      head.weight.fill_(1.0)
+  for parameter in backbone.parameters():
+      parameter.requires_grad = False
+  y = head(backbone(torch.ones(1, 2)))
+  y.sum().backward()
+  print(backbone.weight.grad is None)
+  print(head.weight.grad is not None)
+code_lang: python

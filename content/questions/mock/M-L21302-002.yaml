@@ -1,0 +1,38 @@
+id: M-L21302-002
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - edge-inference
+  - hybrid-deployment
+stem: 某農業設備要在斷網時辨識危險障礙。現場裝置可在 40 毫秒內推論，雲端往返網路通常已超過 200 毫秒；安全回應上限是 100 毫秒。哪個配置最符合需求？
+options:
+  A: 所有辨識都送雲端，現場只緩存影像等待網路恢復
+  B: 所有辨識都送雲端，只壓縮圖片而不量測完整延遲
+  C: 危險辨識在現場推論，雲端負責離線分析與受控的模型更新
+  D: 現場辨識只在連線時啟動，斷網時改用前一筆結果
+answer: C
+explanation:
+  summary: 端雲推論取捨。
+  correct: 邊緣推論可減少對網路往返與可用性的依賴。仍須在現場驗收完整回應路徑、品質與資源，並保留版本管理。
+  wrong:
+    A: 等待恢復無法滿足斷網下的即時安全回應，網路往返本身也已超過上限。
+    B: 壓縮可能降低傳輸成本，但不能直接消除斷網依賴，也未證明完整路徑符合上限。
+    D: 前一筆結果不保證反映當前障礙，不能代替斷網期間的即時辨識。
+guide_refs:
+  - guide-1:3-53
+  - guide-1:3-55
+  - guide-1:3-58
+  - guide-1:3-72
+  - guide-1:3-81
+  - guide-1:3-83
+  - guide-1:5-18
+  - guide-1:5-15
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

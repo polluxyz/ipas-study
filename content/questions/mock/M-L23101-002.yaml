@@ -1,0 +1,30 @@
+id: M-L23101-002
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - bernoulli-binomial
+stem: 某工程師抽驗 3 個獨立製程結果。每次出現瑕疵的機率固定為 0.2，結果只有瑕疵與正常。恰好 1 次出現瑕疵的機率為多少？
+options:
+  A: "0.128"
+  B: "0.488"
+  C: "0.600"
+  D: "0.384"
+answer: D
+explanation:
+  summary: 二項獨立試驗。
+  correct: 恰好 1 次瑕疵有 3 個可能位置，每種機率是 0.2×0.8²。合計 3×0.2×0.8²=0.384。
+  wrong:
+    A: 0.2×0.8² 只算了某個固定位置出現瑕疵，漏掉另外 2 種位置。
+    B: 1-0.8³=0.488 是至少 1 次瑕疵的機率，也包含 2 次與 3 次。
+    C: 3×0.2 是瑕疵次數的期望值，不是恰好 1 次的機率。
+guide_refs:
+  - guide-3:3-3
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

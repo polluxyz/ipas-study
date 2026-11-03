@@ -1,0 +1,44 @@
+id: M-L23203-004
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - dropout
+  - pytorch
+stem: 某模型訓練時使用丟棄率 0.5 的 PyTorch Dropout。工程師以以下程式進入評估模式，輸入 [2,4,6]，想確認部署時輸出。結果最接近哪一項？
+options:
+  A: "[1,2,3]；評估時須乘上保留率 0.5"
+  B: "[4,8,12]；評估時須除以保留率 0.5"
+  C: "[2,4,6]；評估模式的 Dropout 不再隨機丟棄或重新縮放"
+  D: 輸出每次會有不同的零值，因為 eval 不會影響 Dropout
+answer: C
+explanation:
+  summary: 訓練與推論的 Dropout。
+  correct: PyTorch 使用訓練期的反向保留率縮放，eval 模式下 Dropout 是原值通過。本程式沒有其他會改變張量的層。
+  wrong:
+    A: 這把縮放安排到評估期；PyTorch Dropout 的縮放已放在訓練期。
+    B: 除以保留率用於訓練期被保留的輸出，eval 模式不再做此縮放。
+    D: eval 會切換模組的訓練狀態；Dropout 正是會依此改變行為的層。
+guide_refs:
+  - guide-3:4-64
+  - guide-3:4-71
+  - guide-3:5-45
+  - guide-3:5-46
+  - guide-1:3-49
+  - guide-3:4-91
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+code: |
+  import torch
+  layer = torch.nn.Dropout(p=0.5)
+  layer.eval()
+  x = torch.tensor([2.0, 4.0, 6.0])
+  print(layer(x).tolist())
+code_lang: python

@@ -1,0 +1,36 @@
+id: M-L23302-002
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23302
+concepts:
+  - resource-aware-model-selection
+  - model-comparison
+stem: 某現場服務規定單一模型記憶體不超過 1.5 GB，P95 延遲不超過 50 毫秒。相同裝置與資料下，甲：F1=0.94、2.0 GB、40 毫秒；乙：F1=0.91、1.2 GB、45 毫秒；丙：F1=0.92、1.0 GB、70 毫秒。若硬門檻不可放寬，應優先選哪個現成候選？
+options:
+  A: 甲，因為品質分數最高可抵銷記憶體超額
+  B: 丙，因為記憶體最少且 F1 高於乙
+  C: 乙，因為只有乙同時通過記憶體與延遲門檻
+  D: 同時部署甲與丙，讓兩者互相補足缺點
+answer: C
+explanation:
+  summary: 資源門檻下選模型。
+  correct: 先用不可放寬的部署條件篩選，再比較可行候選的品質。甲超出記憶體，丙超出延遲，乙是目前唯一同時可部署的候選。
+  wrong:
+    A: 題目記憶體是硬門檻，不能用較高 F1 抵銷不可部署的容量。
+    B: 丙的 70 毫秒超過 50 毫秒，較省記憶體不能取代延遲條件。
+    D: 同時部署未證明能降低單一模型容量或延遲，反而還可能增加資源需求。
+guide_refs:
+  - guide-3:5-15
+  - guide-3:5-24
+  - guide-3:5-25
+  - guide-3:5-26
+  - guide-1:5-20
+  - guide-1:5-21
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

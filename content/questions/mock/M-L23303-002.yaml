@@ -1,0 +1,38 @@
+id: M-L23303-002
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - stratified-k-fold
+stem: 某資料集含 1,000 筆彼此獨立的樣本，其中 50 筆為正類，沒有群組或時間限制。工程師用以下分層 5 摺程式，印出每個驗證摺的正類數。哪個結果正確？
+options:
+  A: "[50,50,50,50,50]"
+  B: "[0,0,0,0,50]"
+  C: "[40,40,40,40,40]"
+  D: "[10,10,10,10,10]"
+answer: D
+explanation:
+  summary: 依陽性標籤分層切分。
+  correct: 分層切分盡量保留類別比例。本題 50 個正類可平均分配到 5 個驗證摺，每摺 10 個；shuffle 與固定種子不改變這個可均分的計數。
+  wrong:
+    A: 這把全部正類數當成每摺驗證的正類數；K-fold 的驗證摺是互斥分割。
+    B: 這是依原始排序直接分連續區段可能出現的結果，不符合本題的分層切分。
+    C: 40 是各摺訓練部分的正類數，程式印的是驗證部分。
+guide_refs:
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+code: |
+  import numpy as np
+  from sklearn.model_selection import StratifiedKFold
+  X = np.zeros((1000, 1))
+  y = np.array([0] * 950 + [1] * 50)
+  cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=7)
+  print([int(y[valid].sum()) for _, valid in cv.split(X, y)])
+code_lang: python

@@ -1,0 +1,36 @@
+id: M-L23201-001
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23201
+concepts:
+  - learning-paradigms
+  - supervised-learning
+stem: 某維修部門有 4,000 筆附人工故障類別的紀錄，另有 20,000 筆無標籤紀錄。第一個任務是依已知類別預測新案件，第二個任務是在無標籤資料中探索未知群組。兩任務最直接對應哪些學習方式？
+options:
+  A: 第一個用非監督式分群，第二個用監督式分類
+  B: 第一個用監督式分類，第二個用非監督式分群
+  C: 兩者都用強化學習，將每筆文字當成動作獎勵
+  D: 兩者都只做迴歸，以群組編號當連續目標
+answer: B
+explanation:
+  summary: 監督與非監督分工。
+  correct: 第一個任務有輸入與人工標籤配對，可學已定義的類別。第二個任務要探索資料結構，沒有預先指定每筆的群組答案。
+  wrong:
+    A: 這把兩任務的標籤條件對調；未知群組沒有可直接用來監督分類的群組標籤。
+    C: 題目沒有互動決策與延後回饋，故障類別也不是動作所得到的獎勵。
+    D: 類別與探索群組不具連續數值距離，不能因以數字編碼就改成一般數值迴歸。
+guide_refs:
+  - guide-3:4-2
+  - guide-3:4-3
+  - guide-3:4-7
+  - guide-3:4-8
+  - guide-3:4-5
+  - guide-1:3-46
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

@@ -1,0 +1,34 @@
+id: M-L23302-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23302
+concepts:
+  - transfer-learning
+stem: 某團隊只有 600 張已標註零件影像，但有可取得且來源適用的預訓練視覺模型。新資料與預訓練影像有部分共通外觀，算力也有限。哪個起始方案最合理？
+options:
+  A: 立刻從隨機初值訓練最大網路，以避免使用任何既有表示
+  B: 凍結所有層且不改原輸出，直接視為已適合新的零件標籤
+  C: 只要使用預訓練權重，就可取消驗證集以保留更多訓練圖
+  D: 先凍結部分預訓練特徵層訓練新任務頭，再依驗證決定微調範圍
+answer: D
+explanation:
+  summary: 小資料遷移學習。
+  correct: 遷移學習可先沿用已學表示，降低小資料從零學習的負擔。是否解凍及解凍多少仍由領域差異、資源與驗證證據決定。
+  wrong:
+    A: 在小資料與有限算力下，從零訓練大模型通常需要更多資源，也沒有利用可用的適用表示。
+    B: 原輸出類別未必與新任務相符，仍須設計新任務輸出並進行驗證。
+    C: 預訓練不保證新領域成績，取消獨立驗證會失去判斷微調與過擬合的依據。
+guide_refs:
+  - guide-1:3-8
+  - guide-1:3-9
+  - guide-1:3-22
+  - guide-1:3-26
+  - guide-3:4-82
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

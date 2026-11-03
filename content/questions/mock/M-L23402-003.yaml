@@ -1,0 +1,33 @@
+id: M-L23402-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23402
+concepts:
+  - label-bias
+  - historical-bias
+stem: 某公司用 6,000 份履歷訓練能力分類器。標註者對資格、測驗與經歷相同的案例，只因某群體身分就較常標為「不適任」。標註紀錄已忠實匯入。最直接的問題與處理方向為何？
+options:
+  A: 只有樣本筆數不足；再收同一規則標註的履歷即可消除
+  B: 只有儲存格式錯誤；轉成相同數字編碼即可修正
+  C: 只要移除身分欄位，就不用再檢查既有標籤
+  D: 標籤偏見；檢查標註規準並獨立複核同條件案例
+answer: D
+explanation:
+  summary: 標籤偏見與歷史紀錄。
+  correct: 偏見已進入模型要學的目標標籤。忠實保存不代表標準公平，須檢查主觀規則與同條件差異，並重新驗證修訂後的標籤及模型。
+  wrong:
+    A: 增加同偏誤規則的樣本可能延續甚至強化標籤問題，不能代替規準檢查。
+    B: 數字編碼改變表示形式，沒有改變同條件案例被差別標註的內容。
+    C: 模型仍會學到偏誤標籤，其他特徵也可能成為群體代理，移除單欄不能保證修復。
+guide_refs:
+  - guide-1:4-37
+  - guide-3:6-15
+  - guide-3:6-16
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

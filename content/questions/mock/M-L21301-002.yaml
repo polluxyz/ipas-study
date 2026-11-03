@@ -1,0 +1,36 @@
+id: M-L21301-002
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - dbscan
+  - k-means
+stem: 某物流商有 6,000 筆二維位置資料，群集呈彎曲帶狀，另有少量離群點。團隊不想先指定群數，也希望方法能將部分點標為雜訊。哪個候選最符合這些條件？
+options:
+  A: K-means，固定 K=3 後以每群中心代表所有點
+  B: DBSCAN，並依距離尺度驗證 eps 與 min_samples
+  C: 主成分分析，只取第 1 主成分當作群集標籤
+  D: 線性迴歸，把兩個位置座標互相預測
+answer: B
+explanation:
+  summary: 非球狀群集與雜訊。
+  correct: DBSCAN 透過密度可達關係形成群集，不須先指定群數，並可標記雜訊。效果仍受距離尺度與密度參數影響，不能保證任何分布都適用。
+  wrong:
+    A: K-means 須指定 K，標準流程也會把每點指派給某中心，不會直接標出雜訊。
+    C: 主成分分析建立投影方向，不直接產生群集或雜訊標籤。
+    D: 迴歸估計數值關係，不符合無標籤分群並識別雜訊的要求。
+guide_refs:
+  - guide-1:5-9
+  - guide-1:5-10
+  - guide-3:4-43
+  - guide-3:4-44
+  - guide-3:4-41
+  - guide-3:4-42
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

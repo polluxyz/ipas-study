@@ -1,0 +1,31 @@
+id: M-L23202-003
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23202
+concepts:
+  - association-rule-metrics
+stem: 某購物資料共 1,000 筆。買 A 的有 250 筆，買 B 的有 400 筆，同時買 A、B 的有 150 筆。規則 A→B 的支持度、信賴度與提升度依序為何？
+options:
+  A: 0.15、0.60、1.50
+  B: 0.15、0.375、1.50
+  C: 0.25、0.60、1.50
+  D: 0.15、0.60、0.60
+answer: A
+explanation:
+  summary: 關聯規則指標。
+  correct: 支持度=150/1000=0.15；信賴度=150/250=0.60；提升度=0.60/(400/1000)=1.50，表示相對獨立基準有較高共現。
+  wrong:
+    B: 0.375=150/400 是 B→A 的信賴度，題目要求 A→B 的條件方向。
+    C: 0.25 是 A 的單項支持度，規則支持度須計同時含 A、B 的交易。
+    D: 最後一項仍是信賴度，尚未除以 B 的基準支持度 0.40。
+guide_refs:
+  - guide-3:4-48
+  - guide-3:4-49
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

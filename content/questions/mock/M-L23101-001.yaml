@@ -1,0 +1,33 @@
+id: M-L23101-001
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - bayes-theorem
+  - conditional-probability
+stem: 某工廠的異常盛行率為 2%。檢測對異常品的陽性率為 90%，對正常品的陰性率為 95%。以相同分布的 10,000 件產品估算，檢測為陽性時，產品真的異常的機率最接近多少？
+options:
+  A: 90.0%
+  B: 95.0%
+  C: 26.9%
+  D: 2.0%
+answer: C
+explanation:
+  summary: 低盛行率與貝氏定理。
+  correct: 預期異常 200 件，其中陽性 180 件。正常 9,800 件中有 490 件誤報；陽性合計 670 件，真正異常占 180/670≈26.9%。
+  wrong:
+    A: 90% 是已知異常時的陽性率，與已知陽性時的異常率條件相反。
+    B: 95% 是已知正常時的陰性率，不是陽性結果的真實異常比例。
+    D: 2% 是檢測前的異常盛行率，尚未結合陽性這項新證據。
+guide_refs:
+  - guide-3:3-5
+  - guide-3:3-6
+  - guide-3:3-2
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

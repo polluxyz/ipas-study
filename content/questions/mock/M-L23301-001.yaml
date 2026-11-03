@@ -1,0 +1,36 @@
+id: M-L23301-001
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - missing-value-imputation
+  - feature-scaling
+stem: 某流失模型有 6,000 筆資料，其中收入缺失 12%，且收入與年齡尺度不同。團隊已先固定訓練、驗證、測試分割。若要用中位數補值與標準化，哪個流程最適當？
+options:
+  A: 只在訓練集擬合補值與縮放，再原樣轉換驗證及測試
+  B: 各資料集分別估計中位數與平均數，再比較模型結果
+  C: 先合併 3 份資料估計統計量，再恢復原分割
+  D: 只在訓練集補值，但標準化改用全資料平均數
+answer: A
+explanation:
+  summary: 補值與縮放的 fit 範圍。
+  correct: 中位數、平均數與標準差都屬前處理的已學統計量。它們須由訓練部分取得，驗證與測試只使用固定轉換，才能維持資料角色。
+  wrong:
+    B: 各自估計會讓不同資料集使用不同轉換定義，也讓評估資料參與擬合。
+    C: 恢復索引無法撤回驗證與測試已參與統計量估計的資訊。
+    D: 這只隔離補值步驟，縮放仍納入驗證與測試資訊。
+guide_refs:
+  - guide-1:5-3
+  - guide-3:5-2
+  - guide-3:5-3
+  - guide-1:5-4
+  - guide-3:5-6
+  - guide-3:5-7
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

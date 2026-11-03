@@ -3,8 +3,8 @@ rev: 1
 source: mock
 subject: 3
 type: 程式
-codes: [L23303]
-concepts: [data-leakage, sklearn-pipeline]
+codes: [ L23303 ]
+concepts: [ data-leakage, sklearn-pipeline ]
 stem: |
   某工程師用 2,000 筆客戶資料（流失率 12%）訓練流失預測模型。他先對全部資料執行 StandardScaler 標準化，再用 GridSearchCV（cv=5）搜尋 SVM 的超參數，得到最佳交叉驗證 AUC 0.91。上線一個月後，實際 AUC 只有 0.78。下列哪一項修改最能讓離線評估更接近上線表現？
 code: |
@@ -21,15 +21,17 @@ options:
   D: 改用 MinMaxScaler，讓特徵縮放到 0 到 1 之間
 answer: B
 explanation:
-  summary: 兩個洩漏來源：前處理在交叉驗證外 fit；用挑參數的分數當最終表現。
-  correct: 標準化在切分前用全部資料 fit，驗證摺的平均值與標準差已進入前處理。另外 best_score_ 是挑參數時的最高分，本身就偏樂觀。B 同時解決這兩個問題。
+  summary: 前處理須避免資料洩漏；最高調參分數另有選擇偏誤。
+  correct: >-
+    全資料先 fit 標準化，會讓驗證摺參與平均與尺度估計。 B 須在任何 fit 或調參之前，先隔離測試集。 只將其餘資料的原始特徵交給 Pipeline，再用 GridSearchCV 調參。 每摺只用訓練資料 fit，驗證資料只套用已學得的轉換。 分類步驟名為 svc 時，搜尋參數須寫成 svc__C。 best_score_ 是挑選後最佳候選的驗證平均分數。 反覆比較後取最高分，可能有選擇偏誤。 選定參數後，用其餘資料重新訓練整條 Pipeline。 最後只用獨立測試集評估，不再依測試分數調參。 洩漏不保證每次提高分數，獨立測試分數也不必較低。 此流程只修正評估邊界，不保證消除全部上線落差。
   wrong:
     A: 摺數變多不會消除洩漏，只改變每摺大小。
-    C: accuracy 在 12% 流失率下更容易高估（全猜不流失就有 88%），也沒有處理洩漏。
+    C: 多數類別可讓 accuracy 很高。全猜不流失就有 88%，仍漏掉全部流失客戶。換指標也未修正洩漏。
     D: 換縮放方法不改變「在切分前 fit」的問題，洩漏仍然存在。
-author: claude
+guide_refs: [ guide-3:5-18 ]
+author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   blind_answer: null
   dispute: null

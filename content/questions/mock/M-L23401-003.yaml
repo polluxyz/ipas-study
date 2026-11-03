@@ -1,0 +1,31 @@
+id: M-L23401-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23401
+concepts:
+  - federated-learning
+stem: 某聯盟有 8 家機構，各自保存原始資料，只把本地訓練更新傳給聚合端。團隊因此聲稱不需再評估任何隱私洩漏。哪項回應最適當？
+options:
+  A: 只要沒有上傳原始資料列，聚合端便不可能推知任何個人資訊
+  B: 把更新檔名去掉機構名稱，就能取代聚合端的權限管理
+  C: 原始資料留在本地仍不代表更新無風險，須評估更新可見性與額外保護
+  D: 為提高準確率，先把全部原始資料複製到聚合端再稱為本地訓練
+answer: C
+explanation:
+  summary: 聯邦學習仍有更新洩漏。
+  correct: 聯邦學習改變協作訓練的資料流，但模型更新仍可能透露資訊。應依威脅與信任假設檢查聚合、傳輸、存取及可能的隱私措施。
+  wrong:
+    A: 模型更新可能包含資料訊號，不能由沒有原始列推出零洩漏。
+    B: 檔名匿名不會改變更新內容的可見資訊，也不能限制讀取與濫用。
+    D: 集中原始資料改變題目的資料邊界，並沒有證明聯邦流程的隱私風險已受控制。
+guide_refs:
+  - guide-3:6-10
+  - guide-3:6-11
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

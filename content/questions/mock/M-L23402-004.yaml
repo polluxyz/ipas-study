@@ -1,0 +1,31 @@
+id: M-L23402-004
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23402
+concepts:
+  - equalized-odds
+stem: 某分類器以錄取為正類。甲群 TP=40、FN=10、FP=10、TN=40；乙群 TP=40、FN=10、FP=20、TN=30。Equalized odds 要求各群真正率與假正率都相同。依此點估計，哪個判斷正確？
+options:
+  A: 不成立；真正率同為 0.8，但假正率分別為 0.2 與 0.4
+  B: 成立；只要兩群真正率都為 0.8 即可
+  C: 成立；兩群 TP 與 FN 相同已代表全部錯誤一致
+  D: 不成立；假正率應分別用 FP/(TP+FP) 計算
+answer: A
+explanation:
+  summary: Equalized odds 的兩類錯誤率。
+  correct: 兩群真正率均為 40/(40+10)=0.8。假正率用實際負例作分母，甲為 10/50=0.2、乙為 20/50=0.4，因此未同時滿足兩率相同。
+  wrong:
+    B: 只限制真正率相同對應機會均等，Equalized odds 還要求假正率一致。
+    C: TP 與 FN 相同未限制 FP 與 TN，本題兩群負例被誤選的比例明顯不同。
+    D: 結論雖同為不成立，公式卻錯誤。FP/(TP+FP) 看預測正類中的錯誤比例，不是假正率。
+guide_refs:
+  - guide-3:6-18
+  - guide-3:6-19
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

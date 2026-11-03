@@ -1,0 +1,31 @@
+id: M-L21101-001
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21101
+concepts:
+  - tf-idf
+stem: 某維修平台有 1,000 篇紀錄。甲、乙兩詞在目標文件的詞頻比例都為 0.04，分別出現在 10 篇與 100 篇。指定 IDF=log10(N/df)，不平滑、不做向量正規化。兩詞的 TF-IDF 權重應為多少？
+options:
+  A: 甲 0.04、乙 0.08
+  B: 甲 0.08、乙 0.04
+  C: 甲 0.004、乙 0.0004
+  D: 甲 2、乙 1
+answer: B
+explanation:
+  summary: TF-IDF 權重與文件頻率。
+  correct: 甲的 IDF 為 log10(100)=2，乙為 log10(10)=1。各乘以 0.04，得到 0.08 與 0.04。相同詞頻下，出現篇數較少者權重較大。
+  wrong:
+    A: 把文件頻率的作用倒置了。IDF 的分母是含詞篇數，篇數增加會降低本題的權重。
+    C: 本題使用對數形式的 IDF，不是把詞頻除以文件頻率。
+    D: 這僅為兩詞的 IDF，尚未乘上 0.04 的詞頻比例。
+guide_refs:
+  - guide-1:3-17
+  - guide-1:3-18
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

@@ -1,0 +1,41 @@
+id: M-L23203-003
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - cnn-tensor-shapes
+  - convolution-layer
+stem: 某影像分類器的輸入張量為 (1,3,32,32)。以下卷積有 8 個輸出通道、3×3 核、stride=2、padding=1，啟用 bias，groups 與 dilation 均為 1。輸出形狀與可訓練參數量為何？
+options:
+  A: (1,8,32,32)，224 個
+  B: (1,8,16,16)，224 個
+  C: (1,8,16,16)，216 個
+  D: (1,3,16,16)，224 個
+answer: B
+explanation:
+  summary: 卷積尺寸與參數。
+  correct: 每個空間軸為 floor((32+2-3)/2)+1=16。權重為 8×3×3×3=216，加 8 個偏差，共 224。
+  wrong:
+    A: 參數數量正確，但 stride=2 使空間大小下降，不會維持 32×32。
+    C: 這只計卷積權重，漏掉已啟用的每輸出通道 1 個偏差。
+    D: 輸出通道由 out_channels=8 決定，不沿用輸入的 3 通道。
+guide_refs:
+  - guide-1:3-48
+  - guide-3:4-68
+  - guide-3:4-69
+  - guide-3:4-67
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+code: |
+  import torch
+  layer = torch.nn.Conv2d(3, 8, kernel_size=3, stride=2, padding=1, bias=True)
+  x = torch.zeros(1, 3, 32, 32)
+  print(tuple(layer(x).shape))
+  print(sum(parameter.numel() for parameter in layer.parameters()))
+code_lang: python

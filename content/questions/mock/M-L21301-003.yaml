@@ -1,0 +1,33 @@
+id: M-L21301-003
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - sklearn-pipeline
+  - missing-value-imputation
+stem: 某公司以 3,000 筆資料比較補值與分類器設定。工程師先用全部資料算中位數補缺值，再跑 5 摺交叉驗證。要讓每摺驗證資料不參與補值擬合，應如何處理？
+options:
+  A: 改用全部資料的平均數補值，再使用相同交叉驗證
+  B: 先把全部資料補完，再把摺數由 5 改為 10
+  C: 把補值器與分類器組成 Pipeline，讓每摺只在訓練部分擬合
+  D: 只對分類器固定亂數種子，補值步驟維持不變
+answer: C
+explanation:
+  summary: 前處理的訓練範圍。
+  correct: Pipeline 在交叉驗證內一起擬合各步驟，使補值統計量來自該摺訓練資料，再用於驗證部分。它不是將補值預先對全資料做完。
+  wrong:
+    A: 更換統計量沒有改變擬合範圍，驗證資料仍參與了前處理。
+    B: 增加摺數不能消除先前已用全部資料估計補值統計量的問題。
+    D: 固定亂數有助重現分割或訓練，不能隔離補值器使用的資料。
+guide_refs:
+  - guide-1:5-3
+  - guide-3:5-2
+  - guide-3:5-3
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

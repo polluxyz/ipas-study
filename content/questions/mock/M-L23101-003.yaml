@@ -1,0 +1,31 @@
+id: M-L23101-003
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - descriptive-statistics
+stem: 某團隊用 3 次獨立量測值 2、4、6 毫秒，估計延遲的樣本標準差。指定樣本變異數以 n-1 作分母，再開平方。樣本標準差為多少？
+options:
+  A: 2 毫秒
+  B: 約 1.633 毫秒
+  C: 4 毫秒
+  D: 8 毫秒
+answer: A
+explanation:
+  summary: 樣本標準差。
+  correct: 平均數是 4，離均差平方和為 4+0+4=8。樣本變異數為 8/(3-1)=4，標準差為 √4=2 毫秒。
+  wrong:
+    B: 這是以 n=3 作分母後開平方的結果，不符合本題指定的樣本估計方式。
+    C: 4 是樣本變異數，單位為毫秒平方，還須開平方才是標準差。
+    D: 8 是離均差平方和，既未除以 n-1，也未開平方。
+guide_refs:
+  - guide-3:3-8
+  - guide-3:3-30
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

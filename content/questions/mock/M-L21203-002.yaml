@@ -1,0 +1,32 @@
+id: M-L21203-002
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - nist-ai-rmf
+  - ai-risk-governance
+stem: 某組織依 NIST AI RMF 1.0 管理 6 個 AI 專案。委員會先訂停用權限，團隊再盤點受影響對象、取得風險測試證據，並依結果安排處置。對四功能的理解何者最正確？
+options:
+  A: Govern 持續提供權責制度，Map、Measure、Manage 可隨新證據反覆調整
+  B: Govern 只在立案時做一次，之後完全交由 Measure 負責
+  C: Measure 只處理準確率，隱私及公平測試均不屬風險證據
+  D: 完成四功能文件即可視為取得法規合規認證
+answer: A
+explanation:
+  summary: NIST AI RMF 四功能。
+  correct: 四功能涵蓋治理、情境辨識、衡量與處置。它們可互相回饋，Govern 持續貫穿生命週期，並非只在最初執行一次。
+  wrong:
+    B: 治理須持續提供權責與政策。衡量證據不能取代風險核准與處置制度。
+    C: 衡量可包含多種技術與非技術風險證據，不限於準確率。
+    D: AI RMF 是自願風險框架，完成文件不等於取得認證，也不取代適用義務。
+guide_refs:
+  - guide-1:4-29
+  - guide-1:4-42
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

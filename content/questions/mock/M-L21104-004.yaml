@@ -1,0 +1,32 @@
+id: M-L21104-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - multimodal-fusion
+stem: 某金融客服以語音與文字判斷情緒。語音分支與文字分支各自輸出 3 類機率，再以加權平均產生最終決策。每分鐘處理 120 通。這個融合位置屬於哪一類？
+options:
+  A: 早期融合，因為語音與文字來自同一通電話
+  B: 中期特徵融合，因為機率也是數字向量
+  C: 資料對齊，因為兩個分支都輸出 3 個數字
+  D: 晚期融合，因為合併的是各分支的預測結果
+answer: D
+explanation:
+  summary: 早期與晚期融合。
+  correct: 融合層級取決於合併的資料。各分支已先完成預測，再組合機率或決策，屬於晚期融合。
+  wrong:
+    A: 來源是否相同不決定融合層級。題目沒有在模型處理前合併原始輸入。
+    B: 本題合併的是任務預測機率。不能僅因資料以向量儲存，就把決策融合當成中間特徵融合。
+    C: 輸出維度一致不等於完成資料對應；加權預測的行為是在融合決策。
+guide_refs:
+  - guide-1:3-74
+  - guide-1:3-75
+  - guide-1:3-77
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

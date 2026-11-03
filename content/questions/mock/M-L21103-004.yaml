@@ -1,0 +1,33 @@
+id: M-L21103-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - human-generation-evaluation
+  - rouge
+stem: 某團隊比較兩個公告摘要模型，各用同一批 150 份文件評估。模型甲的 ROUGE 較高，但人工抽查發現甲把「不得提前解約」寫成「得提前解約」。下一輪驗收應如何設計？
+options:
+  A: 只提高 ROUGE 門檻，讓其他評估項目沿用原樣
+  B: 改按平均摘要長度排序，較長摘要優先
+  C: 保留文字重疊指標，另訂事實忠實度與否定保留的人工規準
+  D: 只評語句是否流暢，排除專業內容以提高評分一致性
+answer: C
+explanation:
+  summary: 生成品質的人工評估。
+  correct: ROUGE 反映與參考摘要的片段重疊，無法單獨保證關鍵事實正確。人工評估須有一致規準，將重大否定錯誤列為獨立驗收項。
+  wrong:
+    A: 否定被改動時仍可能保留大量共同文字。僅提高重疊分數門檻，無法可靠篩掉此類重大錯誤。
+    B: 長度不代表忠於原文，增加文字也可能增加錯誤事實。
+    D: 流暢與事實忠實是不同維度。排除內容查核會漏掉本題的解約條件反轉。
+guide_refs:
+  - guide-1:3-67
+  - guide-1:3-39
+  - guide-1:3-66
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

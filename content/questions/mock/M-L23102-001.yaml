@@ -1,0 +1,33 @@
+id: M-L23102-001
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23102
+concepts:
+  - matrix-shapes
+  - affine-layer
+stem: 某線性分類層一次處理 12 筆資料，每筆有 5 個特徵。採列為樣本的 X(12×5)，權重 W(5×3)，偏差 b 有 3 個元素。計算 Y=XW+b，偏差沿樣本列擴展。Y 的形狀為何？
+options:
+  A: 5×3
+  B: 12×5
+  C: 3×12
+  D: 12×3
+answer: D
+explanation:
+  summary: 仿射層矩陣尺寸。
+  correct: 矩陣乘法消去內側的 5，保留 12 個樣本與 3 個輸出。偏差逐列相加，不改變輸出形狀。
+  wrong:
+    A: 這是權重矩陣的形狀，沒有保留輸入的 12 個樣本。
+    B: 這是輸入形狀，乘上 3 輸出權重後最後一軸會改變。
+    C: 這把輸出轉置了，與題目列為樣本的計算方向不符。
+guide_refs:
+  - guide-3:3-10
+  - guide-3:3-12
+  - guide-3:3-17
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

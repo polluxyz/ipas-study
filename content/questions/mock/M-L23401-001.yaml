@@ -1,0 +1,35 @@
+id: M-L23401-001
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23401
+concepts:
+  - de-identification
+  - reidentification-risk
+stem: 某研究團隊把 5,000 筆問卷的姓名換成隨機代碼，但仍在另一份受控檔保存代碼與姓名對照。團隊聲稱資料已完全匿名，任何人都無法回連。哪個判斷最正確？
+options:
+  A: 這較符合可回連的假名化，仍須管理對照表與剩餘識別線索
+  B: 只要姓名不在同一份檔案，就已證明完全無法識別
+  C: 只需把代碼改長，就不再需要限制對照表存取
+  D: 把問卷列順序打亂後，就可忽略所有準識別欄位
+answer: A
+explanation:
+  summary: 假名化與可回連性。
+  correct: 代碼與姓名的對照仍存在，持有對照表者可以回連。移除直接姓名降低暴露，但不能單憑換代碼就宣稱不可回復的匿名效果。
+  wrong:
+    B: 分開存放降低直接暴露，卻不消除對照表可回連的事實，也未檢查其他欄位組合。
+    C: 代碼長度不會取消已保存的姓名對應，對照表仍須有適當存取控制。
+    D: 打亂列順序不會移除代碼或年齡地區等組合線索，不能取代再識別風險評估。
+guide_refs:
+  - guide-1:3-33
+  - guide-1:3-34
+  - guide-3:6-7
+  - guide-3:6-12
+  - guide-3:6-3
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

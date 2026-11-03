@@ -1,0 +1,37 @@
+id: M-L23202-001
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23202
+concepts:
+  - random-forest
+  - bagging
+stem: 某團隊訓練 100 棵樹做隨機森林分類。每棵樹以有放回抽樣取得訓練資料，各節點也只比較隨機抽取的部分特徵。這兩種隨機化的主要作用為何？
+options:
+  A: 讓後一棵樹直接擬合前一棵樹的殘差
+  B: 確保每棵樹學到完全相同的切分以維持投票一致
+  C: 增加樹間差異，讓集成較能降低高度相似錯誤造成的變動
+  D: 用節點隨機選特徵取代所有資料品質檢查
+answer: C
+explanation:
+  summary: 隨機森林的去相關。
+  correct: 重抽樣與節點特徵隨機化會讓樹學到不同切分。平均或投票的降變異效果取決於個別模型品質及錯誤相關程度，不保證完全消除偏差。
+  wrong:
+    A: 依序修正前面模型的不足屬提升方法思路；隨機森林的各樹不是依這種殘差序列訓練。
+    B: 隨機化的目的在增加多樣性，若每棵都相同，投票無法取得相同程度的降變異效果。
+    D: 隨機選特徵不能修正錯標、洩漏或資料偏差，資料品質仍需另外處理。
+guide_refs:
+  - guide-1:5-8
+  - guide-3:4-21
+  - guide-3:4-22
+  - guide-3:4-38
+  - guide-3:4-39
+  - guide-3:4-36
+  - guide-3:4-37
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

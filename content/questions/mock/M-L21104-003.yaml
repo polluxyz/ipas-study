@@ -1,0 +1,34 @@
+id: M-L21104-003
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - clip
+  - cross-modal-alignment
+stem: 某博物館有 20,000 張藏品照片。使用者輸入「紅色陶製水壺」，系統要先找最相符的既有照片。團隊計畫使用 CLIP，哪個流程最符合其主要能力？
+options:
+  A: 只把查詢送入影像編碼器，直接輸出照片檔案路徑
+  B: 用相似度最高的文字標籤，當作 CLIP 自動生成的完整解說
+  C: 把查詢與照片編成共享空間向量，依相似度排序候選
+  D: 把所有照片的向量平均成一個向量，再用它排名每張照片
+answer: C
+explanation:
+  summary: CLIP 圖文匹配用途。
+  correct: CLIP 可比較文字與影像表示的相似度，適合圖文檢索。候選相符程度仍須以館藏語彙與查詢資料驗證。
+  wrong:
+    A: 影像編碼器不直接接收文字查詢；檔案路徑還需要檢索索引對應。
+    B: 相似度排序可選既有候選文字，不能等同自由生成完整藏品解說。
+    D: 平均會丟失個別照片差異，無法保留每張照片與查詢的獨立匹配分數。
+guide_refs:
+  - guide-1:3-44
+  - guide-1:3-75
+  - guide-1:3-76
+  - guide-1:3-74
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

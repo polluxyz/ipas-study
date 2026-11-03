@@ -1,0 +1,31 @@
+id: M-L21102-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21102
+concepts:
+  - active-learning
+  - model-assisted-labeling
+stem: 某瑕疵模型有 12,000 張未標註影像，人工本週只能檢查 300 張。團隊希望反覆選出目前模型最不確定且具代表性的影像，讓人標註後重訓。哪個流程最符合目標？
+options:
+  A: 把全部預測當成正確標籤，直接重訓到收斂
+  B: 用主動學習挑選候選，人工定標後更新模型並重新選樣
+  C: 只標註信心最高的 300 張，之後每輪沿用相同影像
+  D: 增加每張影像的亮度變化，視為已新增 300 張人工標籤
+answer: B
+explanation:
+  summary: 固定預算的主動標註。
+  correct: 主動學習決定下一批應送人工標註的資料。每輪以更新後的模型重選，並兼顧代表性，避免只集中於重複異常影像。
+  wrong:
+    A: 這是未經查核的偽標籤流程，沒有依題意使用 300 張人工標註預算，也可能放大錯誤。
+    C: 高信心影像可能大多已會辨識，重複同一批也沒有依模型新弱點更新標註選樣。
+    D: 影像增強增加外觀變化，不能替未標註影像建立經人工確認的標籤。
+guide_refs:
+  - guide-1:3-46
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

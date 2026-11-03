@@ -1,0 +1,34 @@
+id: M-L21201-002
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21201
+concepts:
+  - poc-success-criteria
+  - poc-go-no-go
+stem: 某文件分流 PoC 原定在獨立的 500 份文件上驗證：正確率至少 92%、P95 延遲不超過 800 毫秒，且人工覆核率不超過 20%。結果為 94%、760 毫秒、28%。依原先全部必達的門檻，應如何決策？
+options:
+  A: 直接擴大導入，因為 3 個指標已有 2 個達標
+  B: 將覆核率上限改為 30%，並宣告原 PoC 已經通過
+  C: 暫不擴大導入，先改善覆核負荷並用相同規準補驗
+  D: 只刪掉被送人工的文件，再重新計算正確率
+answer: C
+explanation:
+  summary: PoC 可驗收門檻。
+  correct: 覆核率 28% 超過 20% 上限，因此尚未通過全部門檻。技術準確度與延遲達標，不能抵銷事先列為必要條件的流程負荷。
+  wrong:
+    A: 原規則要求全部必達，不是多數決。未達的人工量能仍會影響營運。
+    B: 事後放寬門檻會改寫驗收基準。若需求確需調整，須另行核准並重新說明結果。
+    D: 排除困難文件會改變驗證對象，也無法解決實際覆核率超標的問題。
+guide_refs:
+  - guide-1:4-13
+  - guide-1:4-14
+  - guide-1:4-26
+  - guide-1:4-27
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

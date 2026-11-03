@@ -1,0 +1,32 @@
+id: M-L23401-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23401
+concepts:
+  - data-minimization
+stem: 某團隊為預測每日商店人流，準備長期保存 100,000 筆顧客姓名、電話、精確軌跡與每小時人數。需求只需店別與小時級總量，尚未證明識別欄位必要。最符合資料最小化的做法為何？
+options:
+  A: 全部保留但壓縮成較小檔案，就算達成資料最小化
+  B: 只移除電話，姓名與精確軌跡無限期保留以便未來研究
+  C: 先複製更多顧客資料，再從完整庫中挑欄位訓練
+  D: 先驗證店別與時段聚合是否足夠，移除無必要識別欄位並訂保存期限
+answer: D
+explanation:
+  summary: 資料最小化與保存。
+  correct: 資料最小化依具體目的選必要欄位及侵入較少的替代方案。保存與存取也須對應用途，不能以可能未來有用為由無限制保留。
+  wrong:
+    A: 壓縮減少儲存空間，沒有減少可識別資訊、用途或留存範圍。
+    B: 其餘欄位仍須證明必要，無限期留存也未對應本次人流預測目的。
+    C: 訓練時少用欄位不等於收集與保存符合必要性，資料庫本身仍擴大暴露。
+guide_refs:
+  - guide-3:6-12
+  - guide-3:6-13
+  - guide-1:4-34
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

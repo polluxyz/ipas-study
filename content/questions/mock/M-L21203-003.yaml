@@ -1,0 +1,36 @@
+id: M-L21203-003
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - shap
+  - explainable-ai
+stem: 某保險模型對單一申請案的預測分數為 0.72，基準分數為 0.40。SHAP 在相同輸出尺度下，將差額分攤給各特徵。某收入特徵貢獻為 +0.12。哪個解讀最適當？
+options:
+  A: 將申請人的收入提高一單位，真實風險必定增加 0.12
+  B: 相對選定基準，該特徵對本案模型輸出的分攤為 +0.12，不能直接當因果效果
+  C: 收入是模型在所有申請案上最重要的特徵
+  D: 刪除收入特徵重訓後，本案分數必定等於 0.60
+answer: B
+explanation:
+  summary: SHAP 的解釋界線。
+  correct: SHAP 解釋模型輸出相對基準的差異，須確認尺度、背景資料與分攤方式。分攤值不保證干預收入後真實風險會改變相同幅度。
+  wrong:
+    A: 模型歸因不是干預實驗，也未定義收入變動一單位的因果效果。
+    C: 單筆的局部貢獻不能直接推得全體資料的特徵重要性排序。
+    D: 重訓會改變模型及特徵間的分工，不能直接用原分數減去單筆分攤值預測新模型。
+guide_refs:
+  - guide-3:5-15
+  - guide-1:4-10
+  - guide-1:4-11
+  - guide-1:4-38
+  - guide-1:4-39
+  - guide-3:5-14
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

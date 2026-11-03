@@ -1,0 +1,32 @@
+id: M-L23101-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23101
+concepts:
+  - hypothesis-testing
+stem: 某團隊事先設定顯著水準 0.05，檢驗新舊分類器在指定評估設計下是否有差異，得到 p 值 0.03。已確認檢定假設與資料條件適用。哪個解讀最正確？
+options:
+  A: 虛無假設為真的機率就是 3%
+  B: 依事前門檻拒絕虛無假設，但仍須另外檢查效果大小與實務意義
+  C: 新分類器的準確率必定提高 3 個百分點
+  D: 下次用相同樣本數重做，仍有 97% 機率顯著
+answer: B
+explanation:
+  summary: 假設檢定的 p 值。
+  correct: 0.03 小於 0.05，依指定規則有足夠證據拒絕虛無假設。p 值不是改善幅度，也不能單獨證明差異值得導入。
+  wrong:
+    A: p 值是在虛無假設及模型成立時，觀察到同等或更極端結果的機率，不是虛無假設的後驗機率。
+    C: p 值不表示效果大小，也未指出差異的方向與實際幅度。
+    D: 單次 p 值不能直接當成重現機率；重現還受真實效果、變異與設計影響。
+guide_refs:
+  - guide-3:3-6
+  - guide-3:3-7
+  - guide-3:3-8
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
