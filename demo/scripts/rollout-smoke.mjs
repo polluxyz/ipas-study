@@ -15,7 +15,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { readdir, readFile, mkdir, writeFile, stat } from 'node:fs/promises';
-import { readFileSync } from 'node:fs';
+import { appendFileSync, readFileSync } from 'node:fs';
 import { resolve, relative, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
@@ -205,8 +205,23 @@ export async function localGet(request, value, base) {
   return response;
 }
 
+/** 保留完整回應到讀取與驗證結束；成功或失敗都釋放 API body。 */
+export async function readApiResponse(response, read) {
+  try { return await read(response); } finally { await response.dispose(); }
+}
+
+/** 逐筆寫入獨立的未結案紀錄；不產生最終報告，也不改動覆蓋判定。 */
+export function savePartialAssertion(output, report, key, ok, evidence) {
+  const record = { kind: 'rollout-partial-assertion', partial: true, final: false,
+    sha: report.sha, buildSha: report.buildSha, receiptDigest: report.receiptDigest,
+    started: report.started, recorded: new Date().toISOString(), check: key, ok, evidence };
+  appendFileSync(resolve(output, 'rollout-partial-assertions.jsonl'), JSON.stringify(record) + '\n', { flush: true });
+}
+
 // 每個 context 的封口狀態只在明確安裝時建立，import 不觸發 I/O。
 const buildContexts = new WeakMap();
+// 彙總錯誤已有原始原因，避免再次回灌造成訊息倍增。
+const responseDrainErrors = new WeakSet();
 function buildContextState(context) {
   if (!buildContexts.has(context)) buildContexts.set(context, { accepting: true, routes: new Set(), responses: new Map(), failures: [], expected: [], changed: () => {} });
   return buildContexts.get(context);
@@ -335,14 +350,15 @@ export async function settlePage(page, { timeout = 10000 } = {}) {
         await page.waitForLoadState('load', { timeout });
         // Starlight 的搜尋 import 在 idle callback 才開始，load 並不代表它已完成。
         // 停用 JS 的頁面按鈕維持 disabled；啟用後必須等真正 input 掛載，不能略過缺資產。
-        await page.waitForFunction(() => !document.querySelector('site-search button[data-open-modal]:not(:disabled)') || !!document.querySelector('#starlight__search input'), undefined, { timeout });
+        const readiness = await page.waitForFunction(() => !document.querySelector('site-search button[data-open-modal]:not(:disabled)') || !!document.querySelector('#starlight__search input'), undefined, { timeout });
+        await readiness.dispose();
         await page.evaluate(async () => { await document.fonts.ready; });
         await state.settle(timeout);
       })(),
       new Promise((_resolve, reject) => { timer = setTimeout(() => reject(new Error(`頁面請求排空逾時：${page.url()}`)), timeout); }),
     ]);
   } catch (error) {
-    state.failures.push(`頁面排空失敗：${error}`);
+    if (!responseDrainErrors.has(error)) state.failures.push(`頁面排空失敗：${error}`);
     throw error;
   } finally { clearTimeout(timer); }
 }
@@ -373,7 +389,11 @@ export function watchBuildResponses(context, binding, base, options = {}) {
     let timer;
     const done = (error) => { clearTimeout(timer); waiters.delete(check); if (error) reject(error); else resolveSettled(); };
     const check = () => {
-      if (state.failures.length || failures.length) return done(new Error([...state.failures, ...failures].join('\n')));
+      if (state.failures.length || failures.length) {
+        const error = new Error([...state.failures, ...failures].join('\n'));
+        responseDrainErrors.add(error);
+        return done(error);
+      }
       if (!state.routes.size && !pending.size && !state.responses.size && !requests.size) done();
     };
     timer = setTimeout(() => done(new Error(`真請求尚未排空：requests=${requests.size}, routes=${state.routes.size}, responses=${state.responses.size}, bodies=${pending.size}`)), timeout);
@@ -972,7 +992,10 @@ export async function runRollout(options) {
     R9: CELLS.flatMap((cell) => searchCases.map(([query]) => `${query} ${cell.width}/${cell.theme}`)), R10: ['map', 'cheatsheets'],
   };
   for (const [key, expectedUnits] of Object.entries(units)) Object.assign(report.checks[key], { expectedUnits, visited: [] });
-  function result(key, ok, evidence) { const check = report.checks[key]; check.total++; check[ok ? 'passed' : 'failed']++; check.evidence.push(evidence); if (evidence?.label) check.visited.push(evidence.label); check.status = check.failed ? '失敗' : check.pending.length ? '未執行' : '通過'; }
+  function result(key, ok, evidence) {
+    const check = report.checks[key]; check.total++; check[ok ? 'passed' : 'failed']++; check.evidence.push(evidence); if (evidence?.label) check.visited.push(evidence.label); check.status = check.failed ? '失敗' : check.pending.length ? '未執行' : '通過';
+    savePartialAssertion(output, report, key, ok, evidence);
+  }
   const sourceChanges = [execFileSync('git', ['diff', '--name-only', 'HEAD', '--', ...sourcePaths], { cwd: root, encoding: 'utf8' }), execFileSync('git', ['ls-files', '--others', '--exclude-standard', '--', ...sourcePaths], { cwd: root, encoding: 'utf8' })].join('\n').split(/\r?\n/).filter(Boolean);
   result('R0', sourceChanges.length === 0, { sourceChanges, note: '凍結 SHA 對應的內容及產品程式不可含未提交變動' });
   for (const problem of contentProblems(content, revisions)) result('R0', false, problem);
@@ -1085,10 +1108,13 @@ export async function runRollout(options) {
       const url = localUrl(href, base); url.search = '';
       if (!targets.has(url.pathname)) {
         // 所有主要頁已逐頁 GET；其他內鏈只 GET 一次。停用 HTTP redirect，避免 API 請求繞過瀏覽器的同源限制。
-        const response = await page.request.get(localUrl(url.pathname, base).href, { maxRedirects: 0 }); assert.equal(response.status(), 200, href);
-        report.apiBuildResponses.push(await verifyResponseBytes(response, binding, base));
-        const html = await response.text();
-        targets.set(url.pathname, /text\/html/i.test(response.headers()['content-type'] ?? '') ? await page.evaluate((html) => [...new DOMParser().parseFromString(html, 'text/html').querySelectorAll('[id]')].map((e) => e.id), html) : []);
+        const response = await page.request.get(localUrl(url.pathname, base).href, { maxRedirects: 0 });
+        await readApiResponse(response, async (response) => {
+          assert.equal(response.status(), 200, href);
+          report.apiBuildResponses.push(await verifyResponseBytes(response, binding, base));
+          const html = await response.text();
+          targets.set(url.pathname, /text\/html/i.test(response.headers()['content-type'] ?? '') ? await page.evaluate((html) => [...new DOMParser().parseFromString(html, 'text/html').querySelectorAll('[id]')].map((e) => e.id), html) : []);
+        });
       }
       if (url.hash) assert.equal(targets.get(url.pathname).filter((id) => id === decodeURIComponent(url.hash.slice(1))).length, 1, `目標錨點不存在或不唯一 ${href}`);
       return { href, from, httpVerified: true };
@@ -1252,7 +1278,10 @@ export async function runRollout(options) {
 
 /** 用實際 DOM 找公式／局部捲動／表格／對比，無此類內容的頁不強求有圖或公式。 */
 export async function verifyFeatures(page, expected) {
-  if (expected.diagrams) await page.waitForFunction((count) => document.querySelectorAll('main figure.study-diagram svg').length >= count, expected.diagrams);
+  if (expected.diagrams) {
+    const ready = await page.waitForFunction((count) => document.querySelectorAll('main figure.study-diagram svg').length >= count, expected.diagrams);
+    await ready.dispose();
+  }
   for (const figure of expected.figures) {
     try { figure.assetSha256 = hash(await readFile(resolve(root, 'content/figures', `${figure.id}.svg`))); figure.kind = 'svg'; }
     catch (error) { if (error.code !== 'ENOENT') throw error; const data = JSON.parse(await readFile(resolve(root, 'content/figures', `${figure.id}.json`), 'utf8')); assert.equal(data.id, figure.id); figure.kind = 'json'; figure.table = sourceFigureTable(data); }
@@ -1324,7 +1353,9 @@ export async function verifyFeatures(page, expected) {
     const info = await wrapper.evaluate((e) => ({ client: e.clientWidth, scroll: e.scrollWidth, tabIndex: e.tabIndex }));
     if (info.scroll <= info.client) continue;
     assert.equal(info.tabIndex, 0); await wrapper.focus(); await page.keyboard.press('Tab'); await page.keyboard.press('Shift+Tab'); assert.equal(await wrapper.evaluate((e) => document.activeElement === e), true);
-    await page.keyboard.press('ArrowRight'); await page.waitForFunction((i) => document.querySelectorAll('main .textbook-table-scroll')[i].scrollLeft > 0, i);
+    await page.keyboard.press('ArrowRight');
+    const scrolled = await page.waitForFunction((i) => document.querySelectorAll('main .textbook-table-scroll')[i].scrollLeft > 0, i);
+    await scrolled.dispose();
     await wrapper.evaluate((e) => { e.scrollLeft = 0; e.blur(); }); features.keyboardScroll.push(info);
   }
   return features;

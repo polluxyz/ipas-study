@@ -1,9 +1,10 @@
 /** 用離線 HTTP／換頁事件替身重現回應失效；收據仍走真實 Git、檔案與 SHA 核驗。 */
 import { beforeAll, beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 import { EventEmitter } from 'node:events';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { runInNewContext } from 'node:vm';
 
 const disk = vi.hoisted(() => ({ repo: undefined, fixture: undefined }));
@@ -25,7 +26,7 @@ vi.mock('node:fs/promises', async (original) => {
   return { ...actual, ...Object.fromEntries(['readFile', 'readdir', 'stat'].map((name) =>
     [name, (file, ...args) => actual[name](redirect(file), ...args)])) };
 });
-import { assertCompanion, assertFeatureInventory, assertInlineCodeInventory, assertSearchSummaries, claimSearchInput, collectSingleColumnCells, distSnapshot, gotoSettled, guardBuildContext, parseFeatureBlocks, renderedCodeText, routeLocalOnly, searchKeyboardTarget, searchSnapshot, settlePage, sourceFeatures, sourceFigureTable, sourceInlineCodes, sourceSnapshot, verifyFeatures, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
+import { assertCompanion, assertFeatureInventory, assertInlineCodeInventory, assertSearchSummaries, claimSearchInput, collectSingleColumnCells, distSnapshot, gotoSettled, guardBuildContext, parseFeatureBlocks, readApiResponse, renderedCodeText, routeLocalOnly, savePartialAssertion, searchKeyboardTarget, searchSnapshot, settlePage, sourceFeatures, sourceFigureTable, sourceInlineCodes, sourceSnapshot, verifyFeatures, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
 
 describe('來源程式與視覺行的完整性', () => {
   it('圖值表由原資料重算，改表頭、改數值、增刪列都必須拒絕', async () => {
@@ -328,12 +329,86 @@ async function rejected(h, pattern) {
   return evidence;
 }
 
+describe('失敗訊息保留量回歸', () => {
+  it('重複排空保持原故障且失敗訊息不可倍增', async () => {
+    const h = await harness(), page = testPage(h.context), d = delivery(h.context);
+    d.request.failure = () => ({ errorText: 'MEMORY_PROBE_SEED' });
+    h.context.emit('request', d.request); await d.run(); h.context.emit('requestfailed', d.request);
+    for (let i = 0; i < 12; i++) await expect(settlePage(page)).rejects.toThrow('MEMORY_PROBE_SEED');
+    expect(h.finish.evidence().failures.join('\n').length).toBeLessThan(4096);
+    await rejected(h, /MEMORY_PROBE_SEED/);
+  });
+  it('2 個獨立故障都保留，重複排空不可略過其中 1 個', async () => {
+    const h = await harness(), page = testPage(h.context);
+    for (const errorText of ['SEED_ONE', 'SEED_TWO']) {
+      const d = delivery(h.context); d.request.failure = () => ({ errorText });
+      h.context.emit('request', d.request); await d.run(); h.context.emit('requestfailed', d.request);
+    }
+    for (let i = 0; i < 12; i++) {
+      await expect(settlePage(page)).rejects.toThrow('SEED_ONE');
+      await expect(settlePage(page)).rejects.toThrow('SEED_TWO');
+    }
+    expect(h.finish.evidence().failures.join('\n').length).toBeLessThan(4096);
+    await rejected(h, /SEED_ONE/); expect(h.finish.evidence().failures.join('\n')).toContain('SEED_TWO');
+  });
+  it('獨立搜尋初始化故障保留原因，之後排空仍失敗', async () => {
+    const h = await harness(); await delivery(h.context).run();
+    await expect(settlePage(testPage(h.context, { search: Promise.reject(new Error('SEARCH_INIT_FAULT')) }))).rejects.toThrow('SEARCH_INIT_FAULT');
+    const page = testPage(h.context);
+    for (let i = 0; i < 12; i++) await expect(settlePage(page)).rejects.toThrow('SEARCH_INIT_FAULT');
+    expect(h.finish.evidence().failures.join('\n').length).toBeLessThan(4096);
+    await rejected(h, /SEARCH_INIT_FAULT/);
+  });
+});
+
+describe('回應釋放與中途證據', () => {
+  it.each([false, true])('API 回應讀取失敗=%s，讀取結束才釋放且保留原錯誤', async (fail) => {
+    const body = gate(), error = new Error('LINK_BYTES_FAULT');
+    const response = { dispose: vi.fn(async () => {}), text: vi.fn(async () => { await body.promise; if (fail) throw error; return '完整 body'; }) };
+    const reading = readApiResponse(response, (value) => value.text());
+    expect(response.dispose).not.toHaveBeenCalled(); body.release();
+    if (fail) await expect(reading).rejects.toBe(error);
+    else expect(await reading).toBe('完整 body');
+    expect(response.dispose).toHaveBeenCalledOnce();
+  });
+  it('程序遭中斷仍保留已完成斷言，且不能充當最終 companion', async () => {
+    const output = await mkdtemp(resolve(disk.fixture, 'partial-'));
+    const module = pathToFileURL(resolve(import.meta.dirname, 'rollout-smoke.mjs')).href;
+    const script = `import { savePartialAssertion } from ${JSON.stringify(module)};
+      const report = { sha: 'abc', buildSha: 'abc', receiptDigest: 'digest', started: 'fixed' };
+      savePartialAssertion(${JSON.stringify(output)}, report, 'R9', true, { label: '第一個搜尋' });
+      savePartialAssertion(${JSON.stringify(output)}, report, 'R9', false, { label: '第二個搜尋', error: '原始故障' });
+      process.stdout.write('saved\\n'); setInterval(() => {}, 1000);`;
+    const child = spawn(process.execPath, ['--input-type=module', '-e', script], { windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
+    const closed = new Promise((done) => child.once('close', (code, signal) => done({ code, signal })));
+    try {
+      await new Promise((done, reject) => {
+        child.once('error', reject);
+        child.stdout.once('data', done);
+        child.once('exit', (code) => reject(new Error(`中斷前異常退出 ${code}`)));
+      });
+    } finally { child.kill(); await closed; }
+    const records = (await readFile(resolve(output, 'rollout-partial-assertions.jsonl'), 'utf8')).trim().split('\n').map((line) => JSON.parse(line));
+    expect(records.map((record) => record.ok)).toEqual([true, false]);
+    expect(records[1].evidence.error).toBe('原始故障');
+    for (const record of records) {
+      expect(record).toMatchObject({ kind: 'rollout-partial-assertion', partial: true, final: false, sha: 'abc', buildSha: 'abc', receiptDigest: 'digest', check: 'R9' });
+      expect(record).not.toHaveProperty('finished'); expect(record).not.toHaveProperty('completed');
+      expect(() => assertCompanion('smoke', record, { receipt: { sha: 'abc' }, receiptDigest: 'digest' }, {})).toThrow();
+    }
+    await expect(readFile(resolve(output, 'rollout-verification.json'))).rejects.toMatchObject({ code: 'ENOENT' });
+  });
+  it('中途證據寫入失敗必須向上傳遞', () => {
+    expect(() => savePartialAssertion(resolve(disk.fixture, 'missing', 'directory'), {}, 'R9', true, {})).toThrow(/ENOENT/);
+  });
+});
+
 function gate() { let release; const promise = new Promise((resolveGate) => { release = resolveGate; }); return { promise, release }; }
 function testPage(context, options = {}) {
   return {
     context: () => context, url: () => `${base}/`, isClosed: () => false,
     waitForLoadState: vi.fn(async () => { await options.load; }),
-    waitForFunction: vi.fn(async () => { await options.search; }),
+    waitForFunction: vi.fn(async () => { await options.search; return { dispose: vi.fn(async () => {}) }; }),
     evaluate: vi.fn(async () => { await options.fonts; options.fontsDone?.(); }),
   };
 }
@@ -489,6 +564,14 @@ describe('導航前的頁面與精確 Request 排空', () => {
     const ready = (enabled, input) => runInNewContext(`(${predicate})()`, { document: { querySelector: (selector) => selector.includes('button') ? enabled : input } });
     expect(ready(true, false)).toBe(false); expect(ready(true, true)).toBe(true);
     expect(ready(false, false)).toBe(true);
+    await delivery(h.context).run(); await h.finish();
+  });
+  it('搜尋就緒 handle 在字體等待與請求排空前釋放', async () => {
+    const h = await harness(), page = testPage(h.context);
+    const dispose = vi.fn(async () => {});
+    page.waitForFunction.mockResolvedValue({ dispose });
+    page.evaluate.mockImplementation(async () => { expect(dispose).toHaveBeenCalledOnce(); });
+    await settlePage(page); expect(dispose).toHaveBeenCalledOnce();
     await delivery(h.context).run(); await h.finish();
   });
   it('已 fulfill 且 finished，缺少 response 仍逾時失敗並保留原門檻', async () => {
