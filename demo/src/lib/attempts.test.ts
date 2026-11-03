@@ -26,6 +26,18 @@ describe('閱讀紀錄與備份相容性', () => {
   it('閱讀存取失敗明確拋錯，不把錯誤當成已讀', () => { vi.stubGlobal('localStorage', { getItem: () => null, setItem: () => { throw new Error('quota'); } }); expect(() => setConceptRead('data-leakage', true)).toThrow('quota'); });
 });
 describe('作答紀錄與錯題本', () => {
+  it.each([
+    '{ "version": 99, "attempts": [], "unknown": "保留原資料" }',
+    '{ "version": 1, "attempts": {} }',
+    '{ "version": 1 }',
+  ])('無法辨識格式時如實告知不能匯出，讀取與匯出都保留原位元組：%s', (raw) => {
+    localStorage.setItem('ipas-attempts-v1', raw);
+    const message = '作答紀錄格式無法辨識，目前無法匯出備份。';
+    expect(() => getAttempts()).toThrow(message);
+    expect(localStorage.getItem('ipas-attempts-v1')).toBe(raw);
+    expect(() => exportAttempts()).toThrow(message);
+    expect(localStorage.getItem('ipas-attempts-v1')).toBe(raw);
+  });
   it('答錯收錄，最近一次目前版本答對後移出，支援依題號讀取', () => {
     const a = saveAttempt(attempt()); expect(a.id).toBeTruthy(); expect(getWrongBook()).toHaveLength(1);
     saveAttempt(attempt({ correct: true, choice: 'B', ts: '2026-10-30T10:01:00Z' }));

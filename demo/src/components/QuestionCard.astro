@@ -9,16 +9,17 @@ import Sources from './Sources.astro';
 interface Props { question: Question; mode?: string; titles: Record<string, string>; hidden?: boolean; unit?: { subject: number; guide_section: string }; }
 const { question: q, mode = 'question', titles, hidden = false, unit } = Astro.props;
 const choices = ['A', 'B', 'C', 'D'] as const;
+const answerLabel = q.source === 'mock' ? '參考答案' : '官方答案';
 const language = (q.code_lang ?? 'python') as ComponentProps<typeof Code>['lang'];
 const dispute = typeof q.review.dispute === 'string' ? q.review.dispute : JSON.stringify(q.review.dispute, null, 2);
-const [stem, summary, correct, rule, ...optionAndReasons] = await Promise.all([
-  q.stem, q.explanation.summary, q.explanation.correct, q.explanation.rule ?? '',
+const [stem, summary, correct, rule, disputeHtml, ...optionAndReasons] = await Promise.all([
+  q.stem, q.explanation.summary, q.explanation.correct, q.explanation.rule ?? '', q.review.status === 'disputed' ? dispute ?? '' : '',
   ...choices.map((choice) => q.options[choice]),
   ...choices.map((choice) => q.explanation.wrong[choice] ?? ''),
 ].map(renderQuestionMarkdown));
 ---
 <article class="question-card" data-question data-qid={q.id} data-rev={q.rev} data-answer={q.answer} data-mode={mode} hidden={hidden}>
-  <div class="question-card-meta"><span class="tag">{q.type}</span><span>{sourceLabel(q)}</span>{q.source === 'mock' && q.review.status === 'draft' && <span class="tag amber">模擬題・待審查</span>}{q.review.status === 'disputed' && <span class="tag amber">有爭議・依官方答案計分</span>}</div>
+  <div class="question-card-meta"><span class="tag">{q.type}</span><span>{sourceLabel(q)}</span>{q.source === 'mock' && q.review.status === 'draft' && <span class="tag amber">模擬題・待審查</span>}{q.review.status === 'disputed' && <span class="tag amber">有爭議・依{answerLabel}計分</span>}</div>
   <div class="question-stem" set:html={stem} />
   {q.code && <div class="question-code"><div class="code-label">{q.code_lang ?? 'python'}<span>題目程式碼</span></div><Code code={q.code} lang={language} themes={{ light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' }} /></div>}
   {q.image && <img class="question-image" src={`/question-assets/${q.image}`} alt={`${sourceLabel(q)} 原題附圖`} />}
@@ -28,11 +29,11 @@ const [stem, summary, correct, rule, ...optionAndReasons] = await Promise.all([
   </form>
   <p class="save-error" role="status" hidden></p>
   <section class="answer-explanation" data-explanation hidden aria-label="答案與解析" tabindex="-1">
-    <div class="answer-result" role="status"><span data-result-symbol></span><div><strong data-result-label></strong><p>官方答案 <b>{q.answer}</b><span data-chosen></span></p></div><a href="/wrong-book/">查看錯題本 ↗</a></div>
+    <div class="answer-result" role="status"><span data-result-symbol></span><div><strong data-result-label></strong><p>{answerLabel} <b>{q.answer}</b><span data-chosen></span></p></div><a href="/wrong-book/">查看錯題本 ↗</a></div>
     <div class="explanation-summary" set:html={summary} />
     <h3>為什麼 {q.answer} 正確？</h3><div class="explanation-correct" set:html={correct} />
     <h3>其他選項的問題</h3><dl class="wrong-reasons">{choices.map((choice, index) => choice !== q.answer && <div><dt>{choice}</dt><dd set:html={optionAndReasons[4 + index]} /></div>)}</dl>
-    {q.review.status === 'disputed' && <aside class="dispute"><strong>爭議說明</strong><p>{dispute}</p><small>此題依官方答案 {q.answer} 計分，請一併理解上述實務限制。</small></aside>}
+    {q.review.status === 'disputed' && <aside class="dispute"><strong>爭議說明</strong><div set:html={disputeHtml} /><small>此題依{answerLabel} {q.answer} 計分，請一併理解上述實務限制。</small></aside>}
     <JudgmentRule rule={q.explanation.rule ? rule : undefined} concepts={q.concepts} titles={titles} />
     <p class="fine-print">評鑑代碼：{q.codes.join('、')}<br />學習指引：{q.guide_refs.length > 0 ? <Sources sources={q.guide_refs} /> : '請參照相關概念頁'}{unit && <>・科目 {unit.subject} §{unit.guide_section}</>}</p>
   </section>

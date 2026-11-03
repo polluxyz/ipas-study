@@ -18,7 +18,7 @@ function read(): Attempt[] {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return [];
   const data: unknown = JSON.parse(raw);
-  if (!data || typeof data !== 'object' || !('version' in data) || data.version !== 1 || !('attempts' in data) || !Array.isArray(data.attempts)) throw new Error('作答紀錄格式無法辨識，請先匯出備份再處理。');
+  if (!data || typeof data !== 'object' || !('version' in data) || data.version !== 1 || !('attempts' in data) || !Array.isArray(data.attempts)) throw new Error('作答紀錄格式無法辨識，目前無法匯出備份。');
   return data.attempts.filter(isAttempt);
 }
 function write(attempts: Attempt[]): void { localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, attempts })); }
