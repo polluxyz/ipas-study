@@ -1,45 +1,97 @@
 ---
-/** 小測驗依序練本代碼題庫，答案送出後才開放下一題與最後的成績回顧。 */
+/** 小測驗組合篩選條件抽題，答案送出後才開放下一題與最後的成績回顧。 */
 import StudyPage from '../components/StudyPage.astro';
 import QuestionCard from '../components/QuestionCard.astro';
 import { getData } from '../lib/content';
+import { quizSourceLabels, serializeQuizCatalog, type QuizCatalog } from '../lib/quiz-filter';
 const { questions, concepts, codes } = await getData();
 const items = questions;
-const catalog = { codes: codes.map((entry) => ({ code: entry.data.code, title: entry.data.title, stages: entry.data.stages ?? [] })), questions: questions.map((q) => ({ id: q.id, codes: q.codes, concepts: q.concepts })) };
+const catalog: QuizCatalog = {
+  codes: codes.map((entry) => ({ code: entry.data.code, title: entry.data.title, stages: entry.data.stages ?? [] })).sort((a, b) => a.code.localeCompare(b.code)),
+  concepts: concepts.map((entry) => ({ id: entry.data.id, title: entry.data.title })).sort((a, b) => a.title.localeCompare(b.title, 'zh-Hant')),
+  questions: questions.map((q) => ({ id: q.id, rev: q.rev, subject: q.subject, source: q.source, codes: q.codes, concepts: q.concepts })),
+};
 const titles = Object.fromEntries(concepts.map((c) => [c.data.id, c.data.title]));
 const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
 ---
 <StudyPage title="用幾道題，確認你真的懂了。" section="單元小測驗">
-  <p class="lead" id="quiz-description">正在準備測驗題目…</p>
-  <a class="text-link" id="quiz-back" href="/codes/L23303/">← 回到學習路線</a>
-  <p id="quiz-empty" class="empty-state" hidden>這個階段尚無題目，請回到學習路線繼續閱讀。</p>
+  <form id="quiz-filters" class="quiz-filters" action="/quiz/" method="get" aria-label="測驗篩選" aria-describedby="quiz-filter-help">
+    <fieldset>
+      <legend>選擇練習範圍</legend>
+      <p class="muted" id="quiz-filter-help">條件會一起套用。一般測驗最多 10 題，階段測驗最多 5 題。選好後按「套用篩選」。</p>
+      <div class="quiz-filter-fields">
+        <label for="filter-subject">科目<select id="filter-subject" name="subject"><option value="">全部科目</option><option value="1">科目 1</option><option value="3">科目 3</option></select></label>
+        <label for="filter-code">評鑑代碼<select id="filter-code" name="code"><option value="">全部代碼</option>{catalog.codes.map((entry) => <option value={entry.code}>{entry.code}・{entry.title}</option>)}</select></label>
+        <label for="filter-concept">概念<select id="filter-concept" name="concept"><option value="">全部概念</option>{catalog.concepts.map((entry) => <option value={entry.id}>{entry.title}（{entry.id}）</option>)}</select></label>
+        <label for="filter-source">題目來源<select id="filter-source" name="source"><option value="">全部來源</option>{Object.entries(quizSourceLabels).map(([value, title]) => <option value={value}>{title}</option>)}</select></label>
+        <label for="filter-stage" id="quiz-stage-field" hidden>學習階段<select id="filter-stage" name="stage"><option value="">全部階段</option></select></label>
+      </div>
+      <label class="quiz-wrong-filter" for="filter-wrong"><input id="filter-wrong" type="checkbox" name="wrong" value="1" />只練錯題（目前版本最近一次答錯）</label>
+      <div class="button-row"><button class="button primary" type="submit">套用篩選</button><a class="button secondary" href="/quiz/" id="quiz-reset">重設篩選</a></div>
+    </fieldset>
+  </form>
+  <p id="quiz-filter-error" class="empty-state" role="status" hidden></p>
+  <p class="lead" id="quiz-description" role="status">正在準備測驗題目…</p>
+  <a class="text-link" id="quiz-back" href="/" hidden>← 回到學習總覽</a>
+  <p id="quiz-empty" class="empty-state" hidden>目前條件沒有可用題目。請調整條件後套用，或使用「重設篩選」。</p>
   <div id="quiz" hidden>
     <div class="quiz-progress"><div><span id="quiz-position">第 1 / {items.length} 題</span><span id="quiz-score">已答對 0 題</span></div><progress id="quiz-progress-bar" max={items.length} value="0" aria-label="測驗進度"></progress></div>
     <div class="quiz-questions">{items.map((question) => <QuestionCard question={question} titles={titles} unit={units.get(question.codes[0])} mode="code:L23303" hidden />)}</div>
     <div class="quiz-next"><button id="next-question" class="button primary" type="button" disabled>下一題 →</button></div>
     <section id="quiz-summary" class="quiz-summary" hidden tabindex="-1"><div class="summary-icon">✓</div><span class="eyebrow">PRACTICE COMPLETE</span><h2>又多理解了一點。</h2><p id="final-score"></p><p id="final-message"></p><div class="button-row"><a class="button primary" href="/wrong-book/">回看我的錯題 →</a><a href="/quiz/" id="quiz-retry" class="button secondary">再練一次</a></div><a class="text-link" id="quiz-route" href="/codes/L23303/">回到學習路線</a></section>
   </div>
-  <noscript><p>階段測驗需要 JavaScript 才能篩選題目及儲存作答。</p></noscript>
-  <script type="application/json" id="quiz-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\u003c')}></script>
+  <noscript><p>測驗需要 JavaScript 才能篩選題目及儲存作答。</p></noscript>
+  <script type="application/json" id="quiz-catalog" set:html={serializeQuizCatalog(catalog)}></script>
 </StudyPage>
 <script>
-  import { sampleQuestions, type Stage } from '../lib/learning-route';
-  interface QuizCatalog { codes: { code: string; title: string; stages: Stage[] }[]; questions: { id: string; codes: string[]; concepts: string[] }[]; }
+  import { getAttempts } from '../lib/attempts';
+  import { selectQuizQuestions, quizSourceLabels, type QuizCatalog } from '../lib/quiz-filter';
   const catalog: QuizCatalog = JSON.parse(document.getElementById('quiz-catalog')?.textContent ?? '{}');
-  const params = new URLSearchParams(location.search); const codeId = params.get('code') ?? 'L23303'; const stageId = params.get('stage');
-  const code = catalog.codes.find((entry) => entry.code === codeId); const stage = code?.stages.find((entry) => entry.id === stageId);
-  const pool = !code || (stageId && !stage) ? [] : stage ? catalog.questions.filter((question) => question.concepts.some((id) => stage.concepts.some((concept) => concept.id === id))) : catalog.questions.filter((question) => question.codes.includes(codeId));
-  const selected = stage ? sampleQuestions(pool, 5) : pool;
+  const params = new URLSearchParams(location.search);
+  const result = selectQuizQuestions(catalog, params);
+  if (result.filters.wrong && !result.errors.length) {
+    try { Object.assign(result, selectQuizQuestions(catalog, params, getAttempts())); }
+    catch (cause) {
+      result.errors.push(`無法讀取錯題紀錄：${cause instanceof Error ? cause.message : '請確認瀏覽器允許本機儲存。'}`);
+      result.pool = []; result.selected = [];
+    }
+  }
+  const { filters, errors, code, stage, pool, selected } = result;
+  const codeId = filters.code;
+  function setSelect(id: string, value: string) {
+    const select = document.getElementById(id) as HTMLSelectElement;
+    if (value && !Array.from(select.options).some((option) => option.value === value)) select.add(new Option(`無效條件：${value}`, value));
+    select.value = value;
+  }
+  for (const [key, value] of Object.entries({ subject: filters.subject, code: filters.code, concept: filters.concept, source: filters.source })) setSelect(`filter-${key}`, value);
+  (document.getElementById('filter-wrong') as HTMLInputElement).checked = filters.wrong;
+  const stageSelect = document.getElementById('filter-stage') as HTMLSelectElement;
+  function updateStages(codeValue: string, stageValue = '') {
+    const stages = catalog.codes.find((entry) => entry.code === codeValue)?.stages ?? [];
+    stageSelect.replaceChildren(new Option('全部階段', ''), ...stages.map((entry) => new Option(entry.title, entry.id)));
+    document.getElementById('quiz-stage-field')!.hidden = !stages.length && !stageValue;
+    stageSelect.disabled = !stages.length && !stageValue;
+    setSelect('filter-stage', stageValue);
+  }
+  updateStages(codeId, filters.stage);
+  document.getElementById('filter-code')?.addEventListener('change', (event) => updateStages((event.target as HTMLSelectElement).value));
+  const error = document.getElementById('quiz-filter-error');
+  if (error) { error.hidden = !errors.length; error.textContent = errors.join(' '); }
   const selectedIds = new Set(selected.map((question) => question.id));
   const quiz = document.getElementById('quiz');
   const allCards = Array.from(quiz?.querySelectorAll<HTMLElement>('[data-question]') ?? []);
   for (const card of allCards) if (!selectedIds.has(card.dataset.qid!)) card.remove();
   const cards = selected.map((question) => allCards.find((card) => card.dataset.qid === question.id)!);
   const container = quiz?.querySelector('.quiz-questions');
-  for (const card of cards) { card.dataset.mode = stage ? `code:${codeId}:stage:${stage.id}` : `code:${codeId}`; container?.append(card); }
+  for (const card of cards) { card.dataset.mode = stage ? `code:${codeId}:stage:${stage.id}` : code ? `code:${codeId}` : 'quiz'; container?.append(card); }
   const description = document.getElementById('quiz-description');
-  if (description) description.textContent = !code || (stageId && !stage) ? '找不到指定的代碼或學習階段，請從學習路線重新進入。' : `${codeId}・${stage?.title ?? code.title}。${stage ? `從 ${pool.length} 題抽出 ${cards.length} 題` : `共 ${cards.length} 題`}，作答後立即解析，錯題自動收進錯題本。`;
-  for (const id of ['quiz-back', 'quiz-route']) { const link = document.getElementById(id) as HTMLAnchorElement | null; if (link && code) link.href = `/codes/${codeId}/${stage ? `#stage-${stage.id}` : ''}`; }
+  const sourceTitle = Object.hasOwn(quizSourceLabels, filters.source) ? quizSourceLabels[filters.source] : filters.source || '全部來源';
+  const conditions = [filters.subject ? `科目 ${filters.subject}` : '全部科目', code ? `${code.code}・${code.title}` : filters.code || '全部代碼', filters.concept ? catalog.concepts.find((entry) => entry.id === filters.concept)?.title ?? filters.concept : '全部概念', sourceTitle, filters.wrong ? '只練錯題' : '不限作答紀錄', ...(stage ? [`階段：${stage.title}（依階段概念出題，可含其他代碼）`] : [])];
+  if (description) description.textContent = `目前條件：${conditions.join('／')}。可用 ${pool.length} 題，本次抽出 ${cards.length} 題。`;
+  for (const id of ['quiz-back', 'quiz-route']) {
+    const link = document.getElementById(id) as HTMLAnchorElement | null;
+    if (link) { link.hidden = false; link.href = code ? `/codes/${codeId}/${stage ? `#stage-${stage.id}` : ''}` : '/'; link.textContent = code ? '← 回到學習路線' : '← 回到學習總覽'; }
+  }
   const retry = document.getElementById('quiz-retry') as HTMLAnchorElement | null; if (retry) retry.href = location.pathname + location.search;
   if (quiz) quiz.hidden = !cards.length;
   const empty = document.getElementById('quiz-empty'); if (empty) empty.hidden = cards.length > 0;
@@ -72,3 +124,15 @@ const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
     quiz?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 </script>
+<style>
+  .quiz-filters { margin-block: 1.5rem; padding: 1rem; border: 1px solid var(--sl-color-gray-5); border-radius: .75rem; }
+  .quiz-filters fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .quiz-filters legend { font-weight: 600; padding: 0; }
+  .quiz-filter-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-block: 1rem; }
+  .quiz-filter-fields label { display: grid; gap: .35rem; min-width: 0; margin: 0; font-size: .85rem; }
+  .quiz-filter-fields select { width: 100%; min-width: 0; min-height: 2.75rem; margin: 0; padding: .4rem; border: 1px solid var(--sl-color-gray-4); border-radius: .35rem; background: var(--sl-color-bg); color: var(--sl-color-text); font: inherit; }
+  .quiz-wrong-filter { display: flex; align-items: center; gap: .5rem; margin-block: 1rem; font-size: .85rem; }
+  .quiz-wrong-filter input { flex-shrink: 0; width: 1.1rem; height: 1.1rem; margin: 0; }
+  #quiz-description, #quiz-filter-error { overflow-wrap: anywhere; }
+  @media (max-width: 40rem) { .quiz-filter-fields { grid-template-columns: minmax(0, 1fr); } }
+</style>
