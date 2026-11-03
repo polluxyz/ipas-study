@@ -34,7 +34,7 @@ export default defineConfig({
     defaultLocale: 'root',
     locales: { root: { label: '繁體中文', lang: 'zh-TW' } },
     customCss: ['./src/styles/custom.css', 'katex/dist/katex.min.css', './src/styles/math-figures.css'],
-    components: { SiteTitle: './src/components/Brand.astro', ThemeSelect: './src/components/LightTheme.astro' },
+    components: { SiteTitle: './src/components/Brand.astro', ThemeSelect: './src/components/LightTheme.astro', Search: './src/components/Search.astro' },
     sidebar: [
       { label: '學習總覽', link: '/', attrs: { 'data-icon': 'home' } },
       { label: '概念目錄', link: '/catalog/' },
