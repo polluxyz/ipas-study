@@ -205,9 +205,22 @@ export async function localGet(request, value, base) {
   return response;
 }
 
-/** 保留完整回應到讀取與驗證結束；成功或失敗都釋放 API body。 */
+/** 讀取與驗證結束才釋放；雙故障保留原始物件，字串紀錄也須包含兩個原因。 */
 export async function readApiResponse(response, read) {
-  try { return await read(response); } finally { await response.dispose(); }
+  let value, readError, readFailed = false;
+  try { value = await read(response); }
+  catch (error) { readFailed = true; readError = error; }
+  try { await response.dispose(); }
+  catch (disposeError) {
+    if (readFailed) {
+      throw new AggregateError([readError, disposeError],
+        `API 回應讀取失敗：${String(readError)}\nAPI 回應釋放失敗：${String(disposeError)}`, { cause: readError });
+    }
+    throw disposeError;
+  }
+  // 拒絕值可能是 undefined、null 或 false，不能以值的真假判斷是否失敗。
+  if (readFailed) throw readError;
+  return value;
 }
 
 /** 逐筆寫入獨立的未結案紀錄；不產生最終報告，也不改動覆蓋判定。 */

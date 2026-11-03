@@ -362,6 +362,51 @@ describe('失敗訊息保留量回歸', () => {
 });
 
 describe('回應釋放與中途證據', () => {
+  it.each([[false, false], [true, false], [false, true], [true, true]])('讀取失敗=%s、釋放失敗=%s，依序完成並保留全部原始錯誤', async (readFails, disposeFails) => {
+    const body = gate(), disposal = gate(), stages = [], result = { body: '完整回應' };
+    const readError = new Error('BYTES_VALIDATION_ROOT', { cause: new Error('RECEIPT_ROOT') });
+    const disposeError = new Error('DISPOSE_ROOT', { cause: new Error('CONTEXT_CLOSED_ROOT') });
+    const response = { dispose: vi.fn(async () => { stages.push('dispose'); await disposal.promise; if (disposeFails) throw disposeError; }) };
+    let settled = false;
+    const reading = readApiResponse(response, async (value) => {
+      expect(value).toBe(response); stages.push('read'); await body.promise;
+      stages.push('bytes'); if (readFails) throw readError;
+      stages.push('text'); return result;
+    }).then((value) => ({ ok: true, value }), (error) => ({ ok: false, error })).finally(() => { settled = true; });
+    expect(stages).toEqual(['read']); expect(response.dispose).not.toHaveBeenCalled();
+    body.release(); await vi.waitFor(() => expect(response.dispose).toHaveBeenCalledOnce());
+    expect(stages).toEqual(readFails ? ['read', 'bytes', 'dispose'] : ['read', 'bytes', 'text', 'dispose']);
+    expect(settled).toBe(false); disposal.release();
+    const outcome = await reading;
+    expect(outcome.ok).toBe(!readFails && !disposeFails);
+    if (!readFails && !disposeFails) expect(outcome.value).toBe(result);
+    else if (readFails && disposeFails) {
+      expect(outcome.error).toBeInstanceOf(AggregateError);
+      expect(outcome.error.errors).toHaveLength(2);
+      expect(outcome.error.errors[0]).toBe(readError); expect(outcome.error.errors[1]).toBe(disposeError);
+      expect(outcome.error.cause).toBe(readError);
+      expect(outcome.error.errors[0].cause.message).toBe('RECEIPT_ROOT');
+      expect(outcome.error.errors[1].cause.message).toBe('CONTEXT_CLOSED_ROOT');
+      expect(String(outcome.error)).toContain(String(readError)); expect(String(outcome.error)).toContain(String(disposeError));
+    } else expect(outcome.error).toBe(readFails ? readError : disposeError);
+    expect(response.dispose).toHaveBeenCalledOnce();
+  });
+  it.each([undefined, null, false, 0, '', 'NON_ERROR_ROOT'].flatMap((reason) =>
+    [[true, false], [false, true], [true, true]].map(([readFails, disposeFails]) => ({ reason, readFails, disposeFails }))))(
+    '非 Error 拒絕仍保留：$reason，讀取=$readFails、釋放=$disposeFails', async ({ reason, readFails, disposeFails }) => {
+      const stages = [];
+      const response = { dispose: vi.fn(async () => { stages.push('dispose'); if (disposeFails) throw reason; }) };
+      const outcome = await readApiResponse(response, async () => { stages.push('read'); if (readFails) throw reason; })
+        .then((value) => ({ ok: true, value }), (error) => ({ ok: false, error }));
+      expect(outcome.ok).toBe(false); expect(stages).toEqual(['read', 'dispose']);
+      expect(response.dispose).toHaveBeenCalledOnce();
+      if (readFails && disposeFails) {
+        expect(outcome.error).toBeInstanceOf(AggregateError);
+        expect(outcome.error.errors).toEqual([reason, reason]); expect(outcome.error).toHaveProperty('cause', reason);
+        expect(String(outcome.error)).toContain(`讀取失敗：${String(reason)}`);
+        expect(String(outcome.error)).toContain(`釋放失敗：${String(reason)}`);
+      } else expect(outcome.error).toBe(reason);
+    });
   it.each([false, true])('API 回應讀取失敗=%s，讀取結束才釋放且保留原錯誤', async (fail) => {
     const body = gate(), error = new Error('LINK_BYTES_FAULT');
     const response = { dispose: vi.fn(async () => {}), text: vi.fn(async () => { await body.promise; if (fail) throw error; return '完整 body'; }) };
