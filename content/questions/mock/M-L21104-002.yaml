@@ -1,0 +1,31 @@
+id: M-L21104-002
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - missing-modality
+stem: 某會議分類系統結合聲音與影像，驗證集原本兩者齊全。部署後約 15% 場次因麥克風故障沒有聲音。團隊必須在故障時維持可控結果。哪個方案最適當？
+options:
+  A: 將無聲資料補零後，直接沿用雙模態齊全時的驗證分數
+  B: 加入模態可用旗標，驗證影像單獨處理與交人工的降級規則
+  C: 複製前一場會議的聲音，讓每場輸入維度一致
+  D: 只增加影像解析度，保留原本沒有缺失條件的驗收
+answer: B
+explanation:
+  summary: 缺失模態與降級。
+  correct: 系統須明確知道聲音缺失，再按已驗證的回退條件處理。完整模態上的成績不能代替缺失情況的品質與風險驗證。
+  wrong:
+    A: 零填可能是技術處理的一部分，但不能證明模型已能辨認缺失或維持原有品質。
+    C: 前一場聲音不屬於目前事件，會引入錯誤跨模態配對。
+    D: 影像解析度提高不保證能彌補聲音證據缺失，仍須驗證缺失情境。
+guide_refs:
+  - guide-1:3-80
+  - guide-1:3-81
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

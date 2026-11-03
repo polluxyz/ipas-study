@@ -1,0 +1,31 @@
+id: M-L23401-002
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23401
+concepts:
+  - k-anonymity
+  - l-diversity
+stem: 某資料表依準識別欄位分成 3 個等價群，群大小分別為 4、5、6。最小群 4 人的疾病值全部相同。指定 K 取最小群大小，L 僅計每群不同敏感值種類數。何者正確？
+options:
+  A: K=15，因為整張表共有 15 人
+  B: 可達 K=4，但這個 4 人群不符合 L=2
+  C: L=4，因為最小群有 4 個人
+  D: 只要符合 K=4，就必然符合 L=2
+answer: B
+explanation:
+  summary: K 匿名與敏感值單一。
+  correct: 最小等價群有 4 筆，因此依指定欄位可達 K=4。該群疾病只有 1 種，不符合 distinct L=2，顯示群大小不能代替敏感值多樣性。
+  wrong:
+    A: K 檢查最小等價群大小，不是資料表總人數。
+    C: 本題 L 計算不同敏感值種類，不是記錄筆數；4 人疾病相同仍只有 1 種。
+    D: K 的群大小要求沒有保證敏感值種類，題目已提供同值反例。
+guide_refs:
+  - guide-3:6-10
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

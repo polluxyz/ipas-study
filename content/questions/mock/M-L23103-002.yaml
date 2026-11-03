@@ -1,0 +1,34 @@
+id: M-L23103-002
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23103
+concepts:
+  - huber-loss
+  - mean-squared-error
+stem: 某迴歸模型對單筆資料的殘差為 r=5。指定 Huber 損失：|r|≤δ 時為 r²/2，否則為 δ(|r|-δ/2)，且 δ=2。不做批次平均，這筆損失是多少？
+options:
+  A: "12.5"
+  B: "8"
+  C: "25"
+  D: "5"
+answer: B
+explanation:
+  summary: Huber 損失。
+  correct: 因為 |5|>2，使用線性段。損失為 2×(5-1)=8，大殘差不再按平方成長。
+  wrong:
+    A: 這是 5²/2，但殘差已超過 δ=2，不能繼續使用平方段。
+    C: 這是未乘 1/2 的平方誤差，不是本題定義的 Huber 損失。
+    D: 這是絕對誤差，沒有依 δ 計算本題的線性段係數與位移。
+guide_refs:
+  - guide-3:3-22
+  - guide-3:3-23
+  - guide-3:5-22
+  - guide-3:5-23
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

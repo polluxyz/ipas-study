@@ -1,0 +1,32 @@
+id: M-L23102-002
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23102
+concepts:
+  - vector-inner-product
+  - vector-norm-linear-combination
+stem: 某搜尋系統用餘弦相似度比較兩個非零向量 u=(3,4)、v=(6,8)。指定相似度為內積除以兩者的 L2 範數乘積。結果與含意為何？
+options:
+  A: 1，兩個向量方向相同
+  B: 50，因為餘弦相似度等於未正規化內積
+  C: 0，因為兩個向量的元素都不同
+  D: 2，因為 v 的長度是 u 的 2 倍
+answer: A
+explanation:
+  summary: 內積與向量相似度。
+  correct: u·v=50，兩者範數為 5 與 10。50/(5×10)=1，代表方向相同，但長度不相同。
+  wrong:
+    B: 50 只算了內積，尚未除以範數乘積。
+    C: 元素不同不表示方向正交；v 正好是 u 的 2 倍。
+    D: 2 是長度比，不是餘弦相似度；正規化後長度倍數會消去。
+guide_refs:
+  - guide-3:3-9
+  - guide-3:3-10
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

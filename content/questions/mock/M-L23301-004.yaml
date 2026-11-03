@@ -1,0 +1,31 @@
+id: M-L23301-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - cyclic-time-features
+stem: 某客服量模型以小時 0 至 23 作特徵。團隊想表達 23 時與 0 時相鄰，而不是相距 23 個單位。哪個表示最符合這個固定 24 小時週期？
+options:
+  A: 只將 h 除以 23，讓 0 與 23 落在 0 與 1
+  B: 只使用 sin(2πh/24)，把餘弦視為重複欄位刪除
+  C: 把 23 一律改為 0，其餘小時維持不變
+  D: 同時使用 sin(2πh/24) 與 cos(2πh/24)
+answer: D
+explanation:
+  summary: 週期時間的圓形表示。
+  correct: 成對正弦與餘弦把時間映到圓周，保留首尾相鄰關係。兩個座標一起用，可避免單一正弦在不同時刻取相同值的歧義。
+  wrong:
+    A: 這只是線性縮放，首尾仍落在數線兩端，沒有表達週期相鄰。
+    B: 單一正弦會讓部分不同時刻有相同值，成對座標才能完整表示圓周位置。
+    C: 這將 23 時與 0 時合併為相同時刻，丟掉兩者差異，而非保留相鄰但不同的關係。
+guide_refs:
+  - guide-3:5-9
+  - guide-1:5-5
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

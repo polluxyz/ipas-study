@@ -1,0 +1,39 @@
+id: M-L21302-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - release-strategies
+  - model-monitoring
+stem: 某分類服務將新模型導入 5% 流量，舊模型處理其餘 95%。新模型錯誤率超過事前 2% 上限，但整體錯誤率因舊版穩定仍很低。此時最符合金絲雀發布原則的處理為何？
+options:
+  A: 直接增加到 50% 流量，讓整體錯誤率更容易觀察
+  B: 停止擴量，將新流量退回已知穩定版本並調查新模型
+  C: 只看全服務平均，等整體錯誤率也超標才處理
+  D: 刪除候選版本的錯誤請求，再重新計算發布指標
+answer: B
+explanation:
+  summary: 金絲雀發布的回退。
+  correct: 金絲雀發布須獨立監測候選版本，按事先門檻決定擴量或回退。整體平均可能掩蓋少量新流量上的問題。
+  wrong:
+    A: 已超過事前門檻時擴量會增加受影響範圍，也違反原先的回退條件。
+    C: 候選流量占比低時，整體平均會稀釋新版本錯誤，無法執行候選版本門檻。
+    D: 移除失敗紀錄會扭曲實際服務品質，不能作為發布通過的依據。
+guide_refs:
+  - guide-1:5-16
+  - guide-1:5-19
+  - guide-1:5-21
+  - guide-1:3-37
+  - guide-1:3-38
+  - guide-1:3-58
+  - guide-1:4-42
+  - guide-1:4-43
+  - guide-1:5-20
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

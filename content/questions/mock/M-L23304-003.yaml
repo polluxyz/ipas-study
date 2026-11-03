@@ -1,0 +1,34 @@
+id: M-L23304-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - early-stopping
+stem: 某早停規則監控驗證損失，只有 loss<best-0.02 才算改善，改善時更新 best 並將未改善計數歸零。第 1 輪必算改善，patience=2，連續 2 次未改善就停止並還原達門檻的最佳輪。前 5 輪紀錄為 0.80、0.60、0.59、0.585、0.58。結果為何？
+options:
+  A: 第 3 輪停止，還原第 2 輪
+  B: 第 4 輪停止，還原第 2 輪
+  C: 第 4 輪停止，還原第 4 輪
+  D: 至少訓練到第 5 輪，因為每輪損失都下降
+answer: B
+explanation:
+  summary: 驗證早停與還原權重。
+  correct: 第 2 輪的 best 為 0.60。第 3、4 輪都未低於 0.58，計數達 2，因此在第 4 輪停止；最後一次達改善門檻的是第 2 輪。
+  wrong:
+    A: 第 3 輪只累積 1 次未改善，還沒達到 patience=2。
+    C: 第 4 輪數字雖更低，仍未達 min_delta 條件，不能當成此規則保存的最佳輪。
+    D: 本題要求改善幅度超過 0.02，不是任何微小下降都重新歸零計數。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:4-64
+  - guide-3:5-19
+  - guide-3:5-20
+  - guide-3:5-46
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

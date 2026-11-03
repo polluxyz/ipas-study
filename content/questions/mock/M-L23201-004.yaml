@@ -1,0 +1,35 @@
+id: M-L23201-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23201
+concepts:
+  - exploration-exploitation
+  - reinforcement-learning
+stem: 某推薦代理使用 ε-greedy：ε=0.1，每步取 u∈[0,1)，若 u<ε 就隨機選動作，否則選目前估計值最高的動作。本步 u=0.04，隨機分支抽到 B，而目前最高估計值屬 A。哪個判斷正確？
+options:
+  A: 選 B，這一步是探索
+  B: 選 A，因為代理每一步都應利用最高估計值
+  C: 選 B，但這一步稱為利用
+  D: 先把 ε 降到 0，再重新使用這次 u 以避免隨機
+answer: A
+explanation:
+  summary: 強化學習探索與利用。
+  correct: 0.04<0.1，因此走隨機分支，並依題目已給的抽樣結果選 B。探索是取得未知動作回饋，不要求當下選最高估計值。
+  wrong:
+    B: 這忽略了 ε-greedy 保留探索機率的條件，本步已進入隨機分支。
+    C: 動作雖為 B，選擇來源是隨機探索分支，不是依最高估計值利用。
+    D: 這改變了題目規定的策略，不能用事後調參取代本步已定義的判斷。
+guide_refs:
+  - guide-3:4-11
+  - guide-1:5-11
+  - guide-1:5-12
+  - guide-3:4-9
+  - guide-3:4-10
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

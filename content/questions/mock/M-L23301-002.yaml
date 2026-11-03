@@ -1,0 +1,32 @@
+id: M-L23301-002
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - target-encoding
+  - data-leakage
+stem: 某工程師把 8,000 筆案件的供應商代碼改成各供應商的故障標籤平均值。部分供應商只有 1 筆，該筆以自己的標籤計算編碼。團隊要訓練資料仍可用，又要避免目標洩漏。哪項安排最適當？
+options:
+  A: 以全部資料的供應商平均值編碼，再進行一般交叉驗證
+  B: 訓練列使用其他摺的標籤統計，驗證列只使用該次訓練資料統計
+  C: 只打亂資料列順序，供應商平均值的計算範圍不變
+  D: 把平均值保留到小數點後 1 位，再使用原編碼方式
+answer: B
+explanation:
+  summary: 目標編碼的洩漏。
+  correct: 目標編碼使用標籤，訓練列若直接包含自身標籤會形成捷徑。訓練列以摺外統計建立表示，外層驗證也不得參與編碼擬合；未見類別另訂訓練基準回退。
+  wrong:
+    A: 全部資料包含各驗證摺標籤，交叉驗證前完成編碼仍會洩漏。
+    C: 打亂順序不會移除自身標籤與驗證標籤對平均值的影響。
+    D: 降低精度可能讓資訊較粗，但沒有修正目標統計來源越界的問題。
+guide_refs:
+  - guide-3:5-8
+  - guide-3:5-18
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

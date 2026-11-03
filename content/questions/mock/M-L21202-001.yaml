@@ -1,0 +1,33 @@
+id: M-L21202-001
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21202
+concepts:
+  - gantt-critical-path
+  - work-breakdown-structure
+stem: 某 AI 導入計畫的工作 A 資料確認需 3 天。A 完成後，B 介面開發 4 天與 C 標註作業 6 天可平行。D 整合驗證需 2 天，必須等 B、C 都完成；資源不衝突。最短工期與關鍵路徑為何？
+options:
+  A: 9 天，A→B→D
+  B: 15 天，A→B→C→D
+  C: 11 天，A→C→D
+  D: 8 天，C→D
+answer: C
+explanation:
+  summary: 相依工作與關鍵路徑。
+  correct: A 後兩條分支分別需 4 與 6 天，須等較長的 C。最短工期為 3+6+2=11 天，A→C→D 決定最早完工。
+  wrong:
+    A: 這只計算較短的 B 分支，D 啟動時 C 還未完成，違反前置條件。
+    B: 這把可平行的 B 與 C 串成序列，多算不必要的等待。
+    D: 這忽略 C 必須等 A 完成後才能開始，少算了 3 天。
+guide_refs:
+  - guide-1:4-18
+  - guide-1:4-19
+  - guide-1:4-27
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

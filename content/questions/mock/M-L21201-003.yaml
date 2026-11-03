@@ -1,0 +1,33 @@
+id: M-L21201-003
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21201
+concepts:
+  - data-readiness
+stem: 某設備商有 50 萬筆維修紀錄，準備預測零件是否在 30 天內故障。盤點發現 40% 紀錄沒有可追溯的故障日期，各據點的「故障」定義也不一致。評估資料就緒程度時，應優先做什麼？
+options:
+  A: 先採用更大的模型，讓模型從紀錄量補足日期缺口
+  B: 把所有沒有日期的紀錄當成未故障，以保留資料量
+  C: 只比較儲存設備讀取速度，再決定是否通過資料評估
+  D: 先統一定義並核對標籤來源，確認可取得可靠的結果日期
+answer: D
+explanation:
+  summary: 資料就緒與標籤。
+  correct: 監督式預測需要可核對的目標標籤。大量紀錄若缺少一致且可追溯的故障結果，不能只憑筆數判定已具備建模條件。
+  wrong:
+    A: 增加模型容量不能重建沒有依據的真實故障日期，也無法統一標籤定義。
+    B: 缺少結果不等於確認沒有故障。這種補標會將未知結果當成負例。
+    C: 讀取速度屬運算與系統條件，不能代替標籤品質與可追溯性的查核。
+guide_refs:
+  - guide-1:4-4
+  - guide-1:4-7
+  - guide-1:5-8
+  - guide-1:5-9
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

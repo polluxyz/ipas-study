@@ -1,0 +1,36 @@
+id: M-L23301-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - smote
+  - data-leakage
+stem: 某詐欺分類資料的正類占 4%。工程師計畫使用 SMOTE 合成少數類，再以 5 摺評估。為讓各驗證摺保留獨立且接近原始分布，哪個流程最適當？
+options:
+  A: 先對全部資料做 SMOTE，再把原始與合成資料隨機分摺
+  B: 每摺訓練部分維持原樣，只把驗證部分合成到正負平衡
+  C: 先分摺，只在每摺訓練部分建立近鄰並合成，驗證部分不合成
+  D: 先將標籤加入距離特徵，再用全資料合成以提高近鄰一致性
+answer: C
+explanation:
+  summary: SMOTE 的摺內合成。
+  correct: SMOTE 以少數類近鄰插值，近鄰與合成只應使用該摺訓練資料。驗證保持原始分布，才能評估對未見真實資料的表現。
+  wrong:
+    A: 合成點的近鄰可能跨摺，同源資訊也可能分散到訓練與驗證，造成過度樂觀。
+    B: 這改變評估對象與盛行率，且沒有用合成資料改善訓練。
+    D: 標籤不應成為推論特徵，且全資料近鄰仍跨越驗證邊界。
+guide_refs:
+  - guide-3:5-10
+  - guide-3:5-25
+  - guide-3:5-48
+  - guide-3:6-27
+  - guide-3:6-30
+  - guide-3:5-18
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

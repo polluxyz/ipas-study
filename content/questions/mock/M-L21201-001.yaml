@@ -1,0 +1,34 @@
+id: M-L21201-001
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21201
+concepts:
+  - return-on-investment
+  - ai-total-cost
+stem: 某物流公司評估一年期 AI 專案。導入及該年維運合計 120 萬元，同期可歸因的節省金額合計 180 萬元。指定 ROI=(效益-成本)/成本，不計折現與其他項目。ROI 為多少？
+options:
+  A: 150%
+  B: 50%
+  C: 約 33.3%
+  D: 60%
+answer: B
+explanation:
+  summary: ROI 與成本範圍。
+  correct: 同期間淨回報為 180-120=60 萬元。以成本 120 萬元作分母，ROI=60/120=50%。
+  wrong:
+    A: 180/120=150% 是效益與成本的比值，尚未扣除成本，不符合題目公式。
+    C: 60/180 把效益當分母，與本題用成本作分母的定義不同。
+    D: 60 是淨回報的萬元數，不能直接當成百分比，仍須除以成本。
+guide_refs:
+  - guide-1:4-5
+  - guide-1:4-6
+  - guide-1:4-8
+  - guide-1:4-9
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

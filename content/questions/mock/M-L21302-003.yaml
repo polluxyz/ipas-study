@@ -1,0 +1,30 @@
+id: M-L21302-003
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21302
+concepts:
+  - service-performance-metrics
+stem: 某服務收集同一視窗的 20 筆完整回應延遲，含成功與失敗：18 筆為 10 毫秒，1 筆為 70 毫秒，1 筆為 200 毫秒。指定最近秩法 P95 取排序後第 ceil(0.95×20) 筆。P95 為多少？
+options:
+  A: 10 毫秒
+  B: 22.5 毫秒
+  C: 200 毫秒
+  D: 70 毫秒
+answer: D
+explanation:
+  summary: 延遲百分位數。
+  correct: ceil(19)=19，因此取排序後第 19 筆。前 18 筆都是 10 毫秒，第 19 筆為 70 毫秒。
+  wrong:
+    A: 10 毫秒只涵蓋前 18 筆，即 90% 樣本，還未達本題指定的第 19 筆。
+    B: 這是 (18×10+70+200)/20 的平均值，並非指定最近秩法的 P95。
+    C: 200 毫秒是第 20 筆最大值，本題 P95 只取第 19 筆。
+guide_refs:
+  - guide-1:5-20
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

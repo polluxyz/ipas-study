@@ -1,0 +1,35 @@
+id: M-L21103-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - rag
+  - hallucination
+stem: 某客服助理每日收到 900 個產品問題。新保固條款每天更新，基底模型暫時不能重訓。測試發現助理回答時未讀到最新條款。哪項修改最直接改善這個問題？
+options:
+  A: 調低生成溫度，沿用原本沒有最新條款的輸入
+  B: 延長回答字數，讓模型更完整描述舊知識
+  C: 只把舊回答人工改寫成統一語氣，再存回提示範本
+  D: 更新文件索引，檢索最新適用段落，再要求依段落作答並附引用
+answer: D
+explanation:
+  summary: RAG 檢索與生成責任。
+  correct: RAG 將外部文件帶入生成流程，適合需要使用可更新條款的情境。仍須分開檢查是否取回正確版本，以及答案是否忠於證據。
+  wrong:
+    A: 較低溫度可減少輸出變化，但不能補入模型未取得的新事實。
+    B: 增加輸出長度不會讓模型讀到新條款，也可能擴大無依據敘述。
+    C: 統一語氣不等於更新事實來源；舊回答仍可能沿用過時保固內容。
+guide_refs:
+  - guide-1:3-28
+  - guide-1:3-29
+  - guide-1:3-38
+  - guide-1:3-39
+  - guide-1:3-66
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

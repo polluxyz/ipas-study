@@ -1,0 +1,37 @@
+id: M-L23202-002
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23202
+concepts:
+  - knn
+  - feature-scaling
+stem: 某客戶 KNN 模型以歐氏距離比較月收入與服務滿意度。收入約 30,000 至 200,000，滿意度為 1 至 5。團隊希望兩者能有可比較的尺度。哪個處理最適當？
+options:
+  A: 只將 K 增大，讓收入尺度不再影響距離
+  B: 把驗證資料各自縮放到自身平均為零，再與訓練資料比較
+  C: 將收入欄位名稱改成金額，保留所有數值
+  D: 用訓練資料估計各特徵縮放參數，再同樣轉換驗證與新客戶
+answer: D
+explanation:
+  summary: KNN 距離與縮放。
+  correct: 歐氏距離受數值尺度影響，較大收入差可能掩蓋滿意度差。縮放參數須由訓練資料取得，以避免驗證資訊進入前處理。
+  wrong:
+    A: K 改變鄰居個數，不會改變每個距離分量的尺度。
+    B: 各資料集使用不同縮放基準，會讓訓練點與驗證點不在相同座標定義下。
+    C: 欄位名稱不影響歐氏距離計算，數值尺度問題仍存在。
+guide_refs:
+  - guide-1:5-9
+  - guide-3:4-32
+  - guide-3:4-33
+  - guide-3:4-34
+  - guide-1:5-4
+  - guide-3:5-6
+  - guide-3:5-7
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

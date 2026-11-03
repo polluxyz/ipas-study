@@ -1,0 +1,32 @@
+id: M-L23402-001
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23402
+concepts:
+  - statistical-parity
+  - equal-opportunity
+stem: 某錄取模型有甲、乙兩群，各 100 人，各錄取 40 人。甲群實際合格 50 人，其中錄取 30 人；乙群實際合格 40 人，其中錄取 20 人。只依這些點估計，統計均等與機會均等是否成立？
+options:
+  A: 兩者都成立，因為兩群錄取總人數相同
+  B: 統計均等成立，機會均等不成立
+  C: 統計均等不成立，機會均等成立
+  D: 兩者都不成立，因為兩群合格人數不同
+answer: B
+explanation:
+  summary: 統計均等與機會均等。
+  correct: 兩群錄取率都是 40/100=0.40，符合本題統計均等。合格者錄取率分別是 30/50=0.60 與 20/40=0.50，機會均等不成立。
+  wrong:
+    A: 錄取總數相同只能在群大小相同時支持錄取率相同，不能替代以真實合格者為分母的比較。
+    C: 這與計算方向相反；全群錄取率相同，合格者錄取率不同。
+    D: 統計均等不要求合格人數相同，只比較全群取得有利決策的比例。
+guide_refs:
+  - guide-3:6-17
+  - guide-3:6-18
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

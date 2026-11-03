@@ -1,0 +1,34 @@
+id: M-L21202-002
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21202
+concepts:
+  - data-outsourcing-governance
+  - ai-sourcing
+stem: 某公司要把 80,000 筆內部客服對話交給委外商建置分類模型。對話含客戶識別資訊，委外商又計畫轉交次承攬商。正式傳輸前，規劃文件應優先補足什麼？
+options:
+  A: 只在契約寫模型準確率達 90%，其他由廠商自行決定
+  B: 先交付全部原始資料，等驗證模型有效再談資料範圍
+  C: 只要求次承攬商不得公布模型名稱
+  D: 資料用途與最小必要範圍、處理地點、次承攬條件及返還刪除責任
+answer: D
+explanation:
+  summary: 委外資料治理。
+  correct: 委外治理要沿實際資料流確認接收者與處理責任，並留下用途及控制證據。主承攬商的口頭承諾不能代替次承攬與結束合作時的明確安排。
+  wrong:
+    A: 品質門檻沒有界定資料接收者、用途與保存責任，無法補足本題治理缺口。
+    B: 傳輸前就須確認必要範圍與責任。模型有效不能補回先前不明確的資料利用安排。
+    C: 保密模型名稱不會限制對話資料的存取、再利用、保存或移轉。
+guide_refs:
+  - guide-1:4-9
+  - guide-1:4-25
+  - guide-1:4-23
+  - guide-1:4-24
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

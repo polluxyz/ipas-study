@@ -1,0 +1,36 @@
+id: M-L21203-004
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21203
+concepts:
+  - risk-matrix
+  - risk-response-strategies
+stem: 某專案以「可能性級別×衝擊級別」排序風險。資料外洩可能性為 4、衝擊為 3。團隊已提出降低可能性的措施，但尚未執行或驗證。此時登錄表應如何記錄？
+options:
+  A: 立刻把分數降為 3，因為已有控制措施清單
+  B: 把分數記為 7，因為可能性與衝擊應相加
+  C: 目前風險分數維持 12，預期降低值另列待驗證
+  D: 刪除風險列，改在結案報告追蹤措施
+answer: C
+explanation:
+  summary: 風險矩陣與殘餘風險。
+  correct: 依指定量尺，4×3=12。尚未證明措施有效時，不能把預期效果寫成已達成的殘餘風險。
+  wrong:
+    A: 提出清單不等於措施已執行，更不等於可能性已降到 1。
+    B: 題目已指定乘積量尺，4+3 不符合本次評分定義。
+    D: 尚未處理完的風險仍須保留責任與狀態，不能以移除紀錄代替處置。
+guide_refs:
+  - guide-1:4-11
+  - guide-1:4-12
+  - guide-3:6-6
+  - guide-1:4-40
+  - guide-1:4-41
+  - guide-1:4-42
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

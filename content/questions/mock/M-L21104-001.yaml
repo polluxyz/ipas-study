@@ -1,0 +1,34 @@
+id: M-L21104-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - multimodal-data-alignment
+  - sensor-fusion
+stem: 某工廠以每秒 30 張影像及每秒 100 筆震動訊號偵測異常。兩個裝置時鐘相差 2 秒，工程師直接把相同資料列編號配對。融合後誤報增加。最應優先修正什麼？
+options:
+  A: 校正時間基準，依事件時間與取樣窗建立跨來源對應
+  B: 只將震動訊號標準化，保留目前資料列配對
+  C: 把影像特徵維度增加一倍，再沿用原有時間配對
+  D: 打亂兩種資料各自的列順序，降低時間相依性
+answer: A
+explanation:
+  summary: 跨來源時間對齊。
+  correct: 不同取樣率與時鐘偏移會讓資料列指向不同事件。先建立可追溯的時間對應，再評估融合模型，才能避免把不相關訊號當成同時發生。
+  wrong:
+    B: 標準化改變數值尺度，不會修正 2 秒時鐘偏移與不同取樣率。
+    C: 更多特徵不能恢復同一事件的跨來源關係，反而可能學到錯誤配對。
+    D: 各自打亂會進一步破壞跨來源對應，無法建立正確的同事件資料。
+guide_refs:
+  - guide-1:3-80
+  - guide-1:3-81
+  - guide-1:3-55
+  - guide-1:3-77
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

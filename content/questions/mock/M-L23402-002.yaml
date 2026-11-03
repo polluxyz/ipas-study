@@ -1,0 +1,38 @@
+id: M-L23402-002
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23402
+concepts:
+  - debiasing-strategies
+  - fairness-postprocessing
+stem: 某風險分類器已固定權重，本期不能重訓。團隊可在推論時依已核准用途取得群體欄位，並想調整各群決策門檻，以改善指定公平指標；另有獨立驗證資料。這最屬哪種去偏階段？
+options:
+  A: 前處理，因為門檻也是一種輸入資料
+  B: 訓練中處理，因為任何公平改善都會更新模型權重
+  C: 後處理，固定分數後調整決策並復評效能與公平
+  D: 只要分群門檻不同，就可省略獨立驗證
+answer: C
+explanation:
+  summary: 去偏介入階段。
+  correct: 模型不重訓，操作的是輸出分數之後的門檻，屬後處理。群體資訊是否可用、目標指標與效能代價仍須核對，不能保證所有公平指標同時改善。
+  wrong:
+    A: 前處理改的是模型訓練前的資料或表示；本題是在固定模型輸出之後改決策。
+    B: 本題明定權重固定；調門檻不等於在訓練目標中加入公平約束。
+    D: 門檻差異不保證達成所選指標，也可能影響錯誤率與業務代價，仍須復評。
+guide_refs:
+  - guide-1:3-36
+  - guide-1:3-37
+  - guide-1:3-57
+  - guide-1:3-58
+  - guide-3:6-20
+  - guide-3:6-21
+  - guide-3:6-22
+  - guide-3:6-23
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

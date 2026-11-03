@@ -1,0 +1,35 @@
+id: M-L21203-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - data-drift
+  - concept-drift
+stem: 某信用模型監控顯示，近月申請人的年齡分布改變。另有帶真值的追蹤資料指出：在相同輸入條件下，違約的條件機率也改變。依定義，這兩個現象分別最直接對應什麼？
+options:
+  A: 前者是概念漂移，後者是資料漂移
+  B: 兩者都只是訓練過擬合，與部署資料無關
+  C: 兩者都能只看年齡直方圖確定，不需要真值
+  D: 前者是資料漂移，後者是概念漂移
+answer: D
+explanation:
+  summary: 資料漂移與概念漂移。
+  correct: 輸入分布 P(X) 改變屬資料漂移。相同輸入與結果間的關係 P(Y|X) 改變屬概念漂移，須靠足夠的結果證據判斷。
+  wrong:
+    A: 這把輸入分布與條件結果關係的定義對調了。
+    B: 題目描述的是部署期間的分布及條件關係變化，不能僅用訓練擬合程度解釋。
+    C: 直方圖可反映輸入變化，但不能獨自證明相同輸入下的違約關係改變。
+guide_refs:
+  - guide-1:4-30
+  - guide-1:4-42
+  - guide-1:5-19
+  - guide-1:4-31
+  - guide-1:4-47
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

@@ -1,0 +1,48 @@
+id: M-L23304-001
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - grid-search
+  - hyperparameter-tuning
+stem: 某工程師依下列設定搜尋 SVC 超參數。C 有 3 個值、gamma 有 2 個值，每組使用 4 摺，refit=True。所有擬合成功，沒有額外重複試驗；fit 呼叫包含搜尋後的最佳模型重訓。總共擬合幾次？
+options:
+  A: 24 次
+  B: 20 次
+  C: 7 次
+  D: 25 次
+answer: D
+explanation:
+  summary: 網格搜尋擬合次數。
+  correct: 完整網格有 3×2=6 組，每組 4 摺共 24 次。refit=True 會以最佳設定在完整開發資料再擬合 1 次，合計 25 次。
+  wrong:
+    A: 這只計交叉驗證的 6×4 次，漏掉搜尋完成後的 1 次重訓。
+    B: 這將 3 與 2 相加再乘 4；完整交叉網格的組合數應相乘。
+    C: 這只算 6 組候選加 1 次重訓，未把每組 4 摺的擬合列入。
+guide_refs:
+  - guide-3:5-30
+  - guide-3:5-31
+  - guide-3:5-32
+  - guide-3:5-33
+  - guide-3:5-34
+  - guide-3:5-42
+  - guide-3:4-5
+  - guide-3:4-6
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+code: |
+  import numpy as np
+  from sklearn.model_selection import GridSearchCV
+  from sklearn.svm import SVC
+  X = np.arange(48, dtype=float).reshape(24, 2)
+  y = np.array([0, 1] * 12)
+  search = GridSearchCV(SVC(), {"C": [0.1, 1, 10], "gamma": [0.01, 0.1]},
+                        cv=4, refit=True, n_jobs=1)
+  search.fit(X, y)
+code_lang: python

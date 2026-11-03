@@ -1,0 +1,30 @@
+id: M-L21202-003
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21202
+concepts:
+  - compute-resource-planning
+stem: 某服務預計每秒處理 120 筆請求，尖峰連續 10 分鐘。單筆 GPU 推論 18 毫秒，但排隊與前處理還沒量測。需求是端到端 P95 小於 100 毫秒。採購算力前最需要哪項證據？
+options:
+  A: 以代表性尖峰負載量測完整路徑的 P95、吞吐、排隊與資源占用
+  B: 將 1 秒除以 18 毫秒，直接作為整個服務的最大容量
+  C: 只測沒有請求時的 GPU 記憶體，選剩餘空間最大的卡
+  D: 把離線準確率提高到 99%，以減少對延遲驗證的需求
+answer: A
+explanation:
+  summary: 端到端算力規劃。
+  correct: 單筆模型耗時沒有涵蓋併發、前處理與排隊。配置算力須以實際工作負載驗證完整回應路徑，才能判斷容量與延遲是否同時達標。
+  wrong:
+    B: 這只反映特定單筆運算的簡化比值，沒有納入並行方式、排隊與其他處理成本。
+    C: 閒置記憶體不能證明尖峰下的處理速率與端到端延遲符合需求。
+    D: 準確率與服務延遲是不同驗收條件，前者不能替代後者。
+guide_refs:
+  - guide-1:4-18
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

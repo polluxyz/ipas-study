@@ -1,0 +1,33 @@
+id: M-L21202-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21202
+concepts:
+  - phased-rollout
+  - planning-deliverables
+stem: 某零售商規劃把推薦模型先導入 2 間店，再擴到 40 間。計畫列了各店啟用日期，但沒有列退回舊流程的責任人與條件。哪項補充最能讓漸進導入可執行？
+options:
+  A: 把 40 間店的日期排得更平均，維持原有驗收欄位
+  B: 在每階段列出服務與業務門檻、監控期限及有權回退的人
+  C: 只要求每天回報啟用店數，不追蹤回應品質
+  D: 在最後一間店啟用後，才安排第一次業務檢查
+answer: B
+explanation:
+  summary: 漸進導入及回退條件。
+  correct: 漸進導入不只是分批日期。每階段須有可判定的擴量、暫停與回退條件，並指定實際能採取行動的責任。
+  wrong:
+    A: 調整日期沒有補足何時停止、由誰回退與如何判定風險的資訊。
+    C: 啟用數量是進度，不能證明新流程在各階段的品質與營運影響。
+    D: 這讓前面各階段缺少決策證據，無法在影響擴大前處理問題。
+guide_refs:
+  - guide-1:5-21
+  - guide-1:4-27
+  - guide-1:4-28
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

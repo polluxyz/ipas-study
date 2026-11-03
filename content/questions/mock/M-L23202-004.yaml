@@ -1,0 +1,36 @@
+id: M-L23202-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23202
+concepts:
+  - boosting
+  - gradient-boosted-trees
+stem: 某團隊比較隨機森林與梯度提升樹。新候選每一輪根據目前集成損失的負梯度訓練下一棵樹，再以學習率加入既有分數。這個候選最符合哪種方法？
+options:
+  A: 標準 Bagging，因為每棵樹完全獨立訓練再平均
+  B: 梯度提升樹，因為後續模型依目前損失方向修正集成
+  C: K-means，因為每輪都會重新計算群中心
+  D: 單棵決策樹剪枝，因為每輪都刪去原樹的節點
+answer: B
+explanation:
+  summary: Boosting 的序列修正。
+  correct: 梯度提升逐輪利用當前模型的不足新增弱模型，各輪具有相依性。學習率控制每輪修正幅度。
+  wrong:
+    A: 題目下一棵樹依賴目前集成的負梯度，與完全獨立的重抽樣訓練不同。
+    C: 題目訓練的是依監督損失修正分數的樹，不是依最近中心分派資料。
+    D: 題目每輪新增模型並調整集成分數，沒有描述刪除既有樹節點。
+guide_refs:
+  - guide-3:4-36
+  - guide-3:4-37
+  - guide-1:5-8
+  - guide-1:5-9
+  - guide-3:4-22
+  - guide-3:4-39
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

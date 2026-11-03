@@ -1,0 +1,36 @@
+id: M-L23302-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23302
+concepts:
+  - shap
+  - explainable-ai
+stem: 某流失模型把「客服聯絡次數」列為單筆案件最大的正向 SHAP 貢獻。業務提議直接禁止客戶聯絡，聲稱可降低真實流失率 10%。只有模型歸因，沒有干預或因果分析。應如何判斷？
+options:
+  A: 歸因只說明模型如何使用特徵，不能據此確認禁止聯絡的因果效果
+  B: 只要 SHAP 為正，減少該特徵就必定降低真實流失
+  C: 把背景資料改成所有客戶後，就能自動得到因果效果
+  D: 只要換成另一種局部解釋工具，就可直接核准 10% 效果
+answer: A
+explanation:
+  summary: SHAP 不等於因果。
+  correct: 客服聯絡可能是問題嚴重程度的訊號，也可能和其他因素相關。SHAP 分攤模型輸出，無法單靠歸因證明改變聯絡行為會帶來指定真實效果。
+  wrong:
+    B: 正向歸因不等於可干預的因果關係，模型相關性不能保證行動結果。
+    C: 更換背景會改變比較基準，但不會自動提供因果識別條件或干預證據。
+    D: 另一種模型解釋方法同樣不會自動建立因果關係，仍缺少行動效果證據。
+guide_refs:
+  - guide-3:5-15
+  - guide-1:4-10
+  - guide-1:4-11
+  - guide-1:4-38
+  - guide-1:4-39
+  - guide-3:5-14
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

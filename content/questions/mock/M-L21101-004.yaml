@@ -1,0 +1,33 @@
+id: M-L21101-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - text-augmentation
+  - data-leakage
+stem: 某客服團隊有 2,400 筆意圖分類資料。「請不要取消訂單，我要改地址」標為改址。回譯候選變成「請取消訂單，我不要改地址」。工程師還想把原句放訓練集、候選放驗證集。哪個處理最適當？
+options:
+  A: 退回這筆候選，並讓其他合格同源改寫只留在訓練集
+  B: 保留改址標籤，因為候選仍包含訂單與地址
+  C: 改成取消標籤後放入驗證集，原句繼續留在訓練集
+  D: 保留候選並增加訓練輪數，讓模型自動修正標籤
+answer: A
+explanation:
+  summary: 文字增強的語意及評估隔離。
+  correct: 候選把否定位置改掉，主要意圖已反轉，不能沿用改址標籤。同源改寫也須與原始訓練句留在同側，避免驗證分數受同源內容影響。
+  wrong:
+    B: 共同關鍵字不代表意圖相同。否定與動作的組合已改變，沿用標籤會引入錯誤。
+    C: 修改標籤不能消除與訓練句同源的問題，也不應將失真增強候選直接當成獨立驗證資料。
+    D: 增加輪數不能恢復被改掉的原意，還可能加深對錯誤標籤的擬合。
+guide_refs:
+  - guide-3:5-9
+  - guide-3:5-17
+  - guide-3:5-18
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

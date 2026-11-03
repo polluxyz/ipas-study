@@ -1,0 +1,32 @@
+id: M-L21301-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - time-series-split
+  - data-leakage
+stem: 某電商每晚預測次日退貨量。團隊把 1 至 12 月資料隨機切分，還將退貨申請完成後才產生的最終退款金額當成特徵，驗證分數很高。哪項修改最能同時處理兩個問題？
+options:
+  A: 依時間先後切分，並只保留預測當下已取得的特徵
+  B: 依時間先後切分，但保留最終退款金額以提高準確度
+  C: 移除最終退款金額，但繼續隨機混合全年日期評估
+  D: 保留原流程，僅將退貨量標準化
+answer: A
+explanation:
+  summary: 時序預測的資訊可用性。
+  correct: 時序任務須用過去估計未來。最終退款金額在預測時尚不可得，須移除或改成當時已知的資訊，否則即使改切分仍有洩漏。
+  wrong:
+    B: 時間切分沒有讓事後資訊變成預測當下可用，最終退款金額仍造成洩漏。
+    C: 這移除了事後特徵，但隨機切分仍沒有模擬用過去資料預測未來。
+    D: 改變目標尺度不能修正時間混用與事後特徵。
+guide_refs:
+  - guide-3:5-26
+  - guide-3:5-18
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

@@ -1,0 +1,31 @@
+id: M-L21201-004
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21201
+concepts:
+  - net-present-value
+stem: 某 AI 專案現在投入 150 萬元，預計第 1 年年底淨現金流為 110 萬元，第 2 年年底為 121 萬元。指定年折現率 10%，沒有殘值。NPV（未來現金流折現後扣掉初投入）為多少？
+options:
+  A: 50 萬元
+  B: 81 萬元
+  C: 200 萬元
+  D: 60 萬元
+answer: A
+explanation:
+  summary: 折現淨現值。
+  correct: 第 1 年現值為 110/1.1=100，第 2 年為 121/1.1²=100。合計 200，再扣初投入 150，NPV 為 50 萬元。
+  wrong:
+    B: 110+121-150=81 忽略了未來現金流的折現，不能作為指定折現率下的 NPV。
+    C: 200 是兩期流入的現值合計，還沒有扣掉現在投入的 150 萬元。
+    D: 把兩期都只除以 1.1，得到 100+110-150=60。第 2 年必須折現兩期。
+guide_refs:
+  - guide-1:4-5
+  - guide-1:4-6
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

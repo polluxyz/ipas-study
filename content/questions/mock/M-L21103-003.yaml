@@ -1,0 +1,32 @@
+id: M-L21103-003
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - react-agent-loop
+  - ai-agent
+stem: 某維修代理每次最多查 3 個工具。代理先查到零件已停售，卻在工具回傳前就決定下單，也未修正後續步驟。依 ReAct（交替選工具並讀取結果的流程），最該改哪裡？
+options:
+  A: 把最多工具次數由 3 次增為 30 次，沿用原先固定下單順序
+  B: 等待並核對工具觀察，再依停售結果改查替代料或停止下單
+  C: 刪除查庫存工具，只讓語言模型依訓練知識判斷是否在售
+  D: 保留原下單決策，只把工具回傳寫進事後報告
+answer: B
+explanation:
+  summary: ReAct 工具觀察迴圈。
+  correct: ReAct 讓工具結果參與下一步判斷。代理須確認回傳內容與限制，不能只執行預排動作而忽略新證據。
+  wrong:
+    A: 增加呼叫上限不能修復忽略工具回傳的決策流程，也可能增加無效操作。
+    C: 停售是需要當前查證的狀態。移除觀察來源會讓決策更缺乏依據。
+    D: 事後紀錄有助追溯，但沒有在下單前使用停售資訊，仍未修正本題問題。
+guide_refs:
+  - guide-1:3-64
+  - guide-1:3-83
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

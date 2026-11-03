@@ -1,0 +1,31 @@
+id: M-L21101-002
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - named-entity-recognition
+  - relation-extraction
+stem: 某採購系統每天處理 600 份合約。第一階段須標出「星野公司」及「海原公司」在原文的位置與組織類型；第二階段再產生「星野公司—供貨給—海原公司」。哪個任務分工最符合需求？
+options:
+  A: 先做情感分析，再把正負情緒當作供貨方向
+  B: 只做斷詞，將相鄰公司的先後位置當成供貨方向
+  C: 先做命名實體辨識，再做關係抽取
+  D: 只做文件分類，將同類文件中的公司直接視為交易對象
+answer: C
+explanation:
+  summary: 實體辨識與關係抽取分工。
+  correct: 命名實體辨識交付原文範圍與類型。關係抽取再判定兩個實體間的供貨方向，且須有原文支持。
+  wrong:
+    A: 情感分析判斷態度，不能提供公司實體邊界，也無法以情緒推得供貨關係。
+    B: 斷詞不會自動產生組織類型。文字先後位置也不保證語意關係方向。
+    D: 文件類別描述整篇內容，不能證明兩個公司間有特定交易關係。
+guide_refs:
+  - guide-1:3-32
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null

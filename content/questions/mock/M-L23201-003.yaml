@@ -1,0 +1,30 @@
+id: M-L23201-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23201
+concepts:
+  - semi-supervised-learning
+stem: 某語音分類任務只有 800 筆人工標籤，另有 30,000 筆同領域未標籤資料。團隊想先用初始模型產生高信心偽標籤，再合併訓練並保留獨立人工測試集。哪個敘述最正確？
+options:
+  A: 這是完全非監督學習，因為多數資料最初沒有標籤
+  B: 高信心預測可直接視為零錯誤真值，不再需要人工測試
+  C: 偽標籤只能加入測試集，加入訓練集會違反半監督定義
+  D: 這是半監督策略，但須抽查偽標籤並監測錯誤是否被放大
+answer: D
+explanation:
+  summary: 半監督的偽標籤。
+  correct: 半監督學習結合有標籤與未標籤資料。模型自己的標籤可能偏誤，因此不能把高信心視為人工真值，仍須以獨立資料驗證。
+  wrong:
+    A: 流程仍使用 800 筆人工標籤建立初始預測，並非完全不使用標籤。
+    B: 模型可能高信心地犯錯。取消獨立測試會無法發現偽標籤的偏誤。
+    C: 使用未標籤資料改善訓練是半監督方法的目的之一；人工測試集反而應保留獨立性。
+guide_refs:
+  - guide-1:3-46
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
