@@ -32,7 +32,7 @@ const searchCases = [
   ['Statistical Parity', 'statistical-parity'], ['NIST AI RMF', 'nist-ai-rmf'],
 ];
 
-/** Pagefind 1.5.2 的完成訊息與有序結果列；前三列各自載入後才能讀取，子結果不算另一頁。 */
+/** 先核對原搜尋完成與前三列載入，再按畫面順序讀名稱入口及全文結果。 */
 export function searchSnapshot(query) {
   const input = document.querySelector('.pagefind-ui__search-input');
   const message = document.querySelector('.pagefind-ui__message')?.textContent?.trim();
@@ -43,24 +43,42 @@ export function searchSnapshot(query) {
   const count = zero ? 0 : Number(match[1].replaceAll(',', ''));
   if (!Number.isSafeInteger(count) || (!zero && count < 1)) return false;
   const list = document.querySelector('.pagefind-ui__results');
-  if (!list) return false;
-  const rows = Array.from(list.children).slice(0, Math.min(3, count));
+  if (!list && count > 0) return false;
+  const rows = Array.from(list?.children ?? []).slice(0, Math.min(3, count));
   if (rows.length !== Math.min(3, count)) return false;
+  const links = [];
   const results = rows.map((row) => {
     const link = row.querySelector('.pagefind-ui__result-inner > .pagefind-ui__result-title > a.pagefind-ui__result-link');
     const excerpt = row.querySelector('.pagefind-ui__result-excerpt');
     if (!link || !link.getAttribute('href')) return null;
+    links.push(link);
     return { href: link.getAttribute('href'), path: new URL(link.href).pathname, summary: excerpt?.textContent ?? '', html: excerpt?.innerHTML ?? '' };
   });
   if (results.some((result) => !result)) return false;
-  return { query, count, message, results };
+  const panel = document.querySelector('[data-search-title-matches]');
+  if (!panel || panel.hidden || !panel.getClientRects().length) return { query, count, message, results };
+  if (panel.dataset.searchTitleQuery !== query) return false;
+  const nameLinks = Array.from(panel.querySelectorAll('[data-search-title-link]')).filter((link) => link.getClientRects().length > 0);
+  const names = nameLinks.map((link) => {
+    const excerpt = link.parentElement?.querySelector('[data-search-title-summary]');
+    if (!link.getAttribute('href')) return null;
+    return { href: link.getAttribute('href'), path: new URL(link.href).pathname, summary: excerpt?.textContent ?? '', html: excerpt?.innerHTML ?? '' };
+  });
+  if (names.some((result) => !result)) return false;
+  const byLink = new Map([...links.map((link, index) => [link, results[index]]), ...nameLinks.map((link, index) => [link, names[index]])]);
+  // 不去重，也不先分區取前三；可見的重複入口仍占用一筆。
+  const ordered = Array.from(document.querySelectorAll('[data-search-title-link], .pagefind-ui__result-inner > .pagefind-ui__result-title > a.pagefind-ui__result-link'))
+    .filter((link) => byLink.has(link) && link.getClientRects().length > 0)
+    .map((link) => byLink.get(link));
+  return { query, count, message, results: ordered.slice(0, 3), nativeResults: results, nameResults: names };
 }
 
 /** 僅供受控全新導覽使用：標記本欄已由 QA 使用，並拒絕可見的既有查詢狀態。 */
 export function claimSearchInput(input) {
+  const names = document.querySelector('[data-search-title-matches]');
   if (input !== document.querySelector('.pagefind-ui__search-input') || input.value !== '' ||
       input.hasAttribute('data-qa-search-used') || document.querySelector('.pagefind-ui__results-area, .pagefind-ui__results') ||
-      document.querySelector('.pagefind-ui__message')?.textContent?.trim()) {
+      document.querySelector('.pagefind-ui__message')?.textContent?.trim() || (names && !names.hidden && names.getClientRects().length > 0)) {
     throw new Error('搜尋 QA 需要全新導覽且尚未查詢的乾淨輸入欄與畫面；請重新導覽');
   }
   input.setAttribute('data-qa-search-used', '');
