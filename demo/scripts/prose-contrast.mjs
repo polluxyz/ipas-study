@@ -1,8 +1,8 @@
 /** 量測概念正文可見文字的實際前景及逐層背景，避免透明色被當作黑色。 */
 import assert from 'node:assert/strict';
 
-export function collectProseSamples() {
-  const root = document.querySelector('#concept-body');
+export function collectProseSamples(rootSelector = '#concept-body') {
+  const root = document.querySelector(rootSelector);
   if (!root) throw new Error('缺少概念正文');
   const samples = [];
   // 篩選列是正文的兄弟節點，也必須採集實際可見文字。

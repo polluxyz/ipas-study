@@ -1,9 +1,39 @@
 /** 以透明祖先、半透明前景及舊版低對比案例驗證量測門檻。 */
-import { describe, expect, it } from 'vitest';
-import { assertProseContrast, contrastOf } from './prose-contrast.mjs';
+import { describe, expect, it, vi } from 'vitest';
+import { assertProseContrast, collectProseSamples, contrastOf } from './prose-contrast.mjs';
 const good = (kind) => ({ kind, text: '可讀', foreground: 'rgb(37, 61, 55)', layers: ['rgba(0, 0, 0, 0)', 'rgb(255, 254, 250)'], opacity: 1 });
 const kinds = ['prose', 'tables', 'figureHeaders', 'code', 'output', 'formula', 'filterLabel', 'filterDescription', 'filterStatus'];
 describe('概念頁文字對比', () => {
+  it('預設採集概念正文，也可指定既有示範正文；表頭不可漏採', () => {
+    const el = { checkVisibility: () => true, closest: (selector) => selector === 'table', parentElement: null };
+    const node = { textContent: '設定', parentElement: el };
+    const select = vi.fn(() => ({}));
+    vi.stubGlobal('document', {
+      querySelector: select,
+      createTreeWalker: () => { let visited = false; return { currentNode: node, nextNode: () => visited ? false : (visited = true) }; },
+      createRange: () => ({ selectNodeContents: () => {}, getClientRects: () => [{ width: 20, height: 20 }] }),
+    });
+    vi.stubGlobal('NodeFilter', { SHOW_TEXT: 4 });
+    vi.stubGlobal('getComputedStyle', () => ({ backgroundImage: 'none', opacity: '1', backgroundColor: 'rgb(36, 46, 40)', color: 'rgb(37, 61, 55)' }));
+    try {
+      for (const selector of [undefined, '#supplement-render-body']) {
+        select.mockImplementation((query) => query === '[data-supplement-filter]' ? null : ({}));
+        const samples = collectProseSamples(selector);
+        expect(select).toHaveBeenCalledWith(selector ?? '#concept-body');
+        expect(samples).toHaveLength(1);
+        expect(samples[0]).toMatchObject({ kind: 'tables', text: '設定' });
+        expect(contrastOf(samples[0])).toBeCloseTo(1.203732, 6);
+      }
+      select.mockReturnValue(null);
+      expect(() => collectProseSamples('#supplement-render-body')).toThrow('缺少概念正文');
+    } finally { vi.unstubAllGlobals(); }
+  });
+  it('補充表頭使用區塊配色時通過，Starlight 深字配深底時拒絕', () => {
+    const header = { kind: 'tables', text: '設定', foreground: 'rgb(227, 233, 223)', layers: ['rgba(0, 0, 0, 0)', 'rgb(36, 46, 40)', 'rgb(250, 251, 247)'], opacity: 1 };
+    expect(contrastOf(header)).toBeGreaterThanOrEqual(4.5);
+    expect(() => assertProseContrast(kinds.map((kind) => kind === 'tables' ? header : good(kind)))).not.toThrow();
+    expect(() => assertProseContrast(kinds.map((kind) => kind === 'tables' ? { ...header, foreground: 'rgb(37, 61, 55)' } : good(kind)))).toThrow('tables 對比 1.204 < 4.5');
+  });
   it('透明祖先與 alpha 前景須在實際背景上合成', () => {
     expect(contrastOf({ ...good('prose'), foreground: 'rgba(0, 0, 0, 0.5)', layers: ['rgba(255, 0, 0, 0.5)', 'rgba(0, 0, 0, 0)', 'rgb(255, 255, 255)'] })).toBeCloseTo(3.18, 2);
     expect(contrastOf({ ...good('prose'), foreground: 'rgb(0, 0, 0)', layers: ['rgba(0, 0, 0, 0)', 'rgb(255, 255, 255)'] })).toBeCloseTo(21, 5);
