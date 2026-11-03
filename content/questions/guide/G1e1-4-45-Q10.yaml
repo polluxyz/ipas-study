@@ -30,8 +30,8 @@ guide_refs:
   - guide-1:4-45
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 141
-    by: codex-author-task_050714761596
-  dispute: 題幹只明示輸入資料分佈改變，原解析卻直接定義為概念漂移；需區分 P(X) 與 P(Y|X)。官方 C 的監控及重訓方向保留。
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

@@ -19,7 +19,7 @@ options:
 answer: B
 explanation:
   summary: 辨識向數值加入隨機誤差的擾動方法。
-  correct: 在薪資數值上加入隨機誤差，會以隨機方式改動原值，因此符合 Noise Injection。只有加入雜訊並不能保證已達成差分隱私，仍需明確的機制及參數。
+  correct: 在薪資數值上加入隨機誤差，會以隨機方式改動原值，因此符合 Noise Injection。只有加入雜訊並不能保證已達成差分隱私，仍需明確的機制及參數。原指引答案字母 B 保留；答案標籤「強化匿名化技術」及再識別解析誤植，與本題選項不符。
   wrong:
     A: 把姓名改成代號是代碼替代，不必然涉及隨機改動原數值。
     C: 把地址改成較粗的縣市層級是泛化，並非向數值加隨機誤差。
@@ -29,8 +29,8 @@ guide_refs:
   - guide-3:6-26
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 221
-    by: codex-author-task_050714761596
-  dispute: 原指引 6-29 第2題雖印 Ans（B），答案標籤卻是「強化匿名化技術」，解析亦談再識別；這與本題隨機擾動的題幹及 B 選項不符。保留官方字母 B，作者解析依實際選項說明。
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

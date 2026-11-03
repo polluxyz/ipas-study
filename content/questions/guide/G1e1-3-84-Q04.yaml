@@ -23,14 +23,14 @@ explanation:
   wrong:
     A: 標示不同實體的邊界涉及分割或實體定位，超出整張圖片的類別輸出。
     B: 產出新圖片是生成任務，並非判斷既有圖片的類別。
-    D: 判斷是否含文字可視為特定的二元分類應用，並非影像分類的一般定義；官方解析將此項稱為目標偵測，這個說法過窄。
+    D: 判斷是否含文字可視為特定的二元分類應用，並非影像分類的一般定義；官方解析將此項稱為目標偵測，這個說法不精確。
   rule: 整張圖片給類別是分類；指出物件位置才涉及偵測。
 guide_refs:
   - guide-1:3-84
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 93
-    by: codex-author-task_050714761596
-  dispute: 原解析把「判斷影像是否含有文字」直接稱為目標偵測，並不嚴謹；它也可做成影像層級二元分類。官方 C 仍是一般任務定義。
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

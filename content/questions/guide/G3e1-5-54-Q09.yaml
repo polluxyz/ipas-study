@@ -19,18 +19,18 @@ options:
 answer: B
 explanation:
   summary: 辨識稀疏特徵情境常見的逐參數更新縮放。
-  correct: 官方選 Adagrad，因為它依各參數的累積平方梯度調整有效步長，常用於稀疏特徵。題幹未指明累積方式，因此不足以排除另一個自適應方法 Adam。
+  correct: 官方選 Adagrad，因為它依各參數的累積平方梯度調整有效步長，常用於稀疏特徵（[Adagrad 原論文 §1](https://jmlr.org/papers/volume12/duchi11a/duchi11a.pdf)）。題幹未指明累積方式，因此不足以排除另一個自適應方法 Adam。
   wrong:
     A: Momentum 結合歷史梯度方向，不以 Adagrad 的累積平方和逐參數縮放。
-    C: Adam 也會依各參數的一階及二階動量估計調整更新，因此不能說 Adam 不具自適應能力。官方偏好 B，但題幹條件不足以讓 C 完全不合理。
+    C: Adam 也依各參數的一階及二階矩估計調整步長。[Adam 原論文摘要及 §1](https://arxiv.org/pdf/1412.6980)亦明示其適用於稀疏梯度。官方選 B，但題幹兩條件不足以排除 C。
     D: 基本 SGD 不會自動維護各參數的自適應縮放統計量。
-  rule: Adagrad 用累積平方梯度；Adam 用衰減的一階與二階動量。
+  rule: Adagrad 用累積平方梯度；Adam 用衰減的一階與二階矩。
 guide_refs:
   - guide-3:5-54
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 191
-    by: codex-author-task_050714761596
-  dispute: 題幹只說自動調整各參數學習率及適用稀疏資料，未限定累積平方和；Adam 同樣有逐參數自適應更新，B 是官方答案但唯一性不足。
+    by: claude-primary-task_53aa4e76b2c3;claude-followup-task_90e9f9a05294
+  dispute: 官方答案為 B（Adagrad）。題幹只說逐參數自適應及適用稀疏資料；[Adam 原論文摘要與第 1 節](https://arxiv.org/pdf/1412.6980)也明示這兩項能力，因此不足以排除 C。保留官方答案與題幹唯一性爭議。

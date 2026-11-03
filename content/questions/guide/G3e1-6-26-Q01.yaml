@@ -24,13 +24,13 @@ explanation:
     A: 出生日期、郵遞區號及職業常被視為準識別線索，組合後仍可能識別個人，不能當成沒有隱私風險。
     B: Cookie、IP 與定位通常是間接識別線索，但仍可能屬個人資料，不能因不是姓名就排除保護。
     D: 行為、統計與雜湊資料的風險依可連結性而變。雜湊不等於匿名化，也不能保證無法猜回弱密碼。
-  rule: 直接識別與間接識別都要評估可連結到個人的風險。
+  rule: PII 全名為 Personally Identifiable Information，範圍不限直接識別。直接識別與間接識別都要評估可連結到個人的風險。
 guide_refs:
   - guide-3:6-26
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 221
-    by: codex-author-task_050714761596
-  dispute: 原題將 PII 寫成 Directly Identifiable Information；常見全名是 Personally Identifiable Information，範圍不限直接識別。原解析也把姓名必然唯一及雜湊不可逆說得過度絕對。
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

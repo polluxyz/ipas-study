@@ -19,7 +19,7 @@ options:
 answer: A
 explanation:
   summary: 辨識敏感屬性分佈差異造成的揭露風險。
-  correct: T-Closeness 限制同一等價群組的敏感屬性分佈，與整份資料的分佈相差多少。這可減少攻擊者因知道群組而推斷個人敏感屬性的額外資訊。
+  correct: T-Closeness 限制同一等價群組的敏感屬性分佈，與整份資料的分佈相差多少。這可減少攻擊者因知道群組而推斷個人敏感屬性的額外資訊。官方 A 的「識別風險」用語較廣，不代表可消除所有身分再識別風險。
   wrong:
     B: 資料重複是品質或儲存問題，不是 T-Closeness 的主要限制對象。
     C: T-Closeness 不以縮短模型訓練時間為目的。
@@ -29,8 +29,8 @@ guide_refs:
   - guide-3:6-27
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 222
-    by: codex-author-task_050714761596
-  dispute: 官方 A 用「識別風險」較寬泛；T-Closeness 主要限制知道等價群組後的敏感屬性推斷，不代表已消除所有身分再識別風險。
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

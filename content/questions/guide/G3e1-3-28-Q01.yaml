@@ -30,8 +30,8 @@ guide_refs:
   - guide-3:3-28
 author: codex
 review:
-  status: draft
+  status: disputed
   answer_checked:
     pdf_page: 37
-    by: codex-author-task_050714761596
+    by: claude-primary-task_53aa4e76b2c3
   dispute: 題幹只問「描述連續範圍內取值的機率分佈」，未明說機率密度。CDF 也能描述該分佈，C 為官方答案但不是唯一合理的分佈表示。

@@ -24,15 +24,15 @@ explanation:
   correct: 基尼不純度由節點內的類別比例計算。分類樹可比較分裂前後的不純度下降量，挑選讓子節點更純的切分。
   wrong:
     A: 機率密度函數描述連續分佈，不是分類樹常見的類別純度指標。
-    B: 均方根誤差可衡量迴歸預測品質，迴歸樹亦常以平方誤差類準則分裂。原題未限定分類樹，所以 B 不能被描述成與所有決策樹都無關。
+    B: 均方根誤差（RMSE）用於評估迴歸預測。迴歸樹常依子節點按樣本數加權的均方誤差（MSE）下降分裂（[scikit-learn 決策樹文件 §1.10.7](https://scikit-learn.org/stable/modules/tree.html#mathematical-formulation)）。各子節點先開根號再加權，可能改變分裂排序，不能把加權 RMSE 當成同一準則。官方 C 仍是常見的分類樹分裂指標。
     D: 卷積核大小是卷積網路的設定，並非樹節點的分裂品質。
   rule: 分類樹可看基尼或熵；迴歸樹通常看數值誤差的下降。
 guide_refs:
   - guide-3:4-94
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 134
-    by: codex-author-task_050714761596
-  dispute: 原題僅寫決策樹，未限定分類。官方 C 是典型分類樹指標；迴歸樹則可依平方誤差的下降判斷分裂，不能說 B 對所有決策樹都不適用。
+    by: claude-primary-task_53aa4e76b2c3;claude-followup-task_90e9f9a05294
+  dispute: null

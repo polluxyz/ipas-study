@@ -30,8 +30,8 @@ guide_refs:
   - guide-3:6-27
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 222
-    by: codex-author-task_050714761596
-  dispute: 原題及解析把少數目標類別和少數敏感群體混用。一般 class_weight 依 y 類別加權，不保證補償性別等群體差異；C 保留為官方答案，實務需要群體感知的權重及公平性評估。
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

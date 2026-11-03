@@ -25,13 +25,13 @@ explanation:
     B: Softmax 將分數轉成類別機率，不會生成新訓練樣本。
     C: Momentum 平滑訓練更新方向，不會擴增少數樣本。
     D: Dropout 能提供正則化，但它不屬於合成少數類別樣本的資料增強方法。
-  rule: SMOTE 合成的是少數目標類別樣本；公平性改善仍需分群驗證。
+  rule: SMOTE 合成的是少數目標類別樣本；公平性改善仍需分群驗證。補樣只用訓練資料。
 guide_refs:
   - guide-3:6-27
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked:
     pdf_page: 222
-    by: codex-author-task_050714761596
-  dispute: 原題將少數群體與少數目標類別混用，且原解析暗示 SMOTE 必能降低過擬合。標準 SMOTE 依類別合成樣本，未必改善敏感群體公平性；補樣必須只在訓練切分內進行。
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null
