@@ -24,6 +24,14 @@ export function loadFigure(id, alt, directory = resolve('../content/figures')) {
 }
 
 export default function figures(options = {}) {
+  // 圖片標籤在解析期就會攤平成 alt；須在這之前還原冒號文字，
+  // 否則 Starlight 的行內指令會吃掉時間與後文，事後的還原外掛也無從補回。
+  const data = this?.data?.();
+  if (data) (data.fromMarkdownExtensions ??= []).push({ afterExit(token) {
+    if (token.type !== 'directiveText' || !this.stack.some((node) => node.type === 'image')) return;
+    const parent = this.stack.at(-1), node = parent.children.at(-1);
+    parent.children[parent.children.length - 1] = { type: 'text', value: this.sliceSerialize(token), position: node.position };
+  } });
   return (tree, file) => {
     const visit = (node) => {
       if (!node.children) return;

@@ -14,11 +14,18 @@ import figures, { loadFigure } from '../../../plugins/figures.mjs';
 import { collapseAdvanced, mathSearchPolicy, readableTables } from '../../../plugins/textbook.mjs';
 import asides from '../../../plugins/asides.mjs';
 import wikiLinks from '../../../plugins/wiki-links.mjs';
+import { supplementSections } from '../../../plugins/supplement.mjs';
+
+// 由已安裝的 Starlight 取得正式追加的外掛，避免測試漏掉語法解析器。
+const { starlightRemarkPlugins, starlightRehypePlugins, remarkDirectivesRestoration } = await import(new URL('./integrations/remark-rehype.js', import.meta.resolve('@astrojs/starlight')));
+const starlightOptions = { astroConfig: { root: new URL('../../../', import.meta.url), srcDir: new URL('../../', import.meta.url) }, starlightConfig: { markdown: { headingLinks: false, processedDirs: [] } } };
 
 const directory = fileURLToPath(new URL('./examples/', import.meta.url));
 const example = (name) => JSON.parse(readFileSync(join(directory, `${name}.json`), 'utf8'));
 const samples = example('roc').samples;
+const contentDirectory = fileURLToPath(new URL('../../../../content/figures/', import.meta.url));
 const pipeline = async () => createMarkdownProcessor({ remarkPlugins: [asides, wikiLinks, remarkMath, [figures, { directory }]], rehypePlugins: [[rehypeKatex, { output: 'htmlAndMathml' }], mathSearchPolicy, collapseAdvanced, readableTables] });
+const formalPipeline = async (figureDirectory = directory, inspect = []) => createMarkdownProcessor({ remarkPlugins: [asides, remarkMath, wikiLinks, ...inspect, [figures, { directory: figureDirectory }], ...starlightRemarkPlugins(starlightOptions), remarkDirectivesRestoration], rehypePlugins: [[rehypeKatex, { output: 'htmlAndMathml', trust: false, strict: 'warn' }], mathSearchPolicy, supplementSections, collapseAdvanced, readableTables, ...starlightRehypePlugins(starlightOptions)] });
 
 describe('座標刻度可讀性', () => {
   it('epoch 整數刻度、損失非負、殘差包含零線且涵蓋原始資料', () => {
@@ -108,6 +115,52 @@ describe('五種黃金範例與 schema', () => {
 });
 
 describe('Markdown 建置管線', () => {
+  it('正式順序保留時間可用性原圖說與替代文字', async () => {
+    const raw = readFileSync(new URL('../../../../content/concepts/temporal-features.md', import.meta.url), 'utf8');
+    const markdown = raw.split(/\r?\n/).find((line) => line.includes('](figure:l23301-temporal-features-availability)'));
+    const expected = '10月8日的點擊雖已發生，延至10月9日19:00入庫，仍晚於當天18:00預測截止點。';
+    expect(markdown).toBe(`![${expected}](figure:l23301-temporal-features-availability)`);
+    const html = (await (await formalPipeline(contentDirectory)).render(markdown)).code;
+    expect(html.match(/<figcaption>([^<]*)<\/figcaption>/)?.[1]).toBe(expected);
+    expect(html.match(/alt="([^"]*)"/)?.[1]).toBe(expected);
+  });
+  it.each([
+    '資料可用時間:19:00，截止時間:18:00；保留後續文字。',
+    '鍵:值，比例1:2；（括號）、句號。斜線/與問號?後文。',
+    '文字:label[內容]{#id}，後文仍在。',
+    '本例以切分時間區分訓練集與測試集。',
+  ])('普通標點與既有圖說逐字保留：%s', async (expected) => {
+    const html = (await (await formalPipeline()).render(`![${expected}](figure:roc)`)).code;
+    expect(html.match(/<figcaption>([^<]*)<\/figcaption>/)?.[1]).toBe(expected);
+    // JSON 座標圖以 aria-label 提供相同替代文字。
+    expect(html).toContain(expected);
+    const svgHtml = (await (await formalPipeline(contentDirectory)).render(`![${expected}](figure:l23301-temporal-features-availability)`)).code;
+    expect(svgHtml.match(/alt="([^"]*)"/)?.[1]).toBe(expected);
+    expect(svgHtml.match(/<figcaption>([^<]*)<\/figcaption>/)?.[1]).toBe(expected);
+  });
+  it('圖說保留 Markdown 的跳脫、字元實體與格式語意', async () => {
+    const html = (await (await formalPipeline(contentDirectory)).render('![時間19\\:00，18&#58;00，**重點**與 `code`；後文。](figure:l23301-temporal-features-availability)')).code;
+    const expected = '時間19:00，18:00，重點與 code；後文。';
+    expect(html.match(/alt="([^"]*)"/)?.[1]).toBe(expected);
+    expect(html.match(/<figcaption>([^<]*)<\/figcaption>/)?.[1]).toBe(expected);
+  });
+  it('有圖片標題與參照語法時仍保留 alt；一般正文指令交給既有還原外掛', async () => {
+    const images = [], directives = [];
+    const inspect = () => (tree) => {
+      const visit = (node) => {
+        if (node.type === 'image' || node.type === 'imageReference') images.push({ type: node.type, alt: node.alt, title: node.title });
+        if (node.type === 'textDirective') directives.push({ name: node.name, attributes: node.attributes });
+        node.children?.forEach(visit);
+      };
+      visit(tree);
+    };
+    const html = (await (await formalPipeline(directory, [inspect])).render('![時刻19:00與18:00後文](figure:roc "圖片標題:保留")\n\n![參照19:00後文][diagram]\n\n[diagram]: /image.svg "參照標題:保留"\n\n正文 key:value[標籤]{#id}，保留後文。')).code;
+    expect(images).toEqual([{ type: 'image', alt: '時刻19:00與18:00後文', title: '圖片標題:保留' }, { type: 'imageReference', alt: '參照19:00後文', title: undefined }]);
+    expect(directives).toEqual([{ name: 'value', attributes: { id: 'id' } }]);
+    expect(html).toContain('alt="參照19:00後文"');
+    expect(html).toContain('title="參照標題:保留"');
+    expect(html.replace(/<[^>]*>/g, '')).toContain('正文 key:value[標籤]{#id}，保留後文。');
+  });
   it('Starlight 已解析的 directive AST 也轉換，缺結尾及未知類型仍有來源錯誤', () => {
     const fixture = (value, name = 'tip') => ({ type: 'root', children: [{ type: 'containerDirective', name, position: { start: { line: 1, offset: 0 }, end: { offset: value.length } }, children: [{ type: 'paragraph', data: { directiveLabel: true }, children: [{ type: 'text', value: '自訂標題' }] }, { type: 'paragraph', children: [{ type: 'text', value: '內容' }] }] }] });
     const value = ':::tip[自訂標題]\n內容\n:::';
