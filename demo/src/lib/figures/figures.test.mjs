@@ -118,7 +118,7 @@ describe('Markdown 建置管線', () => {
   it('正式順序保留時間可用性原圖說與替代文字', async () => {
     const raw = readFileSync(new URL('../../../../content/concepts/temporal-features.md', import.meta.url), 'utf8');
     const markdown = raw.split(/\r?\n/).find((line) => line.includes('](figure:l23301-temporal-features-availability)'));
-    const expected = '10月8日的點擊雖已發生，延至10月9日19:00入庫，仍晚於當天18:00預測截止點。';
+    const expected = '10月8日的點擊延至10月9日19:00入庫。10月9日18:00預測時，這筆昨日點擊仍不可讀。';
     expect(markdown).toBe(`![${expected}](figure:l23301-temporal-features-availability)`);
     const html = (await (await formalPipeline(contentDirectory)).render(markdown)).code;
     expect(html.match(/<figcaption>([^<]*)<\/figcaption>/)?.[1]).toBe(expected);

@@ -10,7 +10,7 @@ contrasts:
     note: K-fold 只把資料平均分成 K 份；分層 K-fold 另外盡量讓每一份的類別比例接近整體
     source: [guide-3:5-27, 115-1-S3-Q45]
   - target: leave-one-out-cv
-    note: K-fold 的 K 通常取 5 或 10，只訓練 K 次；留一法的 K 等於樣本數 n，要訓練 n 次，偏差小但成本高、估計的變異大
+    note: K-fold 的 K 通常取 5 或 10，每組設定擬合 K 次；留一法令 K=n，每組設定擬合 n 次。留一法每次訓練量接近全體，成本通常較高；評估偏差與變異仍依模型與資料而定
     source: [guide-3:5-28, 114-2-S3-Q34]
   - target: repeated-k-fold
     note: 標準 K-fold 使用一套固定的摺分（啟用洗牌時也只洗牌一次）；重複 K-fold 每輪重新隨機分摺，能看出分數的波動，但成本是 R 倍

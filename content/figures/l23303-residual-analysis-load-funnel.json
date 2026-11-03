@@ -5,7 +5,7 @@
   "description": "預測負載越高，殘差上下幅度越大；零附近的中心不代表變異數齊一。",
   "source": {
     "type": "synthetic",
-    "note": "教學模擬資料；由 content/examples/L23303-B-load-funnel.json 逐筆映射，非真實電力資料。"
+    "note": "由 content/examples/L23303-B-load-funnel.json 逐筆映射，非真實電力資料。"
   },
   "unit": "MW",
   "samples": [

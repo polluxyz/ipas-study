@@ -143,7 +143,7 @@ data-model-versioning,requires,experiment-tracking,,
 data-outsourcing-governance,requires,ai-risk-governance,,
 data-pipeline-integration,requires,mlops-lifecycle,,
 data-protection-impact-assessment,requires,privacy-impact-assessment,,
-data-protection-impact-assessment,contrasts,privacy-impact-assessment,本頁聚焦 GDPR 高風險處理的啟動及文件要求，一般 PIA 頁教資料流到責任流程；不同機構命名可能重疊。,guide-1:4-34;guide-3:6-5
+data-protection-impact-assessment,contrasts,privacy-impact-assessment,DPIA 頁聚焦 GDPR 高風險處理的啟動及文件要求；一般 PIA 頁說明資料流到責任流程。不同機構命名可能重疊。,guide-1:4-34;guide-3:6-5
 data-types-time-parsing,requires,data-preparation,,
 dbscan,requires,feature-scaling,,
 dbscan,requires,unsupervised-learning,,
@@ -188,7 +188,7 @@ eigenvalue-decomposition,requires,linear-transformation,,
 elastic-net,is_a,regularization,,
 elastic-net,requires,l1-regularization,,
 elastic-net,requires,l2-regularization,,
-elastic-net,mitigates,overfitting,混合懲罰可同時限制稀疏性與權重大小，兩項強度仍須驗證。,guide-3:5-45
+elastic-net,mitigates,overfitting,混合懲罰可促進部分係數歸零，並抑制權重大小；兩項強度仍須驗證。,guide-3:5-45
 elastic-net,contrasts,l1-regularization,混合懲罰在 L1 的稀疏效果之外加入 L2，可改善相關特徵的共同保留。,guide-3:5-45
 elastic-net,contrasts,l2-regularization,混合懲罰保有 L1 的稀疏效果，純 L2 則不以特徵選取為目標。,guide-3:5-44;guide-3:5-45
 elmo,requires,bidirectional-rnn,,
@@ -321,7 +321,7 @@ interaction-features,requires,numpy-data-operations,,
 isolation-forest,requires,unsupervised-learning,,
 k-anonymity,requires,privacy-generalization,,
 k-fold-cross-validation,requires,train-val-test-split,,
-k-fold-cross-validation,contrasts,leave-one-out-cv,K-fold 的 K 通常取 5 或 10，只訓練 K 次；留一法的 K 等於樣本數 n，要訓練 n 次，偏差小但成本高、估計的變異大,guide-3:5-28;114-2-S3-Q34
+k-fold-cross-validation,contrasts,leave-one-out-cv,K-fold 的 K 通常取 5 或 10，每組設定擬合 K 次；留一法令 K=n，每組設定擬合 n 次。留一法每次訓練量接近全體，成本通常較高；評估偏差與變異仍依模型與資料而定,guide-3:5-28;114-2-S3-Q34
 k-fold-cross-validation,contrasts,repeated-k-fold,標準 K-fold 使用一套固定的摺分（啟用洗牌時也只洗牌一次）；重複 K-fold 每輪重新隨機分摺，能看出分數的波動，但成本是 R 倍,guide-3:5-26;guide-3:5-29
 k-fold-cross-validation,contrasts,stratified-k-fold,K-fold 只把資料平均分成 K 份；分層 K-fold 另外盡量讓每一份的類別比例接近整體,guide-3:5-27;115-1-S3-Q45
 k-fold-cross-validation,contrasts,time-series-split,K-fold 的驗證摺可能比訓練資料更早；時間序列切分永遠用較早的資料訓練、較晚的資料驗證,115-1-S3-Q27

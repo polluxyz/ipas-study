@@ -7,7 +7,7 @@ aliases: [Gradient Clipping, clip_grad_norm_, clip_grad_value_, 梯度裁剪]
 summary: 梯度裁剪在反傳後更新前限制梯度，降低過大梯度造成的不穩定
 goals:
   - id: g1
-    text: 將一般及AMP裁剪放在正確位置，區分梯度、損失與權重
+    text: 將一般及自動混合精度（Automatic Mixed Precision，AMP）裁剪放在正確位置，區分梯度、損失與權重
   - id: g2
     text: 算出逐值與全域範數裁剪及SGD更新，說明方向與數值限制
 requires: [gradient-descent]
@@ -173,6 +173,8 @@ print('更新參數:', [round(v, 4) for v in p.tolist()])
 ![裁剪必須等反傳產生梯度；啟用AMP時，先還原尺度，再套用原單位的上限。](figure:l23304-gradient-clipping-order)
 
 ### AMP：先還原再裁剪（補充）
+
+自動混合精度讓不同運算使用不同精度，詳見[混合精度訓練](/concepts/mixed-precision-training/)。啟用梯度縮放時，先還原梯度尺度，再裁剪。
 
 下面在CPU使用真正啟用的GradScaler核對縮放流程，不量測GPU速度。刻意取初始縮放8，便於看見範數40還原為5；這是尺度測試，沒有宣稱CPU張量已改用FP16。
 

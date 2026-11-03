@@ -68,6 +68,14 @@ T10 用 Astro Markdown 處理器取得概念頁的實際標題 ID，接受實際
 
 ## 程式實測工具（人工執行，不加入 CI）
 
+教材需要專案內的相對資料時，先在專案根目錄執行：
+
+```powershell
+$env:IPAS_REPO_ROOT = (Get-Location).Path
+```
+
+`run-code.mjs` 繼承呼叫環境，將 `IPAS_REPO_ROOT` 傳給教材程式。各頁程式的工作目錄仍是系統暫存目錄；教材程式須用此設定組合資料路徑。
+
 ```powershell
 node scripts/tools/run-code.mjs content/concepts/k-fold-cross-validation.md content/concepts/experiment-tracking.md --out tmp/textbook/run-code-c1.md
 ```

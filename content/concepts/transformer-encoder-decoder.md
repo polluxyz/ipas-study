@@ -149,7 +149,7 @@ print("未來可見數:", int(np.triu(allowed, 1).sum()))
 ## 常見誤解
 
 - 「跨注意力的三者都出自來源。」查詢來自目標端，鍵和值才來自來源。
-- 「每種 Transformer 都含完整編解碼器。」BERT 採僅編碼器，GPT 採僅解碼器；詳見「BERT、GPT 與 T5 的訓練任務比較」（待上線）。
+- 「每種 Transformer 都含完整編解碼器。」BERT 採僅編碼器，GPT 採僅解碼器；詳見[BERT、GPT 與 T5 的訓練任務比較](/concepts/transformer-model-families/)。
 - 「來源未來詞也必須全部遮住。」一般離線翻譯的完整來源已知；不能偷看的是未來目標。
 
 ## 進階

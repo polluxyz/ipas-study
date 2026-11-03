@@ -72,7 +72,7 @@ self_check:
 
 模態（Modality）是資訊的呈現形式。提示可以是文字，交付卻是圖片或聲音；因此不能只看提示長什麼樣子。
 
-![文字可引導不同形式的交付；多模態路徑要另外標明輸入與輸出，不是第六種檔案格式](figure:l21103-generative-content-types-routes)
+![文字可引導不同形式的交付；多模態路徑須另外標明輸入與輸出，並非獨立的新檔案格式](figure:l21103-generative-content-types-routes)
 
 :::supplement[來源：Hugging Face Transformers「Multimodal Generation」]
 「多模態」描述系統整合多種資訊形式，不是和文字、圖像互斥的一種新檔案格式。例如圖像加文字輸入、文字輸出的客服功能，可以同時歸為文字交付與多模態任務。

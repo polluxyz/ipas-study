@@ -138,14 +138,14 @@ print('平均:', F.avg_pool2d(x,2,stride=2).squeeze().tolist())
 z = x[0,0,:2,:2].reshape(-1)
 print('Softmax:', [round(v,4) for v in z.softmax(0).tolist()])
 print('共同位移不變:', torch.allclose(z.softmax(0),(z+10).softmax(0)))
-print('RGB 池化:', tuple(F.max_pool2d(torch.zeros(4,2,6,6),2,2).shape))
+print('2 通道特徵圖池化:', tuple(F.max_pool2d(torch.zeros(4,2,6,6),2,2).shape))
 ```
 ```text
 最大: [[2.0, 3.0], [2.0, 3.0]]
 平均: [[1.0, 1.5], [1.0, 1.25]]
 Softmax: [0.1966, 0.5344, 0.0723, 0.1966]
 共同位移不變: True
-RGB 池化: (4, 2, 3, 3)
+2 通道特徵圖池化: (4, 2, 3, 3)
 ```
 
 :::tip[讀碼重點]

@@ -101,7 +101,7 @@ $$
 M_{\mathrm{plan}}=\sum_{i=1}^{n}m_i,\qquad M_{\mathrm{cap}}=M_{\mathrm{plan}}+H,\qquad H=M_{\mathrm{cap}}-M_{\mathrm{plan}}
 $$
 
-$m_i$ 是分項額度，$M_{\mathrm{plan}}$ 是總額，$M_{\mathrm{cap}}$ 是容量，$H$ 是餘裕，單位皆為 GiB。顯示與主記憶體各算一份。
+$m_i$ 是分項額度，$M_{\mathrm{plan}}$ 是總額，$M_{\mathrm{cap}}$ 是容量，$H$ 是餘裕，單位皆為 GiB。顯示記憶體與主記憶體各算一份。
 
 製造訓練：權重、梯度及優化器 4，加活化值 6、工作區 2，共 12 GiB。容量 16，餘裕 4 GiB；若餘裕為負就不符合預算，真實峰值仍需量測。
 

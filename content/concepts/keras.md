@@ -118,7 +118,7 @@ $N$ 是本批樣本數；摘要中的 `None` 表示這個維度可變。增加�
 
 先在專案根目錄的 PowerShell 設定 `$env:IPAS_REPO_ROOT=(Get-Location).Path`，讓程式讀取本 repo 的絕對路徑。
 
-run-code 會切換暫存目錄，也須保留這項設定。
+若使用[教材程式檢查工具 run-code.mjs](https://github.com/polluxyz/ipas-study/blob/main/demo/scripts/check-textbook/README.md)，請保留 `IPAS_REPO_ROOT` 設定，讓程式在暫存目錄仍能找到資料。一般執行仍依前句設定路徑。
 
 以下兩段接續執行，直接讀共用 JSON。先看訓練前的摘要，避免把後來建立的優化器狀態混進模型參數。
 

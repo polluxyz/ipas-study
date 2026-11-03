@@ -157,7 +157,7 @@ $y$ 是 0 或 1，$p$ 是正類機率，本式採 $0<p<1$ 與自然對數。
 
 先在專案根目錄的 PowerShell 設定 `$env:IPAS_REPO_ROOT=(Get-Location).Path`，讓程式讀取本 repo 的絕對路徑。
 
-run-code 會切換暫存目錄，也須保留這項設定。同頁各段按順序接續執行。
+若使用[教材程式檢查工具 run-code.mjs](https://github.com/polluxyz/ipas-study/blob/main/demo/scripts/check-textbook/README.md)，請保留 `IPAS_REPO_ROOT` 設定，讓程式在暫存目錄仍能找到資料。一般執行仍依前句設定路徑。同頁各段按順序接續執行。
 
 以下使用共用檔的契約探針；它不是訓練後的預測。以 PyTorch 與 Keras 的實際 API 核對相同標籤的兩種表示。
 
