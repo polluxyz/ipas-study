@@ -90,6 +90,8 @@ const [stem, summary, correct, rule, ...optionAndReasons] = await Promise.all([
   initQuestions();
 </script>
 <style>
+  /* 選項也是格線項目，須允許縮小，程式區才會在欄內橫捲。 */
+  .answer-option { min-width: 0; }
   .option-content { min-width: 0; flex: 1; }
   .option-content :global(p:first-child), .explanation-correct :global(p:first-child) { margin-top: 0; }
   .option-content :global(p:last-child) { margin-bottom: 0; }
