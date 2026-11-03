@@ -1,0 +1,36 @@
+id: G1e1-3-85-Q09
+rev: 1
+source: guide
+subject: 1
+number: 9
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 92
+type: 觀念
+codes:
+  - L21104
+concepts:
+  - clip
+stem: CLIP 模型結合了哪兩種模態進行訓練？
+options:
+  A: 聲音與影像
+  B: 影像與文字
+  C: 文字與數值
+  D: 圖形與表格
+answer: B
+explanation:
+  summary: 辨識 CLIP 預訓練所用的配對模態。
+  correct: CLIP 以圖片及其文字描述作為配對資料，訓練兩種編碼器的表示互相對應。原指引答案字母為 B；答案標籤只印「文字」，完整選項則是「影像與文字」。
+  wrong:
+    A: 聲音並非原始 CLIP 圖文對比訓練的配對模態。
+    C: CLIP 的文字搭配圖片，不是一般數值資料。
+    D: 圖形與表格不是原始 CLIP 任務指定的模態組合。
+  rule: CLIP 對齊圖片表示與文字表示。
+guide_refs:
+  - guide-1:3-85
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 94
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

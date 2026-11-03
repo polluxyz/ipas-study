@@ -1,0 +1,36 @@
+id: G1e1-5-23-Q05
+rev: 1
+source: guide
+subject: 1
+number: 5
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 164
+type: 觀念
+codes:
+  - L21301
+concepts:
+  - missing-value-imputation
+stem: 下列哪一種資料前處理技術主要用來處理缺失值？
+options:
+  A: 資料增強
+  B: 標準化
+  C: 插補法
+  D: 降維
+answer: C
+explanation:
+  summary: 辨識填補資料缺失的前處理。
+  correct: 插補法為缺少的欄位估計替代值，例如用訓練資料的中位數補入。選擇方式時仍須檢查缺失原因及補值可能造成的偏差。
+  wrong:
+    A: 資料增強產生或變換訓練樣本，並非一般缺失欄位的填補方法。
+    B: 標準化處理尺度差異，不會自行估計缺失值。
+    D: 降維減少表示的維度，不能取代缺失值的明確處理。
+  rule: 欄位沒有觀測值時，先判斷缺失機制再決定補值策略。
+guide_refs:
+  - guide-1:5-23
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 166
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

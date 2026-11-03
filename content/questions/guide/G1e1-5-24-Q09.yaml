@@ -1,0 +1,37 @@
+id: G1e1-5-24-Q09
+rev: 1
+source: guide
+subject: 1
+number: 9
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 165
+type: 觀念
+codes:
+  - L21302
+concepts:
+  - drift-detection
+  - mlops-lifecycle
+stem: 持續監控部署後 AI 模型效能的主要目的為何？
+options:
+  A: 減少資料備份空間
+  B: 提升 UI 使用效率
+  C: 偵測模型概念漂移與效能下降
+  D: 強化模型壓縮效果
+answer: C
+explanation:
+  summary: 辨識部署後監控模型品質的目的。
+  correct: 監控可以發現預測品質下降及資料環境變動，讓維運流程及時調查、回復或重訓模型。C 最直接對應模型效能監控。
+  wrong:
+    A: 備份空間屬儲存管理，與模型預測品質沒有直接關係。
+    B: UI 操作效率是介面指標，無法取代模型效能檢查。
+    D: 模型壓縮效果需比較大小、速度與品質，持續監控不會自行完成壓縮。
+  rule: 上線後持續觀察模型品質與資料變動，再決定維護措施。
+guide_refs:
+  - guide-1:5-24
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 166
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

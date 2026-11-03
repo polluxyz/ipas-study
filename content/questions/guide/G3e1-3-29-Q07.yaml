@@ -1,0 +1,36 @@
+id: G3e1-3-29-Q07
+rev: 1
+source: guide
+subject: 3
+number: 7
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 36
+type: 觀念
+codes:
+  - L23101
+concepts:
+  - descriptive-statistics
+stem: 若資料集中存在極端值，以下哪一種集中趨勢指標較不受影響？
+options:
+  A: 平均數
+  B: 變異數
+  C: 標準差
+  D: 中位數
+answer: D
+explanation:
+  summary: 辨識對少數極端值較穩健的位置指標。
+  correct: 中位數取決於排序後的中央位置。少數觀測值即使變得很大，也通常不會像平均數那樣大幅拉動中位數。
+  wrong:
+    A: 平均數使用所有數值的大小，極端值可明顯拉動平均。
+    B: 變異數衡量離散程度，並會平方偏差，容易受極端值影響。
+    C: 標準差是變異數的平方根，同樣會受極端值影響；它也不是集中趨勢指標。
+  rule: 存在少數極端值時，中位數通常比平均數更穩健。
+guide_refs:
+  - guide-3:3-29
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 37
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

@@ -1,0 +1,37 @@
+id: G1e1-4-44-Q03
+rev: 1
+source: guide
+subject: 1
+number: 3
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 138
+type: 觀念
+codes:
+  - L21201
+concepts:
+  - business-needs-analysis
+  - ai-task-fit
+stem: 企業進行 AI 導入前的評估分析，通常第一步應聚焦於？
+options:
+  A: 演算法選擇
+  B: 資料標註工具
+  C: 業務痛點與需求辨識
+  D: 建立測試模型
+answer: C
+explanation:
+  summary: 辨識 AI 導入評估的起點。
+  correct: 先釐清企業面臨的問題與期望成果，才能決定是否需要 AI，以及要採用哪種任務和驗收指標。
+  wrong:
+    A: 沒有先定義需求，就無法判斷演算法是否適合要解決的問題。
+    B: 標註工具是資料作業的選擇，必須先知道要蒐集與標註什麼。
+    D: 測試模型用來驗證特定假設，建立之前應先明確定義問題。
+  rule: 先定義業務問題，再決定資料與模型。
+guide_refs:
+  - guide-1:4-44
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 140
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

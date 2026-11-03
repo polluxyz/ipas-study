@@ -1,0 +1,37 @@
+id: G3e1-4-94-Q09
+rev: 1
+source: guide
+subject: 3
+number: 9
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 132
+type: 觀念
+codes:
+  - L23203
+concepts:
+  - self-attention
+  - transformer
+stem: Transformer 模型中用來捕捉輸入序列不同位置間依賴關係的核心機制是什麼？
+options:
+  A: 池化機制（Pooling）
+  B: 注意力機制（Attention）
+  C: 決策樹分支
+  D: 激活函數（Activation Function）
+answer: B
+explanation:
+  summary: 辨識 Transformer 建模序列關係的機制。
+  correct: 注意力以位置間的查詢與鍵相似度建立權重，再彙整對應的值。這讓每個位置能利用其他位置的相關資訊。
+  wrong:
+    A: 池化把多個位置彙整成較簡短的表示，不等於依位置關聯動態分配權重。
+    C: 決策樹分支依特徵條件切分樣本，並非 Transformer 序列關係的核心機制。
+    D: 激活函數提供非線性，但單獨的逐位置激活無法取代跨位置注意力。
+  rule: Transformer 以注意力在序列位置之間傳遞相關資訊。
+guide_refs:
+  - guide-3:4-94
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 134
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

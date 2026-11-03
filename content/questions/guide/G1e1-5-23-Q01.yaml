@@ -1,0 +1,36 @@
+id: G1e1-5-23-Q01
+rev: 1
+source: guide
+subject: 1
+number: 1
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 164
+type: 觀念
+codes:
+  - L21301
+concepts:
+  - supervised-learning
+stem: 在進行 AI 建模前，進行「資料標註」的主要目的是？
+options:
+  A: 減少資料容量
+  B: 強化系統安全性
+  C: 讓模型能夠辨識輸入與目標之間的對應關係
+  D: 提升資料儲存速度
+answer: C
+explanation:
+  summary: 辨識監督式建模需要的輸入與標籤配對。
+  correct: 資料標註為樣本提供要預測的結果或類別。模型利用輸入及其標籤的配對，學習之後如何對新樣本作出預測。
+  wrong:
+    A: 標註通常會增加標籤資訊，不是以減少資料容量為目標。
+    B: 系統安全需靠存取控制等措施，標註本身不等於強化安全。
+    D: 儲存速度取決於資料格式及儲存系統，不是標註的主要目的。
+  rule: 監督式學習利用輸入樣本與目標標籤的配對。
+guide_refs:
+  - guide-1:5-23
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 166
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

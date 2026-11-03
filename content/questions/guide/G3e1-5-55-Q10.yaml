@@ -1,0 +1,36 @@
+id: G3e1-5-55-Q10
+rev: 1
+source: guide
+subject: 3
+number: 10
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 189
+type: 觀念
+codes:
+  - L23301
+concepts:
+  - one-hot-encoding
+stem: One-hot Encoding 在什麼情況下可能造成模型的運算負擔加重？
+options:
+  A: 缺失值多的資料
+  B: 資料集中某類別種類 10 種
+  C: 類別變數具有高基數（High Cardinality）
+  D: 資料集中無重複樣本
+answer: C
+explanation:
+  summary: 辨識高基數類別造成的欄位成本。
+  correct: One-hot 編碼通常為各類別建立對應欄位。當類別種類非常多時，欄位數隨之增加，可能提高儲存及計算成本；稀疏儲存可減輕但不能保證消除負擔。
+  wrong:
+    A: 缺失值多需要處理缺失，不代表類別數一定很多。
+    B: 10 種類別通常只形成有限的欄位增加，並非本題強調的高基數情境。
+    D: 樣本是否重複不直接決定某類別欄位有多少不同值。
+  rule: One-hot 的欄位成本主要隨類別種類數增加。
+guide_refs:
+  - guide-3:5-55
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 191
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

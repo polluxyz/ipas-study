@@ -1,0 +1,36 @@
+id: G3e1-4-93-Q05
+rev: 1
+source: guide
+subject: 3
+number: 5
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 131
+type: 觀念
+codes:
+  - L23201
+concepts:
+  - overfitting
+stem: 機器學習模型若過度學習訓練資料中的雜訊，導致泛化能力下降，此現象稱為什麼？
+options:
+  A: 欠擬合（Underfitting）
+  B: 過擬合（Overfitting）
+  C: 特徵縮放（Feature Scaling）
+  D: 梯度爆炸（Gradient Explosion）
+answer: B
+explanation:
+  summary: 辨識學到訓練雜訊而降低泛化的現象。
+  correct: 過擬合時，模型把只存在於訓練樣本的細節當成可泛化規律，因此訓練表現很好，遇到新資料時卻出現明顯落差。
+  wrong:
+    A: 欠擬合代表模型未充分學到訓練資料的主要模式，通常連訓練表現也不佳。
+    C: 特徵縮放是改變數值尺度的處理，並非學到雜訊的現象名稱。
+    D: 梯度爆炸是訓練時梯度過大的數值問題，與題目描述的泛化落差不同。
+  rule: 訓練很好、未見資料明顯較差，是過擬合的重要線索。
+guide_refs:
+  - guide-3:4-93
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 133
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

@@ -1,0 +1,37 @@
+id: G3e1-5-53-Q01
+rev: 1
+source: guide
+subject: 3
+number: 1
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 187
+type: 觀念
+codes:
+  - L23301
+concepts:
+  - advanced-imputation
+  - missing-value-imputation
+stem: 針對缺失值（Missing Value）的處理，下列哪種方法屬於利用模型進行補值的方式？
+options:
+  A: 刪除法（Deletion）
+  B: 均值填補（Mean Imputation）
+  C: 預測模型填補（Predictive Imputation）
+  D: 缺失指標編碼（Missing Indicator）
+answer: C
+explanation:
+  summary: 辨識利用其他特徵預測缺失值的補值方法。
+  correct: 預測模型填補會以可觀測的特徵為輸入，學習要補欄位的數值或類別，再為缺失位置提供估計值。模型必須只由適當的訓練資料建立。
+  wrong:
+    A: 刪除法移除受缺失影響的列或欄，沒有預測缺失值。
+    B: 均值填補使用該欄位的平均值，沒有依各筆樣本的其他特徵建立預測模型。
+    D: 缺失指標記錄某處是否缺值，單獨使用時不會估計缺少的內容。
+  rule: 以其他欄位作為輸入估計缺值，屬模型補值。
+guide_refs:
+  - guide-3:5-53
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 190
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

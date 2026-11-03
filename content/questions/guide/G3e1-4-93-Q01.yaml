@@ -1,0 +1,37 @@
+id: G3e1-4-93-Q01
+rev: 1
+source: guide
+subject: 3
+number: 1
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 131
+type: 觀念
+codes:
+  - L23201
+concepts:
+  - unsupervised-learning
+  - learning-paradigms
+stem: 機器學習（Machine Learning）中，若輸入資料沒有標註，欲探索潛在的群組或模式，應屬於哪種學習類型？
+options:
+  A: 監督式學習（Supervised Learning）
+  B: 半監督式學習（Semi-supervised Learning）
+  C: 非監督式學習（Unsupervised Learning）
+  D: 強化式學習（Reinforcement Learning）
+answer: C
+explanation:
+  summary: 辨識沒有標籤時的結構探索。
+  correct: 非監督式學習利用輸入資料本身的相似性或結構，探索群組與表示。題目沒有提供要預測的標籤，因此符合此類型。
+  wrong:
+    A: 監督式學習需要輸入與目標的配對標籤。
+    B: 半監督式學習通常同時利用少量有標籤及大量無標籤資料，題目未提供有標籤部分。
+    D: 強化式學習依行動帶來的獎勵調整策略，與靜態資料的群組探索不同。
+  rule: 沒有標籤而要探索群組或資料結構時，先考慮非監督式學習。
+guide_refs:
+  - guide-3:4-93
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 133
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

@@ -1,0 +1,37 @@
+id: G1e1-4-45-Q09
+rev: 1
+source: guide
+subject: 1
+number: 9
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 139
+type: 觀念
+codes:
+  - L21203
+concepts:
+  - privacy-compliance-assessment
+  - privacy-governance
+stem: 為管理 AI 導入過程中的「法律與合規風險」，企業應採取何種措施？
+options:
+  A: 強化演算法複雜度
+  B: 減少模型訓練次數
+  C: 檢視個資使用的合法性
+  D: 加速模型部署速度
+answer: C
+explanation:
+  summary: 辨識處理個資使用合規風險的措施。
+  correct: 企業須盤點個資從何而來、用於何種目的，以及使用方式是否符合適用規範。先核對個資使用是否合法，才能對應本題的合規風險。
+  wrong:
+    A: 更複雜的演算法不會自動取得個資使用資格。
+    B: 減少訓練次數不會處理資料來源或使用目的不合法的問題。
+    D: 加速部署改變的是交付速度，不能取代個資用途的檢視。
+  rule: 合規風險要回到資料來源、使用目的與適用規範檢查。
+guide_refs:
+  - guide-1:4-45
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 141
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

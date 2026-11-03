@@ -1,0 +1,36 @@
+id: G3e1-5-54-Q08
+rev: 1
+source: guide
+subject: 3
+number: 8
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 188
+type: 觀念
+codes:
+  - L23304
+concepts:
+  - knowledge-distillation
+stem: 在模型壓縮技術中，知識蒸餾（Knowledge Distillation）的主要目的是什麼？
+options:
+  A: 減少資料維度
+  B: 降低參數數量使模型更小
+  C: 將大型模型的知識轉移至小型模型
+  D: 增強資料平衡
+answer: C
+explanation:
+  summary: 辨識教師模型向學生模型傳遞知識的目的。
+  correct: 知識蒸餾用教師的輸出分佈或中間表示指導學生模型。壓縮情境通常選較小學生，重點是讓學生學得教師行為，而非直接從教師刪除參數。
+  wrong:
+    A: 減少資料維度是降維任務，不是教師學生訓練的主要定義。
+    B: 得到較小模型是常見動機，但蒸餾的特徵是知識傳遞；它並不直接縮減教師本身的參數。
+    D: 資料平衡處理不同類別的樣本或權重，與教師向學生傳遞預測知識不同。
+  rule: 蒸餾的核心是教師指導學生，學生較小是常見壓縮設定。
+guide_refs:
+  - guide-3:5-54
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 191
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

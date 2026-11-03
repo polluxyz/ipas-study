@@ -1,0 +1,37 @@
+id: G1e1-3-84-Q03
+rev: 1
+source: guide
+subject: 1
+number: 3
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 91
+type: 觀念
+codes:
+  - L21101
+concepts:
+  - transformer-model-families
+  - contextual-word-embedding
+stem: 語言模型 BERT 的主要特性為何？
+options:
+  A: 使用遞迴神經網路
+  B: 無法處理上下文資訊
+  C: 為單向語言模型
+  D: 具雙向上下文理解能力
+answer: D
+explanation:
+  summary: 辨識 BERT 的雙向語境表示。
+  correct: BERT 的編碼器可同時利用目標詞前後的線索。預訓練時以遮蔽詞預測等任務學習這種雙向表示。
+  wrong:
+    A: BERT 的核心是 Transformer 編碼器，不是以遞迴神經網路作為主要架構。
+    B: 利用周圍詞的資訊正是 BERT 的用途，並非不能處理上下文。
+    C: BERT 的表示可參考左右文；此處的單向描述與模型特性不符。
+  rule: BERT 的語境表示同時參考詞的前後文。
+guide_refs:
+  - guide-1:3-84
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 93
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

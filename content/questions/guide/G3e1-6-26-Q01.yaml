@@ -1,0 +1,36 @@
+id: G3e1-6-26-Q01
+rev: 1
+source: guide
+subject: 3
+number: 1
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 218
+type: 觀念
+codes:
+  - L23401
+concepts:
+  - reidentification-risk
+stem: 在個人資料保護法規的框架下，下列哪一組資訊單獨使用時，最明確地被歸類為「直接識別個人身份資訊（Directly Identifiable Information, PII）」？
+options:
+  A: 出生日期、郵遞區號、職業
+  B: 網站 Cookie ID、設備 IP 位址、地理定位資訊
+  C: 姓名、電子郵件地址、身分證字號
+  D: 網路行為模式、匿名化統計數據、加密後的密碼雜湊值
+answer: C
+explanation:
+  summary: 區分直接識別線索與間接識別風險。
+  correct: 依本題的典型分類，姓名、電子郵件及身分證字號最直接連向個人，因此官方選 C。姓名或電子郵件仍需依情境判斷，不保證任何單一名稱都唯一對應一人。
+  wrong:
+    A: 出生日期、郵遞區號及職業常被視為準識別線索，組合後仍可能識別個人，不能當成沒有隱私風險。
+    B: Cookie、IP 與定位通常是間接識別線索，但仍可能屬個人資料，不能因不是姓名就排除保護。
+    D: 行為、統計與雜湊資料的風險依可連結性而變。雜湊不等於匿名化，也不能保證無法猜回弱密碼。
+  rule: PII 全名為 Personally Identifiable Information，範圍不限直接識別。直接識別與間接識別都要評估可連結到個人的風險。
+guide_refs:
+  - guide-3:6-26
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 221
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

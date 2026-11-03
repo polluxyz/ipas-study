@@ -1,0 +1,37 @@
+id: G1e1-4-45-Q07
+rev: 1
+source: guide
+subject: 1
+number: 7
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 139
+type: 觀念
+codes:
+  - L21203
+concepts:
+  - explainable-ai
+  - model-stability-risk
+stem: 在 AI 風險評估中，若模型輸出不穩定且缺乏邏輯可解釋性，可能帶來哪一風險？
+options:
+  A: 模型效率過高
+  B: 公平性過度提升
+  C: 決策透明性不足
+  D: 資料使用效率太高
+answer: C
+explanation:
+  summary: 辨識模型難以說明決策理由的風險。
+  correct: 如果無法說明模型依據哪些資訊得出結果，使用者就難以檢查決策理由。這會降低決策透明性，並增加追查錯誤的難度。
+  wrong:
+    A: 輸出不穩定與難解釋不表示運算效率過高。
+    B: 缺少解釋能力不代表公平性提升，也不能證明群體差異已消除。
+    D: 題目描述沒有提供資料使用效率變高的證據。
+  rule: 無法交代模型決策依據，屬透明性與可解釋性風險。
+guide_refs:
+  - guide-1:4-45
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 140
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

@@ -1,0 +1,36 @@
+id: G3e1-4-93-Q03
+rev: 1
+source: guide
+subject: 3
+number: 3
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 131
+type: 觀念
+codes:
+  - L23203
+concepts:
+  - cnn
+stem: 在深度學習中，用於學習資料中局部特徵的網路架構通常是什麼？
+options:
+  A: 循環神經網路（Recurrent Neural Network, RNN）
+  B: 決策樹（Decision Tree）
+  C: 卷積神經網路（Convolutional Neural Network, CNN）
+  D: 隨機森林（Random Forest）
+answer: C
+explanation:
+  summary: 辨識利用局部感受範圍學習特徵的架構。
+  correct: 卷積層讓同一組權重在多個局部區域運算，可學得邊緣、紋理等局部特徵。這是卷積神經網路的典型設計。
+  wrong:
+    A: 循環神經網路以隱藏狀態傳遞序列資訊，並非本題強調的卷積式局部特徵抽取。
+    B: 決策樹以條件分裂資料，不是卷積式的神經網路架構。
+    D: 隨機森林整合多棵樹，不以共享的局部卷積核學習特徵。
+  rule: 局部區域搭配權重共享，是 CNN 的典型線索。
+guide_refs:
+  - guide-3:4-93
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 133
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

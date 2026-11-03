@@ -1,0 +1,36 @@
+id: G3e1-5-54-Q09
+rev: 1
+source: guide
+subject: 3
+number: 9
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 188
+type: 觀念
+codes:
+  - L23304
+concepts:
+  - adagrad
+stem: 在優化器中，哪一個方法會自動調整每個參數的學習率，特別適用於稀疏資料？
+options:
+  A: Momentum
+  B: Adagrad
+  C: Adam
+  D: SGD
+answer: B
+explanation:
+  summary: 辨識稀疏特徵情境常見的逐參數更新縮放。
+  correct: 官方選 Adagrad，因為它依各參數的累積平方梯度調整有效步長，常用於稀疏特徵（[Adagrad 原論文 §1](https://jmlr.org/papers/volume12/duchi11a/duchi11a.pdf)）。題幹未指明累積方式，因此不足以排除另一個自適應方法 Adam。
+  wrong:
+    A: Momentum 結合歷史梯度方向，不以 Adagrad 的累積平方和逐參數縮放。
+    C: Adam 也依各參數的一階及二階矩估計調整步長。[Adam 原論文摘要及 §1](https://arxiv.org/pdf/1412.6980)亦明示其適用於稀疏梯度。官方選 B，但題幹兩條件不足以排除 C。
+    D: 基本 SGD 不會自動維護各參數的自適應縮放統計量。
+  rule: Adagrad 用累積平方梯度；Adam 用衰減的一階與二階矩。
+guide_refs:
+  - guide-3:5-54
+author: codex
+review:
+  status: disputed
+  answer_checked:
+    pdf_page: 191
+    by: claude-primary-task_53aa4e76b2c3;claude-followup-task_90e9f9a05294
+  dispute: 官方答案為 B（Adagrad）。題幹只說逐參數自適應及適用稀疏資料；[Adam 原論文摘要與第 1 節](https://arxiv.org/pdf/1412.6980)也明示這兩項能力，因此不足以排除 C。保留官方答案與題幹唯一性爭議。

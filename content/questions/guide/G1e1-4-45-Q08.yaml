@@ -1,0 +1,37 @@
+id: G1e1-4-45-Q08
+rev: 1
+source: guide
+subject: 1
+number: 8
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 139
+type: 觀念
+codes:
+  - L21203
+concepts:
+  - algorithmic-bias
+  - fairness-audit
+stem: 以下何者屬於 AI 模型偏誤造成的風險？
+options:
+  A: 語法錯誤
+  B: 輸入資料格式錯誤
+  C: 特定族群預測結果不公平
+  D: 模型壓縮後效能下降
+answer: C
+explanation:
+  summary: 辨識模型偏誤對不同族群的影響。
+  correct: 若模型對特定族群持續產生不利且不公平的預測，便可能反映資料、標註或建模流程中的偏誤。應以分群指標進一步檢查。
+  wrong:
+    A: 語法錯誤是程式撰寫問題，本身並不表示不同族群受到差別對待。
+    B: 輸入格式不符是資料或介面問題，沒有直接表達群體間的不公平。
+    D: 壓縮後效能下降可能是模型精度損失，單憑整體下降仍不能判定族群偏誤。
+  rule: 判斷公平性風險時，要檢查不同族群的結果差異。
+guide_refs:
+  - guide-1:4-45
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 140
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

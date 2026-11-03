@@ -1,0 +1,36 @@
+id: G3e1-4-94-Q08
+rev: 1
+source: guide
+subject: 3
+number: 8
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 132
+type: 觀念
+codes:
+  - L23203
+concepts:
+  - loss-function-selection
+stem: 在深度學習模型的訓練過程中，計算模型輸出與實際值差距的函數稱為什麼？
+options:
+  A: 激活函數（Activation Function）
+  B: 池化函數（Pooling Function）
+  C: 損失函數（Loss Function）
+  D: 梯度函數（Gradient Function）
+answer: C
+explanation:
+  summary: 辨識衡量預測與標籤差距的訓練函數。
+  correct: 損失函數將預測及真實目標轉成可優化的誤差值。訓練流程再對這個目標計算梯度並更新參數。
+  wrong:
+    A: 激活函數轉換神經元輸出，不必同時讀取真實標籤。
+    B: 池化函數彙整局部特徵，例如取最大值，並非計算預測與標籤的差距。
+    D: 梯度描述目標函數對參數的變化率，不是用來定義誤差值的函數名稱。
+  rule: 先由損失衡量預測誤差，再由梯度指引參數更新。
+guide_refs:
+  - guide-3:4-94
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 134
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

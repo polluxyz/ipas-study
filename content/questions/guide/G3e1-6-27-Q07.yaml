@@ -1,0 +1,36 @@
+id: G3e1-6-27-Q07
+rev: 1
+source: guide
+subject: 3
+number: 7
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 219
+type: 觀念
+codes:
+  - L23401
+concepts:
+  - t-closeness
+stem: T-接近性（T-Closeness）技術主要是為了降低什麼風險？
+options:
+  A: 機率分佈差異造成的識別風險
+  B: 資料重複風險
+  C: 訓練時間過長
+  D: 演算法震盪問題
+answer: A
+explanation:
+  summary: 辨識敏感屬性分佈差異造成的揭露風險。
+  correct: T-Closeness 限制同一等價群組的敏感屬性分佈，與整份資料的分佈相差多少。這可減少攻擊者因知道群組而推斷個人敏感屬性的額外資訊。官方 A 的「識別風險」用語較廣，不代表可消除所有身分再識別風險。
+  wrong:
+    B: 資料重複是品質或儲存問題，不是 T-Closeness 的主要限制對象。
+    C: T-Closeness 不以縮短模型訓練時間為目的。
+    D: 優化震盪屬訓練穩定性問題，與資料發布時的分佈接近條件不同。
+  rule: T-Closeness 比較群組與全體的敏感屬性分佈，以降低屬性揭露。
+guide_refs:
+  - guide-3:6-27
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 222
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

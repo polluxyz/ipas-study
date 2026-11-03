@@ -1,0 +1,37 @@
+id: G3e1-6-27-Q06
+rev: 1
+source: guide
+subject: 3
+number: 6
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 219
+type: 觀念
+codes:
+  - L23402
+concepts:
+  - class-weighting
+  - fairness-preprocessing
+stem: 若資料集中存在群體樣本數不均，造成模型偏向多數群體，適合採用哪種技術？
+options:
+  A: 權重初始化
+  B: 權重衰減
+  C: 類別重加權
+  D: 全量訓練
+answer: C
+explanation:
+  summary: 辨識增加少數類別或群體訓練影響的方法。
+  correct: 官方 C 以加權方式提高少數樣本對損失的影響，避免訓練被多數樣本主導。若題目中的群體指性別等敏感群體，需依群體或群體與標籤組合設定權重，不能只調目標類別權重。
+  wrong:
+    A: 權重初始化設定訓練起點，沒有直接補償群體樣本數差異。
+    B: 權重衰減限制模型參數大小，並未指定少數群體應獲得更大影響。
+    D: 使用全部樣本訓練仍會保留原本的不均比例，不能單靠此步驟處理偏向多數的問題。
+  rule: 目標類別不均與敏感群體不均要分開設計權重。
+guide_refs:
+  - guide-3:6-27
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 222
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

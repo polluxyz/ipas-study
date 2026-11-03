@@ -1,0 +1,36 @@
+id: G3e1-3-29-Q08
+rev: 1
+source: guide
+subject: 3
+number: 8
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 36
+type: 觀念
+codes:
+  - L23103
+concepts:
+  - adagrad
+stem: 以下哪一種優化方法會累積每個參數的歷史梯度大小，以調整學習率？
+options:
+  A: Momentum
+  B: Adagrad
+  C: SGD
+  D: Batch Normalization
+answer: B
+explanation:
+  summary: 辨識以累積平方梯度縮放各參數更新的方法。
+  correct: Adagrad 為每個參數保存到目前為止的梯度平方和，再依此縮放更新。常有非零梯度的參數，其有效步長通常會逐漸縮小。
+  wrong:
+    A: Momentum 以梯度的加權累積形成動量，並非用各參數累積平方和作分母。
+    C: 基本 SGD 使用目前的隨機梯度更新，不會自行建立 Adagrad 的逐參數平方累積。
+    D: Batch Normalization 標準化中間層輸出，不是這種優化器。
+  rule: 辨識 Adagrad 的關鍵是逐參數累積平方梯度。
+guide_refs:
+  - guide-3:3-29
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 38
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

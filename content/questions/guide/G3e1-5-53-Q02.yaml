@@ -1,0 +1,36 @@
+id: G3e1-5-53-Q02
+rev: 1
+source: guide
+subject: 3
+number: 2
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 187
+type: 觀念
+codes:
+  - L23301
+concepts:
+  - outlier-detection
+stem: 在進行異常值（Outlier）偵測時，哪種方法是利用統計特徵分佈來判斷離群點？
+options:
+  A: KNN 補值
+  B: 四分位距法（IQR）
+  C: Isolation Forest
+  D: One-hot Encoding
+answer: B
+explanation:
+  summary: 辨識以四分位數設定離群範圍的方法。
+  correct: 四分位距為第三四分位數減第一四分位數。常見做法把低於 Q1-1.5×IQR 或高於 Q3+1.5×IQR 的點列為待檢查離群值，不代表一定要刪除。
+  wrong:
+    A: KNN 補值根據相近樣本估計缺值，主要不是用四分位門檻偵測異常。
+    C: Isolation Forest 以隨機切分孤立樣本，並非題目對應的四分位統計門檻。
+    D: One-hot Encoding 把類別轉成指示欄位，不是數值離群偵測方法。
+  rule: IQR 離群門檻從 Q1 與 Q3 向外各延伸 1.5 倍四分位距。
+guide_refs:
+  - guide-3:5-53
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 190
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

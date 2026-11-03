@@ -1,0 +1,37 @@
+id: G1e1-4-44-Q02
+rev: 1
+source: guide
+subject: 1
+number: 2
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 138
+type: 觀念
+codes:
+  - L21201
+concepts:
+  - it-readiness
+  - ai-adoption-assessment
+stem: 在進行 AI 導入評估時，為確保企業體系具備執行能力，應考量下列哪一項？
+options:
+  A: 使用者介面風格
+  B: 技術成熟度與部署資源
+  C: 品牌識別度
+  D: 客服滿意度
+answer: B
+explanation:
+  summary: 辨識導入前的技術與資源準備。
+  correct: 要讓方案能實際執行，需確認技術是否可用，以及運算、系統和部署資源是否足夠。此項直接對應執行能力。
+  wrong:
+    A: 介面風格影響操作感受，但不能證明模型能完成開發與部署。
+    C: 品牌識別度關乎市場認知，不代表企業已具備技術與部署條件。
+    D: 客服滿意度可作為業務成果指標，並非執行能力本身。
+  rule: 可行性評估要確認技術、資料與資源能支持方案落地。
+guide_refs:
+  - guide-1:4-44
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 140
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

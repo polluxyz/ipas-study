@@ -1,0 +1,37 @@
+id: G3e1-3-29-Q10
+rev: 1
+source: guide
+subject: 3
+number: 10
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 36
+type: 觀念
+codes:
+  - L23101
+concepts:
+  - logistic-regression
+  - bernoulli-binomial
+stem: 邏輯迴歸（Logistic Regression）模型在處理二元分類問題時，通常假設目標變數服從哪種分佈？
+options:
+  A: 常態分佈
+  B: 均勻分佈
+  C: 伯努利分佈
+  D: 泊松分佈
+answer: C
+explanation:
+  summary: 辨識二元邏輯迴歸的條件目標分佈。
+  correct: 給定特徵 X，二元目標 Y 可建模為成功機率 p(X) 的伯努利變數。邏輯迴歸用 sigmoid 將線性預測值轉為這個機率。
+  wrong:
+    A: 常態分佈的取值可涵蓋連續實數，不直接描述 0 與 1 的二元目標。
+    B: 均勻分佈不表示一般樣本依特徵而變的成功機率。
+    D: 泊松分佈通常描述非負整數的事件次數，並不限於二元結果。
+  rule: 二元邏輯迴歸以給定特徵下的伯努利機率描述目標。
+guide_refs:
+  - guide-3:3-29
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 38
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

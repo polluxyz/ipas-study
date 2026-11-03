@@ -1,0 +1,37 @@
+id: G1e1-4-45-Q06
+rev: 1
+source: guide
+subject: 1
+number: 6
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 139
+type: 觀念
+codes:
+  - L21202
+concepts:
+  - cloud-deployment-options
+  - hybrid-deployment
+stem: 當 AI 導入規劃需評估系統部署模式時，若考量資料隱私與本地控制需求，應優先考慮？
+options:
+  A: 第三方雲端部署
+  B: 地端私有部署
+  C: 區塊鏈儲存方式
+  D: 外包給 AI 公司
+answer: B
+explanation:
+  summary: 依資料控制需求選擇部署方式。
+  correct: 地端私有部署讓企業直接管理執行環境與資料存取，較符合題目強調的本地控制需求。仍須自行做好權限、備份與資安管理。
+  wrong:
+    A: 第三方雲端可提供安全措施，但企業對底層環境的直接控制通常較少，不如地端方案貼近本題條件。
+    C: 區塊鏈是資料保存與協作技術，不能直接代替模型部署位置的選擇。
+    D: 外包是委託開發或維運的方式，未指定資料必須留在企業本地。
+  rule: 部署位置需配合資料控制、資源與維運要求。
+guide_refs:
+  - guide-1:4-45
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 140
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

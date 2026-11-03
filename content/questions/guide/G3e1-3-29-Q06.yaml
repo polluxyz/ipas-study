@@ -1,0 +1,36 @@
+id: G3e1-3-29-Q06
+rev: 1
+source: guide
+subject: 3
+number: 6
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 36
+type: 觀念
+codes:
+  - L23101
+concepts:
+  - hypothesis-testing
+stem: 在進行假設檢定時，顯著水準（α）表示什麼？
+options:
+  A: 平均值的大小
+  B: 模型運算速度
+  C: 拒絕虛無假設時所容許的型一錯誤機率
+  D: 資料筆數多少
+answer: C
+explanation:
+  summary: 辨識顯著水準控制的型一錯誤。
+  correct: 顯著水準是在檢定前設定的拒絕門檻，用於限制虛無假設成立時卻被拒絕的機率。它不是觀察到拒絕後，虛無假設為真的條件機率。
+  wrong:
+    A: 平均值是資料的位置統計量，與事先設定的檢定錯誤上限不同。
+    B: 運算速度不決定顯著水準的定義。
+    D: 樣本數會影響檢定力與估計精度，但不是 α 所代表的量。
+  rule: 型一錯誤是錯拒真的虛無假設，顯著水準限制此風險。
+guide_refs:
+  - guide-3:3-29
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 37
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

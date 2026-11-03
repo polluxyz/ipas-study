@@ -1,0 +1,38 @@
+id: G3e1-6-28-Q10
+rev: 1
+source: guide
+subject: 3
+number: 10
+pdf_file: AI應用規劃師(中級)-學習指引-科目3機器學習技術與應用_20251222101907.pdf
+pdf_page: 220
+type: 觀念
+codes:
+  - L23401
+concepts:
+  - knowledge-distillation
+  - data-masking
+  - privacy-generalization
+stem: 下列哪一項不是常見的隱私保護基礎技術？
+options:
+  A: 遮蔽（Masking）
+  B: 泛化（Generalization）
+  C: 知識蒸餾（Knowledge Distillation）
+  D: 分桶（Bucketing）
+answer: C
+explanation:
+  summary: 區分一般模型壓縮與資料去識別方法。
+  correct: 一般知識蒸餾讓學生學習教師的行為，並非直接遮蔽或降低原始資料的識別細節。沒有額外隱私設計時，不能把蒸餾當成基礎隱私保護措施。
+  wrong:
+    A: 遮蔽會隱藏或替代部分識別內容，屬常見資料保護處理；保護程度仍取決於可連結資訊。
+    B: 泛化降低資料精細度，例如把精確年齡改成年齡區間，可減少識別線索。
+    D: 分桶將數值合併到區間，可降低資料細節，屬常見的隱私泛化做法。
+  rule: 蒸餾傳遞模型知識；遮蔽、泛化與分桶直接改變資料細節。
+guide_refs:
+  - guide-3:6-28
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 222
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null

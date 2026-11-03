@@ -1,0 +1,36 @@
+id: G1e1-5-24-Q06
+rev: 1
+source: guide
+subject: 1
+number: 6
+pdf_file: AI應用規劃師(中級)-學習指引-科目1人工智慧技術應用規劃_20251222101833.pdf
+pdf_page: 165
+type: 觀念
+codes:
+  - L21302
+concepts:
+  - container-orchestration
+stem: 在設計 AI 應用系統架構時，使用容器技術（如 Docker）的主要優點為？
+options:
+  A: 加快資料標註速度
+  B: 提升 API 回應速度
+  C: 促進模型跨平台部署與環境一致性
+  D: 減少模型所需參數量
+answer: C
+explanation:
+  summary: 辨識容器對執行環境一致性的作用。
+  correct: 容器映像可一起封裝應用程式及所需套件，使相容平台能使用一致的執行環境。跨處理器架構或特殊硬體仍需提供相容映像及驅動。
+  wrong:
+    A: 容器不會直接產生或校正資料標籤。
+    B: 容器方便管理環境，但不保證 API 的回應一定變快。
+    D: 容器不會自行刪減模型參數，模型壓縮需其他方法。
+  rule: 容器主要處理應用與相依環境的封裝及一致性。
+guide_refs:
+  - guide-1:5-24
+author: codex
+review:
+  status: verified
+  answer_checked:
+    pdf_page: 166
+    by: claude-primary-task_53aa4e76b2c3
+  dispute: null
