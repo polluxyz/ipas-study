@@ -39,6 +39,8 @@
     {"name":"公式的上下排列不是正文直排","nodes":[{"text":"mmm","ys":[0,10,20],"math":true}],"bad":false},
     {"name":"正常正文同一行","nodes":[{"text":"正常文字","ys":[0,0,0,0],"math":false}],"bad":false},
     {"name":"真正兩字直排仍失敗","nodes":[{"text":"直排","ys":[0,20],"math":false}],"bad":true},
-    {"name":"公式不能掩蓋正文直排","nodes":[{"text":"直排","ys":[0,20],"math":false},{"text":"mmm","ys":[0,0,0],"math":true}],"bad":true}
+    {"name":"公式不能掩蓋正文直排","nodes":[{"text":"直排","ys":[0,20],"math":false},{"text":"mmm","ys":[0,0,0],"math":true}],"bad":true},
+    {"name":"公式間換行的標點不是正文直排","nodes":[{"text":"mmm","ys":[0,10,20],"math":true},{"text":"；、","ys":[0,20],"math":false}],"bad":false},
+    {"name":"標點不能掩蓋正文直排","nodes":[{"text":"上。下。","ys":[0,0,20,20],"math":false}],"bad":true}
   ]
 }
