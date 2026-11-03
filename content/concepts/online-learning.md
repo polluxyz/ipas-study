@@ -5,7 +5,6 @@ kind: technique
 codes: [L21302, L21301]
 aliases: [Online Learning]
 summary: 隨新資料到達延續模型狀態更新，仍須驗證、控制污染並保留回復點
-requires: [feedback-loop]
 goals:
   - id: g1
     text: 區分 AutoML 搜尋與線上持續更新，說明離線重訓及在線更新的用途

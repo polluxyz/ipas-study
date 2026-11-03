@@ -5,7 +5,6 @@ kind: technique
 codes: [L21202]
 aliases: []
 summary: Scrum 用固定短衝交付可用成果，再依產品回饋與團隊檢討調整
-requires: [ai-project-roles]
 goals:
   - id: g1
     text: 分清產品負責人、Scrum Master與開發者在排序、執行及障礙排除的責任

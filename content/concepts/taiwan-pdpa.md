@@ -8,7 +8,7 @@ summary: 臺灣個資法要求依目的合法利用個資，並落實告知、�
 goals:
   - id: g1
     text: 沿資料流檢查告知、處理依據、當事人權利與安全維護，辨認待核例外
-requires: [privacy-regulations, lawful-data-use]
+requires: [lawful-data-use]
 guide_refs: [guide-1:3-33, guide-1:3-82, guide-1:4-34, guide-3:6-2]
 self_check:
   - id: c1

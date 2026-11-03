@@ -12,10 +12,7 @@ goals:
     text: 區分前向、反向求梯度與優化器更新的輸入輸出，判斷梯度方向
   - id: g2
     text: 手算雙層網路梯度，對照 Autograd 並核對 backward 與 step 前後的參數
-requires:
-  - forward-propagation
-  - gradient-descent
-  - cross-entropy-loss
+requires: [forward-propagation, gradient-descent]
 guide_refs:
   - guide-3:4-59
   - guide-3:4-60

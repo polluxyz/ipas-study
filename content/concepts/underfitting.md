@@ -4,7 +4,6 @@ title: 欠擬合
 kind: problem
 codes: [L23302]
 aliases: [低度擬合]
-requires: [bias-variance-tradeoff]
 summary: 欠擬合是模型連訓練資料的主要規律也沒有充分學會
 textbook: v2
 author: codex

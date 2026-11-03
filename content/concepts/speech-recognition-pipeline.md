@@ -12,7 +12,6 @@ goals:
     text: 用查天氣例追蹤辨識、理解、任務與回應，定位錯誤傳遞
   - id: g3
     text: 為助理、搜尋、客服與跨語言互動配置模組及交付輸出
-requires: [text-to-speech]
 guide_refs: [guide-1:3-69, guide-1:3-76, guide-1:3-77]
 textbook: v2
 author: codex
@@ -82,6 +81,8 @@ self_check:
 ![由音訊一路追到回應；NLU 的輸入是轉寫文字，TTS 接的是已形成的回覆文字。](figure:l21104-speech-recognition-pipeline-flow)
 
 ## 定義與公式
+
+本頁用含語音回覆的助理示範TTS位置；若只需文字或動作輸出，可省略TTS。
 
 | 模組 | 輸入 | 輸出 | 責任 |
 |---|---|---|---|

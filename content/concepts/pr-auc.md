@@ -4,11 +4,7 @@ title: PR 曲線與 PR-AUC
 aliases: [PR 曲線, Precision-Recall Curve, AUPRC]
 kind: metric
 codes: [L23303]
-requires: [precision, recall, roc-auc]
-contrasts:
-  - target: roc-auc
-    note: ROC 以假正率為橫軸、真正率為縱軸；PR 以召回率為橫軸、精確率為縱軸，兩種曲線的座標不可混用
-    source: [guide-3:5-22, 115-1-S1-Q08]
+requires: [precision, recall]
 guide_refs: [guide-3:5-25]
 gaps:
   - ref: guide-3:5-25
@@ -88,7 +84,7 @@ self_check:
 
 ## 為什麼需要（補充）
 
-在盜刷或故障預警中，誤報太多會淹沒調查人員。ROC-AUC 能看正負類排序，卻不直接回答「收到的警報有多少是真的」。
+在盜刷或故障預警中，誤報太多會淹沒調查人員。[[roc-auc]] 能看正負類排序，卻不直接回答「收到的警報有多少是真的」。
 
 PR 曲線（Precision-Recall Curve）比較「多抓一些」與警報可信度。PR 曲線、平均精確率等中文名稱為本站用詞。
 

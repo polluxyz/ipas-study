@@ -5,7 +5,7 @@ kind: model
 codes: [L23203]
 aliases: [AE, Denoising Autoencoder]
 summary: 自編碼器把輸入編成受限表示，再解碼回原來的資料維度
-requires: [output-loss-contract, train-val-test-split]
+requires: [output-loss-contract]
 contrasts:
   - target: gan
     note: 傳統自編碼器對照輸入做重建，GAN 透過生成器與判別器競爭學習生成

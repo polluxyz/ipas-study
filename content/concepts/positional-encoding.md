@@ -11,7 +11,7 @@ summary: 位置編碼把順序線索加入詞元表示，讓相同詞彙在不�
 goals:
   - id: g1
     text: 以交換詞序反例說明位置向量和詞義向量的分工
-requires: []
+requires: [embedding-representation]
 guide_refs:
   - guide-3:4-80
   - guide-3:4-81

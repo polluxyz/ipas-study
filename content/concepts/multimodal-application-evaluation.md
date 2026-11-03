@@ -12,7 +12,7 @@ goals:
     text: 為零售影像、交易與評論配置分析輸出及相應指標
   - id: g3
     text: 為語音、手勢與虛擬互動選擇正確率、WER 與延遲的驗收方式
-requires: [multimodal-ai, speech-quality-metrics]
+requires: [multimodal-ai]
 guide_refs: [guide-1:3-78, guide-1:3-79, guide-1:3-80]
 textbook: v2
 author: codex

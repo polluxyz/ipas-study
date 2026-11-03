@@ -107,6 +107,13 @@ self_check:
       B: 錯。單次落差與更換訓練資料後的波動是不同證據。
       C: 對。把預測對齊相同輸入，才能觀察重訓的敏感度。
       D: 錯。多項設定同時改變，無法隔離訓練資料的作用。
+contrasts:
+  - target: underfitting
+    note: 過擬合偏向學進訓練細節而泛化差；欠擬合連訓練主要規律也未充分學會，仍須配合基準、容量與收斂狀況診斷。
+    source:
+      - guide-3:5-16
+      - guide-3:5-34
+requires: [train-val-test-split]
 ---
 
 ## 為什麼需要

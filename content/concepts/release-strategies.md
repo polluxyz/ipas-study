@@ -4,7 +4,6 @@ title: 藍綠、金絲雀與滾動更新
 kind: technique
 codes: [L21302]
 aliases: [Blue-Green Deployment, Canary Release, Rolling Update]
-requires: [continuous-deployment]
 summary: 發布策略安排新舊版本的位置與流量，降低更新時的中斷與影響範圍
 goals:
   - id: g1

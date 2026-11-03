@@ -4,7 +4,7 @@ title: RAG token 成本與輸入優化
 kind: technique
 codes: [L21202]
 aliases: []
-requires: [tokenization]
+requires: [tokenization, rag]
 summary: 把 RAG 的輸入、輸出與快取分開計費，再以品質檢查選擇壓縮方式
 goals:
   - id: g1

@@ -12,7 +12,7 @@ goals:
     text: 用問卷、訪談及使用日誌區分使用障礙，提出採用與流程修正方案
   - id: g3
     text: 綜合技術適配、效益、組織接受度與瓶頸，提出附限制的下一步
-requires: [proof-of-concept, ai-total-cost]
+requires: [proof-of-concept]
 formula_groups:
   - id: case-rates
     source: >-

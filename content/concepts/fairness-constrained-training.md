@@ -4,7 +4,7 @@ title: 公平性約束與損失
 kind: technique
 codes: [L23402]
 aliases: [Fairness Constraints, Fairness Regularization, In-processing, 公平性正規化]
-requires: [debiasing-strategies, equalized-odds, regularization]
+requires: [debiasing-strategies]
 is_a: [debiasing-strategies]
 summary: 訓練時把公平差距放入約束或懲罰，與預測效能一起選模型
 goals:

@@ -8,7 +8,6 @@ summary: 電信導入 AI 要連同服務角色、通信資料、資安與消費�
 goals:
   - id: g1
     text: 從服務與資料流找出資安、通信秘密與消保查核點，並核對主管機關及法源
-requires: [ai-risk-governance]
 guide_refs: [guide-1:4-36]
 textbook: v2
 author: codex

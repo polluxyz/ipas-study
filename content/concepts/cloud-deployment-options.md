@@ -13,8 +13,6 @@ goals:
     text: 依擴展、費用、主權與鎖定風險評估公有雲
   - id: g2
     text: 依控制權、容量與維運負擔評估私有雲
-requires:
-  - inference-service-api
 guide_refs:
   - guide-1:5-17
   - guide-1:5-18

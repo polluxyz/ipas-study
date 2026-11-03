@@ -4,7 +4,6 @@ title: 影像畫質增強與去噪
 kind: technique
 codes: [L21102, L23301]
 aliases: [Denoising, Gamma Correction, Histogram Equalization]
-requires: [image-normalization]
 summary: 畫質增強調整亮度與對比，去噪則減少雜訊，兩者都要保住所需細節
 textbook: v2
 author: codex

@@ -4,7 +4,6 @@ title: 同態加密
 kind: technique
 codes: [L23401, L21203]
 aliases: [FHE, HE, Homomorphic Encryption]
-requires: [secure-communication]
 summary: 同態加密讓受支援的運算在密文上進行，再由持鑰者解密結果
 goals:
   - id: g1
@@ -49,6 +48,11 @@ guide_refs: [guide-3:6-11]
 textbook: v2
 author: codex
 status: draft
+contrasts:
+  - target: secure-multiparty-computation
+    note: 本題以單一雲端直接計算密文辨認同態加密；多方計算以協議共同處理私人輸入。兩者可組合，須另核參與者、持鑰者及安全假設。
+    source:
+      - 115-1-S3-Q36
 ---
 
 ## 為什麼需要

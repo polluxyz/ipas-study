@@ -8,7 +8,6 @@ summary: ARIMA 以差分處理趨勢，再用歷史值與歷史誤差描述序�
 goals:
   - id: g1
     text: 說明 p、d、q，計算一次差分，並檢查平穩性、殘差與季節性界線
-requires: [sequence-model-selection]
 guide_refs: [guide-3:5-13]
 textbook: v2
 author: codex
@@ -53,6 +52,11 @@ self_check:
       B: p 與 d 的意義互換了，一般差分也不能自動取代季節項。
       C: MA 使用過去隨機誤差，不是對觀測值取一般移動平均。
       D: p 不是資料筆數，d 也不是特徵維度。
+contrasts:
+  - target: sequence-models
+    note: ARIMA以差分與歷史值/誤差描述序列；本站RNN、LSTM與GRU以遞迴狀態及門控建模。指引把前者列為短期小資料候選，後者用來比較長序列依賴，效果仍須同版驗證。
+    source:
+      - guide-3:5-13
 ---
 
 ## 為什麼需要

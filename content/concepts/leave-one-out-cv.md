@@ -7,8 +7,11 @@ codes: [L23303]
 is_a: [k-fold-cross-validation]
 contrasts:
   - target: stratified-k-fold
-    note: 留一法每一摺只有 1 筆驗證資料，沒有類別比例可以維持；要讓每摺比例一致，要用分層 K-fold
-    source: [114-2-S3-Q34]
+    note: 留一法以每次僅留1筆為切分規則；分層K-fold按類別比例分摺，不以每次1筆為定義。
+    source:
+      - guide-3:5-27
+      - guide-3:5-54
+      - guide-3:5-56
 guide_refs: [guide-3:5-28]
 gaps:
   - ref: guide-3:5-28

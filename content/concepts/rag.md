@@ -10,7 +10,6 @@ goals:
     text: 走完含問題、文件、引用與答案的流程，說明知識更新與錯誤檢索的限制
   - id: g2
     text: 分辨切塊、嵌入、檢索、重排與生成的失敗，檢查過期資料及注入風險
-requires: [text-representation]
 guide_refs: [guide-1:3-28, guide-1:3-29]
 textbook: v2
 author: codex

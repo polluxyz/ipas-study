@@ -8,8 +8,6 @@ aliases:
   - Docker
   - K8s
   - Kubernetes
-requires:
-  - inference-service-api
 summary: 容器封裝執行環境，編排工具管理多個容器的部署與恢復
 goals:
   - id: g1

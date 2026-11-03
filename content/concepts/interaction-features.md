@@ -4,7 +4,6 @@ title: 交互與聚合特徵
 kind: technique
 codes: [L23301]
 aliases: [Aggregation, Feature Cross, Interaction Features]
-requires: [numpy-data-operations]
 summary: 把同列欄位的組合與同群歷史的統計，轉成有業務意義的輸入
 textbook: v2
 author: codex

@@ -4,7 +4,7 @@ title: SMOTE 少數類別合成
 kind: technique
 codes: [L23301, L21301, L23304, L23402]
 aliases: [SMOTE 少數類合成, Synthetic Minority Over-sampling Technique, Synthetic Minority Oversampling, Synthetic Minority Oversampling Technique]
-requires: [class-imbalance, feature-scaling]
+requires: [class-imbalance]
 mitigates:
   - target: class-imbalance
     note: 合成少數類訓練樣本以增加學習機會，仍須檢查不自然樣本與獨立評估

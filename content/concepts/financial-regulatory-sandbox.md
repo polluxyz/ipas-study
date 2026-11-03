@@ -8,7 +8,6 @@ summary: 金融監理沙盒讓創新金融服務在核准邊界內接受受控�
 goals:
   - id: g1
     text: 辨認金融創新受控試驗的目的，列出申請、範圍、資料安全與成效評估的前提
-requires: [ai-risk-governance]
 guide_refs: [guide-1:4-36]
 textbook: v2
 author: codex

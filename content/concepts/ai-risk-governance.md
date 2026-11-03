@@ -42,8 +42,6 @@ self_check:
       B: 控制後分數以前提成立為條件，未完成不能先套用。
       C: 改變分母掩蓋缺口，未補上必要資料。
       D: 6/100 超過 5%，須依登錄的期限與升級條件處理。
-requires:
-  - ai-adoption-assessment
 guide_refs:
   - guide-1:4-29
   - guide-1:4-42

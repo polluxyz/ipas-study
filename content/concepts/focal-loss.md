@@ -4,7 +4,7 @@ title: Focal Loss 焦點損失
 kind: theory
 codes: [L23304, L23103]
 aliases: [Focal Loss]
-requires: [cross-entropy-loss, class-imbalance]
+requires: [cross-entropy-loss]
 summary: Focal Loss 降低容易樣本的相對損失貢獻，讓訓練更關注難例
 goals:
   - id: g1
@@ -70,6 +70,11 @@ self_check:
       B: γ作用於所有樣本的真類機率，並非只對負類生效。
       C: 難易係數變成1，剩下0.25乘各筆交叉熵。
       D: 非零數的零次方為1，不能把調節係數當成0。
+mitigates:
+  - target: class-imbalance
+    note: 降低容易樣本的損失貢獻，以減輕類別不平衡下大量易例主導訓練的問題；仍須驗證權重與難例品質。
+    source:
+      - guide-3:3-22
 ---
 
 ## 為什麼需要

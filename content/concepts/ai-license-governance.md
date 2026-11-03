@@ -4,7 +4,6 @@ title: AI 資料與模型授權查核
 kind: technique
 codes: [L23401, L21203]
 aliases: []
-requires: [privacy-governance]
 guide_refs: [guide-1:4-32, guide-1:4-36]
 summary: 授權查核逐項比對資料、權重與軟體的來源、用途及使用條件
 goals:
@@ -61,6 +60,12 @@ self_check:
 textbook: v2
 author: codex
 status: draft
+mitigates:
+  - target: corpus-copyright
+    note: 查核來源與預定用途的授權，隔離未確認的語料，可減少來源授權風險；仍須另查生成內容是否侵害他人權利。
+    source:
+      - guide-1:4-9
+      - guide-1:4-32
 ---
 
 ## 為什麼需要

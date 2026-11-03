@@ -5,7 +5,6 @@ kind: technique
 codes: [L21103, L21102, L21104]
 aliases: [ControlNet, DALL·E, Image Generation, InstructPix2Pix, image-generation, 可控圖像生成與編輯, 文生圖, 條件影像生成]
 summary: 依文字、原圖與結構條件生成或編輯影像，再逐項驗收
-requires: [diffusion-model, gan]
 guide_refs: [guide-1:3-44, guide-1:3-67, guide-1:3-68]
 textbook: v2
 author: codex

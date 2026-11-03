@@ -5,7 +5,7 @@ kind: component
 codes: [L23203, L21102]
 aliases: [ResNet, Residual Connection, Skip Connection]
 summary: 殘差連接把輸入沿捷徑加回子層輸出，讓深層訊號有較直接的傳遞路徑
-requires: [cnn-tensor-shapes, backpropagation]
+requires: [backpropagation]
 guide_refs: [guide-1:3-49, guide-3:4-71, guide-3:4-81]
 textbook: v2
 author: codex

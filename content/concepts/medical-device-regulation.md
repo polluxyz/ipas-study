@@ -8,7 +8,6 @@ summary: 醫療 AI 先依預期用途判斷器材範圍，再確認風險、品�
 goals:
   - id: g1
     text: 用用途、風險及上市提問表判斷醫療 AI 的額外查核，並找到主管機關與法源
-requires: [ai-risk-governance]
 guide_refs: [guide-1:4-36]
 textbook: v2
 author: codex

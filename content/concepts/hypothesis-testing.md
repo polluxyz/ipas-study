@@ -4,7 +4,7 @@ title: 假設檢定與顯著性
 kind: technique
 codes: [L23101]
 aliases: [Hypothesis Testing, p 值, 型一錯誤, 檢定力, 顯著水準]
-requires: [statistical-inference, chi-square-distribution]
+requires: [statistical-inference]
 summary: 假設檢定先訂主張與門檻，再衡量資料對虛無假設的反證
 goals:
   - id: g1

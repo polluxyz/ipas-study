@@ -4,7 +4,6 @@ title: 資料漂移
 kind: problem
 codes: [L21203]
 aliases: [Data Drift, 輸入漂移]
-requires: [discrete-random-variable]
 summary: 資料漂移是新舊輸入分布改變，是否失準還要另看真值
 goals:
   - id: g1

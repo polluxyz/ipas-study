@@ -174,6 +174,8 @@ print('更新參數:', [round(v, 4) for v in p.tolist()])
 
 ### AMP：先還原再裁剪（補充）
 
+自動混合精度與梯度縮放的背景，可接著讀[[mixed-precision-training]]。
+
 自動混合精度讓不同運算使用不同精度，詳見[混合精度訓練](/concepts/mixed-precision-training/)。啟用梯度縮放時，先還原梯度尺度，再裁剪。
 
 下面在CPU使用真正啟用的GradScaler核對縮放流程，不量測GPU速度。刻意取初始縮放8，便於看見範數40還原為5；這是尺度測試，沒有宣稱CPU張量已改用FP16。

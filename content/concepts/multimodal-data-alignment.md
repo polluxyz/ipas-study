@@ -12,7 +12,7 @@ goals:
     text: 按對齊、標註與版本問題選手段並安排人工抽查
   - id: g3
     text: 手算短序列的 DTW 距離表並追蹤單調配對路徑
-requires: [cross-modal-alignment, sensor-fusion]
+requires: [cross-modal-alignment]
 guide_refs: [guide-1:3-80, guide-1:3-81]
 textbook: v2
 author: codex

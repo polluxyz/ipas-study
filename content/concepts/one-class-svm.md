@@ -7,9 +7,7 @@ codes:
 aliases:
   - One-Class SVM
 summary: 單類別支援向量機以正常資料學習接受邊界，再找出偏離者
-requires:
-  - feature-scaling
-  - unsupervised-learning
+requires: [unsupervised-learning]
 guide_refs:
   - guide-3:4-52
   - guide-3:4-53
