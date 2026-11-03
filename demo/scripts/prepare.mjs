@@ -1,13 +1,16 @@
-/** 只在 demo 產生瀏覽器所需的版本索引與圖片副本，原始內容保持唯讀。 */
+/** 重建分析表與瀏覽器版本索引、圖片副本，原始內容保持唯讀。 */
 import { mkdir, readFile, readdir, writeFile, copyFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { parse } from 'yaml';
+import { pathToFileURL } from 'node:url';
+import { exportAnalysis, formatSummary } from './export-analysis.mjs';
 
 async function files(folder) {
   try { return (await Promise.all((await readdir(folder, { withFileTypes: true })).map((entry) => entry.isDirectory() ? files(join(folder, entry.name)) : [join(folder, entry.name)]))).flat(); }
   catch (error) { if (error.code === 'ENOENT') return []; throw error; }
 }
-async function main() {
+export async function main() {
+  console.log(formatSummary(await exportAnalysis()).trimEnd());
   const root = resolve(import.meta.dirname, '..');
   const revisions = {};
   for (const file of await files(resolve(root, '../content/questions'))) {
@@ -25,4 +28,4 @@ async function main() {
   }
   console.log(`已更新 ${Object.keys(revisions).length} 題版本索引（未更動 content/）。`);
 }
-await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) await main();
