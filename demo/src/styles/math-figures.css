@@ -43,6 +43,8 @@
 .prose .starlight-aside__content > :first-child { margin-top: 0 !important; }
 .prose .starlight-aside__content > :last-child { margin-bottom: 0 !important; }
 .prose .starlight-aside a { color: var(--aside-accent); }
+/* 行內程式沿用提示框的前景與背景，避免全域淺底造成失配；程式區塊保留語法配色。 */
+.prose .starlight-aside code:not(pre *) { background: var(--aside-bg); color: var(--aside-ink); }
 :root[data-theme='dark'] .prose .starlight-aside { --aside-bg: #192e4c; --aside-ink: #e1edff; --aside-accent: #a6caff; }
 :root[data-theme='dark'] .prose .starlight-aside--tip { --aside-bg: #352443; --aside-ink: #f1e5ff; --aside-accent: #dfb4ff; }
 :root[data-theme='dark'] .prose .starlight-aside--caution { --aside-bg: #3b2d18; --aside-ink: #fff0d7; --aside-accent: #ffd391; }
