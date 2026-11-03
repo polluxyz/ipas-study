@@ -1,6 +1,8 @@
 ---
 /** 不列側欄的建置管線展示，使用正式 Markdown 外掛與隔離黃金圖資。 */
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getCollection } from 'astro:content';
+import { buildStudySidebar } from '../../lib/sidebar';
 import { createMarkdownProcessor } from '@astrojs/markdown-remark';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -9,6 +11,9 @@ import figures from '../../../plugins/figures.mjs';
 import { mathSearchPolicy, collapseAdvanced } from '../../../plugins/textbook.mjs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
+
+// 展示頁不屬於任何單元，僅顯示共用入口與兩科路線。
+const sidebar = buildStudySidebar((await getCollection('codes')).map((entry) => entry.data), undefined, new Map());
 
 const processor = await createMarkdownProcessor({
   remarkPlugins: [wikiLinks, remarkMath, [figures, { directory: resolve('src/lib/figures/examples') }]],
@@ -59,6 +64,6 @@ $$
 `;
 const rendered = await processor.render(markdown, { fileURL: pathToFileURL(resolve('src/pages/dev/figures.astro')) });
 ---
-<StarlightPage frontmatter={{ title: '公式與圖表展示', description: '教材建置管線的黃金範例' }}>
+<StarlightPage frontmatter={{ title: '公式與圖表展示', description: '教材建置管線的黃金範例' }} sidebar={sidebar}>
   <div class="sl-markdown-content s1-figures" set:html={rendered.code} />
 </StarlightPage>
