@@ -4,7 +4,7 @@
 <rect width="360" height="590" fill="white"/>
 <g font-family="Microsoft JhengHei, Noto Sans TC, sans-serif">
 <text x="180" y="27" font-size="18" text-anchor="middle" fill="#182b40">同一均勻延遲：PDF與CDF</text>
-<text x="20" y="60" font-size="15" text-anchor="start" fill="#182b40">密度（每分鐘）</text>
+<text x="20" y="60" font-size="15" text-anchor="start" fill="#182b40">密度 f(x)（每分鐘）</text>
 <path d="M60 80 L60 210" fill="none" stroke="#182b40" stroke-width="2"/>
 <path d="M60 210 L330 210" fill="none" stroke="#182b40" stroke-width="2"/>
 <text x="48" y="215" font-size="14" text-anchor="end" fill="#182b40">0</text>
