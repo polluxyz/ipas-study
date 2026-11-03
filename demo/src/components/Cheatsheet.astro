@@ -42,6 +42,8 @@ const html = normalizeCheatsheetLinks(entry.rendered?.html ?? '', conceptHeading
   :global([data-theme='dark']) .cheatsheet :global(.lead) { color: #c1d4d0; }
   :global([data-theme='dark']) .cheatsheet :global(:is(h2, h3, h4, th, strong)) { color: var(--ink); }
   :global([data-theme='dark']) .cheatsheet :global(th), :global([data-theme='dark']) .cheatsheet :global(td) { background: transparent; border-color: var(--line); }
+  /* 行內標籤使用成對的深色配色，程式區塊保留原本的語法色。 */
+  :global([data-theme='dark']) .cheatsheet-body :global(code:not(pre code)) { color: var(--ink); background: #30494c; }
   @media (max-width: 400px) { :global([data-theme='dark']) .cheatsheet { padding: .65rem; } }
   @media print {
     @page { margin: 12mm; }
@@ -51,6 +53,7 @@ const html = normalizeCheatsheetLinks(entry.rendered?.html ?? '', conceptHeading
     :global(.content-panel) { padding: 0 !important; }
     :global(.main-pane), :global(.sl-container) { width: 100% !important; max-width: none !important; margin: 0 !important; }
     :global([data-theme]) .cheatsheet { padding: 0; color: #111; background: white; --ink: #111; --green: #111; --line: #aaa; }
+    :global([data-theme]) .cheatsheet-body :global(code:not(pre code)) { color: #111; background: #edf1e7; }
     .cheatsheet :global(.lead) { color: #333 !important; }
     .cheatsheet-body :global(.textbook-table-scroll) { overflow: visible; }
     .cheatsheet-body :global(table) { min-width: 0; width: 100%; font-size: 9pt; }
