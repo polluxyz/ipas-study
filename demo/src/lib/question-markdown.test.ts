@@ -83,6 +83,36 @@ describe('題目 Markdown', () => {
     expect(all(explanation, 'a').some((node) => node.properties?.href === 'https://keras.io/api/layers/core_layers/dense/')).toBe(true);
   }, 30000);
 
+  it('真實 Q50 題幹保留四個繪圖格式字串的 ASCII 引號及連字號', async () => {
+    const q = parse(readFileSync('../content/questions/exam/114-2/114-2-S3-Q50.yaml', 'utf8'));
+    const formats = q.stem.match(/"[^"\n]+"/g);
+    expect(formats).toEqual(['"b-"', '"b--"', '"r-"', '"r--"']);
+    const rendered = textOf(tree(await renderQuestionMarkdown(q.stem)));
+    expect(rendered.match(/"[^"\n]+"/g)).toEqual(formats);
+    const statements = q.stem.split('\n').filter((line: string) => /^[ABCD]：/.test(line));
+    expect(statements).toHaveLength(4);
+    for (const statement of statements) expect(rendered).toContain(statement);
+  }, 30000);
+
+  it('真實 Q50 正解解析逐字保留原文及兩個繪圖格式字串', async () => {
+    const q = parse(readFileSync('../content/questions/exam/114-2/114-2-S3-Q50.yaml', 'utf8'));
+    const formats = q.explanation.correct.match(/"[^"\n]+"/g);
+    expect(formats).toEqual(['"b-"', '"r--"']);
+    const rendered = textOf(tree(await renderQuestionMarkdown(q.explanation.correct)));
+    expect(rendered.match(/"[^"\n]+"/g)).toEqual(formats);
+    expect(rendered).toBe(q.explanation.correct);
+  }, 30000);
+
+  it.each([
+    ['雙引號', '空格 1 填 "b-"，空格 2 填 "r--"。'],
+    ['單引號', "dtype='float32'，格式為 'r--'，don't 改字。"],
+    ['雙連字號', '參數 --help，a--b，x -- y。'],
+    ['三連字號', 'a---b，x --- y。'],
+    ['省略號', 'print(...)，等待...完成，a....b。'],
+  ])('%s 在題目文字中維持原字元', async (_name, source) => {
+    expect(textOf(tree(await renderQuestionMarkdown(source)))).toBe(source);
+  }, 30000);
+
   it('文字、選項、解析與規則可包含區塊、公式、連結及補充', async () => {
     const fields = [
       '一般純文字',

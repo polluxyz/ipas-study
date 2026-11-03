@@ -13,6 +13,8 @@ export function renderQuestionMarkdown(source: string): Promise<string> {
   if (!processor) {
     // Astro 7 的 unified() 回傳 processor，外掛選項位於 options，而非頂層。
     const options = unified({
+      // 保留題目原文的引號與連字號，避免改變程式字串與運算符號。
+      smartypants: false,
       remarkPlugins: [asides, remarkMath, wikiLinks, figures],
       rehypePlugins: [[rehypeKatex, { output: 'htmlAndMathml', trust: false, strict: 'warn' }], mathSearchPolicy, supplementSections, collapseAdvanced, readableTables],
     }).options;
