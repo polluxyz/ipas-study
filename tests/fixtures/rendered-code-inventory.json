@@ -1,5 +1,7 @@
 {
   "blocks": [
+    {"name":"視覺行之外塞字仍失敗","expectedLanguage":"python","actualLanguage":"python","source":"x = 1\nprint(x)","raw":"x = 1print(x)INJECTED","lines":["x = 1","print(x)"],"extraText":"INJECTED","pass":false,"error":"程式行以外有文字"},
+    {"name":"呈現結構之間的空白不算程式","expectedLanguage":"python","actualLanguage":"python","source":"x = 1\nprint(x)","raw":"x = 1print(x)","lines":["x = 1","print(x)"],"extraText":"\n  ","pass":true},
     { "name": "區塊行保留空白行與縮排", "expectedLanguage": "python", "actualLanguage": "python", "source": "if ready:\n    print('yes')\n\nprint('done')", "raw": "if ready:    print('yes')\nprint('done')", "lines": ["if ready:", "    print('yes')", "\n", "print('done')"], "pass": true },
     { "name": "一般pre使用原本換行", "expectedLanguage": "python", "actualLanguage": "python", "source": "x = 1\nprint(x)", "raw": "x = 1\nprint(x)", "lines": null, "pass": true },
     { "name": "Windows換行與空行佔位", "expectedLanguage": "text", "actualLanguage": "text", "source": "第一行\n\n第三行", "raw": "第一行\r\n第三行", "lines": ["第一行", "\r\n", "第三行"], "pass": true },
@@ -25,5 +27,18 @@
     { "name": "雙反引號保留內部反引號", "markdown": "查看 ``a`b`` 與 `grow_policy`。", "expected": ["a`b", "grow_policy"] },
     { "name": "合法沒有標籤的正文", "markdown": "只有一般文字與 **重點**。", "expected": [] },
     { "name": "只有程式區不算行內", "markdown": "```text\n只有程式區\n```", "expected": [] }
+  ],
+  "figures": [
+    {"name":"學習曲線保留每輪數值與四位小數","data":{"kind":"learning-curve","metric":"測試損失","points":[{"epoch":1,"train":0.2,"validation":0.33333333}]},"expected":[["Epoch（輪）","訓練 測試損失","驗證 測試損失"],["1","0.2","0.3333"]]},
+    {"name":"殘差直接由實際減預測","data":{"kind":"residual","unit":"箱","samples":[{"predicted":2,"actual":1},{"predicted":3,"actual":3}]},"expected":[["預測值（箱）","實際值（箱）","殘差（箱）"],["2","1","-1"],["3","3","0"]]},
+    {"name":"混淆矩陣的等號與群體計數","data":{"kind":"confusion-matrix","threshold":0.9,"samples":[{"label":1,"score":0.9},{"label":0,"score":0.9},{"label":1,"score":0.2}]},"expected":[["實際／預測","正例（1）","負例（0）"],["正例（1）","1","1"],["負例（0）","1","0"]]},
+    {"name":"ROC共同分數只產生一個閾值","data":{"kind":"roc","samples":[{"label":1,"score":0.9},{"label":0,"score":0.9},{"label":1,"score":0.2}]},"expected":[["閾值（score ≥）","FPR","TPR"],["+∞","0","0"],["0.9","1","0.5"],["0.2","1","1"]]},
+    {"name":"PR起點與零預測正例慣例","data":{"kind":"pr","samples":[{"label":1,"score":0.9},{"label":0,"score":0.9},{"label":1,"score":0.2}]},"expected":[["閾值（score ≥）","Recall","Precision"],["+∞","0","1"],["0.9","0.5","0.5"],["0.2","1","0.6667"]]}
+  ],
+  "columns": [
+    {"name":"公式的上下排列不是正文直排","nodes":[{"text":"mmm","ys":[0,10,20],"math":true}],"bad":false},
+    {"name":"正常正文同一行","nodes":[{"text":"正常文字","ys":[0,0,0,0],"math":false}],"bad":false},
+    {"name":"真正兩字直排仍失敗","nodes":[{"text":"直排","ys":[0,20],"math":false}],"bad":true},
+    {"name":"公式不能掩蓋正文直排","nodes":[{"text":"直排","ys":[0,20],"math":false},{"text":"mmm","ys":[0,0,0],"math":true}],"bad":true}
   ]
 }

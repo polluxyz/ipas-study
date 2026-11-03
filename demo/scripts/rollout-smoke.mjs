@@ -481,8 +481,56 @@ let featureParser;
 export function normalizeTex(value) { return value.replace(/\r\n/g, '\n').trim().replace(/\s+/g, ' '); }
 export function normalizeCell(value) { return value.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').trim(); }
 export function normalizeCode(value) { return value.replace(/\r\n/g, '\n').replace(/\n+$/, ''); }
+/** 直接從圖表資料計算數值表，與網站的繪圖及指標函式保持獨立。 */
+export function sourceFigureTable(data) {
+  const number = (value) => value === null ? '未定義' : value === Infinity ? '+∞' : Number(value.toFixed(4)).toString();
+  const rows = (headers, values) => [headers, ...values.map((row) => row.map((value) => typeof value === 'number' || value === null ? number(value) : String(value)))];
+  if (data.kind === 'learning-curve') return rows(['Epoch（輪）', `訓練 ${data.metric}`, `驗證 ${data.metric}`], data.points.map((point) => [point.epoch, point.train, point.validation]));
+  if (data.kind === 'residual') return rows([`預測值（${data.unit}）`, `實際值（${data.unit}）`, `殘差（${data.unit}）`], data.samples.map((sample) => [sample.predicted, sample.actual, sample.actual - sample.predicted]));
+  assert.ok(['roc', 'pr', 'confusion-matrix'].includes(data.kind), `未支援的圖表來源類型：${data.kind}`);
+  const count = (threshold) => {
+    const c = { tp: 0, fp: 0, fn: 0, tn: 0 };
+    for (const sample of data.samples) c[sample.label === 1 ? (sample.score >= threshold ? 'tp' : 'fn') : (sample.score >= threshold ? 'fp' : 'tn')]++;
+    return c;
+  };
+  if (data.kind === 'confusion-matrix') {
+    const c = count(data.threshold);
+    return rows(['實際／預測', '正例（1）', '負例（0）'], [['正例（1）', c.tp, c.fn], ['負例（0）', c.fp, c.tn]]);
+  }
+  const positive = data.samples.filter((sample) => sample.label === 1).length, negative = data.samples.length - positive;
+  assert.ok(positive > 0 && negative > 0, '分類曲線來源須同時有正負例');
+  const thresholds = [Infinity, ...new Set(data.samples.map((sample) => sample.score).sort((a, b) => b - a))];
+  return rows(['閾值（score ≥）', data.kind === 'roc' ? 'FPR' : 'Recall', data.kind === 'roc' ? 'TPR' : 'Precision'], thresholds.map((threshold) => {
+    const c = count(threshold), recall = c.tp / positive;
+    return [threshold, data.kind === 'roc' ? c.fp / negative : recall, data.kind === 'roc' ? recall : (c.tp + c.fp ? c.tp / (c.tp + c.fp) : 1)];
+  }));
+}
+
+/** 檢查正文是否逐字直排；公式內的分子、分母與輔助文字不當作正文行。 */
+export function collectSingleColumnCells(selector = 'main .textbook-table-scroll :is(th,td)') {
+  const bad = [];
+  for (const cell of document.querySelectorAll(selector)) {
+    if (!cell.getClientRects().length) continue;
+    const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT), lines = new Map();
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      if (node.parentElement?.closest('.katex')) continue;
+      for (let i = 0; i < node.textContent.length; i++) {
+        if (/\s/.test(node.textContent[i])) continue;
+        const range = document.createRange(); range.setStart(node, i); range.setEnd(node, i + 1);
+        const rect = range.getBoundingClientRect();
+        if (rect.width) { const y = Math.round(rect.y); lines.set(y, (lines.get(y) ?? 0) + 1); }
+      }
+    }
+    if (lines.size > 1 && Math.max(...lines.values()) <= 1) bad.push(cell.textContent);
+  }
+  return bad;
+}
+
 /** ExpressiveCode以區塊排出每行；只把空行佔位還原，不刪縮排或合併來源行。 */
-export function renderedCodeText(text, lines) {
+export function renderedCodeText(text, lines, extraText = '') {
+  assert.equal(typeof extraText, 'string', '程式行外文字資料格式錯誤');
+  assert.equal(extraText.trim(), '', '程式行以外有文字');
   if (lines === null || lines === undefined) return text;
   assert.ok(Array.isArray(lines) && lines.every((line) => typeof line === 'string'), '程式行資料格式錯誤');
   return lines.map((line) => /^(?:\n|\r\n)$/.test(line) ? '' : line).join('\n');
@@ -612,7 +660,11 @@ export function assertFeatureInventory(actual, expected) {
   assert.ok(actual.figures.every((f) => f.alt && f.loaded));
   for (const [index, figure] of expected.figures.entries()) {
     if (figure.kind === 'svg') assert.equal(actual.figures[index].assetSha256, figure.assetSha256, 'figure SVG 必須符合來源資產');
-    if (figure.kind === 'json') assert.equal(actual.figures[index].id, figure.id, 'figure JSON 圖 ID 必須符合來源');
+    if (figure.kind === 'json') {
+      assert.equal(actual.figures[index].id, figure.id, 'figure JSON 圖 ID 必須符合來源');
+      const normalize = (tables) => tables.map((table) => table.map((row) => row.map(normalizeCell)));
+      assert.deepEqual(normalize(actual.figures[index].tables), normalize([figure.table]), 'figure JSON 數值表須符合來源計算');
+    }
   }
   for (const image of expected.images) assert.ok(actual.images.some((i) => i.src === image.src && i.alt === image.alt && i.loaded), `圖片消失 ${image.src}`);
   if (expected.questionImage) assert.ok(actual.images.some((i) => i.src === expected.questionImage && i.loaded && i.alt), '題目核准附圖消失／資產錯誤');
@@ -1203,28 +1255,25 @@ export async function verifyFeatures(page, expected) {
   if (expected.diagrams) await page.waitForFunction((count) => document.querySelectorAll('main figure.study-diagram svg').length >= count, expected.diagrams);
   for (const figure of expected.figures) {
     try { figure.assetSha256 = hash(await readFile(resolve(root, 'content/figures', `${figure.id}.svg`))); figure.kind = 'svg'; }
-    catch (error) { if (error.code !== 'ENOENT') throw error; const data = JSON.parse(await readFile(resolve(root, 'content/figures', `${figure.id}.json`), 'utf8')); assert.equal(data.id, figure.id); figure.kind = 'json'; }
+    catch (error) { if (error.code !== 'ENOENT') throw error; const data = JSON.parse(await readFile(resolve(root, 'content/figures', `${figure.id}.json`), 'utf8')); assert.equal(data.id, figure.id); figure.kind = 'json'; figure.table = sourceFigureTable(data); }
   }
   const features = await page.evaluate((blocks) => {
     const visible = (element) => element.getClientRects().length > 0;
+      const cellText = (cell) => {
+        const copy = cell.cloneNode(true);
+        for (const math of copy.querySelectorAll('.katex')) math.replaceWith(math.querySelector('annotation[encoding="application/x-tex"]')?.textContent ?? '');
+        for (const image of copy.querySelectorAll('img')) image.replaceWith(image.alt);
+        return copy.textContent;
+      };
+
     const katex = [...document.querySelectorAll('.katex')];
     const imageInfo = (i) => ({ src: i.getAttribute('src'), alt: i.alt.trim(), loaded: i.complete && i.naturalWidth > 0 });
     const figures = [...document.querySelectorAll('main figure.textbook-figure')].map((figure) => {
       const img = figure.querySelector('img'), svg = figure.querySelector('svg');
-      return { id: figure.dataset.figure ?? null, alt: figure.querySelector('figcaption')?.textContent.trim() ?? '', loaded: img ? img.complete && img.naturalWidth > 0 && !!img.alt.trim() : !!(svg?.querySelector('title') && svg?.querySelector('desc') && svg.getAttribute('role') === 'img'), encodedAsset: img?.getAttribute('src') ?? null };
+      return { id: figure.dataset.figure ?? null, alt: figure.querySelector('figcaption')?.textContent.trim() ?? '', loaded: img ? img.complete && img.naturalWidth > 0 && !!img.alt.trim() : !!(svg?.querySelector('title') && svg?.querySelector('desc') && svg.getAttribute('role') === 'img'), encodedAsset: img?.getAttribute('src') ?? null, tables: [...figure.querySelectorAll('table')].map((table) => [...table.rows].map((row) => [...row.cells].map(cellText))) };
     });
     const images = [...document.querySelectorAll('main img')].filter((img) => !img.closest('figure.textbook-figure')).map(imageInfo);
     const singleColumns = [];
-    for (const cell of document.querySelectorAll('main .textbook-table-scroll :is(th,td)')) {
-      if (!visible(cell)) continue;
-      const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT); const lines = new Map();
-      while (walker.nextNode()) for (let i = 0; i < walker.currentNode.textContent.length; i++) {
-        if (/\s/.test(walker.currentNode.textContent[i])) continue;
-        const range = document.createRange(); range.setStart(walker.currentNode, i); range.setEnd(walker.currentNode, i + 1);
-        const rect = range.getBoundingClientRect(); if (rect.width) { const y = Math.round(rect.y); lines.set(y, (lines.get(y) ?? 0) + 1); }
-      }
-      if (lines.size > 1 && Math.max(...lines.values()) <= 1) singleColumns.push(cell.textContent);
-    }
     const rgba = (color) => { const channels = color.match(/[\d.]+/g)?.map(Number); return channels?.length >= 3 ? [channels[0], channels[1], channels[2], channels[3] ?? 1] : null; };
     const luminance = (channels) => channels.map((value) => { const c = value / 255; return c <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; }).reduce((sum, c, i) => sum + c * [.2126, .7152, .0722][i], 0);
     const contrast = [];
@@ -1241,12 +1290,6 @@ export async function verifyFeatures(page, expected) {
       // 多個 selector 命中同一正文只取一次；一般正文與自動關係表分開。
       const roots = [...document.querySelectorAll(selector)].filter((element, index, all) => !all.some((other, j) => j !== index && other.contains(element)));
       const select = (query) => roots.flatMap((element) => [...element.querySelectorAll(query)]);
-      const cellText = (cell) => {
-        const copy = cell.cloneNode(true);
-        for (const math of copy.querySelectorAll('.katex')) math.replaceWith(math.querySelector('annotation[encoding="application/x-tex"]')?.textContent ?? '');
-        for (const image of copy.querySelectorAll('img')) image.replaceWith(image.alt);
-        return copy.textContent;
-      };
       const codes = select('pre').filter((pre) => !pre.closest('figure.study-diagram')).map((pre) => {
         const code = pre.querySelector('code');
         const language = pre.getAttribute('data-language') ?? code?.getAttribute('data-language') ?? /(?:^|\s)language-([^\s]+)/.exec(code?.className ?? pre.className ?? '')?.[1] ?? pre.closest('.question-code')?.querySelector('.code-label')?.firstChild?.textContent.trim() ?? '';
@@ -1256,17 +1299,20 @@ export async function verifyFeatures(page, expected) {
           if (!body) throw new Error('程式行缺少內容節點');
           return body.textContent;
         }) : null;
-        return { language, text: (code ?? pre).textContent, renderedLines };
+        const outside = (element, allowed) => [...element.childNodes].filter((node) => node.nodeType !== 8 && !(node.nodeType === 1 && allowed(node))).map((node) => node.textContent ?? '').join('');
+        const extraText = (code ? outside(pre, (node) => node === code) : '') + (lines.length ? outside(code, (node) => lines.includes(node)) + lines.map((line) => outside(line, (node) => node.classList.contains('code') || (node.classList.contains('gutter') && /^\s*\d*\s*$/.test(node.textContent)))).join('') : '');
+        return { language, text: (code ?? pre).textContent, renderedLines, extraText };
       });
-      return { key, codes, diagrams: select('figure.study-diagram svg').length, formulas: select('.katex').map((element) => element.querySelector('annotation[encoding="application/x-tex"]')?.textContent ?? ''), katex: select('.katex').length, mathml: select('.katex math').length, tables: select('table').map((table) => [...table.rows].map((row) => [...row.cells].map(cellText))) };
+      return { key, codes, diagrams: select('figure.study-diagram svg').length, formulas: select('.katex').map((element) => element.querySelector('annotation[encoding="application/x-tex"]')?.textContent ?? ''), katex: select('.katex').length, mathml: select('.katex math').length, tables: select('table').filter((table) => !table.closest('figure.textbook-figure')).map((table) => [...table.rows].map((row) => [...row.cells].map(cellText))) };
     });
     return { blocks: sourceBlocks, katex: katex.length, mathml: document.querySelectorAll('.katex math').length, errors: document.querySelectorAll('.katex-error').length, tables: document.querySelectorAll('main table').length, code: document.querySelectorAll('main pre').length, diagrams: document.querySelectorAll('main figure.study-diagram svg').length, figures, images, singleColumns, contrast: { total: contrast.length, minimum: contrast.length ? Math.min(...contrast.map((c) => c.ratio)) : null, failed: contrast.filter((c) => c.ratio < 4.5) } };
   }, expected.blocks ?? []);
   for (const block of features.blocks ?? []) for (const code of block.codes ?? []) {
-    code.text = renderedCodeText(code.text, code.renderedLines);
-    delete code.renderedLines;
+    code.text = renderedCodeText(code.text, code.renderedLines, code.extraText ?? '');
+    delete code.renderedLines; delete code.extraText;
   }
   for (const figure of features.figures) { if (figure.encodedAsset?.startsWith('data:image/svg+xml;base64,')) figure.assetSha256 = hash(Buffer.from(figure.encodedAsset.split(',')[1], 'base64')); delete figure.encodedAsset; }
+  features.singleColumns = await page.evaluate(collectSingleColumnCells);
   assertFeatureInventory(features, expected);
   features.sourceExpected = expected;
   assert.deepEqual(features.singleColumns, [], '表格不能變成單字直排'); assert.deepEqual(features.contrast.failed, [], '程式／圖說／提示／來源對比需達 4.5');

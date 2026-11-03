@@ -25,9 +25,36 @@ vi.mock('node:fs/promises', async (original) => {
   return { ...actual, ...Object.fromEntries(['readFile', 'readdir', 'stat'].map((name) =>
     [name, (file, ...args) => actual[name](redirect(file), ...args)])) };
 });
-import { assertCompanion, assertFeatureInventory, assertInlineCodeInventory, assertSearchSummaries, claimSearchInput, distSnapshot, gotoSettled, guardBuildContext, parseFeatureBlocks, renderedCodeText, routeLocalOnly, searchKeyboardTarget, searchSnapshot, settlePage, sourceFeatures, sourceInlineCodes, sourceSnapshot, verifyFeatures, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
+import { assertCompanion, assertFeatureInventory, assertInlineCodeInventory, assertSearchSummaries, claimSearchInput, collectSingleColumnCells, distSnapshot, gotoSettled, guardBuildContext, parseFeatureBlocks, renderedCodeText, routeLocalOnly, searchKeyboardTarget, searchSnapshot, settlePage, sourceFeatures, sourceFigureTable, sourceInlineCodes, sourceSnapshot, verifyFeatures, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
 
 describe('來源程式與視覺行的完整性', () => {
+  it('圖值表由原資料重算，改表頭、改數值、增刪列都必須拒絕', async () => {
+    const fixtures = JSON.parse(await readFile(new URL('../../tests/fixtures/rendered-code-inventory.json', import.meta.url), 'utf8'));
+    for (const fixture of fixtures.figures) {
+      expect(sourceFigureTable(fixture.data), fixture.name).toEqual(fixture.expected);
+      const expected = { blocks: [], tables: 0, code: 0, figures: [{ id: 'fixture', alt: '圖說', kind: 'json', table: fixture.expected }], images: [] };
+      const actual = { errors: 0, katex: 0, mathml: 0, tables: 1, code: 0, figures: [{ id: 'fixture', alt: '圖說', loaded: true, tables: [structuredClone(fixture.expected)] }], images: [] };
+      expect(() => assertFeatureInventory(actual, expected), fixture.name).not.toThrow();
+      for (const mutate of [(table) => { table[0][0] = '錯誤表頭'; }, (table) => { table[1][1] = '999'; }, (table) => { table.pop(); }, (table) => { table.push([...table[1]]); }]) {
+        const changed = structuredClone(actual); mutate(changed.figures[0].tables[0]);
+        expect(() => assertFeatureInventory(changed, expected), fixture.name).toThrow('figure JSON 數值表須符合來源計算');
+      }
+    }
+    expect(() => sourceFigureTable({ kind: 'unknown' })).toThrow('未支援的圖表來源類型');
+  });
+  it('公式排版不當成正文直排，但公式不能掩蓋真正正文直排', async () => {
+    const fixtures = JSON.parse(await readFile(new URL('../../tests/fixtures/rendered-code-inventory.json', import.meta.url), 'utf8'));
+    try {
+      for (const fixture of fixtures.columns) {
+        const nodes = fixture.nodes.map((node) => ({ ...node, textContent: node.text, parentElement: { closest: () => node.math ? {} : null } }));
+        const cell = { textContent: nodes.map((node) => node.text).join(''), getClientRects: () => [{}] }; let selected, offset;
+        vi.stubGlobal('NodeFilter', { SHOW_TEXT: 4 });
+        vi.stubGlobal('document', { querySelectorAll: () => [cell], createTreeWalker: () => { let index = -1; return { get currentNode() { return nodes[index]; }, nextNode() { return ++index < nodes.length; } }; },
+          createRange: () => ({ setStart(node, index) { selected = node; offset = index; }, setEnd() {}, getBoundingClientRect: () => ({ width: 10, y: selected.ys[offset] }) }) });
+        expect(collectSingleColumnCells(), fixture.name).toHaveLength(fixture.bad ? 1 : 0);
+      }
+    } finally { vi.unstubAllGlobals(); }
+  });
   it('容器控制行不算表格列，字面冒號、程式、公式與真實列仍保留', async () => {
     const fixtures = JSON.parse(await readFile(new URL('../../tests/fixtures/rendered-code-inventory.json', import.meta.url), 'utf8'));
     for (const fixture of fixtures.tables) {
@@ -46,10 +73,10 @@ describe('來源程式與視覺行的完整性', () => {
     for (const fixture of fixtures.blocks) {
       const expected = sourceFeatures({ body: '```' + fixture.expectedLanguage + '\n' + fixture.source + '\n```' });
       const features = { errors: 0, katex: 0, mathml: 0, tables: 0, code: 1, diagrams: 0, figures: [], images: [], singleColumns: [], contrast: { failed: [] },
-        blocks: [{ key: 'body', formulas: [], tables: [], katex: 0, mathml: 0, codes: [{ language: fixture.actualLanguage, text: fixture.raw, renderedLines: fixture.lines }] }] };
-      const page = { evaluate: async () => structuredClone(features), locator: () => ({ count: async () => 0 }) };
+        blocks: [{ key: 'body', formulas: [], tables: [], katex: 0, mathml: 0, codes: [{ language: fixture.actualLanguage, text: fixture.raw, renderedLines: fixture.lines, extraText: fixture.extraText ?? '' }] }] };
+      const page = { evaluate: async (fn) => fn === collectSingleColumnCells ? [] : structuredClone(features), locator: () => ({ count: async () => 0 }) };
       if (fixture.pass) await expect(verifyFeatures(page, expected), fixture.name).resolves.toMatchObject({ code: 1 });
-      else await expect(verifyFeatures(page, expected), fixture.name).rejects.toThrow('程式數量／語言／文字不符');
+      else await expect(verifyFeatures(page, expected), fixture.name).rejects.toThrow(fixture.error ?? '程式數量／語言／文字不符');
     }
     expect(renderedCodeText('原樣\n保留', null)).toBe('原樣\n保留');
     expect(() => renderedCodeText('', [1])).toThrow('程式行資料格式錯誤');
