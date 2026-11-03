@@ -1,0 +1,856 @@
+{
+  "version": 1,
+  "approvalDate": "2026-11-03",
+  "sourceBaselineCommit": "1aff976b5ea9615b225dadfaf1ca27e7211cb4c8",
+  "preparedFromCommit": "60d537f6ff60a68c485a01250f2e2d4079d0c02c",
+  "basisFiles": [
+    {
+      "file": "docs/specs/concept-entry-exceptions.md",
+      "sha256": "e26efe43f3d64692e68cecb350e07850cacf676a20d4c798b592945e96eed4e2"
+    },
+    {
+      "file": "text/guide_科目1.txt",
+      "sha256": "be8fa873e5e8e28f7c14ef2fd4f98b16eab7fe05ac8de6946fd7a7657891d03e"
+    },
+    {
+      "file": "text/guide_科目3.txt",
+      "sha256": "0232c28c7604129ac6783d9ad12cd860ab00cf0de0cb52b18f24865be7dec863"
+    }
+  ],
+  "scope": "固定8頁技術證據草稿；不代表非作者語意主審或Root最終簽核。題目近鄰逐項核對，5型關係雙向排除；不宣稱未來不可能成立。",
+  "entries": [
+    {
+      "id": "ai-team-capability",
+      "target": {
+        "file": "content/concepts/ai-team-capability.md",
+        "sha256": "933e8039699958be7e0c7ec32d411576e7979daf2cf144e20888f9bf0559fee9"
+      },
+      "source": {
+        "file": "content/codes/L21201.md",
+        "sha256": "41d70124b3bd1114657d521741426a6fec0bb1d3941c87f1d38315cf5563e7ca"
+      },
+      "href": "/concepts/ai-team-capability/",
+      "location": {
+        "kind": "stage",
+        "stageId": "check-readiness",
+        "intro": "確定任務後，先讀資料準備度，再讀以它為前置的系統整合可行性。接著用人才頁確認責任與技能，最後整理成本及試辦資源。讀完這組盤點頁，再進入財務指標，才不會漏掉投入條件。",
+        "goal": "說得出能力缺口、補強方式與推動責任單位"
+      },
+      "purpose": "導入評估確定任務後，沿資料、系統與人才盤點確認推動、維護與補強能力。",
+      "basis": [
+        {
+          "ref": "guide-1:4-7",
+          "reason": "組織能力需盤點核心人才及培訓或外部支援。"
+        },
+        {
+          "ref": "guide-1:4-8",
+          "reason": "協作窗口與推動責任須明確。"
+        },
+        {
+          "ref": "guide-1:4-18",
+          "reason": "依技能與時程安排招聘或內訓。"
+        },
+        {
+          "ref": "guide-1:4-31",
+          "reason": "技能短缺與人才流動會影響維運。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S1-Q23",
+            "sha256": "9532f40c5a2a3fc8d2a16577f0f0b2ae615f049579c9808cef86fff0ad2a0660",
+            "reason": "決勝在少樣本、壓縮及地端延遲；沒有要求比較人才補強方案。"
+          },
+          {
+            "id": "115-1-S1-Q20",
+            "sha256": "abebb212808bc93e083fc1e312cff667e3e71c6934404ad481809aa13a61be1f",
+            "reason": "團隊人數是背景；決勝在串流特徵、倉儲及快取路徑。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "ai-project-roles",
+                "sha256": "df69c3234718fd9a7682288ee5149f3c45a020e39eeca38c1f6be50fe9594515"
+              },
+              {
+                "id": "cross-functional-collaboration",
+                "sha256": "7d1da98536fb000800da7cdb4ca6e262f7d938f6349361cafe931e5dbf8b7248"
+              }
+            ],
+            "reason": "人才盤點、角色分工與協作是不同工作，不構成上下分類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "ai-implementation-plan",
+                "sha256": "f3cec1277c7e98cac3c384217047b3627d470f58afb1187e26060e15ba29fc96"
+              }
+            ],
+            "reason": "能力盤點是規劃時會做的活動，不是整個導入方案的固定系統元件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "ai-project-roles",
+                "sha256": "df69c3234718fd9a7682288ee5149f3c45a020e39eeca38c1f6be50fe9594515"
+              },
+              {
+                "id": "cross-functional-collaboration",
+                "sha256": "7d1da98536fb000800da7cdb4ca6e262f7d938f6349361cafe931e5dbf8b7248"
+              }
+            ],
+            "reason": "不必先學整頁角色表或協作機制，也能說明技能缺口與補強；反向亦未證明必要性。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "model-stability-risk",
+                "sha256": "60a73c2ecc4cfe7441e7a8fdf37203df95543ca37351fe25815ce27fa35d1df7"
+              },
+              {
+                "id": "ai-change-management",
+                "sha256": "dd67a1669b99c475452c6dd29bcb5f6737c389a20e61764539d48d84ebccb608"
+              }
+            ],
+            "reason": "模型穩定風險含資料與情境變化；變革管理也非problem。人才盤點不能整頁當成它們的直接對策。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "ai-project-roles",
+                "sha256": "df69c3234718fd9a7682288ee5149f3c45a020e39eeca38c1f6be50fe9594515"
+              },
+              {
+                "id": "ai-change-management",
+                "sha256": "dd67a1669b99c475452c6dd29bcb5f6737c389a20e61764539d48d84ebccb608"
+              }
+            ],
+            "reason": "指引分列職責、阻力與技能風險，未要求把整頁概念當成易混淆的一對。"
+          }
+        }
+      },
+      "visibility": "分階段路線直接顯示；本證據不代替瀏覽器鍵盤與視覺檢查。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "cyclic-time-features",
+      "target": {
+        "file": "content/concepts/cyclic-time-features.md",
+        "sha256": "14981810aa53b5d7d818c36efe3c11396aae7b0203eb8fe59ea678832d0027bf"
+      },
+      "source": {
+        "file": "content/codes/L23301.md",
+        "sha256": "c375ccf8eb835ab44eeea6dc321a37f289ec0964453c605e0101a589a4cb6902"
+      },
+      "href": "/concepts/cyclic-time-features/",
+      "location": {
+        "kind": "stage",
+        "stageId": "construct-features",
+        "intro": "先用特徵策略頁整理任務、模型與領域資訊，再讀日期拆解和週期表示。接著從乘積與聚合進到 lag、移動平均及可用時間，順序沿著原始欄位到歷史特徵前進。最後回看資料洩漏頁，核對每項特徵的取得時點。",
+        "goal": "算得出星期的週期座標並比較首尾相鄰關係"
+      },
+      "purpose": "建構特徵時先拆日曆欄位，再用週期座標保留星期首尾相鄰；接著區分歷史觀測特徵。",
+      "basis": [
+        {
+          "ref": "guide-3:5-9",
+          "reason": "明示時間拆解與sin/cos週期編碼；公式細節為既有補充。"
+        },
+        {
+          "ref": "guide-1:5-5",
+          "reason": "時間戳可拆星期、時段與工作日旗標。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S3-Q26",
+            "sha256": "8ff4a1674f6e23de9c1379ce565e99736ad34e8545eb59918a5498bc792c7f42",
+            "reason": "問滑動窗口建立滯後觀測，不問日曆位置的週期座標。"
+          },
+          {
+            "id": "114-2-S3-Q01",
+            "sha256": "170e4ea562b292b31c9b5ac616fce2ef12b3cdd3890008e0689fc9109e76604f",
+            "reason": "月份用於未見資料驗證，未考首尾相鄰編碼。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "temporal-features",
+                "sha256": "1124ebefc8b4e1d0245de4534622d71375c125c345e6c072362eed8b1536c1b7"
+              },
+              {
+                "id": "feature-engineering-strategy",
+                "sha256": "cc4819990a5cb9bffe0ba4198d1c17f0f2353443241fb34420c7f42098ebbd97"
+              }
+            ],
+            "reason": "temporal-features教歷史觀測；策略頁教選擇依據，都不是週期表示的上層分類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "feature-engineering-strategy",
+                "sha256": "cc4819990a5cb9bffe0ba4198d1c17f0f2353443241fb34420c7f42098ebbd97"
+              }
+            ],
+            "reason": "依任務可選週期表示，並非策略的必備組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "categorical-encoding",
+                "sha256": "5216d27774bf1aeda1e7803a126384c4f847de503bbf48f39cf30b4cf3faba35"
+              },
+              {
+                "id": "feature-scaling",
+                "sha256": "e7addcf10f819ecd87293b121b69d1b6f687aeafa3c7e1c96f64efe3611a5b90"
+              }
+            ],
+            "reason": "成對週期座標可在本頁直接定義；不必先完成整頁類別編碼或縮放。反向也非必要。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "data-leakage",
+                "sha256": "3fc104f3738ca11cd91974710a8b7dfcd66bc232552d064c7549c4eef4d11e80"
+              }
+            ],
+            "reason": "已知日曆位置的轉換不直接排除洩漏；資料可用時間仍須另外查核。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "temporal-features",
+                "sha256": "1124ebefc8b4e1d0245de4534622d71375c125c345e6c072362eed8b1536c1b7"
+              },
+              {
+                "id": "categorical-encoding",
+                "sha256": "5216d27774bf1aeda1e7803a126384c4f847de503bbf48f39cf30b4cf3faba35"
+              }
+            ],
+            "reason": "正文可區分日曆、歷史值與類別距離，但引用指引沒有將這些整頁指定為必辨的一對。"
+          }
+        }
+      },
+      "visibility": "分階段路線直接顯示；數學公式仍沿用目標頁的補充標記。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "multimodal-privacy-security",
+      "target": {
+        "file": "content/concepts/multimodal-privacy-security.md",
+        "sha256": "7ceb3190ba8898a85784ccaeb77af5a533ebdb5a89bb72289a70c0661da86bde"
+      },
+      "source": {
+        "file": "content/codes/L21104.md",
+        "sha256": "43d0fffc53361df2f766db004ee334ed3bd0ab4386e9a867ad1a6e6b4d762454"
+      },
+      "href": "/concepts/multimodal-privacy-security/",
+      "location": {
+        "kind": "stage",
+        "stageId": "governance-and-release",
+        "intro": "先讀素材權利與來源追溯，再讀合成內容真偽，分清兩種查核的證據。接著讀偏見與跨模態隱私，追查輸出及資料聯結可能造成的影響。最後讀治理清單，將前面的檢查放回蒐集、訓練、發布與監控各站。",
+        "goal": "說得出人臉、聲音及生理資料聯結後要重查哪些風險"
+      },
+      "purpose": "接續模態應用，追查人臉、聲音與生理資料聯結後的敏感資訊、存取及模型安全風險。",
+      "basis": [
+        {
+          "ref": "guide-1:3-82",
+          "reason": "指引列敏感模態、資料保護、模型安全及法規稽核；跨表算例屬既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S1-Q17",
+            "sha256": "01712f212a83cdb9c5a4d6c4fc0318f98cf25d1d939ea26bd1f824204eef051a",
+            "reason": "考模態對應的模型配置，沒有敏感資料控制取捨。"
+          },
+          {
+            "id": "115-1-S1-Q18",
+            "sha256": "539a7475000350a87692959059125d69ff2406ac5315f35ec06e212f42c3eb0c",
+            "reason": "考共同語意空間的對齊目的，不考權限與資料聯結保護。"
+          },
+          {
+            "id": "115-1-S1-Q46",
+            "sha256": "4e28b943b9d305df61a5ff1f6553aece3ae5cbf2fcfd07a63a3dc9889e5bb1f3",
+            "reason": "考資料留院與聯邦聚合；單一機制不要求整頁跨模態風險盤點。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "privacy-governance",
+                "sha256": "62303bd47cf42e0126090d24897e22e0ce31b2f04da3a0c40f9cf927f62f7e65"
+              }
+            ],
+            "reason": "本頁混合資料、模型與稽核控制，不能把跨模態盤點直接等同隱私治理的單一子類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "face-recognition",
+                "sha256": "11f44d246feea13f06eea13ee8b0b8784675dbe847b463a0fcf747d68788acdc"
+              },
+              {
+                "id": "adversarial-training",
+                "sha256": "612edd31129bdd00f2742bd20f151dae5e6fd2912f4e928a408516b65d0eb794"
+              }
+            ],
+            "reason": "保護檢查不是每個人臉演算法的固定元件；對抗訓練也只是可採控制之一，不能雙向升成固定組成。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "data-protection-impact-assessment",
+                "sha256": "36b56881d73cde0648855321960603ac8ed6013f790af8b6e9d3ce6c80315ae1"
+              },
+              {
+                "id": "adversarial-training",
+                "sha256": "612edd31129bdd00f2742bd20f151dae5e6fd2912f4e928a408516b65d0eb794"
+              }
+            ],
+            "reason": "理解跨模態敏感資訊與存取風險，不必先掌握整頁GDPR程序或對抗訓練演算法。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "reidentification-risk",
+                "sha256": "8e3d91320305dd9bcda4a4b73550f6009002af76a6046b21e79e89a9dd6f3c95"
+              }
+            ],
+            "reason": "新版跨表範例確實相關；但指引3-82直接指定的是遮罩、加密及控制清單，尚不足以把整頁多模態安全盤點定為再識別的專門對策。此判斷須主審。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "privacy-governance",
+                "sha256": "62303bd47cf42e0126090d24897e22e0ce31b2f04da3a0c40f9cf927f62f7e65"
+              },
+              {
+                "id": "data-protection-impact-assessment",
+                "sha256": "36b56881d73cde0648855321960603ac8ed6013f790af8b6e9d3ce6c80315ae1"
+              }
+            ],
+            "reason": "多模態檢查與一般治理／DPIA的範圍不同，不是來源指定的易混淆對。"
+          }
+        }
+      },
+      "visibility": "採L21104路線，無需依賴人臉頁的進階展開區；未做瀏覽器可見性驗收。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "ndcg",
+      "target": {
+        "file": "content/concepts/ndcg.md",
+        "sha256": "fd45390f7970d345e32f4cf57db26e449d1d5badc67cec8600be88eb16d7a4af"
+      },
+      "source": {
+        "file": "content/concepts/experiment-tracking.md",
+        "sha256": "d8f48ea37b950364ac9a317745b1ebfaa7b4ae98a994cfd784663267d72f1db5"
+      },
+      "href": "/concepts/ndcg/",
+      "location": {
+        "kind": "body",
+        "line": 460,
+        "sourceQuote": "| 推薦系統 | 訓練資料的時間範圍；切分依時間，用較早的資料訓練、較晚的資料驗證 | 損失之外，要記排序指標（見 [[ndcg]]）。資料常更新，資料版本沒隨 run 記下來，過幾週就無法重做 |",
+        "renderedContext": "推薦系統訓練資料的時間範圍；切分依時間，用較早的資料訓練、較晚的資料驗證損失之外，要記排序指標（見 NDCG 排序品質指標）。資料常更新，資料版本沒隨 run 記下來，過幾週就無法重做"
+      },
+      "purpose": "記錄推薦實驗時，除損失外轉讀排序指標；將排序品質與實際收益分開判斷。",
+      "basis": [
+        {
+          "ref": "guide-3:5-25",
+          "reason": "指引將NDCG列為排序任務指標；定義、公式及算例是既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S1-Q43",
+            "sha256": "9c73ffabb7bc0a572d8582850405fb6b1b89e8afc42e9457d4805cc983f74185",
+            "reason": "NDCG只作離線變好的背景；決勝在受控真流量與逐步擴量，未要求計算或解釋NDCG。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "ranking-reconstruction-loss",
+                "sha256": "7dd035cc9229e342f98208ff49bf35fcf47617372af9ba5f90a5e55d1b6edd55"
+              }
+            ],
+            "reason": "本頁是評估指標，近鄰是訓練損失，不能當父類；目前無獨立排序評估指標父節點。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "experiment-tracking",
+                "sha256": "d8f48ea37b950364ac9a317745b1ebfaa7b4ae98a994cfd784663267d72f1db5"
+              }
+            ],
+            "reason": "實驗可依任務選指標；NDCG不是每個實驗追蹤系統的固定元件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "ranking-reconstruction-loss",
+                "sha256": "7dd035cc9229e342f98208ff49bf35fcf47617372af9ba5f90a5e55d1b6edd55"
+              },
+              {
+                "id": "roc-auc",
+                "sha256": "2080717af17e39611bc895a314fa7458e413403fdddd75c953bc453ed3948db2"
+              }
+            ],
+            "reason": "理解名次折扣與理想排序可由本頁完成，不需要先學排序損失或ROC；反向也不必讀本頁。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "hallucination",
+                "sha256": "ae09f6fc92d70f1587ec3a1e63cbbe15a7baf4d034ebf6ab70e7b95897bcf4ad"
+              }
+            ],
+            "reason": "排序品質不會直接修正生成內容的事實錯誤，亦不能把一般模型誤差當作本頁專門處理的problem。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "online-business-metrics",
+                "sha256": "242f8a4066b2cc6a01a27f4c7053b0e5e594329e29cea408683b02d41394e365"
+              },
+              {
+                "id": "roc-auc",
+                "sha256": "2080717af17e39611bc895a314fa7458e413403fdddd75c953bc453ed3948db2"
+              }
+            ],
+            "reason": "指引5-25僅分列領域指標；線上業務頁含多種指標，不能把整頁與NDCG湊成同一比較對。"
+          }
+        }
+      },
+      "visibility": "正文「換個場景（補充）」的推薦表格；指引模式會隱藏補充內容，完整教材模式保留。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "open-weight-models",
+      "target": {
+        "file": "content/concepts/open-weight-models.md",
+        "sha256": "fa35d87c23b164407890d24fac82d60d54866026bc8fb54b5faa2348df26963c"
+      },
+      "source": {
+        "file": "content/codes/L21103.md",
+        "sha256": "8470ada2cb520dc8fdfcb9a86a5a2529ed009bbc1a62372b3a0ab52458e4d2fe"
+      },
+      "href": "/concepts/open-weight-models/",
+      "location": {
+        "kind": "stage",
+        "stageId": "text-production-and-evaluation",
+        "intro": "從模型與對話平台的分層開始，再讀開放權重模型，建立工具與採用條件的判讀方式。接著讀提示設計及文本工作流，練習安排來源、草稿與驗收。再依序讀幻覺、BLEU、ROUGE 及人工評估，對照各種品質證據能回答什麼問題。最後選讀模型比較的補充深度，以固定切分、標註量及預算判讀生成式與鑑別式分類路徑。",
+        "goal": "說得出開放權重、開源與採用查核的區別"
+      },
+      "purpose": "讀模型與平台後，核對取得權重、內部部署及版本授權條件，避免把可下載誤認為可任意使用。",
+      "basis": [
+        {
+          "ref": "guide-1:3-65",
+          "reason": "指引列模型家族及研究／內部部署用途；授權與開源界線是目標頁既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S1-Q02",
+            "sha256": "786932017a00ce1e6fdd4845a3bc2b72f790c03f633443327c66ab152413207c",
+            "reason": "Llama3只是LoRA場景；決勝在凍結基底及低秩參數，不在下載權重或使用權利。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "text-generation-platforms",
+                "sha256": "f4b1f8ba7f669b5916734c2561d13c13ba50f39bb818af6ee390a670bb79187d"
+              },
+              {
+                "id": "transformer-model-families",
+                "sha256": "aab5fb7edc7c1123fbeca443fb479fa60ee81a598d7209b6636f2f1117a584b0"
+              }
+            ],
+            "reason": "平台頁混有模型與產品；模型家族頁按架構區分，均不能當開放權重的直接父類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "text-generation-platforms",
+                "sha256": "f4b1f8ba7f669b5916734c2561d13c13ba50f39bb818af6ee390a670bb79187d"
+              }
+            ],
+            "reason": "平台與模型不是固定組件關係，開放權重也不是所有平台必要的構件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "ai-license-governance",
+                "sha256": "c02c2422fe062b34c48cebeeda0da1e6afabcd36879815ae03e74de903d0479a"
+              },
+              {
+                "id": "pretraining-fine-tuning",
+                "sha256": "c92c35e08b6cced8fccaebe05b80b3c576ed82921e678e6d39121f959d348630"
+              }
+            ],
+            "reason": "可先理解權重取得與本頁查核清單，不必先學整頁授權治理或訓練流程；反向也非必要。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "hallucination",
+                "sha256": "ae09f6fc92d70f1587ec3a1e63cbbe15a7baf4d034ebf6ab70e7b95897bcf4ad"
+              }
+            ],
+            "reason": "取得權重不直接降低幻覺，部署方式亦非事實查核機制。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "text-generation-platforms",
+                "sha256": "f4b1f8ba7f669b5916734c2561d13c13ba50f39bb818af6ee390a670bb79187d"
+              }
+            ],
+            "reason": "平台頁不是純封閉權重集合；指引沒有把兩頁當互斥且易混淆的分類。"
+          }
+        }
+      },
+      "visibility": "分階段路線以查核目標顯示，並非單靠LLaMA品牌入鏈。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "text-generation-platforms",
+      "target": {
+        "file": "content/concepts/text-generation-platforms.md",
+        "sha256": "f4b1f8ba7f669b5916734c2561d13c13ba50f39bb818af6ee390a670bb79187d"
+      },
+      "source": {
+        "file": "content/codes/L21103.md",
+        "sha256": "8470ada2cb520dc8fdfcb9a86a5a2529ed009bbc1a62372b3a0ab52458e4d2fe"
+      },
+      "href": "/concepts/text-generation-platforms/",
+      "location": {
+        "kind": "stage",
+        "stageId": "text-production-and-evaluation",
+        "intro": "從模型與對話平台的分層開始，再讀開放權重模型，建立工具與採用條件的判讀方式。接著讀提示設計及文本工作流，練習安排來源、草稿與驗收。再依序讀幻覺、BLEU、ROUGE 及人工評估，對照各種品質證據能回答什麼問題。最後選讀模型比較的補充深度，以固定切分、標註量及預算判讀生成式與鑑別式分類路徑。",
+        "goal": "說得出模型與對話產品的區別及版本查核項目"
+      },
+      "purpose": "選工具前先分清生成模型與對話產品，再核對輸入能力、長文件及版本條件。",
+      "basis": [
+        {
+          "ref": "guide-1:3-65",
+          "reason": "指引分列GPT系列、ChatGPT及其他模型／平台；本頁釐清其層次與版本查核。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S3-Q23",
+            "sha256": "f6dbf4b2cfd0449cecfda749e0e07519f3d111303fa10a61dce43597a7dbe087",
+            "reason": "考BERT遮罩建模與GPT因果生成，不考產品層次及使用條件。"
+          },
+          {
+            "id": "115-1-S1-Q21",
+            "sha256": "850e840cd206a46033fabbd490d713f221fcc96d370f5e88690cdb92a053be3a",
+            "reason": "指定GPT-4o是費率與快取場景；決勝在token成本組合，不在比較平台。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "generative-content-types",
+                "sha256": "97f9a6c1267f00d80b3756c14eca293533594321eca18045c8a0c4cc40eae9f8"
+              },
+              {
+                "id": "open-weight-models",
+                "sha256": "fa35d87c23b164407890d24fac82d60d54866026bc8fb54b5faa2348df26963c"
+              }
+            ],
+            "reason": "內容類型是任務分類，開放權重是取得條件；混有模型與產品的本頁不是其中一個固定子類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "text-generation-workflow",
+                "sha256": "aa19920573c0a41142f54fc7bb09b473a0b085f4231c185f4f65c901a32a7197"
+              }
+            ],
+            "reason": "工作流可替換工具，本頁列舉的模型／產品不是每個工作流的固定元件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "transformer-model-families",
+                "sha256": "aab5fb7edc7c1123fbeca443fb479fa60ee81a598d7209b6636f2f1117a584b0"
+              },
+              {
+                "id": "prompt-engineering",
+                "sha256": "05a644a6b114ea5e7d9bef1e455fa368815cce3e2dd6d03afcf827db343bd222"
+              }
+            ],
+            "reason": "辨識模型與產品層次不必先完成架構機制或提示設計；反向也不依賴特定平台清單。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "hallucination",
+                "sha256": "ae09f6fc92d70f1587ec3a1e63cbbe15a7baf4d034ebf6ab70e7b95897bcf4ad"
+              }
+            ],
+            "reason": "選某平台不等於有事實查核效果；平台比較不能整頁當幻覺對策。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "open-weight-models",
+                "sha256": "fa35d87c23b164407890d24fac82d60d54866026bc8fb54b5faa2348df26963c"
+              }
+            ],
+            "reason": "本頁含開放與其他取得條件，並非封閉權重的對照集合，來源不支持整頁互相比較邊。"
+          }
+        }
+      },
+      "visibility": "stage內同時顯示分層intro、專屬goal與href，排除來源名稱及品牌偶然連結。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "development-toolchain",
+      "target": {
+        "file": "content/concepts/development-toolchain.md",
+        "sha256": "10a7ea0be8927554bb16888ef541b2c846dfbf6ded03439f942b255a45c6731b"
+      },
+      "source": {
+        "file": "content/concepts/experiment-tracking.md",
+        "sha256": "d8f48ea37b950364ac9a317745b1ebfaa7b4ae98a994cfd784663267d72f1db5"
+      },
+      "href": "/concepts/development-toolchain/",
+      "location": {
+        "kind": "body",
+        "line": 151,
+        "sourceQuote": "程式版本要確認「沒有未提交的修改」。有的話，commit 編號描述的不是實際跑過的程式。若不清楚 Git 與資料處理、訓練工具各負責什麼，可讀 [[development-toolchain]]，再確認這個 run 應保存哪些工具與版本紀錄。",
+        "renderedContext": "程式版本要確認「沒有未提交的修改」。有的話，commit 編號描述的不是實際跑過的程式。若不清楚 Git 與資料處理、訓練工具各負責什麼，可讀 AI 開發工具與版本管理，再確認這個 run 應保存哪些工具與版本紀錄。"
+      },
+      "purpose": "先分清語言、訓練框架、資料平台與Git的職責，再確認實驗run要保存的工具及版本紀錄。",
+      "basis": [
+        {
+          "ref": "guide-1:4-18",
+          "reason": "指引明列Python、訓練框架、大資料平台與Git分工。"
+        },
+        {
+          "ref": "guide-1:5-19",
+          "reason": "另談模型與資料版本追蹤，不等同本頁入門分工。"
+        },
+        {
+          "ref": "guide-3:5-20",
+          "reason": "訓練過程需記錄超參數、結構、權重與結果。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "114-2-S1-Q29",
+            "sha256": "0041e716fcdf465e91d3c9021e44c3b7559de7b37bcb3b7a1f1a470076302b91",
+            "reason": "考提交後自動建置與測試，不考工具用途分配。"
+          },
+          {
+            "id": "115-1-S1-Q22",
+            "sha256": "ebaac353b593f5a6878b327ddb375e0132553baed6a55545b5ad5a07e899e35a",
+            "reason": "考生命週期串接與追蹤，不要求辨識語言、框架和資料平台。"
+          },
+          {
+            "id": "115-1-S1-Q25",
+            "sha256": "477fcbb6b63dc9fbf8bc69e297e28d9a508015d41eff3b9a68b480c64a8ec452",
+            "reason": "考可重現評估證據，不考本頁工具角色清單。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "experiment-tracking",
+                "sha256": "d8f48ea37b950364ac9a317745b1ebfaa7b4ae98a994cfd784663267d72f1db5"
+              },
+              {
+                "id": "mlops-lifecycle",
+                "sha256": "450f39a9e2626e9daab7fda4f7d407efdeb47150f7b48f4c642fda12c3f21a4a"
+              }
+            ],
+            "reason": "工具分工是準備工作，不是實驗追蹤或生命週期的同類子型。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "mlops-lifecycle",
+                "sha256": "450f39a9e2626e9daab7fda4f7d407efdeb47150f7b48f4c642fda12c3f21a4a"
+              },
+              {
+                "id": "ai-implementation-plan",
+                "sha256": "f3cec1277c7e98cac3c384217047b3627d470f58afb1187e26060e15ba29fc96"
+              }
+            ],
+            "reason": "各任務可用不同工具；選用工具不是兩個整頁概念的固定系統組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "data-model-versioning",
+                "sha256": "5ea1ccef0bbf3d67e52d831012100f5b08ff6687c49a9efe930b700fd44cfdc2"
+              },
+              {
+                "id": "experiment-tracking",
+                "sha256": "d8f48ea37b950364ac9a317745b1ebfaa7b4ae98a994cfd784663267d72f1db5"
+              }
+            ],
+            "reason": "本頁可先以語言、框架、平台與Git解釋分工；不必先懂模型血緣或run追蹤。舊被退回的requires不能換方式補回。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "model-stability-risk",
+                "sha256": "60a73c2ecc4cfe7441e7a8fdf37203df95543ca37351fe25815ce27fa35d1df7"
+              }
+            ],
+            "reason": "版本工具可幫助追查，不能直接防止資料或環境變化造成的模型失準。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "continuous-integration",
+                "sha256": "ea7318b9c721d15cc080810491bdcafd22f845bad91de4cbac43255503859920"
+              },
+              {
+                "id": "data-model-versioning",
+                "sha256": "5ea1ccef0bbf3d67e52d831012100f5b08ff6687c49a9efe930b700fd44cfdc2"
+              }
+            ],
+            "reason": "用途不同不等於指引指定易混淆的一對；目前無直接比較來源。"
+          }
+        }
+      },
+      "visibility": "正文「記錄輸入」中的補充區；完整教材模式可讀，指引模式會隱藏。L21202另有路線但本證據不依賴其goal句型。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "text-generation-workflow",
+      "target": {
+        "file": "content/concepts/text-generation-workflow.md",
+        "sha256": "aa19920573c0a41142f54fc7bb09b473a0b085f4231c185f4f65c901a32a7197"
+      },
+      "source": {
+        "file": "content/codes/L21103.md",
+        "sha256": "8470ada2cb520dc8fdfcb9a86a5a2529ed009bbc1a62372b3a0ab52458e4d2fe"
+      },
+      "href": "/concepts/text-generation-workflow/",
+      "location": {
+        "kind": "stage",
+        "stageId": "text-production-and-evaluation",
+        "intro": "從模型與對話平台的分層開始，再讀開放權重模型，建立工具與採用條件的判讀方式。接著讀提示設計及文本工作流，練習安排來源、草稿與驗收。再依序讀幻覺、BLEU、ROUGE 及人工評估，對照各種品質證據能回答什麼問題。最後選讀模型比較的補充深度，以固定切分、標註量及預算判讀生成式與鑑別式分類路徑。",
+        "goal": "說得出客服、文件、程式與教材的生成驗收順序"
+      },
+      "purpose": "安排文字或程式產出時，依任務接起來源、草稿、查核與專業人工驗收。",
+      "basis": [
+        {
+          "ref": "guide-1:3-65",
+          "reason": "指引定義文本生成並引入客服任務。"
+        },
+        {
+          "ref": "guide-1:3-66",
+          "reason": "列文書、程式及教材情境與品質限制。"
+        },
+        {
+          "ref": "guide-1:3-39",
+          "reason": "要求事實檢查及高風險人工審核；本頁細部驗收表為既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S1-Q16",
+            "sha256": "5823eaaa0b70eda7226edc2b16a69e8f069174bcc1666e20482839a4acd5aeff",
+            "reason": "考ReAct工具行動、觀察與來源時效，不考多任務的草稿交付流程。"
+          },
+          {
+            "id": "115-1-S1-Q21",
+            "sha256": "850e840cd206a46033fabbd490d713f221fcc96d370f5e88690cdb92a053be3a",
+            "reason": "考檢索、歷史摘要及快取成本，沒有要求安排專業驗收順序。"
+          },
+          {
+            "id": "115-1-S3-Q23",
+            "sha256": "f6dbf4b2cfd0449cecfda749e0e07519f3d111303fa10a61dce43597a7dbe087",
+            "reason": "考原生BERT與GPT生成機制，不是來源至交付流程。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "generative-content-types",
+                "sha256": "97f9a6c1267f00d80b3756c14eca293533594321eca18045c8a0c4cc40eae9f8"
+              },
+              {
+                "id": "ai-agent",
+                "sha256": "209e49a184f7bc820e1662df30e0137ecb60ea489fc43c7277ca76c7979bb287"
+              }
+            ],
+            "reason": "本頁是文本產製安排，不是內容模態的分類節點，也不要求代理自主工具行動。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "ai-agent",
+                "sha256": "209e49a184f7bc820e1662df30e0137ecb60ea489fc43c7277ca76c7979bb287"
+              },
+              {
+                "id": "human-generation-evaluation",
+                "sha256": "ea25057781ccd474cb5e30b11aa9c8d458a516f321c450d5a167a70a62826a62"
+              }
+            ],
+            "reason": "流程包含可選的人工驗收步驟，不是所有代理的固定組件；整頁人工評估也不等同某個固定步驟。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "human-generation-evaluation",
+                "sha256": "ea25057781ccd474cb5e30b11aa9c8d458a516f321c450d5a167a70a62826a62"
+              }
+            ],
+            "reason": "本頁可用來源比對與專業人員驗收解釋流程，不需先學獨立評估頁的分維規準及匿名評分；反向也非必要。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "hallucination",
+                "sha256": "ae09f6fc92d70f1587ec3a1e63cbbe15a7baf4d034ebf6ab70e7b95897bcf4ad"
+              }
+            ],
+            "reason": "3-39直接支持查核與審核作為對策；尚未直接指定整頁多任務工作流。不能把其中一步的效果提升成整頁關係，此點留非作者主審。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "human-generation-evaluation",
+                "sha256": "ea25057781ccd474cb5e30b11aa9c8d458a516f321c450d5a167a70a62826a62"
+              },
+              {
+                "id": "ai-agent",
+                "sha256": "209e49a184f7bc820e1662df30e0137ecb60ea489fc43c7277ca76c7979bb287"
+              }
+            ],
+            "reason": "相鄰流程與方法分工不等於來源指定易混淆的一對，不能只因同場景就補比較邊。"
+          }
+        }
+      },
+      "visibility": "stage內呈現來源、草稿與驗收目的；未採生成任務舉例等弱正文入鏈。",
+      "semanticReview": "pending-independent-non-author-review"
+    }
+  ]
+}
