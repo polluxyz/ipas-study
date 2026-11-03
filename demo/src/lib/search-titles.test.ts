@@ -1,8 +1,8 @@
 /** 用真實名稱守住補充詞與既有查詢；未知名稱不能產生錯誤入口。 */
 import { readFileSync, readdirSync } from 'node:fs';
 import { parse } from 'yaml';
-import { describe, expect, it } from 'vitest';
-import { findSearchTitles, findSearchSummary, type SearchTitle } from './search-titles';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { bindSearchTitles, findSearchTitles, findSearchSummary, type SearchTitle } from './search-titles';
 
 // 此檔在 demo/src/lib/，回到 repo 根目錄後讀權威內容。
 const contentDirectory = new URL('../../../content/concepts/', import.meta.url);
@@ -10,6 +10,112 @@ const entries: SearchTitle[] = readdirSync(contentDirectory).filter((name) => na
   const text = readFileSync(new URL(name, contentDirectory), 'utf8');
   const { id, title, aliases = [], summary } = parse(text.match(/^---\r?\n([\s\S]*?)\r?\n---/)![1]);
   return { id, title, aliases, summary };
+});
+
+// 僅替代綁定需要的節點操作；queueMicrotask 保留原生排程以驗證解除時序。
+function createSearchRoot() {
+  class ElementStub {
+    children: ElementStub[] = [];
+    dataset: Record<string, string> = {};
+    hidden = false;
+    className = '';
+    textContent = '';
+    href = '';
+    isConnected = false;
+    constructor(readonly tag: string) {}
+    setAttribute() {}
+    append(...children: ElementStub[]) { this.children.push(...children); }
+    replaceChildren(...children: ElementStub[]) { this.children = children; }
+    remove() { this.isConnected = false; panels.delete(this); }
+  }
+  const panels = new Set<ElementStub>();
+  const form = {
+    querySelector: () => null,
+    insertBefore(panel: ElementStub) { panel.isConnected = true; panels.add(panel); },
+  };
+  const input = { value: '', closest: () => form };
+  const root = Object.assign(new EventTarget(), {
+    querySelector: () => input,
+    querySelectorAll: () => [],
+  });
+  vi.stubGlobal('document', { createElement: (tag: string) => new ElementStub(tag) });
+  vi.stubGlobal('MutationObserver', class {
+    observe() {}
+    disconnect() {}
+  });
+  return {
+    root: root as unknown as HTMLElement,
+    input,
+    panels,
+    dispatch: (type: string) => root.dispatchEvent(new Event(type)),
+    currentPanel: () => [...panels][0],
+  };
+}
+
+afterEach(() => vi.unstubAllGlobals());
+
+describe('解除名稱入口的生命週期', () => {
+  it.each(['click', 'keydown'])('%s 排隊後立即解除，延後回呼不能重建入口', async (type) => {
+    const dom = createSearchRoot();
+    const cleanup = bindSearchTitles(dom.root, entries);
+    dom.input.value = '精確率';
+    dom.dispatch('input');
+    expect(dom.panels.size).toBe(1);
+    expect(dom.currentPanel().hidden).toBe(false);
+    dom.dispatch(type);
+    cleanup();
+    cleanup();
+    expect(dom.panels.size).toBe(0);
+    await Promise.resolve();
+    expect(dom.panels.size).toBe(0);
+    dom.dispatch('input');
+    expect(dom.panels.size).toBe(0);
+  });
+
+  it('舊排隊回呼不能影響同一節點的新綁定', async () => {
+    const dom = createSearchRoot();
+    const oldCleanup = bindSearchTitles(dom.root, entries);
+    dom.input.value = '精確率';
+    dom.dispatch('click');
+    dom.dispatch('keydown');
+    oldCleanup();
+    const cleanup = bindSearchTitles(dom.root, entries);
+    dom.input.value = '準確率';
+    dom.dispatch('input');
+    const panel = dom.currentPanel();
+    expect(panel.dataset.searchTitleQuery).toBe('準確率');
+    await Promise.resolve();
+    expect([...dom.panels]).toEqual([panel]);
+    expect(panel.children[1].children[0].children[0].href).toBe('/concepts/accuracy/');
+    oldCleanup();
+    expect([...dom.panels]).toEqual([panel]);
+    cleanup();
+    expect(dom.panels.size).toBe(0);
+  });
+
+  it('有效綁定保留輸入、組字與延後清除', async () => {
+    const dom = createSearchRoot();
+    const cleanup = bindSearchTitles(dom.root, entries);
+    dom.input.value = '精確率';
+    dom.dispatch('input');
+    const panel = dom.currentPanel();
+    expect(panel.hidden).toBe(false);
+    dom.dispatch('compositionstart');
+    dom.input.value = '準確率';
+    dom.dispatch('input');
+    expect(panel.hidden).toBe(true);
+    expect(panel.dataset.searchTitleQuery).toBeUndefined();
+    dom.dispatch('compositionend');
+    expect(panel.hidden).toBe(false);
+    expect(panel.dataset.searchTitleQuery).toBe('準確率');
+    dom.dispatch('click');
+    dom.input.value = '';
+    expect(panel.hidden).toBe(false);
+    await Promise.resolve();
+    expect(panel.hidden).toBe(true);
+    expect(panel.children[1].children).toHaveLength(0);
+    cleanup();
+  });
 });
 
 describe('空摘要的來源界線', () => {

@@ -75,9 +75,11 @@ export function bindSearchTitles(root: HTMLElement, entries: readonly SearchTitl
   const list = document.createElement('ul');
   panel.append(heading, list);
   let renderedTerm: string | null = null;
+  let disposed = false;
 
   const update = () => {
-    if (composing) return;
+    // 事件已排入微任務時，移除監聽器無法取消；解除後不可再插回面板。
+    if (disposed || composing) return;
     const input = root.querySelector<HTMLInputElement>('.pagefind-ui__search-input');
     const form = input?.closest('form');
     if (!input || !form) return;
@@ -124,6 +126,7 @@ export function bindSearchTitles(root: HTMLElement, entries: readonly SearchTitl
   root.addEventListener('click', onControl);
   root.addEventListener('keydown', onControl);
   return () => {
+    disposed = true;
     root.removeEventListener('input', onInput);
     root.removeEventListener('compositionstart', onStart);
     root.removeEventListener('compositionend', onEnd);
