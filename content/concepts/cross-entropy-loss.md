@@ -231,7 +231,7 @@ Focal 的難易程度由真類機率 $p_t$ 算出，不是額外輸入。相同�
 - [PyTorch BCEWithLogitsLoss](https://docs.pytorch.org/docs/2.9/generated/torch.nn.BCEWithLogitsLoss.html)：支持二元公式與穩定 logits 計算。
 - [PyTorch CrossEntropyLoss](https://docs.pytorch.org/docs/2.9/generated/torch.nn.CrossEntropyLoss.html)：支持多類公式、形狀、索引及分佈標籤。
 - [Keras 機率損失](https://keras.io/api/losses/probabilistic_losses/)：支持框架格式對照。
-- [Keras 啟動函數](https://keras.io/api/layers/activations/)：同頁直接列出 sigmoid 與 softmax 公式，支持 logits 轉成機率。
+- [Keras 激活函數](https://keras.io/api/layers/activations/)：同頁直接列出 sigmoid 與 softmax 公式，支持 logits 轉成機率。
 - [Dive into Deep Learning 4.1](https://d2l.ai/chapter_linear-classification/softmax-regression.html)：參考從分類分數走到機率與損失的教法。
 - [Focal Loss 原論文](https://arxiv.org/html/1708.02002v2)：支持難易樣本的相對權重比較。
 

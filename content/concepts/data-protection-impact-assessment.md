@@ -59,7 +59,7 @@ self_check:
 requires: [privacy-impact-assessment]
 contrasts:
   - target: privacy-impact-assessment
-    note: 本頁聚焦 GDPR 高風險處理的啟動及文件要求，一般 PIA 頁教資料流到責任流程；不同機構命名可能重疊。
+    note: DPIA 頁聚焦 GDPR 高風險處理的啟動及文件要求；一般 PIA 頁說明資料流到責任流程。不同機構命名可能重疊。
     source: [guide-1:4-34, guide-3:6-5]
 guide_refs: [guide-1:4-34]
 textbook: v2

@@ -5,7 +5,7 @@
   "description": "橫軸為預測出貨箱數，縱軸為實際減預測；第八筆殘差為正 20 箱。",
   "source": {
     "type": "synthetic",
-    "note": "教學模擬資料；由 content/examples/L23303-regression.json 逐筆映射，殘差由模板計算。"
+    "note": "由 content/examples/L23303-regression.json 逐筆映射，殘差由模板計算。"
   },
   "unit": "箱",
   "samples": [

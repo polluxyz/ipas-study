@@ -5,7 +5,7 @@
   "description": "橫軸召回率、縱軸精確率；標示 0.75、0.5、0.2 三個閾值，注意同一條曲線上的警報取捨。",
   "source": {
     "type": "synthetic",
-    "note": "教學模擬資料；逐筆來自 content/examples/L23303-classification.json，盜刷為正類。"
+    "note": "逐筆來自 content/examples/L23303-classification.json，盜刷為正類。"
   },
   "samples": [
     {

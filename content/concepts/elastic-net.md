@@ -8,7 +8,7 @@ requires: [l1-regularization, l2-regularization]
 is_a: [regularization]
 mitigates:
   - target: overfitting
-    note: 混合懲罰可同時限制稀疏性與權重大小，兩項強度仍須驗證。
+    note: 混合懲罰可促進部分係數歸零，並抑制權重大小；兩項強度仍須驗證。
     source: [guide-3:5-45]
 contrasts:
   - target: l1-regularization

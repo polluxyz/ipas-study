@@ -88,7 +88,7 @@ self_check:
 
 事件時間（event time）是事情發生時點；可用時間（available time）是系統能讀到資料的時點，本例即入庫時間。預測截止點是這次推論的資訊邊界。
 
-![10月8日的點擊雖已發生，延至10月9日19:00入庫，仍晚於當天18:00預測截止點。](figure:l23301-temporal-features-availability)
+![10月8日的點擊延至10月9日19:00入庫。10月9日18:00預測時，這筆昨日點擊仍不可讀。](figure:l23301-temporal-features-availability)
 
 ## 定義與公式
 

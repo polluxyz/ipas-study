@@ -165,7 +165,7 @@ Dense 參數最多，卷積 MAC 最多。依本頁定義，單張為 4320 FLOPs�
 
 先在專案根目錄的 PowerShell 設定 `$env:IPAS_REPO_ROOT=(Get-Location).Path`，讓程式讀取本 repo 的絕對路徑。
 
-run-code 會切換暫存目錄，也須保留這項設定。同頁各段按順序接續執行。
+若使用[教材程式檢查工具 run-code.mjs](https://github.com/polluxyz/ipas-study/blob/main/demo/scripts/check-textbook/README.md)，請保留 `IPAS_REPO_ROOT` 設定，讓程式在暫存目錄仍能找到資料。一般執行仍依前句設定路徑。同頁各段按順序接續執行。
 
 用製造資料建立相同卷積與分類頭，PyTorch 輸入先由 NHWC 改成 NCHW。讀出實際參數與梯度張量，另手算本頁定義的 MAC。
 

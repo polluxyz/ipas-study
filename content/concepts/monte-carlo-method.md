@@ -235,7 +235,7 @@ print("零條件樣本:", empty_estimate)
 - [Art Owen：Monte Carlo，第1–2章](https://artowen.su.domains/mc/Ch-intro.pdf)，2.1、2.2、2.4、2.7、2.8節：支持估計、標準誤、條件比值及失敗條件。
 - [StatLect：The Monte Carlo Method](https://www.statlect.com/asymptotic-theory/Monte-Carlo-method)：支持以經驗分佈估計平均或分位數的流程講法。
 - [NumPy：Random Generator](https://numpy.org/doc/stable/reference/random/generator.html)：支持固定種子與整數抽樣API。
-- 本頁為核心延伸，必要前置為期望與條件機率；沒有對應的指引專屬公式頁，因此不填 `guide_refs`。
+- 本頁補充期望與條件機率的應用，沒有對應的學習指引公式段落。
 
 ## 小結（補充）
 

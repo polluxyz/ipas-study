@@ -5,7 +5,7 @@
   "description": "實際正類是盜刷、負類是正常；每格保留名稱，按原始分數與標籤重新計數。",
   "source": {
     "type": "synthetic",
-    "note": "教學模擬資料；逐筆來自 content/examples/L23303-classification.json，分數大於或等於 0.5 預測為盜刷。"
+    "note": "逐筆來自 content/examples/L23303-classification.json，分數大於或等於 0.5 預測為盜刷。"
   },
   "samples": [
     {

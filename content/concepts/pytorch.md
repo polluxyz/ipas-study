@@ -129,7 +129,7 @@ BatchNorm 若設 `track_running_stats=False`，驗證時也使用當批統計；
 
 先在專案根目錄的 PowerShell 設定 `$env:IPAS_REPO_ROOT=(Get-Location).Path`，讓程式讀取本 repo 的絕對路徑。
 
-run-code 會切換暫存目錄，也須保留這項設定。同頁各段按順序接續執行。
+若使用[教材程式檢查工具 run-code.mjs](https://github.com/polluxyz/ipas-study/blob/main/demo/scripts/check-textbook/README.md)，請保留 `IPAS_REPO_ROOT` 設定，讓程式在暫存目錄仍能找到資料。一般執行仍依前句設定路徑。同頁各段按順序接續執行。
 
 先用同一份客服資料走一批，觀察梯度與參數在不同時點的狀態。固定 CPU 與種子，只核對流程，不估計真實準確率。
 

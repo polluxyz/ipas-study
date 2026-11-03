@@ -5,7 +5,7 @@
   "description": "殘差中心低負載偏正、中間偏負、高負載再偏正，呈 U 形。",
   "source": {
     "type": "synthetic",
-    "note": "教學模擬資料；由 content/examples/L23303-B-load-curve.json 逐筆映射，非真實電力資料。"
+    "note": "由 content/examples/L23303-B-load-curve.json 逐筆映射，非真實電力資料。"
   },
   "unit": "MW",
   "samples": [

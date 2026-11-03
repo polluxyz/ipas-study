@@ -90,7 +90,7 @@ self_check:
 
 想像在兩類點之間放一條道路。邊界是道路中線，靠近道路、限制寬度的點是支持向量；它們對最後邊界有直接影響。
 
-![黑圈標出示範支持向量；要量的是垂直於中線的總間隔，不是垂直紙面的上下差。](figure:l23202-support-vector-machine-margin)
+![黑圈標出示範支持向量；要量垂直於分類邊界的總間隔，不是沿圖面上下方向的差。](figure:l23202-support-vector-machine-margin)
 
 :::supplement[來源：scikit-learn SVM Mathematical formulation]
 軟間隔下，支持向量也可能落在間隔內，甚至分錯類。不能把「支持向量」一律定義成剛好位於兩條邊線上的點。

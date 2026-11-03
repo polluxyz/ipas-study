@@ -100,7 +100,7 @@ self_check:
 
 先在專案根目錄的 PowerShell 設定 `$env:IPAS_REPO_ROOT=(Get-Location).Path`，讓程式讀取本 repo 的絕對路徑。
 
-run-code 會切換暫存目錄，也須保留這項設定。
+若使用[教材程式檢查工具 run-code.mjs](https://github.com/polluxyz/ipas-study/blob/main/demo/scripts/check-textbook/README.md)，請保留 `IPAS_REPO_ROOT` 設定，讓程式在暫存目錄仍能找到資料。一般執行仍依前句設定路徑。
 
 這段只核對同一客服資料的即時與圖執行結果，不啟動服務。固定非零權重，先手算首筆結果，再比較兩種模式；若讀錯資料或改錯運算，斷言就能檢出。
 
