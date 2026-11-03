@@ -148,3 +148,6 @@
 - C12 固定八頁例外（原缺口 8、核可例外 0）、CSV 欄位與 export 契約、自然中文精確率分詞漏失的修復或接受限制，三項均待使用者決定；提案依序見 `tmp/advisor/c12-approval-proposal.md`、`export-approval-proposal.md`、`figure-search-approval-proposal.md`。不變更公式 pending 的直接來源門檻。上述為驗收中快照，接手查 `tmp/scratch/continuation-20261103-current.md`、`tmp/scratch/coordinator-current-state.json` 及實際 Git／Orca／JSON 收據；保持產品來源凍結，已核可工作持續。
 
 - 2026-11-03 後續驗收快照：PR #80–#84 已合，文件PR前產品 main 49b9582e002027b084e2ed4af2cfeb2fb93c90cc；預覽仍為歷史 E（3d47c48e5b7c6c1f67ce4c271fd067a1a8afb69d），五個正式階段 command 均退出 0，但人工發現問題、master 未跑，E 非全綠。c04 非作者複審高 0／中 1／低 1、不接受；d5e 新非作者離線複審高 0／中 0／低 0，Root 已獨立373測試／976有效／照抄0／760頁，PR #84非空成功CI後按固定head合；F尚未固定、正式瀏覽器驗收仍以新同版收據為準。C12 固定八頁例外（原缺口 8、已核可 0）、CSV 契約、一般「精確率」分詞三項仍待使用者決定；公式來源 pending 與 partial 不變，使用者試讀／試操作尚未執行。正式 R0–R10 與人工圖須另綁固定新版本驗收，歷史證據不重綁；正式 site、章末 70 題、新模擬題及部署仍不納入。
+
+- 2026-11-03 恢復與收尾：PR #88 合併固定327控件修正，產品commit f4b30c79ae39b9634ac695e2b5f6977142cffd0b。692非作者高0／中1／低0後改限.study-content；327新非作者高0／中0／低0。作者、非作者、Root各380測試／760頁；Root976有效列、照抄0、1734來源前後同59a040d3。真HTTP served核對、正式smoke、4個ROC及6個dev場景通過，8張新控件圖由Root親讀；新證據在tmp/rollout/filter-control-main-20261103。只簽控件，不代簽整站或既有示範表頭。
+- 使用者要求用完分支收掉。先保存14,022檔及bundle，再移除87舊分支／84舊worktree；本輪作者與複審另存440檔後收尾。保存映射與收據在tmp/branch-cleanup/20261103，不提交公開庫。舊692 Root日誌因共用runner被327覆寫，歷史摘要與兩份非作者raw保留；327 Root日誌已另存唯一目錄。3項待決已送使用者，尚未核可。
