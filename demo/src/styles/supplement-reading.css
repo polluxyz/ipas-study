@@ -5,6 +5,10 @@
 [data-theme='dark'] :is(.textbook-supplement, .textbook-supplement-section, .supplement-filter) {
   --supp-ink: #e3e9df; --supp-muted: #b0beb1; --supp-bg: #242e28; --supp-line: #647263; --supp-accent: #bcdbc1; --supp-surface: #1e2924;
 }
+/* StudyPage 的控制列位於淡底；獨立深底示範頁仍沿用上方深色配色。 */
+[data-theme='dark'] .study-content .supplement-filter {
+  --supp-ink: #293d35; --supp-muted: #5f6d62; --supp-line: #c5c8b9; --supp-accent: #315f4b; --supp-surface: #fffefa;
+}
 .textbook-supplement { color: var(--supp-ink); background: var(--supp-bg); border-inline-start: 2px solid var(--supp-line); border-radius: 0 .3rem .3rem 0; padding: .8rem 1rem; margin-block: 1.25rem; min-width: 0; overflow-wrap: anywhere; }
 .textbook-supplement-section { --ink: var(--supp-ink); --green: var(--supp-accent); color: var(--supp-ink); }
 .study-content .textbook-supplement a:not(.button) { color: var(--supp-accent); }
