@@ -119,24 +119,32 @@ $x_i$ 是第 $i$ 筆觀測，$n$ 是筆數，$\bar{x}$ 是樣本平均。有限�
 
 ### 離散與分母（補充）
 
-離差先平方再平均，可避免正負抵銷。對已知離散機率模型，變異及標準差為：
+變異數與標準差都描述資料的離散程度。離差先平方再平均，可避免正負抵銷。
+
+對已知離散機率模型，$\sigma^2$ 是母體變異數。$\sigma$ 是母體標準差，等於母體變異數的平方根：
 
 $$
 \sigma^2=\sum_jp_j(a_j-\mu)^2,\qquad \sigma=\sqrt{\sigma^2}
 $$
 
-$\sigma^2$ 是母體變異，$\sigma$ 是母體標準差。平方使遠離中心的值影響變大；這裡假設二階矩有限。
+平方使遠離中心的值影響變大。這裡假設二階矩（平方值的期望）有限。
 
-對觀測資料，要先決定是在描述這整批，還是在估計背後母體：
+對觀測資料，先區分描述樣本與估計母體。$v_n$ 用分母 $n$，描述這 $n$ 筆資料的離散程度。
+
+估計母體變異數時，本頁採用分母 $n-1$ 的樣本變異數 $s^2$。樣本標準差 $s$ 是 $s^2$ 的平方根：
 
 $$
 v_n=\frac{\sum_i(x_i-\bar{x})^2}{n},\qquad
 s^2=\frac{\sum_i(x_i-\bar{x})^2}{n-1},\qquad s=\sqrt{s^2}
 $$
 
-$v_n$ 描述這 $n$ 筆本身；$s^2$ 是常用樣本變異。獨立同分佈、母體變異有限且 $n>1$ 時，$s^2$ 是母體變異的不偏估計。
+估計時，假設樣本獨立同分佈且母體變異數有限。在這些條件下，$n>1$ 時的 $s^2$ 是母體變異數的不偏估計。
 
-標準差 $s$ 是 $s^2$ 的平方根，但不能因此稱它也是不偏估計。只有一筆時，$v_n=0$，$s^2$ 則沒有定義。
+開根號後，不能因此稱 $s$ 也是母體標準差的不偏估計。
+
+變異數帶原資料單位的平方。標準差則回到原資料單位。
+
+只有1筆時，$v_n=0$。$s^2$ 與 $s$ 都未定義。
 
 ## 算一次
 
@@ -242,6 +250,7 @@ for x in ([1, 2, 3, 4, 5], [1, 2, 3, 4, 100]):
 - [ProbabilityCourse 3.2.4：Variance](https://www.probabilitycourse.com/chapter3/3_2_4_variance.php)：支持「離散與分母」的機率加權變異與標準差平方根。
 - [NIST：Measures of Location](https://www.itl.nist.gov/div898/handbook/eda/section3/eda351.htm)、[Measures of Scale](https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm)：支持排序取中位、離散單位、極端值影響。
 - [NumPy：var](https://numpy.org/doc/stable/reference/generated/numpy.var.html)：支持分母約定與程式。
+- [NumPy：std](https://numpy.org/doc/stable/reference/generated/numpy.std.html)：支持樣本標準差與開根號後仍有偏的提醒。
 - [scikit-learn：StandardScaler](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)：支持「單位與縮放」中以訓練集估計中心與尺度、套用到其他資料的補充步驟。
 - [scikit-learn：Ordinary Least Squares](https://scikit-learn.org/stable/modules/linear_model.html#ordinary-least-squares)：支持「為什麼需要」的最小平方模型；僅有截距時，以樣本平均預測可使平方誤差和最小。
 - [Berkeley Data 8：Variability](https://inferentialthinking.com/chapters/14/2/variability/index.html)：支持同平均不同離散的教學安排。
