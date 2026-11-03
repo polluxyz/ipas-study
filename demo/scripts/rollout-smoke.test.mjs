@@ -2,7 +2,7 @@
 import { beforeAll, beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 import { EventEmitter } from 'node:events';
 import { execFileSync } from 'node:child_process';
-import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { runInNewContext } from 'node:vm';
 
@@ -25,7 +25,47 @@ vi.mock('node:fs/promises', async (original) => {
   return { ...actual, ...Object.fromEntries(['readFile', 'readdir', 'stat'].map((name) =>
     [name, (file, ...args) => actual[name](redirect(file), ...args)])) };
 });
-import { assertCompanion, assertSearchSummaries, claimSearchInput, distSnapshot, gotoSettled, guardBuildContext, routeLocalOnly, searchKeyboardTarget, searchSnapshot, settlePage, sourceSnapshot, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
+import { assertCompanion, assertFeatureInventory, assertInlineCodeInventory, assertSearchSummaries, claimSearchInput, distSnapshot, gotoSettled, guardBuildContext, parseFeatureBlocks, renderedCodeText, routeLocalOnly, searchKeyboardTarget, searchSnapshot, settlePage, sourceFeatures, sourceInlineCodes, sourceSnapshot, verifyFeatures, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
+
+describe('來源程式與視覺行的完整性', () => {
+  it('容器控制行不算表格列，字面冒號、程式、公式與真實列仍保留', async () => {
+    const fixtures = JSON.parse(await readFile(new URL('../../tests/fixtures/rendered-code-inventory.json', import.meta.url), 'utf8'));
+    for (const fixture of fixtures.tables) {
+      expect(parseFeatureBlocks(fixture.markdown), fixture.name).toEqual(fixture.expected);
+      if (!fixture.expected.tables.length) continue;
+      const expected = sourceFeatures({ body: fixture.markdown });
+      const actual = { errors: 0, katex: 0, mathml: 0, tables: fixture.expected.tables.length, code: 0, diagrams: 0, figures: [], images: [],
+        blocks: [{ key: 'body', formulas: [], tables: structuredClone(fixture.expected.tables), codes: [], katex: 0, mathml: 0 }] };
+      expect(() => assertFeatureInventory(actual, expected), fixture.name).not.toThrow();
+      actual.blocks[0].tables[0].pop();
+      expect(() => assertFeatureInventory(actual, expected), fixture.name).toThrow('表格列／cell 數量或文字不符');
+    }
+  });
+  it('保留空行、縮排與plain pre；改字、刪行、亂序、去縮排仍拒絕', async () => {
+    const fixtures = JSON.parse(await readFile(new URL('../../tests/fixtures/rendered-code-inventory.json', import.meta.url), 'utf8'));
+    for (const fixture of fixtures.blocks) {
+      const expected = sourceFeatures({ body: '```' + fixture.expectedLanguage + '\n' + fixture.source + '\n```' });
+      const features = { errors: 0, katex: 0, mathml: 0, tables: 0, code: 1, diagrams: 0, figures: [], images: [], singleColumns: [], contrast: { failed: [] },
+        blocks: [{ key: 'body', formulas: [], tables: [], katex: 0, mathml: 0, codes: [{ language: fixture.actualLanguage, text: fixture.raw, renderedLines: fixture.lines }] }] };
+      const page = { evaluate: async () => structuredClone(features), locator: () => ({ count: async () => 0 }) };
+      if (fixture.pass) await expect(verifyFeatures(page, expected), fixture.name).resolves.toMatchObject({ code: 1 });
+      else await expect(verifyFeatures(page, expected), fixture.name).rejects.toThrow('程式數量／語言／文字不符');
+    }
+    expect(renderedCodeText('原樣\n保留', null)).toBe('原樣\n保留');
+    expect(() => renderedCodeText('', [1])).toThrow('程式行資料格式錯誤');
+  });
+  it('從Markdown語法樹取得真正行內標籤，漏標籤與改文字都不得當零筆', async () => {
+    const fixtures = JSON.parse(await readFile(new URL('../../tests/fixtures/rendered-code-inventory.json', import.meta.url), 'utf8'));
+    for (const fixture of fixtures.inline) {
+      expect(sourceInlineCodes(fixture.markdown), fixture.name).toEqual(fixture.expected);
+      expect(assertInlineCodeInventory(fixture.expected, fixture.markdown)).toEqual({ count: fixture.expected.length, labels: fixture.expected });
+      if (fixture.expected.length) {
+        expect(() => assertInlineCodeInventory(fixture.expected.slice(1), fixture.markdown)).toThrow('行內程式數量／文字／順序不符');
+        expect(() => assertInlineCodeInventory(['已改字', ...fixture.expected.slice(1)], fixture.markdown)).toThrow('行內程式數量／文字／順序不符');
+      }
+    }
+  });
+});
 
 const base = 'http://127.0.0.1:4321';
 const navigatedAway = 'response.body: Protocol error (Network.getResponseBody): No resource with given identifier found\nResponse body is not available for a response that was navigated away from.';

@@ -481,18 +481,49 @@ let featureParser;
 export function normalizeTex(value) { return value.replace(/\r\n/g, '\n').trim().replace(/\s+/g, ' '); }
 export function normalizeCell(value) { return value.replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/\s+/g, ' ').trim(); }
 export function normalizeCode(value) { return value.replace(/\r\n/g, '\n').replace(/\n+$/, ''); }
+/** ExpressiveCode以區塊排出每行；只把空行佔位還原，不刪縮排或合併來源行。 */
+export function renderedCodeText(text, lines) {
+  if (lines === null || lines === undefined) return text;
+  assert.ok(Array.isArray(lines) && lines.every((line) => typeof line === 'string'), '程式行資料格式錯誤');
+  return lines.map((line) => /^(?:\n|\r\n)$/.test(line) ? '' : line).join('\n');
+}
 export function normalizeLanguage(value) {
   const language = (value ?? '').toLowerCase();
   return ({ py: 'python', js: 'javascript', ts: 'typescript', plaintext: 'text', txt: 'text', '': 'text' })[language] ?? language;
 }
-/** 使用 Astro 已安裝的 unified／GFM 與既有 remark-math；延遲初始化避免 import 讀檔。 */
-export function parseFeatureBlocks(markdown, concepts = []) {
+/** 獨立辨識容器控制行；先保護程式、公式與HTML，避免把字面內容當控制行。 */
+function featureTree(markdown) {
   if (!featureParser) {
     const astroRequire = createRequire(import.meta.resolve('@astrojs/markdown-remark'));
     const ownRequire = createRequire(import.meta.url);
     featureParser = astroRequire('unified').unified().use(astroRequire('remark-parse').default).use(astroRequire('remark-gfm').default).use(ownRequire('remark-math').default).use(astroRequire('remark-smartypants').default);
   }
-  const tree = featureParser.runSync(featureParser.parse(markdown)), formulas = [], tables = [], codes = [], diagrams = [];
+  const original = featureParser.parse(markdown);
+  if (!/^ {0,3}:::(?:note|tip|caution|supplement)(?:\[|[ \t]*\r?$)/m.test(markdown)) return featureParser.runSync(original);
+  const protectedLines = new Set();
+  const protect = (node) => {
+    if (['code', 'inlineCode', 'math', 'inlineMath', 'html'].includes(node.type) && node.position) {
+      for (let line = node.position.start.line; line <= node.position.end.line; line++) protectedLines.add(line);
+    }
+    node.children?.forEach(protect);
+  };
+  protect(original);
+  let depth = 0, changed = false;
+  const bounded = markdown.split('\n').map((line, index) => {
+    if (protectedLines.has(index + 1)) return line;
+    const open = /^ {0,3}:::(?:(?:note|tip|caution)(?:\[[^\r\n]*\])?|supplement\[來源：[^\r\n]+\])[ \t]*\r?$/.test(line);
+    const close = depth > 0 && /^ {0,3}:::[ \t]*\r?$/.test(line);
+    if (!open && !close) return line;
+    depth += open ? 1 : -1;
+    changed = true;
+    // 保留控制行原字元，只補語法邊界；裸露的:::與真正表格列不受影響。
+    return '\n' + line + '\n';
+  }).join('\n');
+  return featureParser.runSync(changed ? featureParser.parse(bounded) : original);
+}
+/** 使用既有Markdown解析器列出來源特徵，不借用網站的容器轉換程式。 */
+export function parseFeatureBlocks(markdown, concepts = []) {
+  const tree = featureTree(markdown), formulas = [], tables = [], codes = [], diagrams = [];
   const text = (node) => {
     if (node.type === 'html') return node.value.replace(/<[^>]*>/g, '');
     // 手動 wiki link 顯示概念標題，仍由凍結來源取得，不能拿 DOM 文字作期望。
@@ -510,6 +541,23 @@ export function parseFeatureBlocks(markdown, concepts = []) {
   };
   visit(tree); return { formulas, tables, codes, diagrams };
 }
+/** 以原文語法樹列出行內程式，排除程式區與非程式標點。 */
+export function sourceInlineCodes(markdown) {
+  const tree = featureTree(markdown), labels = [];
+  const visit = (node) => {
+    if (node.type === 'inlineCode') labels.push(node.value);
+    node.children?.forEach(visit);
+  };
+  visit(tree);
+  return labels;
+}
+/** 與原文語法樹逐一比對，不能把意外漏掉標籤當成合法零筆頁。 */
+export function assertInlineCodeInventory(actual, markdown) {
+  const expected = sourceInlineCodes(markdown);
+  assert.deepEqual(actual, expected, '行內程式數量／文字／順序不符');
+  return { count: expected.length, labels: expected };
+}
+
 /** 題目分欄取期望，答後解析不可提前拿來補選前缺失；一般正文避開自動關係表。 */
 export function featureBlocks(item, phase = 'before', concepts = []) {
   const fields = item.stem === undefined
@@ -1202,12 +1250,22 @@ export async function verifyFeatures(page, expected) {
       const codes = select('pre').filter((pre) => !pre.closest('figure.study-diagram')).map((pre) => {
         const code = pre.querySelector('code');
         const language = pre.getAttribute('data-language') ?? code?.getAttribute('data-language') ?? /(?:^|\s)language-([^\s]+)/.exec(code?.className ?? pre.className ?? '')?.[1] ?? pre.closest('.question-code')?.querySelector('.code-label')?.firstChild?.textContent.trim() ?? '';
-        return { language, text: (code ?? pre).textContent };
+        const lines = [...(code?.querySelectorAll(':scope > .ec-line') ?? [])];
+        const renderedLines = lines.length ? lines.map((line) => {
+          const body = line.querySelector(':scope > .code');
+          if (!body) throw new Error('程式行缺少內容節點');
+          return body.textContent;
+        }) : null;
+        return { language, text: (code ?? pre).textContent, renderedLines };
       });
       return { key, codes, diagrams: select('figure.study-diagram svg').length, formulas: select('.katex').map((element) => element.querySelector('annotation[encoding="application/x-tex"]')?.textContent ?? ''), katex: select('.katex').length, mathml: select('.katex math').length, tables: select('table').map((table) => [...table.rows].map((row) => [...row.cells].map(cellText))) };
     });
     return { blocks: sourceBlocks, katex: katex.length, mathml: document.querySelectorAll('.katex math').length, errors: document.querySelectorAll('.katex-error').length, tables: document.querySelectorAll('main table').length, code: document.querySelectorAll('main pre').length, diagrams: document.querySelectorAll('main figure.study-diagram svg').length, figures, images, singleColumns, contrast: { total: contrast.length, minimum: contrast.length ? Math.min(...contrast.map((c) => c.ratio)) : null, failed: contrast.filter((c) => c.ratio < 4.5) } };
   }, expected.blocks ?? []);
+  for (const block of features.blocks ?? []) for (const code of block.codes ?? []) {
+    code.text = renderedCodeText(code.text, code.renderedLines);
+    delete code.renderedLines;
+  }
   for (const figure of features.figures) { if (figure.encodedAsset?.startsWith('data:image/svg+xml;base64,')) figure.assetSha256 = hash(Buffer.from(figure.encodedAsset.split(',')[1], 'base64')); delete figure.encodedAsset; }
   assertFeatureInventory(features, expected);
   features.sourceExpected = expected;

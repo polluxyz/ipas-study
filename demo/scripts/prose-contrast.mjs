@@ -40,7 +40,7 @@ export function collectProseSamples(rootSelector = '#concept-body') {
   return samples;
 }
 
-/** 行內程式也可能獨自帶底色；逐個文字節點量測，不能只驗所在表格。 */
+/** 量測有渲染幾何的行內程式文字；不代表已捲入視窗，背景不能只取所在表格。 */
 export function collectInlineCodeSamples(rootSelector) {
   const root = document.querySelector(rootSelector);
   if (!root) throw new Error('缺少行內程式檢查區域');

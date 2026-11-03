@@ -7,7 +7,7 @@ import { execFileSync } from 'node:child_process';
 import assert from 'node:assert/strict';
 import { parse } from 'yaml';
 import { collectInlineCodeSamples, assertInlineCodeContrast } from '../prose-contrast.mjs';
-import { CELLS, loadContent, localUrl, routeLocalOnly, hasMath, freshOutput, readBuildReceipt, watchBuildResponses, assertExactLinks, supplementCounts, sourceFeatures, verifyFeatures, gotoSettled, settlePage } from '../rollout-smoke.mjs';
+import { CELLS, loadContent, localUrl, routeLocalOnly, hasMath, freshOutput, readBuildReceipt, watchBuildResponses, assertExactLinks, assertInlineCodeInventory, supplementCounts, sourceFeatures, verifyFeatures, gotoSettled, settlePage } from '../rollout-smoke.mjs';
 
 export function sheetLinks(body) {
   return [...body.replace(/```[\s\S]*?```|`[^`\n]*`/g, '').matchAll(/(?<!!)\[[^\]]*\]\((\/concepts\/[^)]+)\)/g)].map((match) => match[1]);
@@ -133,8 +133,8 @@ export async function verifyCheatsheet() {
         }
         for (const cell of CELLS) {
           await go(path, cell);
+          const inlineSource = assertInlineCodeInventory(await body.locator('code:not(pre code)').allTextContents(), sheet.body);
           const inlineCode = assertInlineCodeContrast(await page.evaluate(collectInlineCodeSamples, '.cheatsheet-body'));
-          if (mode === 'real' && sheet.code === 'L21101') assert.ok(inlineCode.count > 0, '保留真實fit行內程式見證');
           const features = await verifyFeatures(page, sourceFeatures(sheet, 'before', content.concepts));
           assertSheetContent(await body.locator('a[href^="/concepts/"]').evaluateAll((links) => links.map((link) => link.getAttribute('href'))), await body.locator('tr[data-supplement-kind="row"]').count(), await body.locator('li[data-supplement-kind="list-item"]').count(), sheet.body);
           const dimensions = await page.evaluate(() => ({ viewport: innerWidth, document: document.documentElement.scrollWidth, body: document.body.scrollWidth, overflow: [document.documentElement, document.body].map((e) => getComputedStyle(e).overflowX) }));
@@ -146,7 +146,7 @@ export async function verifyCheatsheet() {
             await page.waitForFunction((index) => document.querySelectorAll('.cheatsheet-body .textbook-table-scroll')[index].scrollLeft > 0, index); await element.evaluate((e) => { e.scrollLeft = 0; e.blur(); });
           }
           const filename = `${mode}-${sheet.code}-${cell.width}-${cell.theme}.png`; await page.screenshot({ path: resolve(output, filename), fullPage: true, animations: 'disabled' });
-          entry.viewports.push({ ...cell, dimensions, tables, features, inlineCode, screenshot: filename, manualReview: '未執行' });
+          entry.viewports.push({ ...cell, dimensions, tables, features, inlineSource, inlineCode, screenshot: filename, manualReview: '未執行' });
         }
         await go(path); await page.setViewportSize({ width: 794, height: 1123 }); await page.emulateMedia({ media: 'print' });
         const print = await page.evaluate(() => ({ document: document.documentElement.scrollWidth, viewport: innerWidth, button: getComputedStyle(document.querySelector('.cheatsheet-top')).display, navigation: [...document.querySelectorAll('header.header, .sidebar-pane, .right-sidebar-container, .cheatsheet-jump')].map((e) => getComputedStyle(e).display) }));
@@ -157,9 +157,9 @@ export async function verifyCheatsheet() {
         const printInlineCode = [];
         for (const theme of ['light', 'dark']) {
           await page.evaluate((value) => { document.documentElement.dataset.theme = value; }, theme);
+          const source = assertInlineCodeInventory(await body.locator('code:not(pre code)').allTextContents(), sheet.body);
           const measured = assertInlineCodeContrast(await page.evaluate(collectInlineCodeSamples, '.cheatsheet-body'));
-          if (mode === 'real' && sheet.code === 'L21101') assert.ok(measured.count > 0, '列印保留真實fit行內程式見證');
-          printInlineCode.push({ theme, ...measured });
+          printInlineCode.push({ theme, source, ...measured });
         }
         await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; });
         entry.print = { ...print, inlineCode: printInlineCode, verified: true }; await page.screenshot({ path: resolve(output, `${mode}-${sheet.code}-print.png`), fullPage: true, animations: 'disabled' }); entry.status = '通過';

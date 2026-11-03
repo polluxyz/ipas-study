@@ -14,7 +14,7 @@ describe('概念頁文字對比', () => {
     expect(() => assertInlineCodeContrast([{ ...bad, foreground: 'rgba(37, 61, 55, 0)' }])).toThrow('行內程式對比');
   });
   it('逐一採集行內程式子節點的實際配色，排除程式區並拒絕隱藏或無幾何文字', () => {
-    let visible = true, width = 20;
+    let visible = true, width = 20, backgroundImage = 'none', opacity = '1';
     const code = { closest: () => null, parentElement: null };
     const element = { parentElement: code, checkVisibility: () => visible };
     const preCode = { closest: () => ({}) };
@@ -26,7 +26,7 @@ describe('概念頁文字對比', () => {
       createRange: () => ({ selectNodeContents: () => {}, getClientRects: () => [{ width, height: 16 }] }),
     });
     vi.stubGlobal('NodeFilter', { SHOW_TEXT: 4 });
-    vi.stubGlobal('getComputedStyle', (current) => ({ backgroundImage: 'none', opacity: '1', backgroundColor: current === code ? 'rgb(237, 241, 231)' : 'rgba(0, 0, 0, 0)', color: 'rgb(228, 237, 241)' }));
+    vi.stubGlobal('getComputedStyle', (current) => ({ backgroundImage, opacity, backgroundColor: current === code ? 'rgb(237, 241, 231)' : 'rgba(0, 0, 0, 0)', color: 'rgb(228, 237, 241)' }));
     try {
       const samples = collectInlineCodeSamples('.cheatsheet-body');
       expect(samples).toHaveLength(1); expect(walkerRoots).toEqual([code]);
@@ -34,6 +34,8 @@ describe('概念頁文字對比', () => {
       expect(() => assertInlineCodeContrast(samples)).toThrow('行內程式對比');
       visible = false; expect(() => collectInlineCodeSamples('.cheatsheet-body')).toThrow('行內程式文字不可見');
       visible = true; width = 0; expect(() => collectInlineCodeSamples('.cheatsheet-body')).toThrow('行內程式文字沒有可見範圍');
+      width = 20; backgroundImage = 'linear-gradient(red, blue)'; expect(() => collectInlineCodeSamples('.cheatsheet-body')).toThrow('行內程式背景圖片無法量測');
+      backgroundImage = 'none'; opacity = '0.5'; expect(() => collectInlineCodeSamples('.cheatsheet-body')).toThrow('行內程式群組透明度不支援');
       expect(() => collectInlineCodeSamples('.missing')).toThrow('缺少行內程式檢查區域');
     } finally { vi.unstubAllGlobals(); }
   });
