@@ -15,7 +15,7 @@ const html = normalizeCheatsheetLinks(entry.rendered?.html ?? '', conceptHeading
 <StudyPage title={entry.data.title} section={`${entry.data.code} 速查`} headings={headings}>
   <article class="cheatsheet">
     <div class="cheatsheet-top"><a href={`/codes/${entry.data.code}/`}>← 回學習路線</a><button type="button" data-print-cheatsheet>列印速查</button></div>
-    <p class="lead">快速回想公式、指標選擇與診斷方向；需要例子或適用條件時，從「看教材」回到完整說明。</p>
+    <p class="lead">快速回想公式、指標選擇與診斷方向；需要例子或適用條件時，點選各列的教材連結，回到完整說明。</p>
     <nav class="cheatsheet-jump" aria-label="速查段落">{headings.filter((heading) => heading.depth === 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav>
     <div class="prose cheatsheet-body" set:html={html} />
     <footer class="cheatsheet-footer"><a href={`/codes/${entry.data.code}/`}>回到 {entry.data.code} 學習路線 →</a></footer>
