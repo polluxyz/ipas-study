@@ -277,7 +277,7 @@ importAttempts(json: string): { added: number; skipped: number; invalid: number 
 - 概念關係 C1–C13 依 concept-relations.md 第 5 節。
 - `[[連結]]` 指向不存在的概念或歧義別名：錯誤。
 - 檢查器每條規則都有一個會失敗、一個會通過的測試資料（fixture）。
-- `npm run export` 產生 `analysis/questions.csv`（CLAUDE.md 6.1 的欄位）與 `analysis/relations.csv`。CSV 只由程式產生，不手改。
+- `pnpm --dir demo run export` 產生 `analysis/questions.csv` 與 `analysis/relations.csv`，prebuild也呼叫同一匯出器。欄位及來源保留規則見[分析CSV匯出規格](analysis-export.md)。CSV只由程式產生，不手改。
 - `npm run export:blind` 產生盲解用的題目檔，只含 ID、題幹、程式、圖片路徑、選項；不含答案、解析、review。
 
 ---
