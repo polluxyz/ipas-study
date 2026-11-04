@@ -51,9 +51,16 @@ WTPATH=<worktree 路徑> AGENT=gemini bash scripts/orca/dispatch.sh "R-L23102-A"
 
 - worktree 建在 `E:/orca/workspaces/ipas-study/<名>`（E: 是 Dev Drive）。2026-11-02 已從舊根完整遷移，舊 `AI_test` 工作樹僅留本機離線備份；活動工作統一新 repo ID `555621aa-2814-4352-83be-7ccb05ac7de4`。協調腳本用 `tmp/rollout/coord/wtpath.sh` 從 `git worktree list` 查路徑，不寫死。腳本會在 spec 末尾附上路徑、分支，並要求 worker 先跑 `pnpm --dir demo install --frozen-lockfile`、不 push。
 - 套件管理用 pnpm（2026-11-01 改用）。所有 worktree 共用 `E:.pnpm-store`（內容定址的套件庫），各 worktree 的 `node_modules` 用硬連結指向它，仍各自獨立。目的是減少重複檔案，降低 Defender 掃描負擔。
-- push、開 PR、合併由協調者做。PR 合併後執行 `bash scripts/orca/wt-rm.sh <worktree 路徑>`，清掉 worktree 與本機分支。這會丟掉未 commit 的修改。
+- push、開 PR、合併由協調者做。驗收與合併後清理來源分支，依第 3 節保留使用中的工作與證據。不得為了刪分支而丟棄未提交修改。
 
 ## 3. 等待與收尾
+
+**2026-11-04 使用者更新**：預覽只留主要網站，並清理用完的分支。此規則覆蓋較早保留舊預覽服務的指示。
+
+- 唯一常駐預覽為 `http://127.0.0.1:4321/`。已停止的原型與候選服務不再重開。優先以隔離瀏覽器讀取建置檔，驗證後再更新主要網站。
+- 驗收及合併後，核對來源分支的精確提交與合併結果，再刪除本機及遠端來源分支。保留 `main`、進行中的工作、使用者接管的工作階段及未提交修改。
+- 工作樹有證據時保留檔案。已完成且無人使用的工作樹，可在相同提交切為 detached HEAD（解除分支關聯），再清理分支。先保存分支名稱與提交簽章，不使用 `reset --hard` 或強制移除工作樹。
+- 合併成功但本機刪分支失敗時，先確認 GitHub 合併狀態。不要重做合併。工作樹解除分支關聯後，另行清理已核對提交的本機與遠端分支。
 
 - 啟動所有獨立工作後結束回合，由 Orca 自動喚醒。不執行輪詢或等待腳本。
 - 收到通知後執行當版 `orchestration check`；目前會自動確認讀取的訊息。
