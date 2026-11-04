@@ -93,6 +93,159 @@
         "requires": [
           "fixture-parent"
         ]
+      },
+      {
+        "id": "color-space-conversion",
+        "file": "content/concepts/color-space-conversion.md",
+        "fileSha256": "803f7ab288c0728d771075dd07c7b5efc5772defc26fb49073ecbef76a325474",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "data-consistency",
+        "file": "content/concepts/data-consistency.md",
+        "fileSha256": "c326e94c3a472eaf6ff3d180e7f845cdec7c429170a28b7a22a5637200fc2708",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "data-types-time-parsing",
+        "file": "content/concepts/data-types-time-parsing.md",
+        "fileSha256": "be1d0108bfbb4dc5c29d3c6d4c70502d719c622cb80fe26ea581efb67ada9909",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "feedback-loop",
+        "file": "content/concepts/feedback-loop.md",
+        "fileSha256": "4fc59aad743a245e488fe7d6b8bcddd402d3bba9e47758510c952d20f720c198",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "financial-regulatory-sandbox",
+        "file": "content/concepts/financial-regulatory-sandbox.md",
+        "fileSha256": "1f6b394727ce0fe597a67cb978a08b774d1a425241d0c977107a40115ac18083",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "generative-quality-metrics",
+        "file": "content/concepts/generative-quality-metrics.md",
+        "fileSha256": "ee7161af710151f1f7884d3057236159b0a9cd2cbc62b6ff611d68d33f7c62a0",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "high-availability",
+        "file": "content/concepts/high-availability.md",
+        "fileSha256": "18f44f83d67d6a8935a1af3939fd6b73ef645091774ae231b61c273ddf81b96f",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "image-resizing",
+        "file": "content/concepts/image-resizing.md",
+        "fileSha256": "de55f6683f5358641d1669850b07b5e961033c60813c934ec266d2f2413bcf45",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "machine-translation",
+        "file": "content/concepts/machine-translation.md",
+        "fileSha256": "dc0d9c8fcf34d43141549b9011b53dc1bc70a18a2b0333cdf322437e843f200b",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "medical-device-regulation",
+        "file": "content/concepts/medical-device-regulation.md",
+        "fileSha256": "5a729fb89d7d440728b7158f47f7595711340276cd790f0be2abfe9f684d30d7",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "privacy-regulations",
+        "file": "content/concepts/privacy-regulations.md",
+        "fileSha256": "b222488a262ca937f0bb1a88cd6327da359322baacd3db53ea3e156e906fac91",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "scrum",
+        "file": "content/concepts/scrum.md",
+        "fileSha256": "4c61f2bc098bdb94940e9fe5f3d6b1fa59e536759b6f391932d4eda596fd1d81",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "speech-recognition-pipeline",
+        "file": "content/concepts/speech-recognition-pipeline.md",
+        "fileSha256": "f89c2f8032a268d1ec72cdd42e3b8ee43b66fa3f997bfb7ca090768a1b61eb9a",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "telecom-regulation",
+        "file": "content/concepts/telecom-regulation.md",
+        "fileSha256": "719cadcb2bf6209ce5a83fc365975f1a6c9fefc284aba17a8bf3284e481ac9d5",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "video-frame-sampling",
+        "file": "content/concepts/video-frame-sampling.md",
+        "fileSha256": "6c6f8283b8fd34f41a5a810fa96d9a58f828b95fff0d2712ed1d9ec48ca79ac4",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "virginia-cdpa",
+        "file": "content/concepts/virginia-cdpa.md",
+        "fileSha256": "aa296a94aca30fbcb0c119cdb183c27dfeffda952f2f5d78362d79bdb41e8571",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
+      },
+      {
+        "id": "visual-tracking",
+        "file": "content/concepts/visual-tracking.md",
+        "fileSha256": "5f32e26dcd46dba9c4f8b5df0174756aef520220eb295937bffb9ed5136b4156",
+        "guide_refs": [
+          "guide-1:1-1"
+        ],
+        "body": "\n固定教材正文\n"
       }
     ],
     "questions": [
@@ -146,6 +299,74 @@
               {
                 "id": "text-generation-workflow",
                 "goal": "說得出text-generation-workflow的學習目的"
+              },
+              {
+                "id": "color-space-conversion",
+                "goal": "說得出color-space-conversion的學習目的"
+              },
+              {
+                "id": "data-consistency",
+                "goal": "說得出data-consistency的學習目的"
+              },
+              {
+                "id": "data-types-time-parsing",
+                "goal": "說得出data-types-time-parsing的學習目的"
+              },
+              {
+                "id": "feedback-loop",
+                "goal": "說得出feedback-loop的學習目的"
+              },
+              {
+                "id": "financial-regulatory-sandbox",
+                "goal": "說得出financial-regulatory-sandbox的學習目的"
+              },
+              {
+                "id": "generative-quality-metrics",
+                "goal": "說得出generative-quality-metrics的學習目的"
+              },
+              {
+                "id": "high-availability",
+                "goal": "說得出high-availability的學習目的"
+              },
+              {
+                "id": "image-resizing",
+                "goal": "說得出image-resizing的學習目的"
+              },
+              {
+                "id": "machine-translation",
+                "goal": "說得出machine-translation的學習目的"
+              },
+              {
+                "id": "medical-device-regulation",
+                "goal": "說得出medical-device-regulation的學習目的"
+              },
+              {
+                "id": "privacy-regulations",
+                "goal": "說得出privacy-regulations的學習目的"
+              },
+              {
+                "id": "scrum",
+                "goal": "說得出scrum的學習目的"
+              },
+              {
+                "id": "speech-recognition-pipeline",
+                "goal": "說得出speech-recognition-pipeline的學習目的"
+              },
+              {
+                "id": "telecom-regulation",
+                "goal": "說得出telecom-regulation的學習目的"
+              },
+              {
+                "id": "video-frame-sampling",
+                "goal": "說得出video-frame-sampling的學習目的"
+              },
+              {
+                "id": "virginia-cdpa",
+                "goal": "說得出virginia-cdpa的學習目的"
+              },
+              {
+                "id": "visual-tracking",
+                "goal": "說得出visual-tracking的學習目的"
               }
             ]
           }
@@ -810,6 +1031,1383 @@
             }
           }
         }
+      },
+      {
+        "id": "color-space-conversion",
+        "target": {
+          "file": "content/concepts/color-space-conversion.md",
+          "sha256": "803f7ab288c0728d771075dd07c7b5efc5772defc26fb49073ecbef76a325474"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/color-space-conversion/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出color-space-conversion的學習目的"
+        },
+        "purpose": "先讀color-space-conversion以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "data-consistency",
+        "target": {
+          "file": "content/concepts/data-consistency.md",
+          "sha256": "c326e94c3a472eaf6ff3d180e7f845cdec7c429170a28b7a22a5637200fc2708"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/data-consistency/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出data-consistency的學習目的"
+        },
+        "purpose": "先讀data-consistency以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "data-types-time-parsing",
+        "target": {
+          "file": "content/concepts/data-types-time-parsing.md",
+          "sha256": "be1d0108bfbb4dc5c29d3c6d4c70502d719c622cb80fe26ea581efb67ada9909"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/data-types-time-parsing/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出data-types-time-parsing的學習目的"
+        },
+        "purpose": "先讀data-types-time-parsing以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "feedback-loop",
+        "target": {
+          "file": "content/concepts/feedback-loop.md",
+          "sha256": "4fc59aad743a245e488fe7d6b8bcddd402d3bba9e47758510c952d20f720c198"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/feedback-loop/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出feedback-loop的學習目的"
+        },
+        "purpose": "先讀feedback-loop以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "financial-regulatory-sandbox",
+        "target": {
+          "file": "content/concepts/financial-regulatory-sandbox.md",
+          "sha256": "1f6b394727ce0fe597a67cb978a08b774d1a425241d0c977107a40115ac18083"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/financial-regulatory-sandbox/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出financial-regulatory-sandbox的學習目的"
+        },
+        "purpose": "先讀financial-regulatory-sandbox以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "generative-quality-metrics",
+        "target": {
+          "file": "content/concepts/generative-quality-metrics.md",
+          "sha256": "ee7161af710151f1f7884d3057236159b0a9cd2cbc62b6ff611d68d33f7c62a0"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/generative-quality-metrics/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出generative-quality-metrics的學習目的"
+        },
+        "purpose": "先讀generative-quality-metrics以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "high-availability",
+        "target": {
+          "file": "content/concepts/high-availability.md",
+          "sha256": "18f44f83d67d6a8935a1af3939fd6b73ef645091774ae231b61c273ddf81b96f"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/high-availability/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出high-availability的學習目的"
+        },
+        "purpose": "先讀high-availability以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "image-resizing",
+        "target": {
+          "file": "content/concepts/image-resizing.md",
+          "sha256": "de55f6683f5358641d1669850b07b5e961033c60813c934ec266d2f2413bcf45"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/image-resizing/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出image-resizing的學習目的"
+        },
+        "purpose": "先讀image-resizing以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "machine-translation",
+        "target": {
+          "file": "content/concepts/machine-translation.md",
+          "sha256": "dc0d9c8fcf34d43141549b9011b53dc1bc70a18a2b0333cdf322437e843f200b"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/machine-translation/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出machine-translation的學習目的"
+        },
+        "purpose": "先讀machine-translation以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "medical-device-regulation",
+        "target": {
+          "file": "content/concepts/medical-device-regulation.md",
+          "sha256": "5a729fb89d7d440728b7158f47f7595711340276cd790f0be2abfe9f684d30d7"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/medical-device-regulation/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出medical-device-regulation的學習目的"
+        },
+        "purpose": "先讀medical-device-regulation以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "privacy-regulations",
+        "target": {
+          "file": "content/concepts/privacy-regulations.md",
+          "sha256": "b222488a262ca937f0bb1a88cd6327da359322baacd3db53ea3e156e906fac91"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/privacy-regulations/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出privacy-regulations的學習目的"
+        },
+        "purpose": "先讀privacy-regulations以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "scrum",
+        "target": {
+          "file": "content/concepts/scrum.md",
+          "sha256": "4c61f2bc098bdb94940e9fe5f3d6b1fa59e536759b6f391932d4eda596fd1d81"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/scrum/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出scrum的學習目的"
+        },
+        "purpose": "先讀scrum以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "speech-recognition-pipeline",
+        "target": {
+          "file": "content/concepts/speech-recognition-pipeline.md",
+          "sha256": "f89c2f8032a268d1ec72cdd42e3b8ee43b66fa3f997bfb7ca090768a1b61eb9a"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/speech-recognition-pipeline/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出speech-recognition-pipeline的學習目的"
+        },
+        "purpose": "先讀speech-recognition-pipeline以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "telecom-regulation",
+        "target": {
+          "file": "content/concepts/telecom-regulation.md",
+          "sha256": "719cadcb2bf6209ce5a83fc365975f1a6c9fefc284aba17a8bf3284e481ac9d5"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/telecom-regulation/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出telecom-regulation的學習目的"
+        },
+        "purpose": "先讀telecom-regulation以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "video-frame-sampling",
+        "target": {
+          "file": "content/concepts/video-frame-sampling.md",
+          "sha256": "6c6f8283b8fd34f41a5a810fa96d9a58f828b95fff0d2712ed1d9ec48ca79ac4"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/video-frame-sampling/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出video-frame-sampling的學習目的"
+        },
+        "purpose": "先讀video-frame-sampling以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "virginia-cdpa",
+        "target": {
+          "file": "content/concepts/virginia-cdpa.md",
+          "sha256": "aa296a94aca30fbcb0c119cdb183c27dfeffda952f2f5d78362d79bdb41e8571"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/virginia-cdpa/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出virginia-cdpa的學習目的"
+        },
+        "purpose": "先讀virginia-cdpa以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
+      },
+      {
+        "id": "visual-tracking",
+        "target": {
+          "file": "content/concepts/visual-tracking.md",
+          "sha256": "5f32e26dcd46dba9c4f8b5df0174756aef520220eb295937bffb9ed5136b4156"
+        },
+        "source": {
+          "file": "content/codes/L00001.md",
+          "sha256": "7bc2e2b8f9ac2d1828f93f6637866d7c6b9d3e596c8269b9405d68f76d60f371"
+        },
+        "href": "/concepts/visual-tracking/",
+        "location": {
+          "kind": "stage",
+          "stageId": "planned-reading",
+          "intro": "先確認問題，再讀各頁解釋及例子。",
+          "goal": "說得出visual-tracking的學習目的"
+        },
+        "purpose": "先讀visual-tracking以完成任務判讀",
+        "basis": [
+          {
+            "ref": "guide-1:1-1",
+            "reason": "本頁的教學範圍。"
+          }
+        ],
+        "exclusions": {
+          "questions": [
+            {
+              "id": "fixture-question",
+              "sha256": "4243a678f724ab235c6d97cff1104bab08be41a946f7d321d03cdac910488f93",
+              "reason": "題目只要求近鄰概念的能力。"
+            }
+          ],
+          "relations": {
+            "is_a": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "part_of": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "requires": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "mitigates": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            },
+            "contrasts": {
+              "candidates": [
+                {
+                  "id": "fixture-parent",
+                  "sha256": "0b8aa697c7dd9094b2a8e669896b03946240a697d6093e2e8fd8ccd94f2b0c10"
+                }
+              ],
+              "reason": "fixture中的近鄰不構成這一型關係。"
+            }
+          }
+        }
       }
     ]
   },
@@ -824,7 +2422,24 @@
     "content/concepts/text-generation-workflow.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
     "content/concepts/fixture-parent.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
     "content/concepts/fixture-child.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
-    "content/codes/L00001.md": "<section data-stage=\"planned-reading\"><p class=\"stage-intro\">先確認問題，再讀各頁解釋及例子。</p><ol><li data-route-concept=\"ai-team-capability\"><a class=\"route-concept\" href=\"/concepts/ai-team-capability/\"><strong>ai-team-capability</strong><p class=\"route-goal\">說得出ai-team-capability的學習目的</p></a></li><li data-route-concept=\"cyclic-time-features\"><a class=\"route-concept\" href=\"/concepts/cyclic-time-features/\"><strong>cyclic-time-features</strong><p class=\"route-goal\">說得出cyclic-time-features的學習目的</p></a></li><li data-route-concept=\"multimodal-privacy-security\"><a class=\"route-concept\" href=\"/concepts/multimodal-privacy-security/\"><strong>multimodal-privacy-security</strong><p class=\"route-goal\">說得出multimodal-privacy-security的學習目的</p></a></li><li data-route-concept=\"ndcg\"><a class=\"route-concept\" href=\"/concepts/ndcg/\"><strong>ndcg</strong><p class=\"route-goal\">說得出ndcg的學習目的</p></a></li><li data-route-concept=\"open-weight-models\"><a class=\"route-concept\" href=\"/concepts/open-weight-models/\"><strong>open-weight-models</strong><p class=\"route-goal\">說得出open-weight-models的學習目的</p></a></li><li data-route-concept=\"text-generation-platforms\"><a class=\"route-concept\" href=\"/concepts/text-generation-platforms/\"><strong>text-generation-platforms</strong><p class=\"route-goal\">說得出text-generation-platforms的學習目的</p></a></li><li data-route-concept=\"development-toolchain\"><a class=\"route-concept\" href=\"/concepts/development-toolchain/\"><strong>development-toolchain</strong><p class=\"route-goal\">說得出development-toolchain的學習目的</p></a></li><li data-route-concept=\"text-generation-workflow\"><a class=\"route-concept\" href=\"/concepts/text-generation-workflow/\"><strong>text-generation-workflow</strong><p class=\"route-goal\">說得出text-generation-workflow的學習目的</p></a></li></ol></section>"
+    "content/codes/L00001.md": "<section data-stage=\"planned-reading\"><p class=\"stage-intro\">先確認問題，再讀各頁解釋及例子。</p><ol><li data-route-concept=\"ai-team-capability\"><a class=\"route-concept\" href=\"/concepts/ai-team-capability/\"><strong>ai-team-capability</strong><p class=\"route-goal\">說得出ai-team-capability的學習目的</p></a></li><li data-route-concept=\"cyclic-time-features\"><a class=\"route-concept\" href=\"/concepts/cyclic-time-features/\"><strong>cyclic-time-features</strong><p class=\"route-goal\">說得出cyclic-time-features的學習目的</p></a></li><li data-route-concept=\"multimodal-privacy-security\"><a class=\"route-concept\" href=\"/concepts/multimodal-privacy-security/\"><strong>multimodal-privacy-security</strong><p class=\"route-goal\">說得出multimodal-privacy-security的學習目的</p></a></li><li data-route-concept=\"ndcg\"><a class=\"route-concept\" href=\"/concepts/ndcg/\"><strong>ndcg</strong><p class=\"route-goal\">說得出ndcg的學習目的</p></a></li><li data-route-concept=\"open-weight-models\"><a class=\"route-concept\" href=\"/concepts/open-weight-models/\"><strong>open-weight-models</strong><p class=\"route-goal\">說得出open-weight-models的學習目的</p></a></li><li data-route-concept=\"text-generation-platforms\"><a class=\"route-concept\" href=\"/concepts/text-generation-platforms/\"><strong>text-generation-platforms</strong><p class=\"route-goal\">說得出text-generation-platforms的學習目的</p></a></li><li data-route-concept=\"development-toolchain\"><a class=\"route-concept\" href=\"/concepts/development-toolchain/\"><strong>development-toolchain</strong><p class=\"route-goal\">說得出development-toolchain的學習目的</p></a></li><li data-route-concept=\"text-generation-workflow\"><a class=\"route-concept\" href=\"/concepts/text-generation-workflow/\"><strong>text-generation-workflow</strong><p class=\"route-goal\">說得出text-generation-workflow的學習目的</p></a></li><li data-route-concept=\"color-space-conversion\"><a class=\"route-concept\" href=\"/concepts/color-space-conversion/\"><strong>color-space-conversion</strong><p class=\"route-goal\">說得出color-space-conversion的學習目的</p></a></li><li data-route-concept=\"data-consistency\"><a class=\"route-concept\" href=\"/concepts/data-consistency/\"><strong>data-consistency</strong><p class=\"route-goal\">說得出data-consistency的學習目的</p></a></li><li data-route-concept=\"data-types-time-parsing\"><a class=\"route-concept\" href=\"/concepts/data-types-time-parsing/\"><strong>data-types-time-parsing</strong><p class=\"route-goal\">說得出data-types-time-parsing的學習目的</p></a></li><li data-route-concept=\"feedback-loop\"><a class=\"route-concept\" href=\"/concepts/feedback-loop/\"><strong>feedback-loop</strong><p class=\"route-goal\">說得出feedback-loop的學習目的</p></a></li><li data-route-concept=\"financial-regulatory-sandbox\"><a class=\"route-concept\" href=\"/concepts/financial-regulatory-sandbox/\"><strong>financial-regulatory-sandbox</strong><p class=\"route-goal\">說得出financial-regulatory-sandbox的學習目的</p></a></li><li data-route-concept=\"generative-quality-metrics\"><a class=\"route-concept\" href=\"/concepts/generative-quality-metrics/\"><strong>generative-quality-metrics</strong><p class=\"route-goal\">說得出generative-quality-metrics的學習目的</p></a></li><li data-route-concept=\"high-availability\"><a class=\"route-concept\" href=\"/concepts/high-availability/\"><strong>high-availability</strong><p class=\"route-goal\">說得出high-availability的學習目的</p></a></li><li data-route-concept=\"image-resizing\"><a class=\"route-concept\" href=\"/concepts/image-resizing/\"><strong>image-resizing</strong><p class=\"route-goal\">說得出image-resizing的學習目的</p></a></li><li data-route-concept=\"machine-translation\"><a class=\"route-concept\" href=\"/concepts/machine-translation/\"><strong>machine-translation</strong><p class=\"route-goal\">說得出machine-translation的學習目的</p></a></li><li data-route-concept=\"medical-device-regulation\"><a class=\"route-concept\" href=\"/concepts/medical-device-regulation/\"><strong>medical-device-regulation</strong><p class=\"route-goal\">說得出medical-device-regulation的學習目的</p></a></li><li data-route-concept=\"privacy-regulations\"><a class=\"route-concept\" href=\"/concepts/privacy-regulations/\"><strong>privacy-regulations</strong><p class=\"route-goal\">說得出privacy-regulations的學習目的</p></a></li><li data-route-concept=\"scrum\"><a class=\"route-concept\" href=\"/concepts/scrum/\"><strong>scrum</strong><p class=\"route-goal\">說得出scrum的學習目的</p></a></li><li data-route-concept=\"speech-recognition-pipeline\"><a class=\"route-concept\" href=\"/concepts/speech-recognition-pipeline/\"><strong>speech-recognition-pipeline</strong><p class=\"route-goal\">說得出speech-recognition-pipeline的學習目的</p></a></li><li data-route-concept=\"telecom-regulation\"><a class=\"route-concept\" href=\"/concepts/telecom-regulation/\"><strong>telecom-regulation</strong><p class=\"route-goal\">說得出telecom-regulation的學習目的</p></a></li><li data-route-concept=\"video-frame-sampling\"><a class=\"route-concept\" href=\"/concepts/video-frame-sampling/\"><strong>video-frame-sampling</strong><p class=\"route-goal\">說得出video-frame-sampling的學習目的</p></a></li><li data-route-concept=\"virginia-cdpa\"><a class=\"route-concept\" href=\"/concepts/virginia-cdpa/\"><strong>virginia-cdpa</strong><p class=\"route-goal\">說得出virginia-cdpa的學習目的</p></a></li><li data-route-concept=\"visual-tracking\"><a class=\"route-concept\" href=\"/concepts/visual-tracking/\"><strong>visual-tracking</strong><p class=\"route-goal\">說得出visual-tracking的學習目的</p></a></li></ol></section>",
+    "content/concepts/color-space-conversion.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/data-consistency.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/data-types-time-parsing.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/feedback-loop.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/financial-regulatory-sandbox.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/generative-quality-metrics.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/high-availability.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/image-resizing.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/machine-translation.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/medical-device-regulation.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/privacy-regulations.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/scrum.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/speech-recognition-pipeline.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/telecom-regulation.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/video-frame-sampling.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/virginia-cdpa.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>",
+    "content/concepts/visual-tracking.md": "<main><div id=\"concept-body\"><p>固定教材正文</p></div></main>"
   },
   "sourceFiles": {
     "content/concepts/ai-team-capability.md": "---\nid: ai-team-capability\n---\n\n固定教材正文\n",
@@ -838,6 +2453,23 @@
     "content/concepts/fixture-parent.md": "---\nid: fixture-parent\n---\n\n固定教材正文\n",
     "content/concepts/fixture-child.md": "---\nid: fixture-child\n---\n\n固定教材正文\n",
     "content/codes/L00001.md": "固定路線來源\n",
-    "docs/specs/fixture-approval.md": "固定核可依據"
+    "docs/specs/fixture-approval.md": "固定核可依據",
+    "content/concepts/color-space-conversion.md": "---\nid: color-space-conversion\n---\n\n固定教材正文\n",
+    "content/concepts/data-consistency.md": "---\nid: data-consistency\n---\n\n固定教材正文\n",
+    "content/concepts/data-types-time-parsing.md": "---\nid: data-types-time-parsing\n---\n\n固定教材正文\n",
+    "content/concepts/feedback-loop.md": "---\nid: feedback-loop\n---\n\n固定教材正文\n",
+    "content/concepts/financial-regulatory-sandbox.md": "---\nid: financial-regulatory-sandbox\n---\n\n固定教材正文\n",
+    "content/concepts/generative-quality-metrics.md": "---\nid: generative-quality-metrics\n---\n\n固定教材正文\n",
+    "content/concepts/high-availability.md": "---\nid: high-availability\n---\n\n固定教材正文\n",
+    "content/concepts/image-resizing.md": "---\nid: image-resizing\n---\n\n固定教材正文\n",
+    "content/concepts/machine-translation.md": "---\nid: machine-translation\n---\n\n固定教材正文\n",
+    "content/concepts/medical-device-regulation.md": "---\nid: medical-device-regulation\n---\n\n固定教材正文\n",
+    "content/concepts/privacy-regulations.md": "---\nid: privacy-regulations\n---\n\n固定教材正文\n",
+    "content/concepts/scrum.md": "---\nid: scrum\n---\n\n固定教材正文\n",
+    "content/concepts/speech-recognition-pipeline.md": "---\nid: speech-recognition-pipeline\n---\n\n固定教材正文\n",
+    "content/concepts/telecom-regulation.md": "---\nid: telecom-regulation\n---\n\n固定教材正文\n",
+    "content/concepts/video-frame-sampling.md": "---\nid: video-frame-sampling\n---\n\n固定教材正文\n",
+    "content/concepts/virginia-cdpa.md": "---\nid: virginia-cdpa\n---\n\n固定教材正文\n",
+    "content/concepts/visual-tracking.md": "---\nid: visual-tracking\n---\n\n固定教材正文\n"
   }
 }
