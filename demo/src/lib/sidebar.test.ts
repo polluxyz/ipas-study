@@ -30,8 +30,8 @@ describe('學習側欄', () => {
     for (const location of [{ pathname: '/codes/L21101/' }, { pathname: '/practice/L21101/' }, { pathname: '/concepts/first/' }, { pathname: '/questions/q/' }]) {
       const current = resolveRouteContext(location, routes, [{ id: 'first', codes: ['L21101', 'L23303'] }], [{ id: 'q', codes: ['L21101'] }]);
       const sidebar = buildStudySidebar(routes, current, titles);
-      expect(sidebar.map(({ label }) => label)).toEqual(['學習總覽', '概念目錄', '概念地圖', '我的錯題本', '本次學習路線', '科目 1', '科目 3']);
-      expect(sidebar[4]).toEqual({ label: '本次學習路線', items: [
+      expect(sidebar.map(({ label }) => label)).toEqual(['學習總覽', '概念目錄', '概念地圖', '我的錯題本', 'L21101 自然語言', '科目 1', '科目 3']);
+      expect(sidebar[4]).toEqual({ label: 'L21101 自然語言', items: [
         { label: '一、基礎', collapsed: true, items: [{ label: '第一節', link: '/concepts/first/' }] },
         { label: '二、應用', collapsed: true, items: [{ label: '第二節', link: '/concepts/second/' }] },
       ] });
