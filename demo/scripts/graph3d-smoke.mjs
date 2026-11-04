@@ -130,7 +130,13 @@ export async function main() {
       const fault = await context({}, true), p = await fault.newPage(); let requests = 0;
       if (failure !== 'offline') await fault.route('**/graph/*.json', async (route) => { requests++; if (failure === '404') return route.fulfill({ status: 404, body: 'missing' }); if (failure === 'invalid-json') return route.fulfill({ status: 200, contentType: 'application/json', body: '{' }); const bad = failure === 'invalid-format' ? {} : { ...data, [failure]: failure === 'format' ? 9 : 'wrong' }; return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(bad) }); });
       p.on('request', (r) => { if (failure === 'offline' && graphUrl(r.url())) requests++; }); await p.goto(`${base}/concepts/cnn/`); assert.equal((await trace(p)).fetches.length, 0);
-      if (failure === 'offline') { await p.evaluate((url) => import(url).then(() => undefined), Object.keys(audit.chunks).find((url) => url.includes('graph3d-client'))); assert.equal((await trace(p)).fetches.length, 0); await fault.setOffline(true); }
+      if (failure === 'offline') {
+        // Starlight在idle才匯入搜尋；依r3先等必要頁面資產，不能把搜尋失敗當圖失敗。
+        await p.waitForFunction(() => !!document.querySelector('#starlight__search input'));
+        await p.evaluate(async () => { await document.fonts.ready; });
+        await p.evaluate((url) => import(url).then(() => undefined), Object.keys(audit.chunks).find((url) => url.includes('graph3d-client')));
+        assert.equal((await trace(p)).fetches.length, 0); await fault.setOffline(true);
+      }
       await p.locator('[data-graph3d]>summary').click(); await p.waitForFunction(() => !document.querySelector('[data-role=retry]').hidden); assert.equal(await p.locator(role('interactive')).isVisible(), false); assert.ok(await p.locator(`${role('fallback')} a`).count() > 0); assert.ok(await p.locator('#concept-body').count());
       await p.locator(role('retry')).click(); await p.waitForTimeout(150); assert.equal(await p.locator(role('retry')).isDisabled(), true); assert.equal(requests, 2); await p.locator('[data-graph3d]>summary').click(); await p.locator('[data-graph3d]>summary').click(); await p.waitForTimeout(100); assert.equal(requests, 2); report.cases[`failure-${failure}`] = { requests, fallback: true, retryLimit: true }; await fault.close();
     }
