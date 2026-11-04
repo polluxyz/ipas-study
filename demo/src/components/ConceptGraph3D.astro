@@ -1,0 +1,58 @@
+---
+/** 共用收合面板保留SSR入口，載入圖資產失敗仍可讀原表。 */
+import { getGraphData, graphAssetUrl } from '../lib/graph3d-build';
+import { LABELS, TYPES, COLORS } from '../lib/graph3d-types';
+import Sources from './Sources.astro';
+import '../styles/graph3d.css';
+interface Props { conceptId?: string; }
+const { conceptId = '' } = Astro.props;
+const graph = await getGraphData();
+const direct = graph.formalEdges.filter((edge) => edge.source === conceptId || edge.target === conceptId);
+const byId = new Map(graph.concepts.map((node) => [node.id, node]));
+const title = (id: string) => byId.get(id)?.title ?? id;
+---
+<details class="graph3d" data-pagefind-ignore data-graph3d data-local={conceptId} data-url={graphAssetUrl(graph)} data-head={graph.head} data-hash={graph.sourceHash} data-format={graph.format} open={!conceptId}>
+  <summary>{conceptId ? '展開局部3D概念圖' : '探索全站3D概念圖'}<span>{conceptId ? '以本頁為中心，查看1–2跳鄰接' : `${graph.concepts.length}個概念 · ${graph.units.length}個單元`}</span></summary>
+  <div class="g3-content">
+    <p class="g3-status" data-role="status" role="status">{conceptId ? '展開後才載入圖資料。下方原關係表可直接閱讀。' : '圖資料載入後，可旋轉與搜尋全部概念。'}</p>
+    <button type="button" data-role="retry" hidden>重新載入圖資料（限1次）</button>
+    <button type="button" data-role="reload" hidden>重新載入本頁</button>
+    <div data-role="interactive" hidden>
+      {!conceptId && <div class="g3-filters">
+        <label>科目<select data-role="subject"><option value="all">科目1＋科目3</option><option value="1">科目1</option><option value="3">科目3</option></select></label>
+        <label>單元<select data-role="unit"><option value="all">全部單元</option>{graph.units.map((unit) => <option value={unit.id}>{unit.id} · {unit.title}</option>)}</select></label>
+        <label class="g3-search">搜尋名稱、別名或ID<input type="search" data-role="search" autocomplete="off" placeholder="例如 CNN 或 cnn" /><div data-role="results" class="g3-results" hidden></div></label>
+        <label>顯示<select data-role="mode"><option value="concept">概念節點</option><option value="unit">單元聚合</option></select></label>
+      </div>}
+      <div class="g3-controls">
+        <label>鄰接範圍<select data-role="hops">{!conceptId && <option value="0">範圍全部</option>}<option value="1" selected={!!conceptId}>1跳</option><option value="2">2跳</option></select></label>
+        {!conceptId && <label><input type="checkbox" data-role="outside" checked />保留範圍外鄰接</label>}
+        <label><input type="checkbox" data-role="body" />正文提到（輔助層）</label>
+        {conceptId && <button type="button" data-action="home">回本頁中心</button>}
+        <a data-role="map-link" href={conceptId ? `/map/?selected=${conceptId}&hops=1` : '/concepts/'}>{conceptId ? '在全站圖開啟' : '閱讀全部概念'}</a>
+      </div>
+      {!conceptId && <fieldset class="g3-types"><legend>正式關係（箭頭保留原方向，易混淆為雙箭頭）</legend>{TYPES.map((type) => <label style={`--g3-color:${COLORS[type]}`}><input type="checkbox" value={type} data-type checked /><i aria-hidden="true"></i>{LABELS[type]}<small>{graph.formalEdges.filter((edge) => edge.type === type).length}</small></label>)}</fieldset>}
+      <p data-role="center" class="g3-meta"></p>
+      <div class="g3-chart" data-role="chart">
+        <p data-role="count" class="g3-count"></p>
+        <div class="g3-scene"><canvas data-role="canvas" tabindex="0" aria-label="可旋轉3D概念圖；方向鍵旋轉，加減鍵縮放，Home重設。文字清單在下方。"></canvas><div data-role="tooltip" class="g3-tooltip" hidden></div></div>
+        <div class="g3-toolbar" aria-label="圖形操作">
+          <button type="button" data-action="zoom-in" aria-label="放大概念圖">＋</button><button type="button" data-action="zoom-out" aria-label="縮小概念圖">−</button><button type="button" data-action="fit">置中</button><button type="button" data-action="reset">重設</button><button type="button" data-action="touch" aria-pressed="false">開啟觸控旋轉</button>
+        </div>
+        <p class="g3-help">拖曳旋轉 · 滾輪縮放 · 方向鍵旋轉 · ＋／−縮放 · Home重設。觸控預設可捲動，開啟旋轉後單指旋轉、雙指縮放。</p>
+      </div>
+      <p class="g3-meta">距離只表示配置位置，不代表相似度或難度。圖上名稱依空間省略，完整名稱見文字清單。橘色為科目1，綠色為科目3；藍框為跨科，菱形為無正式關係的核可閱讀入口。外圈也標記已讀概念。</p>
+      <section class="g3-inspector" aria-label="選取概念明細"><h3 data-role="detail-title" tabindex="-1">選取概念查看明細</h3><div data-role="detail"></div></section>
+      <details class="g3-list"><summary>目前範圍的完整文字清單</summary><div data-role="list"></div></details>
+      <details class="g3-list"><summary>目前範圍的全部連線與來源</summary><div data-role="edges"></div></details>
+    </div>
+    <div data-role="fallback" class="g3-fallback">
+      {conceptId ? <><p>本頁直接正式關係：{direct.length}條。圖資料不可用時，仍可沿文字入口閱讀。</p><ul>{direct.map((edge) => <li><a href={`/concepts/${edge.source}/`}>{title(edge.source)}</a> {edge.directed ? '→' : '↔'} {LABELS[edge.type]} <a href={`/concepts/${edge.target}/`}>{title(edge.target)}</a>{edge.note && <p>{edge.note}</p>}<Sources sources={edge.sources} /></li>)}</ul><a href={`/map/?selected=${conceptId}&hops=1`}>在全站圖開啟本頁</a></> : <p>圖資料不可用時，請使用下方按單元分組的完整概念清單。</p>}
+    </div>
+    <noscript><p>互動圖需要JavaScript。請沿本頁文字入口及原關係表閱讀。</p></noscript>
+  </div>
+</details>
+<script>
+  import { bootGraphs } from '../lib/graph3d-boot';
+  bootGraphs();
+</script>

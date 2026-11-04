@@ -291,7 +291,7 @@ export async function freshOutput(directory, repo = root) {
   return destination;
 }
 
-const sourcePaths = ['content', 'demo/src', 'demo/public', 'demo/plugins', 'demo/scripts', 'demo/astro.config.mjs', 'demo/tsconfig.json', 'demo/package.json', 'demo/pnpm-lock.yaml', 'package.json', 'pnpm-lock.yaml', '.node-version'];
+const sourcePaths = ['content', 'demo/src', 'demo/public', 'demo/plugins', 'demo/scripts', 'demo/astro.config.mjs', 'demo/tsconfig.json', 'demo/package.json', 'demo/pnpm-lock.yaml', 'package.json', 'pnpm-lock.yaml', '.node-version', 'docs/acceptance/concept-entry-exceptions.json'];
 export async function sourceSnapshot(repo = root) {
   const git = (args) => execFileSync('git', args, { cwd: repo, encoding: 'utf8' }).trim();
   assert.equal(git(['diff', '--name-only', 'HEAD', '--', ...sourcePaths]), '', '建置來源有未提交變動');
@@ -803,17 +803,27 @@ export function assertCompanion(name, envelope, binding, content) {
     assert.equal(r.selfCheckOrdering?.conceptPages, content.codes.find((c) => c.code === 'L23303').concepts.length);
     assert.equal(r.supplementS4b?.mobile, true); assert.ok(r.mobile?.length >= 5); assert.ok(r.links > 0); assertSearchTop3(r.searchFirst, r.searchTop3, '/concepts/data-leakage/');
   } else if (name === 'map') {
-    for (const flag of ['mobilePan', 'bodyOptIn', 'bodyHiddenByDefault', 'canvasLayersAligned', 'nodeNavigation', 'readingMark', 'edgeHasNoTooltip', 'zoom']) assert.equal(r[flag], true, flag);
-    const route = content.codes.find((c) => c.code === 'L23303'), nodes = route.stages.flatMap((s) => s.concepts).length;
-    assert.equal(r.concepts, nodes); assert.equal(r.nodeBottomHover, nodes); assert.equal(r.completeRelationPanels, nodes);
-    assert.equal(r.filters?.length, route.stages.length); assert.equal(r.gridScans?.length, 3);
-    assert.deepEqual(r.filters.map((s) => [s.stage, s.nodes]), route.stages.map((s) => [s.id, s.concepts.length]));
-    const included = new Set(route.concepts);
-    const typed = content.concepts.filter((c) => included.has(c.id)).flatMap((c) => ['is_a', 'part_of', 'requires', 'mitigates', 'contrasts'].flatMap((type) => (c[type] ?? []).filter((e) => included.has(typeof e === 'string' ? e : e.target)).map(() => type)));
-    assert.equal(r.typedRelations, typed.length);
-    assert.deepEqual(r.relationTypes.map((r) => [r.type, r.actual, r.expected]), ['is_a', 'part_of', 'requires', 'mitigates', 'contrasts'].map((type) => [type, typed.filter((t) => t === type).length, typed.filter((t) => t === type).length]));
-    assert.deepEqual(r.gridScans.map((s) => [s.viewport.width, s.viewport.height, s.scrollY]), [[1440, 900, 0], [1920, 1080, 0], [1440, 900, 300]]);
-    for (const scan of r.gridScans) { assert.equal(scan.mismatches, 0); assert.ok(scan.points > 0 && scan.nodePoints > 0 && scan.blankPoints > 0); }
+    assert.equal(r.reportKind, 'full-site-3d-v1', '舊局部原型報告不可當正式全站3D證據');
+    assert.equal(r.browser, '156.0.8078.4');
+    assert.equal(r.cases.moduleReload, true, '模組失敗須可明確重新載入本頁並恢復');
+    assert.equal(r.cases.readingInterface, true, '已讀必須沿用原介面並反映在圖中');
+    assert.equal(r.head, binding.receipt.sha); assert.match(r.sourceHash, /^[a-f0-9]{64}$/);
+    assert.deepEqual(r.conceptIds, content.concepts.map((c) => c.id).sort()); assert.deepEqual(r.unitIds, content.codes.map((c) => c.code).sort()); assert.equal(r.inlinePanels, content.concepts.length);
+    const types = ['is_a', 'part_of', 'requires', 'mitigates', 'contrasts'];
+    const edges = content.concepts.flatMap((c) => types.flatMap((type) => (c[type] ?? []).map((e) => ({ id: `${type}:${c.id}:${typeof e === 'string' ? e : e.target}`, type }))));
+    assert.deepEqual(r.edgeIds, edges.map((e) => e.id).sort()); assert.deepEqual(r.formalByType, Object.fromEntries(types.map((type) => [type, edges.filter((e) => e.type === type).length])));
+    const asset = binding.receipt.inventory.find((f) => f.path === `graph/${r.head}-${r.sourceHash}.json`); assert.ok(asset, '圖資產須屬同一建置收據'); assert.equal(r.assetSha256, asset.sha256);
+    for (const flag of ['collapsedZeroFetch', 'bodyDefaultOff', 'exactRelationCards', 'exactNeighborhood', 'bodyOptIn', 'inspectionSeparate', 'changeCenterAndHome', 'cacheReopen', 'realMapLink', 'shareExit', 'outsideBoundary', 'allScopes', 'fiveTypes', 'aggregate', 'searchKeyboard', 'rightDrag', 'keyboardCamera', 'hoverRestoresSelection', 'faintArrows', 'canvasNoScroll', 'canvasFallback', 'noJsFallback', 'touchShortTap', 'touchOutsideScroll', 'touchEmulated']) assert.equal(r.cases?.[flag], true, flag);
+    for (const kind of ['404', 'offline', 'invalid-json', 'invalid-format', 'head', 'sourceHash', 'format']) assert.deepEqual(r.cases[`failure-${kind}`], { requests: 2, fallback: true, retryLimit: true });
+    assert.deepEqual(r.cases.collapse, { aborted: 0, lateDraws: 0, requests: 1 }); assert.deepEqual(r.cases.unmount, { aborted: 1, lateDraws: 0, requests: 1 });
+    assert.deepEqual(r.cases.twoConsumers, { requests: 1, aborted: 0, remainingReady: true }); assert.deepEqual(r.cases.freshAfterAbort, { requests: 2, aborted: 1, remainingReady: true });
+    assert.deepEqual(r.cases.bfcache, { persisted: true, fetchesInRestoredDocument: 1 }); assert.deepEqual(r.cases['bfcache-pending'], { persisted: true, requests: 1, aborted: 1, fetchesInDocument: 1 }); assert.deepEqual(r.cases['bfcache-retryExhausted'], { persisted: true, requests: 2, aborted: 0, fetchesInDocument: 2 });
+    assert.ok(r.cases.visibleKeyboardFocus.concepts > 0 && r.cases.visibleKeyboardFocus.tabs > 0);
+    assert.deepEqual(r.widths.map((v) => [v.width, v.overflow]), [[320, 0], [375, 0], [1440, 0]]);
+    for (const group of [r.performance, r.globalPerformance]) { assert.deepEqual(group.map((p) => p.width), [1440, 320]); for (const p of group) { assert.equal(p.cpuRate, 4); assert.equal(p.samples.length, 120); assert.ok(p.samples.every((s) => Number.isFinite(s) && s >= 0)); assert.equal(p.p95, [...p.samples].sort((a, b) => a - b)[113]); assert.ok(p.p95 <= 16); } }
+    for (const p of r.performance) assert.ok(Number.isFinite(p.readyToInteractive) && p.readyToInteractive >= 0 && p.readyToInteractive <= 200);
+    assert.equal(r.cacheReopenMs.length, 10); assert.ok(Math.max(...r.cacheReopenMs) <= 100);
+    for (const [key, limit] of Object.entries({ js: 32768, boot: 2048, data: 229376, html: 4096, css: 6144 })) { assert.equal(r.budgets[key].limit, limit); assert.ok(r.budgets[key].actual <= limit); }
   } else if (name === 'figures') {
     assert.equal(r.figures, 5); assert.equal(r.formulas, 3); assert.equal(r.mathml, 3); assert.equal(r.searchable, true); assert.equal(r.mobileWidth, 375); assert.ok(r.darkTextContrast >= 4.5);
   } else if (name === 'cheatsheets') {

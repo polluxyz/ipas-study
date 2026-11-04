@@ -1,45 +1,14 @@
 ---
-/** 全域地圖原型沿用學習階段，讓讀者先看全貌，再沿概念與有來源的關係深入。 */
+/** 全站圖使用當版概念；文字入口由伺服器產生，無JavaScript仍可閱讀。 */
 import StudyPage from '../components/StudyPage.astro';
-import { getData } from '../lib/content';
-import { buildConceptMap, relationTypes, relationLabels, relationColors } from '../lib/concept-map';
-import '../styles/concept-map.css';
-const { concepts, codes, questions } = await getData();
-const route = codes.find((entry) => entry.data.code === 'L23303');
-const map = { ...buildConceptMap(concepts, route?.data.stages ?? []), questionIds: questions.map((question) => question.id) };
-const typedCount = map.edges.filter((edge) => edge.type !== 'body').length;
+import ConceptGraph3D from '../components/ConceptGraph3D.astro';
+import { getGraphData } from '../lib/graph3d-build';
+const graph = await getGraphData();
 ---
-<StudyPage title="把觀念，連成一張地圖。" description="探索 L23303 的概念、前置知識與易混淆考點。" section="概念地圖">
-  <div class="concept-map" id="concept-map">
-    <div class="map-intro"><p>L23303 <span>／</span> 模型訓練、評估與驗證</p><a href="/codes/L23303/">回到學習路線 ↗</a></div>
-    <p class="map-description">從全貌找到下一個學習點。滑過方格看學習目標，點擊方格在下方查看完整關係。</p>
-    <div class="map-toolbar">
-      <label>階段<select id="map-stage"><option value="all">全部 6 個階段</option>{map.stages.map((stage, index) => <option value={stage.id}>{index + 1} · {stage.title}</option>)}</select></label>
-      <label>聚焦概念<select id="map-focus"><option value="">探索全部概念</option>{map.nodes.map((node) => <option value={node.id}>{node.title}</option>)}</select></label>
-      <button type="button" id="map-reset">重設地圖 ↺</button>
-    </div>
-    <fieldset class="map-relations"><legend>顯示關係 <span>箭頭由本概念指向目標；易混淆以雙箭頭表示</span></legend>
-      {relationTypes.map((type) => <label style={`--relation-color:${relationColors[type]}`}><input type="checkbox" value={type} checked data-map-relation /><span class:list={['map-line-key', type]} aria-hidden="true"></span>{relationLabels[type]}<small>{map.edges.filter((edge) => edge.type === type).length}</small></label>)}
-      <label class="map-body-toggle"><input type="checkbox" id="map-body" /><span class="map-line-key body" aria-hidden="true"></span>正文提到（非正式關係，無方向）<small>{map.edges.filter((edge) => edge.type === 'body').length}</small></label>
-    </fieldset>
-    <div class="map-surface">
-      <div class="map-canvas" id="map-canvas" role="img" aria-label="30 個概念的互動關係圖；亦可用上方選單與下方概念清單操作"></div>
-      <div class="map-corner"><span class="map-live-dot"></span><span id="map-count">{map.nodes.length} 個概念 · {typedCount} 條關係</span></div>
-      <div class="map-zoom" aria-label="地圖縮放"><button type="button" id="map-zoom-in" aria-label="放大地圖">＋</button><button type="button" id="map-zoom-out" aria-label="縮小地圖">−</button><button type="button" id="map-fit" aria-label="顯示整張地圖">⛶</button></div>
-      <div class="map-tooltip" id="map-tooltip" role="status" hidden></div>
-    </div>
-    <div class="map-stage-legend" aria-label="節點顏色代表學習階段">{map.stages.map((stage, index) => <span><i style={`background:${stage.color}`}></i>{index + 1} · {stage.title}</span>)}</div>
-    <p class="map-help">拖曳空白處平移 · 雙指或滾輪縮放 · ✓ 表示已讀 · 只有方格顯示提示，連線說明與來源請點選方格查看</p>
-    <section class="map-inspector" aria-label="概念與關係說明">
-      <div><span class="eyebrow" id="map-detail-eyebrow">從一個概念出發</span><h2 id="map-detail-title">每條連線，都有不同意思。</h2><p id="map-detail-goal">滑過方格看學習目標；點選方格或使用「聚焦概念」，在這裡查看完整關係、考點與來源。</p><a class="button primary" id="map-open-concept" href="/codes/L23303/">依路線開始學習 ↗</a></div>
-      <div id="map-detail-relations"><p class="map-empty">先選一個概念，這裡會列出它的關係與比較重點。</p></div>
-    </section>
-    <details class="map-catalog"><summary>以清單閱讀全部 {map.nodes.length} 個概念</summary><div>{map.stages.map((stage) => <section><h3>{stage.title}</h3><ul>{map.nodes.filter((node) => node.stage === stage.id).map((node) => <li><a href={`/concepts/${node.id}/`}>{node.title}</a></li>)}</ul></section>)}</div></details>
-    <noscript><p>請使用下方概念清單閱讀；互動地圖需要啟用 JavaScript。</p></noscript>
-  </div>
+<StudyPage title="把觀念，連成一張地圖。" description="探索科目1與科目3的全部概念、正式關係與來源。" section="概念地圖">
+  <p>從全站找到概念，再查看1跳或2跳鄰接。每個概念只出現1次。正文提到的連線預設關閉。</p>
+  <ConceptGraph3D />
+  <details class="g3-catalog" id="concept-catalog" data-pagefind-ignore><summary>按單元閱讀全部{graph.concepts.length}個概念</summary>
+    {graph.units.map((unit) => <section><h2><a href={`/codes/${unit.id}/`}>{unit.id} · {unit.title}</a></h2><p>{unit.ownedCount}個負責概念／{unit.memberCount}個成員概念。此清單按負責單元分組。</p><ul>{graph.concepts.filter((node) => node.owner === unit.id).map((node) => <li><a href={`/concepts/${node.id}/`} data-catalog-id={node.id}>{node.title}</a>{node.exception && ' · 核可閱讀入口（無正式關係）'}{node.subjects.length > 1 && ' · 跨科共用'}</li>)}</ul></section>)}
+  </details>
 </StudyPage>
-<script type="application/json" id="concept-map-data" set:html={JSON.stringify(map).replace(/</g, '\u003c')}></script>
-<script>
-  import { initConceptMap } from '../lib/concept-map-client';
-  initConceptMap();
-</script>
