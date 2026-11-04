@@ -20,13 +20,42 @@ vi.mock('node:fs/promises', async (original) => {
     if (!disk.repo || typeof file !== 'string') return file;
     const relative = path.relative(disk.repo, file).split(path.sep).join('/');
     // 只把被測模組的來源／dist 讀取導向真實 fixture；不替換雜湊或驗證函式。
-    return /^(?:content\/|demo\/(?:src\/|dist(?:\/|$))|\.node-version$)/.test(relative)
+    return /^(?:content\/|demo\/(?:src\/|dist(?:\/|$))|\.node-version$|docs\/acceptance\/concept-entry-exceptions\.json$)/.test(relative)
       ? path.resolve(disk.fixture, relative) : file;
   };
   return { ...actual, ...Object.fromEntries(['readFile', 'readdir', 'stat'].map((name) =>
     [name, (file, ...args) => actual[name](redirect(file), ...args)])) };
 });
 import { assertCompanion, assertFeatureInventory, assertInlineCodeInventory, assertSearchSummaries, claimSearchInput, collectSingleColumnCells, distSnapshot, gotoSettled, guardBuildContext, parseFeatureBlocks, readApiResponse, renderedCodeText, routeLocalOnly, savePartialAssertion, searchKeyboardTarget, searchSnapshot, settlePage, sourceFeatures, sourceFigureTable, sourceInlineCodes, sourceSnapshot, verifyFeatures, waitForSearch, watchBuildResponses } from './rollout-smoke.mjs';
+
+describe('正式全站3D companion', () => {
+  function setup() {
+    const sha = 'abc', sourceHash = 'a'.repeat(64), content = { concepts: [{ id: 'a', requires: ['b'] }, { id: 'b' }], codes: [{ code: 'L21101' }] };
+    const binding = { receipt: { sha, inventory: [{ path: `graph/${sha}-${sourceHash}.json`, sha256: 'asset' }] }, receiptDigest: 'digest' };
+    const flags = ['collapsedZeroFetch', 'bodyDefaultOff', 'exactRelationCards', 'exactNeighborhood', 'bodyOptIn', 'inspectionSeparate', 'changeCenterAndHome', 'cacheReopen', 'realMapLink', 'shareExit', 'outsideBoundary', 'allScopes', 'fiveTypes', 'aggregate', 'searchKeyboard', 'rightDrag', 'keyboardCamera', 'hoverRestoresSelection', 'faintArrows', 'canvasNoScroll', 'canvasFallback', 'noJsFallback', 'touchShortTap', 'touchOutsideScroll', 'touchEmulated'];
+    const cases = Object.fromEntries(flags.map((flag) => [flag, true]));
+    for (const kind of ['404', 'offline', 'invalid-json', 'invalid-format', 'head', 'sourceHash', 'format']) cases[`failure-${kind}`] = { requests: 2, fallback: true, retryLimit: true };
+    Object.assign(cases, { collapse: { aborted: 0, lateDraws: 0, requests: 1 }, unmount: { aborted: 1, lateDraws: 0, requests: 1 }, twoConsumers: { requests: 1, aborted: 0, remainingReady: true }, freshAfterAbort: { requests: 2, aborted: 1, remainingReady: true }, bfcache: { persisted: true, fetchesInRestoredDocument: 1 }, 'bfcache-pending': { persisted: true, requests: 1, aborted: 1, fetchesInDocument: 1 }, 'bfcache-retryExhausted': { persisted: true, requests: 2, aborted: 0, fetchesInDocument: 2 }, visibleKeyboardFocus: { concepts: 2, tabs: 3 } });
+    const report = { sha, buildSha: sha, receiptDigest: 'digest', completed: true, reportKind: 'full-site-3d-v1', head: sha, sourceHash, conceptIds: ['a', 'b'], unitIds: ['L21101'], inlinePanels: 2, edgeIds: ['requires:a:b'], formalByType: { is_a: 0, part_of: 0, requires: 1, mitigates: 0, contrasts: 0 }, assetSha256: 'asset', browserErrors: [], externalRequests: [], assetFailures: [], cases, widths: [320, 375, 1440].map((width) => ({ width, overflow: 0 })), performance: [1440, 320].map((width) => ({ width, cpuRate: 4, samples: Array(120).fill(2), p95: 2, readyToInteractive: 80 })), cacheReopenMs: Array(10).fill(30), budgets: Object.fromEntries(Object.entries({ js: 32768, boot: 2048, data: 229376, html: 4096, css: 6144 }).map(([key, limit]) => [key, { actual: limit - 1, limit }])) };
+    report.globalPerformance = report.performance;
+    report.browser = '156.0.8078.4';
+    report.cases.moduleReload = true;
+    report.cases.readingInterface = true;
+    return { report, content, binding };
+  }
+  it('接受同版全概念及資產證據', () => { const { report, content, binding } = setup(); expect(() => assertCompanion('map', report, binding, content)).not.toThrow(); });
+  it.each(['legacy', 'node', 'edge', 'unit', 'asset', 'lifecycle', 'budget'])('拒絕舊原型或錯誤正式證據 %s', (kind) => {
+    const { report, content, binding } = setup();
+    if (kind === 'legacy') { delete report.reportKind; report.concepts = 30; }
+    if (kind === 'node') report.conceptIds = ['a'];
+    if (kind === 'edge') report.edgeIds = ['requires:b:a'];
+    if (kind === 'unit') report.unitIds = ['L23303'];
+    if (kind === 'asset') report.assetSha256 = 'old';
+    if (kind === 'lifecycle') report.cases.collapse.lateDraws = 1;
+    if (kind === 'budget') report.budgets.boot.actual = 2049;
+    expect(() => assertCompanion('map', report, binding, content)).toThrow();
+  });
+});
 
 describe('來源程式與視覺行的完整性', () => {
   it('圖值表由原資料重算，改表頭、改數值、增刪列都必須拒絕', async () => {
@@ -274,10 +303,11 @@ beforeAll(async () => {
   const directory = resolve(import.meta.dirname, '../../tmp/rollout/browser-response-race/fixtures');
   await mkdir(directory, { recursive: true });
   disk.fixture = await mkdtemp(resolve(directory, 'repo-'));
-  for (const dir of ['content', 'demo/src', 'demo/dist']) await mkdir(resolve(disk.fixture, dir), { recursive: true });
+  for (const dir of ['content', 'demo/src', 'demo/dist', 'docs/acceptance']) await mkdir(resolve(disk.fixture, dir), { recursive: true });
   for (const [path, body] of Object.entries({ 'content/fixture.md': '來源 fixture', 'demo/src/entry.js': '// fixture', '.node-version': '22', 'demo/dist/index.html': html, 'demo/dist/asset.js': 'export default 1;' })) {
     await writeFile(resolve(disk.fixture, path), body);
   }
+  await writeFile(resolve(disk.fixture, 'docs/acceptance/concept-entry-exceptions.json'), '{"entries":[]}');
   const git = (...args) => execFileSync('git', args, { cwd: disk.fixture, encoding: 'utf8' });
   git('init', '-q'); git('add', '.');
   git('-c', 'user.name=Offline fixture', '-c', 'user.email=fixture@example.test', 'commit', '-qm', 'fixture');
@@ -289,8 +319,14 @@ beforeEach(async () => {
   binding = { receipt, receiptDigest: createHash('sha256').update(JSON.stringify(receipt)).digest('hex') };
 });
 afterEach(async () => {
+  await writeFile(resolve(disk.fixture, 'docs/acceptance/concept-entry-exceptions.json'), '{"entries":[]}');
   await writeFile(resolve(disk.fixture, 'content/fixture.md'), '來源 fixture');
   await writeFile(resolve(disk.fixture, 'demo/dist/index.html'), html);
+});
+
+describe('圖資產新增來源的收據約束', () => {
+  it('例外清單納入真實來源快照', async () => { const snapshot = await sourceSnapshot(); expect(snapshot.sources.some((s) => s.path === 'docs/acceptance/concept-entry-exceptions.json')).toBe(true); });
+  it('例外清單變更使舊收據失效', async () => { const h = await harness({ close: async () => writeFile(resolve(disk.fixture, 'docs/acceptance/concept-entry-exceptions.json'), '{"entries":[{"id":"changed"}]}') }); await delivery(h.context).run(); await rejected(h, /建置來源有未提交變動/); });
 });
 
 async function harness(options = {}) {
