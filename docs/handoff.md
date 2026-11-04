@@ -51,6 +51,7 @@ R6獨立新16對的原分數仍是12/16，低於14/16門檻。沒有重選或改
 - Root為D:/ipas-study；GitHub僅polluxyz/ipas-study。不要重做公開遷移。
 - 本輪Run為run_0668a2365727，generation9。Root attested handle為term_3f83725a-88e3-4d1e-a1bd-1be5289ec446。不要使用舊term_35573d0f作--from。
 - 使用者問答term_0edc63bb-1d4d-44fb-b56d-7551f2581f26及user-feedback-fixes工作樹不可關閉或重派。term_80ebf0cf-a74c-41a9-97dd-ea4fda13a398也由使用者接管。
+- 審查終端term_e9507943-6bc8-4a5f-abb9-d7ed536bf64f已由使用者接管。worker-release回覆user_takeover，沒有關閉進程。保留此終端與full-site-3d工作樹，不再沿用本輪已完成Dispatch。
 - 4321常駐term_05c14a9a-1fb2-4990-9b03-4db3dcc64a4f、候選4336常駐term_f62857d4-39d6-4517-a805-729c1d3baa1d均勿關。4334與舊原型／失敗N服務也保留，完整清單見協調checkpoint。
 - 前端工作樹為E:/orca/workspaces/ipas-study/full-site-3d-production-20261104。內容工作樹為同根relations-semantic-corrections。兩者仍供受保護預覽使用，不刪工作樹或強制刪本機分支。
 - 新工作不得復用已完成的Task／Dispatch。修改教材仍需非作者主審；不改PDF/text、官方答案、既有ID或手改分析CSV。
