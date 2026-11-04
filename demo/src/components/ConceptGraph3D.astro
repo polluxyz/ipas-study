@@ -35,16 +35,13 @@ const title = (id: string) => byId.get(id)?.title ?? id;
       <p data-role="center" class="g3-meta"></p>
       <div class="g3-chart" data-role="chart">
         <p data-role="count" class="g3-count"></p>
-        <div class="g3-scene"><canvas data-role="canvas" tabindex="0" aria-label="可旋轉3D概念圖；方向鍵旋轉，加減鍵縮放，Home重設。文字清單在下方。"></canvas><div data-role="tooltip" class="g3-tooltip" hidden></div></div>
+        <div class="g3-scene"><canvas data-role="canvas" tabindex="0" aria-label="可旋轉3D概念圖；方向鍵旋轉，加減鍵縮放，Home重設。移至節點查看完整資訊，點選保留高亮。"></canvas><div data-role="tooltip" class="g3-tooltip" hidden></div></div>
         <div class="g3-toolbar" aria-label="圖形操作">
           <button type="button" data-action="zoom-in" aria-label="放大概念圖">＋</button><button type="button" data-action="zoom-out" aria-label="縮小概念圖">−</button><button type="button" data-action="fit">置中</button><button type="button" data-action="reset">重設</button><button type="button" data-action="touch" aria-pressed="false">開啟觸控旋轉</button>
         </div>
         <p class="g3-help">拖曳旋轉 · 滾輪縮放 · 方向鍵旋轉 · ＋／−縮放 · Home重設。觸控預設可捲動，開啟旋轉後單指旋轉、雙指縮放。</p>
       </div>
-      <p class="g3-meta">距離只表示配置位置，不代表相似度或難度。圖上名稱依空間省略，完整名稱見文字清單。橘色為科目1，綠色為科目3；藍框為跨科，菱形為無正式關係的核可閱讀入口。外圈也標記已讀概念。</p>
-      <section class="g3-inspector" aria-label="選取概念明細"><h3 data-role="detail-title" tabindex="-1">選取概念查看明細</h3><div data-role="detail"></div></section>
-      <details class="g3-list"><summary>目前範圍的完整文字清單</summary><div data-role="list"></div></details>
-      <details class="g3-list"><summary>目前範圍的全部連線與來源</summary><div data-role="edges"></div></details>
+      <p class="g3-meta">距離只表示配置位置，不代表相似度或難度。圖上名稱依空間省略，移至節點可查看完整名稱與資訊。點選可保留高亮，再用鄰接範圍切換中心。橘色為科目1，綠色為科目3；藍框為跨科，菱形為無正式關係的核可閱讀入口。外圈也標記已讀概念。</p>
     </div>
     <div data-role="fallback" class="g3-fallback">
       {conceptId ? <><p>本頁直接正式關係：{direct.length}條。圖資料不可用時，仍可沿文字入口閱讀。</p><ul>{direct.map((edge) => <li><a href={`/concepts/${edge.source}/`}>{title(edge.source)}</a> {edge.directed ? '→' : '↔'} {LABELS[edge.type]} <a href={`/concepts/${edge.target}/`}>{title(edge.target)}</a>{edge.note && <p>{edge.note}</p>}<Sources sources={edge.sources} /></li>)}</ul><a href={`/map/?selected=${conceptId}&hops=1`}>在全站圖開啟本頁</a></> : <p>圖資料不可用時，請使用下方按單元分組的完整概念清單。</p>}

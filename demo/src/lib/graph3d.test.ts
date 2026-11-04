@@ -1,5 +1,5 @@
 /** 圖資料、網址與持有人測試使用反例，避免只證明實作能自行回讀。 */
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { readFile, readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { parse } from 'yaml';
@@ -9,6 +9,9 @@ import { createGraphStore, validateGraph } from './graph3d-loader';
 import { aggregateEdges, initialState, makeLayout, neighborhood, parseShared, project, sharedUrl, visibleGraph } from './graph3d-model';
 import { edgeAppearance, frontHit } from './graph3d-renderer';
 import { TYPES, type GraphData, type GraphEdge } from './graph3d-types';
+import * as loaderModule from './graph3d-loader';
+import * as rendererModule from './graph3d-renderer';
+import { mountGraph } from './graph3d-client';
 const signature = { format: 1, head: 'test-head', sourceHash: 'a'.repeat(64) };
 const origin = { path: 'content/concepts/a.md', line: 2, sha256: 'b'.repeat(64) };
 function fixture(): GraphData {
@@ -59,6 +62,73 @@ describe('格式與版本拒絕', () => {
 });
 function deferred<T>() { let resolve!: (value: T) => void, reject!: (error: unknown) => void; const promise = new Promise<T>((a, b) => { resolve = a; reject = b; }); return { promise, resolve, reject }; }
 const ok = (data: unknown = fixture()) => ({ ok: true, status: 200, json: async () => data });
+// 控制項只提供仍存在的介面，讓缺少尾部區域時的完整操作路徑實際執行。
+class Control extends EventTarget {
+  dataset: Record<string, string> = {};
+  children: Control[] = [];
+  hidden = false; disabled = false; checked = false; open = true;
+  value = ''; textContent = ''; href = ''; type = '';
+  focus = vi.fn();
+  append(...nodes: Control[]) { this.children.push(...nodes); }
+  replaceChildren(...nodes: Control[]) { this.children = nodes; }
+  querySelector(selector: string): Control | null { return selector === 'button' ? this.children.find((node) => node.type === 'button') ?? null : null; }
+  querySelectorAll(): Control[] { return []; }
+  closest(selector: string) { return selector === '[data-action]' && this.dataset.action ? this : null; }
+  setAttribute() {}
+}
+function clientFixture(localId = '', query = '', canvasAvailable = true) {
+  const data = fixture(), root = new Control();
+  root.dataset = { local: localId, url: '/graph/test.json', format: '1', head: signature.head, hash: signature.sourceHash };
+  const controls = Object.fromEntries(['status', 'interactive', 'fallback', 'retry', 'reload', 'hops', 'body', 'subject', 'unit', 'mode', 'outside', 'search', 'results', 'center', 'count', 'map-link', 'chart', 'canvas', 'tooltip'].map((name) => [name, new Control()]));
+  root.querySelector = (selector) => controls[selector.match(/^\[data-role="(.+)"\]$/)?.[1] ?? ''] ?? null;
+  const location = { href: `https://local/${localId ? `concepts/${localId}/` : 'map/'}${query}` }, browserWindow = new EventTarget();
+  vi.stubGlobal('window', browserWindow); vi.stubGlobal('location', location);
+  vi.stubGlobal('history', { state: null, replaceState: (_state: unknown, _unused: string, url: URL) => { location.href = url.href; } });
+  vi.stubGlobal('document', Object.assign(new EventTarget(), { createElement: () => new Control() }));
+  const store = createGraphStore(async () => ok(data)); vi.spyOn(loaderModule, 'graphStore').mockReturnValue(store);
+  let select!: (id: string, unit: boolean) => void;
+  const updates: { ids: string[]; inspected: string; center: string; mode: string }[] = [];
+  const methods = { setTouch: vi.fn(), setActive: vi.fn(), reset: vi.fn(), destroy: vi.fn(), setReadings: vi.fn(), zoom: vi.fn(), fit: vi.fn() };
+  vi.spyOn(rendererModule, 'GraphRenderer').mockImplementation(class {
+    available = canvasAvailable;
+    constructor(...args: ConstructorParameters<typeof rendererModule.GraphRenderer>) { select = args[4]; Object.assign(this, methods); }
+    update(nodes: GraphData['concepts'], _edges: GraphEdge[], state: Parameters<typeof visibleGraph>[1]) { updates.push({ ids: nodes.map((node) => node.id), inspected: state.inspected, center: state.center, mode: state.mode }); }
+  } as unknown as typeof rendererModule.GraphRenderer);
+  const client = mountGraph(root as unknown as HTMLDetailsElement);
+  const change = (name: string, value: string) => { controls[name].value = value; controls[name].dispatchEvent(new Event('change')); };
+  const action = (name: string) => { const target = new Control(); target.dataset.action = name; const event = new Event('click'); Object.defineProperty(event, 'target', { value: target }); root.dispatchEvent(event); };
+  return { client, controls, root, updates, methods, location, browserWindow, change, action, select: (id: string, unit = false) => select(id, unit) };
+}
+describe('圖譜控制不依賴尾部面板', () => {
+  afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
+  it('點選保留中心，切跳可共享，單元選取及重設仍更新圖', async () => {
+    const f = clientFixture(); f.client.open(); await vi.waitFor(() => expect(f.updates.length).toBeGreaterThan(0));
+    f.select('b'); expect(f.updates.at(-1)).toMatchObject({ inspected: 'b', center: '' });
+    f.change('hops', '2'); expect(f.updates.at(-1)).toMatchObject({ inspected: 'b', center: 'b' }); expect(new URL(f.location.href).search).toBe('?selected=b&hops=2');
+    f.change('mode', 'unit'); f.select('L23101', true); expect(f.updates.at(-1)).toMatchObject({ inspected: 'L23101', mode: 'unit' });
+    f.controls.body.checked = true; f.controls.body.dispatchEvent(new Event('change')); expect(f.controls.body.disabled).toBe(true);
+    f.action('reset'); expect(f.updates.at(-1)).toMatchObject({ ids: ['a', 'b', 'c'], inspected: '', center: '', mode: 'concept' }); expect(f.location.href).toBe('https://local/map/'); expect(f.methods.reset).toHaveBeenCalledOnce(); f.client.destroy();
+  });
+  it('搜尋範圍外概念後可用鍵盤操作畫布，歷史網址與篩選仍有效', async () => {
+    const f = clientFixture(); f.client.open(); await vi.waitFor(() => expect(f.updates.length).toBeGreaterThan(0));
+    f.change('subject', '1'); expect(f.updates.at(-1)?.ids).toEqual(['a', 'b']);
+    f.controls.search.value = 'c'; f.controls.search.dispatchEvent(new Event('input')); f.controls.results.querySelector('button')!.dispatchEvent(new Event('click'));
+    expect(f.updates.at(-1)).toMatchObject({ ids: ['a', 'b', 'c'], inspected: 'c', center: 'c' }); expect(f.controls.canvas.focus).toHaveBeenCalledWith({ preventScroll: true }); expect(f.controls.results.hidden).toBe(true);
+    f.location.href = 'https://local/map/?selected=a&hops=1&body=1#connections'; f.browserWindow.dispatchEvent(new Event('popstate')); expect(f.updates.at(-1)).toMatchObject({ ids: ['a', 'b'], center: 'a', inspected: 'a' }); expect(f.controls.body.checked).toBe(true);
+    f.change('unit', 'L23101'); expect(new URL(f.location.href).searchParams.has('selected')).toBe(false); f.client.destroy();
+  });
+  it('局部圖收合、重開、暫停恢復及回本頁中心保留選取', async () => {
+    const f = clientFixture('a', '?selected=b&hops=2'); f.client.open(); await vi.waitFor(() => expect(f.updates.length).toBeGreaterThan(0));
+    expect(f.updates.at(-1)?.center).toBe('b'); f.select('c'); f.client.close(); f.client.open(); expect(f.methods.setActive).toHaveBeenLastCalledWith(true);
+    f.client.pause(); f.client.resume(); expect(f.updates.at(-1)).toMatchObject({ center: 'b', inspected: 'c' });
+    f.action('home'); expect(f.updates.at(-1)).toMatchObject({ center: 'a', inspected: 'a' }); expect(new URL(f.controls['map-link'].href).searchParams.get('selected')).toBe('a');
+    f.action('reset'); expect(f.updates.at(-1)).toMatchObject({ center: 'a', inspected: 'a' }); expect(f.controls.hops.value).toBe('1'); f.client.destroy();
+  });
+  it('無畫布仍開放原文字入口，重設不存取不存在的區域', async () => {
+    const f = clientFixture('a', '', false); f.client.open(); await vi.waitFor(() => expect(f.updates.length).toBeGreaterThan(0));
+    expect(f.controls.chart.hidden).toBe(true); expect(f.controls.fallback.hidden).toBe(false); expect(f.controls.status.textContent).toContain('文字入口與原關係表'); f.action('reset'); expect(f.updates.at(-1)?.inspected).toBe('a'); f.client.destroy();
+  });
+});
 describe('共用請求與取消', () => {
   it('收合不release；同版pending及ready不重發', async () => {
     const wait = deferred<ReturnType<typeof ok>>(), fetcher = vi.fn(() => wait.promise), store = createGraphStore(fetcher), a = store.subscribe('/graph/a.json', signature);
