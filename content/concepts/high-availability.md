@@ -7,8 +7,6 @@ codes:
 aliases:
   - Failover
   - Redundancy
-requires:
-  - inference-service-api
 summary: 高可用透過冗餘與切換，減少單一元件故障造成的服務中斷
 goals:
   - id: g1

@@ -4,7 +4,6 @@ title: 自動特徵產生與交互作用
 kind: technique
 codes: [L21301]
 aliases: [Auto Feature Generation]
-requires: [train-val-test-split]
 summary: 依規則建立日期、轉換與組合候選，再由驗證決定哪些值得保留
 goals:
   - id: g1

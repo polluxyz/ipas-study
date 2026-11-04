@@ -8,7 +8,7 @@ summary: 列舉指定超參數值的交叉組合，逐組驗證後選出設定
 goals:
   - id: g1
     text: 計算網格候選組數乘交叉驗證摺數，並區分選定後的重訓
-requires: [hyperparameter-tuning, k-fold-cross-validation]
+requires: [hyperparameter-tuning]
 is_a: [hyperparameter-search]
 contrasts:
   - target: random-search

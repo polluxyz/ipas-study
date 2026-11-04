@@ -4,7 +4,6 @@ title: 影像尺寸與幾何前處理
 kind: technique
 codes: [L23301, L21102]
 aliases: [Crop, Padding, Resize, 縮放, 裁切, 補邊]
-requires: [numpy-data-operations]
 summary: 尺寸前處理把影像送進固定輸入，同時取捨形狀、邊界與物件保留
 textbook: v2
 author: codex

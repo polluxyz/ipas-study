@@ -8,7 +8,7 @@ summary: Embedded 在模型訓練時取得選欄依據，但權重縮小不等�
 goals:
   - id: g1
     text: 區分 Lasso 歸零、Ridge 收縮與樹重要性的篩選意義及閾值前提
-requires: [lasso, ridge-regression, decision-tree]
+requires: [lasso, decision-tree]
 contrasts:
   - target: filter-feature-selection
     note: Embedded 依特定模型的訓練結果選欄，Filter 用模型之外的統計量初篩
@@ -81,6 +81,8 @@ Lasso 會讓部分係數歸零；樹模型則在建立分支時，逐步決定�
 Ridge 通常把係數縮小，沒有直接把欄位拿掉。指引 5-5 把它和 Lasso 並列，但同一本指引 4-16 已指出 Ridge 不會自動完成特徵選擇。
 
 ## 定義與公式
+
+本頁以Lasso歸零、Ridge收縮與樹分裂重要性比較3種訓練產物；這是本頁的閱讀範圍，不表示每種Embedded方法都使用這3種模型。
 
 | 模型依據 | 訓練產物 | 能否直接形成刪欄名單 |
 |---|---|---|

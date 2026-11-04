@@ -8,7 +8,7 @@ summary: TCN 以因果時間卷積讀取歷史，擴張卷積能用較少層擴�
 goals:
   - id: g1
     text: 追蹤因果與擴張卷積的歷史索引，計算感受野並判斷未來資訊是否洩漏
-requires: [convolution-layer, sequence-model-selection]
+requires: [convolution-layer]
 guide_refs: [guide-3:5-13]
 textbook: v2
 author: codex

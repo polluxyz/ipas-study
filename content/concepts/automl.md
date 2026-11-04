@@ -4,7 +4,7 @@ title: 自動化機器學習
 kind: technique
 codes: [L23302]
 aliases: []
-requires: [train-val-test-split, random-forest]
+requires: [train-val-test-split]
 summary: 自動化機器學習替人搜尋特徵、模型與參數組合，目標、驗證及核可仍需人工負責
 goals:
   - id: g1

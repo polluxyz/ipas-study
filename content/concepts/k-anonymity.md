@@ -4,7 +4,7 @@ title: K-匿名
 kind: technique
 codes: [L23401]
 aliases: []
-requires: [privacy-generalization]
+requires: [reidentification-risk]
 guide_refs: [guide-3:6-10]
 summary: K-匿名要求每種準識別欄位組合都至少有 K 筆紀錄
 goals:

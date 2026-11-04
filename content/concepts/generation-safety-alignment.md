@@ -64,6 +64,8 @@ self_check:
 
 ## 定義與公式
 
+下表說明典型SFT→偏好/獎勵→策略更新；紅隊是獨立評估活動，其他對齊方法不一定採完整路線。
+
 指引列出 RLHF 與紅隊，但未展開各階段的資料與更新機制。以下分工是核心延伸，不需要先記獎勵公式。
 
 :::supplement[來源：Ouyang 等，Training language models to follow instructions with human feedback，第 3 節；Ganguli 等，Red Teaming Language Models to Reduce Harms]

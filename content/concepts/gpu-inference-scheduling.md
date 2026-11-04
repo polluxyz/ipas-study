@@ -11,8 +11,6 @@ summary: 用時間軸分辨 GPU 閒置與等待，讓批次兼顧吞吐及回應
 goals:
   - id: g1
     text: 由 kernel 閒置與請求延遲判斷排程及批次問題
-requires:
-  - inference-service-api
 guide_refs:
   - guide-1:3-58
   - guide-1:3-81

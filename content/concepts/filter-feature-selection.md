@@ -8,7 +8,6 @@ summary: Filter 用統計關係篩選原始欄位，速度快但可能漏掉特�
 goals:
   - id: g1
     text: 依欄位型態選擇 Pearson、卡方或 ANOVA，並辨認單欄篩選的限制
-requires: [hypothesis-testing]
 contrasts:
   - target: wrapper-feature-selection
     note: Filter 依統計分數挑欄；Wrapper 反覆擬合指定模型來比較候選集合

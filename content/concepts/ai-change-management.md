@@ -4,7 +4,6 @@ title: AI 變革溝通與採用管理
 kind: technique
 codes: [L21202, L21201, L21203]
 aliases: []
-requires: [poc-success-criteria]
 summary: 把職責焦慮、資料不信任與協作障礙轉成參與、訓練及可追蹤的改善
 goals:
   - id: g1

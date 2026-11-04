@@ -10,7 +10,7 @@ goals:
     text: 依資料輸入與目標區分交叉熵、對比與 Focal Loss 的用途
   - id: g2
     text: 計算 margin 對比損失與 Focal Loss，解釋各自超參數的作用
-requires: [vector-norm-linear-combination, cross-entropy-loss]
+requires: [vector-norm-linear-combination]
 guide_refs: [guide-3:3-22, guide-1:3-76]
 textbook: v2
 author: codex

@@ -4,7 +4,6 @@ title: 影像增強與標籤語意
 kind: technique
 codes: [L23301, L21102]
 aliases: [ColorJitter, Image Augmentation, RandomHorizontalFlip]
-requires: [image-resizing, color-space-conversion]
 is_a: [data-augmentation]
 summary: 影像增強增加訓練外觀變化，幾何與色彩操作都要保住任務標籤
 textbook: v2
@@ -69,6 +68,12 @@ self_check:
       B: 切分前造變體可能使同源影像跨集合，且隨機驗證不符合題目的部署條件。
       C: 增強須符合任務與部署分布，沒有可靠合法標籤的變體應停用。
       D: 刻意改變驗證條件會使主評估偏離部署；壓力測試應另行報告。
+contrasts:
+  - target: image-enhancement
+    note: 資料擴增以合理變換增加訓練多樣性；畫質增強與去噪處理亮度、對比或雜訊，先依目的選擇。
+    source:
+      - guide-1:3-47
+      - guide-3:5-47
 ---
 
 ## 為什麼需要

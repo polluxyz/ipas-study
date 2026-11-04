@@ -4,7 +4,6 @@ title: 統計推論與參數估計
 kind: theory
 codes: [L23101]
 aliases: [Parameter Estimation, Statistical Inference, 信賴區間]
-requires: [bernoulli-binomial]
 summary: 統計推論由樣本估計母體，並把數值、不確定性與主張檢驗分開呈現
 goals:
   - id: g1

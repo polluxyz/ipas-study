@@ -4,7 +4,7 @@ title: 蒙地卡羅方法
 kind: technique
 codes: [L23101]
 aliases: [Monte Carlo, 隨機模擬]
-requires: [descriptive-statistics, conditional-probability]
+requires: [descriptive-statistics]
 summary: 依機率模型反覆抽樣，用模擬頻率或平均估計想知道的量
 textbook: v2
 author: codex

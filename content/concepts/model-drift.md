@@ -4,7 +4,6 @@ title: 模型效能衰退與漂移用語
 kind: problem
 codes: [L21203]
 aliases: [Model Drift, 模型漂移]
-requires: [confusion-matrix]
 summary: 模型漂移要說明比較的是效能、預測分布，還是模型版本
 goals:
   - id: g1

@@ -19,8 +19,6 @@ goals:
     text: 區分預訓練與下游微調的語料、標的和模型定位
   - id: g2
     text: 用資料及參數變動辨認預訓練、微調與提示，區分訓練階段和生成架構
-requires:
-  - transformer-model-families
 guide_refs:
   - guide-1:3-8
   - guide-1:3-9

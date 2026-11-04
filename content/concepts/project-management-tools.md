@@ -5,7 +5,7 @@ kind: tool
 codes: [L21202]
 aliases: [Asana 任務與時間軸, ClickUp 清單與里程碑, JIRA, Jira 議題與敏捷追蹤, Trello 看板追蹤, asana, clickup, trello]
 summary: 用同一工作集比較看板、時間軸、議題工作流、檢查清單與里程碑
-requires: [work-breakdown-structure, scrum]
+requires: [work-breakdown-structure]
 goals:
   - id: g1
     text: 把固定工作集表示成Trello看板、Asana階層時間軸及Jira議題關聯，說明限制與設定成本

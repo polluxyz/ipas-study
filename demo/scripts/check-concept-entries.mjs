@@ -1,5 +1,5 @@
 /**
- * 固定8頁只提供成功條件7的技術證據；C12另計，教學目的與排除理由須非作者主審。
+ * 固定25頁只提供成功條件7的技術證據；C12另計，教學目的與排除理由須非作者主審。
  * 純檢查不讀寫檔案；CLI才載入凍結來源及真建置收據，不開伺服器或修改內容。
  */
 import { createHash } from 'node:crypto';
@@ -11,6 +11,10 @@ import { pathToFileURL } from 'node:url';
 export const APPROVED_IDS = Object.freeze([
   'ai-team-capability', 'cyclic-time-features', 'multimodal-privacy-security', 'ndcg',
   'open-weight-models', 'text-generation-platforms', 'development-toolchain', 'text-generation-workflow',
+  'color-space-conversion', 'data-consistency', 'data-types-time-parsing', 'feedback-loop',
+  'financial-regulatory-sandbox', 'generative-quality-metrics', 'high-availability', 'image-resizing',
+  'machine-translation', 'medical-device-regulation', 'privacy-regulations', 'scrum',
+  'speech-recognition-pipeline', 'telecom-regulation', 'video-frame-sampling', 'virginia-cdpa', 'visual-tracking',
 ]);
 export const RELATION_TYPES = Object.freeze(['is_a', 'part_of', 'requires', 'mitigates', 'contrasts']);
 const nonempty = (value) => typeof value === 'string' && value.trim().length > 0;
@@ -82,7 +86,7 @@ export function checkConceptEntries({ content, evidence, rendered, sourceFiles =
   const records = Array.isArray(evidence?.entries) ? evidence.entries : [];
   const recordIds = records.map((item) => item.id);
   for (const id of new Set(recordIds)) {
-    if (!APPROVED_IDS.includes(id)) add('UNKNOWN_ID', id, '不在核可的固定8頁清單');
+    if (!APPROVED_IDS.includes(id)) add('UNKNOWN_ID', id, '不在核可的固定25頁清單');
     if (recordIds.filter((candidate) => candidate === id).length > 1) add('DUPLICATE_ID', id, '例外ID重複');
   }
   for (const id of APPROVED_IDS) if (!recordIds.includes(id)) add('MISSING_ID', id, '缺少核可頁面的證據列');

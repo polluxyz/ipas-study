@@ -14,9 +14,7 @@ goals:
     text: 用正負配對與向量比較說明共享語意空間
   - id: g2
     text: 區分語意對齊、時間同步與共同儲存的用途
-requires:
-  - multimodal-ai
-  - word-embedding
+requires: [multimodal-ai, vector-inner-product]
 guide_refs:
   - guide-1:3-74
   - guide-1:3-75

@@ -11,8 +11,6 @@ summary: 文字分類依預先定好的標籤，將郵件、評論或客服文�
 goals:
   - id: g1
     text: 依郵件、評論與客服派單需求定義文字分類輸入、標籤及端到端輸出
-requires:
-  - text-representation
 guide_refs:
   - guide-1:3-30
 self_check:

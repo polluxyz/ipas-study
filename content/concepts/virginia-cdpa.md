@@ -8,7 +8,6 @@ summary: 維吉尼亞州以適用門檻、消費者權利及敏感資料要求�
 goals:
   - id: g1
     text: 依州別與企業條件辨認權利、隱私告知及敏感資料義務，避免泛化全美
-requires: [privacy-regulations]
 guide_refs: [guide-1:4-34, guide-1:4-35]
 self_check:
   - id: c1

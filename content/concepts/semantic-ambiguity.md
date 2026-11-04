@@ -8,7 +8,6 @@ summary: 字面詞語不足以確定意圖，多義詞、反語與地方用語�
 goals:
   - id: g1
     text: 依上下文辨認多義詞、反語與地方用語，說明語境和常識的限制
-requires: [contextual-word-embedding]
 guide_refs: [guide-1:3-37]
 textbook: v2
 author: codex

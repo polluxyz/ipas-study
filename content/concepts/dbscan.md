@@ -10,9 +10,7 @@ aliases:
   - MinPts
   - 密度分群
 summary: DBSCAN 以核心點的鄰域擴張連成群，並標出未歸群的雜訊
-requires:
-  - unsupervised-learning
-  - feature-scaling
+requires: [unsupervised-learning]
 guide_refs:
   - guide-1:5-9
   - guide-1:5-10

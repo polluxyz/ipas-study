@@ -4,7 +4,6 @@ title: 離群值偵測與處置
 kind: technique
 codes: [L23301, L21301]
 aliases: [IQR, LOF, Outlier, Z-score, Z-score Outlier, 異常值門檻與局部密度判斷]
-requires: [data-preparation]
 summary: 用統計門檻、圖形與鄰近關係找出待查候選，再查明它代表什麼
 textbook: v2
 author: codex

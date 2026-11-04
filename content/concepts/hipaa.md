@@ -8,7 +8,6 @@ summary: HIPAA 依受規範角色保護醫療資訊，安全規則要求三類�
 goals:
   - id: g1
     text: 區分行政、實體及技術措施，並查核 HIPAA 角色、時間與加密條件
-requires: [privacy-regulations]
 guide_refs: [guide-1:4-32, guide-1:4-35]
 self_check:
   - id: c1

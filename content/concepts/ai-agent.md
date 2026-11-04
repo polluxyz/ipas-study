@@ -10,7 +10,6 @@ goals:
     text: 追蹤指令、工具、檢索及記憶的分工，區分文字回覆與實際操作
   - id: g2
     text: 用機器人、客服及教育案例追蹤感知、決策、工具與觀察
-requires: [hallucination]
 textbook: v2
 author: codex
 status: draft

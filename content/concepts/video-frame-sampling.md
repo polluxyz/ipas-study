@@ -4,7 +4,6 @@ title: 影片影格取樣
 kind: technique
 codes: [L21102, L23301]
 aliases: [Frame Sampling, 影片序列取樣]
-requires: [train-val-test-split]
 summary: 影片影格取樣在時間軸選擇影格，兼顧事件資訊、輸入長度與計算成本
 textbook: v2
 author: codex

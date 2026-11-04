@@ -29,10 +29,7 @@ goals:
     text: 安排上線前、重大更新及運行中的公平性稽核
   - id: g3
     text: 整理可重核報告，完成第三方驗證與申訴改善閉環
-requires:
-  - equalized-odds
-  - model-monitoring
-  - fairness-governance
+requires: [model-monitoring, fairness-governance]
 guide_refs:
   - guide-1:3-36
   - guide-1:3-37

@@ -8,7 +8,7 @@ summary: 把不同錯誤的代價寫進損失，讓訓練方向對齊任務風�
 goals:
   - id: g1
     text: 依漏報與誤報成本選擇加權方向，區分訓練損失與決策閾值
-requires: [cross-entropy-loss, confusion-matrix]
+requires: [confusion-matrix]
 guide_refs: [guide-3:3-21, guide-3:3-22]
 textbook: v2
 author: codex

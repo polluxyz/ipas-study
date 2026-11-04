@@ -8,7 +8,6 @@ summary: 深度與寬度改變網路表示能力，容量要配合資料、擬�
 goals:
   - id: g1
     text: 核算深寬配置的參數量，依擬合狀況、資料量與資源選擇架構
-requires: [model-capacity-selection, underfitting]
 guide_refs: [guide-3:5-33, guide-3:5-34, guide-3:5-35]
 formula_groups:
   - id: dense-layer-count
@@ -64,6 +63,11 @@ self_check:
 textbook: v2
 author: codex
 status: draft
+mitigates:
+  - target: underfitting
+    note: 確認欠擬合來自容量不足時，可比較合適的深度或寬度；若原因是未收斂、特徵不足或資料問題，單純擴容不保證有效。
+    source:
+      - guide-3:5-34
 ---
 
 ## 為什麼需要

@@ -9,9 +9,7 @@ aliases:
   - K 均值
   - K-means Clustering
 summary: K-means 交替分派最近中心與更新平均，將資料分成 K 群
-requires:
-  - unsupervised-learning
-  - feature-scaling
+requires: [unsupervised-learning]
 guide_refs:
   - guide-1:5-9
   - guide-1:5-10

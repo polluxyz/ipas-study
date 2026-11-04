@@ -4,7 +4,7 @@ title: Lag、Rolling 與特徵可用時間
 kind: technique
 codes: [L23301]
 aliases: [Lag, Point-in-time, Rolling Mean, Sliding Window]
-requires: [interaction-features, data-leakage]
+requires: [data-leakage]
 summary: 時間特徵要對齊預測截止點，過去發生且已可讀的資料才可使用
 textbook: v2
 author: codex

@@ -7,8 +7,6 @@ codes:
 aliases:
   - Ensemble Models
   - 集成學習模型
-requires:
-  - classification-model-selection
 summary: 結合多個基學習器，藉互補的預測改善泛化與穩定性
 goals:
   - id: g1

@@ -8,8 +8,6 @@ aliases:
   - Autoscaling
   - Load Balancing
   - 水平擴展
-requires:
-  - container-orchestration
 summary: 擴縮調整副本數，負載平衡把請求送往可服務的副本
 goals:
   - id: g1

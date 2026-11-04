@@ -10,8 +10,6 @@ summary: 機器翻譯轉換語言並保留原意，專業術語與否定需要�
 goals:
   - id: g1
     text: 依商務、客服與教育情境判斷專業詞彙錯譯及人工覆核條件
-requires:
-  - seq2seq
 guide_refs:
   - guide-1:3-32
 self_check:

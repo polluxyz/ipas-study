@@ -10,7 +10,7 @@ goals:
     text: 依條件區分更正、刪除、可攜與重大純自動決策的權利及例外
   - id: g2
     text: 把目的連到處理依據、最小化及查閱或限制請求的處理流程
-requires: [privacy-regulations, lawful-data-use]
+requires: [lawful-data-use]
 guide_refs: [guide-1:4-33, guide-1:4-34]
 self_check:
   - id: c1

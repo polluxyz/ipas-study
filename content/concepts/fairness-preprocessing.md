@@ -4,7 +4,7 @@ title: 前處理去偏
 kind: technique
 codes: [L23402]
 aliases: [Feature Neutralization, Pre-processing, 群體重抽樣]
-requires: [sampling-bias, debiasing-strategies, privacy-generalization]
+requires: [sampling-bias, debiasing-strategies]
 is_a: [debiasing-strategies]
 summary: 訓練前調整樣本代表性與特徵，再用原分布資料確認群體表現
 goals:

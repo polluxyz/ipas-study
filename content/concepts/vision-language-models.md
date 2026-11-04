@@ -18,9 +18,7 @@ goals:
     text: 用交錯圖文提示說明 Flamingo 少樣本適應與重訓界線
   - id: g3
     text: 解釋共享表示與統一介面的擴展價值及新增模態仍須編碼的限制
-requires:
-  - clip
-  - masked-multimodal-pretraining
+requires: [clip]
 guide_refs:
   - guide-1:3-75
   - guide-1:3-77
@@ -90,6 +88,8 @@ self_check:
 ![匹配路徑交付候選分數，生成路徑另有文字輸出；新增模態須經適配與對齊，不能直接接任意原始檔案。](figure:l21104-vision-language-models-tasks)
 
 ## 定義與公式
+
+本頁比較指引所列模型的匹配與生成交付；CLIP的共享表示與匹配原理是本頁比較前置，不表示每個VLM都包含CLIP。
 
 Salesforce 發表 BLIP，DeepMind 提出 Flamingo。前者及 BLIP-2 支援圖文理解與生成；後者可藉少量圖文示例適應任務。
 

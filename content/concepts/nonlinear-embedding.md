@@ -18,9 +18,6 @@ aliases:
   - t-SNE 與 UMAP 視覺化降維
   - t-SNE 視覺化
 summary: t-SNE 與 UMAP 把鄰近結構嵌入低維，讀圖須保留距離與新樣本限制
-requires:
-  - feature-scaling
-  - neighbor-search-index
 guide_refs:
   - guide-1:5-5
   - guide-3:4-45

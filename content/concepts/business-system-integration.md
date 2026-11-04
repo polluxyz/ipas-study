@@ -4,7 +4,6 @@ title: 模型結果與企業流程整合
 kind: technique
 codes: [L21302]
 aliases: [CRM, ERP, MES, POS]
-requires: [data-pipeline-integration]
 summary: 把模型輸出接成企業可執行的作業，再把執行結果與業務成效回收
 goals:
   - id: g1
