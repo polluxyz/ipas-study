@@ -1,7 +1,7 @@
 # 完整網站整合交接
 
 2026-11-04。使用者要求的既有成果已整合到正式分支與4321網站。
-最新產品合併為8edae462f14c6de06cc8d0f196c06eba7f0da3da（PR118）。
+最新產品合併為d6dd5344a9883bb44796fbf560c6c6cc8fc98795（PR120）。
 後續文件提交的HEAD以Git為準。網站程式仍在demo/。
 
 ## 使用者最新規則
@@ -22,8 +22,15 @@
 - 正式關係保留方向與來源。正文連線預設關閉。無JS仍可沿文字入口閱讀。
 - 作答與已讀沿用原attempts介面，沒有新增資料格式。
 - 485個概念頁的小標與桌面、手機目錄已改成「概念說明」。補充標記與原有連結保留。
+- 全站與局部圖已移除明細區及2個尾部清單。hover資訊、點選高亮與圖形操作保留。
 
 ## 本輪已完成
+
+PR120依使用者截圖，從共用圖譜元件移除「選取概念查看明細」、「目前範圍的完整文字清單」、「目前範圍的全部連線與來源」。實際刪除元件、專用事件及樣式，沒有保留空容器。點選保留高亮；鄰接範圍可切換中心。搜尋、單元模式、共享網址、原正文、關係表、來源及伺服器概念目錄仍保留。
+
+Root以非作者身分重讀7檔差異，通過716項測試、教材與照抄檢查、913頁建置。另核對486個圖譜頁面：區域外HTML及12849個HTML ID均不變。圖資料除建置head外逐欄相同，仍是485概念、21單元、582正式關係、47組正文配對。固定建置為d739199a7a33b6b22560017bdcf8e9e2954b9026；收據為45c54232945f899609359f572a809ce5822611ee0cf55c0f4c4f1ec199532067。1781份來源及2193份產物逐檔核對後更新4321，並核對912頁與125資產回應。
+
+同版真HTTP驗證涵蓋1440／375的全站及局部圖，共4組互動與2組文字降級案例，瀏覽器錯誤0。Root親讀4張候選畫面；正式4321另跑相同範圍，2張畫面逐位元相同，另2張重新親讀。這次沒有重跑完整smoke、BFCache或效能套件，不引用舊結果宣稱本次全套通過。
 
 PR118修正「直覺」小標未更新的問題。共用建置外掛只轉換概念頁的顯示文字；485份Markdown原文、教材簽章、數學內容與圖譜資料不變。447個一般小標、38個補充小標及970個目錄標籤已更新。12843個既有HTML ID完整保留，3054個實際證據連結仍有效。原輔助程式誤報的6筆問題已撤回，沒有新增連結別名或修改教材資料。
 
@@ -46,8 +53,10 @@ Root在320／375／1440寬度實際操作並親讀6張候選畫面。正式4321�
 ## 證據與未完成驗收
 
 - 最新協調狀態：tmp/acceptance-20261103/state.json的liveCheckpoint。
+- 圖譜區域移除：tmp/graph-panel-removal-20261104/accepted-evidence/；正式畫面在native-live-4321-r1/。
+- 最新正式更新：tmp/production-integration-20261104/graph-panel-removal-main-4321-r1/report.json。
 - 小標修正：tmp/heading-labels-20261104/accepted-evidence/；正式畫面在native-live-4321-r1/。
-- 最新正式更新：tmp/production-integration-20261104/heading-labels-main-4321-r1/report.json。
+- 較早小標更新：tmp/production-integration-20261104/heading-labels-main-4321-r1/report.json。
 - 較早3D更新：tmp/production-integration-20261104/full-3d-main-4321-r1/report.json。
 - Root技術簽收：同目錄front-root-technical-accepted.json；原生驗證在front-native-root-r1與front-native-live-4321-r1。
 - 非作者報告：同目錄front-peer-final-accepted/final-report.md。作者及歷史失敗證據仍保留在前端工作樹tmp/。
@@ -60,12 +69,13 @@ R6獨立新16對的原分數仍是12/16，低於14/16門檻。沒有重選或改
 ## 環境保護與後續工作
 
 - Root為D:/ipas-study；GitHub僅polluxyz/ipas-study。不要重做公開遷移。
-- 小標修正Run為run_2d14c4fc763e，3個Task均已完成。較早整合Run為run_0668a2365727。Root attested handle為term_3f83725a-88e3-4d1e-a1bd-1be5289ec446。不要使用舊term_35573d0f作--from。
+- 圖譜區域移除Run為run_743fdc87220f，1個Task已完成。較早小標Run為run_2d14c4fc763e，整合Run為run_0668a2365727。Root attested handle為term_3f83725a-88e3-4d1e-a1bd-1be5289ec446。不要使用舊term_35573d0f作--from。
 - 使用者問答term_0edc63bb-1d4d-44fb-b56d-7551f2581f26及user-feedback-fixes工作樹不可關閉或重派。term_80ebf0cf-a74c-41a9-97dd-ea4fda13a398也由使用者接管。
 - 審查終端term_e9507943-6bc8-4a5f-abb9-d7ed536bf64f已由使用者接管。worker-release回覆user_takeover，沒有關閉進程。保留此終端與full-site-3d工作樹，不再沿用本輪已完成Dispatch。
 - 4321常駐term_05c14a9a-1fb2-4990-9b03-4db3dcc64a4f、候選4336常駐term_f62857d4-39d6-4517-a805-729c1d3baa1d均勿關。4334與舊原型／失敗N服務也保留，完整清單見協調checkpoint。
 - 前端工作樹為E:/orca/workspaces/ipas-study/full-site-3d-production-20261104。內容工作樹為同根relations-semantic-corrections。兩者仍供受保護預覽使用，不刪工作樹或強制刪本機分支。
 - 小標工作樹為同根concept-heading-labels-20261104。作者與非作者審查終端已釋放，暫時驗收服務4337已關閉；工作樹與證據保留。
+- 圖譜區域移除工作樹為同根graph-panel-removal-20261104。作者終端已釋放，暫時驗收4337已關閉；工作樹與前後證據保留。
 - 新工作不得復用已完成的Task／Dispatch。修改教材仍需非作者主審；不改PDF/text、官方答案、既有ID或手改分析CSV。
 
 本輪worker均已回報。新需求另開session，先讀本檔與當版Orca guide。未獲使用者要求，不新增外部部署或自行重跑歷史驗收。
