@@ -8,6 +8,7 @@ import figures from './plugins/figures.mjs';
 import asides from './plugins/asides.mjs';
 import { supplementSections } from './plugins/supplement.mjs';
 import { mathSearchPolicy, collapseAdvanced, readableTables } from './plugins/textbook.mjs';
+import { conceptHeadingLabels } from './plugins/concept-heading-labels.mjs';
 import { readFileSync, existsSync } from 'node:fs';
 import { parse } from 'yaml';
 import { unified } from '@astrojs/markdown-remark';
@@ -54,7 +55,7 @@ export default defineConfig({
   })],
   markdown: { processor: unified({
     remarkPlugins: [asides, remarkMath, wikiLinks, figures],
-    rehypePlugins: [[rehypeKatex, { output: 'htmlAndMathml', trust: false, strict: 'warn' }], mathSearchPolicy, supplementSections, collapseAdvanced, readableTables],
+    rehypePlugins: [[rehypeKatex, { output: 'htmlAndMathml', trust: false, strict: 'warn' }], mathSearchPolicy, supplementSections, collapseAdvanced, readableTables, conceptHeadingLabels],
   }) },
   vite: { server: { fs: { allow: ['..'] } } },
 });
