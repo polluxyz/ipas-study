@@ -10,7 +10,7 @@
 - 審查也受此上限限制。同供應商不同工作階段不得稱跨供應商審查。
 - 本次只更新既有本機網站，沒有新的外部部署。
 - 只保留主要預覽4321。其他7個預覽服務已停止，不再重開。
-- 任務完成後清理已驗收合併的來源分支。使用中的工作階段與未提交修改保留。
+- 任務完成後，封存證據並清理已用完的工作區與分支。使用中的工作階段與未提交修改保留。
 - 水平右拖時圖正面跟著往右。普通箭頭已淡化，hover保留高亮。
 
 派工細節見docs/orca-multi-agent.md。先執行orca skills get orchestration，依當版指令操作。目前plain check會自動確認訊息；不輪詢，不執行舊等待腳本。worker回報後通常自動關閉。不要傳送無需回覆的訊息給已完成worker，以免啟動新任務。
@@ -34,6 +34,10 @@ PR122只改共用側欄標籤及2處既有測試斷言。Root完整讀取2檔差
 固定建置為ba36533a9cdc1bd74fabe091f015594b4e721cbb；Root收據為96f4e2321f0bc8345b62c32d28d6ae067acb38c2397e556e81f551f6725097fb。1781份來源與2193份產物核對後更新4321，核對912頁與125資產回應。Root以1440／375寬度驗6組標題、收合與連結操作，隔離瀏覽器及正式4321均為0錯誤。親讀4張隔離畫面；正式2張逐位元相同，另2張手機畫面重新親讀。沒有新增預覽服務。
 
 使用者追加要求的清理已完成：停止4323、4324、4331、4332、4334、4335、4336，只保留4321且回應200。既有22個本機分支、4個遠端分支已清理；本次側欄來源分支也已另行清理。保留工作樹與證據，清理前的分支備份在tmp/preview-branch-cleanup-20261104/branches-before-cleanup.bundle。
+
+使用者隨後追加要求清理工作區。本輪範圍為21個已完成工作樹。每個工作樹先封存原始碼、建置產物與證據，逐檔核對SHA-256後才移除。進度與實際移除結果以最新checkpoint為準。node_modules及可重建的Python環境不封存。各提交均可由既有分支備份還原。保留主工作樹、4個使用者接管的工作樹，以及1個有未提交修改的工作樹；不影響4321。
+
+封存位於tmp/workspace-cleanup-20261104/archives/，每個tar.gz都有對應manifest.json。移除清單與回執在同目錄的removals/。較早報告中的已移除工作樹路徑，改由這些封存檔查證；不改寫舊建置收據或驗收結果。
 
 PR120依使用者截圖，從共用圖譜元件移除「選取概念查看明細」、「目前範圍的完整文字清單」、「目前範圍的全部連線與來源」。實際刪除元件、專用事件及樣式，沒有保留空容器。點選保留高亮；鄰接範圍可切換中心。搜尋、單元模式、共享網址、原正文、關係表、來源及伺服器概念目錄仍保留。
 
@@ -62,6 +66,7 @@ Root在320／375／1440寬度實際操作並親讀6張候選畫面。正式4321�
 ## 證據與未完成驗收
 
 - 最新協調狀態：tmp/acceptance-20261103/state.json的liveCheckpoint。
+- 工作區清理：tmp/workspace-cleanup-20261104/；archives-verified.json為封存總表，removals/保存逐個移除回執。
 - 側欄標題：tmp/sidebar-course-title-20261104/accepted-evidence/；正式畫面在native-live-4321-r1/。
 - 最新正式更新：tmp/production-integration-20261104/sidebar-course-title-main-4321-r1/report.json。
 - 預覽與分支清理：tmp/preview-branch-cleanup-20261104/complete.json；本次來源分支清理另見tmp/sidebar-course-title-20261104/branch-cleanup-complete.json。
@@ -81,15 +86,14 @@ R6獨立新16對的原分數仍是12/16，低於14/16門檻。沒有重選或改
 ## 環境保護與後續工作
 
 - Root為D:/ipas-study；GitHub僅polluxyz/ipas-study。不要重做公開遷移。
-- 側欄標題Run為run_bd70380caad0，1個Task已完成。較早圖譜Run為run_743fdc87220f、小標Run為run_2d14c4fc763e、整合Run為run_0668a2365727。Root attested handle為term_3f83725a-88e3-4d1e-a1bd-1be5289ec446。不要使用舊term_35573d0f作--from。
+- 工作區清理Run為run_07aad1d9e1d8，由Root處理，未另派worker。較早側欄Run為run_bd70380caad0、圖譜Run為run_743fdc87220f、小標Run為run_2d14c4fc763e、整合Run為run_0668a2365727。Root attested handle為term_3f83725a-88e3-4d1e-a1bd-1be5289ec446。不要使用舊term_35573d0f作--from。
 - 使用者問答term_0edc63bb-1d4d-44fb-b56d-7551f2581f26及user-feedback-fixes工作樹不可關閉或重派。term_80ebf0cf-a74c-41a9-97dd-ea4fda13a398也由使用者接管。
 - 審查終端term_e9507943-6bc8-4a5f-abb9-d7ed536bf64f已由使用者接管。worker-release回覆user_takeover，沒有關閉進程。保留此終端與full-site-3d工作樹，不再沿用本輪已完成Dispatch。
 - 唯一常駐為4321的term_05c14a9a-1fb2-4990-9b03-4db3dcc64a4f。候選、原型與失敗N服務均已依使用者新指示停止，較早保護這些預覽的指示已失效。使用者問答與接管的agent工作階段仍保留。
 - 前端工作樹為E:/orca/workspaces/ipas-study/full-site-3d-production-20261104。內容工作樹為同根relations-semantic-corrections。兩者已停止預覽，檔案與使用者工作階段保留。
-- 小標工作樹為同根concept-heading-labels-20261104。作者與非作者審查終端已釋放，暫時驗收服務4337已關閉；工作樹與證據保留。
-- 圖譜區域移除工作樹為同根graph-panel-removal-20261104。作者終端已釋放，暫時驗收4337已關閉；工作樹與前後證據保留。
-- 側欄工作樹為同根sidebar-course-title-20261104。作者已釋放，來源分支已清理，工作樹停在原建置提交並保留證據。
+- 小標、圖譜區域移除與側欄工作樹列入本輪清理。來源提交、建置產物與證據統一由主工作樹的封存還原；移除狀態查對應回執。
 - relations-reviewed-corrections工作樹有未提交的舊內容修改，分支保留。不要丟棄修改，也不要自動回套main。其餘保留分支供使用者接管的工作階段使用。
+- 主工作樹的docs/specs/question-bank-expansion.md是既有未提交草稿。本次沒有編輯、提交或刪除此檔。
 - 新工作不得復用已完成的Task／Dispatch。修改教材仍需非作者主審；不改PDF/text、官方答案、既有ID或手改分析CSV。
 
 本輪worker均已回報。新需求另開session，先讀本檔與當版Orca guide。未獲使用者要求，不新增外部部署或自行重跑歷史驗收。
