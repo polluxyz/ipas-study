@@ -12,8 +12,6 @@ summary: 生成產生文字，摘要濃縮來源；都要核對語意、邏輯�
 goals:
   - id: g1
     text: 依摘要、文案與報表需求，逐項檢查生成文字的資訊保留及事實性
-requires:
-  - seq2seq
 guide_refs:
   - guide-1:3-31
   - guide-1:3-32

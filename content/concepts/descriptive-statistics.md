@@ -4,7 +4,6 @@ title: 期望與敘述統計
 kind: theory
 codes: [L23101]
 aliases: [Expected Value, Standard Deviation, Variance, 中位數, 平均數]
-requires: [discrete-random-variable]
 summary: 用中心與離散程度摘要資料，並分清機率模型與觀測樣本
 textbook: v2
 author: codex

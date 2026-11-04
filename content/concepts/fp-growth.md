@@ -6,8 +6,7 @@ codes:
   - L23202
 aliases:
   - FP 樹
-requires:
-  - apriori
+requires: [association-rule-metrics]
 summary: 將交易壓成共用前綴的FP樹，再以條件模式基遞迴挖掘項集
 goals:
   - id: g1

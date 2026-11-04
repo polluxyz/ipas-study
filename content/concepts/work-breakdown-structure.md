@@ -5,7 +5,6 @@ kind: technique
 codes: [L21202]
 aliases: []
 summary: WBS 把專案逐層拆成能指派、估算與核對成果的工作包
-requires: [ai-project-roles]
 goals:
   - id: g1
     text: 把資料準備拆成具備責任、工時、資源、產物與驗收條件的工作包

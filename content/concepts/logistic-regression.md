@@ -8,7 +8,10 @@ requires: [classification-regression, conditional-probability]
 contrasts:
   - target: support-vector-machine
     note: 邏輯迴歸將線性分數轉成機率；SVM以間隔決定邊界，核方法可表達非線性
-    source: [guide-3:4-25, guide-3:4-28]
+    source:
+      - guide-3:4-25
+      - guide-3:4-26
+      - guide-3:4-28
 summary: 邏輯迴歸把線性分數轉成類別機率，再依閾值做分類
 goals:
   - id: g1

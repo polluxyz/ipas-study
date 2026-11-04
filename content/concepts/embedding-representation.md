@@ -11,8 +11,7 @@ summary: 嵌入用向量表示資料，類別查表、線性投影與非線性�
 goals:
   - id: g1
     text: 由 one-hot 查表算例區分類別嵌入、LDA 投影與 Autoencoder 編碼
-requires:
-  - affine-layer
+requires: [matrix-operations]
 guide_refs:
   - guide-3:3-12
   - guide-3:3-13

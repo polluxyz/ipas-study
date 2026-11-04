@@ -5,7 +5,7 @@ kind: tool
 codes: [L23203]
 aliases: [Sequential, model.summary, tf.keras]
 summary: Keras 用可組合的模組描述網路，並設定與執行訓練
-requires: [output-loss-contract, mlp]
+requires: [output-loss-contract, affine-layer]
 guide_refs: [guide-3:4-90, guide-3:4-91]
 textbook: v2
 author: codex

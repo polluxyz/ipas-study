@@ -4,7 +4,6 @@ title: 視覺追蹤與 AR/VR 互動
 kind: technique
 codes: [L21102, L21104]
 aliases: [AR, VR, Visual Tracking, 虛實互動]
-requires: [object-detection]
 summary: 視覺追蹤把跨時間的位置與姿態連起來，支援 AR 疊圖及 VR 動作映射
 goals:
   - id: g1

@@ -4,7 +4,7 @@ title: 差分隱私
 kind: technique
 codes: [L23401, L21203]
 aliases: [DP, Differential Privacy]
-requires: [noise-injection, probabilistic-modeling]
+requires: [probabilistic-modeling]
 guide_refs: [guide-3:6-12]
 summary: 差分隱私限制增加或移除一人的資料，能使輸出機率改變多少
 goals:

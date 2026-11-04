@@ -4,7 +4,6 @@ title: 資料型別與時間解析
 kind: technique
 codes: [L23301]
 aliases: [Data Type, Datetime Parsing, Timestamp]
-requires: [data-preparation]
 summary: 依欄位意義轉換數值、類別與時間，並留下解析失敗的原因
 textbook: v2
 author: codex

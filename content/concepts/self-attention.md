@@ -16,8 +16,7 @@ goals:
     text: 以 QKV 與權重說明同序列遠距詞元如何交換資訊
   - id: g2
     text: 計算縮放點積、Softmax 與輸出，區分單頭和多頭的職責
-requires:
-  - softmax
+requires: [softmax, matrix-operations]
 guide_refs:
   - guide-1:3-25
   - guide-3:4-78

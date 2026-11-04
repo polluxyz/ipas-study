@@ -8,7 +8,7 @@ summary: 依有效樣本、特徵與成本選模型容量，再以驗證判斷�
 goals:
   - id: g1
     text: 比較小中大資料的容量與擴展性，核算參數並辨識同筆數的不同條件
-requires: [overfitting, train-val-test-split]
+requires: [overfitting]
 guide_refs: [guide-3:5-13, guide-3:5-14]
 textbook: v2
 author: codex

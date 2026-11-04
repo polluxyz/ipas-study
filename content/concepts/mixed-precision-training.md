@@ -10,7 +10,7 @@ goals:
     text: 區分混合精度訓練與低精度推論，估算部分記憶體並辨識數值風險
   - id: g2
     text: 安排 scale、backward、unscale、clip 與 step，避免重複還原尺度
-requires: [pytorch, model-resource-costs]
+requires: [model-resource-costs]
 contrasts:
   - target: quantization
     note: 混合精度訓練調整訓練運算的精度分工；量化改低精度表示以改善部署成本

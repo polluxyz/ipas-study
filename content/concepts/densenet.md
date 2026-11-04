@@ -6,11 +6,7 @@ codes: [L23203]
 aliases: [Dense Connection]
 summary: DenseNet 在密集區塊內拼接先前特徵，讓後層重用資訊並逐層增加通道
 is_a: [cnn]
-requires: [residual-connections]
-contrasts:
-  - target: residual-connections
-    note: ResNet 將相容特徵逐項相加；DenseNet 在密集區塊沿通道拼接先前特徵
-    source: [guide-3:4-71, guide-3:4-72]
+requires: [cnn-tensor-shapes]
 guide_refs: [guide-3:4-71, guide-3:4-72]
 textbook: v2
 author: codex

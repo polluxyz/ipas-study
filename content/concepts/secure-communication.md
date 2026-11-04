@@ -4,7 +4,6 @@ title: 安全通訊與密碼技術分工
 kind: technique
 codes: [L23401, L21203, L21302]
 aliases: [Digital Signature, 對稱加密, 防重放, 非對稱加密]
-requires: [api-access-security]
 summary: 安全通訊須結合保密、金鑰建立、身分認證、完整性與防重放
 goals:
   - id: g1

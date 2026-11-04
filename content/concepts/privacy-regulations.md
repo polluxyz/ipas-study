@@ -12,7 +12,6 @@ goals:
     text: 沿資料流整理接收方、保護機制與契約的跨境待查事項
   - id: g3
     text: 用官方來源與版本紀錄比較三法的適用對象、權利及跨境要求
-requires: [data-inventory]
 guide_refs: [guide-3:6-2, guide-3:6-13, guide-1:4-34]
 self_check:
   - id: c1

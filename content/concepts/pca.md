@@ -23,8 +23,7 @@ guide_refs:
   - guide-3:4-44
   - guide-3:4-45
   - guide-3:5-6
-requires:
-  - svd
+requires: [descriptive-statistics, eigenvalue-decomposition]
 goals:
   - id: g1
     text: 走完中心化、協方差分解與投影，判斷何時先縮放

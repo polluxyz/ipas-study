@@ -4,7 +4,7 @@ title: 嶺迴歸
 kind: model
 codes: [L23202]
 aliases: [Ridge, Ridge Regression]
-requires: [linear-regression, feature-scaling]
+requires: [linear-regression, l2-regularization]
 guide_refs: [guide-3:4-15, guide-3:4-16, guide-3:4-17]
 summary: 在線性迴歸加入係數平方和懲罰，收縮大係數以緩和共線性造成的不穩定
 goals:

@@ -8,7 +8,7 @@ summary: 模型接續學習新任務後，仍需保留的舊任務能力明顯�
 goals:
   - id: g1
     text: 用新舊任務前後分數診斷遺忘，比較凍結、低秩與混合舊資料的限制
-requires: [transfer-learning, incremental-learning]
+requires: [incremental-learning]
 self_check:
   - id: c1
     goal: g1

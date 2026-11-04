@@ -4,7 +4,6 @@ title: 正則化方法選用
 kind: technique
 codes: [L23304, L23203, L23302]
 aliases: [L1, L2, 正則化, 正規化懲罰]
-requires: [bias-variance-tradeoff]
 mitigates:
   - target: overfitting
     note: 限制權重或訓練行為可降低過擬合風險；限制過強會造成欠擬合。

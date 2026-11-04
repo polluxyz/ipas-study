@@ -4,7 +4,6 @@ title: 時序資料增強
 kind: technique
 codes: [L23301]
 aliases: [Jittering, Scaling, Window Slicing]
-requires: [time-series-split]
 summary: 改變訓練序列的讀值或片段範圍，增加變化並檢查時間與標籤是否保留
 goals:
   - id: g1
@@ -51,6 +50,7 @@ textbook: v2
 author: codex
 status: draft
 guide_refs: [guide-3:5-9]
+is_a: [data-augmentation]
 ---
 
 ## 為什麼需要

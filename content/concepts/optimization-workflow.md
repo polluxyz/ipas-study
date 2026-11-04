@@ -8,7 +8,7 @@ summary: 先辨識泛化、訓練或部署瓶頸，再選方法並查核副作�
 goals:
   - id: g1
     text: 依泛化不足、訓練不穩與部署資源不足選擇優化方向並指出副作用
-requires: [train-val-test-split, overfitting]
+requires: [overfitting]
 guide_refs: [guide-3:5-30, guide-3:5-31, guide-3:5-43, guide-3:5-47, guide-3:5-48, guide-3:5-49, guide-3:5-50]
 textbook: v2
 author: codex

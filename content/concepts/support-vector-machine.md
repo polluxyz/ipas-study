@@ -4,7 +4,7 @@ title: 支持向量機
 kind: model
 codes: [L23202, L21301]
 aliases: [SVM, Support Vector Machine, 支援向量機]
-requires: [classification-regression, vector-norm-linear-combination, feature-scaling]
+requires: [classification-regression, vector-norm-linear-combination]
 summary: 支持向量機以支持向量決定分類邊界，兼顧間隔與訓練違規
 goals:
   - id: g1

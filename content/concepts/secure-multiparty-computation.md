@@ -4,7 +4,6 @@ title: 安全多方計算
 kind: technique
 codes: [L23401]
 aliases: [MPC, Secure Multi-party Computation]
-requires: [homomorphic-encryption, federated-learning]
 summary: 安全多方計算讓多方共同求值，依協議限制各方看見的私人輸入
 goals:
   - id: g1

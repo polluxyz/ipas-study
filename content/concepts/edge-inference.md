@@ -28,9 +28,7 @@ goals:
     text: 核算串流預算，說明逐影格結果如何形成產線事件及零售彙整
   - id: g3
     text: 依資源瓶頸選輕量模型及自適應或多階段推論
-requires:
-  - inference-service-api
-  - model-resource-costs
+requires: [model-resource-costs]
 guide_refs:
   - guide-1:3-53
   - guide-1:3-55

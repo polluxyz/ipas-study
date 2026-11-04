@@ -14,17 +14,37 @@ const routeHtml = (input) => input.rendered[route(input).file];
 const mutateHtml = (input, change) => { input.rendered[route(input).file] = change(routeHtml(input)); };
 
 describe('固定概念閱讀入口', () => {
-  it('固定名單與已核可的8個ID完全一致，fixture保留兩種原始計數', async () => {
-    expect(APPROVED_IDS).toEqual(['ai-team-capability', 'cyclic-time-features', 'multimodal-privacy-security', 'ndcg', 'open-weight-models', 'text-generation-platforms', 'development-toolchain', 'text-generation-workflow']);
+  it('固定名單與已核可的25個ID完全一致，fixture保留兩種原始計數', async () => {
+    expect(APPROVED_IDS).toEqual(['ai-team-capability', 'cyclic-time-features', 'multimodal-privacy-security', 'ndcg', 'open-weight-models', 'text-generation-platforms', 'development-toolchain', 'text-generation-workflow',
+      'color-space-conversion', 'data-consistency', 'data-types-time-parsing', 'feedback-loop',
+      'financial-regulatory-sandbox', 'generative-quality-metrics', 'high-availability', 'image-resizing',
+      'machine-translation', 'medical-device-regulation', 'privacy-regulations', 'scrum',
+      'speech-recognition-pipeline', 'telecom-regulation', 'video-frame-sampling', 'virginia-cdpa', 'visual-tracking']);
     const report = checkConceptEntries(await fixture());
     expect(report.issues).toEqual([]);
-    expect(report.counts).toMatchObject({ concepts: 10, questions: 1, codes: 1, relations: 1, c12Warnings: 8, rawStrongGaps: 8, approvedLimit: 8, technicallyValidExceptions: 8, technicallyUnexempted: 0 });
+    expect(report.counts).toMatchObject({ concepts: 27, questions: 1, codes: 1, relations: 1, c12Warnings: 25, rawStrongGaps: 25, approvedLimit: 25, technicallyValidExceptions: 25, technicallyUnexempted: 0 });
     expect(report.semanticReview).toContain('pending');
     expect(report.finalAcceptance).toContain('pending');
     expect(report.renderedHashes).toHaveProperty('content/codes/L00001.md');
     const input = await fixture(), before = JSON.stringify(input);
     checkConceptEntries(input);
     expect(JSON.stringify(input)).toBe(before);
+  });
+
+  it.each(APPROVED_IDS)('%s沿用相同來源、目的及stage失效條件', async (id) => {
+    const input = await fixture();
+    const record = input.evidence.entries.find((entry) => entry.id === id);
+    expect(checkConceptEntries(input).results.find((entry) => entry.id === id).status).toBe('technically-valid-exception');
+    const purpose = record.purpose;
+    record.purpose = '';
+    expect(checkConceptEntries(input).issues).toContainEqual(expect.objectContaining({ id, code: 'PURPOSE' }));
+    record.purpose = purpose;
+    record.source.sha256 = sha256('來源已變更');
+    expect(checkConceptEntries(input).issues).toContainEqual(expect.objectContaining({ id, code: 'HASH' }));
+    record.source.sha256 = route(input).fileSha256;
+    record.location.goal += '不符來源';
+    expect(checkConceptEntries(input).issues).toContainEqual(expect.objectContaining({ id, code: 'STAGE_SOURCE' }));
+    expect(checkConceptEntries(input).results.find((entry) => entry.id === id).status).toBe('invalid-exception');
   });
 
   it.each([
@@ -48,7 +68,7 @@ describe('固定概念閱讀入口', () => {
     ['目標缺正文容器', (x) => { x.rendered[x.content.concepts[0].file] = '<main>空白頁</main>'; }, 'TARGET_RENDER'],
     ['無指引依據', (x) => { first(x).basis = []; }, 'BASIS'],
     ['無題目排除理由', (x) => { first(x).exclusions.questions[0].reason = ''; }, 'EXCLUSIONS'],
-    ['未知ID', (x) => { x.evidence.entries.push({ ...first(x), id: 'unapproved-ninth-id' }); }, 'UNKNOWN_ID'],
+    ['未知ID', (x) => { x.evidence.entries.push({ ...first(x), id: 'unapproved-twenty-sixth-id' }); }, 'UNKNOWN_ID'],
     ['重複ID', (x) => { x.evidence.entries.push(structuredClone(first(x))); }, 'DUPLICATE_ID'],
     ['缺固定ID', (x) => { x.evidence.entries.pop(); }, 'MISSING_ID'],
   ])('%s會拒絕', async (_label, mutate, expected) => {
@@ -63,13 +83,13 @@ describe('固定概念閱讀入口', () => {
     expect(codes(checkConceptEntries(input))).toContain('EXCLUSIONS');
   });
 
-  it('新增第9個強缺口時保持失敗，不會擴張核可清單', async () => {
+  it('新增第26個強缺口時保持失敗，不會擴張核可清單', async () => {
     const input = await fixture();
     const extra = { ...input.content.concepts[0], id: 'new-isolated-page', file: 'content/concepts/new-isolated-page.md' };
     input.content.concepts.push(extra); input.rendered[extra.file] = '<div id="concept-body"><p>新頁</p></div>';
     const report = checkConceptEntries(input);
-    expect(report.counts.rawStrongGaps).toBe(9);
-    expect(report.counts.technicallyValidExceptions).toBe(8);
+    expect(report.counts.rawStrongGaps).toBe(26);
+    expect(report.counts.technicallyValidExceptions).toBe(25);
     expect(report.technicallyUnexempted).toEqual(['new-isolated-page']);
     expect(codes(report)).toContain('UNEXEMPTED');
   });
@@ -89,7 +109,7 @@ describe('固定概念閱讀入口', () => {
     const report = checkConceptEntries(input);
     expect(report.issues).toEqual([]);
     expect(report.results.find((item) => item.id === id).status).toBe('general-rule');
-    expect(report.counts).toMatchObject({ rawStrongGaps: 7, technicallyValidExceptions: 7, technicallyUnexempted: 0 });
+    expect(report.counts).toMatchObject({ rawStrongGaps: 24, technicallyValidExceptions: 24, technicallyUnexempted: 0 });
   });
 
   it('正文入口須有同一行來源、實際段落、href與目的；自我、搜尋及自動目錄不能替代', async () => {
@@ -105,7 +125,7 @@ describe('固定概念閱讀入口', () => {
     input.rendered[source.file] = `<div id="concept-body">${paragraph}</div>`;
     const pass = checkConceptEntries(input);
     expect(pass.issues).toEqual([]);
-    expect(pass.counts).toMatchObject({ rawStrongGaps: 8, c12Warnings: 7, technicallyValidExceptions: 8 });
+    expect(pass.counts).toMatchObject({ rawStrongGaps: 25, c12Warnings: 24, technicallyValidExceptions: 25 });
     for (const bad of [
       `<nav>${paragraph}</nav><div id="concept-body"></div>`,
       `<div id="concept-body"><nav>${paragraph}</nav></div>`,
@@ -127,15 +147,15 @@ describe('固定概念閱讀入口', () => {
     const input = await fixture(), source = input.content.concepts.find((c) => c.id === 'fixture-child');
     const link = '<a href="/concepts/ai-team-capability/">人才盤點</a>';
     input.rendered[source.file] = `<div id="concept-body"><p>正文</p></div><section id="self-check">${link}</section><nav>${link}</nav>`;
-    expect(checkConceptEntries(input).counts.c12Warnings).toBe(8);
+    expect(checkConceptEntries(input).counts.c12Warnings).toBe(25);
     input.rendered[source.file] = `<div id="concept-body"><p>${link}</p></div>`;
-    expect(checkConceptEntries(input).counts.c12Warnings).toBe(7);
+    expect(checkConceptEntries(input).counts.c12Warnings).toBe(24);
   });
 
   it('CLI支援離線fixture，拒絕缺收據、未知參數與混用模式', async () => {
     const stdout = [], stderr = [], io = { stdout: { write: (s) => stdout.push(s) }, stderr: { write: (s) => stderr.push(s) } };
     expect(await main(['--input', fixturePath], io)).toBe(0);
-    expect(JSON.parse(stdout.pop()).counts.technicallyValidExceptions).toBe(8);
+    expect(JSON.parse(stdout.pop()).counts.technicallyValidExceptions).toBe(25);
     expect(await main(['--input', resolve(fixturePath, '../missing-link.json')], io)).toBe(1);
     expect(JSON.parse(stdout.pop()).technicallyUnexempted).toEqual(['ai-team-capability']);
     expect(await main([], io)).toBe(2);

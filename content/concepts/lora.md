@@ -10,7 +10,7 @@ goals:
     text: 說明基底凍結與低秩更新如何支援資源受限的領域適應
   - id: g2
     text: 核對矩陣形狀與可訓練參數，比較 rank、層數及訓練與推論成本
-requires: [transfer-learning]
+requires: [transfer-learning, matrix-operations]
 guide_refs: [guide-1:3-28, guide-1:3-29, guide-1:3-68, guide-1:3-81]
 textbook: v2
 author: codex

@@ -1,12 +1,16 @@
 {
   "version": 1,
-  "approvalDate": "2026-11-03",
+  "approvalDate": "2026-11-04",
   "sourceBaselineCommit": "1aff976b5ea9615b225dadfaf1ca27e7211cb4c8",
-  "preparedFromCommit": "60d537f6ff60a68c485a01250f2e2d4079d0c02c",
+  "preparedFromCommit": "b976e8574757a192a993db8fe2e8e1b47e08a368",
   "basisFiles": [
     {
+      "file": "docs/specs/concept-entry-completion.md",
+      "sha256": "1b85bc2f256894ab414301fc4baa5551a355b6453e655e0d38859064773196b7"
+    },
+    {
       "file": "docs/specs/concept-entry-exceptions.md",
-      "sha256": "e26efe43f3d64692e68cecb350e07850cacf676a20d4c798b592945e96eed4e2"
+      "sha256": "3bbb4676c60dd552586dee9bd2ee451367e930327c0c71617147fd1d0931d002"
     },
     {
       "file": "text/guide_科目1.txt",
@@ -15,9 +19,17 @@
     {
       "file": "text/guide_科目3.txt",
       "sha256": "0232c28c7604129ac6783d9ad12cd860ab00cf0de0cb52b18f24865be7dec863"
+    },
+    {
+      "file": "docs/specs/site-v1.md",
+      "sha256": "8a660519c6d52647475025a68e060e140dd033b4ccda4a03f76e904258171da9"
+    },
+    {
+      "file": "docs/specs/concept-relations.md",
+      "sha256": "368da269223e748f7f89d422fe7c5237fb7ba35d78c45482e289f7e3bc91d516"
     }
   ],
-  "scope": "固定8頁技術證據草稿；不代表非作者語意主審或Root最終簽核。題目近鄰逐項核對，5型關係雙向排除；不宣稱未來不可能成立。",
+  "scope": "固定25頁作者準備證據：保留原8列，按C17核可新增17列；不代表非作者語意主審或Root最終簽核。題目及5型關係雙向近鄰排除，不宣稱未來不可能成立；cyclic-time-features回一般規則，不列當版例外。",
   "entries": [
     {
       "id": "ai-team-capability",
@@ -73,7 +85,7 @@
             "candidates": [
               {
                 "id": "ai-project-roles",
-                "sha256": "df69c3234718fd9a7682288ee5149f3c45a020e39eeca38c1f6be50fe9594515"
+                "sha256": "a53ffe1951c6dd8e6b8c1c908278c112e943f437c6be15956af315a20f4a3214"
               },
               {
                 "id": "cross-functional-collaboration",
@@ -95,7 +107,7 @@
             "candidates": [
               {
                 "id": "ai-project-roles",
-                "sha256": "df69c3234718fd9a7682288ee5149f3c45a020e39eeca38c1f6be50fe9594515"
+                "sha256": "a53ffe1951c6dd8e6b8c1c908278c112e943f437c6be15956af315a20f4a3214"
               },
               {
                 "id": "cross-functional-collaboration",
@@ -112,7 +124,7 @@
               },
               {
                 "id": "ai-change-management",
-                "sha256": "dd67a1669b99c475452c6dd29bcb5f6737c389a20e61764539d48d84ebccb608"
+                "sha256": "82f4acaa06f94cf48aecca7f15496ea1390d1b7fa1214cacebda25c015f07ab0"
               }
             ],
             "reason": "模型穩定風險含資料與情境變化；變革管理也非problem。人才盤點不能整頁當成它們的直接對策。"
@@ -121,11 +133,11 @@
             "candidates": [
               {
                 "id": "ai-project-roles",
-                "sha256": "df69c3234718fd9a7682288ee5149f3c45a020e39eeca38c1f6be50fe9594515"
+                "sha256": "a53ffe1951c6dd8e6b8c1c908278c112e943f437c6be15956af315a20f4a3214"
               },
               {
                 "id": "ai-change-management",
-                "sha256": "dd67a1669b99c475452c6dd29bcb5f6737c389a20e61764539d48d84ebccb608"
+                "sha256": "82f4acaa06f94cf48aecca7f15496ea1390d1b7fa1214cacebda25c015f07ab0"
               }
             ],
             "reason": "指引分列職責、阻力與技能風險，未要求把整頁概念當成易混淆的一對。"
@@ -167,7 +179,7 @@
         "questions": [
           {
             "id": "115-1-S3-Q26",
-            "sha256": "8ff4a1674f6e23de9c1379ce565e99736ad34e8545eb59918a5498bc792c7f42",
+            "sha256": "a07e79c72424791017134be946fb9d7b5be50f2375ddf21074907c0067626b57",
             "reason": "問滑動窗口建立滯後觀測，不問日曆位置的週期座標。"
           },
           {
@@ -181,7 +193,7 @@
             "candidates": [
               {
                 "id": "temporal-features",
-                "sha256": "1124ebefc8b4e1d0245de4534622d71375c125c345e6c072362eed8b1536c1b7"
+                "sha256": "e8ad348bd229df99ee8b831daafe716e4ece73844fbc74912d6d73e7d7840ae6"
               },
               {
                 "id": "feature-engineering-strategy",
@@ -203,7 +215,7 @@
             "candidates": [
               {
                 "id": "categorical-encoding",
-                "sha256": "5216d27774bf1aeda1e7803a126384c4f847de503bbf48f39cf30b4cf3faba35"
+                "sha256": "75a87827859004ee8bec34a57a0b7da786bff08c57fda0c212c05d2577a469b7"
               },
               {
                 "id": "feature-scaling",
@@ -225,11 +237,11 @@
             "candidates": [
               {
                 "id": "temporal-features",
-                "sha256": "1124ebefc8b4e1d0245de4534622d71375c125c345e6c072362eed8b1536c1b7"
+                "sha256": "e8ad348bd229df99ee8b831daafe716e4ece73844fbc74912d6d73e7d7840ae6"
               },
               {
                 "id": "categorical-encoding",
-                "sha256": "5216d27774bf1aeda1e7803a126384c4f847de503bbf48f39cf30b4cf3faba35"
+                "sha256": "75a87827859004ee8bec34a57a0b7da786bff08c57fda0c212c05d2577a469b7"
               }
             ],
             "reason": "正文可區分日曆、歷史值與類別距離，但引用指引沒有將這些整頁指定為必辨的一對。"
@@ -243,7 +255,7 @@
       "id": "multimodal-privacy-security",
       "target": {
         "file": "content/concepts/multimodal-privacy-security.md",
-        "sha256": "7ceb3190ba8898a85784ccaeb77af5a533ebdb5a89bb72289a70c0661da86bde"
+        "sha256": "306387063d940c8313e63433f6b1439e8e61361474ef02cc0ea610a9dbd10d76"
       },
       "source": {
         "file": "content/codes/L21104.md",
@@ -308,7 +320,7 @@
             "candidates": [
               {
                 "id": "data-protection-impact-assessment",
-                "sha256": "36b56881d73cde0648855321960603ac8ed6013f790af8b6e9d3ce6c80315ae1"
+                "sha256": "5e11c405ed839627cf0c1dd648b772c1ad431cfd41252e14b0dfd51ae327b041"
               },
               {
                 "id": "adversarial-training",
@@ -334,7 +346,7 @@
               },
               {
                 "id": "data-protection-impact-assessment",
-                "sha256": "36b56881d73cde0648855321960603ac8ed6013f790af8b6e9d3ce6c80315ae1"
+                "sha256": "5e11c405ed839627cf0c1dd648b772c1ad431cfd41252e14b0dfd51ae327b041"
               }
             ],
             "reason": "多模態檢查與一般治理／DPIA的範圍不同，不是來源指定的易混淆對。"
@@ -421,7 +433,7 @@
             "candidates": [
               {
                 "id": "online-business-metrics",
-                "sha256": "242f8a4066b2cc6a01a27f4c7053b0e5e594329e29cea408683b02d41394e365"
+                "sha256": "d64a8a9e8fe7dec55026f0323cf887a9bbf7853df9d8c27561849e4793109df2"
               },
               {
                 "id": "roc-auc",
@@ -463,7 +475,7 @@
         "questions": [
           {
             "id": "115-1-S1-Q02",
-            "sha256": "786932017a00ce1e6fdd4845a3bc2b72f790c03f633443327c66ab152413207c",
+            "sha256": "16fc8d53cb8ef7169db0fca9762297b2b784167fadb40149d09f589301d3c396",
             "reason": "Llama3只是LoRA場景；決勝在凍結基底及低秩參數，不在下載權重或使用權利。"
           }
         ],
@@ -494,11 +506,11 @@
             "candidates": [
               {
                 "id": "ai-license-governance",
-                "sha256": "c02c2422fe062b34c48cebeeda0da1e6afabcd36879815ae03e74de903d0479a"
+                "sha256": "ce9d1133cc5a9ffbbc5ffc5878a8b433a5d823de8e21ab5d8789384b1b3b5cf3"
               },
               {
                 "id": "pretraining-fine-tuning",
-                "sha256": "c92c35e08b6cced8fccaebe05b80b3c576ed82921e678e6d39121f959d348630"
+                "sha256": "ebfef4c3483e5902964a3cc00db284654f6f866faa8e3fb3165e527268ef732e"
               }
             ],
             "reason": "可先理解權重取得與本頁查核清單，不必先學整頁授權治理或訓練流程；反向也非必要。"
@@ -559,7 +571,7 @@
           },
           {
             "id": "115-1-S1-Q21",
-            "sha256": "850e840cd206a46033fabbd490d713f221fcc96d370f5e88690cdb92a053be3a",
+            "sha256": "125731fab1a67bea7cf04ec2ec8d781d8ae1d256a7c2bf1ee89224b290225fb9",
             "reason": "指定GPT-4o是費率與快取場景；決勝在token成本組合，不在比較平台。"
           }
         ],
@@ -568,7 +580,7 @@
             "candidates": [
               {
                 "id": "generative-content-types",
-                "sha256": "97f9a6c1267f00d80b3756c14eca293533594321eca18045c8a0c4cc40eae9f8"
+                "sha256": "d8daba373d55871b1f0eb73f166a3342dd4ff70d0008b814d8c963be101c3308"
               },
               {
                 "id": "open-weight-models",
@@ -581,7 +593,7 @@
             "candidates": [
               {
                 "id": "text-generation-workflow",
-                "sha256": "aa19920573c0a41142f54fc7bb09b473a0b085f4231c185f4f65c901a32a7197"
+                "sha256": "27bb108b76082bed352ef9cd0e2fe7555d4d83c2a9257fc3066d6c03c22b49ba"
               }
             ],
             "reason": "工作流可替換工具，本頁列舉的模型／產品不是每個工作流的固定元件。"
@@ -743,7 +755,7 @@
       "id": "text-generation-workflow",
       "target": {
         "file": "content/concepts/text-generation-workflow.md",
-        "sha256": "aa19920573c0a41142f54fc7bb09b473a0b085f4231c185f4f65c901a32a7197"
+        "sha256": "27bb108b76082bed352ef9cd0e2fe7555d4d83c2a9257fc3066d6c03c22b49ba"
       },
       "source": {
         "file": "content/codes/L21103.md",
@@ -775,12 +787,12 @@
         "questions": [
           {
             "id": "115-1-S1-Q16",
-            "sha256": "5823eaaa0b70eda7226edc2b16a69e8f069174bcc1666e20482839a4acd5aeff",
+            "sha256": "3d11a56c28c9ed0a35f1b0f8cb70725578b009a392fbd2a85f197f8813b2427f",
             "reason": "考ReAct工具行動、觀察與來源時效，不考多任務的草稿交付流程。"
           },
           {
             "id": "115-1-S1-Q21",
-            "sha256": "850e840cd206a46033fabbd490d713f221fcc96d370f5e88690cdb92a053be3a",
+            "sha256": "125731fab1a67bea7cf04ec2ec8d781d8ae1d256a7c2bf1ee89224b290225fb9",
             "reason": "考檢索、歷史摘要及快取成本，沒有要求安排專業驗收順序。"
           },
           {
@@ -794,11 +806,11 @@
             "candidates": [
               {
                 "id": "generative-content-types",
-                "sha256": "97f9a6c1267f00d80b3756c14eca293533594321eca18045c8a0c4cc40eae9f8"
+                "sha256": "d8daba373d55871b1f0eb73f166a3342dd4ff70d0008b814d8c963be101c3308"
               },
               {
                 "id": "ai-agent",
-                "sha256": "209e49a184f7bc820e1662df30e0137ecb60ea489fc43c7277ca76c7979bb287"
+                "sha256": "9bd3acea102b443621f62ed44b3624d6d70c322cb7bc2d983013f69b858412de"
               }
             ],
             "reason": "本頁是文本產製安排，不是內容模態的分類節點，也不要求代理自主工具行動。"
@@ -807,7 +819,7 @@
             "candidates": [
               {
                 "id": "ai-agent",
-                "sha256": "209e49a184f7bc820e1662df30e0137ecb60ea489fc43c7277ca76c7979bb287"
+                "sha256": "9bd3acea102b443621f62ed44b3624d6d70c322cb7bc2d983013f69b858412de"
               },
               {
                 "id": "human-generation-evaluation",
@@ -842,7 +854,7 @@
               },
               {
                 "id": "ai-agent",
-                "sha256": "209e49a184f7bc820e1662df30e0137ecb60ea489fc43c7277ca76c7979bb287"
+                "sha256": "9bd3acea102b443621f62ed44b3624d6d70c322cb7bc2d983013f69b858412de"
               }
             ],
             "reason": "相鄰流程與方法分工不等於來源指定易混淆的一對，不能只因同場景就補比較邊。"
@@ -850,6 +862,1579 @@
         }
       },
       "visibility": "stage內呈現來源、草稿與驗收目的；未採生成任務舉例等弱正文入鏈。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "color-space-conversion",
+      "target": {
+        "file": "content/concepts/color-space-conversion.md",
+        "sha256": "9f8a9f74d881c584e031ecf52b2b4e1e06193d23897ad8324e931d205db1f205"
+      },
+      "source": {
+        "file": "content/codes/L21102.md",
+        "sha256": "0a2e2dd49036dbae5e1e30e9084831a36776fa404dc028fbf80d55b1b5899c79"
+      },
+      "href": "/concepts/color-space-conversion/",
+      "location": {
+        "kind": "stage",
+        "stageId": "prepare-images",
+        "intro": "先依各頁前置清單補讀陣列操作與資料切分，再依序讀幾何、數值、色彩與畫質處理。接著把一般資料增強原則套到影像，另讀影片的時間取樣。最後回到資料準備頁，把清理、編碼與分類開發流程接起來。",
+        "goal": "依顏色線索需求選 RGB、灰階或 HSV"
+      },
+      "purpose": "沿L21102的從原始影像走到訓練輸入路線，依顏色線索需求選 RGB、灰階或 HSV。",
+      "basis": [
+        {
+          "ref": "guide-1:3-47",
+          "reason": "指引依任務調整RGB、灰階與HSV通道；不能推定灰階必適用。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "114-2-S3-Q27",
+            "sha256": "3f0d139b86839a0480b27e7acdcc634fe347d9d7bc333e5a8bbf2d0d84d4e06b",
+            "reason": "灰階只在干擾項；決勝是引入非線性，未要求依色別訊號選表示。"
+          },
+          {
+            "id": "114-2-S3-Q46",
+            "sha256": "39a95b5059de2b82308d9f5ac8fb6b3ea3d438d7456074a66e4d3ac244952cc7",
+            "reason": "灰階是既定資料，題目考PCA保留成分，不選色彩表示。"
+          },
+          {
+            "id": "114-2-S3-Q47",
+            "sha256": "06fe227128462ec4f82737e529a70793d82c0a5d9b5280b84448e4e49d45f0d7",
+            "reason": "灰階是既定資料，題目考KNN交叉驗證及評分。"
+          },
+          {
+            "id": "115-1-S3-Q41",
+            "sha256": "29656a04bee2be2dd9b199b55babc93843443994da8aa8b2e0499bd311c7d133",
+            "reason": "題目考鏡像破壞字母標籤；亮度擾動不等於RGB與HSV的選擇。"
+          },
+          {
+            "id": "115-1-S3-Q46",
+            "sha256": "257c73a8d86507d3f258129cd0e90c4ec80aa4e5f57faaada13f849cd2133d91",
+            "reason": "題目考像素除255與獨熱標籤，不考色彩轉換的資訊損失。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "image-normalization",
+                "sha256": "2ff222d4990fbaf05436b66b27e0344d02b4ee8853cb3773596eeefdc5f42770"
+              }
+            ],
+            "reason": "色彩表示與數值尺度是兩種處理；雙向都不是對方的上位分類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "image-augmentation",
+                "sha256": "65cf03b216fa41db7bdc662f6a89825345686c8a32dd6c2f7317378beb5910c2"
+              }
+            ],
+            "reason": "資料增強可用翻轉等方式，不必改色彩空間；反向轉換也不必產生增強版本。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "image-normalization",
+                "sha256": "2ff222d4990fbaf05436b66b27e0344d02b4ee8853cb3773596eeefdc5f42770"
+              }
+            ],
+            "reason": "RGB轉灰階可直接定義加權值，不必先學整頁正規化；尺度轉換也不以色彩轉換為必要前置。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "model-stability-risk",
+                "sha256": "60a73c2ecc4cfe7441e7a8fdf37203df95543ca37351fe25815ce27fa35d1df7"
+              }
+            ],
+            "reason": "換色彩表示可能丟失訊號；指引3-47未將其指定為整頁穩定風險的直接對策，反向亦無此對策關係。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "image-enhancement",
+                "sha256": "7904969ecaf8876134bf19ba81139b6309e1acd5ca3073989b792ba87ca33a11"
+              }
+            ],
+            "reason": "指引分列表示轉換及畫質處理，未把兩整頁指定為必須辨別的一對；不能只因相鄰就加比較。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "data-consistency",
+      "target": {
+        "file": "content/concepts/data-consistency.md",
+        "sha256": "3e82656cb2da9bd848bc3f1ee11dbe285a7a47c24373ddfb9520f870cf5f2d81"
+      },
+      "source": {
+        "file": "content/codes/L21301.md",
+        "sha256": "7ececf120e47c2b206069cf1ac0049e2eed475f96b71c4b4f23b3f59d5a04482"
+      },
+      "href": "/concepts/data-consistency/",
+      "location": {
+        "kind": "stage",
+        "stageId": "prepare-inputs",
+        "intro": "帶著前一階段的品質清單，依序讀事件去重、缺值及離群值處理。再讀縮放、編碼、特徵表示與資料增強，對照轉換條件及標籤語意。最後讀 Pipeline 的程式，把補值、縮放與降維放回每摺的訓練邊界；逐摺驗證方式可先補讀第 10 階段的 K-fold。",
+        "goal": "判斷得出合法新事件與重送，選出正確的去重鍵"
+      },
+      "purpose": "沿L21301的清理紀錄，建立可用輸入路線，判斷得出合法新事件與重送，選出正確的去重鍵。",
+      "basis": [
+        {
+          "ref": "guide-1:5-4",
+          "reason": "指引列主鍵去重及唯一性檢查；不混同欄位邏輯一致性。"
+        },
+        {
+          "ref": "guide-3:5-3",
+          "reason": "指引指出同一觀察重複寫入會造成樣本重複。"
+        },
+        {
+          "ref": "guide-3:5-4",
+          "reason": "指引列主鍵、相似度、單位與格式統一。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S1-Q20",
+            "sha256": "abebb212808bc93e083fc1e312cff667e3e71c6934404ad481809aa13a61be1f",
+            "reason": "一致性只出現在串流方案干擾項，未要求判別重送、同鍵異值或觀察單位。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "data-preparation",
+                "sha256": "e7e417826694d3dd7b722edb47b0565daa6e6d70a64d473b81d427e1437f43c8"
+              }
+            ],
+            "reason": "本頁聚焦觀察單位與重送，近鄰是整體品質與建模流程；指引未建立最近上層分類，反向也不成立。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "data-preparation",
+                "sha256": "e7e417826694d3dd7b722edb47b0565daa6e6d70a64d473b81d427e1437f43c8"
+              }
+            ],
+            "reason": "不含重複事件的資料也可準備，主鍵去重不是每個流程一定有的組件；反向整體流程更非去重元件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "data-types-time-parsing",
+                "sha256": "c3ffd5a619b896d1361166fe98529523e2bbf9daa82748575da28c13dbc58a97"
+              }
+            ],
+            "reason": "已定型的事件表也能判別副本；日期解析不必依賴整頁去重，雙向都非必要前置。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "data-leakage",
+                "sha256": "3fc104f3738ca11cd91974710a8b7dfcd66bc232552d064c7549c4eef4d11e80"
+              }
+            ],
+            "reason": "同源跨切分副本確有風險，但去重不能處理事後特徵或全表擬合；所列指引未直接指定整頁去重為洩漏對策，反向也非對策。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "data-types-time-parsing",
+                "sha256": "c3ffd5a619b896d1361166fe98529523e2bbf9daa82748575da28c13dbc58a97"
+              }
+            ],
+            "reason": "型別與重送是不同品質面向；指引分列流程，沒有要求把兩整頁當易混淆比較對。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "data-types-time-parsing",
+      "target": {
+        "file": "content/concepts/data-types-time-parsing.md",
+        "sha256": "c3ffd5a619b896d1361166fe98529523e2bbf9daa82748575da28c13dbc58a97"
+      },
+      "source": {
+        "file": "content/codes/L23301.md",
+        "sha256": "c375ccf8eb835ab44eeea6dc321a37f289ec0964453c605e0101a589a4cb6902"
+      },
+      "href": "/concepts/data-types-time-parsing/",
+      "location": {
+        "kind": "stage",
+        "stageId": "inspect-and-record",
+        "intro": "先讀資料準備的全貌，知道每個特徵要能追溯到原始欄位與轉換規則。接著用陣列的形狀、軸與遮罩練習讀碼，再讀型別解析和主鍵去重。這一段先釐清資料代表什麼，之後才比較需要估計參數的方法。",
+        "goal": "判斷得出數值及日期的解析失敗與時間差"
+      },
+      "purpose": "沿L23301的先確認欄位意義與處理紀錄路線，判斷得出數值及日期的解析失敗與時間差。",
+      "basis": [
+        {
+          "ref": "guide-3:5-4",
+          "reason": "指引列數值與類別型別、時間戳、週期欄位及時間差；失敗與時區處理為既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "114-2-S1-Q27",
+            "sha256": "d2182ae9ac731365e65e17f98c12d05661e56056c29fb5209859f09fc87cd886",
+            "reason": "題目要求巢狀JSON展開及歷史窗口聚合；未判斷字串轉型、解析失敗或時區換算。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "categorical-encoding",
+                "sha256": "75a87827859004ee8bec34a57a0b7da786bff08c57fda0c212c05d2577a469b7"
+              }
+            ],
+            "reason": "把字串解析成型別不等於類別表示編碼，雙向都不是一種對方。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "temporal-features",
+                "sha256": "e8ad348bd229df99ee8b831daafe716e4ece73844fbc74912d6d73e7d7840ae6"
+              }
+            ],
+            "reason": "lag可直接用已定型且排序好的序列計算；解析也可用於非特徵用途，雙向都非固定組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "cyclic-time-features",
+                "sha256": "14981810aa53b5d7d818c36efe3c11396aae7b0203eb8fe59ea678832d0027bf"
+              }
+            ],
+            "reason": "讀懂時間差與解析失敗不必先學sin/cos；週期座標可從已知星期索引開始，也不必先讀整頁解析。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "data-leakage",
+                "sha256": "3fc104f3738ca11cd91974710a8b7dfcd66bc232552d064c7549c4eef4d11e80"
+              }
+            ],
+            "reason": "正確解析不保證fit邊界或特徵可用時間正確；所列指引未指定解析為洩漏直接對策，反向也不成立。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "data-consistency",
+                "sha256": "3e82656cb2da9bd848bc3f1ee11dbe285a7a47c24373ddfb9520f870cf5f2d81"
+              }
+            ],
+            "reason": "轉型與去重可相接，但指引未指定為易混淆的整頁比較，不因同流程就加邊。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "feedback-loop",
+      "target": {
+        "file": "content/concepts/feedback-loop.md",
+        "sha256": "4bade336cd3f20472743331ab5ae051812b14dd3189b125adf0fbf8990d62e74"
+      },
+      "source": {
+        "file": "content/codes/L21302.md",
+        "sha256": "49a50c86d8b64415a4be3cd930d065c12c9fcc9b41244d8663a5ba6946d98f5a"
+      },
+      "href": "/concepts/feedback-loop/",
+      "location": {
+        "kind": "stage",
+        "stageId": "monitor-and-improve",
+        "intro": "先讀漂移辨識，再讀 PSI 的補充計算，分清分布訊號與真值證據。接著讀監控與均方根誤差的分群補充算例，再沿回饋回收、重訓管線與候選驗證閱讀。最後比較線上更新與公平性稽核，檢查更新後的品質、群體表現與責任是否仍可追查。",
+        "goal": "判斷得出回報、成熟真值與可用訓練素材的差別"
+      },
+      "purpose": "沿監控後的回收流程，區分回報、成熟真值與可用訓練素材；直接對應g2，不宣稱此入口評量g1日週月節奏。",
+      "basis": [
+        {
+          "ref": "guide-1:5-20",
+          "reason": "指引支持日週月回收節奏，僅作背景；本入口採g2素材辨識。"
+        },
+        {
+          "ref": "guide-1:5-21",
+          "reason": "指引列客服、銷售、人工及點擊回饋轉作優化素材；成熟標籤與許可篩選是既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S1-Q49",
+            "sha256": "fb4130c68173b823200ea24d3dd6b92af139bca048f550cbfaf51904b8137128",
+            "reason": "題目比較線上監控與離線追蹤；提到標籤回收，但未要求判別成熟真值、許可或素材分流。"
+          },
+          {
+            "id": "G1e1-5-24-Q09",
+            "sha256": "a44c2651fa2d90a717457bd8b334adc475b77ae1c6ae2b53bfea98f251f789a6",
+            "reason": "題目只問監控目的，不安排回收節奏，也不辨回報與真值。"
+          },
+          {
+            "id": "G1e1-4-45-Q10",
+            "sha256": "c652ad60d2858389116f9bc9e6acd153571aeda8441c02ee2852a973b23ee23e",
+            "reason": "題目要求漂移監控及重訓流程，未選可用回饋素材或日週月節奏。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "model-monitoring",
+                "sha256": "588d71cab5e5eb30d8f2074a7856c7af431f101a303bc67ad8e8c3ae016a320c"
+              }
+            ],
+            "reason": "回收素材與觀測告警各有工作範圍；雙向都不是對方的分類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "retraining-pipeline",
+                "sha256": "b080effdd7d856114728e8ae0402b320905defa299ca8e763ea881865a207edb"
+              }
+            ],
+            "reason": "重訓可用新的正式資料而不依賴使用者回報，回饋也可能只用於修知識；雙向都非必備組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "model-retraining",
+                "sha256": "24dd3ce87681ecaa1683c983df1c4937bb12a33a0f8292aa946427dd63d09f35"
+              }
+            ],
+            "reason": "回饋可先整理許可及真值，不必先完成整頁候選重訓；重訓也可用已核准資料，雙向非必要前置。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "model-drift",
+                "sha256": "40d725b263921348ff2dfe1745ddde0755f67ce8ff99c66da05520cb82d12b16"
+              }
+            ],
+            "reason": "回收提供線索和素材，並不直接恢復效能；指引未指定此整頁為漂移的直接對策，反向亦非對策。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "online-learning",
+                "sha256": "5dd62a4d095e3e90da202182df0cbefd3f985a5ce6e2805a3d90177bb37c2b0d"
+              }
+            ],
+            "reason": "回饋篩選與參數更新是流程分工，來源未將兩整頁列為易混淆對；不把先後作業當比較邊。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "financial-regulatory-sandbox",
+      "target": {
+        "file": "content/concepts/financial-regulatory-sandbox.md",
+        "sha256": "754ec98f9eb92fc099c2c474900d61929fb8b010bee5696ab645d53e036f76d4"
+      },
+      "source": {
+        "file": "content/codes/L21203.md",
+        "sha256": "b4775a43a0352010d31cec3ce111695ef9dd4676e2de069a29b6230cf9c60175"
+      },
+      "href": "/concepts/financial-regulatory-sandbox/",
+      "location": {
+        "kind": "stage",
+        "stageId": "sector-and-license-review",
+        "intro": "先讀跨境與委外治理及產業盤點，再沿醫療資訊、支付、金融實驗、醫材與電信的專頁核對不同責任。最後讀資料與模型授權，將使用、修改、散布與三類智慧財產權分開查。這些頁面各有查核範圍，閱讀時保留用途、角色及法源版本。",
+        "goal": "說得出受控實驗的申請、範圍與評估前提"
+      },
+      "purpose": "沿L21203的分開查產業規範與資產授權路線，說得出受控實驗的申請、範圍與評估前提。",
+      "basis": [
+        {
+          "ref": "guide-1:4-36",
+          "reason": "指引列金融創新審查、個資安全與試行合規；申請及核准程序依目標頁既有官方補充，不照搬指引的簡略法名。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "M-L21202-002",
+            "sha256": "2e967e393647465cfd59e9fed3ecfdbdd78835acfa53593a9d30f5072fa6c554",
+            "reason": "一般委外資料題要求用途、次承攬及刪除責任，不問金融受控試驗的申請或核准範圍；不能用泛用治理代替。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "sector-compliance-screening",
+                "sha256": "e42e7392f2897e81a0238f04d350549b1b8ff95f469687e8dc35ead7caf0308c"
+              }
+            ],
+            "reason": "法律制度與適用性盤點方法不同，不互為上下分類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "medical-device-regulation",
+                "sha256": "7f34a17c0c5773fb9928f0c66e3af19767db1729bd47a3e9aa90bcf148ccfa68"
+              }
+            ],
+            "reason": "金融試驗與醫材上市是不同產業制度，雙向都不是彼此固定組成。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "privacy-compliance-assessment",
+                "sha256": "53b1564ffe94a2c0ab79e793fea018aacc68f5cb4a6a197afa244ccf35109c33"
+              }
+            ],
+            "reason": "理解申請及核准邊界可由本頁說明；個資盤點也可在非金融活動完成，雙向不必先讀整個近鄰。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "privacy-compliance-assessment",
+                "sha256": "53b1564ffe94a2c0ab79e793fea018aacc68f5cb4a6a197afa244ccf35109c33"
+              }
+            ],
+            "reason": "沙盒與盤點都不是problem節點；兩者互相不是減輕問題的法定對策關係。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "medical-device-regulation",
+                "sha256": "7f34a17c0c5773fb9928f0c66e3af19767db1729bd47a3e9aa90bcf148ccfa68"
+              }
+            ],
+            "reason": "指引4-36並列產業規範，未給兩法的具體易混淆比較點，不能因並列就加比較。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "generative-quality-metrics",
+      "target": {
+        "file": "content/concepts/generative-quality-metrics.md",
+        "sha256": "2c1d71126e2d254ec840a709ab062cd1db7e85ab1405e0d8d45a594afae48c62"
+      },
+      "source": {
+        "file": "content/codes/L23203.md",
+        "sha256": "059d3681ec8cc97fd9e8c23f522106941dcf1a81f300c8685187bbc632c762a9"
+      },
+      "href": "/concepts/generative-quality-metrics/",
+      "location": {
+        "kind": "stage",
+        "stageId": "reconstruction-and-generation",
+        "intro": "先讀自編碼器的重建路徑，再接變分自編碼器，最後比較 GAN 與擴散模型的生成流程。GAN 後緊接模式崩潰與品質指標，避免把單張品質和整批多樣性混讀。生成與鑑別式模型的比較頁是本階段的共同前置，可先補齊再開始。",
+        "goal": "說得出 IS、FID 的方向及不能證明的品質"
+      },
+      "purpose": "沿L23203的重建、生成與品質判讀路線，說得出 IS、FID 的方向及不能證明的品質。",
+      "basis": [
+        {
+          "ref": "guide-3:4-89",
+          "reason": "指引將IS、FID列為生成品質與多樣性的間接指標並提醒人工判斷；方向、公式與盲點是既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S3-Q49",
+            "sha256": "879a1693e437e23432178cc177230a6c7736cf34be2e9ab6e044786df622234e",
+            "reason": "Inception是GoogLeNet的模組，決勝是殘差梯度路徑；並非Inception Score或FID品質判讀。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "gan",
+                "sha256": "37b22ddb1b328ef38ec42cf8abf3fc83e777d5781c71da39d5d61d7ba4256a8f"
+              }
+            ],
+            "reason": "IS/FID是評估指標，GAN是模型；雙向都不是一種對方，也沒有獨立生成評估指標父節點可用。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "gan",
+                "sha256": "37b22ddb1b328ef38ec42cf8abf3fc83e777d5781c71da39d5d61d7ba4256a8f"
+              }
+            ],
+            "reason": "GAN標準組成是生成器及判別器，不一定用IS/FID；指標也不包含整個GAN作組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "gan",
+                "sha256": "37b22ddb1b328ef38ec42cf8abf3fc83e777d5781c71da39d5d61d7ba4256a8f"
+              }
+            ],
+            "reason": "可用已生成樣本解釋指標方向與限制，不必先懂對抗更新；GAN也可用其他評估，雙向不構成必要學習前置。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "mode-collapse",
+                "sha256": "51c934b82ad83ccb4fa131aa3275e08fc41f8696007ed566deb8b3c349cdcb04"
+              }
+            ],
+            "reason": "指標可協助觀察，不能直接改變生成器或補回缺漏模式；問題也不是指標的對策。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "mode-collapse",
+                "sha256": "51c934b82ad83ccb4fa131aa3275e08fc41f8696007ed566deb8b3c349cdcb04"
+              }
+            ],
+            "reason": "品質量測與多樣性不足是觀測工具及現象，非來源指定易混淆對；IS與FID在同一頁的比較不產生跨頁邊。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "high-availability",
+      "target": {
+        "file": "content/concepts/high-availability.md",
+        "sha256": "24dbd7d981386c80170210f0af84afd95129673ffbf1fec783b9bc114353ebde"
+      },
+      "source": {
+        "file": "content/codes/L21302.md",
+        "sha256": "49a50c86d8b64415a4be3cd930d065c12c9fcc9b41244d8663a5ba6946d98f5a"
+      },
+      "href": "/concepts/high-availability/",
+      "location": {
+        "kind": "stage",
+        "stageId": "service-capacity",
+        "intro": "先讀延遲、吞吐與可用率，建立後面比較服務方案的共同口徑。接著讀即時特徵管線這份補充教材，再從微服務讀到容器、擴縮與備援。最後讀斷路器的補充流程，對照持續失敗時的停止呼叫與替代處理。",
+        "goal": "說得出單點故障如何經偵測、備援與導流處理"
+      },
+      "purpose": "沿L21302的量測服務，再安排容量與容錯路線，說得出單點故障如何經偵測、備援與導流處理。",
+      "basis": [
+        {
+          "ref": "guide-1:5-17",
+          "reason": "指引列多節點冗餘、故障切換及可靠性需求；健康檢查、容量與導流細節為既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "114-2-S1-Q31",
+            "sha256": "483e6ff8189100d6ed1dc060b962e99232d8087f2c649c44755e60dab9309fed",
+            "reason": "B指定水平擴展及彈性伸縮，依吞吐即可選出；偵測、獨立故障範圍及導流只是解析補充，未直接評量切換流程。"
+          },
+          {
+            "id": "115-1-S1-Q45",
+            "sha256": "4f1b30e0cb5a99d4ef88d3e385c6a310c5eb9db6f3c8be0ea57109ad7913f074",
+            "reason": "直接考暫停失敗呼叫的斷路器，不要求健康備援接手或改送流量。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "service-scaling",
+                "sha256": "01c966878832b875bf9308b5c611466d493257ab4315cf84fa97bd724184bd16"
+              }
+            ],
+            "reason": "高可用處理故障持續服務，擴縮處理容量；雙向都不是對方的上位分類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "container-orchestration",
+                "sha256": "6a4a9b8bd2cdfd7ef47bc281ab4953df844311cb92b98c221f7b0875abe77109"
+              }
+            ],
+            "reason": "高可用可用非容器系統，容器編排也不保證跨故障域冗餘；雙向都非固定組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "service-scaling",
+                "sha256": "01c966878832b875bf9308b5c611466d493257ab4315cf84fa97bd724184bd16"
+              }
+            ],
+            "reason": "以兩節點解釋備援切換不必先學整頁擴縮控制；擴縮也可先按容量說明，雙向非必要前置。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "model-stability-risk",
+                "sha256": "60a73c2ecc4cfe7441e7a8fdf37203df95543ca37351fe25815ce27fa35d1df7"
+              }
+            ],
+            "reason": "備援修復服務中斷，不直接修正缺失、錯標或分布失準；指引未將它指定為模型穩定風險對策，反向亦否。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "circuit-breaker",
+                "sha256": "0c53cfd8d3f8166bc2cd945200042610f92fa86fa26dfcd0187db993f3d613c3"
+              }
+            ],
+            "reason": "停止呼叫與備援接手可合作，但所列指引未將兩整頁指定為易混淆比較對。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "image-resizing",
+      "target": {
+        "file": "content/concepts/image-resizing.md",
+        "sha256": "9f1703e84793f8f548ce1c7c42c6abd0ba77518842326aa95d1fd98911e8773c"
+      },
+      "source": {
+        "file": "content/codes/L21102.md",
+        "sha256": "0a2e2dd49036dbae5e1e30e9084831a36776fa404dc028fbf80d55b1b5899c79"
+      },
+      "href": "/concepts/image-resizing/",
+      "location": {
+        "kind": "stage",
+        "stageId": "prepare-images",
+        "intro": "先依各頁前置清單補讀陣列操作與資料切分，再依序讀幾何、數值、色彩與畫質處理。接著把一般資料增強原則套到影像，另讀影片的時間取樣。最後回到資料準備頁，把清理、編碼與分類開發流程接起來。",
+        "goal": "依尺寸限制選縮放、裁切或補邊並核對座標"
+      },
+      "purpose": "沿L21102的從原始影像走到訓練輸入路線，依尺寸限制選縮放、裁切或補邊並核對座標。",
+      "basis": [
+        {
+          "ref": "guide-1:3-46",
+          "reason": "指引開啟影像前處理主題。"
+        },
+        {
+          "ref": "guide-1:3-47",
+          "reason": "指引列縮放、補邊、裁切及避免變形或資訊遺失；座標例子為既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S3-Q46",
+            "sha256": "257c73a8d86507d3f258129cd0e90c4ec80aa4e5f57faaada13f849cd2133d91",
+            "reason": "固定32×32是輸入背景，直接考除255與獨熱標籤，未選縮放、裁切或補邊。"
+          },
+          {
+            "id": "115-1-S3-Q47",
+            "sha256": "4642f551a96c753e302e75037efe41cea1be12691945f07b263316076168caf6",
+            "reason": "題目追Input、卷積、正規化及Flatten；網路內形狀不是影像尺寸前處理方案。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "image-augmentation",
+                "sha256": "65cf03b216fa41db7bdc662f6a89825345686c8a32dd6c2f7317378beb5910c2"
+              }
+            ],
+            "reason": "固定輸入前處理不必增加訓練變體，增強也可只翻轉；雙向都不是一種對方。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "image-augmentation",
+                "sha256": "65cf03b216fa41db7bdc662f6a89825345686c8a32dd6c2f7317378beb5910c2"
+              }
+            ],
+            "reason": "尺寸處理不是所有增強固定組件，固定縮放也不必包含增強；雙向不成立。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "image-normalization",
+                "sha256": "2ff222d4990fbaf05436b66b27e0344d02b4ee8853cb3773596eeefdc5f42770"
+              }
+            ],
+            "reason": "縮放、裁切及補邊可用尺寸與座標說明，不必先學像素尺度；正規化也不需幾何處理作前置。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "model-stability-risk",
+                "sha256": "60a73c2ecc4cfe7441e7a8fdf37203df95543ca37351fe25815ce27fa35d1df7"
+              }
+            ],
+            "reason": "尺寸統一不直接補回錯標、缺失或代表性不足；所列指引未將它指定為整頁風險對策，反向亦否。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "image-normalization",
+                "sha256": "2ff222d4990fbaf05436b66b27e0344d02b4ee8853cb3773596eeefdc5f42770"
+              }
+            ],
+            "reason": "指引按幾何與數值分列技術，沒有將兩整頁指定為必辨的一對。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "machine-translation",
+      "target": {
+        "file": "content/concepts/machine-translation.md",
+        "sha256": "97f7838775149dae77991119e437c9e886bb9b4f06856eb63ed9a3e03b604918"
+      },
+      "source": {
+        "file": "content/codes/L21101.md",
+        "sha256": "d99559eb1950f70e7ad4000276b5c31463e1ccdc4eac1bec8e2dc400476cc4cd"
+      },
+      "href": "/concepts/machine-translation/",
+      "location": {
+        "kind": "stage",
+        "stageId": "task-outputs",
+        "intro": "先讀文字分類，再把情感、實體與關係抽取的輸出逐一對照。接著看對話、翻譯與摘要各要核對哪些中間結果，避免用同一種驗收方式處理所有文字任務。",
+        "goal": "判斷得出專業術語錯譯及需人工覆核的內容"
+      },
+      "purpose": "沿L21101的依應用確認交付的輸出路線，判斷得出專業術語錯譯及需人工覆核的內容。",
+      "basis": [
+        {
+          "ref": "guide-1:3-32",
+          "reason": "指引列商務、客服、教育用途、語法與專業術語風險；否定及覆核契約是既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "114-2-S1-Q02",
+            "sha256": "f9d81b15f714620ab78384db61f5340c51629657e5cd4f04900c7e6b93e87970",
+            "reason": "題目問Transformer自注意力的長距依賴，不要求核對專業譯詞或否定。"
+          },
+          {
+            "id": "114-2-S1-Q16",
+            "sha256": "c7f384fab2a363512ed7b6930970372cfcab09357254b48b33f6edfcbe92f08a",
+            "reason": "題目辨Seq2Seq典型用途，翻譯只是應用例，不檢查譯文或覆核條件。"
+          },
+          {
+            "id": "114-2-S1-Q19",
+            "sha256": "4246ab6a31914d35a592e544b5be4b7d6c8c23e1a43fb9abd822072a1406f97a",
+            "reason": "題目問回譯增強與訓練目標，不評量本頁術語錯譯；保留原爭議狀態。"
+          },
+          {
+            "id": "M-L21101-004",
+            "sha256": "287c29ecb1f6a3807f7184010834f6d26911870cc2821e340d06801efb762e13",
+            "reason": "題目要求退回否定與意圖反轉的回譯候選，並把合格同源改寫留在訓練集以防洩漏；考文字增強的標籤保留與切分隔離，不考本頁的專業譯詞或人工覆核條件。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "seq2seq",
+                "sha256": "a1a8f47bb4ce5c8409a31d856fce6608f419b971f65ca155520a3f29e24dcee7"
+              }
+            ],
+            "reason": "翻譯是任務，Seq2Seq是架構；可用其他翻譯方法，雙向不是上下分類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "speech-recognition-pipeline",
+                "sha256": "5fbef9728e54b398935abba0e93512e194270d5c1ae8a83ae969be31f7255aa4"
+              }
+            ],
+            "reason": "跨語互動可選翻譯，但單語辨識流程不一定有翻譯；文字翻譯也不含語音串接作固定組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "seq2seq",
+                "sha256": "a1a8f47bb4ce5c8409a31d856fce6608f419b971f65ca155520a3f29e24dcee7"
+              }
+            ],
+            "reason": "術語與原意驗收可直接對照原文，不必先學編解碼；理解架構也不需先學完整翻譯驗收。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "text-generation-summarization",
+                "sha256": "7238d75b777dceff4346fb926aa39c2c9619080a6fe3169b80c2d2923c850d93"
+              }
+            ],
+            "reason": "翻譯與摘要都是任務方法，不是problem，雙向不構成對策。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "text-generation-summarization",
+                "sha256": "7238d75b777dceff4346fb926aa39c2c9619080a6fe3169b80c2d2923c850d93"
+              }
+            ],
+            "reason": "本頁有任務界線說明，但指引3-32分別介紹用途，未指定兩整頁的具體比較點，不能只因都可用Seq2Seq就補邊。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "medical-device-regulation",
+      "target": {
+        "file": "content/concepts/medical-device-regulation.md",
+        "sha256": "7f34a17c0c5773fb9928f0c66e3af19767db1729bd47a3e9aa90bcf148ccfa68"
+      },
+      "source": {
+        "file": "content/codes/L21203.md",
+        "sha256": "b4775a43a0352010d31cec3ce111695ef9dd4676e2de069a29b6230cf9c60175"
+      },
+      "href": "/concepts/medical-device-regulation/",
+      "location": {
+        "kind": "stage",
+        "stageId": "sector-and-license-review",
+        "intro": "先讀跨境與委外治理及產業盤點，再沿醫療資訊、支付、金融實驗、醫材與電信的專頁核對不同責任。最後讀資料與模型授權，將使用、修改、散布與三類智慧財產權分開查。這些頁面各有查核範圍，閱讀時保留用途、角色及法源版本。",
+        "goal": "說得出醫療 AI 用途、風險與上市查核項目"
+      },
+      "purpose": "沿L21203的分開查產業規範與資產授權路線，說得出醫療 AI 用途、風險與上市查核項目。",
+      "basis": [
+        {
+          "ref": "guide-1:4-36",
+          "reason": "指引列醫療AI產品的上市、品質與安全；用途分類及機關細分依目標頁既有官方補充，不沿用指引機關表述。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S1-Q27",
+            "sha256": "eb974bf97f874d82c4f24514b9f025740599bec0e79701512c1813a1cf37be08",
+            "reason": "題目要求醫師保留最終決策權，不判定器材屬性、分類或上市程序。"
+          },
+          {
+            "id": "115-1-S1-Q46",
+            "sha256": "4e28b943b9d305df61a5ff1f6553aece3ae5cbf2fcfd07a63a3dc9889e5bb1f3",
+            "reason": "題目限制原始影像留院並問聯邦學習，沒有醫材產品變更或上市查核。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "sector-compliance-screening",
+                "sha256": "e42e7392f2897e81a0238f04d350549b1b8ff95f469687e8dc35ead7caf0308c"
+              }
+            ],
+            "reason": "法規與盤點方法不是父子類，雙向均不成立。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "privacy-regulations",
+                "sha256": "7743cdaa8178a8afdbf2917cfaa78b54da6fc2837f6f6c8e980c941cd916e188"
+              }
+            ],
+            "reason": "醫材產品品質與個資規範各有範圍，雙向都不是彼此一定有的組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "privacy-compliance-assessment",
+                "sha256": "53b1564ffe94a2c0ab79e793fea018aacc68f5cb4a6a197afa244ccf35109c33"
+              }
+            ],
+            "reason": "可先從產品用途問上市要求，不必先學整頁語料盤點；一般個資盤點也不以醫材法為必要前置。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "privacy-compliance-assessment",
+                "sha256": "53b1564ffe94a2c0ab79e793fea018aacc68f5cb4a6a197afa244ccf35109c33"
+              }
+            ],
+            "reason": "法規與盤點方法均非problem；不能把產業法規變成該方法的對策，反向亦否。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "financial-regulatory-sandbox",
+                "sha256": "754ec98f9eb92fc099c2c474900d61929fb8b010bee5696ab645d53e036f76d4"
+              }
+            ],
+            "reason": "指引只並列產業法規，未給兩法具體比較點；不同制度不因此構成易混淆對。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "privacy-regulations",
+      "target": {
+        "file": "content/concepts/privacy-regulations.md",
+        "sha256": "7743cdaa8178a8afdbf2917cfaa78b54da6fc2837f6f6c8e980c941cd916e188"
+      },
+      "source": {
+        "file": "content/codes/L21203.md",
+        "sha256": "b4775a43a0352010d31cec3ce111695ef9dd4676e2de069a29b6230cf9c60175"
+      },
+      "href": "/concepts/privacy-regulations/",
+      "location": {
+        "kind": "stage",
+        "stageId": "privacy-foundations",
+        "intro": "進入合規前，先建立清冊與分級，再讀隱私治理及合法利用的責任。用途盤點與法規比較提供查核入口，再識別風險則接到隱私影響評估。最後讀 DPIA，把資料流、必要性、控制與殘餘影響放進同一份草表。",
+        "goal": "說得出法域、適用範圍與跨境條件的查核差別"
+      },
+      "purpose": "沿L21203的沿資料流盤點隱私與影響路線，說得出法域、適用範圍與跨境條件的查核差別。",
+      "basis": [
+        {
+          "ref": "guide-3:6-2",
+          "reason": "指引列GDPR、CCPA與PDPA名稱；本頁限定PDPA為臺灣語境。"
+        },
+        {
+          "ref": "guide-3:6-13",
+          "reason": "指引列跨境範圍、用途、接收國及協議的查核方向；條件校準沿用既有補充。"
+        },
+        {
+          "ref": "guide-1:4-34",
+          "reason": "指引提供法域及權利的入門比較，不能將概括敘述當個案適用結論。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "G3e1-6-26-Q01",
+            "sha256": "8c85fd667cd4af31b64ee8ce7b7dda5e398fb82aadb0c54179407eef61b1238f",
+            "reason": "題目辨直接識別線索，未對照三法名稱、法域或跨境條件；法規框架只是背景。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "gdpr",
+                "sha256": "dcb7e4bf81cf902a677b789b571c8866b5506e9813ecbdb408f3750eb923890e"
+              },
+              {
+                "id": "taiwan-pdpa",
+                "sha256": "2be49042abd2fa5384e22d22925f52d8560b6550e8b17e825b720def0cbdd5c3"
+              }
+            ],
+            "reason": "本頁是法規比較入口，不是名為個資法規的抽象父類；單一法律也不是這份比較頁的子類，反向亦否。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "gdpr",
+                "sha256": "dcb7e4bf81cf902a677b789b571c8866b5506e9813ecbdb408f3750eb923890e"
+              },
+              {
+                "id": "taiwan-pdpa",
+                "sha256": "2be49042abd2fa5384e22d22925f52d8560b6550e8b17e825b720def0cbdd5c3"
+              }
+            ],
+            "reason": "一份比較表不是任何法律的固定組件，表中法律也不能作比較方法的必備系統元件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "gdpr",
+                "sha256": "dcb7e4bf81cf902a677b789b571c8866b5506e9813ecbdb408f3750eb923890e"
+              },
+              {
+                "id": "taiwan-pdpa",
+                "sha256": "2be49042abd2fa5384e22d22925f52d8560b6550e8b17e825b720def0cbdd5c3"
+              }
+            ],
+            "reason": "比較入口先介紹名稱與查核方向，不必先完成整頁權利細節；專頁也可直接從條文說明，雙向不構成必要前置。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "privacy-compliance-assessment",
+                "sha256": "53b1564ffe94a2c0ab79e793fea018aacc68f5cb4a6a197afa244ccf35109c33"
+              }
+            ],
+            "reason": "比較頁及盤點方法都不是problem；不能將法域比較本身當對方的直接對策。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "gdpr",
+                "sha256": "dcb7e4bf81cf902a677b789b571c8866b5506e9813ecbdb408f3750eb923890e"
+              },
+              {
+                "id": "taiwan-pdpa",
+                "sha256": "2be49042abd2fa5384e22d22925f52d8560b6550e8b17e825b720def0cbdd5c3"
+              }
+            ],
+            "reason": "本頁比較多法，不是其中另一部法律；指引對法律的比較點不能直接升成總覽頁與單法專頁的比較邊。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "scrum",
+      "target": {
+        "file": "content/concepts/scrum.md",
+        "sha256": "b2b58e89451f16529d707c03dab8aa1a6baa7906824299f5ffcc12694e12c074"
+      },
+      "source": {
+        "file": "content/codes/L21202.md",
+        "sha256": "efb5ddc36d6dc0a45c6c5096bc6110d411f225403f53fae6bbfe6edd38da8e42"
+      },
+      "href": "/concepts/scrum/",
+      "location": {
+        "kind": "stage",
+        "stageId": "work-and-schedule",
+        "intro": "先用工作分解找出產物、責任與驗收，再用甘特圖檢查相依、日期與資源重疊。接著讀 Scrum 的角色、活動與產物，最後才比較任務工具如何呈現同一份工作。關鍵路徑演算是補充，可在看懂任務相依後再練習。",
+        "goal": "將需求排序、短衝活動與完成增量對到責任"
+      },
+      "purpose": "沿L21202的拆工作、排相依、追迭代路線，將需求排序、短衝活動與完成增量對到責任。",
+      "basis": [
+        {
+          "ref": "guide-1:4-20",
+          "reason": "指引列角色、活動及三產物；2020官方用語與完成定義沿用既有補充。"
+        },
+        {
+          "ref": "guide-1:4-21",
+          "reason": "指引列展示、回顧與下一輪回饋；活動包含關係依目標頁補充校準。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "G1e1-4-44-Q05",
+            "sha256": "d57c946c66f064d8ee26e62b1a550a8b46499cdfdc872e67d0c369f3d78be0a8",
+            "reason": "一般跨部門協作及分工即可選C，沒有Scrum三責任、短衝活動或完成增量判斷。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "rapid-prototyping",
+                "sha256": "b55ea4aaaaf48ff92950e76b3c1e3b077dcce60b1b5c816b0a1fad95f6d83201"
+              }
+            ],
+            "reason": "快速原型可用多種方法，Scrum也可做非原型產品；來源未建立相互的最近上層分類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "project-management-tools",
+                "sha256": "642b8a4af8ad146f28e8f8089677c5b5e23e33df23c102b5f431c15a0408181b"
+              }
+            ],
+            "reason": "Scrum不指定任務軟體，工具也可支援其他方法；雙向都非固定組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "work-breakdown-structure",
+                "sha256": "62c945b75c735cba1f98a8b67a67e011aa31ec21cacfe395f5bba5a52ab69220"
+              },
+              {
+                "id": "gantt-critical-path",
+                "sha256": "0e1c557e5780da635332278beca631ec633f46bf8f763f949edb0ab9f14b21d6"
+              }
+            ],
+            "reason": "角色、短衝與增量可由本頁說明，不必先學整頁工作包或關鍵路徑；反向兩法也可獨立使用。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "ai-project-roles",
+                "sha256": "a53ffe1951c6dd8e6b8c1c908278c112e943f437c6be15956af315a20f4a3214"
+              }
+            ],
+            "reason": "Scrum與一般角色規劃都不是problem；不能互相補成對策。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "ai-project-roles",
+                "sha256": "a53ffe1951c6dd8e6b8c1c908278c112e943f437c6be15956af315a20f4a3214"
+              }
+            ],
+            "reason": "指引分別列一般角色與Scrum責任，沒有將兩整頁指定為具體易混淆對。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "speech-recognition-pipeline",
+      "target": {
+        "file": "content/concepts/speech-recognition-pipeline.md",
+        "sha256": "5fbef9728e54b398935abba0e93512e194270d5c1ae8a83ae969be31f7255aa4"
+      },
+      "source": {
+        "file": "content/codes/L21103.md",
+        "sha256": "8470ada2cb520dc8fdfcb9a86a5a2529ed009bbc1a62372b3a0ab52458e4d2fe"
+      },
+      "href": "/concepts/speech-recognition-pipeline/",
+      "location": {
+        "kind": "stage",
+        "stageId": "speech-delivery-and-evaluation",
+        "intro": "先讀文字轉語音的中間表示與架構，再讀語音辨識串接，沿輸入輸出定位各模組。接著以語音服務頁安排用途及交付檢查，最後讀語音品質頁，選擇自然度、轉寫錯誤與延遲的證據。",
+        "goal": "判斷得出 ASR、理解、任務與 TTS 的錯誤位置"
+      },
+      "purpose": "沿L21103的語音合成、串接與量測路線，判斷得出 ASR、理解、任務與 TTS 的錯誤位置。",
+      "basis": [
+        {
+          "ref": "guide-1:3-69",
+          "reason": "指引明示Whisper主要做辨識，可與合成合作；不當作TTS。"
+        },
+        {
+          "ref": "guide-1:3-76",
+          "reason": "指引列ASR、NLU、任務及回應，支持中介結果追查。"
+        },
+        {
+          "ref": "guide-1:3-77",
+          "reason": "指引列跨語互動；翻譯與聲音合成責任分開。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "114-2-S1-Q37",
+            "sha256": "40bd21f0efe589a3bb731bd229f2217b7e6fbb8724d5e5f91d2e60caa303e799",
+            "reason": "語音合成只是背景，題目考每卡批次與顯存。"
+          },
+          {
+            "id": "114-2-S3-Q21",
+            "sha256": "81213976549df247dd46101924b2b954808af60e0a7fb1d297dc7a56b45c741c",
+            "reason": "語音辨識只是場景，直接考多頭注意力子空間。"
+          },
+          {
+            "id": "115-1-S1-Q45",
+            "sha256": "4f1b30e0cb5a99d4ef88d3e385c6a310c5eb9db6f3c8be0ea57109ad7913f074",
+            "reason": "語音API只是外部服務例，直接考斷路器。"
+          },
+          {
+            "id": "G1e1-3-85-Q07",
+            "sha256": "9ccdb941ad2316aef39039efe12c3406ba3ee62986fc3f37e8598f7f1c371dea",
+            "reason": "語音辨識在干擾項，題目判斷生成影像用途，不定位ASR或TTS。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "text-to-speech",
+                "sha256": "42e08c861589ccf8094f0d1fb400dddfbf138900e7908f69360668e78537d199"
+              }
+            ],
+            "reason": "串接流程與語音合成模型是系統分工及模組方法，雙向不是一種對方。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "text-to-speech",
+                "sha256": "42e08c861589ccf8094f0d1fb400dddfbf138900e7908f69360668e78537d199"
+              }
+            ],
+            "reason": "本頁明示文字或動作回應可省TTS，TTS也可單獨朗讀，不以整個辨識流程作固定元件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "text-to-speech",
+                "sha256": "42e08c861589ccf8094f0d1fb400dddfbf138900e7908f69360668e78537d199"
+              }
+            ],
+            "reason": "可先由聲音及文字的輸入輸出辨模組，不必先學整頁頻譜與VITS；TTS亦不需先學完整助理串接。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "speech-quality-metrics",
+                "sha256": "727e608fa353515a8d1fcc76fb82583a5139006fce2bcb7dd215a6ec34104c3f"
+              }
+            ],
+            "reason": "流程與指標均非problem，雙向不構成對策。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "text-to-speech",
+                "sha256": "42e08c861589ccf8094f0d1fb400dddfbf138900e7908f69360668e78537d199"
+              }
+            ],
+            "reason": "guide-1:3-69確實釐清Whisper屬聲音轉文字的ASR，可再接文字轉聲音的TTS；這是辨識與合成模組的比較。本端點依定義涵蓋ASR、NLU、任務與回應，且可含TTS；整個串接的輸出可為文字、動作或聲音，不能套用「聲音轉文字」作為它與TTS的差異。將此模組比較直接寫成兩端點的contrasts會把完整串接等同ASR，故保留正文比較及合成頁連結，不新增此邊。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "telecom-regulation",
+      "target": {
+        "file": "content/concepts/telecom-regulation.md",
+        "sha256": "09cc124ae4da63e438bc81b55135fe49f17c149674b4a0a5540c1720eb698131"
+      },
+      "source": {
+        "file": "content/codes/L21203.md",
+        "sha256": "b4775a43a0352010d31cec3ce111695ef9dd4676e2de069a29b6230cf9c60175"
+      },
+      "href": "/concepts/telecom-regulation/",
+      "location": {
+        "kind": "stage",
+        "stageId": "sector-and-license-review",
+        "intro": "先讀跨境與委外治理及產業盤點，再沿醫療資訊、支付、金融實驗、醫材與電信的專頁核對不同責任。最後讀資料與模型授權，將使用、修改、散布與三類智慧財產權分開查。這些頁面各有查核範圍，閱讀時保留用途、角色及法源版本。",
+        "goal": "說得出通訊服務的資安、資料與消保查核點"
+      },
+      "purpose": "沿L21203的分開查產業規範與資產授權路線，說得出通訊服務的資安、資料與消保查核點。",
+      "basis": [
+        {
+          "ref": "guide-1:4-36",
+          "reason": "指引列電信營運、消保、網路與資安管理；服務角色及條文適用條件沿用既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "M-L21202-002",
+            "sha256": "2e967e393647465cfd59e9fed3ecfdbdd78835acfa53593a9d30f5072fa6c554",
+            "reason": "一般委外題處理用途、次承攬及返還刪除，不問通信秘密、業者身分或服務申訴；不能加產業背景標籤。"
+          },
+          {
+            "id": "114-2-S1-Q44",
+            "sha256": "c1658c8b884869fba40c32c5e56d9d802d33117797ad1a934f8010bef56699dd",
+            "reason": "電信公司只是顧客流失建模情境；題目比較預測與虛擬樣本生成，選VAE或GAN，不考通信秘密、業者身分或服務申訴規定。"
+          },
+          {
+            "id": "114-2-S3-Q32",
+            "sha256": "95780bf9ddb67ee1a668c5423e517ac2af172e7aef0bafea0318b2aaf7a0cd0f",
+            "reason": "電信公司及通話特徵只是流失預測情境；題目要求L1正則化把部分係數縮為0，以抑制過擬合並選特徵，不考電信監理規定。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "sector-compliance-screening",
+                "sha256": "e42e7392f2897e81a0238f04d350549b1b8ff95f469687e8dc35ead7caf0308c"
+              }
+            ],
+            "reason": "電信法律與跨產業盤點方法不同，雙向不是上下分類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "privacy-regulations",
+                "sha256": "7743cdaa8178a8afdbf2917cfaa78b54da6fc2837f6f6c8e980c941cd916e188"
+              }
+            ],
+            "reason": "通訊服務權益與個資法域比較範圍不同，雙向都非固定組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "privacy-compliance-assessment",
+                "sha256": "53b1564ffe94a2c0ab79e793fea018aacc68f5cb4a6a197afa244ccf35109c33"
+              }
+            ],
+            "reason": "電信服務責任可由本頁先問，無需先學整頁語料流程；一般盤點也可發生於非電信活動。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "privacy-compliance-assessment",
+                "sha256": "53b1564ffe94a2c0ab79e793fea018aacc68f5cb4a6a197afa244ccf35109c33"
+              }
+            ],
+            "reason": "法律與查核方法都不是problem，雙向不能當對策邊。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "medical-device-regulation",
+                "sha256": "7f34a17c0c5773fb9928f0c66e3af19767db1729bd47a3e9aa90bcf148ccfa68"
+              }
+            ],
+            "reason": "指引並列兩產業法律但未比較具體權利或義務差異，不能因同頁法規清單就補比較。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "video-frame-sampling",
+      "target": {
+        "file": "content/concepts/video-frame-sampling.md",
+        "sha256": "c4cb7a6f1f1ff95731d7ff80c3a50b8e25c0b8f6ae0d523fefd2b8fd758cbf89"
+      },
+      "source": {
+        "file": "content/codes/L21102.md",
+        "sha256": "0a2e2dd49036dbae5e1e30e9084831a36776fa404dc028fbf80d55b1b5899c79"
+      },
+      "href": "/concepts/video-frame-sampling/",
+      "location": {
+        "kind": "stage",
+        "stageId": "prepare-images",
+        "intro": "先依各頁前置清單補讀陣列操作與資料切分，再依序讀幾何、數值、色彩與畫質處理。接著把一般資料增強原則套到影像，另讀影片的時間取樣。最後回到資料準備頁，把清理、編碼與分類開發流程接起來。",
+        "goal": "依事件持續時間比較取樣間隔與漏失風險"
+      },
+      "purpose": "沿L21102的從原始影像走到訓練輸入路線，依事件持續時間比較取樣間隔與漏失風險。",
+      "basis": [
+        {
+          "ref": "guide-1:3-47",
+          "reason": "指引把影格取樣列在序列統一，用於動作辨識及序列建模；時間間隔和漏失例子為既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "G1e1-3-85-Q10",
+            "sha256": "1864af4bbf610043dda7d136f905a3dd4c1e33bbdb325ff98be87e9153903507",
+            "reason": "影片字幕只用來判斷多模態用途，未比較取樣間隔、短事件、影格順序或重複。"
+          },
+          {
+            "id": "114-2-S3-Q07",
+            "sha256": "bff999b32828fef7ff9db7113d17f4705efcb183fbc79ec6aec93b48124249b4",
+            "reason": "題目依時間依賴選LSTM做未來電力需求預測；監視影像物件辨識僅是干擾選項，不比較影格取樣間隔、漏失風險或來源切分。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "image-resizing",
+                "sha256": "9f1703e84793f8f548ce1c7c42c6abd0ba77518842326aa95d1fd98911e8773c"
+              }
+            ],
+            "reason": "影格取樣改時間選擇，尺寸處理改空間視野；雙向都不是對方的一種。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "visual-tracking",
+                "sha256": "40b952b5fa4b772804835adc845510bba61381444a141350b45c8e56c2117701"
+              }
+            ],
+            "reason": "追蹤可處理持續取得的全部影格，取樣也可不追蹤；雙向都非必備組件。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "image-resizing",
+                "sha256": "9f1703e84793f8f548ce1c7c42c6abd0ba77518842326aa95d1fd98911e8773c"
+              }
+            ],
+            "reason": "時間點選擇可不改尺寸，縮放也可只處理單圖；雙向不用先懂另一整頁。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "data-leakage",
+                "sha256": "3fc104f3738ca11cd91974710a8b7dfcd66bc232552d064c7549c4eef4d11e80"
+              }
+            ],
+            "reason": "取樣可仍把同片影格跨切分，並不自行隔離來源；指引3-47未將取樣指定為洩漏對策，反向亦否。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "image-resizing",
+                "sha256": "9f1703e84793f8f548ce1c7c42c6abd0ba77518842326aa95d1fd98911e8773c"
+              }
+            ],
+            "reason": "指引分列尺寸與序列統一，不提供兩整頁易混淆比較點。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "virginia-cdpa",
+      "target": {
+        "file": "content/concepts/virginia-cdpa.md",
+        "sha256": "3026f84e3c3c9d217f528d207e3c64bb43569e7b0aff8703aa66103579831782"
+      },
+      "source": {
+        "file": "content/codes/L21203.md",
+        "sha256": "b4775a43a0352010d31cec3ce111695ef9dd4676e2de069a29b6230cf9c60175"
+      },
+      "href": "/concepts/virginia-cdpa/",
+      "location": {
+        "kind": "stage",
+        "stageId": "personal-data-rights",
+        "intro": "有了資料用途與法域的查核入口，再分別閱讀 GDPR、臺灣個資法與維吉尼亞州法。每頁先看適用對象，再看權利、義務及例外的查核方式。比較時保留原來的地區與版本，遇到待核事項就回到該頁的法源清單。",
+        "goal": "判斷得出州別、適用條件與敏感資料待查事項"
+      },
+      "purpose": "沿L21203的依地區閱讀個資權利路線，判斷得出州別、適用條件與敏感資料待查事項。",
+      "basis": [
+        {
+          "ref": "guide-1:4-34",
+          "reason": "指引明示州級法規及查閱、更正、刪除、可攜權利；年度門檻為既有官方補充。"
+        },
+        {
+          "ref": "guide-1:4-35",
+          "reason": "指引列隱私告知及敏感資料保護，不能由一般公告推定完成全部義務。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "G3e1-6-26-Q01",
+            "sha256": "8c85fd667cd4af31b64ee8ce7b7dda5e398fb82aadb0c54179407eef61b1238f",
+            "reason": "題目只辨識直接識別資訊，未出現本州適用門檻、州別或敏感資料處理條件。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "privacy-regulations",
+                "sha256": "7743cdaa8178a8afdbf2917cfaa78b54da6fc2837f6f6c8e980c941cd916e188"
+              }
+            ],
+            "reason": "維州法律是具體制度，法規比較頁是總覽，不是抽象父類；反向也不是州法子類。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "privacy-regulations",
+                "sha256": "7743cdaa8178a8afdbf2917cfaa78b54da6fc2837f6f6c8e980c941cd916e188"
+              }
+            ],
+            "reason": "比較頁可選其他法域，州法也不包含本站總覽作固定組件；雙向不成立。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "gdpr",
+                "sha256": "dcb7e4bf81cf902a677b789b571c8866b5506e9813ecbdb408f3750eb923890e"
+              },
+              {
+                "id": "taiwan-pdpa",
+                "sha256": "2be49042abd2fa5384e22d22925f52d8560b6550e8b17e825b720def0cbdd5c3"
+              }
+            ],
+            "reason": "維州權利與門檻可直接按本頁條件說明，無需先學其他法域整頁；反向各法亦否。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "privacy-compliance-assessment",
+                "sha256": "53b1564ffe94a2c0ab79e793fea018aacc68f5cb4a6a197afa244ccf35109c33"
+              }
+            ],
+            "reason": "州法與盤點方法都不是problem，雙向不構成直接對策邊。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "gdpr",
+                "sha256": "dcb7e4bf81cf902a677b789b571c8866b5506e9813ecbdb408f3750eb923890e"
+              },
+              {
+                "id": "taiwan-pdpa",
+                "sha256": "2be49042abd2fa5384e22d22925f52d8560b6550e8b17e825b720def0cbdd5c3"
+              }
+            ],
+            "reason": "指引並列權利與州法名稱，未提供本州與這兩法的具體比較點；不能只因同類就加比較。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
+      "semanticReview": "pending-independent-non-author-review"
+    },
+    {
+      "id": "visual-tracking",
+      "target": {
+        "file": "content/concepts/visual-tracking.md",
+        "sha256": "40b952b5fa4b772804835adc845510bba61381444a141350b45c8e56c2117701"
+      },
+      "source": {
+        "file": "content/codes/L21102.md",
+        "sha256": "0a2e2dd49036dbae5e1e30e9084831a36776fa404dc028fbf80d55b1b5899c79"
+      },
+      "href": "/concepts/visual-tracking/",
+      "location": {
+        "kind": "stage",
+        "stageId": "vision-systems",
+        "intro": "偵測與分割讀完後，再讀人臉、文字、追蹤與產業需求，練習逐段核對輸入輸出。感測融合與邊緣推論另有多模態融合、服務介面及資源成本等前置，依頁首清單補讀後再進入。最後用流程規劃與系統頁對照，確認定位、辨識與即時回應各有驗收責任。",
+        "goal": "說明追蹤訊號如何接互動及失去追蹤的後果"
+      },
+      "purpose": "沿L21102的把模型輸出接成應用流程路線，說明追蹤訊號如何接互動及失去追蹤的後果。",
+      "basis": [
+        {
+          "ref": "guide-1:3-54",
+          "reason": "指引列追蹤零售互動及停留時間的用途。"
+        },
+        {
+          "ref": "guide-1:3-55",
+          "reason": "指引列AR追蹤實體疊圖及VR動作映射；座標與失效處理為既有補充。"
+        }
+      ],
+      "exclusions": {
+        "questions": [
+          {
+            "id": "115-1-S1-Q17",
+            "sha256": "01712f212a83cdb9c5a4d6c4fc0318f98cf25d1d939ea26bd1f824204eef051a",
+            "reason": "題目按影像、文字及時序選編碼器，不問跨影格身分關聯、AR/VR互動或追蹤失效。"
+          }
+        ],
+        "relations": {
+          "is_a": {
+            "candidates": [
+              {
+                "id": "object-detection",
+                "sha256": "4b16599520dbb753eb36069f42be090cfe474b4101211246dc5a843ddc6034dc"
+              }
+            ],
+            "reason": "追蹤跨時間關聯，偵測給單張類別與框；兩者不同任務，雙向都不是一種對方。"
+          },
+          "part_of": {
+            "candidates": [
+              {
+                "id": "computer-vision-tasks",
+                "sha256": "b63dfd3ab5dd1f8d31d5ab24f42c9dc66bcbf18c74cbb7167556b806ef12432a"
+              }
+            ],
+            "reason": "視覺任務總覽可只談分類、偵測與分割，追蹤也不含整個總覽作元件；雙向非固定組成。"
+          },
+          "requires": {
+            "candidates": [
+              {
+                "id": "object-detection",
+                "sha256": "4b16599520dbb753eb36069f42be090cfe474b4101211246dc5a843ddc6034dc"
+              }
+            ],
+            "reason": "本頁可從已給定位置及姿態講互動，不必先懂整頁YOLO與RPN；單圖偵測亦不必先學追蹤。"
+          },
+          "mitigates": {
+            "candidates": [
+              {
+                "id": "model-stability-risk",
+                "sha256": "60a73c2ecc4cfe7441e7a8fdf37203df95543ca37351fe25815ce27fa35d1df7"
+              }
+            ],
+            "reason": "追蹤可能本身失效，不能直接修復輸入錯標或分布失準；所列指引未將它指定為整頁穩定風險的對策，反向亦否。"
+          },
+          "contrasts": {
+            "candidates": [
+              {
+                "id": "object-detection",
+                "sha256": "4b16599520dbb753eb36069f42be090cfe474b4101211246dc5a843ddc6034dc"
+              }
+            ],
+            "reason": "指引介紹兩類視覺用途，未指定整頁為易混淆對；時間關聯說明可留在正文。"
+          }
+        }
+      },
+      "visibility": "分階段路線具明確目的；真建置的stage、goal及href另由本輪技術報告固定，不代替瀏覽器人工可見性及非作者語意主審。",
       "semanticReview": "pending-independent-non-author-review"
     }
   ]

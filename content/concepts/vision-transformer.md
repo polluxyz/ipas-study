@@ -18,9 +18,7 @@ goals:
     text: 畫出帶尺寸的切塊、展平、投影及位置資訊資料流
   - id: g3
     text: 計算 patch 和含分類詞元的序列長度，判斷成本及資料條件
-requires:
-  - transformer
-  - convolution-layer
+requires: [transformer]
 guide_refs:
   - guide-1:3-44
   - guide-3:4-84

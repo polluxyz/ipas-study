@@ -5,7 +5,6 @@ kind: metric
 codes: [L23203]
 aliases: [FID, IS, Inception Score]
 summary: IS 與 FID 從預訓練影像模型間接量測生成結果，不能單獨證明品質與多樣性
-requires: [mode-collapse]
 guide_refs: [guide-3:4-89]
 textbook: v2
 author: codex
