@@ -4,49 +4,46 @@
 
 ## 1. 角色表（換模型只改這裡）
 
-**worker 優先用 Codex**（2026-11-01 使用者要求）。**推理強度**（2026-11-02 使用者要求）：生產工作（寫作、修正、網站、抽取）通常用 `gpt-6.1-sol` + `high`；中等難度且範圍明確的工作也可選 `gpt-6.1-terra` + `xhigh`。審查、核算、建議類的 Codex 工作用 `xhigh`。Claude 主審維持 `--effort medium`。只有真的需要時才派非 Codex：審查 Codex 寫的內容（避免同一個 provider 自己審自己），或 Codex 做不好的工作（派工單寫明理由）。
+**2026-11-04 使用者更新**：之後新派的 worker 最高使用 `gpt-6.1-sol` + `high`。`xhigh` 只在主工作區使用。寫作、實作、審查、核算與 advisor 都適用。此規則覆蓋較早的角色設定。除非使用者另行指定，不改派其他模型。
 
 | 角色 | 啟動方式 | 用在 |
 |---|---|---|
-| `coordinator` | Codex 兩段式，`gpt-6.1-sol` + `xhigh`（2026-11-02 起，取代 Claude Code） | 規劃、派工、驗收、送 PR、合併、交接 |
+| `coordinator` | 主工作區 Codex，`gpt-6.1-sol` + `xhigh` | 規劃、派工、驗收、送 PR、合併、交接 |
 | `site` | Codex 兩段式，`gpt-6.1-sol` + `high` | 網站程式、檢查器、需要判斷的資料工作 |
 | `extract` | Codex 兩段式，`gpt-6.1-sol` + `high` | 單純的題目抽取、圖片產生 |
 | `writer` | Codex 兩段式，`gpt-6.1-sol` + `high`，加 `--search`（上網查資料） | 概念頁、題目解析、模擬題、讀 PDF 圖片轉錄 |
-| 中等難度生產 | Codex 兩段式，可選 `gpt-6.1-terra` + `xhigh` | 範圍明確的內容修正、來源同步、文件或報告整理 |
-| `reviewer-claude` | 一行，`--agent claude --model claude-opus-5-5 --effort medium` | 主審 Codex 寫的內容（Claude Code 的唯一角色） |
-| `reviewer-gemini` | 一行，`--agent antigravity --model gemini-4-argon-high` | 主審 Codex 寫的內容（與 `reviewer-claude` 分攤） |
-| `reviewer` | Codex 兩段式，`gpt-6.1-sol` + `xhigh`，加 `--search` | 盲解、審查 Claude 寫的內容、程式與工具審查 |
-| `advisor` | Codex 兩段式，`gpt-6.1-sol` + `xhigh` | 要使用者拍板的決策的第二意見 |
+| `reviewer-claude` | 僅使用者另行指定時使用 | 跨供應商內容主審的歷史角色 |
+| `reviewer-gemini` | 僅使用者另行指定時使用 | 跨供應商內容主審的歷史角色 |
+| `reviewer` | Codex，`gpt-6.1-sol` + `high` | 非作者獨立工作階段審查、盲解、核算 |
+| `advisor` | Codex，`gpt-6.1-sol` + `high` | 要使用者拍板的決策的第二意見 |
 
 ## 2. 派工指令
 
-Codex 兩段式：
+先讀目前 CLI 提供的指令。新派工不手動建立或輸入 worker 終端機。
 
 ```bash
-ORCA=/c/Users/Administrator/AppData/Local/Programs/orca/resources/bin/orca
-H=$($ORCA terminal create --worktree "path:D:\\ipas-study" --title "<任務代號>" \
-  --command "codex --dangerously-bypass-approvals-and-sandbox -m gpt-6.1-sol -c model_reasoning_effort=high -c check_for_update_on_startup=false" --json | <取 handle>)
-$ORCA orchestration worker-start --spec "$(cat <task spec 檔>)" --terminal "$H" --worktree "path:D:\\ipas-study" --from <協調者 handle> --json
+orca skills get orchestration
+orca orchestration worker-start --spec-file tmp/<工作>/spec.md \
+  --worktree current --agent codex --model gpt-6.1-sol --effort high --json
 ```
 
-- 要上網就在 `codex` 後面加 `--search`。
-- 派工後讀一次畫面。看到 `[Pasted Content N chars]`（可能換行顯示成兩行）就補送 `orca terminal send --terminal <handle> --enter`，再確認出現 `Working`。
+- 有寫入衝突時，由 `worker-start` 建立新工作樹。唯讀審查可用作者工作樹。
+- 透過 `orchestration send --to dispatch:<id>` 指導 worker，不使用終端機按鍵輸入。
+- 完成的 worker 收到 `send` 可能會開始新任務，不發送無需回覆的致謝。
 
-Claude 一行：`worker-start --spec ... --agent claude --model claude-opus-5-5 --effort medium --worktree ... --from ...`。
-
-Gemini 一行：`worker-start --spec ... --agent antigravity --model gemini-4-argon-high --worktree ... --from ...`。啟動遇到 503 或 `agent_unconfigured` 就關掉終端機重開。release 後的 Antigravity 終端機不能再派任務。
+其他模型只在使用者另行指定時派工。啟動失敗依 CLI 收據處理，不憑缺少畫面就重開。
 
 Task spec 檔放 `tmp/<工作>/specs/`。
 
 ### 2.1 用腳本派工（建議）
 
-`scripts/orca/dispatch.sh` 包了上面三種派法，並處理補 Enter 與 handle 紀錄。
+`scripts/orca/dispatch.sh` 保留作歷史流程參考。新派工使用上節當版 CLI。若仍需引用舊腳本，模型也不得超過本節上限。
 
 ```bash
 # 寫作組：開新 worktree（從 main，分支改名為 content/<名>），派 Codex
 WT=w-l23102-a bash scripts/orca/dispatch.sh "W-L23102-A" <spec 檔>
-# 中等難度、範圍明確的工作：可選 Terra
-WT=w-medium MODEL=gpt-6.1-terra EFFORT=xhigh bash scripts/orca/dispatch.sh "W-MEDIUM" <spec 檔>
+# 歷史腳本的模型與強度上限
+WT=w-medium MODEL=gpt-6.1-sol EFFORT=high bash scripts/orca/dispatch.sh "W-MEDIUM" <spec 檔>
 # 審查：進寫作者的 worktree，派 Opus 5.5（effort medium）或 Gemini 4 Argon
 WTPATH=<worktree 路徑> AGENT=claude EFFORT=medium bash scripts/orca/dispatch.sh "R-L23102-A" <spec 檔>
 WTPATH=<worktree 路徑> AGENT=gemini bash scripts/orca/dispatch.sh "R-L23102-A" <spec 檔>
@@ -58,14 +55,15 @@ WTPATH=<worktree 路徑> AGENT=gemini bash scripts/orca/dispatch.sh "R-L23102-A"
 
 ## 3. 等待與收尾
 
-- 等待：`node scripts/orca/wait.cjs`（背景執行）。heartbeat 自動 ack；遇到 worker_done、question、escalation 就印出並結束，不 ack。
-- 收尾：驗收通過後 `bash scripts/orca/done.sh <dispatchId> <deliveryId>`，依序 release、關終端機、ack。
-- 使用者看到「You have N orchestration messages」時，多半是 heartbeat 或 status，讀完 ack 即可。
+- 啟動所有獨立工作後結束回合，由 Orca 自動喚醒。不執行輪詢或等待腳本。
+- 收到通知後執行當版 `orchestration check`；目前會自動確認讀取的訊息。
+- `worker_done` 自動結算任務。先讀報告及驗證證據，再接受結果。
+- 完成的 worker 通常自動關閉。若 CLI 提供 `next`，依收據處理。使用者接管的終端機不可關閉。
 
 ## 4. 額度
 
 - 同時執行上限：Codex 10 個、Claude 6 個。每次派工前跑 `orca account list --json`。
-- 審查原則：寫的人和審的人用不同 provider。Codex 寫的內容由 `reviewer-claude`（Opus 5.5）或 `reviewer-gemini`（Gemini 4 Argon）主審，不用 Sonnet；公式獨立核算與程式實測另派非作者 Codex `reviewer`。Claude 寫的內容由 Codex `reviewer` 審（使用者 2026-11-01 核可混合審查）。
+- 審查原則：採非作者的獨立工作階段，模型仍受第 1 節上限限制。同供應商審查須明示，不能稱跨供應商審查。以下 Claude／Gemini 額度規則只在使用者另行指定這些模型時適用。
 - Claude 的 5 小時 `session` 用量超過 80% 時，暫停派 Claude，主審改派 `reviewer-gemini`。兩者都不可用時才改用不同 session 的非作者 Codex，並在報告註明這不是跨 provider 審查。
 - **Gemini 用量用完要做標記**（2026-11-02 使用者要求）。Gemini 終端機出現額度錯誤（例如 `429`、`RESOURCE_EXHAUSTED`、`quota`、usage limit）時：
   1. 在 `tmp/rollout/quota.md` 加一行：`- <日期 時間> gemini 用完｜恢復：<畫面寫的時間，沒寫就填「未知」>｜受影響：<任務代號> → 改派 <agent>`。
