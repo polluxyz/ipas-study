@@ -1,0 +1,32 @@
+id: M-L23102-025
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L23102
+concepts:
+  - vector-inner-product
+  - vector-norm-linear-combination
+stem: |
+  某檢索器將查詢與文件向量都縮放為長度 1，原規則保留餘弦相似度至少 0.8 的文件。新工具只接受歐氏距離上限。對這些單位向量，距離平方=2−2×餘弦相似度。若要保留相同文件，距離上限最接近多少？
+options:
+  A: "0.200"
+  B: "0.400"
+  C: "0.600"
+  D: "0.632"
+answer: D
+explanation:
+  summary: 單位向量的餘弦門檻可換成等價的歐氏距離門檻。
+  correct: 邊界的距離平方為 2−2×0.8=0.4，距離為 √0.4，約 0.632。餘弦越大，距離越小，因此應保留距離不超過此值的文件。
+  wrong:
+    A: 0.2 是 1−0.8，少了公式中的 2 倍關係與平方根，會把距離上限設得過小。
+    B: 0.4 是距離平方的上限。工具要求的是距離，還須開平方，不能直接使用平方值。
+    C: √(1−0.8²)=0.6 是一個單位向量垂直於另一方向的分量長度，並非兩個單位向量端點之間的距離。
+guide_refs:
+  - guide-3:3-9
+  - guide-3:3-10
+author: codex
+review:
+  status: verified
+  blind_answer: D
