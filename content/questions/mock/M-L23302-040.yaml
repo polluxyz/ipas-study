@@ -1,0 +1,31 @@
+id: M-L23302-040
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23302
+concepts:
+  - classification-model-selection
+  - output-loss-contract
+stem: 某工廠要辨識裂縫、凹痕與汙點。每張影像可能同時出現多種瑕疵，也可能都沒有；新影像還可能出現訓練中未見過的瑕疵組合。業務要知道每種瑕疵是否存在。下列任務設計何者最適合？
+options:
+  A: 以裂縫、凹痕與汙點作為互斥類別，每張取一類
+  B: 以瑕疵總數作為迴歸目標，每張預測一個數值
+  C: 以各種瑕疵是否存在作為多個二元輸出進行訓練
+  D: 以訓練中出現過的瑕疵組合為類別，每張取一類
+answer: C
+explanation:
+  summary: 可同時成立的標籤，應保留各標籤的存在判斷。
+  correct: 把每種瑕疵視為二元目標，可以輸出零個、一個或多個瑕疵。這不會把組合限於曾見過的類別，但未見組合的品質仍需另外驗證。
+  wrong:
+    A: 互斥單一類別無法同時回報裂縫與凹痕，也沒有表達全部不存在的狀態。
+    B: 瑕疵總數不包含種類資訊，相同數量可能來自不同瑕疵，不能滿足業務輸出要求。
+    D: 把既有組合作為封閉類別，沒有直接表示未見組合的輸出，擴充時還需重新定義類別。
+guide_refs:
+  - guide-3:4-65
+  - guide-3:5-11
+author: codex
+review:
+  status: verified
+  blind_answer: C
