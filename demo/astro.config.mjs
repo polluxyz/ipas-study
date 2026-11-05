@@ -41,6 +41,7 @@ export default defineConfig({
       { label: '概念目錄', link: '/catalog/' },
       { label: '概念地圖', link: '/map/' },
       { label: '我的錯題本', link: '/wrong-book/' },
+      { label: '每日 50 題', link: '/daily/' },
       { label: '科目 3・機器學習', items: [
         { label: 'L23303 訓練、評估與驗證', link: '/codes/L23303/' },
         { label: '開始小測驗', link: '/quiz/' },
