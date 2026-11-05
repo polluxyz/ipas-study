@@ -1,0 +1,39 @@
+id: M-L23304-043
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - bayesian-optimization
+  - hyperparameter-search
+stem: 某搜尋器已用貝氏代理模型估計各候選的期望改善量，單次訓練時間差異很大。團隊指定下一次實驗以「期望改善量除以預估分鐘數」最大者優先。本例不考慮批次平行與其他限制。程式應選哪個候選？
+code: |
+  candidates = {
+      "甲": (0.06, 30), "乙": (0.03, 10),
+      "丙": (0.005, 5), "丁": (0.012, 2)
+  }
+  chosen = max(candidates, key=lambda name:
+               candidates[name][0] / candidates[name][1])
+  print(chosen)
+code_lang: python
+options:
+  A: 甲配置
+  B: 乙配置
+  C: 丙配置
+  D: 丁配置
+answer: D
+explanation:
+  summary: 納入實驗時間的取得函數，會改變有限時間下的選點順序。
+  correct: 各配置的每分鐘期望改善量依序為 0.002、0.003、0.001、0.006。依題定規則應選丁，即使丁的原始期望改善量不是最大。這是搜尋效用，不是已量到的品質改善。
+  wrong:
+    A: 甲的期望改善量最大，但訓練需 30 分鐘，除以時間後低於丁。
+    B: 乙的每分鐘期望改善量為 0.003，仍低於丁的 0.006。
+    C: 丙的訓練時間較短，但期望改善量也小，每分鐘效用只有 0.001。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: verified
+  blind_answer: D

@@ -1,0 +1,36 @@
+id: M-L23304-042
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - bayesian-optimization
+stem: 某貝氏優化流程以 μ+κσ 作為選點分數，選最大者執行下一次實驗；μ 是預期驗證分數，σ 是預測不確定性。工程師想比較 κ=0 與 κ=2 的選點。以下輸出與解讀何者最正確？
+code: |
+  candidates = {"甲": (0.90, 0.01), "乙": (0.85, 0.06)}
+  for kappa in [0, 2]:
+      chosen = max(candidates, key=lambda name:
+                   candidates[name][0] + kappa * candidates[name][1])
+      print(chosen)
+code_lang: python
+options:
+  A: 甲、甲；提高 κ 只會增加預期分數的權重
+  B: 甲、乙；提高 κ 會增加對不確定區域的偏好
+  C: 乙、甲；提高 κ 會降低對不確定區域的偏好
+  D: 乙、乙；預測不確定性會直接取代預期分數
+answer: B
+explanation:
+  summary: 取得函數中的探索權重會改變下一次實驗的位置。
+  correct: κ=0 時只比較 μ，因此選甲。κ=2 時甲為 0.92、乙為 0.97，因此選乙。增加 κ 提高不確定性的加分，選點分數仍需由實際實驗驗證。
+  wrong:
+    A: κ 乘上的是 σ 而非 μ。本例增加探索權重後，乙的選點分數會超過甲。
+    C: κ=0 時甲的 μ 較高；κ=2 時乙的探索加分較大，輸出順序與此選項相反。
+    D: 公式保留 μ 與 κσ 兩項。κ=0 時不確定性沒有加分，因此不會選乙。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: verified
+  blind_answer: B

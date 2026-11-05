@@ -1,0 +1,30 @@
+id: M-L23401-020
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23401
+concepts:
+  - reidentification-risk
+  - federated-learning
+stem: 某聯邦影像模型的安全演練中，攻擊者取得單筆本地影像產生的梯度，從隨機像素開始搜尋，使候選影像產生的梯度接近該更新。團隊要測量攻擊效果。下列哪項指標最直接對應這次攻擊的目標？
+options:
+  A: 重建影像與本地原始影像的相似程度
+  B: 判定指定影像是否曾參與訓練的正確率
+  C: 用替代模型重現服務預測標籤的正確率
+  D: 加入微小擾動後使預測標籤改變的成功率
+answer: A
+explanation:
+  summary: 梯度逆向攻擊企圖從更新重建訓練內容。
+  correct: 攻擊程序調整候選像素，目標是重建產生更新的影像，因此應評估重建結果與原始影像的接近程度。這類風險不同於只判斷一筆資料是否在訓練集中。
+  wrong:
+    B: 這是成員推論的成功指標，衡量是否參與訓練，並不衡量重建出哪些影像內容。
+    C: 這是模型擷取的模仿能力，目標是複製預測行為，與回復本地訓練影像不同。
+    D: 這是對抗樣本的誘導錯判能力，攻擊輸入以改變預測，並非從更新重建影像。
+guide_refs:
+  - guide-3:6-11
+author: codex
+review:
+  status: verified
+  blind_answer: A

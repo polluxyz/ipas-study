@@ -1,0 +1,36 @@
+id: M-L23304-038
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - quantization
+stem: 某工程師測試整數量化。指定 q=round(x/scale)+zero，q 限制在 0 至 255，還原值為 (q-zero)×scale。以下程式使用 scale=0.1、zero=128，輸入 15.0。輸出與誤差來源何者最正確？
+code: |
+  scale, zero = 0.1, 128
+  x = 15.0
+  q = max(0, min(255, round(x / scale) + zero))
+  x_hat = (q - zero) * scale
+  print(q, round(x_hat, 1))
+code_lang: python
+options:
+  A: 255、12.7；輸入超出可表示範圍而截限
+  B: 255、25.5；零點只影響編碼而不影響還原
+  C: 150、15.0；輸入除以尺度後可直接還原
+  D: 255、-12.7；還原時以零點減去編碼值
+answer: A
+explanation:
+  summary: 量化的零點、尺度與整數範圍共同決定可表示區間。
+  correct: 未截限的整數為 278，超過上限 255。還原時先減去零點，再乘尺度，得到 12.7。本例的主要誤差來自範圍截限，而非四捨五入。
+  wrong:
+    B: 把 255 直接乘以 0.1，漏掉還原公式中的零點 128，因此得到錯誤的 25.5。
+    C: 150 是尚未加零點的中間值。程式會先加 128，再執行範圍截限。
+    D: 還原公式應使用編碼值減去零點，反向相減會把還原值的正負號顛倒。
+guide_refs:
+  - guide-3:5-51
+author: codex
+review:
+  status: verified
+  blind_answer: A
