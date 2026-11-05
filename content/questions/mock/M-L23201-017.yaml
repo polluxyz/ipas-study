@@ -1,0 +1,32 @@
+id: M-L23201-017
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23201
+concepts:
+  - classification-regression
+  - supervised-learning
+stem: 某維修中心用 101、203、709 表示 3 種互斥故障。數字只是代碼，沒有大小或距離意義。每筆紀錄已有人工故障標籤，系統要對新紀錄輸出其中 1 種故障。最適合將任務設計成哪一種？
+options:
+  A: 以故障代碼為連續目標的迴歸
+  B: 以故障代碼為群數的非監督分群
+  C: 以 3 種故障標籤為目標的分類
+  D: 以故障代碼差值為獎勵的強化學習
+answer: C
+explanation:
+  summary: 目標數字的語意決定任務類型。
+  correct: 101、203、709 是類別名稱的編碼。模型要利用已標記紀錄預測互斥類別，因此屬於監督式多類別分類。
+  wrong:
+    A: 代碼沒有連續數量意義；以數值距離計算誤差會憑空引入類別間的遠近。
+    B: 故障類別已有標籤，代碼也不是應設定的群數；分群不能直接代表這項預測目標。
+    D: 代碼差值沒有業務價值，本例也沒有行動與環境互動所產生的獎勵。
+guide_refs:
+  - guide-3:4-3
+  - guide-3:4-5
+  - guide-3:4-6
+author: codex
+review:
+  status: verified
+  blind_answer: C

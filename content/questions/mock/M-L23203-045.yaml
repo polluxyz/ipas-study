@@ -1,0 +1,40 @@
+id: M-L23203-045
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - output-loss-contract
+  - pytorch
+stem: 某逐詞分類器把未標註位置設為 -100。下例有 3 個位置，只有第 1 與第 3 個位置有標註，類別權重未設定。工程師比較預設平均損失與逐位置損失的平均。印出的 a、b 最接近哪一項？
+code: |
+  import torch
+  import torch.nn.functional as F
+  z = torch.zeros(3, 2)
+  y = torch.tensor([0, -100, 1])
+  a = F.cross_entropy(z, y, ignore_index=-100)
+  b = F.cross_entropy(z, y, ignore_index=-100, reduction='none').mean()
+  print(round(a.item(), 4), round(b.item(), 4))
+code_lang: python
+options:
+  A: a=0.6931；b=0.4621
+  B: a=0.4621；b=0.4621
+  C: a=0.6931；b=0.6931
+  D: a=1.0397；b=0.6931
+answer: A
+explanation:
+  summary: 忽略標籤後，內建平均與手動平均的分母可能不同。
+  correct: 未標註位置的逐位置損失是 0。預設 mean 只除以 2 個有效位置，因此 a 約為 0.6931；直接對 3 格取平均則得到 b 約為 0.4621。
+  wrong:
+    B: a 的內建平均會排除忽略位置，不會除以全部 3 格。
+    C: b 直接對含 1 格零值的張量取平均，分母仍為 3。
+    D: 有效位置各有約 0.6931 的損失，排除忽略位置不會把平均提高到 1.0397。
+guide_refs:
+  - guide-3:4-62
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: A

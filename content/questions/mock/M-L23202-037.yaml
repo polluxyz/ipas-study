@@ -1,0 +1,38 @@
+id: M-L23202-037
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23202
+concepts:
+  - pca
+stem: 某團隊保留 PCA 的全部 2 個主成分，再比較 whiten=False 與 whiten=True。whiten 代表將主成分縮放成單位變異。程式以 ddof=1 計算樣本變異。兩次印出的結果依序最接近何者？
+code: |
+  import numpy as np
+  from sklearn.decomposition import PCA
+  X = np.array([[-3.0, 0.0], [3.0, 0.0], [0.0, -1.0], [0.0, 1.0]])
+  for white in (False, True):
+      Z = PCA(n_components=2, whiten=white, svd_solver="full").fit_transform(X)
+      print(np.round(Z.var(axis=0, ddof=1), 3).tolist())
+code_lang: python
+options:
+  A: "[6.0, 0.667]；[1.0, 1.0]"
+  B: "[6.0, 0.667]；[6.0, 0.667]"
+  C: "[1.0, 1.0]；[6.0, 0.667]"
+  D: "[6.0, 0.667]；[1.0, 0.0]"
+answer: A
+explanation:
+  summary: 保留全部主成分，仍可透過白化改變各軸尺度。
+  correct: 未白化時兩軸樣本變異為 18/3=6 與 2/3。白化把每個非退化主成分除以其標準差，因此變成 [1,1]；維度沒有減少，但原本的相對變異尺度已改變。
+  wrong:
+    B: 白化不只是旋轉座標，還會縮放各主成分，所以不能保留原本不等的變異。
+    C: 此結果把白化前後交換；未白化的 PCA 不會自動把每軸變異設成 1。
+    D: 本例有 2 個非零變異方向，白化沒有刪除第 2 個方向。
+guide_refs:
+  - guide-3:4-44
+  - guide-3:4-45
+author: codex
+review:
+  status: verified
+  blind_answer: A

@@ -1,0 +1,31 @@
+id: M-L21103-028
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - prompt-engineering
+  - human-generation-evaluation
+stem: 某團隊用 200 題評估提示，反覆查看錯題後調整提示 30 次，最後同一批正確率升到 96%。主管要知道新問題上的表現。模型版本固定，最適合採取哪項驗證？
+options:
+  A: 將目前 200 題隨機重排，再以最後的提示測試
+  B: 將 200 題中的錯題加倍計權，再計算修正後分數
+  C: 將目前 200 題再測 30 次，再平均每次的正確率
+  D: 凍結最後的提示，再以未參與調整的新題集測試
+answer: D
+explanation:
+  summary: 反覆用來調整提示的資料，不能再充當獨立的新題評估。
+  correct: D 保留未參與提示選擇的資料，才可評估對新問題的泛化。原本 96% 仍可記為開發資料上的結果，但不是獨立測試成績。
+  wrong:
+    A: 重排沒有改變題目內容，先前錯題仍已影響提示選擇，不能恢復獨立性。
+    B: 加權可調整開發時重視的錯誤，無法消除提示已針對這些題目修正的影響。
+    C: 重複測量可了解同題的取樣波動，卻仍使用已參與調整的資料，不能直接代表新題表現。
+guide_refs:
+  - guide-1:3-67
+  - guide-1:3-72
+author: codex
+review:
+  status: verified
+  blind_answer: D

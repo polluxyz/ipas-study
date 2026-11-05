@@ -5,10 +5,11 @@ import QuestionList from '../../components/QuestionList.astro';
 import ExamFrequency from '../../components/ExamFrequency.astro';
 import { getData } from '../../lib/content';
 import { examFrequency, relatedQuestions } from '../../lib/learning-route';
+import { orderPracticeQuestions } from '../../lib/practice-order';
 export async function getStaticPaths() { const { codes } = await getData(); return codes.map((entry) => ({ params: { id: entry.data.code }, props: { entry } })); }
 const { entry } = Astro.props;
 const { questions } = await getData();
-const items = questions.filter((q) => q.codes.includes(entry.data.code));
+const items = orderPracticeQuestions(questions.filter((q) => q.codes.includes(entry.data.code)));
 const exam = items.filter((q) => q.source === 'exam');
 const sessions = [...new Map(exam.map((q) => [`${q.session}-S${q.subject}`, { session: q.session, subject: q.subject }])).values()];
 const stages = (entry.data.stages ?? []).map((stage) => ({ ...stage, questions: relatedQuestions(questions, stage.concepts.map((item) => item.id)) }));
