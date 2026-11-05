@@ -4,6 +4,7 @@ source: mock
 subject: 1
 type: 情境
 codes:
+  - L23301
   - L23202
 concepts:
   - random-forest
