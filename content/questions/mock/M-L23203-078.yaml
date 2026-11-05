@@ -1,0 +1,30 @@
+id: M-L23203-078
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23203
+concepts:
+  - gru
+  - lstm
+stem: 某穿戴裝置用循環網路辨識活動。相同資料與狀態寬度下，LSTM 與 GRU 的驗證分數相近，但 GRU 的參數檔與實測運算成本較低。裝置儲存與耗電是主要限制。下列採用判斷何者最合理？
+options:
+  A: 優先選 LSTM，以較多閘門作為主要採用依據
+  B: 優先選 GRU，再確認裝置上的品質與耗電
+  C: 優先選 LSTM，以獨立細胞狀態作為主要採用依據
+  D: 優先選較深 LSTM，以增加層數作為採用依據
+answer: B
+explanation:
+  summary: 品質相近時，可依實測成本選擇較精簡的循環單元。
+  correct: GRU 的結構較精簡，而題目已有品質相近與成本較低的實測。優先選它符合裝置限制，仍需確認實際裝置上的表現。
+  wrong:
+    A: 較多閘門提供不同記憶控制方式，不代表在目前品質相近的任務上值得增加成本。
+    C: 獨立細胞狀態是 LSTM 的設計特徵，單憑它不能推翻本題品質與成本的實測比較。
+    D: 增加深度可能提升容量，也會增加成本；題目沒有提供需要更多容量的證據。
+guide_refs:
+  - guide-3:4-75
+author: codex
+review:
+  status: verified
+  blind_answer: B
