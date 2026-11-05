@@ -7,7 +7,6 @@ codes:
   - L23203
 concepts:
   - cnn
-  - pooling
 stem: 某產線以 2048×2048 影像找出寬約 3 像素的裂縫。將整張圖縮至 128×128 後，人工也看不清裂縫。使用 256×256 原圖區塊時，全圖逐塊推論含重疊區域實測需 80 毫秒，結果彙整另需 5 毫秒。系統延遲上限為 100 毫秒。最適合優先採用哪項方案？
 options:
   A: 原圖無重疊切塊，彙整全部區塊且各自獨立判讀
@@ -27,4 +26,5 @@ guide_refs:
   - guide-3:4-70
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: C
