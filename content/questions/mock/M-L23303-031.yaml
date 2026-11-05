@@ -1,0 +1,46 @@
+id: M-L23303-031
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - k-fold-cross-validation
+  - data-leakage
+stem: 某工程師手寫 3 折驗證，使用 partial_fit 逐次更新同一分類器。雖然每折索引互斥，但後續驗證列曾在前折訓練出現。若每折要從未學過該折驗證列的模型開始，哪項修正最適合？
+code: |
+  import numpy as np
+  from sklearn.linear_model import SGDClassifier
+  from sklearn.model_selection import KFold
+  X = np.arange(24).reshape(12, 2)
+  y = np.array([0, 1] * 6)
+  model = SGDClassifier(loss="log_loss", random_state=7)
+  seen = set()
+  overlaps = []
+  for train, valid in KFold(n_splits=3).split(X):
+      model.partial_fit(X[train], y[train], classes=np.array([0, 1]))
+      seen.update(train.tolist())
+      overlaps.append(len(seen.intersection(valid.tolist())))
+  print(overlaps)
+code_lang: python
+options:
+  A: 在目前分類器每次 partial_fit 前，隨機重排當折訓練列
+  B: 以複製出的當折訓練陣列，繼續更新目前的分類器
+  C: 為每折建立未擬合的分類器，再使用當折訓練列學習
+  D: 將目前分類器的學習率逐折降低，再使用當折訓練列學習
+answer: C
+explanation:
+  summary: 驗證隔離也包含模型已累積的學習狀態。
+  correct: partial_fit 會延續既有參數，先前訓練列的資訊仍保存在模型。每折重新建立未擬合模型，才能讓該折只從允許的訓練資料學習。
+  wrong:
+    A: 打亂當折訓練順序不會清除先前折已學到的參數。
+    B: 複製資料陣列只建立新的資料容器，分類器仍保留前折的學習狀態。
+    D: 較小學習率會改變後續更新幅度，但不會消除先前驗證列留下的資訊。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  blind_answer: C

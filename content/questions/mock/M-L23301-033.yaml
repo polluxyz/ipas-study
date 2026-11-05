@@ -1,0 +1,44 @@
+id: M-L23301-033
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - advanced-imputation
+  - feature-scaling
+  - sklearn-pipeline
+stem: 某團隊用 KNNImputer 補齊數值欄位。希望近鄰比較時，各觀測欄位以訓練標準差為單位等權計距。欄位量級差異很大，目前先補值再縮放。若 StandardScaler 可保留 NaN，哪項流程最符合需求？
+code: |
+  import numpy as np
+  from sklearn.impute import KNNImputer
+  from sklearn.preprocessing import StandardScaler
+  train = np.array([[0., 1000., 10.], [10., 0., 90.],
+                    [0., 10000., 50.], [0., 0., np.nan]])
+  print(KNNImputer(n_neighbors=1).fit_transform(train)[3, 2])
+  scaler = StandardScaler().fit(train)
+  scaled = scaler.transform(train)
+  filled = KNNImputer(n_neighbors=1).fit_transform(scaled)
+  print(round(float(scaler.inverse_transform(filled)[3, 2]), 1))
+code_lang: python
+options:
+  A: 先用訓練資料擬合 StandardScaler，再於縮放資料擬合 KNNImputer
+  B: 先用訓練資料擬合 KNNImputer，再於補齊資料擬合 StandardScaler
+  C: 先用訓練資料擬合 KNNImputer，再把縮放器換成 MinMaxScaler
+  D: 先用訓練資料擬合 KNNImputer，再對補齊結果做每列長度正規化
+answer: A
+explanation:
+  summary: 補值使用距離時，縮放應在選擇近鄰之前完成。
+  correct: 先縮放可讓 KNNImputer 在各欄位的標準差單位上計算距離。本例原尺度與先縮放的流程會選到不同供體。縮放器與補值器都只以訓練資料擬合。
+  wrong:
+    B: 近鄰在縮放前就已選定，之後標準化不能改變已使用的供體。
+    C: 換成最小最大縮放仍發生在補值之後，無法使先前的近鄰計距符合要求。
+    D: 每列正規化同樣晚於近鄰選取，而且不等於每個欄位按訓練標準差計距。
+guide_refs:
+  - guide-3:5-2
+  - guide-3:5-7
+author: codex
+review:
+  status: verified
+  blind_answer: A
