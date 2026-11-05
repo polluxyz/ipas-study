@@ -1,0 +1,29 @@
+id: M-L21103-031
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - prompt-engineering
+  - generative-output-risk
+stem: 某模型把工單轉成 JSON（程式可讀的欄位格式），要求 quantity 為整數、currency 只能是 TWD。測試回傳可解析的 {"quantity":"三","currency":"NTD"}。若要讓資料進入後續程式前符合約定，最適合增加哪項檢查？
+options:
+  A: 以 JSON 解析器驗證引號及括號，成功者送入程式
+  B: 檢查欄位型別與允許值，未通過者退回修正後重驗
+  C: 以鍵名清單核對兩個必要欄名，成功者送入程式
+  D: 將 JSON 重新序列化並統一縮排，成功者送入程式
+answer: B
+explanation:
+  summary: 結構可解析與欄位內容符合契約是不同的驗收。
+  correct: B 能檢查 quantity 是否為整數、currency 是否屬於允許值。字串「三」與 NTD 即使能被解析，也未符合此服務的欄位約定，須修正後再驗。
+  wrong:
+    A: 語法解析只證明 JSON 結構合法，字串型別與非允許的貨幣代碼仍可能通過。
+    C: 欄名存在不代表值的型別與內容正確，本題兩個欄名都已存在。
+    D: 重新序列化與縮排可統一表示形式，但仍會保留字串「三」及 NTD，沒有驗證欄位契約。
+guide_refs:
+  - guide-1:3-72
+author: codex
+review:
+  status: draft
