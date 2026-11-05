@@ -1,0 +1,26 @@
+---
+/** 官方題完整練習列出所有題組，瀏覽器只補上個人進度。 */
+import StudyPage from '../../components/StudyPage.astro';
+import { getData } from '../../lib/content';
+import { officialSets } from '../../lib/official';
+const sets = officialSets((await getData()).questions);
+const catalog = sets.map(({ id, session, mode, questions }) => ({ id, session, mode, questions: questions.map(({ id }) => ({ id })) }));
+---
+<StudyPage title="官方題完整練習" section="官方題完整練習">
+  <p class="lead">依原題順序，完整練習考古題與指引練習題。每份題組獨立記錄進度，包含有爭議的題目。</p>
+  <p id="official-status" role="status">正在讀取作答進度…</p>
+  <div class="official-grid">{sets.map((set) => <section class="official-set" data-official-set={set.id} data-count={set.questions.length}>
+    <h2>{set.title}</h2><p>共 {set.questions.length} 題{set.session !== 'guide' && '・每題 2 分'}</p>
+    <p id={`progress-${set.id}`} class="muted">已答與答對題數需要 JavaScript 才能讀取。</p>
+    <a class="button primary" href={`/official/${set.id}/`}>開啟題組 →</a>
+  </section>)}</div>
+  <p><a href="/daily/">練習非官方題：每日 50 題 →</a></p>
+  <noscript><p>官方練習需要 JavaScript 才能逐題作答及保存進度。請啟用 JavaScript 後重新整理。</p></noscript>
+  <script type="application/json" id="official-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\u003c')}></script>
+</StudyPage>
+<script>import { initOfficialIndex } from '../../lib/official-client'; initOfficialIndex();</script>
+<style>
+  .official-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; margin-block: 1.5rem; }
+  .official-set { min-width: 0; padding: 1.25rem; border: 1px solid var(--sl-color-gray-5); border-radius: .75rem; }
+  .official-set h2 { margin-top: 0; font-size: 1.2rem; }
+</style>

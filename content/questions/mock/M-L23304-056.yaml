@@ -1,0 +1,43 @@
+id: M-L23304-056
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - random-search
+stem: 某工程師只允許嘗試指定的樹深與葉節點樣本數，想確認 RandomizedSearchCV 是否浪費預算重複抽取同一組設定。以下候選值均為互不重複的清單，所有擬合皆成功。程式列出的候選筆數與不同組合數，何者最正確？
+code: |
+  from sklearn.datasets import load_iris
+  from sklearn.tree import DecisionTreeClassifier
+  from sklearn.model_selection import RandomizedSearchCV
+  X, y = load_iris(return_X_y=True)
+  search = RandomizedSearchCV(
+      DecisionTreeClassifier(random_state=0),
+      {"max_depth": [2, 3, 4], "min_samples_leaf": [1, 5]},
+      n_iter=6, cv=2, refit=False, random_state=7)
+  search.fit(X, y)
+  params = search.cv_results_["params"]
+  unique = {tuple(sorted(p.items())) for p in params}
+  print(len(params), len(unique))
+code_lang: python
+options:
+  A: 候選 6 筆；不同組合有 6 組
+  B: 候選 6 筆；不同組合少於 6 組
+  C: 候選 3 筆；不同組合有 3 組
+  D: 候選 2 筆；不同組合有 2 組
+answer: A
+explanation:
+  summary: 全部參數使用有限清單時，隨機搜尋採不放回抽樣。
+  correct: 候選空間共有 3×2=6 組。全部參數都用清單表示時，RandomizedSearchCV 對組合採不放回抽樣；n_iter=6 因而取出 6 個不同組合。cv=2 決定每組如何驗證，不會改變候選清單的筆數。
+  wrong:
+    B: 至少一項參數使用抽樣分布時，才改採有放回抽樣。本例各項皆為清單，不會重複抽取組合。
+    C: 3 只是 max_depth 的候選數，每個深度還可搭配 2 個 min_samples_leaf 值。
+    D: 2 只是 min_samples_leaf 的候選數或驗證折數，不是這次抽出的候選總數。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: verified
+  blind_answer: A
