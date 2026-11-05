@@ -5,6 +5,10 @@ kind: problem
 codes: [L23401, L21203]
 aliases: []
 requires: [computer-vision-tasks]
+contrasts:
+  - target: data-poisoning
+    note: 對抗樣本改推論期輸入；資料毒化改訓練資料或標籤，後門可在之後遇到觸發樣式才判錯。
+    source: [Z-L23401-002]
 summary: 對抗樣本刻意修改模型輸入，使原本可辨識的內容被判錯
 goals:
   - id: g1
