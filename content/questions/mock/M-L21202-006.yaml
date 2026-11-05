@@ -27,6 +27,7 @@ guide_refs:
   - guide-1:4-19
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: A

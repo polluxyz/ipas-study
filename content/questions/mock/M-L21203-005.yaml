@@ -18,7 +18,7 @@ options:
 answer: D
 explanation:
   summary: 風險處置需要可執行的停用機制與明確責任。
-  correct: NIST AI RMF 1.0 的 MANAGE 2.4 要求建立並運用替代、脫離或停用機制，且清楚分配責任。本例已有停用條件，仍缺執行權責與替代作業；應讓負責人能按既定條件中止自動淘汰並轉交人工。
+  correct: NIST AI RMF 1.0 的 MANAGE 2.4 指出應建立並運用替代、脫離或停用機制，且清楚分配責任。本例已有停用條件，仍缺執行權責與替代作業；應讓負責人能按既定條件中止自動淘汰並轉交人工。
   wrong:
     A: 平均分數不能取代已約定的族群風險條件，也沒有處理無人能執行停用的問題。
     B: 供應商可協助排除問題，但平台仍須明定自身的決策責任及可立即啟動的處置。
@@ -28,6 +28,7 @@ guide_refs:
   - guide-1:4-42
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: D
