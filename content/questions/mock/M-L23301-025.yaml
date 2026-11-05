@@ -1,0 +1,35 @@
+id: M-L23301-025
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - categorical-encoding
+stem: 某服務的等級由低至高為 bronze、silver、gold。下游以單一數值欄位表示這個順序。工程師發現下列自動編碼不符合業務順序。若要使用 0、1、2 表示由低至高，哪項設定最適合？
+code: |
+  from sklearn.preprocessing import OrdinalEncoder
+  levels = [["bronze"], ["silver"], ["gold"]]
+  encoder = OrdinalEncoder().fit(levels)
+  print(encoder.categories_[0].tolist())
+  print(encoder.transform(levels).ravel().tolist())
+code_lang: python
+options:
+  A: 將 categories 順序設為 bronze、silver、gold，再擬合
+  B: 將 categories 順序設為 bronze、gold、silver，再擬合
+  C: 沿用自動類別順序，再對輸出的整數做最小最大縮放
+  D: 沿用自動類別順序，再對輸出的整數做 Z 分數標準化
+answer: A
+explanation:
+  summary: 順序編碼應使用業務順序，而非字串排序。
+  correct: 自動辨識的順序是 bronze、gold、silver。明確指定 bronze、silver、gold，才能讓數值遞增對應服務等級提高。
+  wrong:
+    B: 這仍是字串排序，gold 會得到 1，silver 得到 2，與業務順序相反。
+    C: 最小最大縮放保留既有大小順序，不能交換 gold 與 silver 的位置。
+    D: 標準化調整中心與尺度，不能修正類別對應順序。
+guide_refs:
+  - guide-3:5-8
+author: codex
+review:
+  status: draft

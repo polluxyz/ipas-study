@@ -1,0 +1,38 @@
+id: M-L23301-024
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - missing-value-imputation
+  - sklearn-pipeline
+stem: 某設備模型有 2 個感測欄位。團隊要求各欄位有 1 個指標，標示補值前的缺失狀態，部署時欄數固定。下列程式只產生 1 個指標。若要保留補值結果並滿足要求，哪項調整最適合？
+code: |
+  import numpy as np
+  from sklearn.impute import SimpleImputer
+  train = np.array([[np.nan, 10.], [2., 20.], [4., 30.]])
+  incoming = np.array([[3., np.nan]])
+  imputer = SimpleImputer(strategy="median", add_indicator=True).fit(train)
+  print(imputer.indicator_.features_.tolist())
+  print(imputer.transform(incoming).tolist())
+code_lang: python
+options:
+  A: 以 strategy='mean' 的補值結果，合併既有的缺失指標
+  B: 對補值後資料執行 isnan()，建立全欄指標再合併補值結果
+  C: 對原始資料執行 MissingIndicator(features='all')，再合併補值結果
+  D: 以 strategy='constant' 的補值結果，合併既有的缺失指標
+answer: C
+explanation:
+  summary: 缺失指標的欄位範圍取決於擬合時的設定。
+  correct: add_indicator=True 只為擬合時出現缺失的欄位建立指標。本例只有第 1 欄符合。另用 features='all' 取得 2 欄指標，再與補值結果合併，可維持 4 欄輸出。
+  wrong:
+    A: 改用平均數只改變填入的數值，不會擴大缺失指標的欄位範圍。
+    B: 補值後缺失位置已變成數值，這時才檢查 isnan() 會失去補值前的缺失狀態。
+    D: 常數補值改變填補規則，add_indicator 的欄位選取規則仍相同。
+guide_refs:
+  - guide-3:5-3
+author: codex
+review:
+  status: draft

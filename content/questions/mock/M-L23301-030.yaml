@@ -1,0 +1,30 @@
+id: M-L23301-030
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - sklearn-pipeline
+  - data-consistency
+stem: 某 Pipeline 以 ColumnTransformer 按欄名選取 age 與 income，後面接分類器。線上資料仍是同名 DataFrame，但 2 欄的送入順序偶爾互換。團隊要確保前處理與模型輸入一致。哪項做法最適合？
+options:
+  A: 保留欄名，核對必要欄位後交給同一份已擬合的 Pipeline
+  B: 移除欄名，直接將每批目前的欄位順序轉成二維數值陣列
+  C: 保留欄名，先以每批數值由小到大的順序排列各筆欄位
+  D: 移除欄名，將每批前處理輸出重新擬合後交給既有分類器
+answer: A
+explanation:
+  summary: 前處理流程需要保留可辨識的輸入欄位語意。
+  correct: 以字串欄名選取欄位時，ColumnTransformer 可從 DataFrame 找到指定欄位。保留欄名並沿用已擬合流程，可以讓輸出對應原有分類器的特徵定義。
+  wrong:
+    B: 轉成無欄名陣列後無法用原來的字串選欄設定選取欄位，位置互換也可能造成語意錯置。
+    C: 依數值排序會讓同一位置在不同列代表不同欄位，破壞 age 與 income 的定義。
+    D: 移除欄名會破壞字串選欄設定；另以每批資料擬合也會改變分類器接收的轉換。
+guide_refs:
+  - guide-3:5-4
+  - guide-3:5-10
+author: codex
+review:
+  status: draft

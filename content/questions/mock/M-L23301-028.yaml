@@ -1,0 +1,37 @@
+id: M-L23301-028
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - one-hot-encoding
+  - data-consistency
+stem: 某模型訓練時使用 red、blue，推論批次包含 blue、green。工程師各自執行 get_dummies，再把矩陣直接交給既有模型。兩邊都是 2 欄，但欄名不同。若模型權重固定，最適合如何整理推論矩陣？
+code: |
+  import pandas as pd
+  train = pd.get_dummies(pd.Series(["red", "blue"]), dtype=int)
+  incoming = pd.get_dummies(pd.Series(["blue", "green"]), dtype=int)
+  print(train.columns.tolist(), incoming.columns.tolist())
+  print(train.shape, incoming.shape)
+code_lang: python
+options:
+  A: 分別依各矩陣自己的欄名字母排序，再傳入兩欄數值
+  B: 依訓練矩陣的欄名與順序重新索引，缺少的欄補成 0
+  C: 依推論矩陣的新欄名重命名訓練欄位，再沿用模型權重
+  D: 將兩邊的欄名都移除，僅按目前位置傳入兩欄數值
+answer: B
+explanation:
+  summary: 欄數相同不能保證獨熱編碼的欄位語意相同。
+  correct: 訓練權重對應 blue、red。推論矩陣須對齊這組欄名與順序。green 在已知欄位上的值為 0，不應把 green 欄誤當成 red 欄。
+  wrong:
+    A: 分開排序後，訓練仍是 blue、red，推論仍是 blue、green。第 2 欄的語意仍不相同。
+    C: 重新命名不會把 red 學得的權重轉成 green 的權重，反而掩蓋語意差異。
+    D: 移除欄名只留下位置，模型仍可能把 green 指標解讀成 red 指標。
+guide_refs:
+  - guide-3:5-4
+  - guide-3:5-8
+author: codex
+review:
+  status: draft

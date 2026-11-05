@@ -1,0 +1,43 @@
+id: M-L23303-034
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - repeated-k-fold
+  - k-fold-cross-validation
+stem: 某工程師把 3 折、2 輪的 RepeatedKFold 傳給 cross_val_predict，想取得每筆資料唯一的折外預測。程式捕捉到 ValueError。若要保留這 2 輪設計，哪項處理最適合？
+code: |
+  import numpy as np
+  from sklearn.linear_model import LogisticRegression
+  from sklearn.model_selection import RepeatedKFold, cross_val_predict
+  X = np.arange(24).reshape(12, 2)
+  y = np.array([0, 1] * 6)
+  cv = RepeatedKFold(n_splits=3, n_repeats=2, random_state=7)
+  try:
+      cross_val_predict(LogisticRegression(), X, y, cv=cv)
+  except ValueError as error:
+      print(type(error).__name__)
+      print(str(error))
+code_lang: python
+options:
+  A: 以 predict_proba 輸出機率，沿用原有的重複切分器
+  B: 以單一工作程序執行，沿用原有的重複切分器
+  C: 以驗證索引大小排序原有切分，再交由同一函式預測
+  D: 以逐輪迴圈產生折外預測，按樣本索引與輪次保存
+answer: D
+explanation:
+  summary: 重複交叉驗證不符合每筆恰驗證一次的切分要求。
+  correct: cross_val_predict 要求每筆樣本在全部驗證切分中恰好出現 1 次。重複 2 輪會各出現 2 次。逐輪產生並保存折外預測，可保留每筆資料在不同輪的結果。
+  wrong:
+    A: 改變預測輸出的形式不會改變樣本被驗證 2 次的事實。
+    B: 單工作程序只影響執行安排，無法使重複切分變成互斥的驗證分割。
+    C: 排序只改變索引或切分的順序，每筆仍驗證 2 次，未形成這個函式所需的互斥分割。
+guide_refs:
+  - guide-3:5-27
+  - guide-3:5-28
+author: codex
+review:
+  status: draft
