@@ -7,7 +7,6 @@ codes:
   - L23401
 concepts:
   - ai-risk-governance
-  - data-model-versioning
 stem: 攻擊者在公開的訓練資料集中混入少量特製樣本，使模型在遇到特定觸發圖案時輸出攻擊者指定的類別，而在一般樣本上表現正常。此攻擊型態為何？
 options:
   A: 成員推論攻擊
@@ -44,4 +43,4 @@ origin:
     B: C
     C: D
     D: A
-  modified: 選項重排；解析逐項重寫
+  modified: 選項重排；解析逐項重寫；移除未教授毒化攻擊辨識的資料與模型版本追溯概念

@@ -4,6 +4,7 @@ source: mock
 subject: 3
 type: 程式
 codes:
+  - L23303
   - L23202
 concepts:
   - roc-auc
@@ -46,4 +47,4 @@ origin:
     B: D
     C: A
     D: B
-  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；解析逐項重寫
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；解析逐項重寫；主代碼改為 L23303，保留 L23202 為次要代碼

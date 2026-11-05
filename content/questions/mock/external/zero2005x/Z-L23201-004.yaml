@@ -4,6 +4,7 @@ source: mock
 subject: 3
 type: 計算
 codes:
+  - L23101
   - L23201
 concepts:
   - probabilistic-modeling
@@ -44,4 +45,4 @@ origin:
     B: D
     C: A
     D: B
-  modified: 選項重排；解析逐項重寫
+  modified: 選項重排；解析逐項重寫；主代碼改為 L23101，保留 L23201 為次要代碼

@@ -4,7 +4,8 @@ source: mock
 subject: 3
 type: 情境
 codes:
-  - L23201
+  - L23101
+  - L23303
 concepts:
   - statistical-inference
   - roc-auc
@@ -43,4 +44,4 @@ origin:
     B: C
     C: D
     D: A
-  modified: 選項重排；解析逐項重寫
+  modified: 選項重排；解析逐項重寫；代碼改為主要 L23101 與次要 L23303，移除 L23201

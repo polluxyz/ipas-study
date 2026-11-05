@@ -4,6 +4,7 @@ source: mock
 subject: 3
 type: 情境
 codes:
+  - L23303
   - L23302
 concepts:
   - time-series-split
@@ -44,4 +45,4 @@ origin:
     B: B
     C: C
     D: D
-  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫；主代碼改為 L23303，保留 L23302 為次要代碼

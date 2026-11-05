@@ -24,7 +24,7 @@ explanation:
     D: Lasso 是迴歸估計器，且較大的 alpha 會加強限制。
 guide_refs:
   - guide-3:4-26
-  - guide-3:4-30
+  - guide-3:4-15
 author: codex
 review:
   status: draft
@@ -44,4 +44,4 @@ origin:
     B: C
     C: D
     D: A
-  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；解析逐項重寫
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；解析逐項重寫；以正則化頁碼取代支援向量機頁碼

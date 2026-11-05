@@ -6,7 +6,7 @@ type: 計算
 codes:
   - L23103
 concepts:
-  - algorithm-selection
+  - neighbor-search-index
 stem: |-
   某風控系統需比對所有客戶配對之間的相似度，程式結構為兩層巢狀迴圈，各遍歷全部 n位客戶。
 
@@ -25,7 +25,6 @@ explanation:
     B: 兩層迴圈的倍數應相乘，並非把 10 倍相加。
     D: 資料量增加會增加配對數，這裡不是固定成本運算。
 guide_refs:
-  - guide-3:3-23
   - guide-3:4-82
 author: codex
 review:
@@ -46,4 +45,4 @@ origin:
     B: B
     C: C
     D: D
-  modified: 保留選項順序；解析逐項重寫
+  modified: 保留選項順序；解析逐項重寫；概念改連至含全配對平方成本的近鄰搜尋索引；移除不對應的損失函數與梯度下降頁碼

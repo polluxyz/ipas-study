@@ -37,7 +37,7 @@ options:
 answer: B
 explanation:
   summary: 多類別 F1 要明確指定平均方式。
-  correct: 原選項指出 binary F1 不能直接計 3 類，方向正確。但 cross_val_score 預設會警告並填入 NaN，不必然向外拋出例外，故保留原答並標爭議。
+  correct: scoring="f1" 採二元平均方式，不能直接評分三類標籤。cross_val_score 預設 error_score=np.nan，各折評分失敗會產生警告並填入 NaN，因此回傳 5 個 NaN，平均也為 NaN；指定 error_score="raise" 才會向外拋出 ValueError。改用 f1_macro 或 f1_weighted 可明確指定多類別平均方式。
   wrong:
     A: f1 不會自動切換成多類平均。
     C: 評分失敗不會自動改成準確率。
@@ -64,4 +64,4 @@ origin:
     B: B
     C: C
     D: D
-  modified: 保留選項順序；補寫干擾項細節，平衡選項長度；由原檔補回共用程式、情境與輸出；解析逐項重寫
+  modified: 保留選項順序；補寫干擾項細節，平衡選項長度；由原檔補回共用程式、情境與輸出；解析逐項重寫；解析明示預設警告、5 個 NaN 與向外拋出例外的差別，移除審稿流程用語
