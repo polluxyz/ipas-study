@@ -1,0 +1,37 @@
+id: M-L23203-059
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - self-attention
+  - pytorch
+stem: 某生成器已快取位置 0 至 3，現在一次處理位置 4、5 的新查詢。鍵包含位置 0 至 5。每個查詢只能讀取不晚於自身的位置。以下 keep 遮罩的兩列何者最正確？
+code: |
+  import torch
+  query_pos = torch.tensor([4, 5])
+  key_pos = torch.arange(6)
+  keep = key_pos[None, :] <= query_pos[:, None]
+  print(keep.int().tolist())
+code_lang: python
+options:
+  A: "[1,1,1,1,1,0]；[1,1,1,1,1,1]"
+  B: "[1,0,0,0,0,0]；[1,1,0,0,0,0]"
+  C: "[0,0,0,0,1,0]；[0,0,0,0,1,1]"
+  D: "[1,1,1,1,1,1]；[1,1,1,1,1,1]"
+answer: A
+explanation:
+  summary: 有快取的因果遮罩，需用查詢的實際位置對齊鍵。
+  correct: 第 1 列查詢的實際位置為 4，可讀鍵 0 至 4；第 2 列為 5，可讀鍵 0 至 5。應納入已快取的 4 格位置偏移。
+  wrong:
+    B: 這是未考慮快取偏移的左上對齊下三角遮罩，會錯誤排除多數已到達的鍵。
+    C: 這種遮罩只保留本次新增片段，遺失位置 0 至 3 的歷史資訊。
+    D: 第 1 列會讀到位置 5，違反查詢位置 4 不得讀取未來的需求。
+guide_refs:
+  - guide-3:4-77
+  - guide-3:4-78
+author: codex
+review:
+  status: draft

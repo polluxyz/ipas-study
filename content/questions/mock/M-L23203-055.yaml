@@ -1,0 +1,30 @@
+id: M-L23203-055
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23203
+concepts:
+  - gradient-clipping
+  - mixed-precision-training
+stem: 某團隊用混合精度訓練，GradScaler 把損失乘以 1024 後執行 backward。團隊希望將未縮放的梯度範數限制為 1，且本輪已完成梯度累積。最適合的呼叫順序為何？
+options:
+  A: 先裁剪梯度，再呼叫 unscale_，最後呼叫 scaler.step
+  B: 先呼叫 unscale_，再裁剪梯度，最後呼叫 scaler.step
+  C: 先呼叫 scaler.step，再呼叫 unscale_，最後裁剪梯度
+  D: 先裁剪梯度，再呼叫 scaler.step，最後呼叫 unscale_
+answer: B
+explanation:
+  summary: 混合精度的梯度須先還原尺度，再套用原尺度的裁剪門檻。
+  correct: 先用 unscale_ 還原梯度，再把範數限制為 1，門檻才對應原始損失。完成後由 scaler.step 執行參數更新。
+  wrong:
+    A: 先裁剪縮放後的梯度，相當於把原尺度的門檻降為約 1/1024，更新會被過度壓小。
+    C: step 已進行參數更新，之後的裁剪無法控制本輪更新，且 unscale_ 順序也不合呼叫規則。
+    D: step 會處理尚未還原的梯度；先裁剪已把門檻套在錯誤尺度，之後再還原不能恢復原方向的幅度。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:5-52
+author: codex
+review:
+  status: draft

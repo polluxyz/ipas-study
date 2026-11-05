@@ -1,0 +1,39 @@
+id: M-L23203-060
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - output-loss-contract
+  - pytorch
+stem: 某逐詞分類器的 logits 格式為 (批次,詞位置,類別)。以下共有 4 個詞，每詞 3 類，標籤格式為 (批次,詞位置)。工程師要用 CrossEntropyLoss 保持每個詞與標籤對齊。哪個寫法最正確？
+code: |
+  import torch
+  import torch.nn.functional as F
+  z = torch.tensor([[[5.,0.,0.],[0.,5.,0.]],
+                    [[0.,0.,5.],[5.,0.,0.]]])
+  y = torch.tensor([[0,1],[2,0]])
+  print(tuple(z.shape), tuple(y.shape))
+  print(round(F.cross_entropy(z.reshape(4,3), y.reshape(-1)).item(), 4))
+code_lang: python
+options:
+  A: F.cross_entropy(z.reshape(2,3,2), y)
+  B: F.cross_entropy(z.transpose(1,2).reshape(4,3), y.reshape(-1))
+  C: F.cross_entropy(z.reshape(4,3), y.T.reshape(-1))
+  D: F.cross_entropy(z.transpose(1,2), y)
+answer: D
+explanation:
+  summary: 改變軸的位置與直接重塑尺寸不同，類別軸須正確對齊。
+  correct: CrossEntropyLoss 的類別軸是第 2 軸。transpose 把 (2,2,3) 轉成 (2,3,2)，保留每個詞的 3 類分數及原標籤對應。
+  wrong:
+    A: reshape 只重組儲存順序，沒有把各詞的類別軸搬到第 2 軸，會混用不同詞的分數。
+    B: 先交換軸再直接 reshape 成 (4,3)，會把類別優先的儲存次序誤當成逐詞次序。
+    C: logits 展平順序是先第 1 句再第 2 句；轉置標籤會改成先各句的第 1 詞，造成配對錯誤。
+guide_refs:
+  - guide-3:4-62
+  - guide-3:4-92
+author: codex
+review:
+  status: draft

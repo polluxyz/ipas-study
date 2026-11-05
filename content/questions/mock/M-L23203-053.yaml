@@ -1,0 +1,38 @@
+id: M-L23203-053
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - gradient-clipping
+  - pytorch
+stem: 某模型的 2 個純量參數分別累積梯度 3 與 4。工程師要把整體二範數限制為 1，並保留整體梯度方向。以下程式印出的梯度最接近哪一項？
+code: |
+  import torch
+  p = torch.nn.Parameter(torch.tensor(0.0))
+  q = torch.nn.Parameter(torch.tensor(0.0))
+  p.grad = torch.tensor(3.0)
+  q.grad = torch.tensor(4.0)
+  torch.nn.utils.clip_grad_norm_([p, q], max_norm=1.0)
+  print(round(p.grad.item(), 1), round(q.grad.item(), 1))
+code_lang: python
+options:
+  A: 1.0、1.0
+  B: 0.4、0.6
+  C: 0.6、0.8
+  D: 0.0、1.0
+answer: C
+explanation:
+  summary: 整體範數裁剪會用同一縮放係數處理全部參數梯度。
+  correct: 合併梯度的二範數是 5。把整體縮到範數 1 時，兩個分量都約乘以 1/5，得到 0.6 與 0.8，並保留 3 比 4 的方向。
+  wrong:
+    A: 1、1 類似分別限值的結果，二範數仍大於 1，且方向不再是 3 比 4。
+    B: 0.4、0.6 接近除以分量絕對值總和後的結果；這是另一種範數，並非本例的二範數。
+    D: 只保留較大分量是稀疏化，會改變方向，並非範數裁剪。
+guide_refs:
+  - guide-3:3-27
+author: codex
+review:
+  status: draft

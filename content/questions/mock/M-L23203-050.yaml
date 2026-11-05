@@ -1,0 +1,30 @@
+id: M-L23203-050
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23203
+concepts:
+  - transfer-learning
+  - pytorch
+stem: 某模型在階段切換前已完成 backward，尚未呼叫 step。骨幹參數 p 的 grad 仍是非零張量，且已登記在一般 SGD 中，未用動量或權重衰減。工程師此時只把 p.requires_grad 設為 False，隨即呼叫 step。最正確的判斷為何？
+options:
+  A: step 會重新篩選 requires_grad=True 的已登記參數
+  B: 關閉 requires_grad 時，現有 grad 會自動改為 None
+  C: step 會使用已登記參數目前留存的非零 grad
+  D: step 會對 requires_grad=False 的參數再執行反向傳播
+answer: C
+explanation:
+  summary: 停止後續梯度累積，不會自動清掉先前留下的梯度。
+  correct: 一般 SGD 依已登記參數的 grad 更新數值。requires_grad=False 影響後續自動微分，不會刪除既有 grad；切換時須先妥善清除梯度。
+  wrong:
+    A: SGD 並非每次 step 都用 requires_grad 重新建立參數清單，既有梯度仍可被使用。
+    B: 設定 requires_grad 不會把已存在的 grad 自動設成 None。
+    D: step 使用既有梯度，重新計算梯度是 backward 的工作。
+guide_refs:
+  - guide-3:4-82
+  - guide-3:4-92
+author: codex
+review:
+  status: draft
