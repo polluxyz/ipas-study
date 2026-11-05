@@ -1,0 +1,48 @@
+id: Z-L21103-003
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21103
+concepts:
+  - hallucination
+  - prompt-engineering
+  - human-in-the-loop
+stem: 關於降低大型語言模型幻覺之作法，下列敘述何者最不適當？
+options:
+  A: 將生成溫度調降至 0，即可確保輸出內容完全正確
+  B: 建立知識庫並要求模型引用出處，答案須以檢索到的內容為依據
+  C: 在提示中明確允許模型於資料不足時回答「無法確認」
+  D: 對高風險輸出設置人工覆核關卡，並留存可稽核紀錄
+answer: A
+explanation:
+  summary: 降低隨機性無法保證事實正確。
+  correct: 溫度為 0 只會讓取樣更固定。模型仍可能穩定輸出錯誤內容，因此「確保完全正確」是本題最不適當之處。
+  wrong:
+    B: 提供可引用的資料能降低無依據生成，但還應確認檢索內容與引用是否正確。此項屬合理防護。
+    C: 資料不足時允許拒答，可減少為完成指令而猜測的壓力。這是合理的提示設計。
+    D: 人工覆核可阻擋高風險錯誤直接生效；保留紀錄也有助事後追查。此項合理。
+guide_refs:
+  - guide-1:3-71
+  - guide-1:3-72
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch03.md
+  original_id: SIM-L21103-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    C: A
+    A: B
+    B: C
+    D: D
+  modified: 選項重排；解析全部重寫

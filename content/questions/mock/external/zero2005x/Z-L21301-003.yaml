@@ -1,0 +1,48 @@
+id: Z-L21301-003
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - outlier-treatment
+  - feature-scaling
+  - data-quality
+stem: 某銀行建置信用卡盜刷偵測模型。資料探索發現，交易金額欄位中有 0.3%的紀錄遠高於四分位距上界。分析師建議依離群值處理慣例將這些紀錄刪除。下列評論何者最為適當？
+options:
+  A: 建議正確，離群值會干擾模型訓練，應一律刪除
+  B: 應將這些紀錄的金額改為上界值（截尾），即可保留樣本又消除離群
+  C: 應刪除整個交易金額欄位，改用其他特徵
+  D: 保留異常交易，以對數轉換或穩健縮放處理尺度
+answer: D
+explanation:
+  summary: 離群資料可能是重要事件，需先辨明意義。
+  correct: 應保留可能的盜刷訊號，先分辨真實交易與紀錄錯誤，再用適當轉換控制尺度。對數轉換需確認金額範圍，穩健縮放也不等於抹除異常。
+  wrong:
+    A: 統計離群不代表資料錯誤。若高額交易是真實盜刷，直接刪除會失去任務重要樣本。
+    B: 截尾可能壓掉大額交易的有用差異，未經任務分析不能當成必然正確的做法。
+    C: 整欄刪除會連正常交易的金額訊息一起丟掉，不能只因少量極端值就採此決策。
+guide_refs:
+  - guide-1:5-3
+  - guide-1:5-4
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch08.md
+  original_id: SIM-L21301-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    D: C
+    B: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

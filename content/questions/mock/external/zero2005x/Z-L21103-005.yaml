@@ -1,0 +1,47 @@
+id: Z-L21103-005
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21103
+concepts:
+  - generation-safety-alignment
+  - supervised-fine-tuning
+stem: 關於 RLHF（從人類回饋強化學習）之敘述，下列何者正確？
+options:
+  A: 獎勵模型訓練完成後即取代原語言模型對外提供服務
+  B: 以監督微調、獎勵模型與強化學習，調整輸出以符合人類偏好
+  C: RLHF的主要目的是讓模型獲得預訓練階段未涵蓋的新事實知識
+  D: 完成 RLHF的模型不會產生幻覺
+answer: B
+explanation:
+  summary: 人類偏好對齊與補充事實知識的目標不同。
+  correct: 典型 RLHF 流程先做示範微調，再用偏好資料學習評分，最後依評分更新生成策略。目的在改善輸出與人類期待的一致性。
+  wrong:
+    A: 獎勵模型提供訓練信號，通常不是取代語言模型負責生成回覆。
+    C: 人類回饋主要調整哪些輸出較受偏好，不等於為模型建立新的可靠事實庫。
+    D: 偏好對齊不代表每個事實都獲驗證，完成訓練後仍可能出現幻覺。
+guide_refs:
+  - guide-1:3-64
+  - guide-1:3-71
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch03.md
+  original_id: SIM-L21103-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    C: A
+    B: B
+    A: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

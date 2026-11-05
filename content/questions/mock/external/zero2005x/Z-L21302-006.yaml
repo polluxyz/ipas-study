@@ -1,0 +1,48 @@
+id: Z-L21302-006
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - circuit-breaker
+  - high-availability
+stem: 某金融機構的 AI 客服系統由「前端 → 身分驗證服務 → 檢索服務 → LLM 推論服務」四段組成。上線後發現：當 LLM
+  推論服務回應變慢時，檢索服務的連線池迅速被占滿，接著身分驗證服務也開始逾時，最後整個客服入口無法使用。下列哪一項處置**最能直接阻斷**這個失效路徑？
+options:
+  A: 把四段服務合併成一個單體服務以減少網路呼叫
+  B: 將身分驗證服務改為非同步，取消其逾時設定
+  C: LLM 呼叫加逾時與斷路器，檢索服務另設獨立連線上限
+  D: 增加 LLM 推論服務的 GPU 數量，其他服務維持共用連線池與無逾時等待，以擴充容量阻斷失效擴散
+answer: C
+explanation:
+  summary: 逾時、斷路與資源隔離可限制失效擴散。
+  correct: 逾時讓呼叫釋放資源，斷路器在持續失敗時暫停呼叫，獨立連線上限則限制單一服務占用。三者可直接切斷資源耗盡的傳遞路徑。
+  wrong:
+    A: 合併服務仍可能共用耗盡的資源，且擴大同一程序失效的影響範圍。
+    B: 取消逾時會使未完成請求滯留更久，非同步本身不等於資源隔離。
+    D: 加 GPU 可能改善推論速度，但不能直接限制下游長時間占用連線，也不能防止之後其他失效情境。
+guide_refs:
+  - guide-1:5-16
+  - guide-1:5-17
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch09.md
+  original_id: SIM-L21302-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；改寫原 A 干擾項以平衡長度

@@ -1,0 +1,49 @@
+id: Z-L21202-003
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21202
+concepts:
+  - poc-success-criteria
+  - online-business-metrics
+stem: 某電商導入詐欺交易攔截模型。上線後攔截率（召回率）由 62%提升至 81%，但客服部門回報「正常交易被誤攔」的客訴量成長為原來的
+  3.4倍。專案團隊主張模型指標達標故應維持現狀。下列評論何者最為適當？
+options:
+  A: 團隊主張正確，召回率提升即代表專案成功
+  B: 應直接把召回率目標再提高到 90%，以徹底解決詐欺問題
+  C: 客訴屬客服部門的問題，與 AI專案無關
+  D: 設定誤攔客訴護欄；超標時重評閾值與人工覆核流程
+answer: D
+explanation:
+  summary: 主要指標改善時，仍要監控副作用。
+  correct: 誤攔與客訴是會影響服務的副作用。規劃時應定義可接受上限，超標後重新檢查閾值與人工覆核，兼顧漏攔與誤攔成本。
+  wrong:
+    A: 召回率提高可能伴隨更多誤攔，不能把單一指標改善視為所有目標都達成。
+    B: 單純追求更高召回可能進一步增加誤攔，不能解決目前的客訴問題。
+    C: 模型改變了正常交易處理，客訴正是其業務影響，需由跨部門共同處理。
+guide_refs:
+  - guide-1:4-13
+  - guide-1:4-26
+  - guide-1:5-20
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch06.md
+  original_id: SIM-L21202-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    D: C
+    B: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

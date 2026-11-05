@@ -1,0 +1,48 @@
+id: Z-L21101-006
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - f1-score
+  - class-imbalance
+stem: 某金融機構建立客戶申訴工單的自動分類系統，共包含 20 個申訴類別。其中「一般諮詢」在總資料量中達 70%，而「個資洩漏申訴」「重大消費爭議」等高風險類別合計僅佔
+  2%。為客觀評估模型在所有類別（特別是少數關鍵類別）上的整體辨識水準，避免評估分數被多數類別主導，下列指標何者最為適當？
+options:
+  A: Macro-F1 分數
+  B: 加權平均 F1（Weighted-F1）分數
+  C: Micro-F1 分數
+  D: 準確率（Accuracy）
+answer: A
+explanation:
+  summary: 類別等權評估可避免多數類掩蓋少數類。
+  correct: 先算每一類的 F1，再讓 20 類等權平均，可避免一般諮詢按數量壓過小類。重要少數類仍應額外檢查各類召回率。
+  wrong:
+    B: 按各類樣本數加權後，70% 的一般諮詢仍占高權重，因此不如 Macro-F1 符合本例目標。
+    C: 先合計各類別的判定次數會讓大類別占較大影響。單標籤多類分類的 Micro-F1 也無法達成本例的類別等權需求。
+    D: 70% 的一般諮詢可主導整體答對比例，即使高風險少數類幾乎都錯，準確率仍可能好看。
+guide_refs:
+  - guide-1:5-9
+  - guide-1:5-20
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch01.md
+  original_id: SIM-L21101-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    C: A
+    D: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫

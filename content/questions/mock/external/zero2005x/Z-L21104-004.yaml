@@ -1,0 +1,49 @@
+id: Z-L21104-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+  - L21203
+concepts:
+  - taiwan-pdpa
+  - lawful-data-use
+  - multimodal-privacy-security
+stem: 某公司為門禁管理蒐集員工人臉資料。人資部門後續希望以同一批人臉資料建置「員工情緒分析」系統，用於評估工作投入度。下列評估何者最為適當？
+options:
+  A: 因人臉已用於門禁多年，員工已默示同意所有後續用途
+  B: 確認目的外利用的合法事由或同意，另評估情緒分析的必要性與風險
+  C: 先將人臉識別碼雜湊，再以員工編號連結情緒分數；如此即視為匿名，可直接用於新目的
+  D: 資料已在公司內部，屬同一資料控制者，可自由再利用
+answer: B
+explanation:
+  summary: 原本的門禁蒐集目的不會自動涵蓋情緒分析。
+  correct: 員工情緒評估不同於門禁辨識，需另查目的外利用的合法基礎，並衡量必要性與權利影響。個資法的同意也不代表可免除其他限制。
+  wrong:
+    A: 長期使用門禁不等於同意新的情緒評估目的；同意的內容與範圍必須明確。
+    C: 雜湊後仍能用員工編號連結個人，並未匿名化。技術處理也不能直接補上目的外利用的合法基礎。
+    D: 同一公司保管資料不代表任何新用途都合法，仍要核對蒐集目的與目的外利用的條件。
+guide_refs:
+  - guide-1:3-82
+  - guide-1:4-34
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch04.md
+  original_id: SIM-L21104-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    B: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；改寫原 C 干擾項以平衡長度

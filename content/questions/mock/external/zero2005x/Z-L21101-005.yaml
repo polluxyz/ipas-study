@@ -1,0 +1,48 @@
+id: Z-L21101-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - bleu
+  - rouge
+  - generative-quality-metrics
+stem: 某新聞平台導入自動摘要功能，團隊以 BLEU作為唯一驗收指標，測得分數偏低即判定模型不堪用。另一團隊指出此驗收設計有誤。下列說明何者最為正確？
+options:
+  A: 驗收設計無誤，BLEU為所有文本生成任務的通用指標
+  B: 應改用 Perplexity，其數值越高代表摘要品質越好
+  C: 應改用 entity-level F1，因為摘要本質上是序列標註任務
+  D: 以 ROUGE 為摘要的主要自動指標，並輔以內容覆核
+answer: D
+explanation:
+  summary: 摘要需同時檢查重點覆蓋與內容可信度。
+  correct: 本例要檢查摘要是否保留重點。ROUGE 的召回導向較貼近此需求；仍宜另做人讀評估與事實核對，不能把單一重疊分數當成完整品質。
+  wrong:
+    A: 詞彙重疊指標各有偏重，BLEU 的低分不足以單獨證明摘要無用，更不能作為所有生成任務的通用標準。
+    B: 困惑度反映模型對序列的預測程度，通常越低越好，但低困惑度也不保證摘要忠於原文。
+    C: 實體層級 F1 適合實體範圍與類型的抽取。摘要會重組內容，不能把整個摘要任務視為序列標註。
+guide_refs:
+  - guide-1:3-66
+  - guide-1:3-67
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch01.md
+  original_id: SIM-L21101-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    D: C
+    B: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

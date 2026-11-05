@@ -1,0 +1,47 @@
+id: Z-L21202-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21202
+concepts:
+  - data-leakage
+  - ai-implementation-plan
+stem: 某銀行建置「貸款違約預測」模型，離線測試 AUC高達 0.995，團隊十分振奮。經檢視特徵清單，其中包含「催收通知發送次數」與「帳戶凍結狀態」。下列判斷何者最為適當？
+options:
+  A: 指標優異代表特徵工程成功，應盡快上線
+  B: 應再增加更多特徵以進一步提升 AUC
+  C: 剔除違約後產生的特徵，按預測時點重新評估
+  D: AUC過高代表資料量不足，應增加樣本數
+answer: C
+explanation:
+  summary: 預測當下不可取得的結果資訊不能當特徵。
+  correct: 本例的催收與凍結欄位被描述為違約後產生。把結果後的訊息交給模型，會使離線任務比真實預測容易，應按預測時間重建特徵。
+  wrong:
+    A: 極高 AUC 也可能由不合法的預測資訊造成，不能單憑分數立即放行。
+    B: 額外特徵沒有移除既有洩漏。需先確認每個欄位何時可取得，再評估增益。
+    D: 資料量不足不會必然造成 AUC 偏高；在洩漏流程上補資料仍保留錯誤。
+guide_refs:
+  - guide-1:4-26
+  - guide-1:5-6
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch06.md
+  original_id: SIM-L21202-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    B: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

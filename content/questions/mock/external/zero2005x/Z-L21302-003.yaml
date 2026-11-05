@@ -1,0 +1,48 @@
+id: Z-L21302-003
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21302
+concepts:
+  - mlops-lifecycle
+  - data-drift
+  - data-model-versioning
+stem: 關於 MLOps與模型維運，下列敘述何者錯誤？
+options:
+  A: MLOps相較 DevOps需額外處理資料與模型的版本管理，並引入持續訓練環節
+  B: 訓練與服務偏斜的成因，常是離線與線上使用兩套不同的特徵計算邏輯
+  C: 高風險模型的更新應視為系統變更，納入審查與核准程序
+  D: 資料漂移的偵測需要取得真實標籤，否則無法判定
+answer: D
+explanation:
+  summary: 輸入漂移可在真實結果標籤尚未回來前偵測。
+  correct: 題目問錯誤敘述。比較輸入分布即可偵測資料漂移，不一定需要標籤；評估預測錯誤或概念漂移則通常更需要結果回饋。
+  wrong:
+    A: 機器學習服務除了程式，還依賴訓練資料與模型產物，因此需額外管理版本與重訓流程，此項合理。
+    B: 同一欄位的線上與離線算法不同，會造成模型看到不一致的特徵，這是常見偏斜來源。
+    C: 更新模型會改變決策行為，高風險用途納入變更審查，有助管理影響與回復方案。
+guide_refs:
+  - guide-1:5-18
+  - guide-1:5-19
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch09.md
+  original_id: SIM-L21302-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: A
+    B: B
+    D: C
+    C: D
+  modified: 選項重排；解析全部重寫

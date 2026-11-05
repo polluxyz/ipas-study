@@ -1,0 +1,47 @@
+id: Z-L21102-006
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21102
+concepts:
+  - detection-map
+  - intersection-over-union
+stem: 某晶圓加工廠導入 AI 電腦視覺瑕疵偵測系統，針對晶圓表面微裂紋進行物件偵測（Object Detection）。演算法團隊在測試集上測得評估指標為 `mAP@0.5 = 0.88`，而
+  `mAP@[.5:.95] = 0.45`。產線工程師質疑兩項指標差距過大是模型訓練失敗。下列專業解讀何者最為正確？
+options:
+  A: 物件偵測不適合使用 mAP 指標，應改以整張晶圓影像的分類準確率（Accuracy）為唯一驗收標準
+  B: 寬鬆門檻下能找出瑕疵，但更高 IoU 要求下的框定位表現較弱
+  C: 兩項指標差異顯著代表影像資料嚴重欠擬合，應改用無標註的分群演算法（如 K-Means）替代物件偵測
+  D: 產線質疑正確，`mAP@[.5:.95]` 數值理應高於 `mAP@0.5`，此結果顯示評估程式碼有嚴重錯誤
+answer: B
+explanation:
+  summary: 寬鬆與嚴格定位門檻可揭露不同能力。
+  correct: 0.88 顯示在寬鬆重疊要求下表現較好；升高門檻後平均降到 0.45，提示邊界定位仍需改善。差距本身不等於整個訓練失敗。
+  wrong:
+    A: mAP 適合物件偵測。只驗收整張圖的分類，會漏掉定位品質與同圖多瑕疵的要求。
+    C: 指標差距不能直接診斷欠擬合。分群也無法直接取代已定義瑕疵位置的監督偵測任務。
+    D: 較嚴格門檻會淘汰偏移的框，因此多門檻平均比 0.5 門檻低，不能據此認定評估程式有錯。
+guide_refs:
+  - guide-1:3-52
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch02.md
+  original_id: SIM-L21102-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    B: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

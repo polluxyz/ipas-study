@@ -1,0 +1,45 @@
+id: Z-L21102-002
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21102
+concepts:
+  - intersection-over-union
+stem: 某預測框與真實框皆為軸對齊矩形。預測框面積 400、真實框面積 500，兩者交集面積 200。其 IoU為何？
+options:
+  A: "0.22"
+  B: "0.29"
+  C: "0.50"
+  D: "0.40"
+answer: B
+explanation:
+  summary: IoU 的分母是聯集面積。
+  correct: 聯集為 400+500−200=700。交集除以聯集得 200/700≈0.286，四捨五入為 0.29。
+  wrong:
+    A: 200/(400+500)≈0.22 將交集重複算進分母，需扣除一次。
+    C: 200/400=0.50 的分母只是預測框，不是聯集。
+    D: 200/500=0.40 只用了真實框面積，沒有計入預測框超出真實框的部分。
+guide_refs:
+  - guide-1:3-52
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch02.md
+  original_id: SIM-L21102-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    B: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫

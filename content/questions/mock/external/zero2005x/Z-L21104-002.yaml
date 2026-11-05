@@ -1,0 +1,46 @@
+id: Z-L21104-002
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21104
+concepts:
+  - clip
+  - cross-modal-alignment
+stem: 某圖文對比式預訓練模型完成訓練後，開發者未提供任何「消防栓」類別的標註影像，僅輸入文字描述「一個紅色的消防栓」，模型即可從影像庫中找出對應圖片。此能力最適合稱為？
+options:
+  A: 零樣本跨模態檢索
+  B: 資料增強
+  C: 早期融合
+  D: 監督式微調：先用消防栓標註影像更新分類頭，再依文字查詢輸出對應圖片
+answer: A
+explanation:
+  summary: 文字與影像共享表示可支持零樣本檢索。
+  correct: 模型利用已學會的圖文對齊，以新文字描述找圖，不需先建立該類別的專用標註集，符合零樣本跨模態檢索。
+  wrong:
+    B: 資料增強是產生訓練變體。本例是在既有模型上進行檢索。
+    C: 早期融合描述資料在哪一階段合併，不能用來命名未見類別的文字找圖能力。
+    D: 此選項要先用消防栓影像更新分類頭，與本例沒有額外提供該類標註的條件不符。
+guide_refs:
+  - guide-1:3-75
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch04.md
+  original_id: SIM-L21104-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    D: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫；改寫原 A 干擾項以平衡長度

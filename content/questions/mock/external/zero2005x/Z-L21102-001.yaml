@@ -1,0 +1,51 @@
+id: Z-L21102-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21102
+concepts:
+  - vision-application-planning
+  - outlier-detection
+  - recall
+stem: 某汽車零件廠導入 AI視覺檢測煞車來令片裂紋。產線節拍為每件 0.8秒，該零件屬安全件，漏檢將導致召回風險。現有資料為良品影像 50,000張、裂紋樣本僅 60張。下列導入策略何者最為適當？
+options:
+  A: 以良品建立異常檢測，搭配輕量偵測器、低閾值與人工複檢
+  B: 以 60張裂紋樣本訓練兩階段 Faster R-CNN，並將判定閾值設為 0.9以降低誤報
+  C: 以 Accuracy作為主要驗收指標，目標訂為 99.5%
+  D: 將 60張裂紋樣本以垂直翻轉、水平翻轉及隨機遮蔽增強至 6,000張後，直接進行監督式訓練並以 mAP@0.5驗收
+answer: A
+explanation:
+  summary: 安全件檢測需兼顧稀少瑕疵、漏檢成本與節拍。
+  correct: 良品很多，可先建立正常外觀基準；再配合快速偵測、較重視召回的閾值及人工複檢。這是較符合限制的起點，仍須實測整條流程的漏檢率與 0.8 秒節拍。
+  wrong:
+    B: 裂紋樣本只有 60 張，不利於直接訓練完整偵測器。提高閾值還可能增加漏檢，與安全件需求衝突。
+    C: 良品數量遠多於裂紋，全部判良品也可能得到很高的準確率，卻漏掉真正危險的產品。
+    D: 變換 60 張圖不等於取得 6,000 個獨立缺陷。遮蔽還可能消掉裂紋；僅看寬鬆定位指標不足以驗收安全需求。
+guide_refs:
+  - guide-1:3-49
+  - guide-1:3-50
+  - guide-1:3-54
+  - guide-1:3-55
+  - guide-1:3-58
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch02.md
+  original_id: SIM-L21102-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    A: B
+    C: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

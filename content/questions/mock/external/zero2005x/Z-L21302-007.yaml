@@ -1,0 +1,47 @@
+id: Z-L21302-007
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - high-availability
+  - release-strategies
+stem: 某產線的 AI 瑕疵偵測服務需達到 99.9% 可用性。團隊提出四項設計，下列哪一項**同時**處理了「機器故障」與「模型服務暫時失效」兩種情境？
+options:
+  A: 將模型量化以降低延遲
+  B: 為推論服務加上每小時一次的自動重訓排程
+  C: 提高監控告警的敏感度，並要求值班人員 5 分鐘內回應
+  D: 跨可用區設推論副本，主模型連續失敗時回退舊版
+answer: D
+explanation:
+  summary: 備援副本與舊版回退處理不同失效來源。
+  correct: 分散副本可承受個別機器故障；新版模型持續失敗時回退舊版，則提供另一種服務恢復路徑。兩者合用才同時涵蓋題目的兩種情境。
+  wrong:
+    A: 量化可減少資源與延遲，但設備故障或模型服務失效時，仍需備援與回復路徑。
+    B: 定期重訓沒有在服務失效時立刻接替的功能，還可能引入新版本問題。
+    C: 告警有助發現問題，但人員回應之前仍可能中斷，並未提供即時容錯。
+guide_refs:
+  - guide-1:5-17
+  - guide-1:5-21
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch09.md
+  original_id: SIM-L21302-007
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    B: A
+    C: B
+    D: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

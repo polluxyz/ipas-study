@@ -1,0 +1,47 @@
+id: Z-L21202-002
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21202
+concepts:
+  - work-breakdown-structure
+  - gantt-critical-path
+stem: 某保險公司規劃 AI 理賠文件分類專案。專案經理需要先確認「沒有任何工作被遺漏，並能估算總工時與指派負責人」，之後才排定各項工作的起訖時間。下列規劃工具的使用順序與說明，何者最為適當？
+options:
+  A: WBS 與甘特圖功能相同，擇一即可
+  B: 直接以 Sprint 進行開發，WBS 與甘特圖在敏捷專案中一律不需要
+  C: 先用 WBS 拆出可估時、可指派的工作包，再用甘特圖排時程
+  D: 先畫甘特圖排定時程，再視需要補做 WBS
+answer: C
+explanation:
+  summary: 先完整拆工作，再安排時間。
+  correct: WBS 先讓產出物對應到可估工時與指派的工作包，再把工作放進時間軸，才容易檢查並行、相依與里程碑。
+  wrong:
+    A: 拆解工作範圍與呈現時間安排是不同用途，兩種工具不能直接互相取代。
+    B: 敏捷可採漸進規劃，但不代表不需辨明工作與時序；一律排除兩種工具沒有依據。
+    D: 還沒辨明所有工作就排時間，容易漏掉相依與負責人，與本例需求順序相反。
+guide_refs:
+  - guide-1:4-19
+  - guide-1:4-20
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch06.md
+  original_id: SIM-L21202-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

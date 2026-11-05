@@ -1,0 +1,49 @@
+id: Z-L21301-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - data-leakage
+  - sklearn-pipeline
+  - train-val-test-split
+stem: 某團隊處理客戶流失預測資料，作業順序為：先對全部資料以平均數插補缺失值並執行標準化，接著切分訓練集與測試集，再訓練模型。測試 AUC為 0.93。下列判斷何者最為適當？
+options:
+  A: 先切分資料，再於訓練集擬合插補與縮放，套用至測試集
+  B: 流程正確，AUC 0.93可信
+  C: 改以全體資料的中位數取代平均數做插補，標準化仍在切分前執行，即可消除資料洩漏
+  D: 應把測試集比例由 20%提高至 40%
+answer: A
+explanation:
+  summary: 前處理統計量也屬於模型學習的一部分。
+  correct: 測試集不該參與均值與尺度的估計。先切分，再僅從訓練資料擬合前處理，才能讓測試資料模擬未見資料。
+  wrong:
+    B: 測試分數來自受污染的流程，不能用 0.93 本身證明評估可信。
+    C: 改用中位數仍會利用全體資料的資訊，洩漏原因並未移除。
+    D: 調整切分比例不會消除切分前的資訊流入，應先修正處理順序。
+guide_refs:
+  - guide-1:5-3
+  - guide-1:5-4
+  - guide-1:5-6
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch08.md
+  original_id: SIM-L21301-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    A: B
+    C: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；改寫原 C 干擾項以平衡長度

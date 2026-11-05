@@ -1,0 +1,49 @@
+id: Z-L21101-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - named-entity-recognition
+  - contextual-word-embedding
+  - transfer-learning
+stem: 某壽險公司欲建置系統，自動從理賠申請書的自由填寫欄中抽出「就診醫院」「診斷病名」「就診日期」三類實體，且抽出的字串邊界必須完全正確才視為有效。專案初期僅有
+  800筆人工標註樣本，文本中並夾雜大量手寫辨識產生的錯字。下列技術方案何者最為適當？
+options:
+  A: 以中文 BERT 微調 NER，結合領域詞典與錯字增強，以實體層級 F1 驗收
+  B: 使用 TF-IDF建立關鍵詞字典，以字串完全比對方式抽取三類實體
+  C: 使用 Decoder-only模型從頭訓練一個理賠專用語言模型
+  D: 以 Word2Vec產生詞向量後接一層邏輯斯迴歸進行逐詞分類
+answer: A
+explanation:
+  summary: 少量標註下的實體抽取與邊界驗收。
+  correct: 既有中文語言表示能減少小樣本訓練負擔。領域詞與錯字增強有助辨認實體；整段邊界都對才計分，符合本例驗收條件。
+  wrong:
+    B: 字典只能命中既有字串，錯字與新院名容易漏掉，也不會自動學出實體的起訖位置。
+    C: 800 筆不足以支撐語言模型從零學習。從頭訓練會花費更多資源，也沒有解決實體邊界的標註需求。
+    D: 固定詞向量不會隨上下文改變。逐詞分類還需處理相鄰標籤與實體邊界，不能只靠單層分類器保證。
+guide_refs:
+  - guide-1:3-27
+  - guide-1:3-32
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch01.md
+  original_id: SIM-L21101-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    A: B
+    C: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

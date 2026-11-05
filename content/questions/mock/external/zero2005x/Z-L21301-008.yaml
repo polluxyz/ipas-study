@@ -1,0 +1,50 @@
+id: Z-L21301-008
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - edge-inference
+  - resource-aware-model-selection
+stem: 某化工廠需要在產線邊緣閘道器（Edge Gateway，配置為 2 核心 CPU、2GB 記憶體、無 GPU
+  且廠區網路頻寬不穩定）上部署即時管線洩漏偵測系統。廠方規格硬性要求「端到端推論延遲必須低於 15 毫秒（ms），且在廠區斷網時仍須保持 100%
+  本地即時警報」。下列技術方案何者最符合此工程與營運限制？
+options:
+  A: 在邊緣閘道器本地定時重新訓練 50 層的 3D 卷積神經網路
+  B: 將每秒數千筆未壓縮的高頻原始感測數據透過無線網路全數回傳公有雲伺服器，由大型深度學習叢集進行集中判讀
+  C: 邊緣端抽取感測統計特徵，以輕量決策樹或線性分類器本地推論
+  D: 在邊緣閘道器部署 70 億參數的開源多模態大模型進行零樣本推論
+answer: C
+explanation:
+  summary: 低資源且斷網可用的需求適合輕量本地推論。
+  correct: 把感測統計特徵交給輕量分類器，可降低本地運算與記憶體需求，也不依賴網路。這是合理候選，最終仍要在實機驗收完整延遲與警報流程。
+  wrong:
+    A: 在低資源設備重訓深層 3D 模型耗費資源，且未解決即時推論需求。
+    B: 雲端路徑依賴不穩定的網路，斷網時無法保證持續本地警報，直接違反硬性條件。
+    D: 70 億參數模型對記憶體與運算負擔很大，不符合這個閘道器與 15 毫秒的優先選型方向。
+guide_refs:
+  - guide-1:3-83
+  - guide-1:5-7
+  - guide-1:5-18
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch08.md
+  original_id: SIM-L21301-008
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

@@ -1,0 +1,48 @@
+id: Z-L21302-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+  - L21203
+concepts:
+  - audit-reproducibility
+  - data-model-versioning
+stem: 某銀行 AI授信模型上線後發生客訴，客戶要求說明其申請被拒的依據。稽核發現：系統僅保存最終決策結果，未留存當時使用的模型版本、輸入特徵值與信心值。下列評論何者最為適當？
+options:
+  A: 保存最終結果已足夠，因為決策本身才是客戶關心的
+  B: 事後以現行模型重算客戶目前的特徵資料，將新輸出附回舊案，即可還原當時的模型決策與信心值
+  C: 客訴屬客服部門權責，與模型維運無關
+  D: 補留模型版本、輸入摘要、輸出、信心值與覆核紀錄，建立可重現的稽核軌跡
+answer: D
+explanation:
+  summary: 重現過往決策需要當時的模型與資料脈絡。
+  correct: 保留版本、適當的輸入摘要、輸出與覆核紀錄，才能追查及重現決策。記錄要兼顧存取權限與資料最小化，不能無限制保存敏感原始資料。
+  wrong:
+    A: 最終結果只說明決定了什麼，不能說明當時用了哪個模型與資料，也無法排查異常。
+    B: 現行模型或資料可能已更新，事後重算不等於還原當時決策。
+    C: 客訴需要技術與業務共同提供可查核的依據，不能切斷模型團隊的追查責任。
+guide_refs:
+  - guide-1:4-38
+  - guide-1:5-19
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch09.md
+  original_id: SIM-L21302-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    D: C
+    B: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；改寫原 C 干擾項以平衡長度

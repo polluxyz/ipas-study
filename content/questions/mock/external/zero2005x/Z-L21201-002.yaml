@@ -1,0 +1,48 @@
+id: Z-L21201-002
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21201
+concepts:
+  - return-on-investment
+  - ai-total-cost
+  - cost-sensitivity-analysis
+stem: 關於 AI專案成本效益分析，下列敘述何者最不適當？
+options:
+  A: 高風險 AI應用之合規成本（稽核軌跡、獨立評測、人工覆核人力）應納入總持有成本
+  B: 多年期方案比較應採用 NPV，因為 ROI未考慮金錢的時間價值
+  C: 應將「決策速度提升」「員工滿意度改善」等無形效益折算後計入 ROI分子，以完整反映專案價值
+  D: 應將模型上線後的重新訓練、例行監控、告警處理與定期效能驗證編列為年度維運預算，避免只估建置費
+answer: C
+explanation:
+  summary: 無形效益估值需要可查核的假設。
+  correct: 保留原答案 B，但原選項未說明估值是否缺乏依據。無形效益若可用明確假設與可稽核的換算估計，未必不能納入分析；缺乏可靠估值時才宜另列質性效益或做敏感度分析。
+  wrong:
+    A: 稽核與人工覆核需要人力及工具，不能只計模型建置費；把這些列入總成本合理。
+    B: NPV 會依期間折現現金流，較能反映多年期方案的時間價值，與單一 ROI 比率提供不同資訊。
+    D: 重訓與監控是上線後仍會發生的成本，將它們放入後續年度預算合理。
+guide_refs:
+  - guide-1:4-5
+  - guide-1:4-6
+author: codex
+review:
+  status: disputed
+  answer_checked: null
+  dispute: 原 B 未限定為「無可靠依據的強行折算」。可稽核估值與敏感度分析可合理用於成本效益分析，不能一概判錯；指引科1 4-5 至 4-6 亦要求考量效率等效益。原答案保留，待主審裁定其唯一性。
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch05.md
+  original_id: SIM-L21201-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫；改寫原 A 干擾項以平衡長度

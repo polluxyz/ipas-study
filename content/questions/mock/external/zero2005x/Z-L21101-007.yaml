@@ -1,0 +1,47 @@
+id: Z-L21101-007
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21101
+concepts:
+  - rag
+  - rag-token-budget
+stem: 在建置檢索增強生成（RAG）系統時，文件切塊（Chunking）策略對檢索與回答品質具有決定性影響。若工程團隊將切塊大小（Chunk Size）設得極小（如每塊僅 30 至 50
+  字元）且完全不保留區塊重疊（Overlap = 0），最容易導致下列哪一種檢索或生成障礙？
+options:
+  A: 檢索階段的向量比對耗時呈指數級大幅暴增
+  B: 完全消除生成模型產生事實幻覺（Hallucination）的可能性
+  C: 上下文被切斷，檢索片段可能語意不完整
+  D: 導致嵌入模型（Embedding Model）輸出向量維度強制縮減
+answer: C
+explanation:
+  summary: 文件切塊要保留足以回答問題的上下文。
+  correct: 過短且無重疊的區塊可能把主詞、條件與結論切開。檢索只取到局部時，模型便可能誤解原意。
+  wrong:
+    A: 小塊會增加索引項目，但不能直接推出向量搜尋時間呈指數增加；還要看索引與搜尋方法。
+    B: 切塊大小無法保證生成內容完全可靠。片段缺少關鍵前提時，反而更容易出錯。
+    D: 嵌入維度由嵌入模型決定，不會因字元數縮短而被強制變更。
+guide_refs:
+  - guide-1:3-64
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch01.md
+  original_id: SIM-L21101-007
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    B: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

@@ -1,0 +1,50 @@
+id: Z-L21102-004
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21102
+concepts:
+  - convolution-layer
+  - residual-connections
+  - detection-map
+stem: 關於卷積神經網路與物件偵測評估之敘述，下列何者錯誤？
+options:
+  A: 非極大值抑制用於去除同一物體的重複預測框
+  B: 同一模型的 mAP@[.5:.95]數值通常會高於 mAP@0.5，因為前者取多個門檻平均
+  C: 殘差連接讓輸入可繞過部分轉換再與輸出相加，其主要目的為緩解深層網路的退化與梯度消失，並非單純增加每層卷積核數量
+  D: 權重共享使參數量與輸入影像尺寸脫鉤，且同一組特徵可在影像任何位置被偵測到
+answer: B
+explanation:
+  summary: 提高定位門檻通常會降低平均精確率。
+  correct: 原答案選此項。把更高的 IoU 門檻納入平均會要求更準確的框，不能因為取平均就推論分數更高。一般情況下多門檻 mAP 反而較低。
+  wrong:
+    A: 非極大值抑制保留較有信心的框，去掉高度重疊的重複框，此項符合其用途。
+    C: 跳接提供較直接的訊息與梯度路徑，幫助較深網路訓練，此項是合理敘述。
+    D: 同一卷積層的權重會在各位置重用，其參數數量不隨影像寬高改變。但整個網路若接展平與全連接層，參數仍可能受尺寸影響；原句缺少範圍限制。
+guide_refs:
+  - guide-1:3-48
+  - guide-1:3-49
+  - guide-1:3-51
+  - guide-1:3-52
+author: codex
+review:
+  status: disputed
+  answer_checked: null
+  dispute: 原答案 C 保留。但原 A 將卷積層參數性質擴及整個網路；帶展平與全連接層的 CNN 可能隨輸入尺寸改變參數量，故錯誤選項不一定唯一。參照指引科1 3-48 的卷積與全連接層區別，待主審裁定。
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch02.md
+  original_id: SIM-L21102-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫；改寫原 B 干擾項以平衡長度

@@ -1,0 +1,45 @@
+id: Z-L21203-002
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21203
+concepts:
+  - risk-response-strategies
+stem: 某企業因評估 AI客服可能造成客訴風險，決定投保並於委外合約中約定服務商之賠償責任。此作法屬於下列何種風險應對策略？
+options:
+  A: 風險轉移
+  B: 風險規避
+  C: 風險接受
+  D: 風險緩解
+answer: A
+explanation:
+  summary: 保險與責任契約分配損失的承擔者。
+  correct: 投保與契約賠償把部分財務損失依約分配給保險人或供應商，屬風險轉移。公司仍有自身的管理責任。
+  wrong:
+    B: 規避會停止或避開造成風險的活動。本例仍繼續導入 AI 客服。
+    C: 接受是決定自行承擔剩餘風險；本例另外安排第三方承擔損失，不只是接受。
+    D: 緩解通常直接降低事件機率或衝擊，如覆核與防護；本例重點是讓第三方承擔約定損失。
+guide_refs:
+  - guide-1:4-41
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch07.md
+  original_id: SIM-L21203-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    D: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫

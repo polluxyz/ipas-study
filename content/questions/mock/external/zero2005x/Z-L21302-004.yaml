@@ -1,0 +1,47 @@
+id: Z-L21302-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - edge-inference
+  - business-system-integration
+stem: 某半導體廠導入 AI缺陷檢測。限制條件為：(1)產線影像依內部規範不得離開廠區網路；(2)判定須在 200毫秒內完成以配合分流機構；(3)廠區網路與外網間為單向閘道。下列部署方案何者最為適當？
+options:
+  A: 產線端邊緣推論並回寫製造系統，模型以離線方式定期更新
+  B: 採串流推論並將影像即時傳送至總部資料中心處理
+  C: 採批次推論，每日凌晨統一分析當日影像
+  D: 使用公有雲即時推論 API，將每張影像經單向閘道送往雲端，再同步等待雲端結果控制分流機構
+answer: A
+explanation:
+  summary: 資料不能出廠且需即時決策時，推論應靠近產線。
+  correct: 本地裝置直接處理影像，再寫回製造系統，可在廠內完成即時判定。模型更新可另走核准的離線派送，並實測是否達 200 毫秒。
+  wrong:
+    B: 串流仍須讓影像離開廠區，傳輸模式改變沒有解除內部禁止外傳的限制。
+    C: 每日批次分析無法在零件通過分流機構前完成判定，與即時要求衝突。
+    D: 公有雲推論需傳送影像，違反資料邊界，也受單向閘道與外部延遲限制。
+guide_refs:
+  - guide-1:5-15
+  - guide-1:5-18
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch09.md
+  original_id: SIM-L21302-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    D: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；改寫原 A 干擾項以平衡長度

@@ -1,0 +1,50 @@
+id: Z-L21201-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21201
+concepts:
+  - ai-sourcing
+  - hybrid-deployment
+  - data-readiness
+stem: 某銀行欲導入客服對話摘要功能。限制條件為：(1)對話內容含客戶個資，依內部規範不得傳輸至境外；(2)需在三個月內上線；(3)團隊僅有兩名工程師。下列方案何者最為適當？
+options:
+  A: 暫緩導入，待內部規範放寬允許資料出境後再啟動
+  B: 敏感摘要用可地端部署模型；非敏感任務另評估外部服務
+  C: 自行從頭訓練一個專用語言模型，以完全掌控資料
+  D: 採用境外雲端商用 API，以最快速度上線，並於合約中加入保密條款
+answer: B
+explanation:
+  summary: 選型要同時符合資料邊界、人力與時程。
+  correct: 利用可在境內地端執行的既有模型處理敏感內容，再評估非敏感任務的外部服務，可同時顧及資料限制與有限人力。
+  wrong:
+    A: 仍有可滿足現行規範的部署方案，沒有必要將放寬規範視為開始專案的前提。
+    C: 從零訓練耗費大量資料與算力，兩名工程師與三個月的限制下，不是適合的首選。
+    D: 保密條款沒有改變資料送往境外的事實，因此仍違反題目明定的內部限制。
+guide_refs:
+  - guide-1:4-4
+  - guide-1:4-24
+  - guide-1:4-25
+  - guide-1:5-18
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch05.md
+  original_id: SIM-L21201-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

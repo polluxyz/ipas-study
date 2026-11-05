@@ -1,0 +1,50 @@
+id: Z-L21101-008
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - ai-agent
+  - api-access-security
+  - human-in-the-loop
+stem: 某企業規劃導入 AI 代理（Agentic
+  AI）系統，讓大型語言模型能依使用者對話自主規劃步驟，並調用內部工具（如查詢員工資料庫、發起內部審批、傳送電子郵件）。為防範攻擊者透過提示注入（Prompt
+  Injection）誘導代理執行未授權的高風險操作，下列何種架構設計最為嚴謹適當？
+options:
+  A: 工具後端驗證身分與最小權限，高風險操作先由人工確認
+  B: 降低語言模型的取樣溫度（Temperature = 0），以數學保證模型不受提示注入影響
+  C: 禁止代理調用任何資料庫，所有資料均改由檢索增強（RAG）以純文字向量呈現
+  D: 僅在系統提示詞（System Prompt）中強調「絕不可執行未授權操作」，依賴模型的道德與指令遵從能力
+answer: A
+explanation:
+  summary: 工具權限必須由執行端強制檢查。
+  correct: 工具端依真實身分檢查權限，才能拒絕模型提出的越權請求。高風險操作加人工確認，可減少錯誤動作直接生效。
+  wrong:
+    B: 溫度只影響取樣方式，無法阻止惡意文字改變模型的指令判讀，因此沒有這種安全保證。
+    C: 向量檢索仍可能回傳敏感資料。改變資料介面不會自動補上授權，更不能代替審批與寄信的操作權限。
+    D: 提示詞只是模型輸入的一部分，不能取代後端的存取判斷；模型被誘導時仍可能產生越權要求。
+guide_refs:
+  - guide-1:3-64
+  - guide-1:5-17
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch01.md
+  original_id: SIM-L21101-008
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    D: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析
