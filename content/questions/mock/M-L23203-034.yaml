@@ -1,0 +1,39 @@
+id: M-L23203-034
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - batch-normalization
+  - pytorch
+stem: 某批次正規化層已切成 eval，同一筆數值 1 的輸出卻隨同批資料改變。程式如下。團隊希望評估時不依賴同批其他樣本，並有代表性訓練資料可建立統計。最適合如何調整？
+code: |
+  import torch
+  bn = torch.nn.BatchNorm1d(1, track_running_stats=False)
+  bn.eval()
+  for values in [[1.0, 3.0, 5.0], [1.0, 3.0, 9.0]]:
+      x = torch.tensor(values).reshape(-1, 1)
+      print(round(bn(x)[0, 0].item(), 3))
+code_lang: python
+options:
+  A: 重新建層時將 momentum 設為 0，維持 track_running_stats=False
+  B: 重新建層時啟用移動統計，經訓練資料建立統計後使用 eval
+  C: 重新建層時將 affine 設為 False，維持 track_running_stats=False
+  D: 保留層設定，將兩次前向運算都放入 torch.no_grad()
+answer: B
+explanation:
+  summary: 未追蹤移動統計時，批次正規化在評估模式仍使用本批統計。
+  correct: track_running_stats=False 使訓練與評估都使用目前批次統計。同一筆輸入因同批樣本不同而改變。啟用並建立代表性移動統計後，eval 可使用固定統計。
+  wrong:
+    A: 未追蹤移動統計時，momentum 不會建立固定平均與變異數；評估仍依本批資料計算。
+    C: affine 控制可學習的縮放與平移，不改變統計來自目前批次的事實。
+    D: no_grad 控制自動微分，不會改變此層取得平均與變異數的方式。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: B

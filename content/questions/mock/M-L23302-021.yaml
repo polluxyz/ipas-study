@@ -1,0 +1,30 @@
+id: M-L23302-021
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23302
+concepts:
+  - temporal-convolutional-network
+  - convolution-layer
+stem: 某即時訊號模型使用 1 維卷積，核大小 3、擴張率 2、步幅 1。每個時間位置只能讀到當下與過去值，輸出長度須與輸入相同。輸出位置須對齊當下時間，最適合如何填充？
+options:
+  A: 左側補 2 格、右側補 2 格，再保留全部卷積輸出
+  B: 左側補 0 格、右側補 4 格，再保留全部卷積輸出
+  C: 左側補 4 格、右側補 0 格，再保留全部卷積輸出
+  D: 左側補 2 格、右側補 0 格，再保留全部卷積輸出
+answer: C
+explanation:
+  summary: 因果卷積需把有效核寬度造成的填充放在歷史側。
+  correct: 有效核寬度為 1+(3-1)×2=5。左側補 4 格可保持長度，位置 t 只取 t-4、t-2、t。
+  wrong:
+    A: 對稱填充維持長度，但對齊時間 t 的輸出會讀到 t+2，包含未來值。
+    B: 右側填充讓輸出讀取當下與未來，方向與即時條件相反。
+    D: 只補 2 格會使輸出長度縮短 2，且以輸出索引對齊當下時仍會讀到較晚位置。
+guide_refs:
+  - guide-3:4-68
+author: codex
+review:
+  status: verified
+  blind_answer: C

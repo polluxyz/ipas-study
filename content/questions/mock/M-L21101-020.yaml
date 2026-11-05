@@ -1,0 +1,31 @@
+id: M-L21101-020
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21101
+concepts:
+  - n-gram
+  - laplace-smoothing
+stem: 某雙詞語言模型觀察到前詞「申請」後共有 20 次接續紀錄，可能的後詞共 5 種，其中「補件」出現 0 次。團隊採加一平滑：5 種後詞各增加 1 次計數。平滑後 P（補件｜申請）最接近多少？
+options:
+  A: "0.0500"
+  B: "0.0476"
+  C: "0.0400"
+  D: "0.2000"
+answer: C
+explanation:
+  summary: 在固定前詞下，對所有可能後詞加入偽計數。
+  correct: 「補件」的計數從 0 變成 1。5 種後詞各加 1，總計數從 20 變成 25，所以機率是 1/25＝0.04。
+  wrong:
+    A: 這是把分子改成 1，卻仍除以原本的 20。加入偽計數後必須同步更新分母。
+    B: 這約為 1/21，只把分母增加 1。題目是 5 種後詞各加 1，分母需增加 5。
+    D: 這是直接給 5 種後詞相同機率。加一平滑仍保留原來的 20 次紀錄，不會直接改成均勻分布。
+guide_refs:
+  - guide-1:3-7
+  - guide-3:4-36
+author: codex
+review:
+  status: verified
+  blind_answer: C

@@ -1,0 +1,38 @@
+id: M-L23203-039
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - softmax
+  - image-segmentation
+  - pytorch
+stem: 某逐像素分類器的輸出格式為 (批次,類別,高,寬)。下例有 2 類、1 列、2 個像素。工程師要讓每個像素的類別機率合計為 1。最適合如何設定 Softmax？
+code: |
+  import torch
+  z = torch.tensor([[[[2.0, 0.0]], [[1.0, 1.0]]]])
+  p = torch.softmax(z, dim=3)
+  print(p.sum(dim=1).round(decimals=3).tolist())
+code_lang: python
+options:
+  A: 設定 dim=0，沿批次軸正規化輸出分數
+  B: 設定 dim=2，沿影像高度正規化輸出分數
+  C: 設定 dim=1，沿類別軸正規化輸出分數
+  D: 設定 dim=3，沿影像寬度正規化輸出分數
+answer: C
+explanation:
+  summary: Softmax 的機率契約取決於正規化所用的軸。
+  correct: 類別軸是索引 1，沿此軸計算才能在每個像素位置形成互斥類別分布。
+  wrong:
+    A: 批次軸只有 1 筆時各元素都會變成 1，無法表達每個像素的 2 類機率。
+    B: 高度軸只有 1 格時各元素都變成 1，不會在兩個類別間分配機率。
+    D: 沿寬度軸會在不同像素之間分配機率，並非同一像素的類別分布。
+guide_refs:
+  - guide-3:4-59
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: C

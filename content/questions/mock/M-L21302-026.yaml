@@ -1,0 +1,31 @@
+id: M-L21302-026
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21302
+concepts:
+  - service-performance-metrics
+  - model-monitoring
+stem: 某推論 API 在一個監控視窗接到 10,000 次請求，其中 9,700 次成功，100 次回傳伺服器錯誤，200 次逾時。服務約定把伺服器錯誤與逾時都算失敗，分母為全部到達請求。該視窗失敗率為多少？
+options:
+  A: 1.00%
+  B: 2.00%
+  C: 3.09%
+  D: 3.00%
+answer: D
+explanation:
+  summary: 服務失敗率要統一失敗定義與請求分母。
+  correct: 失敗次數為 100＋200＝300，全部到達請求為 10,000，因此失敗率是 300÷10,000＝3%。逾時也占用使用者的請求機會，依題幹約定不能從統計中漏掉。
+  wrong:
+    A: 1% 只計入 100 次伺服器錯誤，漏掉已明訂應算失敗的逾時。
+    B: 2% 只計入 200 次逾時，漏掉伺服器錯誤。
+    C: 約 3.09% 來自 300÷9,700，誤把成功次數當分母；題幹要求分母是全部到達請求。
+guide_refs:
+  - guide-1:5-19
+  - guide-1:5-20
+author: codex
+review:
+  status: verified
+  blind_answer: D

@@ -1,0 +1,41 @@
+id: M-L23103-012
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23103
+concepts:
+  - gradient-descent
+stem: 某工程師為自訂可微分損失寫出 claimed_grad，並用中央差分做梯度檢查。以下程式固定資料，沒有隨機運算。關於輸出及應優先採取的處理，下列何者最正確？
+code: |
+  def loss(w):
+      return (w - 1.0) ** 2
+
+  def claimed_grad(w):
+      return w - 1.0
+
+  w = 3.0
+  h = 1e-5
+  numerical = (loss(w + h) - loss(w - h)) / (2 * h)
+  print(round(numerical, 3), claimed_grad(w))
+code_lang: python
+options:
+  A: 數值梯度約為 2；應提高學習率以放大更新
+  B: 數值梯度約為 4；應補正手寫導數的係數
+  C: 數值梯度約為 4；應將手寫導數乘上損失
+  D: 數值梯度約為 2；應改以更多訓練資料核對導數
+answer: B
+explanation:
+  summary: 數值差分可用來檢查手寫導數是否漏項或漏係數。
+  correct: L(w)=(w-1)² 的導數是 2(w-1)，在 w=3 時為 4。中央差分約為 4，但 claimed_grad 回傳 2，應補回導數的係數 2。
+  wrong:
+    A: 中央差分的分母為 2h，計算結果約為 4。調整學習率不會修復手寫導數公式。
+    C: 目前損失為 4，將回傳值 2 乘上損失會變成 8，仍與數值梯度不符。
+    D: 此固定多項式的導數檢查不涉及抽樣不足。增加訓練資料不能修正遺漏的係數。
+guide_refs:
+  - guide-3:3-23
+author: codex
+review:
+  status: verified
+  blind_answer: B

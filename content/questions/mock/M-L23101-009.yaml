@@ -1,0 +1,29 @@
+id: M-L23101-009
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - conditional-probability
+stem: 某平台以機率模型描述 2 種警報。已知 P(A)=0.3、P(B)=0.4、P(A∩B)=0.12，這些是模型機率而非抽樣頻率。團隊想判斷是否需要把 A 與 B 的依賴關係納入模型。下列判斷何者最正確？
+options:
+  A: A 與 B 獨立，但不是互斥事件
+  B: A 與 B 互斥，但不是獨立事件
+  C: A 與 B 獨立，也是互斥事件
+  D: A 與 B 相依，也不是互斥事件
+answer: A
+explanation:
+  summary: 獨立看交集是否等於機率乘積，互斥看交集是否為零。
+  correct: 0.3×0.4=0.12，符合事件獨立的條件。交集機率為 0.12 而非 0，因此兩種警報可以同時發生，並不互斥。
+  wrong:
+    B: 互斥要求交集機率為 0，本例不符合；交集也恰好等於兩個邊際機率的乘積。
+    C: 獨立並不表示不能同時發生。本例交集機率大於 0，因此不能判為互斥。
+    D: 是否相依不是看交集有沒有發生，而是看交集是否偏離 P(A)P(B)。本例兩者相等。
+guide_refs:
+  - guide-3:3-5
+author: codex
+review:
+  status: verified
+  blind_answer: A

@@ -1,0 +1,29 @@
+id: M-L23101-012
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - exponential-distribution
+stem: 某服務的下一次請求等待時間 T 服從速率每分鐘 0.2 的指數分布，P(T>t)=exp(-0.2t)。目前已等待 5 分鐘仍沒有請求。接下來至少還要等 3 分鐘的條件機率，最接近多少？
+options:
+  A: 20.2%
+  B: 36.8%
+  C: 45.1%
+  D: 54.9%
+answer: D
+explanation:
+  summary: 指數分布的剩餘等待時間不受已等待時間影響。
+  correct: 所求為 P(T>8|T>5)=exp(-1.6)/exp(-1)=exp(-0.6)，約為 54.9%。已等待 5 分鐘不會改變剩餘時間的指數分布。
+  wrong:
+    A: 20.2% 是從起點等待超過 8 分鐘的機率，沒有除以已等待超過 5 分鐘的條件機率。
+    B: 36.8% 是 P(T>5)，描述已經發生的等待條件，不是後續再等 3 分鐘。
+    C: 45.1% 是未來 3 分鐘內出現請求的機率，與題目要求的至少還等 3 分鐘互補。
+guide_refs:
+  - guide-3:3-4
+author: codex
+review:
+  status: verified
+  blind_answer: D

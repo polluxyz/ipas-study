@@ -1,0 +1,32 @@
+id: M-L23304-022
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - optimizer-selection
+  - learning-rate-schedule
+stem: 某團隊使用 Adam 與每輪衰減排程，訓練到第 40 輪後需中斷。目標是續訓時沿用動量、平方梯度歷史與排程進度。資料順序與亂數狀態另有保存，最適合保留哪組模型訓練狀態？
+options:
+  A: 保存模型權重與第 40 輪的驗證分數
+  B: 保存模型權重與模型的 train 或 eval 模式
+  C: 保存模型、優化器與排程器的狀態
+  D: 保存模型權重與第 1 輪的學習率
+answer: C
+explanation:
+  summary: 恢復權重不足以延續具歷史資訊的訓練。
+  correct: 模型狀態保留權重；優化器狀態保留 Adam 歷史量；排程器狀態保留進度。三者一起恢復才符合指定目標。
+  wrong:
+    A: 驗證分數可用於模型挑選，但不包含 Adam 的動量與平方梯度歷史，也沒有排程進度。
+    B: 模式旗標不包含優化器與排程器的歷史資訊。
+    D: 初始學習率無法還原第 40 輪的排程進度，更不包含 Adam 的歷史量。
+guide_refs:
+  - guide-3:5-38
+  - guide-3:5-41
+  - guide-3:3-27
+author: codex
+review:
+  status: verified
+  blind_answer: C
