@@ -1,0 +1,31 @@
+id: M-L23301-064
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23301
+concepts:
+  - time-series-split
+  - data-preparation
+stem: 某通路有連續 2 年的逐月銷售資料，年份與月份存在不同欄位，匯入後資料列順序混雜。團隊要用較早資料訓練，再以較晚資料模擬未來預測。切分前最適合採哪項整理方式？
+options:
+  A: 依年份及月份建立日期，再按完整日期排序
+  B: 只依月份由小到大排序，再按列位置切分
+  C: 先依月份分組，再在每組內隨機抽取訓練列
+  D: 先依銷量分組，再在每組內隨機抽取訓練列
+answer: A
+explanation:
+  summary: 時間切分必須使用能表達跨年先後的時間鍵。
+  correct: 完整日期能區分不同年份的相同月份，據此排序才可將較早與較晚的觀測隔開。只看月份可能把較晚年份的資料排到較早年份之前。
+  wrong:
+    B: 只看月份會把兩年的同月混在一起，切分後可能使用未來年份訓練。
+    C: 在月份群內隨機抽取會混用不同年份，無法模擬過去訓練、未來預測。
+    D: 依銷量分組是在維持目標分布，不是在建立跨年的時間先後界線。
+guide_refs:
+  - guide-3:5-4
+  - guide-3:5-17
+author: codex
+review:
+  status: verified
+  blind_answer: A

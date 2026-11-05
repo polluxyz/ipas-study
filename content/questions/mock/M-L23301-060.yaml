@@ -1,0 +1,31 @@
+id: M-L23301-060
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23301
+concepts:
+  - data-preparation
+  - categorical-encoding
+stem: 某倉儲模型的「每箱件數」目前以文字儲存，例如「2」「10」「30」。這個欄位代表實際數量，沒有缺失或無效字元。團隊希望線性模型保留每增加 1 件的數量差異。哪項前處理最適合？
+options:
+  A: 依文字排序，將不同件數換成連續類別編號
+  B: 依出現次數，將不同件數換成頻率排名
+  C: 把不同件數當作互不相關的獨熱類別
+  D: 把文字解析為可運算的數值型件數
+answer: D
+explanation:
+  summary: 資料的儲存型別不等於欄位的實際意義。
+  correct: 件數具有數值大小與差量意義，解析成數值後可保留這些關係。不能因為儲存為文字，就把件數視為無序類別。
+  wrong:
+    A: 文字排序與數量順序不同，而且類別編號會丟失原始件數的差量。
+    B: 頻率排名描述出現多寡，不能表示每箱實際有多少件。
+    C: 獨熱編碼能表示不同件數，卻沒有保留本例要求的共同數量增量關係。
+guide_refs:
+  - guide-3:5-4
+  - guide-3:5-8
+author: codex
+review:
+  status: verified
+  blind_answer: D

@@ -1,0 +1,31 @@
+id: M-L23301-058
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23301
+concepts:
+  - one-hot-encoding
+  - categorical-encoding
+stem: 某人力平台以「上一個工作城市」與「目前工作城市」預測搬遷需求，兩欄各有 4 個無序城市。甲會員從東城移到西城，乙會員從西城移到東城。團隊希望數值特徵能保留搬遷方向，哪項表示方式最適合？
+options:
+  A: 合併兩欄後，計算每個城市在該會員出現的次數
+  B: 把城市編成 1 至 4，再取兩欄編號的平均值
+  C: 為上一個城市與目前城市各建一組獨熱欄位
+  D: 合併兩欄後，標記該會員曾出現過哪些城市
+answer: C
+explanation:
+  summary: 類別編碼必須保留不同欄位的角色。
+  correct: 兩組獨熱欄位分別保留過去與現在的城市。東城到西城與西城到東城會得到不同表示，且不需要把城市解讀成有大小關係的數值。
+  wrong:
+    A: 兩位會員的城市出現次數相同，合併計數會丟失城市所屬的時間角色。
+    B: 交換兩欄後平均值不變，而且無序城市編號的平均值沒有搬遷意義。
+    D: 兩位會員曾出現的城市集合相同，只標記是否出現無法辨識搬遷方向。
+guide_refs:
+  - guide-3:5-8
+  - guide-1:5-4
+author: codex
+review:
+  status: verified
+  blind_answer: C
