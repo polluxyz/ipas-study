@@ -1,0 +1,31 @@
+id: M-L23302-020
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23302
+concepts:
+  - cnn-architectures
+  - convolution-layer
+  - activation-functions
+stem: 某影像區塊原本使用 1 層 5×5 卷積。團隊希望在步幅與擴張率均為 1 時，維持 5×5 的理論感受野，並增加中間的非線性轉換。忽略邊界影響，下列設計何者最適合？
+options:
+  A: 連續 2 層 3×3 卷積，中間不接激活函數
+  B: 連續 2 層 3×3 卷積，中間加入 ReLU
+  C: 並行 2 層 3×3 卷積，串接後加入 ReLU
+  D: 單獨 1 層 3×3 卷積，後接 2 次 ReLU
+answer: B
+explanation:
+  summary: 串聯小卷積核與中間非線性同時決定區塊能力。
+  correct: 第 1 層涵蓋 3×3，第 2 層每軸再擴 2 格，得到 5×5。中間 ReLU 提供額外非線性轉換。
+  wrong:
+    A: 串聯後有 5×5 感受野，但中間沒有新增非線性；線性卷積的組合仍是線性運算。
+    C: 並行分支各自只讀 3×3 區域，串接不會將空間感受野擴為 5×5。
+    D: 重複逐元素激活不會讀取鄰近像素，空間感受野仍為 3×3。
+guide_refs:
+  - guide-3:4-68
+  - guide-3:4-71
+author: codex
+review:
+  status: draft

@@ -1,0 +1,39 @@
+id: M-L23203-033
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - relu
+  - activation-functions
+  - pytorch
+stem: 某感測器模型的一個單元，在目前批次的淨輸入都是負數。工程師比較 ReLU 與負半軸斜率 0.1 的 LeakyReLU。以下損失直接取輸出總和，最正確的梯度結果為何？
+code: |
+  import torch
+  for activation in [torch.nn.ReLU(), torch.nn.LeakyReLU(0.1)]:
+      x = torch.tensor([-2.0, -1.0], requires_grad=True)
+      activation(x).sum().backward()
+      print([round(v, 2) for v in x.grad.tolist()])
+code_lang: python
+options:
+  A: ReLU 為 [0,0]；LeakyReLU 為 [0.1,0.1]
+  B: ReLU 為 [1,1]；LeakyReLU 為 [0.1,0.1]
+  C: ReLU 為 [0,0]；LeakyReLU 為 [-0.2,-0.1]
+  D: ReLU 為 [0,0]；LeakyReLU 為 [1,1]
+answer: A
+explanation:
+  summary: 區分激活函數的輸出值與負半軸導數。
+  correct: 負輸入的 ReLU 導數為 0；LeakyReLU 的導數是指定斜率 0.1。負輸入因而仍有反向訊號。
+  wrong:
+    B: ReLU 在負半軸輸出固定為 0，對輸入的導數不是 1。
+    C: "[-0.2,-0.1] 是 LeakyReLU 的輸出值，不是輸入梯度。"
+    D: 負半軸導數由 negative_slope 決定；導數 1 對應正半軸。
+guide_refs:
+  - guide-3:4-57
+  - guide-3:4-59
+  - guide-3:4-92
+author: codex
+review:
+  status: draft

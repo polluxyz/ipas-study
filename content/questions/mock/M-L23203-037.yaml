@@ -1,0 +1,40 @@
+id: M-L23203-037
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - pytorch
+  - backpropagation
+stem: 某工程師要計算已部署模型對輸入的敏感度。模型已切為 eval，但沒有使用 no_grad。下列線性層不含其他模組，權重為 [2,-1]。輸入梯度的結果何者最正確？
+code: |
+  import torch
+  model = torch.nn.Linear(2, 1, bias=False)
+  with torch.no_grad():
+      model.weight.copy_(torch.tensor([[2.0, -1.0]]))
+  model.eval()
+  x = torch.tensor([[3.0, 4.0]], requires_grad=True)
+  model(x).sum().backward()
+  print(x.grad.tolist())
+code_lang: python
+options:
+  A: 梯度唯一一列為 [2,-1]，評估模式仍可追蹤輸入運算
+  B: 梯度唯一一列為 [0,0]，評估模式會把導數數值設為零
+  C: 梯度為 None，評估模式會關閉輸入的梯度追蹤
+  D: 梯度唯一一列為 [1,1]，輸出總和使各輸入的導數相同
+answer: A
+explanation:
+  summary: 評估模式與是否建立自動微分計算圖是不同設定。
+  correct: eval 控制部分模組的前向行為，不會關閉自動微分。線性輸出對輸入的導數就是其權重 [2,-1]。
+  wrong:
+    B: eval 不會將導數清零，此例權重對輸入的作用仍然存在。
+    C: 本例輸入要求梯度，也未停用追蹤，因此 backward 會產生輸入梯度。
+    D: sum 只讓上游導數為 1，向輸入傳遞時仍須乘上線性層權重。
+guide_refs:
+  - guide-3:4-59
+  - guide-3:4-92
+author: codex
+review:
+  status: draft

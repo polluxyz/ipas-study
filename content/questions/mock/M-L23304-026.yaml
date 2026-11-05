@@ -1,0 +1,37 @@
+id: M-L23304-026
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - knowledge-distillation
+  - softmax
+  - pytorch
+stem: 某教師對 3 類輸出原始分數 [4,2,0]。工程師比較蒸餾溫度 T=1 與 T=2，計算式如下。關於提高溫度後的分布，何者最正確？
+code: |
+  import torch
+  z = torch.tensor([4.0, 2.0, 0.0])
+  for temperature in [1.0, 2.0]:
+      p = torch.softmax(z / temperature, dim=0)
+      print([round(v, 3) for v in p.tolist()], p.argmax().item())
+code_lang: python
+options:
+  A: 第 1 類機率提高，最高分類別維持第 1 類
+  B: 第 1 類機率降低，最高分類別改成第 2 類
+  C: 第 1 類機率降低，最高分類別維持第 1 類
+  D: 第 1 類機率不變，只有其餘兩類機率互換
+answer: C
+explanation:
+  summary: 正溫度縮放會改變機率尖銳程度，但保留分數排序。
+  correct: T=1 時第 1 類約 0.867，T=2 時約 0.665，分布更平滑。分數排序仍是第 1 類最高。
+  wrong:
+    A: 除以較大的溫度會縮小分數差，最高類的機率在這組不相等分數下會降低。
+    B: 除以正數不改變分數排序，因此最高類仍是第 1 類。
+    D: 分數差改變會影響全部機率，且不會交換第 2 與第 3 類的排序。
+guide_refs:
+  - guide-3:5-49
+author: codex
+review:
+  status: draft

@@ -1,0 +1,44 @@
+id: M-L23203-038
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - pytorch
+  - deep-learning
+stem: 某工程師將 2 層線性層放在 Python 串列。模型的 forward 可以執行，但 model.parameters() 沒列出這些層。需求是保留逐層迴圈，並讓參數登記與模式切換正常運作。最適合如何修改 layers？
+code: |
+  import torch
+  class Net(torch.nn.Module):
+      def __init__(self):
+          super().__init__()
+          self.layers = [torch.nn.Linear(2, 2), torch.nn.Linear(2, 1)]
+      def forward(self, x):
+          for layer in self.layers:
+              x = layer(x)
+          return x
+  model = Net()
+  print(tuple(model(torch.ones(1, 2)).shape))
+  print(sum(p.numel() for p in model.parameters()))
+code_lang: python
+options:
+  A: 改成 tuple，並保留原本逐層執行的迴圈
+  B: 改成 torch.nn.ModuleList，並保留逐層執行的迴圈
+  C: 保留 list，並在每層建立後呼叫 requires_grad_(True)
+  D: 保留 list，並在模型建立後呼叫 model.train()
+answer: B
+explanation:
+  summary: 子模組必須登記，才能被父模組的參數查詢找到。
+  correct: ModuleList 會登記子模組，同時保留可迭代介面。model.parameters()、train 與 eval 才能沿登記的結構找到各層。
+  wrong:
+    A: tuple 與一般 list 都不會自動向父模組登記其中的子模組。
+    C: Linear 參數預設已要求梯度；問題是父模組未登記這些層，不是參數關閉梯度。
+    D: train 只沿已登記的子模組切換模式，不會掃描一般 list 來補登記參數。
+guide_refs:
+  - guide-3:4-91
+  - guide-3:4-92
+author: codex
+review:
+  status: draft
