@@ -1,0 +1,41 @@
+id: M-L23203-089
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - pytorch
+  - backpropagation
+stem: 某雙任務模型希望輔助任務只更新輔助參數 b，不改變共享表示的參數 a。工程師在輔助路徑使用 detach，主路徑保持可微。下列簡例沒有舊梯度，反向傳播後 a.grad、b.grad 依序為何？
+code: |
+  import torch
+  a = torch.nn.Parameter(torch.tensor(2.0))
+  b = torch.nn.Parameter(torch.tensor(3.0))
+  h = 2 * a
+  main = h
+  aux = b * h.detach()
+  (main + aux).backward()
+  print(a.grad.item(), b.grad.item())
+code_lang: python
+options:
+  A: a.grad=8；b.grad=4
+  B: a.grad=2；b.grad=0
+  C: a.grad=6；b.grad=4
+  D: a.grad=2；b.grad=4
+answer: D
+explanation:
+  summary: 在單一路徑分離張量，只阻斷該路徑往前的梯度。
+  correct: 主路徑 h=2a 對 a 的導數為 2。輔助路徑使用 h 的數值 4，但不將梯度傳回 a，因此 b 的導數仍為 4。
+  wrong:
+    A: 8 是未分離 h 時，主路徑導數 2 加上輔助路徑導數 6 的結果。
+    B: detach 只分離 h 的歷史；b 仍為可訓練參數，並乘上數值 4。
+    C: 6 是未分離時輔助路徑對 a 的導數；本例該路徑已分離，主路徑則仍貢獻 2。
+guide_refs:
+  - guide-3:4-60
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: D
