@@ -1,0 +1,31 @@
+id: M-L21104-022
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - missing-modality
+  - multimodal-fusion
+stem: 某影像與聲音模型只用雙路完整資料訓練，在融合層採 20% 神經元 Dropout。部署後麥克風偶爾整段中斷，影像仍正常。團隊想讓訓練直接涵蓋這種整路缺失，最適合增加哪項設計？
+options:
+  A: 提高融合層神經元的隨機丟棄比例
+  B: 對聲音特徵持續加入小幅高斯雜訊
+  C: 對影像與聲音各自增加批次正規化
+  D: 訓練時遮掉整路聲音，並輸入可用狀態標記
+answer: D
+explanation:
+  summary: 神經元 Dropout 與整路模態缺失作用的層級不同。
+  correct: 整路遮罩直接讓模型見到只有影像可用的輸入，狀態標記可區分缺失與有效的零值。完成訓練後，仍須單獨驗證聲音中斷時的預測品質。
+  wrong:
+    A: 融合層丟棄部分神經元不等於整段聲音輸入消失，仍可能依賴其他聲音訊息。
+    B: 小幅雜訊模擬量測擾動，通常仍保留聲音資訊，與整路中斷不同。
+    C: 批次正規化調整特徵分布，沒有直接建立整路聲音缺失的訓練案例。
+guide_refs:
+  - guide-1:3-75
+  - guide-1:3-80
+  - guide-1:3-81
+author: codex
+review:
+  status: draft

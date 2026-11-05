@@ -1,0 +1,30 @@
+id: M-L21102-014
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21102
+concepts:
+  - intersection-over-union
+  - image-segmentation
+stem: 某分割模型測試 2 張影像。小目標影像的交集／聯集為 5／10 像素，大目標影像為 900／1,000 像素。驗收要求每張影像等權，先算各張目標 IoU，再取算術平均。這個平均 IoU 為多少？
+options:
+  A: "0.50"
+  B: "0.70"
+  C: 約 0.896
+  D: "0.90"
+answer: B
+explanation:
+  summary: 逐影像平均 IoU 與合併像素後的 IoU 有不同權重。
+  correct: 兩張影像的 IoU 分別為 5/10＝0.50、900/1000＝0.90。依逐張等權約定取平均，結果為 (0.50＋0.90)/2＝0.70。
+  wrong:
+    A: 0.50 只保留小目標影像的 IoU；即使它是較困難案例，也不能代替兩張平均。
+    C: 905/1010 約為 0.896，是先合併交集與聯集再求比值，讓大目標影像占較高權重。
+    D: 0.90 只保留大目標影像的 IoU，沒有遵守每張影像等權的規則。
+guide_refs:
+  - guide-1:3-51
+  - guide-1:3-52
+author: codex
+review:
+  status: draft
