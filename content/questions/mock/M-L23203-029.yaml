@@ -1,0 +1,44 @@
+id: M-L23203-029
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - rnn
+  - sequence-models
+stem: 某工程師把長度為 2 的訊號補成 4 步，再取 RNN 最終狀態做分類。以下循環連接的權重為 1，即使補入 0 也可能更新狀態。程式比較直接補齊輸入與依真實長度封裝的輸入。關於 a、b 的判斷何者最正確？
+code: |
+  import torch
+  from torch.nn.utils.rnn import pack_padded_sequence
+  layer = torch.nn.RNN(1, 1, bias=False, batch_first=True)
+  with torch.no_grad():
+      layer.weight_ih_l0.fill_(1.0)
+      layer.weight_hh_l0.fill_(1.0)
+  x = torch.tensor([[[1.0], [2.0], [0.0], [0.0]]])
+  _, a = layer(x)
+  packed = pack_padded_sequence(x, [2], batch_first=True)
+  _, b = layer(packed)
+  print(round(a.item(), 4), round(b.item(), 4))
+  print(torch.allclose(a, b))
+code_lang: python
+options:
+  A: a、b 相同；補齊值為 0 時不會執行狀態更新
+  B: a、b 相同；batch_first 會辨識有效序列長度
+  C: a 不同於 b；b 表示讀完第 4 步後的狀態
+  D: a 不同於 b；b 表示讀完第 2 步後的狀態
+answer: D
+explanation:
+  summary: 辨識補零仍可改變循環網路的狀態。
+  correct: 直接輸入補齊張量時，RNN 會執行 4 次更新，後面兩次仍對前一狀態套用 tanh。pack_padded_sequence 提供有效長度 2，讓 b 停在第 2 步。兩種最終狀態不同，補零不等於略過時間步。
+  wrong:
+    A: 雖然輸入項為 0，循環項仍使用前一個隱藏狀態。經過 tanh 後，狀態通常會繼續改變。
+    B: batch_first 只指定批次軸的位置，無法從數值 0 判斷哪些時間步是補齊。
+    C: 封裝輸入的 lengths=[2] 排除了後 2 步。b 對應有效序列結尾，而不是補齊張量的第 4 步。
+guide_refs:
+  - guide-3:4-72
+  - guide-3:4-74
+author: codex
+review:
+  status: draft

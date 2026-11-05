@@ -1,0 +1,40 @@
+id: M-L23203-032
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - self-attention
+  - long-sequence-attention
+stem: 某文件模型明確建立密集注意力分數張量，不使用節省記憶體的運算。團隊保持批次 2、頭數 4、每頭寬度 8，只把輸入長度從 16 加到 32。下列程式只比較分數元素數量。結果何者最正確？
+code: |
+  import torch
+  def score_count(length):
+      q = torch.zeros(2, 4, length, 8)
+      scores = q @ q.transpose(-2, -1)
+      return scores.numel()
+  small = score_count(16)
+  large = score_count(32)
+  print(small, large, large // small)
+code_lang: python
+options:
+  A: 元素數量變為 2 倍
+  B: 元素數量變為 8 倍
+  C: 元素數量變為 4 倍
+  D: 元素數量維持 1 倍
+answer: C
+explanation:
+  summary: 辨識密集自注意力分數矩陣的長度平方成本。
+  correct: 每頭分數矩陣都有查詢長度與鍵長度兩軸。自注意力的兩軸同時由 16 變成 32，因此元素數量乘上 2×2=4。這是明確儲存分數矩陣的成本，不表示全部模型記憶體也恰好增加 4 倍。
+  wrong:
+    A: 這只計入長度的一個軸。密集自注意力同時增加查詢位置與鍵位置。
+    B: 每頭寬度沒有改變，也不屬於分數張量最後的兩個位置軸，不能再多乘 2。
+    D: 權重參數可保持相同，但輸入所產生的分數張量會隨序列長度增加。
+guide_refs:
+  - guide-3:4-79
+  - guide-3:4-80
+author: codex
+review:
+  status: draft
