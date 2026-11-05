@@ -1,5 +1,5 @@
 id: Z-L21103-005
-rev: 1
+rev: 2
 source: mock
 subject: 1
 type: 觀念
@@ -17,7 +17,7 @@ options:
 answer: B
 explanation:
   summary: 人類偏好對齊與補充事實知識的目標不同。
-  correct: 典型 RLHF 流程先做示範微調，再用偏好資料學習評分，最後依評分更新生成策略。目的在改善輸出與人類期待的一致性。
+  correct: 典型 RLHF 流程先做示範微調，再用偏好資料學習評分，最後依評分更新生成策略。目的在改善輸出與人類期待的一致性。指引 3-72 提到回饋式強化學習與對齊；上述三階段是補充內容，可參考 Ouyang 等人的 InstructGPT 論文第 3 節與圖 2（https://arxiv.org/abs/2203.02155）。
   wrong:
     A: 獎勵模型提供訓練信號，通常不是取代語言模型負責生成回覆。
     C: 人類回饋主要調整哪些輸出較受偏好，不等於為模型建立新的可靠事實庫。
@@ -25,6 +25,7 @@ explanation:
 guide_refs:
   - guide-1:3-64
   - guide-1:3-71
+  - guide-1:3-72
 author: codex
 review:
   status: draft
@@ -44,4 +45,4 @@ origin:
     B: B
     A: C
     D: D
-  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；補列指引 3-72，標明三階段流程為補充內容並提供原始論文
