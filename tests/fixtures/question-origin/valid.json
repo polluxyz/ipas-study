@@ -1,0 +1,12 @@
+{
+  "author": "zero2005x",
+  "repo": "https://github.com/zero2005x/ipasAI",
+  "commit": "253811bf7e4891537ed6738786847c532a11a573",
+  "path": "book/L23/v0.3/ch03.md",
+  "original_id": "SIM-L23101-001",
+  "license": "CC-BY-NC-SA-4.0",
+  "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant",
+  "original_answer": "B",
+  "option_map": { "A": "C", "B": "A", "C": "D", "D": "B" },
+  "modified": "選項重排；刪除正解選項內的理由；解析改寫"
+}
