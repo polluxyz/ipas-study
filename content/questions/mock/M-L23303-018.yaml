@@ -1,0 +1,37 @@
+id: M-L23303-018
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - mean-squared-error
+  - mini-batch-gradient-descent
+stem: 某驗證集共有 5 筆樣本，依序分成 4 筆與 1 筆兩個批次。每筆平方誤差如程式所示。報告要求每筆樣本權重相同的整體均方誤差，目前直接平均各批次平均值。哪項修改最正確？
+code: |
+  import numpy as np
+  batch_squared_errors = [np.array([1., 1., 1., 1.]), np.array([9.])]
+  reported = np.mean([e.mean() for e in batch_squared_errors])
+  print(float(reported))
+code_lang: python
+options:
+  A: 保留原式得到 5.0，因為每個批次都應有相同權重
+  B: 移除最後 1 筆得到 1.0，避免不足批次影響評估
+  C: 依批次樣本數加權得到 2.6，維持每筆樣本等權
+  D: 將批次平均值相加得到 10.0，保留兩批的誤差總量
+answer: C
+explanation:
+  summary: 不同大小批次的平均損失不能直接等權平均。
+  correct: 各批次平均值為 1 與 9，直接平均為 5，讓最後 1 筆等同前 4 筆的總權重。整體均方誤差應為 (4×1+1×9)/5=2.6，或直接把逐筆平方誤差加總再除以 5。
+  wrong:
+    A: 本題要求樣本等權，不是批次等權。兩批大小不同，等權平均會放大短批次的影響。
+    B: 移除最後一筆會改變評估資料，也丟掉本例誤差較大的有效觀測。
+    D: 批次平均值相加既不是逐筆誤差總和，也沒有除以總樣本數。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-23
+author: codex
+review:
+  status: verified
+  blind_answer: C

@@ -1,0 +1,36 @@
+id: M-L23301-017
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - image-augmentation
+  - object-detection
+stem: 某瑕疵偵測器以寬 100 的影像訓練。邊界框使用連續座標 [xmin, ymin, xmax, ymax]，水平範圍為 [0, 100]。團隊對影像做水平翻轉，類別不變。為保持標註正確，框 [10, 20, 30, 40] 應如何同步轉換？
+code: |
+  width = 100
+  xmin, ymin, xmax, ymax = [10, 20, 30, 40]
+  flipped = [width - xmax, ymin, width - xmin, ymax]
+  print(flipped)
+code_lang: python
+options:
+  A: 改為 [70, 20, 90, 40]，左右邊界對調後再反射
+  B: 保留 [10, 20, 30, 40]，分類標籤未變便不移動框
+  C: 改為 [90, 20, 70, 40]，各水平座標分別直接反射
+  D: 改為 [10, 60, 30, 80]，依影像高度反射垂直座標
+answer: A
+explanation:
+  summary: 偵測資料的幾何增強要同步更新位置標註。
+  correct: 連續座標水平反射使用 x_new=width−x。原右界 30 變成新左界 70，原左界 10 變成新右界 90；垂直座標不變。若只翻轉影像，框會落在錯誤位置。
+  wrong:
+    B: 類別不變只表示仍是同類瑕疵，不表示物件位置不變。偵測標註同時包含類別與位置。
+    C: 兩端反射後還要維持 xmin 小於 xmax，這個順序把左右邊界寫反。
+    D: 水平翻轉改變水平位置，不會反射垂直座標。
+guide_refs:
+  - guide-3:5-9
+author: codex
+review:
+  status: verified
+  blind_answer: A

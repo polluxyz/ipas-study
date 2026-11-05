@@ -1,0 +1,38 @@
+id: M-L23303-021
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - roc-auc
+  - group-calibration
+stem: 某二元風險模型以 1 為事件發生。團隊將預測機率 p 改成 p 的平方，機率均介於 0 與 1 之間且沒有同分。程式比較轉換前後的 ROC-AUC。若只知道 AUC 沒變，最正確的結論為何？
+code: |
+  import numpy as np
+  from sklearn.metrics import roc_auc_score
+  y = np.array([0, 1, 0, 1])
+  p = np.array([0.1, 0.4, 0.6, 0.9])
+  print(roc_auc_score(y, p), roc_auc_score(y, p ** 2))
+code_lang: python
+options:
+  A: 風險機率的數值意義相同，可直接沿用原有的機率解讀
+  B: 正負樣本排序不變，但風險機率的校準可能改變
+  C: 以 0.5 分類的結果相同，可沿用原有的誤報與漏報數
+  D: 每筆預測誤差不變，可沿用原有的機率平方誤差
+answer: B
+explanation:
+  summary: AUC 衡量排序，無法單獨保證機率校準不變。
+  correct: 在 0 到 1 區間，平方是嚴格遞增轉換，因此不改變樣本排序，兩組 AUC 都是 0.75。但機率數值會降低，與實際事件率的對應可能改變。AUC 相同不足以證明機率仍準確，也不能保證固定門檻的分類相同。
+  wrong:
+    A: 平方會改變機率值，例如 0.6 變成 0.36，不能宣稱風險數值意義保持相同。
+    C: 0.6 原本高於 0.5，平方後卻低於 0.5，因此固定門檻下可能改判。
+    D: 機率平方誤差使用機率數值計算，數值變動時誤差也可能變動。
+guide_refs:
+  - guide-3:5-22
+  - guide-3:6-23
+author: codex
+review:
+  status: verified
+  blind_answer: B
