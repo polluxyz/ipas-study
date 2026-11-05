@@ -1,7 +1,7 @@
 /** 驗證紀錄生命週期、版本辨識與部分無效的備份匯入，避免錯題本遺漏。 */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('../data/revisions.json', () => ({ default: { '115-1-S3-Q44': 2, '115-1-S3-Q45': 1 } }));
-import { saveAttempt, getAttempts, getWrongBook, exportAttempts, importAttempts, getReadings, setConceptRead, type Attempt } from './attempts';
+import { saveAttempt, getAttempts, getWrongBook, exportAttempts, importAttempts, getReadings, setConceptRead, saveDailySet, getDailySet, type Attempt } from './attempts';
 function attempt(overrides: Partial<Omit<Attempt, 'id'>> = {}): Omit<Attempt, 'id'> { return { qid: '115-1-S3-Q44', rev: 2, choice: 'A', correct: false, ts: '2026-10-30T10:00:00Z', mode: 'code:L23303', ms: 1200, ...overrides }; }
 beforeEach(() => {
   const data = new Map<string, string>();
@@ -26,6 +26,16 @@ describe('閱讀紀錄與備份相容性', () => {
   it('閱讀存取失敗明確拋錯，不把錯誤當成已讀', () => { vi.stubGlobal('localStorage', { getItem: () => null, setItem: () => { throw new Error('quota'); } }); expect(() => setConceptRead('data-leakage', true)).toThrow('quota'); });
 });
 describe('作答紀錄與錯題本', () => {
+  it('每日快取預設不覆寫，明確換題才更新同科並保留另一科', () => {
+    const set = { date: '2026-11-05', subject: 1 as const, questions: [{ id: 'exam', rev: 1 }] };
+    const migrated = { ...set, questions: [{ id: 'mock', rev: 2 }] };
+    saveDailySet(set); saveDailySet({ ...set, subject: 3 });
+    expect(saveDailySet(migrated)).toEqual(set);
+    expect(saveDailySet(migrated, true)).toEqual(migrated);
+    expect(getDailySet(set.date, 1)).toEqual(migrated);
+    expect(getDailySet(set.date, 3)?.questions).toEqual(set.questions);
+    expect(JSON.parse(exportAttempts()).attempts).toEqual([]);
+  });
   it.each([
     '{ "version": 99, "attempts": [], "unknown": "保留原資料" }',
     '{ "version": 1, "attempts": {} }',

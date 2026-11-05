@@ -1,0 +1,40 @@
+id: M-L23304-065
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - l2-regularization
+  - learning-rate-schedule
+stem: 某工程師比較 AdamW 的學習率對權重衰減的影響。兩次都由權重 1 開始，本步資料梯度為 0。此時的衰減更新式為 w←(1−lr×weight_decay)×w。以下兩次更新後的權重依序最接近哪項？
+code: |
+  import torch
+  for lr in [0.1, 0.01]:
+      w = torch.nn.Parameter(torch.tensor(1.0))
+      opt = torch.optim.AdamW([w], lr=lr, weight_decay=0.1)
+      w.grad = torch.tensor(0.0)
+      opt.step()
+      print(round(w.item(), 3))
+code_lang: python
+options:
+  A: 0.900、0.900
+  B: 0.990、0.990
+  C: 0.990、0.999
+  D: 1.000、1.000
+answer: C
+explanation:
+  summary: 固定衰減係數時，AdamW 每步的收縮量仍受學習率影響。
+  correct: 第一組為 (1-0.1×0.1)×1=0.99；第二組為 (1-0.01×0.1)×1=0.999。資料梯度為零不代表不執行權重衰減。兩組雖有相同 weight_decay，每步的乘法收縮仍不同。
+  wrong:
+    A: 0.900 是忽略學習率、直接乘上 1-weight_decay 的結果；本例更新式還包含 lr。
+    B: 第一組是 0.990，但第二組學習率小 10 倍，因此本步衰減量也小 10 倍。
+    D: 程式明確提供零梯度張量，優化器仍會處理參數並執行衰減，不能當成沒有更新。
+guide_refs:
+  - guide-3:5-31
+  - guide-3:5-44
+author: codex
+review:
+  status: verified
+  blind_answer: C
