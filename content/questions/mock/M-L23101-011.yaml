@@ -1,0 +1,29 @@
+id: M-L23101-011
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - monte-carlo-method
+  - statistical-inference
+stem: 某工程師以 2,500 次獨立同分布的模擬估計平均耗能，目前平均估計值的標準誤約為 0.8。單次模擬的變異數固定且有限。若只增加模擬次數，希望標準誤降到約 0.2，總次數最接近多少？
+options:
+  A: 5,000 次
+  B: 10,000 次
+  C: 40,000 次
+  D: 160,000 次
+answer: C
+explanation:
+  summary: 平均值的標準誤按樣本數平方根的倒數縮小。
+  correct: 標準誤約為 σ/√N。從 0.8 降至 0.2 是縮為 1/4，N 須增加為 16 倍，所以總次數為 2,500×16=40,000。
+  wrong:
+    A: 次數增加為 2 倍時，標準誤只縮為 1/√2，約為 0.566。
+    B: 次數增加為 4 倍時，標準誤縮為 1/2，約為 0.4，尚未達標。
+    D: 次數增加為 64 倍時，標準誤約為 0.1；這不是題目要求的 0.2 所對應次數。
+guide_refs:
+  - guide-3:3-7
+author: codex
+review:
+  status: draft
