@@ -1,0 +1,29 @@
+id: M-L21103-016
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - lora
+stem: 某團隊用低秩自適應（Low-Rank Adaptation，LoRA）完成單一任務微調。某線性層採 y＝W₀x＋BAx；W₀ 為 d×d、A 為 r×d、B 為 d×r，且 r<d。縮放係數為 1，沒有偏差或推論時的隨機層。部署端希望只保留一個同尺寸矩陣乘法。哪個權重處理最正確？
+options:
+  A: 以 BA 作為部署的線性層權重
+  B: 以 W₀＋AB 作為部署的線性層權重
+  C: 以 W₀ 的低秩近似作為部署的線性層權重
+  D: 以 W₀＋BA 的合併矩陣作為部署權重
+answer: D
+explanation:
+  summary: LoRA 的低秩更新可在適合的線性層合併回基底權重。
+  correct: 利用矩陣乘法的分配律，W₀x＋BAx＝(W₀＋BA)x。此處基底與更新的尺寸相容，且題目排除縮放與隨機層等額外因素，合併後可保留同一線性映射。
+  wrong:
+    A: BA 是學到的更新量，單獨使用會移除原本 W₀ 的映射，與訓練後完整輸出不同。
+    B: A、B 的乘法順序取決於映射尺寸。題目更新是 BA，改成 AB 通常尺寸就不相容，也不是同一更新。
+    C: 近似基底可用於模型壓縮，卻沒有納入本任務訓練得到的 BA，不能保留題目的微調結果。
+guide_refs:
+  - guide-1:3-29
+author: codex
+review:
+  status: verified
+  blind_answer: D
