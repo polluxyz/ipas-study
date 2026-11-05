@@ -9,8 +9,7 @@ concepts:
   - ai-risk-governance
   - algorithmic-bias
   - fairness-audit
-stem: 某銀行導入 AI信用評分模型。專案團隊主張：「模型輸入特徵並未包含性別、婚姻狀況與族群等敏感欄位，且我們已加裝人工覆核關卡，因此本系統不屬於高風險
-  AI應用，亦無公平性疑慮。」依我國《人工智慧風險分類框架》v1.0與金管會《金融業運用 AI指引》，下列評論何者最為正確？
+stem: 某銀行導入 AI信用評分模型。專案團隊主張：「模型輸入特徵並未包含性別、婚姻狀況與族群等敏感欄位，且我們已加裝人工覆核關卡，因此本系統不屬於高風險 AI應用，亦無公平性疑慮。」依我國《人工智慧風險分類框架》v1.0與金管會《金融業運用 AI指引》，下列評論何者最為正確？
 options:
   A: 依固有風險判斷；人工覆核不免除高風險認定，仍須實測代理偏誤
   B: 團隊主張正確，未使用敏感欄位即可確保公平性，且人工覆核已充分緩解風險
@@ -30,9 +29,10 @@ guide_refs:
   - guide-1:4-38
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: A
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

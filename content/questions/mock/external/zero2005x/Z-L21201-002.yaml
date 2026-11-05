@@ -31,6 +31,7 @@ review:
   status: disputed
   answer_checked: null
   dispute: 來源答案為 B，重排後對應本站 C。該選項未限定為缺乏可靠依據的折算；無形效益若有可查核估值且未重複計算，可合理納入成本效益分析。指引科1 4-5 至 4-6 亦要求考量效率等效益，因此無法唯一判定 C 最不適當。
+  blind_answer: C
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

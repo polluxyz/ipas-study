@@ -8,8 +8,7 @@ codes:
 concepts:
   - poc-success-criteria
   - online-business-metrics
-stem: 某電商導入詐欺交易攔截模型。上線後攔截率（召回率）由 62%提升至 81%，但客服部門回報「正常交易被誤攔」的客訴量成長為原來的
-  3.4倍。專案團隊主張模型指標達標故應維持現狀。下列評論何者最為適當？
+stem: 某電商導入詐欺交易攔截模型。上線後攔截率（召回率）由 62%提升至 81%，但客服部門回報「正常交易被誤攔」的客訴量成長為原來的 3.4倍。專案團隊主張模型指標達標故應維持現狀。下列評論何者最為適當？
 options:
   A: 團隊主張正確，召回率提升即代表專案成功
   B: 應直接把召回率目標再提高到 90%，以徹底解決詐欺問題
@@ -29,9 +28,10 @@ guide_refs:
   - guide-1:5-20
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: D
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

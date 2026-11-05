@@ -9,8 +9,7 @@ concepts:
   - named-entity-recognition
   - contextual-word-embedding
   - transfer-learning
-stem: 某壽險公司欲建置系統，自動從理賠申請書的自由填寫欄中抽出「就診醫院」「診斷病名」「就診日期」三類實體，且抽出的字串邊界必須完全正確才視為有效。專案初期僅有
-  800筆人工標註樣本，文本中並夾雜大量手寫辨識產生的錯字。下列技術方案何者最為適當？
+stem: 某壽險公司欲建置系統，自動從理賠申請書的自由填寫欄中抽出「就診醫院」「診斷病名」「就診日期」三類實體，且抽出的字串邊界必須完全正確才視為有效。專案初期僅有 800筆人工標註樣本，文本中並夾雜大量手寫辨識產生的錯字。下列技術方案何者最為適當？
 options:
   A: 以中文 BERT 微調 NER，結合領域詞典與錯字增強，以實體層級 F1 驗收
   B: 使用 TF-IDF建立關鍵詞字典，以字串完全比對方式抽取三類實體
@@ -29,9 +28,10 @@ guide_refs:
   - guide-1:3-32
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: A
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

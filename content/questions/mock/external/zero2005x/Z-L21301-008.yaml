@@ -8,9 +8,7 @@ codes:
 concepts:
   - edge-inference
   - resource-aware-model-selection
-stem: 某化工廠需要在產線邊緣閘道器（Edge Gateway，配置為 2 核心 CPU、2GB 記憶體、無 GPU
-  且廠區網路頻寬不穩定）上部署即時管線洩漏偵測系統。廠方規格硬性要求「端到端推論延遲必須低於 15 毫秒（ms），且在廠區斷網時仍須保持 100%
-  本地即時警報」。下列技術方案何者最符合此工程與營運限制？
+stem: 某化工廠需要在產線邊緣閘道器（Edge Gateway，配置為 2 核心 CPU、2GB 記憶體、無 GPU 且廠區網路頻寬不穩定）上部署即時管線洩漏偵測系統。廠方規格硬性要求「端到端推論延遲必須低於 15 毫秒（ms），且在廠區斷網時仍須保持 100% 本地即時警報」。下列技術方案何者最符合此工程與營運限制？
 options:
   A: 在邊緣閘道器本地定時重新訓練 50 層的 3D 卷積神經網路
   B: 將每秒數千筆未壓縮的高頻原始感測數據透過無線網路全數回傳公有雲伺服器，由大型深度學習叢集進行集中判讀
@@ -30,9 +28,10 @@ guide_refs:
   - guide-1:5-18
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: C
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

@@ -9,9 +9,7 @@ concepts:
   - target-encoding
   - data-leakage
   - k-fold-cross-validation
-stem: 某電商團隊進行「商品點擊率（CTR）預測」建模，特徵中包含「商品細分類別」（共 500
-  個類別，屬高基數類別特徵）。初階工程師在資料切分前，直接以全體資料計算每個類別的目標點擊率平均值，作為新特徵取代原始類別（即全域目標編碼 Target
-  Encoding），再切分訓練集與測試集。模型在離線驗證時表現驚人，上線推論時效果卻嚴重雪崩。造成此現象的核心原因與標準處置為何？
+stem: 某電商團隊進行「商品點擊率（CTR）預測」建模，特徵中包含「商品細分類別」（共 500 個類別，屬高基數類別特徵）。初階工程師在資料切分前，直接以全體資料計算每個類別的目標點擊率平均值，作為新特徵取代原始類別（即全域目標編碼 Target Encoding），再切分訓練集與測試集。模型在離線驗證時表現驚人，上線推論時效果卻嚴重雪崩。造成此現象的核心原因與標準處置為何？
 options:
   A: 先切分，再以全訓練集標籤計算均值，回填同批訓練列即可避免洩漏
   B: 先切分並做折外編碼，再以含測試標籤的全資料選定平滑強度
@@ -29,9 +27,10 @@ guide_refs:
   - guide-1:5-6
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: D
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

@@ -8,8 +8,7 @@ codes:
 concepts:
   - net-present-value
   - return-on-investment
-stem: 某製造商評估兩個 AI方案。方案甲：總投資 800萬，年度淨效益 200萬。方案乙：總投資 500萬，年度淨效益 100萬。若兩案皆為五年期且公司要求折現率為
-  8%，假設年初一次投入、每年年底收取淨效益，期末無殘值。下列判斷何者最為適當？
+stem: 某製造商評估兩個 AI方案。方案甲：總投資 800萬，年度淨效益 200萬。方案乙：總投資 500萬，年度淨效益 100萬。若兩案皆為五年期且公司要求折現率為 8%，假設年初一次投入、每年年底收取淨效益，期末無殘值。下列判斷何者最為適當？
 options:
   A: 以 8% 折現率計算，兩案 NPV 皆小於 0，無其他效益時均不宜投資
   B: 方案甲 ROI為 25%、方案乙為 20%，故直接選甲即可，無須其他計算
@@ -27,9 +26,10 @@ guide_refs:
   - guide-1:4-6
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: A
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

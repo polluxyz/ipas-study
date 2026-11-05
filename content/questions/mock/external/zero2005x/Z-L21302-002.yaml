@@ -9,8 +9,7 @@ concepts:
   - population-stability-index
   - data-drift
   - concept-drift
-stem: 某電商推薦模型上線 4個月後：API延遲與錯誤率均正常，模型輸出的預測分布亦無明顯變化，但輸入特徵中「使用者裝置類型」與「來源渠道」的 PSI分別為 0.31與
-  0.28，同時業務端回報加購轉換率下滑。下列判斷與處置何者最為適當？
+stem: 某電商推薦模型上線 4個月後：API延遲與錯誤率均正常，模型輸出的預測分布亦無明顯變化，但輸入特徵中「使用者裝置類型」與「來源渠道」的 PSI分別為 0.31與 0.28，同時業務端回報加購轉換率下滑。下列判斷與處置何者最為適當？
 options:
   A: 由於預測分布未變化，可確定不存在概念漂移，僅需調整推薦排序權重即可
   B: 依 PSI 警戒調查漂移來源，再評估近期資料重訓與概念漂移
@@ -29,9 +28,10 @@ guide_refs:
   - guide-1:5-20
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: B
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

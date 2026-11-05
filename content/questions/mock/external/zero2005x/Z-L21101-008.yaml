@@ -10,9 +10,7 @@ concepts:
   - ai-agent
   - api-access-security
   - human-in-the-loop
-stem: 某企業規劃導入 AI 代理（Agentic
-  AI）系統，讓大型語言模型能依使用者對話自主規劃步驟，並調用內部工具（如查詢員工資料庫、發起內部審批、傳送電子郵件）。為防範攻擊者透過提示注入（Prompt
-  Injection）誘導代理執行未授權的高風險操作，下列何種架構設計最為嚴謹適當？
+stem: 某企業規劃導入 AI 代理（Agentic AI）系統，讓大型語言模型能依使用者對話自主規劃步驟，並調用內部工具（如查詢員工資料庫、發起內部審批、傳送電子郵件）。為防範攻擊者透過提示注入（Prompt Injection）誘導代理執行未授權的高風險操作，下列何種架構設計最為嚴謹適當？
 options:
   A: 工具後端驗證身分與最小權限，高風險操作先由人工確認
   B: 降低語言模型的取樣溫度（Temperature = 0），以數學保證模型不受提示注入影響
@@ -31,9 +29,10 @@ guide_refs:
   - guide-1:5-17
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: A
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

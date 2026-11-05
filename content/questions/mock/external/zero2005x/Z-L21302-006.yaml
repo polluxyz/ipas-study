@@ -8,8 +8,7 @@ codes:
 concepts:
   - circuit-breaker
   - high-availability
-stem: 某金融機構的 AI 客服系統由「前端 → 身分驗證服務 → 檢索服務 → LLM 推論服務」四段組成。上線後發現：當 LLM
-  推論服務回應變慢時，檢索服務的連線池迅速被占滿，接著身分驗證服務也開始逾時，最後整個客服入口無法使用。下列哪一項處置**最能直接阻斷**這個失效路徑？
+stem: 某金融機構的 AI 客服系統由「前端 → 身分驗證服務 → 檢索服務 → LLM 推論服務」四段組成。上線後發現：當 LLM 推論服務回應變慢時，檢索服務的連線池迅速被占滿，接著身分驗證服務也開始逾時，最後整個客服入口無法使用。下列哪一項處置**最能直接阻斷**這個失效路徑？
 options:
   A: 把四段服務合併成一個單體服務以減少網路呼叫
   B: 將身分驗證服務改為非同步，取消其逾時設定
@@ -28,9 +27,10 @@ guide_refs:
   - guide-1:5-17
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: C
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

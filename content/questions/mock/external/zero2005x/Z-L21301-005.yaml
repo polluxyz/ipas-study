@@ -9,8 +9,7 @@ concepts:
   - data-leakage
   - class-imbalance
   - sklearn-pipeline
-stem: 某資料科學團隊要為「客戶流失預測」建模。資料為 12 萬筆結構化表格、28 個欄位（其中 6 個含缺失值、缺失比例 8%～35%），類別比例為流失 3%、未流失
-  97%。團隊目前的作法是：先在**全資料**上做缺失值填補與標準化，再切分訓練／測試集，並以 Accuracy 作為唯一驗收指標。下列何者是**最優先**應修正的問題？
+stem: 某資料科學團隊要為「客戶流失預測」建模。資料為 12 萬筆結構化表格、28 個欄位（其中 6 個含缺失值、缺失比例 8%～35%），類別比例為流失 3%、未流失 97%。團隊目前的作法是：先在**全資料**上做缺失值填補與標準化，再切分訓練／測試集，並以 Accuracy 作為唯一驗收指標。下列何者是**最優先**應修正的問題？
 options:
   A: 先把 Accuracy 改為 Macro-F1 作為唯一驗收值，全資料插補與標準化維持原流程，即可優先解決評估不可信的問題
   B: 缺失比例 8%～35% 落差太大，應一律刪除含缺失的欄位
@@ -30,9 +29,10 @@ guide_refs:
   - guide-1:5-20
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: D
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

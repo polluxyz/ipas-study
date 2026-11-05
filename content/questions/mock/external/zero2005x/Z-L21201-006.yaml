@@ -8,8 +8,7 @@ codes:
 concepts:
   - ai-total-cost
   - ai-change-management
-stem: 某連鎖零售企業評估導入「生成式 AI 智能客服助手」以分擔第一線諮詢負荷。專案小組向董事會提報三年期總持有成本（TCO）時，僅編列了「雲端大語言模型 API 呼叫費 150
-  萬元」與「初始系統串接開發費 150 萬元」，合計 300 萬元。評審委員會指出其 TCO 評估有重大結構性疏漏。下列何者為 AI 導入專案中最常被低估且應優先補列的關鍵成本？
+stem: 某連鎖零售企業評估導入「生成式 AI 智能客服助手」以分擔第一線諮詢負荷。專案小組向董事會提報三年期總持有成本（TCO）時，僅編列了「雲端大語言模型 API 呼叫費 150 萬元」與「初始系統串接開發費 150 萬元」，合計 300 萬元。評審委員會指出其 TCO 評估有重大結構性疏漏。下列何者為 AI 導入專案中最常被低估且應優先補列的關鍵成本？
 options:
   A: 將初始串接費按每年150萬元估列，補足三年內的系統整合成本
   B: 按自建推論伺服器估列設備折舊，補足雲端API服務的硬體成本
@@ -28,9 +27,10 @@ guide_refs:
   - guide-1:4-6
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: C
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

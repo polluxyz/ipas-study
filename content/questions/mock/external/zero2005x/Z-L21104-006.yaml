@@ -9,8 +9,7 @@ concepts:
   - clip
   - contrastive-loss
   - cross-modal-alignment
-stem: OpenAI 的 CLIP（Contrastive Language-Image Pre-training）模型開創了多模態基礎模型的新典範。下列關於 CLIP
-  的架構設計與對比學習（Contrastive Learning）機制之敘述，何者最為正確？
+stem: OpenAI 的 CLIP（Contrastive Language-Image Pre-training）模型開創了多模態基礎模型的新典範。下列關於 CLIP 的架構設計與對比學習（Contrastive Learning）機制之敘述，何者最為正確？
 options:
   A: 對比式學習的損失函數要求模型必須能完整自回歸還原文字中的每一個字元
   B: CLIP 僅能用於封閉集合的影像分類，無法實現零樣本（Zero-shot）分類與跨模態以圖搜圖
@@ -28,9 +27,10 @@ guide_refs:
   - guide-1:3-75
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: D
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

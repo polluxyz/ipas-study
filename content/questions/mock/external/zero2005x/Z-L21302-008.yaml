@@ -8,8 +8,7 @@ codes:
 concepts:
   - release-strategies
   - service-performance-metrics
-stem: 某證券投資機構升級線上高頻量化風控模型。新版深度學習模型已在歷史回測中展現良好成效，但風控長高度重視線上極端盤勢下的穩定性，硬性要求：「新模型在正式接管下單審核前，必須先接收 100%
-  的線上即時市場交易真實流量進行實戰推論檢驗，但新模型的輸出絕不可對真實交易產生任何阻擋或放行動作，亦不得增加既有交易系統的延遲」。下列發布策略何者最能滿足此項要求？
+stem: 某證券投資機構升級線上高頻量化風控模型。新版深度學習模型已在歷史回測中展現良好成效，但風控長高度重視線上極端盤勢下的穩定性，硬性要求：「新模型在正式接管下單審核前，必須先接收 100% 的線上即時市場交易真實流量進行實戰推論檢驗，但新模型的輸出絕不可對真實交易產生任何阻擋或放行動作，亦不得增加既有交易系統的延遲」。下列發布策略何者最能滿足此項要求？
 options:
   A: 雙盲 A/B 測試：將 50% 交易交由新模型審核，50% 交由舊模型審核，收盤後比較獲利
   B: 直接藍綠部署（Blue-Green Deployment）並於開盤瞬間將所有流量切換至新環境
@@ -28,9 +27,10 @@ guide_refs:
   - guide-1:5-21
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: C
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI
