@@ -8,29 +8,29 @@ codes:
 concepts:
   - one-hot-encoding
   - categorical-encoding
-stem: 某據點欄位採獨熱編碼。程式將訓練出現次數少於 2 的類別合併為低頻欄；推論時未見類別也歸入既有低頻欄，不丟棄其他類別。訓練有 3 筆 A、1 筆 B、1 筆 C。新據點 D 與既有據點 B 的輸出，哪項判斷最正確？
+stem: 某據點欄位採獨熱編碼。min_frequency 讓訓練出現次數少於門檻的類別併成低頻欄；handle_unknown="infrequent_if_exist" 讓未見類別使用既有低頻欄。輸出的一般類別依字母序在前，低頻欄在最後。訓練有 3 筆 A、2 筆 B、1 筆 C、1 筆 E，min_frequency=2。新據點 D 的輸出向量為何？
 code: |
   from sklearn.preprocessing import OneHotEncoder
-  train = [["A"], ["A"], ["A"], ["B"], ["C"]]
+  train = [["A"], ["A"], ["A"], ["B"], ["B"], ["C"], ["E"]]
   enc = OneHotEncoder(min_frequency=2,
                       handle_unknown="infrequent_if_exist", sparse_output=False)
   enc.fit(train)
   print(enc.get_feature_names_out().tolist())
-  print(enc.transform([["D"], ["B"]]).tolist())
+  print(enc.transform([["D"]]).tolist())
 code_lang: python
 options:
-  A: D 與 B 的編碼不同，D 另產生一個專用欄位
-  B: D 與 B 的編碼不同，D 會編成全零向量
-  C: D 與 B 的編碼相同，兩者都編成全零向量
-  D: D 與 B 的編碼相同，兩者都啟用低頻欄位
+  A: "[0, 0, 0]"
+  B: "[0, 1]"
+  C: "[0, 0, 0, 1]"
+  D: "[0, 0, 1]"
 answer: D
 explanation:
-  summary: 低頻類別合併會使低頻類別與未見類別共用表示。
-  correct: B、C 都少於 2 筆，因此已有低頻欄。handle_unknown="infrequent_if_exist" 將 D 對應到這一欄。B 與 D 都得到 [0, 1]，下游無法只憑此向量區分兩者。
+  summary: 輸出向量由訓練類別次數與未見類別的處理設定決定。
+  correct: A 有 3 筆，B 有 2 筆，兩者都保留獨立欄。C、E 各 1 筆，合併為低頻欄。欄位依序為 A、B、低頻欄，共 3 欄。D 未在訓練出現，依設定使用既有低頻欄，因此輸出 [0, 0, 1]。
   wrong:
-    A: 擬合後的輸出欄位固定，未知類別會使用既有低頻欄，不會新增 D 專用欄。
-    B: 本例已有低頻欄，且設定讓未知類別進入該欄，不是忽略未知類別的全零表示。
-    C: 兩者確實相同，但相同的是啟用低頻欄，而不是全零。
+    A: 本例已有低頻欄，未見類別 D 會啟用該欄，因此不是全零向量。
+    B: B 的 2 筆等於門檻，沒有少於門檻。B 必須保留獨立欄，因此輸出有 3 欄，而非 2 欄。
+    C: 輸出欄位在擬合後固定。轉換 D 時不會再新增專用欄，因此不會變成 4 欄。
 guide_refs:
   - guide-3:5-8
 author: codex
