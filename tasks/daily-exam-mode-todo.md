@@ -4,9 +4,9 @@
 
 | 任務 | Ownership | 驗收條件 | 狀態 |
 |---|---|---|---|
-| D0 文件 | `docs/specs/daily-exam-mode.md`、`docs/specs/question-bank-expansion.md`、`tasks/daily-exam-mode-*`、`docs/handoff.md` | CI 全綠並合併 | 進行中 |
-| M1 版面 mockup | 分支 `feature/daily-exam-mockup` 的 `demo/src/pages/dev/`、`demo/src/styles/`；截圖放 `tmp/demo-shots/daily-mockup/` | 真題目呈現交卷前、確認視窗、交卷後；1440、390、320 寬度；亮暗色；不接真資料；不合併 | 待派 |
-| U1 使用者看 mockup | 使用者 | 使用者回覆核可或修改意見 | 待 M1 |
+| D0 文件 | `docs/specs/daily-exam-mode.md`、`docs/specs/question-bank-expansion.md`、`tasks/daily-exam-mode-*`、`docs/handoff.md` | CI 全綠並合併 | 完成（PR #182） |
+| M1 版面 mockup | 分支 `feature/daily-exam-mockup` 的 `demo/src/pages/dev/`、`demo/src/styles/`；截圖放 `tmp/demo-shots/daily-mockup/` | 真題目呈現交卷前、確認視窗、交卷後；1440、390、320 寬度；亮暗色；不接真資料；不合併 | 第 2 輪修改中（規格 v2） |
+| U1 使用者看 mockup | 使用者 | 使用者回覆核可或修改意見 | 第 1 版已回覆修改意見，待新版 |
 | I1 資料層 | `demo/src/lib/attempts.ts`、`demo/src/lib/daily.ts` 或新純邏輯檔與測試 | 規格第 4、3.4 節；第 8 節單元與故障測試 | 待 U1 |
 | I2 題卡 | `demo/src/components/QuestionCard.astro`、題卡共用顯示函式、`question-set-client.ts` 與測試 | `reveal` 參數預設 `instant`；Enter 不提交；官方題行為不變 | 待 U1 |
 | I3 每日頁 | `demo/src/pages/daily.astro`、`demo/src/lib/daily-client.ts`、樣式、備份與清除的說明文字 | 規格第 3、5、6 節 | 待 U1 |

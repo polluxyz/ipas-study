@@ -1,6 +1,6 @@
 # 每日題組交卷模式：實作計畫
 
-規格：`docs/specs/daily-exam-mode.md`（v1）。協調與驗收：Claude。前端設計與實作：Codex（`gpt-6.1-sol` + `high`）。
+規格：`docs/specs/daily-exam-mode.md`（v2）。協調與驗收：Claude。前端設計與實作：Codex（`gpt-6.1-sol` + `high`）。
 
 ## 元件與相依
 
@@ -44,4 +44,4 @@
 
 ## 實作紀錄
 
-（實作時補上）
+- 2026-11-06：使用者看過第 1 版 mockup，要求逐題作答、選單逐題增加、只用顏色。規格升 v2，mockup 退回修改。實際分支是 `polluxyz/daily-exam-mockup`，不合併，所以不改名。
