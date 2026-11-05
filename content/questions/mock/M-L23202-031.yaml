@@ -1,0 +1,38 @@
+id: M-L23202-031
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23202
+concepts:
+  - dbscan
+stem: 某工程師以 DBSCAN 檢查一維感測位置。min_samples 包含樣本自身，程式排除 -1 後計算群數。只改變 eps 時，兩次印出的群數依序為何？
+code: |
+  import numpy as np
+  from sklearn.cluster import DBSCAN
+  X = np.array([[0.0], [0.1], [0.2], [0.6], [0.7], [0.8]])
+  for eps in (0.15, 0.41):
+      labels = DBSCAN(eps=eps, min_samples=3).fit_predict(X)
+      print(len(set(labels) - {-1}))
+code_lang: python
+options:
+  A: 2、1
+  B: 2、2
+  C: 1、2
+  D: 0、1
+answer: A
+explanation:
+  summary: 增加鄰域半徑可能以核心點路徑合併原本分開的群。
+  correct: eps=0.15 時，0.1 與 0.7 各自連接一群。eps=0.41 時，0.2 與 0.6 互為鄰居且皆為核心點，形成連接兩群的路徑，因此合成 1 群。
+  wrong:
+    B: 半徑增加後跨越中間間距，不能仍視為兩組互不連通的核心點。
+    C: 較小半徑尚未連接兩組，第一個結果為 2；本例擴大半徑也沒有把群拆開。
+    D: 每組中間的樣本在較小半徑內已有 3 點，足以形成核心點，所以不會全部是雜訊。
+guide_refs:
+  - guide-3:4-43
+  - guide-3:4-44
+author: codex
+review:
+  status: verified
+  blind_answer: A

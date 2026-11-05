@@ -1,0 +1,31 @@
+id: M-L23103-016
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23103
+concepts:
+  - convex-optimization
+  - optimization-for-models
+stem: 某工程師以牛頓法最小化 f(w)=w⁴-2w²，目前 w=0.5。導數 g=4w³-4w，二階導數 H=12w²-4，牛頓方向為 p=-g/H。若只檢查這個方向是否在目前位置提供局部下降，下列判斷何者最正確？
+options:
+  A: p=1.5，g×p<0，屬於局部下降方向
+  B: p=-1.5，g×p>0，屬於局部上升方向
+  C: p=-1.5，g×p<0，屬於局部下降方向
+  D: p=1.5，g×p>0，屬於局部上升方向
+answer: B
+explanation:
+  summary: 負曲率可能使牛頓方向失去下降性。
+  correct: w=0.5 時 g=-1.5、H=-1，所以 p=-g/H=-1.5，方向導數 g×p=2.25>0。沿此方向採足夠小的正步長會增加損失。可考慮修正曲率，使求出的方向具有下降性，再選擇步長。
+  wrong:
+    A: p 的符號計算錯誤。此處 H 為負，牛頓方向與負梯度方向相反。
+    C: 方向 p 正確，但兩個 -1.5 相乘為正，因此不能判為局部下降方向。
+    D: p 的符號錯誤；若使用 p=1.5，與 g=-1.5 的乘積反而為負，也不符合此敘述。
+guide_refs:
+  - guide-3:3-20
+  - guide-3:3-21
+author: codex
+review:
+  status: verified
+  blind_answer: B

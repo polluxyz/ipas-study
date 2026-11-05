@@ -1,0 +1,38 @@
+id: M-L23301-048
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - image-augmentation
+  - image-segmentation
+stem: 某分割任務的遮罩用 0、2 表示背景與裂縫，1 則代表另一種本圖未出現的缺陷。團隊縮放影像時，也對遮罩套用下列雙線性插值。若要避免縮放產生新的類別編號，遮罩最適合如何處理？
+code: |
+  import torch
+  from torch.nn.functional import interpolate
+  mask = torch.tensor([[[[0., 2.], [0., 2.]]]])
+  smooth = interpolate(mask, size=(3, 3), mode="bilinear", align_corners=False)
+  print(torch.unique(smooth).tolist())
+  print(torch.unique(smooth.long()).tolist())
+code_lang: python
+options:
+  A: 以最近鄰插值縮放遮罩，再轉回整數編號
+  B: 以雙線性插值縮放遮罩，再四捨五入編號
+  C: 以雙線性插值縮放遮罩，再截去小數部分
+  D: 以雙三次插值縮放遮罩，再四捨五入編號
+answer: A
+explanation:
+  summary: 類別遮罩的數字是類別編號，不是可混合的連續強度。
+  correct: 最近鄰插值從原遮罩取既有編號，不會把 0 與 2 混合成 1。影像可使用平滑插值，但類別遮罩應保留離散標籤。
+  wrong:
+    B: 雙線性插值在本例的中央欄產生 1，四捨五入後仍是本圖沒有的類別 1。
+    C: 本例已產生整數 1，截去小數後仍會保留 1，不能消除插值製造的新類別。
+    D: 雙三次插值在本例的對稱中央欄同樣產生 1，四捨五入不能保證只留下原有編號。
+guide_refs:
+  - guide-3:5-9
+author: codex
+review:
+  status: verified
+  blind_answer: A

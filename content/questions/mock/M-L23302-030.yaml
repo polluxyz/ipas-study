@@ -1,0 +1,32 @@
+id: M-L23302-030
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23302
+concepts:
+  - gru
+  - sequence-model-selection
+  - resource-aware-model-selection
+stem: 某感測服務每秒收到 1 筆資料，須即時辨識與先前警示次序相關的狀態。序列可連續數天，裝置只允許固定大小的推論狀態。團隊要先比較可逐筆更新、保留順序資訊的架構，下列何者最適合？
+options:
+  A: 保留截至當下的全部鍵值向量，執行全歷史自注意力
+  B: 累加各特徵的總和與筆數，以累積平均值做分類
+  C: 每筆更新固定維度的 GRU 隱藏狀態，再接分類頭
+  D: 只輸入最新一筆觀測值，以一般全連接網路分類
+answer: C
+explanation:
+  summary: 長時間串流可用固定維度循環狀態表達順序資訊。
+  correct: GRU 每步依目前輸入與上一個隱藏狀態更新。狀態維度固定，不會因服務運行數天而持續增加，且更新與資料順序有關。它能保留多少長期資訊仍須驗證，不代表精確記住全部歷史。
+  wrong:
+    A: 保存全歷史鍵值向量會讓狀態隨時間增長，不符合持續運作時的固定狀態需求。
+    B: 累積平均只保留總和與筆數，相同觀測的不同次序會得到相同表示。
+    D: 只有最新觀測無法區分最新讀值相同、先前警示次序不同的情況。
+guide_refs:
+  - guide-3:5-13
+  - guide-3:5-15
+author: codex
+review:
+  status: verified
+  blind_answer: C
