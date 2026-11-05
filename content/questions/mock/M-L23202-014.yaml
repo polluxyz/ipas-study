@@ -9,10 +9,10 @@ concepts:
   - hierarchical-clustering
 stem: 某團隊用凝聚式階層分群整理 80 筆樣本，發現兩大群只因一對邊緣點很近就被合併。團隊想把群間距離改成「兩群之間最遠的一對樣本距離」，以降低這種短距離連接造成的合併。最符合新定義的連結準則為何？
 options:
-  A: 單一連結，以跨群最近一對的距離衡量群間差異
-  B: 平均連結，以跨群各對距離的平均衡量群間差異
-  C: 中心連結，以兩群中心點的距離衡量群間差異
-  D: 完整連結，以跨群最遠一對的距離衡量群間差異
+  A: 單一連結
+  B: 平均連結
+  C: 中心連結
+  D: 完整連結
 answer: D
 explanation:
   summary: 依群間距離的定義選擇階層分群準則。
@@ -26,4 +26,5 @@ guide_refs:
   - guide-3:4-43
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: D
