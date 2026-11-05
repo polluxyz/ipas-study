@@ -1,0 +1,42 @@
+id: M-L23301-080
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - sklearn-pipeline
+  - data-preparation
+stem: 某故障模型的感測器 b 在改變數值後，前處理輸出卻未改變。以下範例中，remainder="drop" 表示移除未被選取的欄位。工程師希望 a 與 b 都成為已標準化的數值輸入，哪項修改最適合？
+code: |
+  import numpy as np
+  import pandas as pd
+  from sklearn.compose import ColumnTransformer
+  from sklearn.preprocessing import StandardScaler
+  X = pd.DataFrame({"a": [1., 2., 3.], "b": [10., 20., 30.]})
+  ct = ColumnTransformer([("num", StandardScaler(), ["a"])], remainder="drop")
+  ct.fit(X)
+  changed = X.assign(b=[100., 200., 300.])
+  print(ct.transform(X).shape)
+  print(np.allclose(ct.transform(X), ct.transform(changed)))
+code_lang: python
+options:
+  A: 將 num 的選欄清單改成 ["a", "b"]
+  B: 將 remainder 改成 "passthrough"
+  C: 將 StandardScaler 改成 MinMaxScaler
+  D: 將 X 的欄位順序改成 ["b", "a"]
+answer: A
+explanation:
+  summary: 未被選入的欄位不會進入後續模型。
+  correct: 目前只選取 a，b 被 remainder="drop" 移除，所以改變 b 不影響輸出。將 a 與 b 都選入縮放項目，兩欄才都會被標準化並輸出。
+  wrong:
+    B: 這會保留 b 的原始數值，但 b 不會經過標準化，未符合題目的完整要求。
+    C: 替換縮放公式不會擴大選欄範圍，b 仍被移除。
+    D: 以欄名選取 a 不受 DataFrame 欄位順序影響，重新排序後仍不會選入 b。
+guide_refs:
+  - guide-3:5-4
+  - guide-3:5-10
+author: codex
+review:
+  status: draft

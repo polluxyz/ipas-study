@@ -1,0 +1,38 @@
+id: M-L23301-083
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - outlier-detection
+  - outlier-treatment
+stem: 某工程師以絕對 Z 分數大於 3 標記異常，每次都由當批資料重算平均與標準差。原有 20 個 0 與 1 個 10，加入 1 個 100 後，程式顯示 10 不再超標。造成此變化的主要原因為何？
+code: |
+  import numpy as np
+  before = np.array([0.] * 20 + [10.])
+  after = np.append(before, 100.)
+  for values in [before, after]:
+      z10 = abs((10. - values.mean()) / values.std(ddof=0))
+      print(round(z10, 3), bool(z10 > 3))
+code_lang: python
+options:
+  A: 新增極端值改變排序百分位，10 的相對分位排名因此下降
+  B: 新增極端值改變最大最小差，10 的全距比例因此縮小
+  C: 新增極端值改變中位數與四分位距，10 的穩健分數因此縮小
+  D: 新增極端值改變平均與標準差，10 的相對標準距離因此縮小
+answer: D
+explanation:
+  summary: 以平均與標準差估計的離群分數，可能被另一個極端值影響。
+  correct: 加入 100 會拉高平均並放大標準差。10 的絕對 Z 分數由約 4.472 降至約 0.240，雖然 10 本身未變，分數仍會改變。不能把未超標直接解讀成資料已更可信。
+  wrong:
+    A: 加入更大的值會影響百分位排名，但本例的 Z 分數沒有使用百分位，不能用排名解釋分數變化。
+    B: 全距確實變大，但那是最小最大縮放使用的尺度；本例除以的是標準差，並未使用全距。
+    C: 中位數與四分位距是另一種穩健處理的基礎，不是本例的計分參數；本例兩批的四分位距都為 0。
+guide_refs:
+  - guide-3:5-3
+  - guide-3:5-7
+author: codex
+review:
+  status: draft

@@ -1,0 +1,42 @@
+id: M-L23301-079
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - sklearn-pipeline
+  - one-hot-encoding
+stem: 某線性模型使用下列前處理，依 ColumnTransformer 清單的各項輸出順序橫向合併特徵。模型的 3 個係數依輸出欄位順序為 [2, -1, 0.5]。原始資料的 age 欄在 plan 前面。要正確解釋係數，哪項對應最正確？
+code: |
+  import pandas as pd
+  from sklearn.compose import ColumnTransformer
+  from sklearn.preprocessing import OneHotEncoder
+  X = pd.DataFrame({"age": [20., 40., 60.], "plan": ["basic", "pro", "basic"]})
+  ct = ColumnTransformer([
+      ("cat", OneHotEncoder(categories=[["basic", "pro"]], sparse_output=False), ["plan"]),
+      ("num", "passthrough", ["age"])
+  ])
+  ct.fit(X)
+  print(ct.get_feature_names_out().tolist())
+code_lang: python
+options:
+  A: basic 指標為 2，pro 指標為 -1，年齡為 0.5
+  B: 年齡為 2，basic 指標為 -1，pro 指標為 0.5
+  C: basic 指標為 0.5，pro 指標為 -1，年齡為 2
+  D: 年齡為 0.5，basic 指標為 -1，pro 指標為 2
+answer: A
+explanation:
+  summary: 模型係數必須對應轉換後的欄位順序。
+  correct: cat 先輸出指定順序的 basic 與 pro 指標，num 再輸出 age。因此 3 個係數依序對應 basic、pro、age。原始 DataFrame 的欄位順序不能代替轉換後的特徵順序。
+  wrong:
+    B: 這是直接沿用原始資料欄位順序的判讀，忽略了 cat 分支在前、num 分支在後。
+    C: 雖然將兩個方案指標放在前面，卻把第 1 與第 3 個係數對調，age 應對應 0.5。
+    D: age 雖正確對應 0.5，但 basic 與 pro 的係數對調；指定類別順序是 basic 在 pro 前面。
+guide_refs:
+  - guide-3:5-8
+  - guide-3:5-10
+author: codex
+review:
+  status: draft

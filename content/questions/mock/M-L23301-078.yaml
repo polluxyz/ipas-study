@@ -1,0 +1,44 @@
+id: M-L23301-078
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - sklearn-pipeline
+  - missing-value-imputation
+stem: 某工程師要將同一欄位先補值，再標準化。下列 ColumnTransformer 的各項會各自接收原始選定欄位，再把輸出橫向合併。程式最後印出輸出欄數與是否仍有缺值。若要讓下游只收到 1 欄已補值且已標準化的數值，最適合如何調整？
+code: |
+  import numpy as np
+  import pandas as pd
+  from sklearn.compose import ColumnTransformer
+  from sklearn.impute import SimpleImputer
+  from sklearn.preprocessing import StandardScaler
+  X = pd.DataFrame({"x": [1., np.nan, 5.]})
+  ct = ColumnTransformer([
+      ("fill", SimpleImputer(strategy="median"), ["x"]),
+      ("scale", StandardScaler(), ["x"])
+  ])
+  Z = ct.fit_transform(X)
+  print(Z.shape[1], np.isnan(Z).any())
+code_lang: python
+options:
+  A: 保留兩項轉換，將 StandardScaler 改成 MinMaxScaler
+  B: 保留兩項轉換，將補值器移至轉換清單的最後
+  C: 只設一項轉換，內容為補值器接標準化器的 Pipeline
+  D: 只設一項轉換，內容為 add_indicator=True 的補值器
+answer: C
+explanation:
+  summary: 同一欄位的連續處理應放在同一條 Pipeline。
+  correct: 目前兩項各自讀原始 x，會輸出 2 欄，縮放分支仍保有 NaN。以 Pipeline 串起補值與標準化，第二步才會收到第一步已補好的資料，並只輸出 1 欄。
+  wrong:
+    A: 換成另一種縮放公式仍是兩項各自處理原始資料，會有 2 欄，也沒有先補好縮放分支的缺值。
+    B: 清單順序控制輸出欄位順序，不會把前項輸出送給後項。
+    D: 補值器可補缺值，但沒有標準化；新增指標還會多出一欄。
+guide_refs:
+  - guide-3:5-2
+  - guide-3:5-7
+author: codex
+review:
+  status: draft

@@ -1,0 +1,42 @@
+id: M-L23301-085
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - smote
+  - oversampling
+stem: 某訓練資料有 8 筆正常與 4 筆故障。SMOTE 以故障點為起點，再從其他故障點挑近鄰做插值；k_neighbors 指每個起點需要多少個其他故障近鄰。以下程式因近鄰數不足而失敗。若保留這批樣本與 SMOTE 插值方式，哪項修改最適合？
+code: |
+  import numpy as np
+  from imblearn.over_sampling import SMOTE
+  X = np.arange(24, dtype=float).reshape(12, 2)
+  y = np.array([0] * 8 + [1] * 4)
+  try:
+      SMOTE(k_neighbors=5, random_state=0).fit_resample(X, y)
+  except ValueError:
+      print("近鄰數不足")
+  X_new, y_new = SMOTE(k_neighbors=3, random_state=0).fit_resample(X, y)
+  print(np.bincount(y_new).tolist())
+code_lang: python
+options:
+  A: 將 random_state 由 0 改成 5，重新選擇合成點
+  B: 對兩個輸入欄位做標準化，再沿用目前近鄰數
+  C: 將 k_neighbors 由 5 改成 3，再執行合成取樣
+  D: 複製 4 筆正常樣本加入訓練，再沿用目前近鄰數
+answer: C
+explanation:
+  summary: SMOTE 的近鄰數受少數類別的可用樣本數限制。
+  correct: 每個故障起點最多只有其他 3 筆故障可作近鄰，因此 k_neighbors=3 可在本例執行。預設 5 需要更多故障樣本；增加正常資料或改變距離尺度都無法補足這個數量。
+  wrong:
+    A: 亂數種子影響取樣選擇，但不增加可用故障近鄰數，仍不足 5 個。
+    B: 標準化會改變近鄰距離與排序，卻不會把其他故障點由 3 個增加至 5 個。
+    D: 正常樣本不是故障起點可使用的同類近鄰，增加正常樣本無法排除錯誤。
+guide_refs:
+  - guide-3:5-9
+  - guide-3:5-48
+author: codex
+review:
+  status: draft

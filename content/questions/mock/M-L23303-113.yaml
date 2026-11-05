@@ -1,0 +1,37 @@
+id: M-L23303-113
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - residual-analysis
+  - linear-regression
+stem: 某需求預測器的校正資料如下。團隊本輪只比較對每個預測加同一個常數 c，並以這 4 筆的均方誤差最小為準。常數只在校正資料決定，之後另用未參與校正的資料驗證。依程式結果，哪個候選最適合？
+code: |
+  import numpy as np
+  y = np.array([14., 24., 34., 44.])
+  pred = np.array([10., 20., 30., 40.])
+  for c in [-4, -2, 4, 8]:
+      print(c, np.mean((y - (pred + c)) ** 2))
+code_lang: python
+options:
+  A: 對每筆預測加上 -4，向下調整預測需求
+  B: 對每筆預測加上 -2，向下調整預測需求
+  C: 對每筆預測加上 +4，向上調整預測需求
+  D: 對每筆預測加上 +8，向上調整預測需求
+answer: C
+explanation:
+  summary: 以實際減預測的平均殘差，校正共同的加法偏差。
+  correct: 這 4 筆殘差都是 +4，表示每筆都低估 4。加上 c 後的新殘差為原殘差減 c；選 c=4 時平方誤差為 0。這只說明校正資料上的選擇，仍須依題意另行驗證。
+  wrong:
+    A: 加上 -4 會進一步降低預測，讓正殘差由 4 增至 8，均方誤差成為 64。
+    B: 加上 -2 會讓正殘差增至 6，均方誤差成為 36，低估加重。
+    D: 加上 8 會由低估轉為高估 4，均方誤差為 16，未達本次候選中的最小值。
+guide_refs:
+  - guide-3:4-13
+  - guide-3:5-24
+author: codex
+review:
+  status: draft

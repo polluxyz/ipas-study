@@ -1,0 +1,38 @@
+id: M-L23303-110
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - residual-analysis
+  - mean-absolute-error
+stem: 某秤重預測器在 4 筆驗證資料上得到以下結果。殘差定義為實際重量減預測重量。工程師只看第一個輸出便認為誤差很小。關於這個判斷，哪項最正確？
+code: |
+  import numpy as np
+  y = np.array([14., 16., 24., 26.])
+  pred = np.array([20., 20., 20., 20.])
+  residual = y - pred
+  print(residual.mean())
+  print(np.abs(residual).mean())
+code_lang: python
+options:
+  A: 平均殘差為 0，可將平均絕對誤差也記為 0
+  B: 正負殘差互相抵銷，平均絕對誤差仍為 5
+  C: 平均殘差為 0，可推定殘差變異數也為 0
+  D: 正負殘差數量相同，可推定每筆重量皆判準
+answer: B
+explanation:
+  summary: 帶符號的平均殘差不能代替誤差大小。
+  correct: 殘差依序是 -6、-4、4、6，平均為 0。取絕對值後平均為 5，模型仍有明顯偏差。平均殘差只描述整體高估與低估是否抵銷。
+  wrong:
+    A: 先取絕對值才平均，不能讓正負誤差抵銷，因此平均絕對誤差不是 0。
+    C: 殘差有 -6 至 6 的差異，變異數為 26；平均是 0 不代表各筆數值相同。
+    D: 正負筆數相同只描述方向數量，本例沒有任何一筆殘差為 0。
+guide_refs:
+  - guide-3:5-23
+  - guide-3:5-24
+author: codex
+review:
+  status: draft

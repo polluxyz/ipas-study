@@ -1,0 +1,38 @@
+id: M-L23303-109
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - f1-score
+stem: 某系統對每份文件輸出多個主題。本次採 F1 評分，主管要求每份文件等權，不讓主題較多的文件占較大權重。每份文件的 F1 定義為 2TP/(2TP+FP+FN)。程式比較不同彙總方式，哪項最符合要求？
+code: |
+  from sklearn.metrics import f1_score
+  y = [[1, 1, 1], [1, 0, 0]]
+  pred = [[1, 1, 0], [0, 0, 0]]
+  print(round(f1_score(y, pred, average="samples"), 4))
+  print(round(f1_score(y, pred, average="micro"), 4))
+  print(round(f1_score(y, pred, average="macro"), 4))
+  print(round(f1_score(y, pred, average="weighted"), 4))
+code_lang: python
+options:
+  A: 採用逐份文件的 F1 等權平均，結果為 0.4
+  B: 採用合併標記計數的 micro F1，結果約為 0.667
+  C: 採用逐個主題的 F1 等權平均，結果約為 0.556
+  D: 採用主題真實次數加權的 F1，結果約為 0.583
+answer: A
+explanation:
+  summary: 先逐份計分再平均，才能讓每份文件等權。
+  correct: 第 1 份文件有 TP=2、FP=0、FN=1，F1 為 0.8；第 2 份的 F1 為 0。兩份等權平均為 0.4。micro F1 合併 TP、FP、FN，計數單位是標記而非文件。
+  wrong:
+    B: 合併後 TP=2、FP=0、FN=2，micro F1 為 2/3。主題較多的文件貢獻較多計數，不符合逐份 F1 等權平均。
+    C: 3 個主題的 F1 為 2/3、1、0，等權平均為 5/9。這讓每個主題等權，不是每份文件等權。
+    D: 依各主題真實出現次數 2、1、1 加權，結果為 7/12。權重來自主題次數，不是逐份文件的相同權重。
+guide_refs:
+  - guide-3:5-21
+  - guide-3:5-25
+author: codex
+review:
+  status: draft
