@@ -1,0 +1,68 @@
+id: Z-L23303-009
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - k-fold-cross-validation
+  - f1-score
+stem: |-
+  二元分類資料 `X`、`y`（`y` 為 0／1），以下程式評估支援向量機的表現，輸出如下：
+
+  本例已得到下列輸出：
+
+  ```text
+  [0.81 0.79 0.84 0.62 0.8 ] 0.772
+  ```
+
+  `scores` 的內容為何？
+code: |-
+  from sklearn.model_selection import StratifiedKFold, cross_val_score
+  from sklearn.pipeline import make_pipeline
+  from sklearn.preprocessing import StandardScaler
+  from sklearn.svm import SVC
+
+  pipe = make_pipeline(StandardScaler(), SVC(C=1.0))
+  cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+  scores = cross_val_score(pipe, X, y, cv=cv, scoring="f1")
+  print(scores.round(2), scores.mean().round(3))
+code_lang: python
+options:
+  A: 長度為 5 的陣列，每個元素是一折驗證資料上的 F1
+  B: 5 折 F1 的平均值（單一數字）
+  C: 包含訓練與驗證分數的字典
+  D: 長度為 5 的陣列，每個元素是一折的準確率
+answer: A
+explanation:
+  summary: scoring 指定每折要計算的指標。
+  correct: scoring="f1" 讓每折回傳驗證 F1，結果是 5 個元素的陣列。題目所列分數平均為 0.772。
+  wrong:
+    B: 只有另外呼叫 scores.mean() 才會得到單一平均值。
+    C: 本函式回傳分數陣列；多項資訊的字典是 cross_validate 的介面。
+    D: 程式明確指定 f1，所以不會改用預設準確率。
+guide_refs:
+  - guide-3:5-26
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-009
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；由原檔補回共用程式、情境與輸出；解析逐項重寫

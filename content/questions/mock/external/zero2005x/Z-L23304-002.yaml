@@ -1,0 +1,46 @@
+id: Z-L23304-002
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23304
+concepts:
+  - grid-search
+stem: 某網格搜尋設定`max_depth`有 4個候選值、`learning_rate`有 3個、subsample有 2個，並使用 5折交叉驗證。若只計交叉驗證中的模型訓練，不計最終以全部訓練資料重新擬合（refit），總共需要訓練幾次模型？
+options:
+  A: 120次
+  B: 24次交叉驗證再加 1次最終擬合，共 25次
+  C: 9次
+  D: 24次
+answer: A
+explanation:
+  summary: 訓練次數是參數組合數乘驗證折數。
+  correct: 4×3×2=24 組，每組 5 折，合計 120 次。題目排除最終 refit，因此不再加 1。
+  wrong:
+    B: 每組交叉驗證不是只訓練 1 次；題目也已排除最後重新擬合。
+    C: 把候選數相加不會得到笛卡兒積的組合數。
+    D: 24 只計配置，尚未乘上每組訓練的 5 折。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

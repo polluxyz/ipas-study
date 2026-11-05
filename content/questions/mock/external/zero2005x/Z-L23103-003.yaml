@@ -1,0 +1,47 @@
+id: Z-L23103-003
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23103
+concepts:
+  - optimizer-selection
+  - momentum
+stem: 關於優化器之敘述，下列何者最為正確？
+options:
+  A: AdaGrad 的有效學習率可能持續下降而停滯；RMSProp 改以指數移動平均處理歷史梯度平方
+  B: Momentum 以每個參數的歷史梯度平方和作分母，自動調整各參數步長，且不是累積先前的更新方向
+  C: Adam在所有任務上都必然優於 SGD，因此不需考慮其他選擇
+  D: 批次梯度下降因每次使用全部資料，故最適合大規模深度學習訓練
+answer: A
+explanation:
+  summary: 累積平方和與指數平均會產生不同的有效步長。
+  correct: AdaGrad 的分母累積過去梯度平方，可能使步長持續變小；RMSProp 讓舊梯度逐漸失去影響，減輕過度衰減。
+  wrong:
+    B: Momentum 累積更新方向，本身不是每參數自適應步長的方法。
+    C: 優化器效果依資料與調參而變，不能保證 Adam 全面勝出。
+    D: 每步掃過全部資料的成本高，大型訓練通常採小批次。
+guide_refs:
+  - guide-3:3-25
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch03.md
+  original_id: SIM-L23103-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

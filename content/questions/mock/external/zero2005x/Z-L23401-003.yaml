@@ -1,0 +1,48 @@
+id: Z-L23401-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23401
+concepts:
+  - audit-reproducibility
+  - privacy-governance
+stem: 某銀行 AI授信模型上線後發生客訴，客戶要求說明其申請被拒的依據。稽核發現系統僅保存最終決策結果，未留存當時使用的模型版本、輸入特徵值與信心值。下列評論何者最為適當？
+options:
+  A: 保留模型版本、輸入摘要、輸出、信心值與覆核紀錄，建立可重現的稽核軌跡
+  B: 發生申訴後，用現行模型和資料庫目前的特徵重新推論一次，將新結果視為歷史決策的完整還原紀錄
+  C: 客訴屬客服部門權責，與模型維運無關
+  D: 保存最終結果已足夠，因為決策本身才是客戶關心的
+answer: A
+explanation:
+  summary: 要追查一次決策，需要保存當時的模型與資料脈絡。
+  correct: 僅有結果不能重現推論。應依風險及資料保護需求設計版本、輸入摘要、輸出及覆核紀錄；有可信信心分數時一併記錄其定義。
+  wrong:
+    B: 現行模型或特徵已可能改變，重算不代表還原過去。
+    C: 申訴回應需要系統證據，客服無法獨自補出未保存的歷史紀錄。
+    D: 結果不能說明當時用哪組參數與資料得出決策。
+guide_refs:
+  - guide-3:6-12
+  - guide-3:6-13
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch11.md
+  original_id: SIM-L23401-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

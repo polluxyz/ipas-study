@@ -1,0 +1,48 @@
+id: Z-L23301-005
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - image-augmentation
+  - data-augmentation
+stem: 某團隊欲以資料增強擴充胸部 X光片訓練集。下列增強方式何者最不適當？
+options:
+  A: 水平翻轉
+  B: 隨機裁切後縮放回原尺寸
+  C: 小幅度旋轉（±10度）
+  D: 亮度與對比度微調
+answer: A
+explanation:
+  summary: 影像增強必須保留任務需要的解剖與標籤資訊。
+  correct: 水平翻轉會交換左右解剖位置。若標籤區分左側與右側，翻轉後沿用標籤就會出錯；若標籤不分左右，仍須驗證增強是否符合任務。隨機裁切也可能移除病灶。本題未限定標籤與裁切範圍，無法唯一判定水平翻轉最不適當。
+  wrong:
+    B: 裁切須保留病灶與必要解剖結構，才能維持標籤意義。未限制裁切範圍時，這個方法也可能不適當。
+    C: 小角度旋轉可能模擬擺位差異，但仍須依任務驗證標籤不變。
+    D: 輕微曝光變化可能合理，幅度仍需經資料與任務檢查。
+guide_refs:
+  - guide-3:5-9
+  - guide-3:5-10
+author: codex
+review:
+  status: disputed
+  answer_checked: null
+  dispute: 原答 C 認為水平翻轉最不適當，但 D 未限制裁切區域，可能移除病灶或必要解剖結構。題目也未明確界定分類標籤是否依賴左右位置，無法充分支持唯一最不適當選項。
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch07.md
+  original_id: SIM-L23301-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫；解析補明左右標籤與裁切保留條件，移除審稿流程用語
