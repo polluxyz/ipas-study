@@ -32,4 +32,5 @@ guide_refs:
   - guide-3:5-51
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: A
