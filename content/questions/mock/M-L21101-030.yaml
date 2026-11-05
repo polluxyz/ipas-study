@@ -1,0 +1,30 @@
+id: M-L21101-030
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21101
+concepts:
+  - f1-score
+stem: 某多標籤客服意圖模型允許每則工單有多個意圖。3 個意圖的真值正例數依序為 100、100、800，已算出的各類 F1 依序為 0.90、0.60、0.30。驗收約定 Macro-F1 是各類 F1 的等權算術平均。報表應填入哪個數值？
+options:
+  A: "0.30"
+  B: "0.39"
+  C: "0.45"
+  D: "0.60"
+answer: D
+explanation:
+  summary: Macro-F1 先取得各類 F1，再讓每個類別等權平均。
+  correct: 等權平均為 (0.90＋0.60＋0.30)/3＝0.60。各類真值正例數不改變本題約定的類別權重。
+  wrong:
+    A: 0.30 是最差類別的 F1，適合描述最低類別表現，並非 3 類等權平均。
+    B: 0.39 是按 100、100、800 加權的 F1。這會讓第 3 類占 80% 權重，與等權約定不同。
+    C: 0.45 只平均後 2 類的 F1，少算第 1 類，不能代表全部 3 類。
+guide_refs:
+  - guide-1:3-79
+  - guide-3:5-21
+author: codex
+review:
+  status: verified
+  blind_answer: D

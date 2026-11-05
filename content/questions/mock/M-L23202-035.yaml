@@ -1,0 +1,40 @@
+id: M-L23202-035
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23202
+concepts:
+  - support-vector-machine
+stem: 某工程師比較線性核與徑向基底核的支援向量機。對每種核，只把 gamma 從 0.001 調成 100，其他設定相同。程式比較相同輸入的決策分數，先印線性核結果，再印徑向基底核結果。兩次輸出依序何者最正確？
+code: |
+  import numpy as np
+  from sklearn.svm import SVC
+  X = np.array([[-2.0], [-1.0], [1.0], [2.0]])
+  y = np.array([0, 0, 1, 1])
+  for kernel in ("linear", "rbf"):
+      a = SVC(kernel=kernel, C=1, gamma=0.001).fit(X, y)
+      b = SVC(kernel=kernel, C=1, gamma=100).fit(X, y)
+      print(np.allclose(a.decision_function(X), b.decision_function(X)))
+code_lang: python
+options:
+  A: False、False
+  B: False、True
+  C: True、True
+  D: True、False
+answer: D
+explanation:
+  summary: 參數是否生效取決於實際選用的核函數。
+  correct: 線性核使用內積，沒有使用 gamma，所以兩次決策分數相同。徑向基底核使用 exp(−gamma×距離平方)，本例改變 gamma 後決策分數不同，依序印出 True、False。
+  wrong:
+    A: 這把 gamma 的影響套到線性核；線性核不使用 gamma，所以第 1 個值應為 True。
+    B: 這把兩種核對 gamma 的反應對調；本例線性核分數相同，徑向基底核分數不同。
+    C: 線性核的判斷正確，但 gamma 會改變本例徑向基底核的相似度與決策分數。
+guide_refs:
+  - guide-3:4-29
+  - guide-3:4-30
+author: codex
+review:
+  status: verified
+  blind_answer: D

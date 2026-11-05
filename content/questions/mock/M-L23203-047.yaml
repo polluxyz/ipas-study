@@ -1,0 +1,40 @@
+id: M-L23203-047
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - output-loss-contract
+stem: 某二元分類器原有 2 個未正規化分數，工程師想用單一分數搭配 BCEWithLogitsLoss 重現相同損失。標籤 1 表示第 2 類。以下列 2 筆輸出為例，單一分數應如何取得最正確？
+code: |
+  import torch
+  import torch.nn.functional as F
+  z = torch.tensor([[3.0, 5.0], [1.0, -1.0]])
+  y = torch.tensor([1, 0])
+  reference = F.cross_entropy(z, y, reduction='none')
+  print(reference.round(decimals=4).tolist())
+  for s in [z[:,1], z[:,0]-z[:,1], z[:,1]-z[:,0], z[:,1]+z[:,0]]:
+      loss = F.binary_cross_entropy_with_logits(s, y.float(), reduction='none')
+      print(loss.round(decimals=4).tolist())
+code_lang: python
+options:
+  A: 取 z[:,1]，保留第 2 類的原始分數
+  B: 取 z[:,0]-z[:,1]，保留第 1 類相對分數
+  C: 取 z[:,1]-z[:,0]，保留第 2 類相對分數
+  D: 取 z[:,1]+z[:,0]，保留兩類的合計分數
+answer: C
+explanation:
+  summary: 二類分布取決於兩個分數的差，而非其中一個絕對值。
+  correct: 第 2 類機率等於 sigmoid(z1-z0)。以此差值輸入二元交叉熵，會與兩類交叉熵得到相同的逐筆損失。
+  wrong:
+    A: 只取第 2 類分數會遺失第 1 類的比較基準，兩個分數同時平移後也會改變結果。
+    B: 此差值表示第 1 類相對於第 2 類的分數，與題幹將 1 設為第 2 類的約定相反。
+    D: 合計分數不反映類別間的偏好，兩類同加常數也會改變合計。
+guide_refs:
+  - guide-3:4-62
+author: codex
+review:
+  status: verified
+  blind_answer: C
