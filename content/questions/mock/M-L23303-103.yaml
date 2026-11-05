@@ -1,0 +1,39 @@
+id: M-L23303-103
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - accuracy
+  - model-comparison
+stem: 某文件可同時含 3 種標籤，以 3 個 0 或 1 表示。驗收要求每份文件的整組標籤都正確，才算該文件正確。以下 a 用 accuracy_score 計算，b 則逐格比較後平均。何者符合驗收規則？
+code: |
+  import numpy as np
+  from sklearn.metrics import accuracy_score
+  y = np.array([[1, 0, 1], [0, 1, 0], [1, 1, 0], [0, 0, 0]])
+  pred = np.array([[1, 0, 1], [0, 0, 0], [1, 1, 1], [0, 0, 0]])
+  a = accuracy_score(y, pred)
+  b = (y == pred).mean()
+  print(round(a, 3), round(float(b), 3))
+code_lang: python
+options:
+  A: 採用 a=0.500，表示正確標籤格子的比例
+  B: 採用 b=0.833，表示整組標籤正確的文件比例
+  C: 採用 b=0.833，表示正確標籤格子的比例
+  D: 採用 a=0.500，表示整組標籤正確的文件比例
+answer: D
+explanation:
+  summary: 多標籤的整組正確率與逐標籤正確率有不同計數單位。
+  correct: 第 1、4 份文件的整組標籤正確，所以 a=2/4=0.5。b 計算 12 個格子中正確的 10 格，結果為 10/12，約 0.833。題目以整份文件為單位，應使用 a。
+  wrong:
+    A: a 的分母是文件數，不是標籤格子數，對多標籤輸入會要求整列吻合。
+    B: b 允許部分標籤正確的文件貢獻分數，並非整組正確的比例。
+    C: 這是 b 的正確定義，但不符合本題整組都要正確的驗收方式。
+guide_refs:
+  - guide-3:5-21
+  - guide-3:5-25
+author: codex
+review:
+  status: draft

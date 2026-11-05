@@ -1,0 +1,43 @@
+id: M-L23303-090
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - sklearn-pipeline
+  - one-hot-encoding
+stem: 某商品分類流程以訓練資料中的顏色建立獨熱編碼。驗證時遇到訓練資料沒出現的 green。工程師已設定忽略未知類別，如下列程式。對驗證資料的轉換，何者最正確？
+code: |
+  from sklearn.pipeline import Pipeline
+  from sklearn.preprocessing import OneHotEncoder
+  from sklearn.dummy import DummyClassifier
+  pipe = Pipeline([
+      ('encode', OneHotEncoder(handle_unknown='ignore', sparse_output=False)),
+      ('model', DummyClassifier(strategy='most_frequent'))
+  ])
+  pipe.fit([['red'], ['blue'], ['red']], [0, 1, 0])
+  z = pipe.named_steps['encode'].transform([['green']])
+  print(z.tolist())
+  print(pipe.predict([['green']]).tolist())
+code_lang: python
+options:
+  A: 新增 green 欄，驗證資料改用 3 欄編碼
+  B: 維持既有 2 欄，green 轉成全零向量
+  C: 沿用 red 欄，green 轉成 red 的編碼
+  D: 中止這筆轉換，未知類別不進入模型
+answer: B
+explanation:
+  summary: 未知類別的處理設定決定驗證資料如何編碼。
+  correct: 編碼輸出為 `[[0.0, 0.0]]`，模型預測為 [0]。編碼器維持訓練所得的 blue 與 red 兩欄。handle_unknown 設為 ignore 時，未知類別在這組欄位中以全零表示，不會增加新欄。
+  wrong:
+    A: transform 不會增補訓練時未學到的欄位，否則後段模型的輸入維度也會改變。
+    C: 忽略未知類別不等於把未知類別視為眾數顏色，本例不會轉成 red。
+    D: 此設定允許未知類別通過；若使用預設的報錯設定才會中止。
+guide_refs:
+  - guide-3:5-8
+  - guide-3:5-18
+author: codex
+review:
+  status: draft

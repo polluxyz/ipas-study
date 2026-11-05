@@ -1,0 +1,40 @@
+id: M-L23303-091
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - k-fold-cross-validation
+  - train-val-test-split
+stem: 某團隊有 12 筆資料，但只有 3 位受試者。每位受試者的資料不能跨訓練與驗證。GroupKFold 會以受試者為群組安排各折。以下程式建立 4 折時失敗。最適合如何修正？
+code: |
+  import numpy as np
+  from sklearn.model_selection import GroupKFold
+  X = np.arange(12).reshape(-1, 1)
+  groups = np.repeat([10, 20, 30], 4)
+  try:
+      list(GroupKFold(n_splits=4).split(X, groups=groups))
+  except ValueError:
+      print('無法建立指定折數')
+code_lang: python
+options:
+  A: 改成 4 折 KFold，依資料列均分
+  B: 改成 4 折分層切分，依標籤均分
+  C: 保留 4 折群組切分，先打亂資料列
+  D: 改成 3 折群組切分，以受試者為單位
+answer: D
+explanation:
+  summary: 群組驗證的折數受不同群組數限制。
+  correct: 只有 3 個不同群組，不能建立 4 個各含驗證群組的折。改用 3 折可使每位受試者輪流驗證，並保留受試者不跨兩側的限制。
+  wrong:
+    A: 按資料列均分可能把同一受試者放到兩側，評估對象會改變。
+    B: 依標籤分層控制的是類別比例，不能保證受試者隔離。
+    C: 打亂資料列不會增加不同受試者數，4 折仍無法成立。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-27
+author: codex
+review:
+  status: draft

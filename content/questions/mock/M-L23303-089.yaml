@@ -1,0 +1,43 @@
+id: M-L23303-089
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - recall
+  - k-fold-cross-validation
+stem: 某工廠以 0 表示必須攔下的危險品，以 1 表示可出貨品。驗收要看危險品的召回率。程式中的固定分類器只是檢查評分設定用的基準。下列哪項最符合驗收定義？
+code: |
+  import numpy as np
+  from sklearn.dummy import DummyClassifier
+  from sklearn.metrics import make_scorer, recall_score
+  from sklearn.model_selection import cross_val_score
+  X = np.arange(9).reshape(-1, 1)
+  y = np.array([0, 0, 1] * 3)
+  model = DummyClassifier(strategy='constant', constant=0)
+  a = cross_val_score(model, X, y, cv=3)
+  scorer = make_scorer(recall_score, pos_label=0)
+  b = cross_val_score(model, X, y, cv=3, scoring=scorer)
+  print(round(a.mean(), 3), round(b.mean(), 3))
+code_lang: python
+options:
+  A: 採用 a，代表危險品被攔下的比例
+  B: 採用 a，代表出貨品被辨識的比例
+  C: 採用 b，代表危險品被攔下的比例
+  D: 採用 b，代表攔下品中危險品的比例
+answer: C
+explanation:
+  summary: 評分時須把目標類別與召回率的分母對齊。
+  correct: 輸出是 0.667 與 1.0。預設分類評分 a 是準確率。b 指定 pos_label=0，分母是實際危險品數；基準把危險品都攔下，所以其召回率為 1。
+  wrong:
+    A: a 把兩類的正確結果加總後除以總樣本數，並非只看危險品。
+    B: a 是整體準確率，不是類別 1 的召回率；基準沒有辨識出任何出貨品。
+    D: 攔下品中危險品的比例是以類別 0 為目標的精確率，不是 b。
+guide_refs:
+  - guide-3:5-21
+  - guide-3:5-27
+author: codex
+review:
+  status: draft

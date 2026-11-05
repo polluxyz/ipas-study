@@ -1,0 +1,39 @@
+id: M-L23303-099
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - confusion-matrix
+  - precision
+  - recall
+stem: 某警報模型以 1 表示需處理的案件。報表的混淆矩陣以列表示真值、欄表示預測，並設 normalize="pred"，讓每欄合計為 1。主管想用 cm[1,1] 表示「收到警報後確有事件的比例」。何者最正確？
+code: |
+  from sklearn.metrics import confusion_matrix
+  y = [1, 1, 1, 1, 0, 0, 0, 0]
+  pred = [1, 1, 1, 0, 1, 1, 0, 0]
+  cm = confusion_matrix(y, pred, labels=[0, 1], normalize='pred')
+  print(cm.round(2).tolist())
+  print(round(float(cm[1, 1]), 2))
+code_lang: python
+options:
+  A: 數值是 0.75，表示警報的精確率
+  B: 數值是 0.60，表示事件的召回率
+  C: 數值是 0.60，表示警報的精確率
+  D: 數值是 0.75，表示事件的召回率
+answer: C
+explanation:
+  summary: 依預測類別正規化時，對角格表示該類預測的精確率。
+  correct: 預測為 1 的案件有 5 筆，其中 3 筆真的是事件。按欄正規化後 cm[1,1]=3/5=0.60，正好是警報的精確率。
+  wrong:
+    A: 0.75 是 3/4，分母取實際事件數，並非預測為事件的案件數。
+    B: 召回率以實際事件作分母，本例為 3/4=0.75。
+    D: 0.75 確為召回率，但此程式按預測欄正規化，印出的格子是 0.60。
+guide_refs:
+  - guide-3:5-20
+  - guide-3:5-21
+author: codex
+review:
+  status: draft

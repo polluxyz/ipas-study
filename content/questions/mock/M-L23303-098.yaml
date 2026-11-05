@@ -1,0 +1,36 @@
+id: M-L23303-098
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - roc-auc
+stem: 某二元模型只有高、低 2 種分數，各分數都有 1 筆正類與 1 筆負類。門檻規則是「分數大於或等於門檻就判正」。以下列出 ROC 的點。對同分樣本最正確的判斷為何？
+code: |
+  from sklearn.metrics import roc_curve, roc_auc_score
+  y = [0, 1, 0, 1]
+  score = [0.9, 0.9, 0.2, 0.2]
+  fpr, tpr, thresholds = roc_curve(y, score, drop_intermediate=False)
+  print(list(zip(fpr.tolist(), tpr.tolist())))
+  print(roc_auc_score(y, score))
+code_lang: python
+options:
+  A: 相同分數會一起跨過門檻，不能靠門檻區分這一對正負樣本
+  B: 相同分數會先把正類判正，再把負類判正，形成垂直線段
+  C: 相同分數會從曲線移除，僅保留分數不同的正負樣本
+  D: 相同分數會把正負標籤合併，以較多的類別重算曲線
+answer: A
+explanation:
+  summary: 相同分數的樣本會在同一門檻一起改變預測。
+  correct: ROC 點為 (0,0)、(0.5,0.5)、(1,1)，AUC=0.5。由高門檻降至 0.9 時，一正一負同時被判正，兩軸各增加 0.5。門檻不能在同分的正負樣本之間切開。
+  wrong:
+    B: 分類門檻只能使用分數，不能先讀真實標籤來決定同分時的先後。
+    C: 同分樣本仍是評估資料，會影響每個點的真陽率與假陽率。
+    D: ROC 以每筆既有標籤計算，不會用同分組內的多數標籤取代個別真值。
+guide_refs:
+  - guide-3:5-22
+author: codex
+review:
+  status: draft

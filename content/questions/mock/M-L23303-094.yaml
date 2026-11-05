@@ -1,0 +1,37 @@
+id: M-L23303-094
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - roc-auc
+stem: 某二元風險模型要評估機率分數的排序能力，正類為 1。甲、乙在門檻 0.5 的分類結果相同，但分數順序不同。下列程式同時比較分數與分類結果的 AUC。最正確的解讀為何？
+code: |
+  import numpy as np
+  from sklearn.metrics import roc_auc_score
+  y = np.array([0, 1, 0, 1])
+  a = np.array([0.1, 0.4, 0.6, 0.9])
+  b = np.array([0.4, 0.1, 0.9, 0.6])
+  print(roc_auc_score(y, a), roc_auc_score(y, b))
+  print(roc_auc_score(y, a >= 0.5), roc_auc_score(y, b >= 0.5))
+code_lang: python
+options:
+  A: 使用分數可區分甲乙，改用分類結果會失去排序資訊
+  B: 使用分類結果可區分甲乙，改用分數會失去排序資訊
+  C: 兩種輸入都顯示甲乙相同，排序品質可視為相同
+  D: 兩種輸入都顯示乙優於甲，應優先採用乙的排序
+answer: A
+explanation:
+  summary: 單一門檻的分類結果會壓縮分數的排序資訊。
+  correct: 分數的 AUC 為甲 0.75、乙 0.25；轉成分類結果後兩者都是 0.5。分類結果只剩 2 種值，無法保留各門檻下的完整排序差異。要評估本題指定的能力，應使用原始分數。
+  wrong:
+    B: 程式的分類結果相同，所以不能以這組結果區分兩者的排序。
+    C: 使用原始分數時 AUC 明顯不同，分類結果相同不代表排序品質相同。
+    D: 以正類 1 計算，甲的 AUC 高於乙，並非乙較好。
+guide_refs:
+  - guide-3:5-22
+author: codex
+review:
+  status: draft

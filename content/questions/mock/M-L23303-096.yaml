@@ -1,0 +1,43 @@
+id: M-L23303-096
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - k-fold-cross-validation
+  - model-comparison
+stem: 某工程師用 6 筆資料做 3 折驗證，每次訓練只有 4 筆。近鄰模型設定需參考 5 個鄰居。程式將評分失敗記為 NaN，表示沒有有效數值。若要產生可解讀的驗證報告，何者最適合？
+code: |
+  import warnings
+  import numpy as np
+  from sklearn.model_selection import KFold, cross_val_score
+  from sklearn.neighbors import KNeighborsClassifier
+  X = np.arange(6).reshape(-1, 1)
+  y = [0, 1, 0, 1, 0, 1]
+  with warnings.catch_warnings():
+      warnings.simplefilter('ignore')
+      scores = cross_val_score(KNeighborsClassifier(n_neighbors=5), X, y,
+                               cv=KFold(3), error_score=np.nan)
+  print(np.isnan(scores).tolist())
+code_lang: python
+options:
+  A: 將失敗折計成 0 分，報告模型沒有分類能力
+  B: 把非數值換成訓練分數，保留相同報告欄位
+  C: 先調整可行的鄰居數，再重跑全部驗證折
+  D: 只保留成功折的分數，報告其平均驗證表現
+answer: C
+explanation:
+  summary: 無效評分應先查執行條件，不能當成有效的低分。
+  correct: 輸出為 [True,True,True]。每折模型只見過 4 筆訓練資料，無法找出 5 個訓練鄰居。應把鄰居數調整到折內可行範圍，再重新驗證；目前沒有成功折可供比較。
+  wrong:
+    A: 0 是有效評分，NaN 代表沒有取得分數；兩者不能互換後宣稱模型能力低。
+    B: 訓練分數量測已學過的資料，不能補成未見資料上的驗證分數。
+    D: 本例沒有成功折；即使只部分失敗，直接刪除也會改變被評估的資料範圍。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-26
+author: codex
+review:
+  status: draft
