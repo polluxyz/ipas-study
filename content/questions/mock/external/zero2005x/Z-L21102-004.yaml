@@ -30,9 +30,9 @@ guide_refs:
   - guide-1:3-52
 author: codex
 review:
-  status: disputed
+  status: draft
   answer_checked: null
-  dispute: 原答案 C 保留。但原 A 將卷積層參數性質擴及整個網路；帶展平與全連接層的 CNN 可能隨輸入尺寸改變參數量，故錯誤選項不一定唯一。參照指引科1 3-48 的卷積與全連接層區別，待主審裁定。
+  dispute: null
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI
@@ -47,4 +47,4 @@ origin:
     C: B
     B: C
     A: D
-  modified: 選項重排；解析全部重寫；改寫原 B 干擾項以平衡長度；限定 D 的參數量敘述於同一卷積層，移除解析中的審稿用語
+  modified: 選項重排；解析全部重寫；改寫原 B 干擾項以平衡長度；限定 D 的參數量敘述於同一卷積層，移除解析中的審稿用語；依協調者裁定清除已修正的爭議，審查狀態改回 draft

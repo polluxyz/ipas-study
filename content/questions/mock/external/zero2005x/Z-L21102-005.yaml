@@ -1,11 +1,11 @@
 id: Z-L21102-005
-rev: 1
+rev: 2
 source: mock
 subject: 1
 type: 情境
 codes:
-  - L21102
   - L21203
+  - L21102
 concepts:
   - ai-risk-governance
   - vision-application-planning
@@ -24,7 +24,7 @@ explanation:
     C: 有人複檢並不能直接證明應用本身不會造成嚴重傷害，需先評估危害再判斷措施是否足夠。
     D: 單一召回率沒有涵蓋危害程度與所有失效情境，框架也未設此數值作為自行豁免條件。
 guide_refs:
-  - guide-1:3-58
+  - guide-1:4-30
   - guide-1:4-29
 author: codex
 review:
@@ -45,4 +45,4 @@ origin:
     B: B
     A: C
     D: D
-  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；主要代碼改為 L21203，保留 L21102 為相關代碼；指引頁碼改對應風險辨識與醫療安全風險

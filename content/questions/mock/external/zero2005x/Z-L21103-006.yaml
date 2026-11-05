@@ -1,9 +1,10 @@
 id: Z-L21103-006
-rev: 1
+rev: 2
 source: mock
 subject: 1
 type: 情境
 codes:
+  - L21302
   - L21103
   - L23401
 concepts:
@@ -46,4 +47,4 @@ origin:
     B: B
     C: C
     A: D
-  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；主要代碼改為 L21302，保留 L21103 與 L23401 為相關代碼

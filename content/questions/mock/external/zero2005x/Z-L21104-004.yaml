@@ -1,11 +1,11 @@
 id: Z-L21104-004
-rev: 1
+rev: 2
 source: mock
 subject: 1
 type: 情境
 codes:
-  - L21104
   - L21203
+  - L21104
 concepts:
   - taiwan-pdpa
   - lawful-data-use
@@ -46,4 +46,4 @@ origin:
     B: B
     C: C
     A: D
-  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；改寫原 C 干擾項以平衡長度
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；改寫原 C 干擾項以平衡長度；主要代碼改為 L21203，保留 L21104 為相關代碼
