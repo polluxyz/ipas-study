@@ -1,0 +1,30 @@
+id: M-L23302-024
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23302
+concepts:
+  - loss-function-selection
+  - cost-sensitive-loss
+stem: 某備料系統預測需求量。少估 1 件造成 9 單位缺料損失，多估 1 件造成 1 單位庫存損失，兩種損失都隨件數線性增加。團隊希望訓練目標直接反映這項取捨。哪項損失設計最適合？
+options:
+  A: 對少估量給 9 倍權重，對多估量給 1 倍權重
+  B: 對少估量與多估量都使用相同的平方懲罰
+  C: 對少估量與多估量都使用相同的絕對值懲罰
+  D: 對多估量給 9 倍權重，對少估量給 1 倍權重
+answer: A
+explanation:
+  summary: 損失方向與誤差大小應同時對齊業務成本。
+  correct: 題目給的是不對稱且線性的成本。將少估量乘 9、多估量乘 1，才能讓每個方向的訓練懲罰直接對應損失。這相當於偏重較高需求分位數的迴歸目標。
+  wrong:
+    B: 對稱平方損失會對大誤差加重懲罰，卻未表達少估比多估昂貴的方向差異。
+    C: 對稱絕對值損失表達了線性代價，但會把少估與多估視為同樣昂貴。
+    D: 這會讓多估受到較重懲罰，與題目中缺料較昂貴的成本方向相反。
+guide_refs:
+  - guide-3:4-4
+author: codex
+review:
+  status: verified
+  blind_answer: A

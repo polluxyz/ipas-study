@@ -38,6 +38,7 @@ adjusted-r-squared,調整後 R²,metric,L23202,L23202,Adjusted R-squared
 advanced-imputation,相似樣本與模型補值,technique,L23301,L23301,Hot Deck;KNN Imputer;Model-based Imputation
 adversarial-debiasing,對抗式去偏,technique,L23402,L23402,Adversarial Debiasing;Adversarial Fairness
 adversarial-examples,對抗樣本與模型脆弱性,problem,L23401,L21203;L23401,
+data-poisoning,資料毒化與後門攻擊,problem,L23401,L23401;L21203,資料投毒;Data Poisoning;後門攻擊;Backdoor Attack
 adversarial-training,對抗訓練與防禦邊界,technique,L23401,L21203;L23401,
 affine-layer,仿射運算與線性預測,component,L23102,L23102,Affine Layer;Affine Transformation
 ai-adoption-assessment,AI 導入評估框架,technique,L21201,L21201,

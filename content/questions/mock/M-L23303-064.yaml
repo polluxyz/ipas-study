@@ -1,0 +1,38 @@
+id: M-L23303-064
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - overfitting
+  - bias-variance-tradeoff
+stem: 某迴歸模型在相同資料與相同損失定義下比較 3 種樹深度，各設定都已收斂。程式依序列出訓練與驗證均方誤差。這次只以驗證均方誤差選模型，下列判斷何者最正確？
+code: |
+  depths = [1, 4, 12]
+  train_mse = [0.80, 0.30, 0.02]
+  valid_mse = [0.82, 0.35, 0.60]
+  for d, tr, va in zip(depths, train_mse, valid_mse):
+      print(d, tr, va, round(va-tr, 2))
+code_lang: python
+options:
+  A: 以訓練與驗證落差排序，保留深度 1
+  B: 以驗證均方誤差排序，保留深度 4
+  C: 以訓練均方誤差排序，保留深度 12
+  D: 以訓練與驗證誤差的平均排序，保留深度 12
+answer: B
+explanation:
+  summary: 最小泛化落差不等於最佳驗證品質。
+  correct: 深度 4 的驗證均方誤差 0.35 最低。深度 1 雖然落差只有 0.02，兩側誤差卻都偏高。深度 12 的訓練誤差低，但驗證誤差回升，呈現更明顯的過擬合。
+  wrong:
+    A: 只選落差最小會偏向兩側都表現不佳的模型；本次規則是比較驗證誤差。
+    C: 訓練誤差無法單獨代表未知資料表現；深度 12 的驗證誤差高於深度 4。
+    D: 訓練誤差與驗證誤差等權平均時，深度 12 的平均為 0.31，雖比深度 4 的 0.325 小，但這並非指定的驗證誤差選模規則。
+guide_refs:
+  - guide-3:5-20
+  - guide-3:5-23
+author: codex
+review:
+  status: verified
+  blind_answer: B
