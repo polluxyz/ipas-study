@@ -1,0 +1,33 @@
+id: M-L23301-014
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - feature-scaling
+stem: 某感測模型已用訓練集建立 MinMaxScaler。部署時出現比訓練最大值更大的合法讀值，工程師執行下列程式。關於輸出與處理方式，哪項最正確？
+code: |
+  from sklearn.preprocessing import MinMaxScaler
+  scaler = MinMaxScaler(clip=False).fit([[10.0], [30.0]])
+  print(scaler.transform([[40.0]]).item())
+code_lang: python
+options:
+  A: 輸出 1.0；轉換器會將超過訓練上限的值截到 1
+  B: 輸出 1.5；目前設定會依訓練尺度繼續線性外推
+  C: 輸出 0.5；轉換器會以本次輸入重估最小最大值
+  D: 拋出錯誤；部署讀值超過訓練範圍便不能轉換
+answer: B
+explanation:
+  summary: 最小最大縮放不代表新資料必定落在訓練範圍內。
+  correct: 本例以訓練最小值 10、最大值 30 建立轉換，40 會得到 (40−10)/(30−10)=1.5。clip=False 不截斷新資料。可另外監控超界頻率；不能把超界直接認定為錯誤讀值。
+  wrong:
+    A: 只有啟用對應的截斷設定才會把此值壓到上限。本例明確指定 clip=False。
+    C: transform 沿用 fit 得到的尺度，不會由新資料重新估計邊界。
+    D: 超過訓練範圍仍可做線性轉換，程式不會因此拋出錯誤。
+guide_refs:
+  - guide-3:5-7
+author: codex
+review:
+  status: draft

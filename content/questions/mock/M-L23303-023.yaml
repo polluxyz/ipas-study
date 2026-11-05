@@ -1,0 +1,38 @@
+id: M-L23303-023
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - pytorch
+  - batch-normalization
+stem: 某工程師驗證含 Dropout 與 BatchNorm 的模型。驗證函式已使用 no_grad，但列印模式仍如程式所示。若要讓驗證使用推論模式、避免更新 BatchNorm 的追蹤統計，最適合加入哪項操作？
+code: |
+  import torch
+  from torch import nn
+  model = nn.Sequential(nn.BatchNorm1d(2), nn.Dropout(0.5))
+  model.train()
+  with torch.no_grad():
+      print(model.training, model[0].training, model[1].training)
+code_lang: python
+options:
+  A: 在 no_grad 內呼叫 model.train()，讓驗證沿用訓練模式
+  B: 在驗證開始前呼叫 optimizer.zero_grad()，清除參數梯度
+  C: 在驗證開始前把每個參數的 requires_grad 設為 False
+  D: 在驗證開始前呼叫 model.eval()，驗證結束後恢復訓練模式
+answer: D
+explanation:
+  summary: 停用梯度追蹤與切換模型模式是不同操作。
+  correct: no_grad 不會把模型由訓練模式改為評估模式。model.eval() 才會讓 Dropout 停用隨機遮罩，並讓使用追蹤統計的 BatchNorm 使用既有統計。驗證後若繼續訓練，應呼叫 model.train() 恢復模式。
+  wrong:
+    A: model.train() 會啟用訓練模式，方向與本題要求相反。
+    B: zero_grad 只處理已累積的參數梯度，不會改變 Dropout 或 BatchNorm 的模式。
+    C: requires_grad 控制參數是否追蹤梯度，不會把 BatchNorm 切為使用既有統計的模式。
+guide_refs:
+  - guide-3:4-92
+  - guide-3:5-20
+author: codex
+review:
+  status: draft

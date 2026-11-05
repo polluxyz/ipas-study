@@ -1,0 +1,37 @@
+id: M-L23301-013
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - data-consistency
+  - feature-engineering-strategy
+stem: 某團隊每位會員只需 1 筆訓練資料，預測次月是否續約。會員表有 2 人，歷史交易表如程式所示。直接合併後，交易較多的人會得到較多訓練列。為保留每人的歷史交易總額，並維持每人相同權重，哪項修改最適合？
+code: |
+  import pandas as pd
+  members = pd.DataFrame({"id": ["a", "b"], "renew": [1, 0]})
+  orders = pd.DataFrame({"id": ["a", "a", "b"], "amount": [20, 30, 40]})
+  joined = members.merge(orders, on="id")
+  print(joined.groupby("id").size().to_dict())
+code_lang: python
+options:
+  A: 先依會員彙整交易總額，再與會員表一對一合併
+  B: 先直接合併兩表，再依交易金額刪除重複值
+  C: 先直接合併兩表，再保留每位會員的第一筆交易
+  D: 先隨機打亂交易列，再直接合併至會員訓練表
+answer: A
+explanation:
+  summary: 資料合併後的觀察單位要符合預測目標。
+  correct: 交易表中 a 有 2 筆、b 有 1 筆。直接合併會產生 3 列，讓 a 的續約標籤重複參與訓練。先以會員彙整總額，可得到 a 為 50、b 為 40，再合併為 2 列，兼顧交易資訊與每人相同權重。
+  wrong:
+    B: 交易金額相同不代表同一交易。依金額去重可能刪除不同會員或不同交易的有效紀錄，也未確保每人 1 列。
+    C: 只留第一筆交易會遺失其他交易金額，無法保留完整的歷史消費總額。
+    D: 打亂順序不改變一對多關係，交易較多的會員仍有較多訓練列。
+guide_refs:
+  - guide-3:5-3
+  - guide-3:5-10
+author: codex
+review:
+  status: draft

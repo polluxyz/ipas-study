@@ -1,0 +1,37 @@
+id: M-L23303-015
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - stratified-k-fold
+  - class-imbalance
+stem: 某團隊只有 3 筆正類與 12 筆負類，想用分層 5 摺，並要求每個驗證摺至少有 1 筆正類。執行程式時會收到少數類數量不足的警告。對這項驗證要求，哪個判斷最正確？
+code: |
+  import numpy as np
+  from sklearn.model_selection import StratifiedKFold
+  y = np.array([1] * 3 + [0] * 12)
+  cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=7)
+  counts = [int(y[v].sum()) for _, v in cv.split(np.zeros((15, 1)), y)]
+  print(sorted(counts))
+code_lang: python
+options:
+  A: 開啟 shuffle 即可滿足，隨機化會把正類分到每摺
+  B: 設定相同 random_state 即可滿足，固定種子會補齊比例
+  C: 維持 5 摺即可滿足，分層會把正類複製至缺少的驗證摺
+  D: 目前無法滿足，可減為 3 摺，讓每摺分到 1 筆正類
+answer: D
+explanation:
+  summary: 分層切分不能突破少數類樣本數的限制。
+  correct: 5 個互不重疊的驗證摺若各要 1 筆正類，至少需要 5 筆正類。本例只有 3 筆，因此 5 摺中會有 2 摺沒有正類。改成 3 摺可讓每摺有 1 筆，但單摺指標仍會因正類很少而不穩定。
+  wrong:
+    A: shuffle 只改變分派順序，不會增加可供分派的正類數量。
+    B: 固定種子只讓切分可重現，不會創造新的正類樣本。
+    C: 分層切分不會複製樣本。若複製到驗證摺，反而破壞原先的獨立切分設計。
+guide_refs:
+  - guide-3:5-27
+author: codex
+review:
+  status: draft
