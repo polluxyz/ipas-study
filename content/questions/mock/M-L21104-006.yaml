@@ -7,7 +7,6 @@ codes:
   - L21104
 concepts:
   - multimodal-fusion
-  - multimodal-data-alignment
 stem: 某醫院整合影像與檢驗資料，每次就診產生一份風險判斷。同次就診可能有多張影像，每張影像已轉成多維局部異常分數，各維分數越大表示對應異常越強；檢驗則包含血糖、血氧等不同項目。資料已正確歸到各次就診。任一張影像的局部異常都應保留，不能被其他正常影像掩蓋；不同檢驗項目的意義也須保留。哪項特徵彙整最適合？
 options:
   A: 逐張擷取影像特徵後，僅取時間最新一張；檢驗按項目分欄，再串接成就診特徵
@@ -25,7 +24,6 @@ explanation:
 guide_refs:
   - guide-1:3-77
   - guide-1:3-78
-  - guide-1:3-80
 author: codex
 review:
   status: draft
