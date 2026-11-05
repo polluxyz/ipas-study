@@ -1,0 +1,39 @@
+id: M-L23301-005
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - one-hot-encoding
+  - categorical-encoding
+stem: 某平台用訓練資料中的 red、blue 建立顏色編碼。部署時遇到未見的 green，希望輸出欄數固定。以下明確指定類別順序且不丟棄任何已知類別。程式印出的 green、blue 編碼為何？
+code: |
+  from sklearn.preprocessing import OneHotEncoder
+  encoder = OneHotEncoder(categories=[['red', 'blue']],
+                          handle_unknown='ignore', sparse_output=False)
+  encoder.fit([['red'], ['blue'], ['red']])
+  print(encoder.transform([['green'], ['blue']]).tolist())
+code_lang: python
+options:
+  A: "[[0.0, 0.0, 1.0], [0.0, 1.0, 0.0]]；自動新增 green 欄"
+  B: "[[1.0, 0.0], [0.0, 1.0]]；未知類別自動併入第 1 類"
+  C: "[[0.0, 0.0], [0.0, 1.0]]；未知類別不會新增欄位"
+  D: 直接拋出未知類別錯誤，不會產生任何編碼結果
+answer: C
+explanation:
+  summary: 固定類別的獨熱編碼可將未知值編為全零。
+  correct: C 正確。categories 決定 red、blue 的欄位順序，green 在已知欄位均為 0；blue 的第二欄為 1。這避免推論新增欄位，但沒有讓模型學到 green 的獨立效果，未知類別仍值得監控。指引介紹獨熱編碼，本題延伸其部署邊界。
+  wrong:
+    A: transform 不會重新學習類別或自動增加輸出欄位。
+    B: handle_unknown="ignore" 使用全零，不會改成第一個已知類別。
+    D: 本例已指定 ignore，未知類別會被編為全零，而不是採預設的報錯行為。
+guide_refs:
+  - guide-3:5-8
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C

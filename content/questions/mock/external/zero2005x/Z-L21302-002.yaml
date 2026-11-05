@@ -1,0 +1,49 @@
+id: Z-L21302-002
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - population-stability-index
+  - data-drift
+  - concept-drift
+stem: 某電商推薦模型上線 4個月後：API延遲與錯誤率均正常，模型輸出的預測分布亦無明顯變化，但輸入特徵中「使用者裝置類型」與「來源渠道」的 PSI分別為 0.31與 0.28，同時業務端回報加購轉換率下滑。下列判斷與處置何者最為適當？
+options:
+  A: 由於預測分布未變化，可確定不存在概念漂移，僅需調整推薦排序權重即可
+  B: 依 PSI 警戒調查漂移來源，再評估近期資料重訓與概念漂移
+  C: 立即以全部歷史資料重新訓練模型，資料量越大效果越好
+  D: 系統指標正常代表模型健康，轉換率下滑應歸因於市場因素，無須處理
+answer: B
+explanation:
+  summary: 輸入漂移需與服務健康及業務效果一併檢查。
+  correct: 若採本例常見的 0.25 警戒值，0.31 與 0.28 都值得調查。PSI 只指出輸入分布差異；需查資料管線與新渠道，再用結果標籤確認效能及概念關係是否改變。
+  wrong:
+    A: 輸出邊際分布不變，不能證明輸入與目標之間的關係不變，因此不能排除概念漂移。
+    C: 未先找原因就重訓，可能把管線錯誤帶入模型；舊資料更多也不保證符合目前情境。
+    D: API 正常只代表技術服務層面；資料與業務表現可能在服務健康時仍逐漸改變。
+guide_refs:
+  - guide-1:5-19
+  - guide-1:5-20
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch09.md
+  original_id: SIM-L21302-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    B: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

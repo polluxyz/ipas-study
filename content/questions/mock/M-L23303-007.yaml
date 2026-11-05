@@ -1,0 +1,36 @@
+id: M-L23303-007
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23303
+concepts:
+  - confusion-matrix
+  - recall
+  - precision
+  - model-comparison
+stem: 某零件廠以故障為正類，驗證集有 100 件故障與 900 件正常。規則要求召回率至少 90%，符合者再選誤報件數最少的門檻。門檻 0.3 的 TP=96、FP=180；0.5 的 TP=91、FP=70；0.7 的 TP=82、FP=20。依此規則應選哪項？
+options:
+  A: 選門檻 0.3，因為只要召回率最高就符合完整規則
+  B: 選門檻 0.7，因為誤報 20 件最低，可直接忽略漏報
+  C: 選門檻 0.5，召回率 91%，且符合者中誤報較少
+  D: 選門檻 0.5，因為精確率是 91%，高於其他門檻
+answer: C
+explanation:
+  summary: 先檢查必要指標，再在可行方案中比較成本。
+  correct: C 符合指定的兩階段規則。3 個召回率依序為 96%、91%、82%。前 2 個門檻可行，其中 0.5 的誤報數最少。不能僅按整體準確率或精確率替代題目明定的規則。
+  wrong:
+    A: 0.3 也符合最低召回率，但誤報 180 件高於 0.5 的 70 件，漏用了第二層規則。
+    B: 0.7 的召回率為 82%，沒有通過必須先滿足的 90% 門檻。
+    D: 門檻選擇相同，但理由錯誤；91% 是召回率，精確率為 91/161，約 56.5%。
+guide_refs:
+  - guide-3:5-20
+  - guide-3:5-21
+  - guide-3:5-25
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C

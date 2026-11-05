@@ -1,0 +1,33 @@
+id: M-L21302-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - api-access-security
+  - inference-service-api
+stem: 某集團有 3 家子公司共用文件分類服務。測試人員持有效登入憑證，卻能修改請求中的公司代碼，讀取另一家公司的分類紀錄。最應補強哪項控制？
+options:
+  A: 由服務端核對身分所屬公司與每次查詢的資料範圍
+  B: 在閘道核對登入憑證簽章與有效期，依驗證結果放行查詢
+  C: 把公司代碼改放請求本文，依該代碼套用公司的資料篩選
+  D: 在閘道設定每個帳號的請求上限，超過限制時暫停查詢
+answer: A
+explanation:
+  summary: 登入驗證與資料存取授權的差異。
+  correct: 有效憑證只能證明呼叫者身分，還要在服務端確認此人能讀哪些資料。公司範圍須從可信身分與授權規則判定，不能任由請求欄位擴大。
+  wrong:
+    B: 檢查簽章與有效期可驗證憑證是否可信，卻不能判定呼叫者能否查詢指定公司的資料。
+    C: 請求本文同樣可由客戶端修改，依其中的公司代碼篩選資料，沒有核對呼叫者是否有該公司的存取權。
+    D: 速率限制降低大量呼叫的負擔，不能判定單次查詢是否合法取得權限。
+guide_refs:
+  - guide-1:5-15
+  - guide-1:5-17
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A

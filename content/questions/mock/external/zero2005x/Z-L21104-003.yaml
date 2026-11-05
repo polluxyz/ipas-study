@@ -1,0 +1,48 @@
+id: Z-L21104-003
+rev: 2
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - multimodal-application-evaluation
+  - multimodal-fusion
+stem: 某團隊建置「振動時序＋熱像圖＋維修工單文字」的預測性維護模型。上線後懷疑熱像圖並未真正被使用。下列驗證方法何者最為直接有效？
+options:
+  A: 增加熱像圖的解析度後重新訓練，觀察效能是否提升
+  B: 提高熱像圖在損失函數中的權重，直到效能提升為止
+  C: 檢查熱像圖的檔案大小與影像品質是否符合規格
+  D: 移除熱像圖做消融比較，檢查評估效能是否下降
+answer: D
+explanation:
+  summary: 模態消融可直接檢查增益。
+  correct: 指引 3-78、3-79 提供多模態應用與評估指標背景，未直接教授本題的消融方法。補充做法是固定模型、其餘輸入、測試樣本與指標，只遮蔽熱像圖再比較效能，以檢查原模型對它的依賴。應採模型可接受的缺失輸入方式，避免把異常輸入造成的失效當成貢獻；差異很小也可能來自其他模態提供重複資訊。
+  wrong:
+    A: 提高解析度會同時改變資料與運算負擔，無法直接隔離原模型是否依賴熱像圖。
+    B: 強制調權重會改變模型；即使分數上升，也不是對原模型是否使用熱像圖的直接測試。
+    C: 檔案合格只能證明資料可用，無法證明模型決策真正利用了其中資訊。
+guide_refs:
+  - guide-1:3-78
+  - guide-1:3-79
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch04.md
+  original_id: SIM-L21104-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    D: C
+    B: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；標明消融方法屬補充內容，補充固定條件、缺失輸入與資訊重複的限制

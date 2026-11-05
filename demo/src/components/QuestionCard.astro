@@ -12,6 +12,7 @@ const choices = ['A', 'B', 'C', 'D'] as const;
 const answerLabel = q.source === 'mock' ? '參考答案' : '官方答案';
 const language = (q.code_lang ?? 'python') as ComponentProps<typeof Code>['lang'];
 const dispute = typeof q.review.dispute === 'string' ? q.review.dispute : JSON.stringify(q.review.dispute, null, 2);
+const originUrl = q.origin ? `${q.origin.repo.replace(/\/$/, '')}/blob/${q.origin.commit}/${q.origin.path.split('/').map(encodeURIComponent).join('/')}` : undefined;
 const [stem, summary, correct, rule, disputeHtml, ...optionAndReasons] = await Promise.all([
   q.stem, q.explanation.summary, q.explanation.correct, q.explanation.rule ?? '', q.review.status === 'disputed' ? dispute ?? '' : '',
   ...choices.map((choice) => q.options[choice]),
@@ -37,6 +38,7 @@ const [stem, summary, correct, rule, disputeHtml, ...optionAndReasons] = await P
     <JudgmentRule rule={q.explanation.rule ? rule : undefined} concepts={q.concepts} titles={titles} />
     <p class="fine-print">評鑑代碼：{q.codes.join('、')}<br />學習指引：{q.guide_refs.length > 0 ? <Sources sources={q.guide_refs} /> : '請參照相關概念頁'}{unit && <>・科目 {unit.subject} §{unit.guide_section}</>}</p>
   </section>
+  {q.origin && <p class="fine-print" data-question-origin>原作者：{q.origin.author}・<a href={originUrl}>原題來源（固定版本）</a>・<a href={q.origin.license_url}>{q.origin.license}</a><br />修改摘要：{q.origin.modified}</p>}
 </article>
 <script>
   import { saveAttempt, type Choice } from '../lib/attempts';

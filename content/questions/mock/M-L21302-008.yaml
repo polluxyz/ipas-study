@@ -1,0 +1,33 @@
+id: M-L21302-008
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - container-orchestration
+  - high-availability
+stem: 某模型服務新增容器副本後，程序已啟動，但模型仍需 45 秒載入。負載平衡器立即把流量送入新副本，造成啟動期間大量失敗；舊副本仍可正常服務。哪項調整最能處理此問題？
+options:
+  A: 增加新副本數量，讓更多尚未完成模型載入的程序接收流量
+  B: 待模型載入與試推論通過後，再把新副本加入可服務名單
+  C: 只確認容器程序仍存活，就讓負載平衡器將舊副本全部移除
+  D: 延長用戶端逾時限制，維持新副本一啟動便接收流量的規則
+answer: B
+explanation:
+  summary: 程序啟動與可接收推論的條件不同。
+  correct: 程序存在不代表模型已可用。以載入完成與試推論作為接流量條件，能讓舊副本在新副本準備期間持續服務。
+  wrong:
+    A: 副本若都尚未準備完成，增加數量仍會把請求送到無法推論的程序。
+    C: 存活檢查沒有證明模型可推論，移除舊副本還會減少可用容量。
+    D: 延長等待不能建立可服務判定，也無法避免請求被送入尚未就緒的副本。
+guide_refs:
+  - guide-1:5-16
+  - guide-1:5-17
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B

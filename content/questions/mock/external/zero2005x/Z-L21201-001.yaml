@@ -1,0 +1,50 @@
+id: Z-L21201-001
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21201
+concepts:
+  - return-on-investment
+  - ai-total-cost
+stem: |-
+  某物流公司評估導入 AI路徑最佳化系統。專案總投資成本為 600萬元（含建置 450萬、一次性授權 150萬）。預估每年可節省燃油與加班費 320萬元，另需每年支付雲端推論與維運費用 110萬元。
+
+  若依本題「年度簡易效益率＝年度淨效益 ÷ 初始投資」計算（不考慮折現），下列何者最接近正確值？
+options:
+  A: 約 53%
+  B: 約 35%
+  C: 約 18%
+  D: 約 47%
+answer: B
+explanation:
+  summary: 年度淨效益與初始投資要分清楚。
+  correct: 每年省下 320 萬元，扣 110 萬元後剩 210 萬元。依題目指定的年度簡易效益率，210/600=35%；不要混用多年度總回報的 ROI 口徑。
+  wrong:
+    A: 320/600 約 53%，忽略了每年 110 萬元的維運支出。
+    C: 110/600 約 18%，分子用到的是年度支出，不是扣除支出後的效益。
+    D: 210/450 約 47%，漏掉 150 萬元的一次性授權投入；初始投資應為 600 萬元。
+guide_refs:
+  - guide-1:4-6
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch05.md
+  original_id: SIM-L21201-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    C: A
+    B: B
+    A: C
+    D: D
+  modified: 選項重排；解析全部重寫；將本章公式改稱本題公式，讓題幹獨立
