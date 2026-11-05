@@ -1,0 +1,32 @@
+id: M-L21202-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21202
+concepts:
+  - ai-sourcing
+  - ai-implementation-plan
+stem: 某旅遊公司只有 2 位資訊人員，須在 6 週內試行多語客服分類。商用服務已能處理主要語言，但公司擔心試行後的使用費與廠商退出成本。決定導入方式時，哪項規劃最合理？
+options:
+  A: 因商用服務能快速啟用，僅比較首月費用即可排除長期成本問題
+  B: 因保留自主性最重要，立即從零開發模型且省略既定試行期限
+  C: 比較現成功能與實際需求，並評估持續費用、維運責任及退出方式
+  D: 把所有試行範圍交由廠商決定，公司只需驗收是否準時提供帳號
+answer: C
+explanation:
+  summary: 導入選型需要同時比較交付與長期負擔。
+  correct: 有限人力與期限使現成服務值得評估，但不能只看啟用速度。須確認功能差距、後續費用、服務責任與資料移轉方式，再選符合範圍的方案。
+  wrong:
+    A: 首月費用無法反映用量成長、續約與轉換供應商時的成本。
+    B: 自主性是取捨之一，不能因此忽略已知的人力與期限限制。
+    D: 供應商不能取代公司定義業務需求，帳號開通也不代表分類功能合格。
+guide_refs:
+  - guide-1:4-24
+  - guide-1:4-25
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

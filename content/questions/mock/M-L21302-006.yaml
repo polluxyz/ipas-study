@@ -1,0 +1,32 @@
+id: M-L21302-006
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - data-pipeline-integration
+  - model-monitoring
+stem: 某預測服務上線後分數明顯偏移。工程師以同一批原始訂單重播，發現離線管線以「元」計算金額，線上管線以「分」計算；模型權重與資料來源均未變動。最直接的修正為何？
+options:
+  A: 先用線上錯誤金額重訓模型，保留兩套互不相同的欄位規格
+  B: 提高漂移告警門檻，避免金額尺度差異持續觸發維運通知
+  C: 統一金額轉換規格，加入同筆資料的離線與線上特徵比對
+  D: 擴增推論服務副本數，讓金額尺度差異由更多節點平均分攤
+answer: C
+explanation:
+  summary: 相同原始輸入的前處理一致性。
+  correct: 相同訂單在兩條管線產生不同單位，已指出前處理規格不一致。應修正轉換並保留一致性測試，再檢驗推論結果。
+  wrong:
+    A: 重訓只能讓模型遷就其中一種輸入，兩條管線規格不同的原因仍在。
+    B: 調高告警門檻會隱藏已確認的資料處理錯誤，沒有修正模型收到的值。
+    D: 增加節點只能分散流量，不會把錯誤單位轉成正確單位。
+guide_refs:
+  - guide-1:5-15
+  - guide-1:5-19
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

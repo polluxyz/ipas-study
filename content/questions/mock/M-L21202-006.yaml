@@ -1,0 +1,32 @@
+id: M-L21202-006
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21202
+concepts:
+  - work-breakdown-structure
+  - ai-delivery-roles
+stem: 某保險公司由 3 個部門共同規劃文件分類專案。任務表只有「完成模型」，資訊部認為能呼叫介面就算交付，營運部則要求低信心案件可轉人工。為避免驗收爭議，最應先補哪項內容？
+options:
+  A: 拆成可驗收工作，逐項寫明交付物、負責人與人工轉接的通過條件
+  B: 將完成模型的截止日期提前，讓部門在同一時間自行判斷成果是否可用
+  C: 由模型工程師統一決定營運流程，其他部門只在結案時查看準確率
+  D: 在任務表增加更多模型名稱，把使用者操作與人工流程留待正式上線
+answer: A
+explanation:
+  summary: 工作拆分與可觀察的交付條件。
+  correct: 兩個部門對完成的理解不同，規劃須把模型、介面與人工轉接分成具體交付。每項有責任人與通過條件，才有共同驗收依據。
+  wrong:
+    B: 提前日期沒有定義交付範圍，各部門仍可能使用不同標準。
+    C: 營運流程需要業務端參與，只看準確率不能驗收人工轉接是否可操作。
+    D: 模型名稱不能描述交付行為，延後處理人工流程會讓核心需求未經驗證。
+guide_refs:
+  - guide-1:4-17
+  - guide-1:4-19
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

@@ -1,0 +1,32 @@
+id: M-L21103-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - supervised-fine-tuning
+  - prompt-engineering
+stem: 某旅宿公司已有 6,000 組經校對的「旅客提問—標準回覆」，希望模型學會固定服務語氣與回覆結構，且允許進行訓練。工程師打算將每個提問及其標準回覆組成訓練範例。這最直接屬於哪種方法？
+options:
+  A: 少樣本提示：每次推論附上範例，但不更新模型的權重
+  B: 文字檢索：只依問題找出相似文件，不進行回覆行為訓練
+  C: 監督式微調：以輸入及期望輸出配對調整模型的回覆行為
+  D: 無監督分群：依問題向量分組，直接把群集編號當完整回覆
+answer: C
+explanation:
+  summary: 配對回覆資料的訓練用途。
+  correct: 題幹明確使用提問與期望回覆進行訓練，這是監督式微調的資料形式。目的是學習回覆行為與格式，仍需另行驗證事實正確性及新問題的效果。
+  wrong:
+    A: 少樣本提示在推論時提供示例，沒有進行題幹指定的模型訓練。
+    B: 檢索可提供參考內容，但只取回文件並不等於學習輸入到標準回覆的映射。
+    D: 群集編號不能表達完整標準回覆，分群也未使用期望輸出作為訓練目標。
+guide_refs:
+  - guide-1:3-26
+  - guide-1:3-64
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

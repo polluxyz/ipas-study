@@ -1,0 +1,32 @@
+id: M-L21104-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - masked-multimodal-pretraining
+  - multimodal-ai
+stem: 某商品平台有 90,000 組圖片與說明文字，但沒有人工分類標籤。團隊遮住部分圖塊與詞元，讓模型依未遮內容預測原內容。主管擔心「沒有人工標籤就無法計算訓練誤差」。哪個回應最正確？
+options:
+  A: 確實無法訓練，必須先替每組圖文加上商品類別才能定義誤差
+  B: 原始圖文可提供重建目標，無人工類別標籤仍可形成學習訊號
+  C: 把所有圖文都標成同一類，就能以分類準確率取代遮罩重建誤差
+  D: 讓模型只輸出可見詞元的數量，即等同學到被遮內容的跨模態語意
+answer: B
+explanation:
+  summary: 自我監督的目標來自原始資料。
+  correct: 遮罩前的內容已存在，可作為預測被遮部分的比較目標。因此不必先取得人工類別標籤，但這不代表下游分類效果已經通過驗證。
+  wrong:
+    A: 重建目標與商品類別標籤不同，原始內容本身就可提供訓練監督。
+    C: 常數類別讓分類目標失去區分力，也沒有要求重建被遮住的內容。
+    D: 可見詞元數量只是統計值，不能取代被遮圖塊與詞元的重建任務。
+guide_refs:
+  - guide-1:3-75
+  - guide-1:3-78
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

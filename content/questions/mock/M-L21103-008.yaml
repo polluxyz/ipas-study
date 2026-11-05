@@ -1,0 +1,31 @@
+id: M-L21103-008
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - knowledge-distillation
+  - lora
+stem: 某公司用大型教師模型產生經篩選的回覆，訓練另一個參數較少的學生模型，以降低部署負擔。學生有自己的完整權重，部署時不需載入教師模型。哪項描述最正確？
+options:
+  A: 這是知識蒸餾，學生學習教師提供的行為訊號
+  B: 這是 LoRA，因為學生較小就代表它是教師的低秩更新矩陣
+  C: 這是提示微調，因為學生只改變輸入提示而完全不更新權重
+  D: 這是模型量化，因為產生回覆就等於把教師的數值精度降低
+answer: A
+explanation:
+  summary: 學生模型與低秩附加參數的區別。
+  correct: 教師產生的回覆可用作學生的學習訊號，這屬於蒸餾的一種形式。學生是獨立模型，並非必須依附教師基底權重才能運行的低秩更新。
+  wrong:
+    B: LoRA 在基底模型上訓練低秩更新，不能僅因另一個模型較小就判為 LoRA。
+    C: 題幹在訓練學生模型，不是只學習輸入端的軟提示。
+    D: 量化改變權重或運算的數值表示精度，與教師生成資料教學生不同。
+guide_refs:
+  - guide-1:3-81
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

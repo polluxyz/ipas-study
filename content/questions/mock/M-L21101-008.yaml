@@ -1,0 +1,31 @@
+id: M-L21101-008
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - text-classification
+  - sentiment-analysis
+stem: 某家電商每月收到 12,000 封客服信件，要把每封信分派給「維修、帳務、配送」其中 1 個部門。團隊先做正面、負面、中立情感分類，卻無法決定收件部門。最適當的調整為何？
+options:
+  A: 以負面信件占比作為部門標籤，將所有負面信件交給同一單位
+  B: 先將信件翻譯為英文，再直接把正負面結果改名為部門名稱
+  C: 依服務需求標註部門類別，訓練並驗證文字分類模型
+  D: 保留情感標籤，將模型信心最高的信件全部當成維修案件
+answer: C
+explanation:
+  summary: 分類目標必須對應實際分派任務。
+  correct: 情感方向與服務主題不同。部門分派需要能反映維修、帳務或配送需求的標籤，再依此評估文字分類，情感資訊最多作輔助。
+  wrong:
+    A: 同一部門可收到不同情緒的信件，不同部門也都會收到負面信件。
+    B: 翻譯沒有改變標籤所代表的目標，換名稱不會讓情緒等同部門。
+    D: 情感分類的信心描述其情感判定，沒有證明該信件屬維修需求。
+guide_refs:
+  - guide-1:3-30
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

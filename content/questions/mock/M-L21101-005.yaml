@@ -1,0 +1,33 @@
+id: M-L21101-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - stopword-removal
+  - sentiment-analysis
+stem: 某餐飲平台以 500 則人工標註評論測試情感分類。前處理把高頻字「不」列為停用詞，結果「服務好」與「服務不好」得到相同詞序列。最合理的改善為何？
+options:
+  A: 增加分類器訓練輪數，讓模型從相同輸入自行還原被刪除的字
+  B: 保留會改變情感的否定詞，再以原標註資料比較前處理效果
+  C: 把兩句都重新標成正面，以確保同一詞序列只對應一種標籤
+  D: 依字頻刪除更多常見詞，讓兩句的輸入維度進一步保持一致
+answer: B
+explanation:
+  summary: 停用詞清單必須配合任務語意。
+  correct: 否定詞雖常見，仍可能決定情感方向。本例刪字使相反意思無法區分，應保留該訊息，並用固定標註資料檢驗調整效果。
+  wrong:
+    A: 前處理已讓兩句完全相同，增加訓練輪數不會產生被移除的差異。
+    C: 把負面評論改標成正面會扭曲標註，不能修復前處理造成的資訊流失。
+    D: 只按頻率繼續刪詞可能移除更多必要線索，未處理否定資訊遺失。
+guide_refs:
+  - guide-1:3-10
+  - guide-1:3-11
+  - guide-1:3-30
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

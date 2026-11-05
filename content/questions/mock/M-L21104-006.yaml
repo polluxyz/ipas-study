@@ -1,0 +1,32 @@
+id: M-L21104-006
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - multimodal-application-evaluation
+  - multimodal-fusion
+stem: 某中古車平台用照片與賣家描述判斷車況。雙模態模型在固定測試集的準確率為 92%，團隊便宣稱兩種模態有互補效果；但尚未測過單模態模型。下一步哪種比較最能支持此宣稱？
+options:
+  A: 把雙模態模型換到較容易的照片測試，確認分數仍高於原本的 92%
+  B: 增加雙模態模型的參數量，再把原分數當成單模態表現的比較基準
+  C: 在同一測試集比較照片、文字及雙模態方案，並檢查各類錯誤
+  D: 只比較照片與文字的向量維度，將維度較高視為資訊互補的證據
+answer: C
+explanation:
+  summary: 多模態增益需要單模態對照。
+  correct: 單一雙模態分數不能判定額外模態有沒有幫助。固定評估資料與可比的訓練條件，比較各單模態及融合方案，才能觀察融合是否改善錯誤。
+  wrong:
+    A: 改測試集會混入資料難度差異，不能分辨提升來自融合還是資料改變。
+    B: 未測單模態就沒有對照；增加參數也新增容量差異。
+    D: 向量維度不直接代表有效資訊，更無法證明兩者錯誤能互補。
+guide_refs:
+  - guide-1:3-74
+  - guide-1:3-78
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
