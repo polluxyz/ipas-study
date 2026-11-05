@@ -1,0 +1,30 @@
+id: M-L23101-005
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - poisson-distribution
+stem: 某產線警報在互不重疊的時段獨立發生，且平均每分鐘 0.4 次，假設符合固定速率的泊松模型。工程師要估計接下來 5 分鐘至少 1 次警報的機率。已知 P(N=0)=exp(-λ)，λ 是該時段的期望次數。答案最接近多少？
+options:
+  A: 13.5%
+  B: 33.0%
+  C: 200.0%
+  D: 86.5%
+answer: D
+explanation:
+  summary: 泊松模型先換算時段期望次數，再計算零次的補集。
+  correct: D 正確。5 分鐘的期望次數 λ=0.4×5=2，至少 1 次的機率為 1-exp(-2)，約 0.8647。期望次數可以大於 1，但機率必須介於 0 與 1。
+  wrong:
+    A: exp(-2) 約 13.5% 是 5 分鐘零次警報的機率，尚未取補集。
+    B: 1-exp(-0.4) 約 33.0% 只計 1 分鐘，未換算 5 分鐘的期望次數。
+    C: 0.4×5=2 是期望次數，不是機率，不能直接換成百分比。
+guide_refs:
+  - guide-3:3-3
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

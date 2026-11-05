@@ -1,0 +1,41 @@
+id: M-L23203-005
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - output-loss-contract
+  - pytorch
+  - sigmoid
+stem: 某聲音辨識器要同時標記「警報、敲擊、摩擦」3 種事件。每段聲音可有多種事件，也可全部沒有。以下每列有 3 個未正規化分數，標籤是同形狀的浮點 0/1。哪個說明最正確？
+code: |
+  import torch
+  logits = torch.zeros((2, 3))
+  targets = torch.tensor([[1., 0., 1.], [0., 1., 0.]])
+  loss = torch.nn.BCEWithLogitsLoss()(logits, targets)
+  print(round(loss.item(), 4))
+code_lang: python
+options:
+  A: 應先對每列做 Softmax，強制 3 個事件機率加總為 1
+  B: 此損失逐標籤處理，可讓同一筆資料有多個正標籤
+  C: 標籤必須轉為單一 long 索引，才能保留多事件資訊
+  D: 每列只能有 1 個正標籤，否則 BCEWithLogitsLoss 會報錯
+answer: B
+explanation:
+  summary: 多標籤任務可用逐標籤的二元交叉熵。
+  correct: B 正確。BCEWithLogitsLoss 結合 Sigmoid 與二元交叉熵，直接接收原始分數。每個事件各自判斷，不要求每列目標合計為 1。分數全為零時，每個事件的機率都是 0.5，本例平均損失約 0.6931。
+  wrong:
+    A: 事件不是互斥類別，強制總和為 1 會限制多事件同時存在的表示。
+    C: 單一類別索引無法保留同時存在的多個標籤；本題需要每個事件各自的目標。
+    D: 此函數接受同形狀的逐元素目標，並沒有每列只能 1 個正標籤的限制。
+guide_refs:
+  - guide-3:4-61
+  - guide-3:4-62
+  - guide-3:4-91
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

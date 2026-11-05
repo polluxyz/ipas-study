@@ -1,0 +1,40 @@
+id: M-L23304-006
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - class-weighting
+  - output-loss-contract
+stem: 某團隊調高少數類別 1 的訓練權重。以下兩筆資料的原始分數皆為 [0,0]，標籤依序是 0、1。程式明確使用 reduction="none"，只列印逐筆損失。兩個值與其比值最接近哪項？
+code: |
+  import torch
+  logits = torch.zeros((2, 2))
+  targets = torch.tensor([0, 1], dtype=torch.long)
+  criterion = torch.nn.CrossEntropyLoss(
+      weight=torch.tensor([1.0, 3.0]), reduction='none')
+  print([round(value, 4) for value in criterion(logits, targets).tolist()])
+code_lang: python
+options:
+  A: "[0.6931, 0.6931]；類別權重只改變預測類別不改損失"
+  B: "[0.1733, 0.5199]；逐筆損失須先除以權重總和 4"
+  C: "[2.0794, 0.6931]；第 1 個權重對應正類而非類別 0"
+  D: "[0.6931, 2.0794]；類別 1 這筆的損失是前者 3 倍"
+answer: D
+explanation:
+  summary: 類別權重依目標類別縮放逐筆交叉熵。
+  correct: D 正確。兩筆未加權交叉熵都是 -log(0.5)，約 0.6931。目標 1 的權重為 3，所以第二筆約為 2.0794。這是訓練損失的改動，不保證推論機率仍校準，也不代表原資料的類別比例改變。
+  wrong:
+    A: weight 會直接縮放對應目標類別的損失；不會先改寫 logits。
+    B: reduction="none" 不做加權平均，因此不會除以權重總和。
+    C: 權重按類別索引對應，weight[0]=1、weight[1]=3，不能按正負類名稱交換。
+guide_refs:
+  - guide-3:5-49
+  - guide-3:4-62
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

@@ -1,0 +1,43 @@
+id: M-L23304-005
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - gradient-clipping
+  - pytorch
+stem: 某工程師以 2 維參數測試梯度裁剪。下列損失的梯度是 [6,8]，程式在 backward 之後、step 之前裁剪，max_norm=1，SGD 沒有動量與權重衰減。執行 1 次更新後，w 最接近哪項？
+code: |
+  import torch
+  w = torch.nn.Parameter(torch.zeros(2))
+  optimizer = torch.optim.SGD([w], lr=0.1)
+  optimizer.zero_grad()
+  loss = 6 * w[0] + 8 * w[1]
+  loss.backward()
+  torch.nn.utils.clip_grad_norm_([w], max_norm=1.0)
+  optimizer.step()
+  print([round(value, 2) for value in w.detach().tolist()])
+code_lang: python
+options:
+  A: "[-0.6, -0.8]；梯度裁剪只影響列印，不影響更新"
+  B: "[-0.1, -0.1]；每個梯度分量都獨立截成 1"
+  C: "[-0.06, -0.08]；先將梯度按範數等比例縮小"
+  D: "[0.06, 0.08]；梯度裁剪會讓下降方向改成上升"
+answer: C
+explanation:
+  summary: 範數裁剪在更新前限制梯度向量大小。
+  correct: C 正確。原梯度的二範數為 10，裁剪後約為 [0.6,0.8]。學習率 0.1 使零初值更新為 [-0.06,-0.08]。這限制的是梯度，不是直接把參數或損失截到指定範圍。
+  wrong:
+    A: clip_grad_norm_ 會就地修改參數的梯度，更新不再使用原始 [6,8]。
+    B: 這是逐元素裁剪的思路；範數裁剪會保留向量方向，按共同倍率縮放。
+    D: 裁剪只改變梯度大小，SGD 仍沿負梯度方向更新。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:3-31
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

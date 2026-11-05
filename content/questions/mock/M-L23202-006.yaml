@@ -1,0 +1,33 @@
+id: M-L23202-006
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23202
+concepts:
+  - isolation-forest
+  - algorithm-selection
+stem: 某工廠收集 20 萬筆設備狀態，沒有可靠的故障標籤。團隊希望先列出少量異常候選，交給工程師逐筆確認。候選方法以隨機選特徵與切分值建樹，較少切分就被隔離的樣本得到較高異常程度。這最符合哪項方法與用途？
+options:
+  A: 監督式隨機森林；直接學習尚未提供的故障標籤
+  B: K-means；每棵樹都以最近群中心作為切分依據
+  C: 孤立森林；先產生異常候選，再由人員確認成因
+  D: 線性迴歸；以較短隔離路徑證明設備必然已經故障
+answer: C
+explanation:
+  summary: 孤立森林利用隨機切分的隔離難易偵測異常。
+  correct: C 正確。較短的平均隔離路徑通常代表較容易被分出的異常候選。這類方法可在缺少故障標籤時先做篩選，但罕見的正常狀態也可能被標記，仍需人工確認與後續品質評估。
+  wrong:
+    A: 標準監督式分類需要標籤；題目描述的隔離路徑也不是分類樹的標籤切分。
+    B: K-means 依中心距離分群，不是用隨機切分樹的隔離長度評分。
+    D: 線性迴歸不使用隔離樹，異常分數也不能單獨證明故障原因。
+guide_refs:
+  - guide-3:4-51
+  - guide-3:4-52
+  - guide-3:5-3
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

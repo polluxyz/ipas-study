@@ -1,0 +1,31 @@
+id: M-L23202-005
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23202
+concepts:
+  - dbscan
+stem: 某工程師用 DBSCAN 整理感測點，設定 eps=0.5、min_samples=5，計數包含自身。點 P 的鄰域只有 3 點，但 P 與某個核心點距離小於 0.5，且沒有連到其他群。關於 P 的分類，哪項最正確？
+options:
+  A: P 必定是雜訊，因為自己的鄰域少於 5 點
+  B: P 是邊界點，可歸入該核心點所在的群
+  C: P 是核心點，因為距離任一核心點小於 eps 即符合
+  D: P 必須自成第 2 群，因為每個非核心點都要單獨成群
+answer: B
+explanation:
+  summary: DBSCAN 的非核心點仍可能成為群內邊界點。
+  correct: B 正確。P 的鄰域數不足，不能當核心點，但它位於核心點的 eps 鄰域內，因此可納入該群。只有無法由核心結構連到的點才會被列為雜訊。此題已排除同時連到多群的歧義。
+  wrong:
+    A: 鄰域數不足只排除核心點資格；若能由核心點到達，仍可作為邊界點。
+    C: 核心點須符合自己鄰域的最少樣本數，不能只靠鄰近另一個核心點取得資格。
+    D: DBSCAN 不會讓每個非核心點各自成群；本例 P 連到已存在的核心群。
+guide_refs:
+  - guide-3:4-43
+  - guide-3:4-44
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null

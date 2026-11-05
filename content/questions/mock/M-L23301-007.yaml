@@ -1,0 +1,32 @@
+id: M-L23301-007
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - missingness-mechanisms
+  - missing-value-imputation
+stem: 某設備資料有 18% 的溫度缺失。稽核發現，高溫容易讓通訊中斷，且缺失狀態在預測時已知。團隊仍需保留這些樣本，並避免把缺失與普通溫度完全混為一談。最適合先比較哪項前處理？
+options:
+  A: 用訓練資料補值，另加是否缺失欄位後再驗證
+  B: 把缺失視為隨機現象，直接刪掉全部缺失樣本再訓練
+  C: 只填入整體中位數，宣告已完整恢復缺失的真實溫度
+  D: 用各筆未來是否故障決定補值，讓高風險特徵更明顯
+answer: A
+explanation:
+  summary: 有資訊的缺失可用補值加缺失指標保留訊號。
+  correct: A 可讓模型分辨實測值與補值，並保留缺失與通訊中斷的關聯。補值參數只由訓練資料估計。缺失指標不保證提高準確率，也不能消除缺失造成的偏差，仍須比較未見資料表現。
+  wrong:
+    B: 缺失與高溫有關，直接刪除可能排除重要的高風險樣本，也違反需保留樣本的條件。
+    C: 補值是估計，不是還原真值；只補中位數也隱藏了缺失狀態。
+    D: 未來故障標籤在推論時不可用，用它決定補值會洩漏目標。
+guide_refs:
+  - guide-3:5-2
+  - guide-3:5-3
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
