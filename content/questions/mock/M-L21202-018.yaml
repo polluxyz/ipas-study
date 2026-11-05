@@ -23,4 +23,5 @@ explanation:
 guide_refs: [guide-1:4-17, guide-1:4-26, guide-1:4-28]
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: A
