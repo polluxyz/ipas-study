@@ -1,0 +1,33 @@
+id: M-L23304-007
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - knowledge-distillation
+  - model-resource-costs
+stem: 某檢測器的教師模型有 9,000 萬個參數，單張推論 140 毫秒。裝置要求低於 30 毫秒，團隊準備訓練 600 萬個參數的學生模型。若採知識蒸餾，哪項訓練與部署安排最適當？
+options:
+  A: 訓練時結合教師輸出與真實標籤，部署時量測學生
+  B: 部署時每張都先執行教師，再用學生修正教師輸出
+  C: 學生必須完整複製教師架構，只降低儲存權重的位元數
+  D: 只學教師最高分類別，視為已保留完整的軟輸出資訊
+answer: A
+explanation:
+  summary: 蒸餾以教師指導學生，仍須驗證學生品質與延遲。
+  correct: A 符合知識蒸餾的用途。教師的軟輸出可提供類別間的相對訊息，真實標籤則保留任務依據。部署可只執行學生，並在目標裝置驗證是否同時滿足品質與 30 毫秒限制。參數較少本身不保證達到指定延遲。
+  wrong:
+    B: 每次先執行教師仍承擔教師的延遲，不符合以學生獨立推論降低成本的目的。
+    C: 只降低權重位元數屬量化，不是蒸餾的必要安排；學生可以使用不同且較小的架構。
+    D: 最高分類別是硬標籤，會丟失教師對其他類別的相對分數，不能當成完整軟輸出資訊。
+guide_refs:
+  - guide-3:5-49
+  - guide-3:5-50
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A

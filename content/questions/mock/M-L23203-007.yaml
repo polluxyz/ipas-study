@@ -1,0 +1,41 @@
+id: M-L23203-007
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - pooling
+  - flatten
+  - pytorch
+stem: 某工程師用 4×4 單通道特徵圖檢查最大池化。下列程式採 2×2 視窗與步幅 2，再將輸出攤平。印出的形狀與數值依序為何？
+code: |
+  import torch
+  x = torch.arange(1., 17.).reshape(1, 1, 4, 4)
+  y = torch.nn.MaxPool2d(kernel_size=2, stride=2)(x)
+  print(tuple(y.shape))
+  print(y.flatten().tolist())
+code_lang: python
+options:
+  A: (1, 1, 2, 2)；[3.5, 5.5, 11.5, 13.5]
+  B: (1, 1, 2, 2)；[1.0, 3.0, 9.0, 11.0]
+  C: (1, 1, 4, 4)；[6.0, 8.0, 14.0, 16.0]
+  D: (1, 1, 2, 2)；[6.0, 8.0, 14.0, 16.0]
+answer: D
+explanation:
+  summary: 最大池化選各區域最大值，再按張量順序攤平。
+  correct: D 正確。4 個不重疊視窗的最大值依序是 6、8、14、16。批次數與通道數不變，空間各由 4 變成 2。flatten 在此只用於列印，不改變前面已印出的池化形狀。
+  wrong:
+    A: 這是各視窗的平均值；程式用的是最大池化。
+    B: 這是各視窗左上角的值，沒有在視窗內選最大值。
+    C: 攤平前的池化輸出只有 4 個元素，不可能仍有 4×4 的空間尺寸。
+guide_refs:
+  - guide-3:4-68
+  - guide-3:4-69
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D

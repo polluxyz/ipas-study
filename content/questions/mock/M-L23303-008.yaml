@@ -1,0 +1,39 @@
+id: M-L23303-008
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - r-squared
+  - model-comparison
+stem: 某工程師驗證耗電量迴歸模型。真值是 1、2、3，模型全部預測為 4。以下程式印出 R²，哪個結果與解讀正確？
+code: |
+  from sklearn.metrics import r2_score
+  y_true = [1.0, 2.0, 3.0]
+  y_pred = [4.0, 4.0, 4.0]
+  print(r2_score(y_true, y_pred))
+code_lang: python
+options:
+  A: 0.0；R² 會將所有比平均數差的預測截斷為零
+  B: 1.0；模型每次輸出一致，表示預測具有完美穩定性
+  C: -7.0；直接將模型平方誤差除以真值總變異後取負
+  D: -6.0；平方誤差比使用本組真值平均數預測更大
+answer: D
+explanation:
+  summary: R² 可以為負數，代表不如指定的平均數基準。
+  correct: D 正確。真值平均數為 2，總變異平方和為 2，預測誤差平方和為 9+4+1=14，因此 R²=1-14/2=-6。指引 5-23 的公式允許負值；不能把 R² 一概限制在 0 到 1。
+  wrong:
+    A: 一般 R² 不會將負值截為零；非恆定真值可得到負數。
+    B: R² 比較預測與真值的平方誤差，固定輸出不代表正確。
+    C: 誤差比為 14/2=7，R² 還須計算 1-7，而不是直接取負。
+guide_refs:
+  - guide-3:5-23
+  - guide-3:5-24
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D

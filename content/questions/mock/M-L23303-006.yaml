@@ -1,0 +1,34 @@
+id: M-L23303-006
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23303
+concepts:
+  - nested-cross-validation
+  - hyperparameter-tuning
+stem: 某研究團隊只有 720 筆獨立樣本，要比較包含前處理與超參數搜尋的完整流程。團隊嘗試 60 組設定後，將最高的 5 摺平均分數直接當成泛化表現。若希望減少反覆挑選造成的樂觀偏誤，哪項評估安排最適合？
+options:
+  A: 沿用同一份 5 摺資料，從 60 組擴大搜尋到 600 組
+  B: 外層保留評估摺，所有選擇只在外層訓練資料內完成
+  C: 先依全部標籤篩選特徵，再用外層摺評估最佳設定
+  D: 先用全資料選出設定，再固定設定重做一般 5 摺驗證
+answer: B
+explanation:
+  summary: 巢狀交叉驗證將模型選擇與外部評估分開。
+  correct: B 是巢狀交叉驗證的安排。每個外層訓練部分各自完成前處理、內層調參與重訓，再評估未參與選擇的外層資料。彙整外層分數可評估這套選擇流程，並非保證任何單一模型的未來分數。指引介紹一般交叉驗證與調參；本題延伸兩者的巢狀安排。
+  wrong:
+    A: 增加候選數仍使用同一評估資料挑選，沒有分離選擇與評估。
+    C: 外層標籤已參與特徵選擇，外層評估不再獨立。
+    D: 全資料已參與選擇，之後固定設定再分摺仍沒有隔離完整的選擇流程。
+guide_refs:
+  - guide-3:5-26
+  - guide-3:5-30
+  - guide-3:5-42
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
