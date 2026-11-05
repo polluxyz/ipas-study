@@ -1,0 +1,30 @@
+id: M-L21203-008
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - nist-ai-rmf
+  - responsible-ai-principles
+stem: 某市規劃 AI 垃圾清運排程，只訪談會操作系統的調度員。新版路線可能改變住宅區夜間噪音，但居民不會登入系統。依 NIST AI RMF 1.0，風險盤點最應補入哪個觀點？
+options:
+  A: 增加調度員的操作滿意度，據此推估居民的環境影響
+  B: 納入受路線影響的居民回饋，辨識噪音等非使用者傷害
+  C: 增加模型開發者的程式審查，據此取代外部影響訪談
+  D: 比較各家排程工具的功能，據此決定居民的風險容忍度
+answer: B
+explanation:
+  summary: 受 AI 影響的人不一定是直接使用系統的人。
+  correct: "[NIST AI RMF 1.0 的風險說明](https://airc.nist.gov/airmf-resources/airmf/1-sec-risk/)提醒，受影響群體未必是直接使用者。居民雖不操作系統，仍可能承受路線變動的噪音。應將這類外部觀點納入影響辨識與應對。"
+  wrong:
+    A: 調度員的操作體驗不能代替居民對夜間噪音的實際暴露及感受，兩者關注不同。
+    C: 程式審查可以檢查實作問題，但無法單獨取得受影響居民的情境與需求。
+    D: 功能比較可協助採購，不會自動給出居民可接受的噪音條件或相關風險判斷。
+guide_refs:
+  - guide-1:4-38
+  - guide-1:4-40
+author: codex
+review:
+  status: draft

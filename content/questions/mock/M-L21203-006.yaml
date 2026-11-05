@@ -1,0 +1,30 @@
+id: M-L21203-006
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - nist-ai-rmf
+  - ai-risk-governance
+stem: 某公司依 NIST AI RMF 1.0 管理影像分類服務。供應商表示「採用同一框架的客戶，都應使用相同的可接受誤判率」。本公司用途是設備安全警報，另一客戶用途是照片分類。哪項判斷最正確？
+options:
+  A: 容忍度須依用途、後果與適用要求制定，框架未給統一誤判率
+  B: 採用同一框架就應沿用供應商門檻，才能比較各客戶的風險
+  C: 使用相同模型就應沿用照片分類門檻，模型本身決定容忍度
+  D: 由測試資料的平均錯誤率設定容忍度，作為兩種用途共同門檻
+answer: A
+explanation:
+  summary: 風險容忍度取決於情境，不由框架或模型統一指定。
+  correct: "[NIST AI RMF 1.0 的風險容忍度說明](https://airc.nist.gov/airmf-resources/airmf/1-sec-risk/)指出，框架不規定風險容忍度。安全警報與照片分類的錯誤後果不同，組織須依用途與適用要求界定門檻，再用框架管理風險。"
+  wrong:
+    B: 框架共同的是風險管理方法，並未要求不同用途接受相同誤判率。
+    C: 相同模型可能置於不同後果與控制條件中，不能由模型相同推得容忍度相同。
+    D: 平均錯誤率描述測試表現，不能代替組織對傷害與可接受風險的判斷。
+guide_refs:
+  - guide-1:4-29
+  - guide-1:4-42
+author: codex
+review:
+  status: draft
