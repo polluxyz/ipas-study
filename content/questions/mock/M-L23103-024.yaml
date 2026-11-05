@@ -1,0 +1,39 @@
+id: M-L23103-024
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23103
+concepts:
+  - adam
+stem: 某工程師驗證 Adam 第 1 步的偏差修正。兩個權重從零狀態開始，梯度分別為 2 與 20。程式未加入穩定項或權重衰減。執行後的兩個更新量最接近何者？
+code: |
+  import numpy as np
+  g = np.array([2.0, 20.0])
+  beta1, beta2 = 0.9, 0.999
+  m = (1 - beta1) * g
+  v = (1 - beta2) * g ** 2
+  m_hat = m / (1 - beta1)
+  v_hat = v / (1 - beta2)
+  print(np.round(0.1 * m_hat / np.sqrt(v_hat), 2).tolist())
+code_lang: python
+options:
+  A: "[0.02, 0.20]"
+  B: "[0.20, 2.00]"
+  C: "[0.32, 0.32]"
+  D: "[0.10, 0.10]"
+answer: D
+explanation:
+  summary: Adam 首步的矩估計修正會影響實際更新尺度。
+  correct: 偏差修正後 m_hat=[2,20]，v_hat=[4,400]。兩者的 m_hat/sqrt(v_hat) 都是 1，因此更新量同為 0.1。這只描述題設的第 1 步。
+  wrong:
+    A: 此結果只把梯度乘上一階矩係數，未完成二階矩縮放與偏差修正。
+    B: 此結果直接用學習率乘梯度，等同普通梯度更新，沒有使用 Adam 的尺度調整。
+    C: 約 0.316 是本例漏掉一階與二階偏差修正時的更新量。
+guide_refs:
+  - guide-3:5-41
+author: codex
+review:
+  status: verified
+  blind_answer: D

@@ -1,0 +1,31 @@
+id: M-L21301-024
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21301
+concepts:
+  - class-imbalance
+  - class-weighting
+stem: 某二元分類訓練集有少數類 100 筆、多數類 9,900 筆。假設各筆資料在目前模型下的未加權損失相同且大於 0。團隊將多數類每筆權重設為 1，希望兩類在加權損失總和中的貢獻相等。少數類每筆權重應設為多少？
+options:
+  A: "1"
+  B: "99"
+  C: "100"
+  D: 9,900
+answer: B
+explanation:
+  summary: 平衡兩類損失總貢獻，要補償樣本數的差距。
+  correct: 設每筆未加權損失為 l，兩類貢獻相等時，100 × w × l ＝ 9,900 × 1 × l，因此少數類權重 w 為 99。這是題目條件下的配重，不表示實務中此權重必定有最佳效能。
+  wrong:
+    A: 每筆同權重時，多數類因筆數為 99 倍，仍占較大的損失總貢獻。
+    C: 100 是總筆數除以少數類筆數。此處要對齊的是多數類與少數類的總貢獻，應使用兩類筆數比 99。
+    D: 9,900 只有多數類筆數，尚未除以少數類的 100 筆，會把少數類總貢獻放大到超過多數類。
+guide_refs:
+  - guide-3:5-25
+  - guide-3:5-49
+author: codex
+review:
+  status: verified
+  blind_answer: B

@@ -1,0 +1,37 @@
+id: M-L23102-019
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23102
+concepts:
+  - svd
+stem: 某工程師對 3 筆、每筆 2 個特徵的矩陣做奇異值分解，並要將新樣本壓成 1 維特徵座標。以下 Vt 儲存右奇異向量的轉置，@ 表示矩陣乘法。忽略符號選擇造成的等價反號，程式輸出最接近何者？
+code: |
+  import numpy as np
+  X = np.array([[4., 0.], [0., 2.], [0., 0.]])
+  U, s, Vt = np.linalg.svd(X, full_matrices=False)
+  x_new = np.array([[2., 3.]])
+  z = x_new @ Vt[:1].T
+  print(z.shape, np.abs(z).round(3).tolist())
+code_lang: python
+options:
+  A: 形狀 (1, 1)，座標的絕對值為 2
+  B: 形狀 (1, 1)，座標的絕對值為 8
+  C: 形狀 (1, 1)，座標的絕對值為 3
+  D: 形狀 (1, 2)，座標的絕對值為 2 與 3
+answer: A
+explanation:
+  summary: 新樣本應投影到保留的右奇異向量方向。
+  correct: X 的最大奇異值為 4，對應特徵方向為第一個座標軸。Vt[:1].T 形狀為 (2,1)，所以 (1,2) 的新樣本乘上它，得到 (1,1) 的分數，其絕對值為 2。奇異值描述訓練矩陣的尺度，不需再乘進新樣本的投影。
+  wrong:
+    B: 8 相當於把投影分數 2 再乘最大奇異值 4。此處計算的是新樣本座標，不是重新縮放分數。
+    C: 3 是新樣本第二個特徵，但保留方向是第一個座標軸，不是第二個方向。
+    D: 只保留 1 個右奇異向量，輸出只會有 1 欄；保留原本 2 欄未完成指定壓縮。
+guide_refs:
+  - guide-3:3-14
+author: codex
+review:
+  status: verified
+  blind_answer: A
