@@ -1,0 +1,38 @@
+id: M-L23303-108
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - accuracy
+  - confusion-matrix
+stem: 某文件系統可為每份文件標記 3 種主題，1 表示具有該主題。驗收同時統計「整列 3 個標記都正確的文件比例」與「逐格標記的正確比例」。下列程式的 2 個輸出應如何解讀？
+code: |
+  import numpy as np
+  y = np.array([[1, 1, 0], [0, 1, 1], [1, 0, 0]])
+  pred = np.array([[1, 0, 0], [0, 1, 0], [1, 0, 0]])
+  print(round(np.all(y == pred, axis=1).mean(), 4))
+  print(round((y == pred).mean(), 4))
+code_lang: python
+options:
+  A: 整列正確比例為 1/3，逐格正確比例為 7/9
+  B: 整列正確比例為 7/9，逐格正確比例為 1/3
+  C: 整列正確比例為 2/3，逐格正確比例為 7/9
+  D: 整列正確比例為 1/3，逐格正確比例為 2/9
+answer: A
+explanation:
+  summary: 多標籤任務中，整列正確與逐格正確採用不同計數單位。
+  correct: 只有第 3 份文件的 3 格皆正確，因此整列比例為 1/3。前 2 份各錯 1 格，9 格共對 7 格，逐格比例為 7/9。這兩個分數分別衡量整份標記與單一標記的品質。
+  wrong:
+    B: 將 2 種計數單位對調。整列比例以 3 份文件為分母，逐格比例以 9 格為分母。
+    C: 前 2 份文件各有 1 個錯誤，均不能算作整列正確，並非有 2 份整列正確。
+    D: 2/9 是逐格錯誤比例；題目要的是逐格正確比例。
+guide_refs:
+  - guide-3:5-20
+  - guide-3:5-21
+author: codex
+review:
+  status: verified
+  blind_answer: A
