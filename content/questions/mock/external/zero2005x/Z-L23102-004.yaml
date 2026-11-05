@@ -1,0 +1,48 @@
+id: Z-L23102-004
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23102
+concepts:
+  - pca
+  - eigenvalue-decomposition
+stem: 某 PCA結果的前五個特徵值依序為 λ = [40,25,15,12,8]（共五個成分）。若要保留累積解釋變異達80%，至少須保留幾個主成分？
+options:
+  A: 4個
+  B: 5個
+  C: 2個
+  D: 3個
+answer: D
+explanation:
+  summary: 達到門檻後就停止增加主成分。
+  correct: 總變異為 100；前 2 個為 65%，前 3 個為 80%。題目要求最少數量，所以答案是 3 個。
+  wrong:
+    A: 4 個雖達標，但已超過必要的最少數量。
+    B: 5 個保留全部資訊，也超出最少需求。
+    C: 2 個只保留 65%，沒有達標。
+guide_refs:
+  - guide-3:3-14
+  - guide-3:4-44
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch02.md
+  original_id: SIM-L23102-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

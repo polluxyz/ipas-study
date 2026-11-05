@@ -1,0 +1,47 @@
+id: Z-L23203-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23203
+concepts:
+  - transfer-learning
+  - pretraining-fine-tuning
+stem: 某醫院僅有 400張標註的病灶影像，欲建置分類模型。下列遷移學習策略何者最為適當？
+options:
+  A: 載入預訓練權重後，立刻解凍全部骨幹層，再使用較大的學習率同時更新骨幹與分類頭
+  B: 改用 MLP，因其結構簡單較不易過擬合
+  C: 以 400張影像從頭訓練一個深層 CNN
+  D: 凍結預訓練骨幹，只訓練分類頭；輸入正規化配合原模型
+answer: D
+explanation:
+  summary: 少量標註影像可先使用已學好的視覺特徵。
+  correct: 先固定骨幹、只訓練分類頭，能減少待估參數。輸入處理要配合預訓練模型，再以驗證結果決定是否局部解凍。
+  wrong:
+    A: 全網大步長微調容易破壞原有特徵，並非少樣本的穩健起點。
+    B: MLP 是否容易過擬合取決於參數與資料，結構名稱不保證較省參數。
+    C: 少量資料從頭估大量權重，過擬合風險很高。
+guide_refs:
+  - guide-3:4-82
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch06.md
+  original_id: SIM-L23203-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

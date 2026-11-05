@@ -1,0 +1,64 @@
+id: Z-L23304-008
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - grid-search
+  - roc-auc
+stem: |-
+  以下程式對隨機森林做超參數搜尋，最後在測試集上評估：
+
+  關於 `gs.best_score_` 與 `gs.score(X_test, y_test)`，下列敘述何者正確？
+code: |-
+  from sklearn.model_selection import GridSearchCV
+  from sklearn.ensemble import RandomForestClassifier
+
+  grid = {"n_estimators": [100, 300],
+          "max_depth": [4, 8, None],
+          "min_samples_leaf": [1, 5]}
+  gs = GridSearchCV(RandomForestClassifier(random_state=0), grid,
+                    cv=5, scoring="roc_auc", n_jobs=-1)
+  gs.fit(X_train, y_train)
+  print(gs.best_params_, round(gs.best_score_, 3))
+  print(round(gs.score(X_test, y_test), 3))
+code_lang: python
+options:
+  A: best_score_ 是被選中配置的平均驗證 AUC，可能偏樂觀；最終應報未參與搜尋的測試分數
+  B: "`best_score_` 就是測試集 AUC"
+  C: "`best_score_` 是訓練集 AUC"
+  D: gs.score(X_test,y_test) 會忽略搜尋器的 scoring，直接改用隨機森林預設準確率，無須另外指定指標
+answer: A
+explanation:
+  summary: 搜尋器的 score 沿用指定的評分方式。
+  correct: best_score_ 是候選中最佳的平均驗證 AUC；gs.score 在測試集也採 roc_auc。測試資料必須未參與選擇才適合作為最終評估。
+  wrong:
+    B: 搜尋在訓練集內進行，best_score_ 沒有使用外部測試集。
+    C: 這個屬性記錄驗證折平均，而非訓練資料上的擬合分數。
+    D: 已指定 scoring="roc_auc"，score 不會回到分類器預設準確率。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-22
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-008
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；由原檔補回共用程式、情境；解析逐項重寫

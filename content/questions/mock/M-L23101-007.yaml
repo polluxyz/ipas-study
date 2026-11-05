@@ -1,0 +1,31 @@
+id: M-L23101-007
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - conditional-probability
+  - probabilistic-modeling
+stem: 某工廠有甲、乙 2 條產線。隨機抽取全廠產品時，來自甲線的機率為 0.7，來自乙線的機率為 0.3。甲線與乙線的瑕疵率分別為 0.02、0.08。尚未得知產品來源時，整體瑕疵機率最接近多少？
+options:
+  A: 10.0%
+  B: 2.4%
+  C: 5.0%
+  D: 3.8%
+answer: D
+explanation:
+  summary: 依來源比例加權條件機率。
+  correct: 甲、乙來源互斥且涵蓋全廠產品。整體瑕疵率為 0.7×0.02+0.3×0.08=0.038，也就是 3.8%。
+  wrong:
+    A: 2% 與 8% 是不同來源下的條件機率，不能直接相加當作全廠比例。
+    B: 2.4% 只計算乙線對全廠瑕疵率的貢獻，漏掉甲線的 1.4%。
+    C: 5% 是兩條產線瑕疵率的簡單平均，只有兩條產線的抽中機率相同時才適用。
+guide_refs:
+  - guide-3:3-5
+  - guide-3:3-6
+author: codex
+review:
+  status: verified
+  blind_answer: D

@@ -1,0 +1,48 @@
+id: Z-L23203-002
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - output-loss-contract
+  - sigmoid
+stem: 某新聞分類系統中，一篇文章可同時屬於「政治」「經濟」「國際」等多個標籤。下列輸出層與損失函數的配置何者正確？
+options:
+  A: Dense(5, `activation='linear'`)＋均方誤差
+  B: Dense(5,`activation='softmax'`)＋類別交叉熵
+  C: Dense(5,`activation='sigmoid'`)＋二元交叉熵
+  D: Dense(1, `activation='sigmoid'`)＋二元交叉熵
+answer: C
+explanation:
+  summary: 多標籤分類要讓每個標籤各自判定。
+  correct: 5 個 sigmoid 輸出各自表示一個標籤的機率，二元交叉熵可逐標籤計算損失，不要求機率相加等於 1。
+  wrong:
+    A: 線性輸出加平方誤差不是這個多標籤機率模型的合適配對。
+    B: Softmax 把 5 類放在同一個總和為 1 的分布，對應互斥分類。
+    D: 只有 1 個輸出不足以分別表達 5 個標籤。
+guide_refs:
+  - guide-3:5-36
+  - guide-3:5-37
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch06.md
+  original_id: SIM-L23203-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；解析逐項重寫

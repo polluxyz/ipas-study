@@ -1,0 +1,64 @@
+id: Z-L23203-008
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - output-loss-contract
+  - cross-entropy-loss
+stem: |-
+  以下 Keras 程式建立手寫數字分類模型，輸入為 28×28 灰階影像，標籤 `y` 為 0～9 的整數：
+
+  關於輸出層與損失函數的配置，下列敘述何者正確？
+code: |-
+  from tensorflow.keras import layers, models
+
+  model = models.Sequential([
+      layers.Input(shape=(28, 28, 1)),
+      layers.Conv2D(16, (3, 3), padding="valid", activation="relu"),
+      layers.MaxPooling2D((2, 2)),
+      layers.Flatten(),
+      layers.Dense(10, activation="softmax"),
+  ])
+  model.compile(optimizer="adam",
+                loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+code_lang: python
+options:
+  A: 標籤必須先用 `to_categorical` 轉換，否則無法訓練
+  B: 輸出層 `Dense(10)` 沒有可訓練參數
+  C: 標籤是 0～9 的整數，搭配 `sparse_categorical_crossentropy` 不需要先做獨熱編碼
+  D: 輸出層應改用 sigmoid，因為共有 10 個類別
+answer: C
+explanation:
+  summary: 稀疏類別交叉熵直接接收整數類別標籤。
+  correct: 0～9 的整數標籤可直接搭配 10 類 softmax 與 sparse_categorical_crossentropy，無須先展開成獨熱向量。
+  wrong:
+    A: 獨熱標籤與類別交叉熵是一組配置，整數標籤配 sparse 版本也能訓練。
+    B: Dense 的權重連接輸入與輸出，還有偏置；這裡共有 27050 個參數。
+    D: 10 類互斥的重點是 softmax 的共同機率分布，不是看到類別多就改 sigmoid。
+guide_refs:
+  - guide-3:5-35
+  - guide-3:5-36
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch06.md
+  original_id: SIM-L23203-008
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；由原檔補回共用程式、情境；解析逐項重寫
