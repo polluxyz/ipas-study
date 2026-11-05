@@ -1,0 +1,31 @@
+id: M-L21203-007
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - nist-ai-rmf
+  - model-stability-risk
+stem: 某公司評估供應商的 AI 工安警示系統。供應商沒有極端天候的測試資料，也無法估計該條件下的漏報風險。採購人員主張「沒有量到風險，就可列為低風險」。依 NIST AI RMF 1.0，哪項處理最適當？
+options:
+  A: 將已知一般天候成績套用於極端天候，據此完成風險評級
+  B: 依測量缺口直接列為高風險，以缺乏資料作為高風險證據
+  C: 記錄測量限制與待補證據，依用途決定限制使用及補測安排
+  D: 以供應商保固期限代替測試證據，據此決定極端天候風險
+answer: C
+explanation:
+  summary: 無法測量風險不能直接證明風險低或高。
+  correct: "[NIST AI RMF 1.0 的風險測量說明](https://airc.nist.gov/airmf-resources/airmf/1-sec-risk/)明確區分測量不足與風險高低。本例應揭露未知範圍，補足代表性證據，並依工安用途安排限制及控制；審慎限制使用不等於已證明風險等級。"
+  wrong:
+    A: 一般天候的結果未必能外推到極端天候，套用分數會掩蓋目前的證據缺口。
+    B: 缺少資料可支持採取審慎措施，但不等於已有證據證明真實風險必定偏高。
+    D: 保固安排分配故障損失或服務責任，不能提供極端天候漏報機率的實測依據。
+guide_refs:
+  - guide-1:4-29
+  - guide-1:4-30
+author: codex
+review:
+  status: verified
+  blind_answer: C
