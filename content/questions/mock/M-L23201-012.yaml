@@ -1,0 +1,38 @@
+id: M-L23201-012
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23201
+concepts:
+  - mean-squared-error
+  - mean-absolute-error
+  - loss-function-selection
+stem: 某工程師建立只能輸出單一常數 c 的需求預測基準。3 筆觀測值與程式如下。若分別以平均平方誤差與平均絕對誤差選出最佳 c，下列選擇何者最正確？
+code: |
+  y = [0., 0., 12.]
+  for c in [0., 4., 12.]:
+      mse = sum((v - c) ** 2 for v in y) / len(y)
+      mae = sum(abs(v - c) for v in y) / len(y)
+      print(c, round(mse, 3), round(mae, 3))
+code_lang: python
+options:
+  A: 平均平方誤差選 0；平均絕對誤差選 4
+  B: 平均平方誤差選 12；平均絕對誤差選 4
+  C: 平均平方誤差選 4；平均絕對誤差選 12
+  D: 平均平方誤差選 4；平均絕對誤差選 0
+answer: D
+explanation:
+  summary: 常數預測的平方誤差由平均數最小化，絕對誤差由中位數最小化。
+  correct: 資料平均為 4，中位數為 0。平均平方誤差在 c=4 為 32，低於 c=0 的 48；平均絕對誤差在 c=0 為 4，低於 c=4 的約 5.333。因此兩種學習目標選出的常數不同。
+  wrong:
+    A: c=0 是絕對誤差的最佳選擇，c=4 是平方誤差的最佳選擇，此項把兩個目標對調。
+    B: c=12 的平均平方誤差為 96，較 c=4 的 32 大；c=4 也不是絕對誤差的最佳常數。
+    C: 平方誤差選 4 正確，但 c=12 的平均絕對誤差為 8，大於 c=0 的 4。
+guide_refs:
+  - guide-3:4-4
+author: codex
+review:
+  status: verified
+  blind_answer: D

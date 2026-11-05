@@ -1,0 +1,39 @@
+id: M-L23301-026
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - missing-value-imputation
+  - temporal-features
+stem: 某線上監控以各設備最近一次有效讀值補齊短暫缺值。資料已按設備、時間排序。設備 B 的首筆讀值缺失，目前程式卻填成設備 A 的數值。若尚無該設備過往讀值時應保持缺失，哪項修正最適合？
+code: |
+  import numpy as np
+  import pandas as pd
+  df = pd.DataFrame({"device": ["A", "A", "B", "B"],
+                     "step": [1, 2, 1, 2],
+                     "value": [8., np.nan, np.nan, 20.]})
+  print(df["value"].ffill().tolist())
+code_lang: python
+options:
+  A: 改用 df['value'].bfill() 補齊整個讀值欄位
+  B: 改用 df.groupby('device')['value'].bfill()
+  C: 改用 df['value'].fillna(df['value'].median())
+  D: 改用 df.groupby('device')['value'].ffill()
+answer: D
+explanation:
+  summary: 向前補值需要限制在同一設備的歷史內。
+  correct: 分設備向前補值只使用該設備先前的有效讀值。設備 B 沒有更早的讀值，首筆仍為缺失，不會借用設備 A 的數值。
+  wrong:
+    A: 向後補值使用後面的觀測，也沒有隔離設備，不能代表同設備最近的歷史讀值。
+    B: 雖然隔離設備，但設備 B 首筆會使用較晚讀值，並非當時已知的歷史。
+    C: 全欄中位數代表整體集中位置，不能表示各設備最近的狀態，也會填入沒有歷史的首筆。
+guide_refs:
+  - guide-3:5-2
+  - guide-3:5-4
+author: codex
+review:
+  status: verified
+  blind_answer: D

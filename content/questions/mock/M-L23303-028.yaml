@@ -1,0 +1,39 @@
+id: M-L23303-028
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - train-val-test-split
+  - data-leakage
+stem: 某資料有 2 個批次，A 批 1 筆、B 批 9 筆。同批次不得跨訓練與驗證。工程師使用 GroupShuffleSplit(test_size=0.5)，卻發現驗證筆數不是 5。對此設定的解讀，何者最正確？
+code: |
+  import numpy as np
+  from sklearn.model_selection import GroupShuffleSplit
+  groups = np.array(["A"] + ["B"] * 9)
+  cv = GroupShuffleSplit(n_splits=1, test_size=0.5, random_state=0)
+  train, valid = next(cv.split(np.zeros((10, 1)), groups=groups))
+  print(np.unique(groups[valid]).tolist(), len(valid))
+code_lang: python
+options:
+  A: 0.5 指資料列的目標比例，會選取列數最接近一半的完整群組
+  B: 0.5 指群組比例，群組大小不同會造成資料列比例不同
+  C: 0.5 指按群組大小加權的抽樣比例，大群組優先進入驗證
+  D: 0.5 指各群組獨立入選的機率，驗證群組數可隨抽樣改變
+answer: B
+explanation:
+  summary: 群組切分的 test_size 比例針對群組數。
+  correct: 2 組的 0.5 會保留 1 組作驗證。由於 A、B 分別有 1、9 筆，保留完整群組時，驗證筆數可能是 1 或 9，並不保證占資料列的一半。
+  wrong:
+    A: 這個切分器依群組數決定保留數量，不以接近一半資料列作為挑選群組的目標。
+    C: 群組抽樣不按列數加權，大群組不會因為資料列較多就有較高入選機率。
+    D: 這個比例先決定驗證群組數，再從群組中抽取；不是對每組獨立進行機率為 0.5 的入選試驗。
+guide_refs:
+  - guide-3:5-17
+  - guide-3:5-18
+author: codex
+review:
+  status: verified
+  blind_answer: B

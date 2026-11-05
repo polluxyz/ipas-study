@@ -1,0 +1,41 @@
+id: M-L23203-027
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - stacked-rnn
+  - bidirectional-rnn
+  - gru
+stem: 某工程師建立 2 層雙向 GRU（以閘門更新序列狀態的網路）。每批有 2 段序列，每段 5 步，每步 4 個特徵；每個方向的隱藏寬度為 3。以下 output 與 h 的形狀，何者最正確？
+code: |
+  import torch
+  torch.manual_seed(0)
+  model = torch.nn.GRU(4, 3, num_layers=2,
+                       bidirectional=True, batch_first=True)
+  output, h = model(torch.zeros(2, 5, 4))
+  print(tuple(output.shape))
+  print(tuple(h.shape))
+code_lang: python
+options:
+  A: output=(2,5,6)；h=(2,4,3)
+  B: output=(2,5,6)；h=(4,2,3)
+  C: output=(2,5,12)；h=(4,2,3)
+  D: output=(5,2,6)；h=(2,2,3)
+answer: B
+explanation:
+  summary: 區分雙向堆疊 GRU 的逐步輸出與各層最終狀態。
+  correct: output 只包含最上層的逐步輸出，兩方向各 3 維串接為 6 維。h 保留每層、每個方向的最終狀態，第一軸為 2 層×2 方向=4。batch_first 只改輸入與 output 的軸順序，不改 h。
+  wrong:
+    A: 這把 batch_first 套到 h。h 的順序仍是層與方向、批次、隱藏寬度。
+    C: 2 層不代表把兩層逐步輸出都串接。output 取最上層，最後維度只需計入 2 個方向。
+    D: batch_first=True 時 output 的批次軸在最前。h 也必須保留兩層的兩個方向，第一軸不能只有 2。
+guide_refs:
+  - guide-3:4-75
+  - guide-3:4-76
+author: codex
+review:
+  status: verified
+  blind_answer: B
