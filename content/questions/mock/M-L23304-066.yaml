@@ -1,0 +1,38 @@
+id: M-L23304-066
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - dropout
+  - pytorch
+stem: 某團隊把使用 PyTorch Dropout 的模型切到一般推論流程。PyTorch 在訓練時已對保留的輸出做期望值補償；此處不做隨機不確定性估計。工程師執行以下程式，輸出最接近哪項？
+code: |
+  import torch
+  layer = torch.nn.Dropout(p=0.25)
+  layer.eval()
+  x = torch.tensor([2.0, 4.0])
+  print(layer(x).tolist())
+code_lang: python
+options:
+  A: "[0.5, 1.0]"
+  B: "[1.5, 3.0]"
+  C: "[2.0, 4.0]"
+  D: "[2.67, 5.33]"
+answer: C
+explanation:
+  summary: PyTorch 的一般推論模式會停用 Dropout，無須再次縮放。
+  correct: eval() 讓 Dropout 成為不改變輸入的運算，因此輸出仍為 [2.0,4.0]。訓練時除以保留率的縮放已由套件處理，推論時再乘 0.75 會重複補償。
+  wrong:
+    A: 這是把輸入乘丟棄率 0.25 的結果，丟棄率不是一般推論時應乘的係數。
+    B: 這是把輸入再乘保留率 0.75 的結果。PyTorch 採訓練時補償，推論時不用再乘保留率。
+    D: 這是推論時再除以保留率 0.75 的結果，重複套用了訓練時的放大補償。eval 模式不會再執行這項縮放。
+guide_refs:
+  - guide-3:5-45
+  - guide-3:5-46
+author: codex
+review:
+  status: verified
+  blind_answer: C

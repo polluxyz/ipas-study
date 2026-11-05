@@ -1,0 +1,38 @@
+id: M-L23301-089
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - temporal-features
+  - missing-value-imputation
+stem: 某日用量資料漏掉 1 月 2 日。團隊要建構「前一個日曆日用量」，並讓沒有前一天紀錄時維持缺值。下列 shift(1) 依資料列移動，讓 1 月 3 日取得 1 月 1 日用量。最適合如何調整？
+code: |
+  import pandas as pd
+  s = pd.Series([10., 30., 40.], index=pd.to_datetime([
+      "2026-01-01", "2026-01-03", "2026-01-04"]))
+  print(s.shift(1).loc["2026-01-03"])
+  print(s.asfreq("D").shift(1).loc["2026-01-03"])
+code_lang: python
+options:
+  A: 直接使用 s.shift(2)，將取值距離改成前 2 列
+  B: 先補齊每日索引保留缺值，再對完整索引做 shift(1)
+  C: 先補齊每日索引並前向填補，再對完整索引做 shift(1)
+  D: 直接使用 s.diff(1)，將前筆用量轉為相鄰差值
+answer: B
+explanation:
+  summary: 日曆日的滯後特徵必須先對齊完整的時間索引。
+  correct: s.asfreq("D") 可補入缺少的日索引，1 月 2 日的數值維持 NaN。再移動 1 列後，1 月 3 日的前日值就會是 NaN，而不是跨過缺日取得更早紀錄。
+  wrong:
+    A: 固定移動 2 列仍以資料列計距；遇到不同缺日分布時，不能對應固定的前一日。
+    C: 前向填補會把 1 月 1 日用量當成 1 月 2 日用量，不符合缺少前一天紀錄時保持缺值的要求。
+    D: 差分輸出數值變化，不是前一天的數值，也沒有解決索引缺日。
+guide_refs:
+  - guide-3:5-10
+  - guide-3:5-2
+author: codex
+review:
+  status: verified
+  blind_answer: B

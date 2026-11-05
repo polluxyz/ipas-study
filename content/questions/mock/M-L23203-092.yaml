@@ -1,0 +1,39 @@
+id: M-L23203-092
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - pooling
+  - backpropagation
+stem: 某影像模型使用最大池化。工程師要追蹤 2×2 區域中各輸入值收到的梯度，該區域最大值唯一。以下以池化輸出的 2 倍作損失。按列展平後，x.grad 最正確為何？
+code: |
+  import torch
+  import torch.nn.functional as F
+  x = torch.tensor([[[[1.0, 4.0], [3.0, 2.0]]]], requires_grad=True)
+  y = F.max_pool2d(x, 2)
+  (2 * y.sum()).backward()
+  print(x.grad.flatten().tolist())
+code_lang: python
+options:
+  A: "[0,2,0,0]"
+  B: "[0.5,0.5,0.5,0.5]"
+  C: "[2,2,2,2]"
+  D: "[0,8,0,0]"
+answer: A
+explanation:
+  summary: 唯一最大值的位置接收上游梯度，其他位置的局部導數為零。
+  correct: 最大值 4 位於展平後的第 2 格，只有該格影響本次最大池化輸出。損失對 y 的導數為 2，因此該格梯度是 2，其餘為 0。
+  wrong:
+    B: 平均分配是平均池化的梯度行為，最大池化不會把梯度平均分給 4 格。
+    C: 只有最大值影響本例輸出，另外 3 格微小變化不改變最大值。
+    D: 上游梯度為 2，最大運算對唯一勝出位置的導數為 1，不需再乘輸入值 4。
+guide_refs:
+  - guide-3:4-60
+  - guide-3:4-69
+author: codex
+review:
+  status: verified
+  blind_answer: A

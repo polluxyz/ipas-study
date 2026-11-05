@@ -1,5 +1,5 @@
 id: M-L23203-001
-rev: 1
+rev: 2
 source: mock
 subject: 3
 type: 程式
@@ -7,37 +7,35 @@ codes:
   - L23203
 concepts:
   - pytorch
+  - backpropagation
   - output-loss-contract
-stem: 某工程師建立 3 類單標籤分類器。以下 logits 有 2 筆資料，每筆 3 個分數，targets 是整數類別編號。以 PyTorch CrossEntropyLoss 計算損失，哪個說明正確？
+stem: 某工程師想用分類結果是否接近標籤來訓練模型，先對輸出取 argmax，再計算平方誤差。以下程式的 requires_grad 結果及訓練修正，哪項最正確？
 options:
-  A: 必須先對 logits 做 Softmax，才能使用相同損失函數
-  B: 必須將 targets 改成 shape=(2,1) 的浮點類別編號
-  C: 應把輸出改成 1 個 Sigmoid，再直接保留類別 0、1、2
-  D: 可直接輸入未經 Softmax 的 logits，targets 使用 long 類別索引
+  A: True；保留 argmax，再將學習率調高。
+  B: True；保留 argmax，再增加訓練輪數。
+  C: False；把 pred 轉回浮點數即可接回原計算圖。
+  D: False；應讓損失直接使用可微分的原始輸出。
 answer: D
 explanation:
-  summary: PyTorch 輸出與損失契約。
-  correct: CrossEntropyLoss 支援以原始類別分數搭配整數類別索引。這裡每筆恰有一個目標類別，不必先把分數變成機率。
+  summary: 離散的 argmax 結果不能提供原始分類分數所需的反向梯度。
+  correct: 補充：argmax 產生整數類別索引，不保留連到 logits 的可微分路徑。轉成浮點數也不會恢復這條路徑，因此 loss.requires_grad 為 False。訓練時應把原始輸出與標籤交給適合的可微分分類損失，argmax 留作評估分類結果。
   wrong:
-    A: 此用法期待原始分數，內部會做相應的對數正規化；預先 Softmax 會改變計算的輸入意義。
-    B: 整數索引模式需要每筆一個 long 索引。本題沒有使用與 logits 同形狀的機率目標模式。
-    C: 單一 Sigmoid 不能在此設定下表示 3 個互斥類別，且與保留 0、1、2 索引的契約不符。
+    A: 調高學習率不會建立被離散選類操作切斷的梯度路徑。
+    B: 增加輪數無法補回不存在的梯度路徑。
+    C: 資料型別轉換不會把離散索引重新連回 logits。
 guide_refs:
-  - guide-3:4-91
+  - guide-3:4-60
   - guide-3:4-92
-  - guide-3:4-61
-  - guide-3:4-62
-  - guide-3:4-65
-  - guide-3:4-66
 author: codex
 review:
   status: verified
   answer_checked: null
   dispute: null
+  blind_answer: D
 code: |
   import torch
-  logits = torch.tensor([[2.0, 0.0, -1.0], [0.0, 1.0, 2.0]])
-  targets = torch.tensor([0, 2], dtype=torch.long)
-  loss = torch.nn.CrossEntropyLoss()(logits, targets)
-  print(torch.isfinite(loss).item())
+  logits = torch.tensor([[0.2, 0.8]], requires_grad=True)
+  pred = logits.argmax(dim=1).float()
+  loss = ((pred - torch.tensor([0.0])) ** 2).mean()
+  print(loss.requires_grad)
 code_lang: python

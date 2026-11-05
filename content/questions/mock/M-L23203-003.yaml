@@ -1,41 +1,32 @@
 id: M-L23203-003
-rev: 1
+rev: 2
 source: mock
 subject: 3
 type: 程式
 codes:
   - L23203
 concepts:
-  - cnn-tensor-shapes
-  - convolution-layer
-stem: 某影像分類器的輸入張量為 (1,3,32,32)。以下卷積有 8 個輸出通道、3×3 核、stride=2、padding=1，啟用 bias，groups 與 dilation 均為 1。輸出形狀與可訓練參數量為何？
+  - cnn
+  - pytorch
+stem: 某工程師把一般卷積改成分組卷積，以減少跨通道連接。候選層使用輸入通道 6、輸出通道 8、groups=3。分組卷積要求輸入與輸出通道數都能平均分給各組。若保留輸入、輸出通道數，只調整 groups，下列哪項能讓此層建立成功？
 options:
-  A: (1,8,32,32)，224 個
-  B: (1,8,16,16)，224 個
-  C: (1,8,16,16)，216 個
-  D: (1,3,16,16)，224 個
+  A: 改成 groups=4，因為輸出通道可分成 4 組。
+  B: 改成 groups=2，因為兩種通道數都能整除 2。
+  C: 維持 groups=3，因為輸入通道可分成 3 組。
+  D: 改成 groups=6，因為每組只接 1 個輸入通道。
 answer: B
 explanation:
-  summary: 卷積尺寸與參數。
-  correct: 每個空間軸為 floor((32+2-3)/2)+1=16。權重為 8×3×3×3=216，加 8 個偏差，共 224。
+  summary: 分組卷積的組數必須同時整除輸入與輸出通道數。
+  correct: 補充：分組卷積會把輸入與輸出通道一起分組，兩邊都須能整除 groups。6 與 8 的共同因數包含 2，因此 groups=2 可建立。只檢查其中一邊可整除，仍可能在建構卷積層時失敗。
   wrong:
-    A: 參數數量正確，但 stride=2 使空間大小下降，不會維持 32×32。
-    C: 這只計卷積權重，漏掉已啟用的每輸出通道 1 個偏差。
-    D: 輸出通道由 out_channels=8 決定，不沿用輸入的 3 通道。
+    A: 8 可整除 4，但 6 不能，輸入通道無法平均分組。
+    C: 6 可整除 3，但 8 不能，輸出通道無法平均分組。
+    D: 每組有 1 個輸入仍不夠；8 個輸出通道不能平均分給 6 組。
 guide_refs:
-  - guide-1:3-48
   - guide-3:4-68
-  - guide-3:4-69
-  - guide-3:4-67
 author: codex
 review:
   status: verified
   answer_checked: null
   dispute: null
-code: |
-  import torch
-  layer = torch.nn.Conv2d(3, 8, kernel_size=3, stride=2, padding=1, bias=True)
-  x = torch.zeros(1, 3, 32, 32)
-  print(tuple(layer(x).shape))
-  print(sum(parameter.numel() for parameter in layer.parameters()))
-code_lang: python
+  blind_answer: B

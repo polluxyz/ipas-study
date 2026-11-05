@@ -112,12 +112,12 @@ function readDailySets(): DailySet[] {
 export function getDailySet(date: string, subject: 1 | 3): DailySet | undefined {
   return readDailySets().find((set) => set.date === date && set.subject === subject);
 }
-/** 已有同日題組時回傳原題組，避免重整或其他分頁覆寫順序。 */
-export function saveDailySet(set: DailySet): DailySet {
+/** 預設保留同日題組；只有舊官方題換題時明確要求替換。 */
+export function saveDailySet(set: DailySet, replaceExisting = false): DailySet {
   if (!isDailySet(set)) throw new Error('每日題組欄位不完整。');
   const sets = readDailySets();
   const existing = sets.find((item) => item.date === set.date && item.subject === set.subject);
-  if (existing) return existing;
+  if (existing && !replaceExisting) return existing;
   localStorage.setItem(DAILY_KEY, JSON.stringify({ version: 1, sets: [...sets.filter((item) => item.subject !== set.subject), set] }));
   return set;
 }

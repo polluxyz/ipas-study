@@ -5,13 +5,14 @@ import QuestionCard from '../components/QuestionCard.astro';
 import { getData } from '../lib/content';
 import type { DailyQuestion } from '../lib/daily';
 const { questions, concepts, codes } = await getData();
-const verified = questions.filter((q) => q.review.status === 'verified');
+const verified = questions.filter((q) => q.source === 'mock' && q.review.status === 'verified');
 const catalog: DailyQuestion[] = questions.map(({ id, rev, subject, source, codes, type, review }) => ({ id, rev, subject, source, codes, type, review: { status: review.status } }));
 const titles = Object.fromEntries(concepts.map((entry) => [entry.data.id, entry.data.title]));
 const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
 ---
 <StudyPage title="每天 50 題，累積新的理解。" section="每日 50 題">
-  <p class="lead">只練未做過、已通過審查的題目。每日題組依台北日期固定，作答後立即看解析。</p>
+  <p class="lead">只練未做過、已通過審查的非官方題，包含外部題與本站模擬題。每日題組依台北日期固定，作答後立即看解析。</p>
+  <p>考古題與指引練習題請到 <a href="/official/">官方題完整練習 →</a></p>
   <form class="daily-subject-form" action="/daily/" method="get">
     <label for="daily-subject">練習科目<select id="daily-subject" name="subject"><option value="1">科目 1・人工智慧技術應用與規劃</option><option value="3">科目 3・機器學習技術與應用</option></select></label>
     <button class="button primary" type="submit">開啟今日題組</button>
