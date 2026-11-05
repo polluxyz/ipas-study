@@ -1,0 +1,49 @@
+id: Z-L21103-001
+rev: 2
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21103
+concepts:
+  - variational-autoencoder
+  - gan
+  - diffusion-model
+stem: 關於三種典型生成模型的常見限制，下列配對何者正確？
+options:
+  A: VAE推論速度慢；GAN生成結果偏模糊；Diffusion容易發生模式崩潰
+  B: VAE生成結果偏模糊；GAN容易發生模式崩潰；Diffusion推論速度慢
+  C: VAE容易發生模式崩潰；GAN生成結果偏模糊；Diffusion推論速度慢
+  D: 三者皆容易發生模式崩潰，差異僅在生成品質
+answer: B
+explanation:
+  summary: 區分生成模型常見的訓練與取樣限制。
+  correct: 典型 VAE 的機率重建常犧牲細節；GAN 可能只生成少數樣式；典型擴散取樣要多次去噪。這些是常見限制，不代表各模型獨有，也不表示所有變體必然如此。
+  wrong:
+    A: VAE 通常可直接解碼取樣，沒有典型多步擴散的相同成本；其餘配對也混淆了常見問題。
+    C: 模式崩潰是 GAN 常見風險；VAE 則較常出現平滑而不銳利的重建。此項把兩者對調。
+    D: 不能把不同模型的失效方式都稱為模式崩潰。生成多樣性、細節與取樣成本應分別判讀。
+guide_refs:
+  - guide-1:5-12
+  - guide-1:5-13
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch03.md
+  original_id: SIM-L21103-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    C: A
+    B: B
+    A: C
+    D: D
+  modified: 選項重排；解析全部重寫；題幹改問典型生成模型的常見限制，解析明示限制並非各模型獨有

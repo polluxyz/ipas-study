@@ -1,0 +1,47 @@
+id: Z-L23102-001
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23102
+concepts:
+  - vector-inner-product
+  - vector-norm-linear-combination
+stem: 某語意檢索系統需比較查詢句與文件的相似度。文件長度差異極大（從 50字到 5,000字）。下列相似度度量何者最為適當？
+options:
+  A: 曼哈頓距離
+  B: 兩向量的內積，不做任何正規化
+  C: 歐氏距離，因其為最標準的距離度量
+  D: 餘弦相似度
+answer: D
+explanation:
+  summary: 餘弦相似度以向量範數消去整體倍率。
+  correct: 餘弦用內積除以兩向量長度。對同方向的非零向量，單純放大長度不改變分數；但文件新增內容仍可能改變向量方向。
+  wrong:
+    A: 曼哈頓距離也會計入各維度數值大小。
+    B: 未除以範數時，內積可能偏好數值較大的文件向量。
+    C: 未正規化的歐氏距離會受向量大小影響。
+guide_refs:
+  - guide-3:3-10
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch02.md
+  original_id: SIM-L23102-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；解析逐項重寫

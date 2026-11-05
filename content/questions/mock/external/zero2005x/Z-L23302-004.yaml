@@ -1,0 +1,49 @@
+id: Z-L23302-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23303
+  - L23302
+concepts:
+  - time-series-split
+  - data-leakage
+stem: 某量化金融團隊欲建立股價波動率預測模型，訓練前進行資料切分與驗證架構配置。若資料為連續時間序列，下列驗證架構設計何者最為正確？
+options:
+  A: 採 KFold(n_splits=5, shuffle=True)，讓未來與歷史時間點均勻分配到訓練及驗證折，作為維持代表性的方式
+  B: 以 TimeSeriesSplit 前向驗證，每折訓練資料嚴格早於驗證資料
+  C: 使用未來的股價波動率直接填補歷史缺失值，因為這能提高模型的特徵完整度
+  D: 在時間序列任務中，驗證集指標表現顯著優於測試集通常代表模型泛化能力極佳，無需懷疑資料洩漏
+answer: B
+explanation:
+  summary: 時間驗證必須模擬當時只能取得過去資料的條件。
+  correct: 先依時間排序，再以前期訓練、後期驗證，可避免直接拿未來資料預測過去。特徵與標籤視窗也須檢查隔離。
+  wrong:
+    A: 隨機洗牌可能把晚期紀錄送入訓練，與實際預測條件不同。
+    C: 未來波動率在歷史預測時尚不可得，不能拿來補值。
+    D: 落差可能源於洩漏、漂移或切分問題，不能直接當成泛化良好的證據。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-26
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch08.md
+  original_id: SIM-L23302-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫；主代碼改為 L23303，保留 L23302 為次要代碼

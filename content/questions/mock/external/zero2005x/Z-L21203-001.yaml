@@ -1,0 +1,50 @@
+id: Z-L21203-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - ai-risk-governance
+  - algorithmic-bias
+  - fairness-audit
+stem: 某銀行導入 AI信用評分模型。專案團隊主張：「模型輸入特徵並未包含性別、婚姻狀況與族群等敏感欄位，且我們已加裝人工覆核關卡，因此本系統不屬於高風險 AI應用，亦無公平性疑慮。」依我國《人工智慧風險分類框架》v1.0與金管會《金融業運用 AI指引》，下列評論何者最為正確？
+options:
+  A: 依固有風險判斷；人工覆核不免除高風險認定，仍須實測代理偏誤
+  B: 團隊主張正確，未使用敏感欄位即可確保公平性，且人工覆核已充分緩解風險
+  C: 因《人工智慧風險分類框架》對非公務機關不具直接拘束力，故銀行無須進行任何 AI風險管理
+  D: 只要模型具備可解釋性（如能輸出特徵貢獻度），即可免除公平性測試與獨立稽核
+answer: A
+explanation:
+  summary: 人工覆核與刪敏感欄位都不構成自動免責。
+  correct: 風險分類框架先看固有危害，之後才檢視緩解。公平性還要檢查群體差距與代理變數，不能用「沒有性別欄位」替代實證。
+  wrong:
+    B: 非敏感欄位可能間接反映群體身分；人工覆核也不能保證消除固有危害。
+    C: 參考框架不等於所有既有金融監理、個資與消費者保護責任都消失，銀行仍需管理其應用風險。
+    D: 可解釋性有助理解模型，但不會自動證明群體公平或稽核完整，兩者仍需另行檢查。
+guide_refs:
+  - guide-1:4-29
+  - guide-1:4-37
+  - guide-1:4-38
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch07.md
+  original_id: SIM-L21203-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    A: B
+    C: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

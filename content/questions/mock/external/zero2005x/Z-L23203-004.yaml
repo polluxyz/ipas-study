@@ -1,0 +1,49 @@
+id: Z-L23203-004
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - convolution-layer
+  - pooling
+  - cnn-tensor-shapes
+stem: 輸入形狀為 (28,28,1)，第一層為 Conv2D(`filters=32`, `kernel_size`=3, `padding='same'`)，第二層為MaxPooling2D(`pool_size=2`)。關於這兩層之敘述，下列何者錯誤？
+options:
+  A: 卷積層輸出形狀為 (28,28,32)
+  B: 卷積層的權重數為 3×3×1×32 = 288，加上 32個偏置
+  C: 池化層輸出形狀為 (14,14,32)
+  D: 池化層具有可訓練參數，其數量隨`pool_size`增加
+answer: D
+explanation:
+  summary: 池化層通常只有固定運算，沒有需要學習的權重。
+  correct: 本題選錯誤敘述。一般最大池化只取區域最大值，不因池大小增加而產生訓練參數。
+  wrong:
+    A: 步幅預設為 1 且使用 same，卷積輸出為 (28,28,32)。
+    B: 每個濾波器有 9 個權重與 1 個偏置，共 320 個參數。
+    C: 預設以 2 為池化步幅，空間邊長減半，通道數仍是 32。
+guide_refs:
+  - guide-3:4-68
+  - guide-3:4-69
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch06.md
+  original_id: SIM-L23203-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: D
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；解析逐項重寫

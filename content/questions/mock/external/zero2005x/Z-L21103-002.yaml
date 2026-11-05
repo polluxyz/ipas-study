@@ -1,0 +1,49 @@
+id: Z-L21103-002
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - lora
+  - rag
+  - pretraining-fine-tuning
+stem: 某企業擁有 8,000筆歷史工單回覆紀錄，希望 LLM產出的回覆能穩定符合公司特有的公文格式與用語；同時，回覆中引用的產品規格每兩週更新一次，且必須標註規格書版本以供稽核。下列方案何者最為適當？
+options:
+  A: 以 LoRA微調學習公文格式與用語，並以檢索增強提供最新規格與版本出處
+  B: 以 8,000筆工單對基座模型進行全參數微調，並每兩週重新訓練一次
+  C: 僅使用 LoRA微調，以 8,000筆工單訓練，並在提示中附上最新規格摘要
+  D: 僅使用檢索增強，將產品規格書與 8,000筆工單全部寫入知識庫
+answer: A
+explanation:
+  summary: 用微調學格式，用檢索供應可更新事實。
+  correct: LoRA 用較少可訓練參數學習固定寫作模式；檢索再提供當期規格及版本，讓格式需求與頻繁更新的資訊各有適合的處理方式。
+  wrong:
+    B: 頻繁全參數訓練成本高，且權重內的知識不容易附上規格版本；沒有必要用它處理每兩週更新的文件。
+    C: 微調可學語氣，但只在提示附規格摘要，沒有完整處理版本來源與可稽核引用。
+    D: 檢索有助提供資料，但僅堆入歷史工單，不一定能穩定形成指定格式與用語。
+guide_refs:
+  - guide-1:3-28
+  - guide-1:3-64
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch03.md
+  original_id: SIM-L21103-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    C: A
+    D: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫

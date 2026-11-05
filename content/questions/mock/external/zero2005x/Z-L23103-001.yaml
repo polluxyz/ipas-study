@@ -1,0 +1,47 @@
+id: Z-L23103-001
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23103
+concepts:
+  - gradient-clipping
+  - feature-scaling
+stem: 某團隊訓練深度神經網路時，損失在第 3個 epoch後突然變為 NaN。檢查資料無缺失值。下列處置的優先順序何者最為適當？
+options:
+  A: 立即加大 Dropout 比例並提高 L2 懲罰，將 NaN 視為過擬合的訊號，無須另查輸入數值範圍
+  B: 將優化器由 Adam換為批次梯度下降以提高穩定度
+  C: 增加網路層數以提升表達能力
+  D: 先調降學習率並加入梯度裁剪，同時檢查輸入特徵是否有未縮放的極端數值
+answer: D
+explanation:
+  summary: NaN 先查數值發散及不合法運算。
+  correct: 降低更新幅度、限制梯度範數並檢查輸入量級，能優先處理常見數值不穩定；仍需排查除零與對數等運算。
+  wrong:
+    A: 防過擬合的措施不等同於排查 NaN 的數值來源。
+    B: 更換為全批次並不保證梯度有界，也沒有檢查輸入數值。
+    C: 增加層數沒有直接排除數值溢位，還可能增加訓練難度。
+guide_refs:
+  - guide-3:3-27
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch03.md
+  original_id: SIM-L23103-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；補寫干擾項細節，平衡選項長度；解析逐項重寫

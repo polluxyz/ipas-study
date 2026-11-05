@@ -1,0 +1,47 @@
+id: Z-L23101-002
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23101
+concepts:
+  - underfitting
+  - bias-variance-tradeoff
+stem: 某模型的訓練集 MAE為 8.2、驗證集 MAE為 8.5，兩條學習曲線在樣本量達 5萬後已趨於平坦並貼合。業務目標要求 MAE低於 4。下列處置何者最為適當？
+options:
+  A: 將同類訓練資料增加至 50 萬筆，維持模型與特徵不變，以增加樣本作為唯一改善方式
+  B: 提高模型複雜度、增加有用特徵，或減弱正則化
+  C: 加強 L2正則化並提高 Dropout比例
+  D: 使用早停以避免過擬合
+answer: B
+explanation:
+  summary: 訓練與驗證誤差接近且都過高，先處理欠擬合。
+  correct: 兩條曲線都停在目標之上，表示現有模型或特徵難以充分擬合。可增加容量、補有效特徵，或減少過強的限制。
+  wrong:
+    A: 相同分布的樣本繼續增加，未必能解決模型表達能力不足。
+    C: 更強的正則化會進一步限制容量，可能加重欠擬合。
+    D: 提早停止不能補足模型尚未學到的關係。
+guide_refs:
+  - guide-3:5-16
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch01.md
+  original_id: SIM-L23101-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫
