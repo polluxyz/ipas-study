@@ -1,0 +1,39 @@
+id: M-L23102-007
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23102
+concepts:
+  - vector-inner-product
+  - linear-transformation
+stem: 某工程師把二維感測向量 x 投影到方向 u，以下程式計算投影向量 p 與殘差 r。這裡的 sum 是 Python 內建加總函式。程式印出的 p、r 最接近何者？
+code: |
+  x = [3.0, 4.0]
+  u = [2.0, 0.0]
+  coefficient = sum(a * b for a, b in zip(x, u)) / sum(b * b for b in u)
+  p = [coefficient * b for b in u]
+  r = [a - b for a, b in zip(x, p)]
+  print(p, r)
+code_lang: python
+options:
+  A: p=[3.0, 4.0]；r=[0.0, 0.0]
+  B: p=[3.0, 0.0]；r=[0.0, 4.0]
+  C: p=[6.0, 0.0]；r=[-3.0, 4.0]
+  D: p=[12.0, 0.0]；r=[-9.0, 4.0]
+answer: B
+explanation:
+  summary: 投影到非單位方向向量時須除以方向向量的平方長度。
+  correct: x 與 u 的內積為 6，u 的平方長度為 4，因此係數為 1.5。投影為 [3,0]，殘差為 [0,4]。殘差與方向 u 正交。
+  wrong:
+    A: x 的第 2 個分量不在 u 所張成的水平子空間中，不能保留在投影向量內。
+    C: 這相當於只除以 u 的長度，再乘 u，得到的向量多放大了 2 倍。
+    D: 這相當於直接用內積乘 u，漏掉除以 u 的平方長度。
+guide_refs:
+  - guide-3:3-9
+  - guide-3:3-10
+  - guide-3:3-11
+author: codex
+review:
+  status: draft

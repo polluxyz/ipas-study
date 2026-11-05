@@ -1,0 +1,31 @@
+id: M-L23201-007
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23201
+concepts:
+  - bias-variance-tradeoff
+  - probabilistic-modeling
+stem: 某感測系統的觀測滿足 Y=f(X)+ε，其中 E[ε|X]=0，且 Var(ε|X)=9。即使 X 相同，獨立重測的 Y 仍會波動。模型已精確學到 f，並用平方誤差評估新觀測值。若不增加額外觀測資訊，下列解讀何者最正確？
+options:
+  A: 尚有來自 ε 的不可約誤差，單純增加容量無法消除
+  B: 模型已學到 f，表示每個新觀測值都會等於 f(X)
+  C: 重複複製既有訓練樣本，即可消除 ε 的條件變異
+  D: 加深網路即可讓新觀測值的預期平方誤差降至 0
+answer: A
+explanation:
+  summary: 區分模型擬合誤差與觀測本身的隨機誤差。
+  correct: 已學到條件平均 f 時，預測新 Y 的誤差仍包含 ε。其條件平均平方誤差為 9。只增加模型容量，不能從既有 X 預知這個隨機項。
+  wrong:
+    B: f(X) 是條件平均，不是每次量測值。ε 的條件變異為 9，表示新觀測仍可能偏離平均。
+    C: 複製資料沒有增加獨立資訊，也不會改變未來新觀測的隨機誤差分布。
+    D: 容量可以改善對 f 的近似，但題目已假設 f 被精確學到。額外容量無法提供未觀測的 ε。
+guide_refs:
+  - guide-3:3-2
+  - guide-3:3-4
+  - guide-3:5-16
+author: codex
+review:
+  status: draft
