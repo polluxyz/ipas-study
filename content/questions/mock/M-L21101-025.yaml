@@ -1,0 +1,31 @@
+id: M-L21101-025
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - text-classification
+  - output-loss-contract
+stem: 某售後系統有 4,000 封信，每封可同時標記「維修」「退款」「配送」中的多項。標註者已逐項標出是否需要該服務。團隊希望一次輸出需要啟動的服務集合。哪種分類頭與訓練目標最適合？
+options:
+  A: 三類 Softmax 分數，搭配單標籤交叉熵
+  B: 一個線性分數，搭配標籤總數的平方誤差
+  C: 一個 Sigmoid 分數，搭配是否需服務的二元交叉熵
+  D: 三個 Sigmoid 分數，搭配逐項二元交叉熵
+answer: D
+explanation:
+  summary: 一封信可有多個服務標籤，不能限制成互斥分類。
+  correct: 每個服務是否需要是獨立的二元目標。逐項 Sigmoid 搭配二元交叉熵可學習各服務的分數，不必把三類機率限制成總和為 1。
+  wrong:
+    A: 這種搭配以三類互斥為前提，會把同時成立的維修與退款變成競爭類別。
+    B: 預測需要幾種服務可以估計數量，但相同數量可能對應不同集合，無法指出該啟動哪項服務。
+    C: 這可判斷是否有任一需求，但把三種服務合在同一目標後，無法辨別各項需求。
+guide_refs:
+  - guide-1:3-30
+  - guide-3:4-62
+author: codex
+review:
+  status: verified
+  blind_answer: D
