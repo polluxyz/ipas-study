@@ -1,0 +1,30 @@
+id: M-L23303-042
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23303
+concepts:
+  - root-mean-squared-error
+  - r-squared
+stem: 某溫度預測器原本以攝氏評估。工程師把同一批真值與預測值都換成華氏，即每個值乘 1.8 再加 32，沒有重訓。真值有非零變異。對 RMSE 與 R² 的變化，下列判斷何者最正確？
+options:
+  A: RMSE 變為原值乘 1.8 再加 32；R² 不變
+  B: RMSE 變為原值的 1.8 倍；R² 不變
+  C: RMSE 不變；R² 變為原值的 1.8 倍
+  D: RMSE 變為原值的 3.24 倍；R² 不變
+answer: B
+explanation:
+  summary: 共同的單位轉換會縮放誤差，但不改變 R² 的比值。
+  correct: 共同加上的 32 在真值減預測值時抵銷，誤差只乘上 1.8，因此 RMSE 也乘 1.8。R² 的殘差平方和與總變異平方和都乘 3.24，比值不變。這是同一組預測的單位變換，不是預測能力改善。
+  wrong:
+    A: 32 是兩組溫度共用的平移量，在計算預測誤差時會抵銷，不會加進 RMSE。
+    C: RMSE 與目標值的單位相同，需隨尺度乘 1.8；R² 是無單位的比值，保持不變。
+    D: 3.24 是平方誤差的縮放倍數；RMSE 還會開平方，因此倍數是 1.8。
+guide_refs:
+  - guide-3:5-23
+  - guide-3:5-24
+author: codex
+review:
+  status: draft

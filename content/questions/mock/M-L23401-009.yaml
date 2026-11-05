@@ -1,0 +1,35 @@
+id: M-L23401-009
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23401
+concepts:
+  - t-closeness
+  - l-diversity
+stem: 某健康資料的每個準識別群都有至少 10 人與 2 種疾病，但某群的疾病比例明顯偏斜。團隊另外規定，該群與全表的疾病比例距離不得超過 0.2，距離定義如程式。依此附加要求，最正確的判斷為何？
+code: |
+  population = [0.5, 0.5]
+  group = [0.9, 0.1]
+  distance = sum(abs(a - b) for a, b in zip(population, group)) / 2
+  print(round(distance, 2), distance <= 0.2)
+code_lang: python
+options:
+  A: 通過，2 種疾病已滿足分布接近的要求
+  B: 通過，10 人群已滿足分布接近的要求
+  C: 不通過，該群與全表的比例距離為 0.4
+  D: 不通過，該群與全表的比例距離為 0.8
+answer: C
+explanation:
+  summary: 群內有多種敏感值，仍可能洩露某種值偏高的訊號。
+  correct: 兩項比例差都是 0.4，絕對差加總後除以 2，距離為 0.4，超過 0.2。群大小與不同疾病種類數不能取代對敏感值分布的檢查。知道一個人屬於該群，仍會把對第一種疾病的推測從 50% 提高到 90%。
+  wrong:
+    A: 2 種疾病只保證有不同值，並未要求兩種值的比例接近全表。
+    B: 10 人共享準識別值只限制身分定位的群大小，沒有控制疾病比例偏斜。
+    D: 0.8 是絕對差總和，尚未依題目公式除以 2，計算不符指定距離。
+guide_refs:
+  - guide-3:6-10
+author: codex
+review:
+  status: draft

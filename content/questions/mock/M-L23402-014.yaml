@@ -1,0 +1,33 @@
+id: M-L23402-014
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23402
+concepts:
+  - debiasing-strategies
+  - fairness-postprocessing
+  - fairness-preprocessing
+  - fairness-constrained-training
+stem: 某團隊依序試驗 3 項措施：訓練前重新抽取各群樣本；重訓時在目標函數加入公平性差距；保留模型參數後，以群體調整輸出門檻。若依介入位置分類，這 3 項措施最正確的順序為何？
+options:
+  A: 訓練中、前處理、後處理
+  B: 前處理、後處理、訓練中
+  C: 後處理、訓練中、前處理
+  D: 前處理、訓練中、後處理
+answer: D
+explanation:
+  summary: 資料、訓練目標與固定輸出的介入位置，對應 3 個去偏階段。
+  correct: 重新抽樣改變送入學習程序的資料分布，屬前處理。將公平差距加進訓練目標，屬訓練中處理。模型參數固定後調整決策門檻，屬後處理。方法是否改善目標指標仍須另外驗證，分類本身不構成改善證據。
+  wrong:
+    A: 把重新抽樣與加入公平性目標的階段對調；前者改資料，後者改學習目標。
+    B: 把加入公平目標誤列後處理，又把固定輸出後的門檻調整誤列訓練中。
+    C: 重新抽樣是在學習前介入，固定輸出後的門檻調整是在學習後介入，此順序將兩者顛倒。
+guide_refs:
+  - guide-3:6-20
+  - guide-3:6-21
+  - guide-3:6-22
+author: codex
+review:
+  status: draft

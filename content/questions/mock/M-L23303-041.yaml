@@ -1,0 +1,37 @@
+id: M-L23303-041
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - ndcg
+  - model-comparison
+stem: 某搜尋系統固定顯示 3 個候選。甲乙回傳同一組文件，但排序後的人工相關度如程式所示。相關度大於 0 都算命中，因此兩者命中數相同。驗收重視高相關文件排前面，並採程式中的線性增益。哪個判斷最正確？
+code: |
+  from math import log2
+  def dcg(values):
+      return sum(v / log2(i + 2) for i, v in enumerate(values))
+  ideal = dcg([3, 2, 0])
+  for name, values in [("甲", [3, 0, 2]), ("乙", [0, 2, 3])]:
+      print(name, round(dcg(values) / ideal, 3))
+code_lang: python
+options:
+  A: 甲的 NDCG 較高，應優先採用甲的排序
+  B: 乙的 NDCG 較高，應優先採用乙的排序
+  C: 兩者 NDCG 相同，應視為排序品質一致
+  D: 兩者 NDCG 皆為 1，應視為理想排序
+answer: A
+explanation:
+  summary: 相同候選與相同命中數，不保證排序品質相同。
+  correct: 理想順序是 3、2、0。甲的 NDCG 約 0.939，乙約 0.648。兩者都找出 2 份相關文件，但甲把相關度最高的文件放首位，取得較多折扣後增益。此處已明定線性增益，不使用指數增益。
+  wrong:
+    B: 乙把最高相關度排到第 3 位，折扣較大，因此本例的 NDCG 比甲低。
+    C: NDCG 的名次折扣會區分相同文件的不同排列，不能只看相關度總和。
+    D: 兩者都沒有把 3、2、0 依序排好，實際折扣增益都小於理想增益。
+guide_refs:
+  - guide-3:5-25
+author: codex
+review:
+  status: draft

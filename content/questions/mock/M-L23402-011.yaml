@@ -1,0 +1,33 @@
+id: M-L23402-011
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23402
+concepts:
+  - fairness-preprocessing
+  - debiasing-strategies
+  - class-weighting
+stem: 某團隊計畫在訓練開始前，依「群體與標籤」的聯合分布計算每筆樣本權重，並交給原有分類器訓練。分類器的演算法與損失形式不變，也不加入公平性約束，推論後不調整結果。這項去偏介入最正確的分類為何？
+options:
+  A: 資料前處理的樣本重加權
+  B: 訓練中的公平性約束學習
+  C: 結果後處理的群體門檻調整
+  D: 結果後處理的群體分數校準
+answer: A
+explanation:
+  summary: 去偏階段依調整的對象判定，不能只看權重何時被使用。
+  correct: 此處在學習前就依資料的群體與標籤組合計算權重，改變的是訓練樣本的貢獻分布，屬於前處理的重加權。分類器在訓練時讀取樣本權重，不會讓這項前處理自動變成公平性約束訓練。
+  wrong:
+    B: 訓練中去偏會把公平目標放入演算法、損失或約束；題目沒有新增群體差異懲罰，調整的是資料權重。
+    C: 門檻調整作用在固定模型分數之後，本題介入對象是訓練前的樣本權重。
+    D: 分數校準調整輸出機率與事件率的對應，和訓練前樣本重加權不同。
+guide_refs:
+  - guide-3:6-20
+  - guide-3:6-21
+  - guide-3:6-22
+  - guide-3:6-23
+author: codex
+review:
+  status: draft
