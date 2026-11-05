@@ -86,3 +86,42 @@ export function importAttempts(json: string): { added: number; skipped: number; 
   }
   write(attempts); writeReadings(readings); return result;
 }
+
+/** 每日題組與作答備份分開保存；每科只保留最近一次建立的題組。 */
+const DAILY_KEY = 'ipas-daily-v1';
+export interface DailySet { date: string; subject: 1 | 3; questions: { id: string; rev: number }[]; }
+function isDailySet(value: unknown): value is DailySet {
+  if (!value || typeof value !== 'object') return false;
+  const set = value as Record<string, unknown>;
+  if (typeof set.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(set.date) || ![1, 3].includes(Number(set.subject)) || typeof set.subject !== 'number' || !Array.isArray(set.questions) || set.questions.length > 50) return false;
+  const ids = new Set<string>();
+  return set.questions.every((item: unknown) => {
+    if (!item || typeof item !== 'object') return false;
+    const q = item as Record<string, unknown>;
+    if (typeof q.id !== 'string' || !q.id || !Number.isInteger(q.rev) || Number(q.rev) < 1 || ids.has(q.id)) return false;
+    ids.add(q.id); return true;
+  });
+}
+function readDailySets(): DailySet[] {
+  const raw = localStorage.getItem(DAILY_KEY);
+  if (!raw) return [];
+  const value: unknown = JSON.parse(raw);
+  if (!value || typeof value !== 'object' || !('version' in value) || value.version !== 1 || !('sets' in value) || !Array.isArray(value.sets) || !value.sets.every(isDailySet)) throw new Error('每日題組快取格式無法辨識，請保留現有資料並確認瀏覽器儲存狀態。');
+  return value.sets;
+}
+export function getDailySet(date: string, subject: 1 | 3): DailySet | undefined {
+  return readDailySets().find((set) => set.date === date && set.subject === subject);
+}
+/** 已有同日題組時回傳原題組，避免重整或其他分頁覆寫順序。 */
+export function saveDailySet(set: DailySet): DailySet {
+  if (!isDailySet(set)) throw new Error('每日題組欄位不完整。');
+  const sets = readDailySets();
+  const existing = sets.find((item) => item.date === set.date && item.subject === set.subject);
+  if (existing) return existing;
+  localStorage.setItem(DAILY_KEY, JSON.stringify({ version: 1, sets: [...sets.filter((item) => item.subject !== set.subject), set] }));
+  return set;
+}
+/** 清除本機學習資料時一併移除每日題組，避免保留與作答不一致的快取。 */
+export function clearStudyData(): void {
+  for (const key of [STORAGE_KEY, READING_KEY, DAILY_KEY]) localStorage.removeItem(key);
+}

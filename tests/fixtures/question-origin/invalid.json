@@ -1,0 +1,13 @@
+{
+  "missing_fields": ["author", "repo", "commit", "path", "original_id", "license", "license_url", "original_answer", "option_map", "modified"],
+  "commits": ["", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "gggggggggggggggggggggggggggggggggggggggg"],
+  "licenses": ["MIT", "", "CC-BY-SA-4.0"],
+  "option_maps": [
+    { "A": "A", "B": "A", "C": "C", "D": "D" },
+    { "A": "A", "B": "B", "C": "C" },
+    { "A": "A", "B": "B", "C": "C", "D": "E" },
+    { "A": "A", "B": "B", "C": "C", "D": "D", "E": "A" }
+  ],
+  "mismatched_answer": "B",
+  "original_answer": "E"
+}
