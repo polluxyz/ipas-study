@@ -1,0 +1,31 @@
+id: M-L21203-014
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - nist-ai-rmf
+  - model-monitoring
+stem: 某公司以外部預訓練模型提供文件分類。供應商每月可能更新模型，公司只在採購時驗收，近期卻發現相同文件的分類改變。依 NIST AI RMF 1.0 的 MANAGE 3.2，下列改善何者最適合？
+options:
+  A: 把外部預訓練模型納入例行監測，持續檢查版本與行為變化
+  B: 每月複核供應商的服務可用率，沿用採購時的分類驗收結果
+  C: 每月執行公司端程式碼掃描，以掃描結果決定是否繼續採用
+  D: 定期更新公司端作業系統，以更新完成紀錄判定模型可用
+answer: A
+explanation:
+  summary: 外部預訓練模型也需要持續監測。
+  correct: MANAGE 3.2 將開發時使用的預訓練模型納入系統的例行監測與維護。本例外部模型會更新，採購時的驗收無法代表後續行為。應追蹤版本並檢查分類變化。
+  wrong:
+    B: 可用率表示服務能否回應，無法確認更新後分類行為是否仍符合需求。
+    C: 公司端程式碼掃描可查安全問題，卻不能驗證供應商模型更新造成的分類變化。
+    D: 作業系統更新有助維護執行環境，但不能取代對外部模型行為的監測。
+guide_refs:
+  - guide-1:4-29
+  - guide-1:4-42
+author: codex
+review:
+  status: verified
+  blind_answer: A

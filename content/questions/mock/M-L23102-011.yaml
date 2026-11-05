@@ -1,0 +1,37 @@
+id: M-L23102-011
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23102
+concepts:
+  - linear-transformation
+  - vector-norm-linear-combination
+stem: 某檢索系統先對每個二維向量套用同一個矩陣 Q，再計算歐氏距離。工程師用下列程式檢查這個轉換。關於程式輸出及此轉換的效果，下列何者最正確？
+code: |
+  import numpy as np
+  Q = np.array([[0., -1.], [1., 0.]])
+  x = np.array([4., 6.])
+  y = np.array([1., 2.])
+  print(round(float(np.linalg.norm(Q @ x - Q @ y)), 1))
+code_lang: python
+options:
+  A: 印出 0.0；此轉換會把兩個位置合併
+  B: 印出 4.0；此轉換只保留其中一軸
+  C: 印出 5.0；此轉換保留原來兩點距離
+  D: 印出 7.0；此轉換改以兩軸差值相加
+answer: C
+explanation:
+  summary: 正交旋轉保留向量長度與兩點歐氏距離。
+  correct: 原差向量為 (3,4)，乘 Q 後為 (-4,3)，兩者長度都是 5。Q 是正交旋轉矩陣，因此對兩點一同轉換後，歐氏距離維持不變。
+  wrong:
+    A: Q 可逆，不會將這兩個不同位置合併。轉換後的差向量仍為非零。
+    B: 4.0 忽略了另一個分量；旋轉不是丟棄一軸的投影。
+    D: 7.0 是此例兩個絕對差值的和，屬曼哈頓距離，不是程式計算的歐氏距離。
+guide_refs:
+  - guide-3:3-11
+author: codex
+review:
+  status: verified
+  blind_answer: C

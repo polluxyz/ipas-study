@@ -1,0 +1,41 @@
+id: M-L23202-025
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23202
+concepts:
+  - support-vector-regression
+stem: 某工程師要確認支援向量迴歸的誤差容忍帶。以下程式擬合 3 筆資料，並計算每筆 max(|y−預測|−epsilon,0)。輸出均取小數點後 3 位。下列「預測；容忍帶外損失」何者最正確？
+code: |
+  import numpy as np
+  from sklearn.svm import SVR
+  x = np.array([[0.0], [1.0], [2.0]])
+  y = np.array([0.0, 1.0, 2.0])
+  model = SVR(kernel="linear", C=10.0, epsilon=0.2)
+  pred = model.fit(x, y).predict(x)
+  outside = np.maximum(np.abs(y - pred) - model.epsilon, 0.0)
+  print(np.round(pred, 3).tolist())
+  print(np.round(outside, 3).tolist())
+code_lang: python
+options:
+  A: "[0.2,1.0,1.8]；[0.04,0.0,0.04]"
+  B: "[0.0,1.0,2.0]；[0.0,0.0,0.0]"
+  C: "[0.2,1.0,1.8]；[0.2,0.0,0.2]"
+  D: "[0.2,1.0,1.8]；[0.0,0.0,0.0]"
+answer: D
+explanation:
+  summary: 區分 SVR 的容忍帶外損失與平方誤差、絕對誤差。
+  correct: 此模型的預測約為 0.2、1.0、1.8。兩端的絕對誤差約為 0.2，落在 epsilon=0.2 的邊界，扣除容忍量後損失為 0。容忍帶內不受這個誤差項懲罰，不代表預測必須通過每個訓練目標。
+  wrong:
+    A: 0.04 是兩端誤差 0.2 的平方。程式使用容忍帶外損失，並非均方誤差。
+    B: SVR 同時控制權重大小與容忍帶外誤差，不以精確插值為目標。此設定下兩端預測與目標相差約 0.2。
+    C: 這是直接使用絕對誤差，漏掉程式中扣除 epsilon 的步驟。容忍範圍內不產生這個損失。
+guide_refs:
+  - guide-3:4-17
+  - guide-3:4-18
+author: codex
+review:
+  status: verified
+  blind_answer: D

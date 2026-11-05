@@ -1,0 +1,41 @@
+id: M-L23203-028
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - multi-head-attention
+  - matrix-shapes
+stem: 某工程師檢查 2 頭注意力的回傳資料。每批有 3 筆資料，查詢長度為 4，鍵和值長度為 6，表示寬度均為 8。程式要求保留各頭權重，不做頭平均。下列 out 與 weights 的形狀何者最正確？
+code: |
+  import torch
+  torch.manual_seed(0)
+  layer = torch.nn.MultiheadAttention(8, 2, batch_first=True)
+  q = torch.zeros(3, 4, 8)
+  kv = torch.zeros(3, 6, 8)
+  out, weights = layer(q, kv, kv, average_attn_weights=False)
+  print(tuple(out.shape))
+  print(tuple(weights.shape))
+code_lang: python
+options:
+  A: out=(3,6,8)；weights=(3,2,6,4)
+  B: out=(3,4,16)；weights=(3,2,4,6)
+  C: out=(3,4,8)；weights=(3,2,4,6)
+  D: out=(3,4,8)；weights=(3,4,6)
+answer: C
+explanation:
+  summary: 區分注意力輸出的查詢長度與每頭權重矩陣。
+  correct: 每個查詢位置產生 1 個輸出，所以 out 沿用查詢的長度 4，最後投影回 8 維。權重逐筆、逐頭記錄查詢對鍵的分配，因此形狀為批次 3、頭數 2、查詢 4、鍵 6。
+  wrong:
+    A: 輸出位置由查詢決定，不由鍵決定。權重的最後兩軸也應依序為查詢與鍵。
+    B: 多頭結果串接後會投影回 embed_dim=8，不是將每個頭都當成完整的 8 維再保留 16 維。
+    D: 這是對各頭權重取平均後的形狀。程式已設 average_attn_weights=False，回傳仍包含頭軸。
+guide_refs:
+  - guide-3:4-79
+  - guide-3:4-80
+author: codex
+review:
+  status: verified
+  blind_answer: C
