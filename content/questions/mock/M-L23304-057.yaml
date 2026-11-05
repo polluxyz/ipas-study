@@ -1,0 +1,29 @@
+id: M-L23304-057
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - early-stopping
+stem: 某團隊使用 Keras EarlyStopping，設定 monitor="val_loss"、mode="min"、patience=3、min_delta=0、restore_best_weights=False。模型在第 18 輪出現最低驗證損失，之後連續 3 輪較差而停止。團隊要在停止後直接取得最低損失那輪的模型，不另設存檔回呼。下次訓練最適合改哪個設定？
+options:
+  A: 將 patience 改為 0，維持其他設定
+  B: 將 restore_best_weights 改為 True
+  C: 將 mode 改為 "max"，維持其他設定
+  D: 將 min_delta 改為 0.01，維持其他設定
+answer: B
+explanation:
+  summary: 停止訓練與還原最佳權重是兩個設定。
+  correct: restore_best_weights=True 會在訓練結束時還原監控指標最佳輪的模型權重。本例目前為 False，停止時留下的是第 21 輪權重；延後確認是否惡化，不等於自動退回第 18 輪。
+  wrong:
+    A: patience=0 會較早在未改善後停止，但停止輪的權重仍可能比前一輪差，也沒有啟用權重還原。
+    C: 驗證損失越低越好；改為 max 會把較高損失當成改善，並非保存最低損失輪。
+    D: min_delta 改變改善的最低幅度，沒有改變訓練結束時是否還原權重。
+guide_refs:
+  - guide-3:5-19
+  - guide-3:5-46
+author: codex
+review:
+  status: draft

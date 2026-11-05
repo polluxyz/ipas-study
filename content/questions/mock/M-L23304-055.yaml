@@ -1,0 +1,29 @@
+id: M-L23304-055
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - grid-search
+  - recall
+stem: 某工廠以 GridSearchCV 比較 12 組二元分類設定，以瑕疵為正類，同時記錄 accuracy 與 recall。瑕疵召回率是這輪唯一的選模指標，準確率只供報表參考。目前 scoring={"acc":"accuracy","rec":"recall"}、refit="acc"、cv=3、n_jobs=1。其中 refit 的字串指定用哪個指標選出最佳設定並重訓。若要讓實作符合這輪目標，哪項調整最適合？
+options:
+  A: 將 refit 改為 "rec"，保留雙指標評分
+  B: 將 scoring 內的 "rec" 項目排到最前面
+  C: 將 cv 由 3 改為 5，保留原 refit 值
+  D: 將 n_jobs 由 1 改為 -1，保留原 refit 值
+answer: A
+explanation:
+  summary: 多指標搜尋須明確指定最終選模所用的指標。
+  correct: refit="rec" 會依交叉驗證的平均召回率挑選設定，再用傳入搜尋器的完整開發資料重訓。accuracy 仍可保留作比較；同時計算兩個指標，不代表搜尋器會自動改用業務重視的指標。
+  wrong:
+    B: 字典內指標的排列順序不決定選模依據；refit 仍指定 acc，就仍按平均準確率選擇。
+    C: 增加折數會改變驗證配置，沒有把選模依據由準確率換成召回率。
+    D: n_jobs 控制平行運算資源，並不決定用哪個指標排名候選。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: draft

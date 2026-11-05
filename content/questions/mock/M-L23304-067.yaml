@@ -1,0 +1,28 @@
+id: M-L23304-067
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23304
+concepts:
+  - early-stopping
+stem: 某團隊將早停監控值由每筆平均損失，改記為固定 50 筆驗證資料的損失總和。兩者都越低越好，資料與各輪模型相同。平均損失規則設 min_delta=0.01，要求新值嚴格小於 best−min_delta 才算改善。若要保留相同的改善判斷，總和規則的 min_delta 應設為多少？
+options:
+  A: "0.0002"
+  B: "0.5"
+  C: "1.0"
+  D: "50.0"
+answer: B
+explanation:
+  summary: 最小改善幅度須與監控指標使用相同的尺度。
+  correct: 總和是平均的 50 倍，因此 best、新的損失值與 min_delta 都須乘 50。平均損失門檻 0.01 對應總和門檻 0.5，才能讓兩種尺度對每一輪作出相同的改善判斷。
+  wrong:
+    A: 把 0.01 除以 50 是反方向換算；從平均改成總和，絕對改善門檻應放大。
+    C: 這相當於把兩個損失值的倍率相加，誤用 100×0.01。不等式兩邊各乘 50，門檻也只需乘 50。
+    D: 50.0 是樣本數，不是換算後的改善幅度。門檻應為 50×0.01，而不是直接套用 50。
+guide_refs:
+  - guide-3:5-19
+author: codex
+review:
+  status: draft

@@ -1,0 +1,39 @@
+id: M-L23304-062
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - grid-search
+stem: 某工程師已預留測試集，希望先完成參數比較，稍後再安排一次完整開發資料重訓。下列程式只印出搜尋結果的狀態。關於 refit=False 的效果，哪項判斷最正確？
+code: |
+  from sklearn.datasets import load_iris
+  from sklearn.tree import DecisionTreeClassifier
+  from sklearn.model_selection import GridSearchCV
+  X, y = load_iris(return_X_y=True)
+  search = GridSearchCV(DecisionTreeClassifier(random_state=0),
+                        {"max_depth": [1, 2]}, cv=3, refit=False)
+  search.fit(X, y)
+  print(search.best_params_)
+  print(hasattr(search, "best_estimator_"))
+code_lang: python
+options:
+  A: 可取得最佳參數；未建立最終重訓模型
+  B: 可取得最佳參數；已建立完整資料重訓模型
+  C: 只能取得各折分數；無法取得最佳參數
+  D: 可取得最佳參數；已建立各折投票模型
+answer: A
+explanation:
+  summary: 關閉重訓仍可進行候選比較，但不會產生最終估計器。
+  correct: 單指標搜尋在 refit=False 時，仍有 best_params_ 與各組驗證分數，但不會設定 best_estimator_。第 2 行輸出為 False；後續可用選定參數建立新模型，再以完整開發資料擬合。
+  wrong:
+    B: refit=False 已關閉選參後的完整資料重訓，搜尋完成並不表示存在最終重訓模型。
+    C: 單指標評分仍可依平均驗證分數選出最佳參數；關閉的是重訓步驟，不是候選排名。
+    D: 交叉驗證中各折的模型用於評分，GridSearchCV 不會把這些模型自動組成投票模型。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: draft

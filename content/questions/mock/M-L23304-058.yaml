@@ -1,0 +1,43 @@
+id: M-L23304-058
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - early-stopping
+stem: 某模型前 3 輪為初始化過渡期，團隊不希望早停在這段期間累積未改善次數。以下以回呼模擬每輪驗證結果；epoch 從 0 起算，start_from_epoch=3 表示從第 4 輪才開始監控。程式在哪一輪停止最符合設定？
+code: |
+  from tensorflow import keras
+  model = keras.Sequential([keras.Input(shape=(1,)), keras.layers.Dense(1)])
+  model.stop_training = False
+  stop = keras.callbacks.EarlyStopping(
+      monitor="val_loss", mode="min", patience=1, start_from_epoch=3)
+  stop.set_model(model)
+  stop.on_train_begin()
+  for epoch, value in enumerate([0.5, 0.6, 0.7, 0.7, 0.8]):
+      stop.on_epoch_end(epoch, {"val_loss": value})
+      if model.stop_training:
+          print(epoch + 1)
+          break
+  stop.on_train_end()
+code_lang: python
+options:
+  A: 第 2 輪停止
+  B: 第 3 輪停止
+  C: 第 4 輪停止
+  D: 第 5 輪停止
+answer: D
+explanation:
+  summary: 早停可以在過渡期結束後才建立改善基準。
+  correct: 前 3 輪不納入早停監控。第 4 輪的 0.7 建立最佳值，第 5 輪的 0.8 未改善，計數達 patience=1，因此印出 5。開始監控的輪次與容忍次數各有不同用途。
+  wrong:
+    A: 若從第 1 輪監控，才會因第 2 輪變差而達到容忍次數；本例設定了延後監控。
+    B: 第 3 輪仍在排除監控的過渡期內，尚不會累積早停計數。
+    C: 第 4 輪是首次納入監控的有效結果，用來建立基準，不是一次未改善。
+guide_refs:
+  - guide-3:5-46
+author: codex
+review:
+  status: draft
