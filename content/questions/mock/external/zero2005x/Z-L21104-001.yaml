@@ -1,0 +1,48 @@
+id: Z-L21104-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - multimodal-fusion
+  - missing-modality
+stem: 某醫院規劃導入多模態 AI輔助判讀系統，整合胸部 X光影像、結構化檢驗數值與文字病歷。實務上約有 15%的病例缺少當次檢驗數值。關於架構設計，下列何者最為適當？
+options:
+  A: 採早期融合將三模態原始特徵直接拼接，缺值以 0填補即可
+  B: 直接捨棄缺少檢驗數值的 15%病例，僅以完整病例訓練與服務
+  C: 中期融合搭配模態 dropout，兼顧缺失容忍與跨模態交互
+  D: 為每種模態各訓練一個獨立模型，並以簡單多數決作為最終診斷
+answer: C
+explanation:
+  summary: 以模態缺失訓練提升缺少資料時的可用性。
+  correct: 中間表示可學不同模態間的關聯；訓練時刻意移除部分模態，能讓模型練習缺少檢驗資訊的情況。仍須在不同缺失組合上驗收。
+  wrong:
+    A: 0 可能是有意義的檢驗數值，直接填入又不標示缺失，會讓模型把缺資料誤當真實測量。
+    B: 排除 15% 病例會降低涵蓋範圍，且完整病例訓練不能解決服務時缺檢驗資料的問題。
+    D: 簡單投票缺少跨模態交互學習，也未交代缺少一個投票來源時的處理。
+guide_refs:
+  - guide-1:3-75
+  - guide-1:3-80
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch04.md
+  original_id: SIM-L21104-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    B: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

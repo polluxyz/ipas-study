@@ -1,0 +1,37 @@
+id: M-L23301-015
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - one-hot-encoding
+  - categorical-encoding
+stem: 某客服分類器只認識 basic 與 pro 方案。工程師為減少欄位而丟棄第一類，並忽略未知類別。程式以相同轉換器處理 basic 與新方案 trial。若下游只取得轉換後向量，最需要注意哪項限制？
+code: |
+  from sklearn.preprocessing import OneHotEncoder
+  enc = OneHotEncoder(categories=[["basic", "pro"]], drop="first",
+                      handle_unknown="ignore", sparse_output=False)
+  enc.fit([["basic"], ["pro"]])
+  print(enc.transform([["basic"], ["trial"]]).tolist())
+code_lang: python
+options:
+  A: trial 會新增獨立欄位，造成下游輸入維度增加
+  B: basic 與 trial 的編碼相反，可直接區分新方案
+  C: basic 與 trial 都成為零向量，向量無法區分兩者
+  D: trial 會沿用 pro 的編碼，讓新方案被辨識為升級
+answer: C
+explanation:
+  summary: 丟棄參考類別與忽略未知值可能產生相同編碼。
+  correct: basic 是被丟棄的參考類別，因此剩下的 pro 欄為 0。trial 是未知類別，handle_unknown="ignore" 也會產生全零編碼。固定欄數解決了維度問題，但下游無法僅由此向量分辨 basic 與 trial。
+  wrong:
+    A: 轉換器的輸出欄位已由訓練類別與 drop 設定決定，transform 不會替 trial 新增欄位。
+    B: 兩筆資料都得到 [0.0]，不是相反編碼。
+    D: pro 的編碼是 [1.0]，未知類別不會自動對應 pro。
+guide_refs:
+  - guide-3:5-8
+author: codex
+review:
+  status: verified
+  blind_answer: C

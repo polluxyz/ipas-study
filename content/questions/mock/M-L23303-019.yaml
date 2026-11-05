@@ -1,0 +1,40 @@
+id: M-L23303-019
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - f1-score
+  - k-fold-cross-validation
+stem: 某團隊將每筆樣本只出現 1 次的折外預測合併後計算 F1，另一份報告則平均各摺 F1。程式中的兩摺樣本數相同，且正類為 1。關於兩份報告，哪項判斷最正確？
+code: |
+  import numpy as np
+  from sklearn.metrics import f1_score
+  y = [np.array([1, 0]), np.array([1, 0])]
+  p = [np.array([1, 0]), np.array([0, 0])]
+  mean_fold = np.mean([f1_score(a, b) for a, b in zip(y, p)])
+  pooled = f1_score(np.concatenate(y), np.concatenate(p))
+  print(round(float(mean_fold), 3), round(float(pooled), 3))
+code_lang: python
+options:
+  A: 兩者相同，因為各摺樣本數一致就能互換計算順序
+  B: 只可使用摺平均，合併預測會讓每筆樣本被重複計數
+  C: 合併後會得到較低 F1，因為合併必然增加漏檢比例
+  D: 兩者可不同，F1 的比值運算不等同先算後平均
+answer: D
+explanation:
+  summary: 各摺 F1 的平均與合併折外預測的 F1 回答不同彙整問題。
+  correct: 第一摺 F1 為 1，第二摺為 0，摺平均為 0.5。合併後 TP=1、FP=0、FN=1，F1=2/3，約 0.667。F1 是非線性的比值，相同摺大小也不足以保證兩種彙整相等。報告應標明採用哪種定義。
+  wrong:
+    A: 摺大小相同只能保證某些逐筆可加總指標的等權關係，不能讓 F1 的分母與比值運算互換。
+    B: 題幹已限定每筆折外預測只出現一次，合併不會造成重複計數。
+    C: 本例合併 F1 高於摺平均，合併本身也不會新增錯誤預測。
+guide_refs:
+  - guide-3:5-21
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  blind_answer: D

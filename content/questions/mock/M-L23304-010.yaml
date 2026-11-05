@@ -1,0 +1,43 @@
+id: M-L23304-010
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - mini-batch-gradient-descent
+  - pytorch
+stem: 某訓練器將 2 筆資料拆成大小相同的微批次，想模擬合併後「平均損失」的 1 次更新。沒有 Dropout、批次正規化、動量或權重衰減。以下程式只在結尾更新 1 次；最適合如何修正？
+code: |
+  import torch
+  w = torch.nn.Parameter(torch.tensor(0.0))
+  opt = torch.optim.SGD([w], lr=0.1)
+  opt.zero_grad()
+  for target in [1.0, 3.0]:
+      loss = (w - target).square()
+      loss.backward()
+  opt.step()
+  print(round(w.item(), 2))
+code_lang: python
+options:
+  A: 每次反向傳播前把 loss 除以 2，保留結尾的單次更新
+  B: 每次反向傳播前先清除梯度，保留結尾的單次更新
+  C: 每次反向傳播後立刻更新，再於結尾補做一次更新
+  D: 每次反向傳播前把 loss 乘以 2，保留結尾的單次更新
+answer: A
+explanation:
+  summary: 梯度累積須配合平均目標的縮放，不能把微批次平均直接加總。
+  correct: 目前 2 個梯度為 -2 與 -6，相加為 -8，權重由 0 更新到 0.8。合併平均目標的梯度應為 -4，更新結果是 0.4。兩個等大微批次各除以 2 即可得到該平均。
+  wrong:
+    B: 每次清除會捨棄前一筆貢獻，最後僅以第 2 筆梯度更新到 0.6。
+    C: 中途更新會改變下一筆計算梯度時的權重，不再等同題目指定的合併後單次更新。
+    D: 乘以 2 會讓累積梯度再放大，與平均損失的目標相反。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-19
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: A

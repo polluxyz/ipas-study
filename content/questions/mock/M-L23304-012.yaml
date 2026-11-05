@@ -1,0 +1,41 @@
+id: M-L23304-012
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - momentum
+  - sgd
+stem: 某工程師以 PyTorch 的動量 SGD 測試參數更新。第 1 步手動給梯度 2，第 2 步給零梯度，沒有權重衰減、阻尼或 Nesterov。關於第 2 步後的結果，何者最正確？
+code: |
+  import torch
+  w = torch.nn.Parameter(torch.tensor(1.0))
+  opt = torch.optim.SGD([w], lr=0.1, momentum=0.5)
+  w.grad = torch.tensor(2.0)
+  opt.step()
+  w.grad = torch.tensor(0.0)
+  opt.step()
+  print(round(w.item(), 2))
+code_lang: python
+options:
+  A: w 為 0.8；目前梯度是零，因此歷史動量在這一步被清除
+  B: w 為 0.7；歷史動量仍有貢獻，因此零梯度也可能移動參數
+  C: w 為 0.6；優化器會直接重用上一步的完整梯度作第二次更新
+  D: w 為 1.0；零梯度代表應撤銷前一次更新並恢復初始參數
+answer: B
+explanation:
+  summary: 動量更新結合歷史狀態，不只取決於目前梯度。
+  correct: 第 1 步的動量為 2，w 變成 0.8。第 2 步的動量是 0.5×2+0=1，故再減少 0.1，得到 0.7。零梯度與沒有歷史動量是不同條件。
+  wrong:
+    A: 零梯度不會清除動量緩衝區；先前的動量仍按 0.5 衰減後參與更新。
+    C: 上一步的動量會乘上 0.5，不是完整重用梯度 2。
+    D: 優化器不會把零梯度解讀為撤銷指令，沒有恢復初始參數的操作。
+guide_refs:
+  - guide-3:5-39
+  - guide-3:5-40
+author: codex
+review:
+  status: verified
+  blind_answer: B

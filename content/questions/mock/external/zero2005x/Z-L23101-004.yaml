@@ -1,0 +1,53 @@
+id: Z-L23101-004
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23101
+concepts:
+  - descriptive-statistics
+  - numpy-data-operations
+stem: 關於下列程式之敘述，何者錯誤？
+code: |-
+  import numpy as np, pandas as pd
+  x= [2, 4, 4, 4, 5, 5, 7, 9]
+  a= np.var(x)
+  b= pd.Series(x).var()
+code_lang: python
+options:
+  A: a與b必定相等，因為兩者計算的是同一組資料
+  B: a為母體變異數，分母為 n
+  C: b為樣本變異數，分母為 n−1
+  D: a的值小於b
+answer: A
+explanation:
+  summary: 相同資料可因自由度設定而得到不同變異數。
+  correct: 本題選錯誤敘述。NumPy 預設除以 8，pandas 預設除以 7。本例結果分別為 4 與約 4.5714，並不相等。
+  wrong:
+    B: a 的預設自由度修正為 0，分母確實是 n。
+    C: b 預設自由度修正為 1，分母確實是 n−1。
+    D: 本例資料有非零變異，除以 n 的值確實較小。
+guide_refs:
+  - guide-3:3-8
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch01.md
+  original_id: SIM-L23101-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: D
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；解析逐項重寫

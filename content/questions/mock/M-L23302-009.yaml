@@ -1,0 +1,33 @@
+id: M-L23302-009
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23302
+concepts:
+  - output-loss-contract
+  - classification-regression
+stem: 某模型預測隔日溫度變化，目標值未標準化，範圍目前為 -18 到 22 度，未來也可能超出。團隊以均方誤差訓練，隱藏層已有非線性。輸出層的設計何者最適合？
+options:
+  A: 設 1 個 Sigmoid 輸出，直接與攝氏溫差目標計算誤差
+  B: 設 1 個 Tanh 輸出，直接與攝氏溫差目標計算誤差
+  C: 設 1 個線性輸出，直接與攝氏溫差目標計算誤差
+  D: 設 1 個 ReLU 輸出，直接與攝氏溫差目標計算誤差
+answer: C
+explanation:
+  summary: 未縮放的有正負連續目標，需要能表達相應範圍的輸出。
+  correct: 單一線性輸出不把結果限制在固定區間，可表示負溫差與超過 1 的正溫差。隱藏層已有非線性，因此線性輸出不會使整個網路退化成線性模型。
+  wrong:
+    A: Sigmoid 輸出在 0 到 1 之間，無法直接表示題目的負數與大於 1 的溫差。
+    B: Tanh 雖可輸出負值，但範圍受限於 -1 到 1。本題沒有把目標縮放至該區間。
+    D: ReLU 不提供負輸出，無法表示降溫的目標。
+guide_refs:
+  - guide-3:4-62
+  - guide-3:5-12
+  - guide-3:5-36
+  - guide-3:5-37
+author: codex
+review:
+  status: verified
+  blind_answer: C

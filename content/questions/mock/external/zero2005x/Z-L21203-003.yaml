@@ -1,0 +1,48 @@
+id: Z-L21203-003
+rev: 2
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21203
+concepts:
+  - ai-risk-governance
+  - responsible-ai-principles
+stem: 關於我國《人工智慧風險分類框架》v1.0，下列敘述何者錯誤？
+options:
+  A: 該框架由數位發展部依《人工智慧基本法》第 16 條訂定，供目的事業主管機關訂定風險管理規範
+  B: 該框架適用於所有 AI應用，包括軍事相關之 AI應用，且對民間企業具直接法律拘束力
+  C: 框架依序盤點應用情境、識別風險、評估風險與應對風險；各機關可按評估結果檢視既有措施及管理規範
+  D: 風險類型表彙整已知之 20項風險子類型，並區分為三大類
+answer: B
+explanation:
+  summary: 框架的用途與法律性質要分開判讀。
+  correct: 題目問錯誤敘述。框架排除軍事用途，也不是直接對所有企業設義務的法規命令，B 同時誤述適用範圍與效力。
+  wrong:
+    A: 數位發展部依基本法第 16 條推動框架，目的事業主管機關據以訂定管理規範，產業界也可參考，敘述正確。
+    C: 先確認有哪些應用，再找風險、評估影響並安排應對，符合框架的四個操作階段。
+    D: 框架表 1 分成 A、B、C 三類，附錄說明依 20 個子類型填寫評估表，並非固定不變的封閉清單。
+guide_refs:
+  - guide-1:4-29
+  - guide-1:4-38
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch07.md
+  original_id: SIM-L21203-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: D
+  option_map:
+    A: A
+    D: B
+    B: C
+    C: D
+  modified: 選項重排；解析全部重寫；改寫原 B 干擾項以平衡長度；將正解解析的審稿用語改為直接說明 B 的錯誤；主審依官方框架全文，把選項 A 的「性質為參考框架」改為框架實際用途

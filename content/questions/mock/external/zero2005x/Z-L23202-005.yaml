@@ -1,0 +1,48 @@
+id: Z-L23202-005
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23202
+concepts:
+  - logistic-regression
+  - sigmoid
+stem: 關於邏輯斯迴歸（Logistic Regression）的模型假設，下列敘述何者正確？
+options:
+  A: 正類機率 p 與各自變數之間必須呈線性關係
+  B: 對數勝算 ln[p/(1−p)] 與自變數之間呈線性關係
+  C: 各自變數必須服從常態分佈
+  D: 資料必須在特徵空間中線性可分，否則模型無法使用
+answer: B
+explanation:
+  summary: 邏輯斯迴歸的線性關係施加在對數勝算。
+  correct: 模型令 log(p/(1−p)) 等於截距與特徵加權和；轉回 p 時經過 sigmoid，所以 p 不必與特徵成直線。
+  wrong:
+    A: p 經 sigmoid 轉換後通常不是特徵的線性函數。
+    C: 模型不要求所有輸入特徵都是常態分布。
+    D: 類別可以重疊，不需要先具備完全可分的邊界。
+guide_refs:
+  - guide-3:4-26
+  - guide-3:4-27
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch05.md
+  original_id: SIM-L23202-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；解析逐項重寫

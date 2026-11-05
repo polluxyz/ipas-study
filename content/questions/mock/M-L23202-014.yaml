@@ -1,0 +1,30 @@
+id: M-L23202-014
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23202
+concepts:
+  - hierarchical-clustering
+stem: 某團隊用凝聚式階層分群整理 80 筆樣本，發現兩大群只因一對邊緣點很近就被合併。團隊想把群間距離改成「兩群之間最遠的一對樣本距離」，以降低這種短距離連接造成的合併。最符合新定義的連結準則為何？
+options:
+  A: 單一連結
+  B: 平均連結
+  C: 中心連結
+  D: 完整連結
+answer: D
+explanation:
+  summary: 依群間距離的定義選擇階層分群準則。
+  correct: 完整連結以跨群所有樣本配對的最大距離作為群間距離。因此，一對邊緣點很近不足以讓兩大群在低距離門檻下合併。
+  wrong:
+    A: 單一連結取最小距離，正是容易受少數近距離點連接影響的準則。
+    B: 平均連結使用跨群距離平均，不是題目明確要求的最遠配對距離。
+    C: 群中心的距離可能掩蓋邊緣的遠距離，不等於跨群樣本配對的最大距離。
+guide_refs:
+  - guide-3:4-42
+  - guide-3:4-43
+author: codex
+review:
+  status: verified
+  blind_answer: D

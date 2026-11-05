@@ -1,0 +1,47 @@
+id: Z-L23301-004
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - one-hot-encoding
+  - categorical-encoding
+stem: 模型上線後，遇到訓練時未出現過的類別值即拋出錯誤。下列處置何者最為適當？
+options:
+  A: 在上線之前人工列出全部商品、分行與裝置類別，假設清單涵蓋未來的新類別後便不必設未知值處理
+  B: 改用順序編碼即可避免此問題
+  C: 每次遇到新類別就重新訓練整個模型
+  D: 設定編碼器忽略未知類別（產生全零向量），或在訓練前先將低頻類別合併為「其他」桶，並將上線的新類別映射到該桶
+answer: D
+explanation:
+  summary: 未知類別要在編碼階段設定可預期的處理方式。
+  correct: 可設定忽略未知值，或預先設計低頻與未知值共用的其他類別。後者還需明確把新值映射到該類別。
+  wrong:
+    A: 動態類別持續增加，事先窮舉無法長期保證完整。
+    B: 順序編碼也需要未知值策略，換編碼名稱不會自動解決。
+    C: 每遇到新值就重訓會增加成本，也不能提供當下可靠的例外處理。
+guide_refs:
+  - guide-3:5-8
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch07.md
+  original_id: SIM-L23301-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；補寫干擾項細節，平衡選項長度；解析逐項重寫；在 D 補明上線的新類別須映射到其他桶，保留正解原意

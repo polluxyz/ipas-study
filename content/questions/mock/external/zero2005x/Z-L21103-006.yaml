@@ -1,0 +1,51 @@
+id: Z-L21103-006
+rev: 2
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+  - L21103
+  - L23401
+concepts:
+  - rag
+  - api-access-security
+  - data-minimization
+stem: 某保險公司建置內部知識問答系統，知識庫涵蓋全公司文件。上線後發現，一般業務員可透過對話取得他無權查閱的人事薪資文件內容。技術團隊建議在系統提示中加入「請勿透露人事機密文件」。下列評論何者最為正確？
+options:
+  A: 應改為全參數微調，讓模型記住哪些文件不能說
+  B: 檢索時按使用者權限過濾文件，不讓無權文件進入候選集
+  C: 應調降生成溫度並縮短回覆長度，即可避免洩漏
+  D: 建議可行，系統提示的優先級高於使用者輸入，可有效阻止洩漏
+answer: B
+explanation:
+  summary: 檢索權限要在文件進入模型前執行。
+  correct: 依登入者權限先篩選文件，使不應讀取的薪資資料不進入檢索結果，可直接修補授權缺口。
+  wrong:
+    A: 把拒絕規則或機密資料學進權重，不能代替隨人員權限更新的授權檢查，還可能增加記憶洩漏風險。
+    C: 回覆短或取樣固定仍會洩漏敏感事實，這兩種設定都沒有檢查文件權限。
+    D: 指令優先順序不是存取控制。資料已交給模型後，提示限制仍可能失效。
+guide_refs:
+  - guide-1:5-17
+  - guide-1:4-34
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch03.md
+  original_id: SIM-L21103-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    B: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；主要代碼改為 L21302，保留 L21103 與 L23401 為相關代碼

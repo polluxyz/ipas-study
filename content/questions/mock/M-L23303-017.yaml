@@ -1,0 +1,44 @@
+id: M-L23303-017
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - k-fold-cross-validation
+  - mean-absolute-error
+stem: 某工程師比較兩個需求量預測器，評分器採 neg_mean_absolute_error，即平均絕對誤差的負值。兩者使用相同的 3 個切分。程式印出的結果應如何解讀，才符合此評分器的方向？
+code: |
+  import numpy as np
+  from sklearn.dummy import DummyRegressor
+  from sklearn.model_selection import KFold, cross_val_score
+  X = np.arange(6).reshape(-1, 1)
+  y = np.array([1, 2, 3, 4, 5, 6])
+  cv = KFold(n_splits=3)
+  a = cross_val_score(DummyRegressor(strategy="constant", constant=0), X, y,
+                      cv=cv, scoring="neg_mean_absolute_error")
+  b = cross_val_score(DummyRegressor(strategy="constant", constant=3), X, y,
+                      cv=cv, scoring="neg_mean_absolute_error")
+  print(round(a.mean(), 1), round(b.mean(), 1))
+code_lang: python
+options:
+  A: 選甲；甲的平均分數較低，代表平均絕對誤差較小
+  B: 選乙；乙的平均分數較高，對應平均絕對誤差較小
+  C: 選甲；取分數絕對值後，數值較大的模型較好
+  D: 選乙；負值表示乙對需求量的預測系統性偏低
+answer: B
+explanation:
+  summary: 負誤差評分器以較大的分數代表較小的誤差。
+  correct: 甲的平均分數為 −3.5，乙為 −1.5。因評分器回傳誤差的負值，乙的平均絕對誤差為 1.5，小於甲的 3.5，因此應選乙。負分是評分方向設計，不代表預測低估。
+  wrong:
+    A: 較低的負分代表較大的正誤差。甲雖為 −3.5，但其平均絕對誤差是 3.5。
+    C: 取絕對值後得到誤差大小，誤差應越小越好，不是越大越好。
+    D: 平均絕對誤差不保留高估或低估的方向，負號來自評分器定義。
+guide_refs:
+  - guide-3:5-23
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  blind_answer: B

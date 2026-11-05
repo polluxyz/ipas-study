@@ -1,0 +1,41 @@
+id: M-L23203-014
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - output-loss-contract
+  - cross-entropy-loss
+  - pytorch
+stem: 某二元分類模型把負類樣本誤判為很高的正類分數。工程師以 float32 測試分數 1000，想避免先算機率再取對數的數值問題。關於下列兩種損失計算，何者最正確？
+code: |
+  import torch
+  z = torch.tensor([1000.0], dtype=torch.float32)
+  y = torch.tensor([0.0])
+  stable = torch.nn.BCEWithLogitsLoss()(z, y)
+  naive = -torch.log(1 - torch.sigmoid(z)).mean()
+  print(stable.item(), torch.isfinite(stable).item())
+  print(naive.item(), torch.isfinite(naive).item())
+code_lang: python
+options:
+  A: 兩者都約為 0，因為很大的正分數代表分類已經正確
+  B: 兩者都為無限大，因為交叉熵無法處理超過 1 的分數
+  C: stable 約為 1000 且有限，naive 因機率飽和而變成無限大
+  D: stable 約為 100，naive 會自動將輸入截成合法機率
+answer: C
+explanation:
+  summary: 合併原始分數與二元交叉熵的計算，可改善極端分數的穩定性。
+  correct: 標籤為 0，分數 1000 是高信心的錯誤。BCEWithLogitsLoss 直接處理原始分數，穩定結果約為 1000。float32 的 sigmoid(1000) 成為 1，手寫的 log(1-1) 則產生負無限大，取負後得到無限大。
+  wrong:
+    A: 正分數只表示傾向正類；本題真實標籤是負類，因此損失很大。
+    B: BCEWithLogitsLoss 接收原始分數，不限制在 0 到 1。它能用穩定公式處理此值。
+    D: 約 100 的截限不是這段手寫公式的行為；這裡直接對零取對數，沒有自動截限。
+guide_refs:
+  - guide-3:4-62
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: C
