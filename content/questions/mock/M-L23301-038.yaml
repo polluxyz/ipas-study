@@ -1,0 +1,32 @@
+id: M-L23301-038
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23301
+concepts:
+  - feature-scaling
+  - feature-engineering-strategy
+stem: 某客戶分群流程以標準化後的年齡與消費額計算歐氏距離。改版把消費額複製成 5 個相同欄位，年齡仍只有 1 欄。每欄都各自標準化，卻發現分群更受消費額影響。若要恢復兩種資訊各 1 份的權重，哪項做法最適合？
+options:
+  A: 將 5 個消費額欄都改用最小最大縮放
+  B: 去除消費額的重複欄，只保留 1 個欄位
+  C: 將年齡由整數改成獨熱編碼的年齡欄
+  D: 增加分群數，再保留目前的 6 個欄位
+answer: B
+explanation:
+  summary: 逐欄標準化不會消除重複欄位對距離的加權。
+  correct: 歐氏距離會累加每一欄的平方差。5 個相同消費額欄會把同一份差異重複計入。只保留一欄可恢復年齡與消費額各提供一份標準化資訊的設計。
+  wrong:
+    A: 改變縮放方式不等於消除重複資訊，也未保證消費額的合計權重回到原設定。
+    C: 年齡獨熱編碼會改變年齡的距離意義，無法直接恢復原本兩個連續特徵的距離。
+    D: 增加分群數改變群體細分程度，並未修正距離中消費額被重複計入的原因。
+guide_refs:
+  - guide-3:5-6
+  - guide-3:5-7
+  - guide-3:5-10
+author: codex
+review:
+  status: verified
+  blind_answer: B

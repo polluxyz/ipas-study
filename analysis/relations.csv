@@ -17,6 +17,7 @@ adversarial-debiasing,is_a,debiasing-strategies,,
 adversarial-debiasing,requires,fairness-constrained-training,,
 adversarial-debiasing,mitigates,algorithmic-bias,降低表示或輸出中的敏感資訊，弱對手與有限樣本仍可能漏掉殘留偏見,guide-3:6-22
 adversarial-examples,requires,computer-vision-tasks,,
+adversarial-examples,contrasts,data-poisoning,對抗樣本改推論期輸入；資料毒化改訓練資料或標籤，後門可在之後遇到觸發樣式才判錯。,Z-L23401-002
 adversarial-training,requires,adversarial-examples,,
 adversarial-training,mitigates,adversarial-examples,用有害擾動樣本更新模型，但效果限於受測的攻擊與擾動範圍,114-2-S1-Q24
 affine-layer,requires,linear-transformation,,

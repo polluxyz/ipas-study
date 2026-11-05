@@ -1,0 +1,38 @@
+id: M-L23301-050
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - tokenization
+  - bag-of-words
+stem: 某零件文件中的 ab 與 AB 是 2 種不同型號。兩筆範例除型號大小寫外內容相同，下列詞頻轉換卻產生相同向量。若要保留型號差異，哪項調整最適合？
+code: |
+  from sklearn.feature_extraction.text import CountVectorizer
+  docs = ["ab motor", "AB motor"]
+  vec = CountVectorizer()
+  X = vec.fit_transform(docs).toarray()
+  print(vec.get_feature_names_out().tolist(), (X[0] == X[1]).all())
+code_lang: python
+options:
+  A: 將 binary 設為 True 後重建詞頻特徵
+  B: 將 lowercase 設為 False 後重建詞頻特徵
+  C: 將 ngram_range 設為 (1, 2) 後重建詞頻特徵
+  D: 將 dtype 設為 float64 後重建詞頻特徵
+answer: B
+explanation:
+  summary: 文字正規化不可合併任務中意義不同的字串。
+  correct: 預設轉換先把字母改成小寫，因此 ab 與 AB 合併為相同詞。關閉 lowercase 後可保留大小寫，讓下游模型取得不同型號的欄位。
+  wrong:
+    A: 二元計數只改變次數表示，大小寫在計數前就已被合併。
+    C: 相鄰詞組在轉小寫之後建立，兩句仍會產生相同詞組。
+    D: 改變數值型別不會改變分詞與大小寫處理，無法恢復型號資訊。
+guide_refs:
+  - guide-1:3-10
+  - guide-1:3-16
+author: codex
+review:
+  status: verified
+  blind_answer: B

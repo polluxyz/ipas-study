@@ -1,0 +1,40 @@
+id: M-L23301-041
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - feature-scaling
+  - bag-of-words
+stem: 某郵件分類器有 8 萬個詞頻欄位，使用 CSR 稀疏矩陣儲存。團隊要按各欄標準差縮放，同時維持零值的稀疏儲存。下列小型範例在中心化時發生錯誤，最適合改成哪項設定？
+code: |
+  from scipy.sparse import csr_matrix
+  from sklearn.preprocessing import StandardScaler
+  X = csr_matrix([[0., 2., 0.], [4., 0., 0.], [0., 0., 6.]])
+  try:
+      StandardScaler().fit_transform(X)
+  except ValueError as error:
+      print(type(error).__name__)
+code_lang: python
+options:
+  A: StandardScaler(with_mean=True, with_std=False)
+  B: Normalizer(norm="l2")
+  C: StandardScaler(with_mean=False, with_std=True)
+  D: MaxAbsScaler()
+answer: C
+explanation:
+  summary: 稀疏矩陣可按欄縮放，但減平均值會破壞零值結構。
+  correct: C 關閉減平均值，仍按各欄的訓練標準差縮放。原本為零的元素保持為零，可保留稀疏格式。這不等於把各欄平均值改成零。
+  wrong:
+    A: 減平均值仍然存在，原本的零通常會變成非零，因此稀疏矩陣仍不支援此設定。
+    B: 此方法按每一列的向量長度縮放，不是按各欄標準差縮放。
+    D: 此方法按各欄最大絕對值縮放，雖能保留稀疏性，但不符合標準差單位的要求。
+guide_refs:
+  - guide-3:5-6
+  - guide-1:3-16
+author: codex
+review:
+  status: verified
+  blind_answer: C

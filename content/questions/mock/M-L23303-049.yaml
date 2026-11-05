@@ -1,0 +1,31 @@
+id: M-L23303-049
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L23303
+concepts:
+  - confusion-matrix
+  - cost-sensitive-loss
+stem: 某模型的寬鬆門檻有 2 次漏報、100 次誤報；嚴格門檻有 10 次漏報、20 次誤報。兩者來自同一批驗證案件。誤報每次成本為 1，漏報每次成本為 c，其他成本為 0。只比較總成本，何時寬鬆門檻比嚴格門檻更省？
+options:
+  A: c 大於 10 時
+  B: c 大於 8 時
+  C: c 小於 10 時
+  D: c 小於 8 時
+answer: A
+explanation:
+  summary: 門檻取捨會隨漏報相對成本改變。
+  correct: 寬鬆門檻成本為 2c+100，嚴格門檻為 10c+20。前者較低的條件是 80<8c，即 c>10。c=10 時兩者相同，不能算寬鬆門檻更省。
+  wrong:
+    B: 8 是兩個門檻的漏報次數差，還需將額外 80 次誤報除以這個差值，才能得到成本臨界點。
+    C: c 小於 10 時，減少漏報的收益不足以抵銷多出的誤報，反而是嚴格門檻較省。
+    D: 8 不是成本臨界點，且成本較低時更不利於用大量誤報換取較少漏報。
+guide_refs:
+  - guide-3:5-20
+  - guide-3:5-21
+author: codex
+review:
+  status: verified
+  blind_answer: A

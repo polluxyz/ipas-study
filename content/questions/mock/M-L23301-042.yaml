@@ -1,0 +1,30 @@
+id: M-L23301-042
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - feature-scaling
+  - outlier-treatment
+stem: 某設備有 5 萬筆電流資料，少數真實高峰達平常的 100 倍。這些高峰具有預測價值，不能刪除或截限。團隊希望各欄使用較不受高峰影響的中心與尺度。下列前處理何者最適合？
+options:
+  A: 使用平均值與標準差作線性縮放
+  B: 使用中位數與四分位距作線性縮放
+  C: 使用最小值與最大值作線性縮放
+  D: 使用每筆資料的向量長度作縮放
+answer: B
+explanation:
+  summary: 保留極端訊號時，可用穩健統計量估計縮放尺度。
+  correct: 中位數與四分位距主要反映資料中段，不會像平均值、標準差或最大值那樣受少數大值牽動。線性縮放保留高峰差異，不會把高峰截成相同數值。
+  wrong:
+    A: 少數高峰會拉動平均值與標準差，使一般讀值在縮放後集中於較窄範圍。
+    C: 最大值直接由最高峰決定，少數高峰仍會壓縮一般資料的縮放範圍。
+    D: 逐列長度縮放依每筆資料決定比例，不能提供題目要求的各欄穩健中心與尺度。
+guide_refs:
+  - guide-3:5-7
+author: codex
+review:
+  status: verified
+  blind_answer: B

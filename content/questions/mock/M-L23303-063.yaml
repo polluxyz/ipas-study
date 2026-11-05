@@ -1,0 +1,37 @@
+id: M-L23303-063
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - mean-absolute-error
+stem: 某金額預測器以 log1p(金額) 為訓練目標，推論也輸出對數尺度。驗收要求「每筆以元計的絕對誤差平均不超過 30」。程式列出對數尺度與還原金額後的誤差。應採用哪項判斷？
+code: |
+  import numpy as np
+  log_y = np.log1p([9.0, 99.0])
+  log_pred = np.log1p([19.0, 199.0])
+  a = np.mean(np.abs(log_y-log_pred))
+  b = np.mean(np.abs(np.expm1(log_y)-np.expm1(log_pred)))
+  print(round(a, 4), round(b, 4))
+code_lang: python
+options:
+  A: 使用 a，判定通過
+  B: 使用 a，判定不通過
+  C: 使用 b，判定通過
+  D: 使用 b，判定不通過
+answer: D
+explanation:
+  summary: 驗收單位是元時，須先將預測與真值還原到金額尺度。
+  correct: a 約為 0.6931，是對數尺度差距，不能拿來對照 30 元。expm1 是 log1p 的反函數；還原後真值是 9、99，預測是 19、199，絕對誤差平均 b=55 元，因此不通過。
+  wrong:
+    A: a 的單位不是元，與 30 元比較會讓數值看似很小，造成錯誤通過。
+    B: 雖然不通過的結論相同，但使用 a 不能依 30 元門檻得到這個結論；a 本身也小於 30。
+    C: b 是正確尺度，但數值為 55，高於 30，不能判定通過。
+guide_refs:
+  - guide-3:5-23
+author: codex
+review:
+  status: verified
+  blind_answer: D

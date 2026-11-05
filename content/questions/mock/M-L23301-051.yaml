@@ -1,0 +1,30 @@
+id: M-L23301-051
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - feature-scaling
+  - vector-norm-linear-combination
+stem: 某檢索器使用非零的 128 維特徵向量。需求是依餘弦相似度排序，但現有索引只支援歐氏距離，且團隊不想改變原本的方向排序。下列轉換何者最適合？
+options:
+  A: 以各欄訓練平均值與標準差縮放查詢及資料庫
+  B: 將查詢及資料庫的每個向量各自除以 L2 長度
+  C: 只將查詢向量除以 L2 長度，資料庫維持原值
+  D: 以各欄訓練最小值與最大值縮放查詢及資料庫
+answer: B
+explanation:
+  summary: 兩側向量都成為單位向量後，歐氏距離排序可對應餘弦排序。
+  correct: 兩個單位向量的距離平方等於 2 減去 2 倍餘弦相似度。因此距離越小，餘弦相似度越高。必須對查詢與資料庫兩側都做逐列 L2 縮放。
+  wrong:
+    A: 逐欄標準化會改變向量方向，且沒有讓每個向量長度一致，不能保證維持原排序。
+    C: 資料庫向量長度仍會影響歐氏距離，只縮放查詢不足以轉換成純方向比較。
+    D: 逐欄最小最大縮放改變各軸尺度與原點，不具備單位向量的距離關係。
+guide_refs:
+  - guide-3:5-6
+author: codex
+review:
+  status: verified
+  blind_answer: B

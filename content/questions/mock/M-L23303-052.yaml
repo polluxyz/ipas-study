@@ -1,0 +1,37 @@
+id: M-L23303-052
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - learning-curve
+  - bias-variance-tradeoff
+stem: 某團隊固定模型架構與訓練設定，使用同分布的獨立資料。每個資料量都訓練至收斂，並在同一份驗證集量測資料損失。下列程式列出平均學習曲線。若希望進一步縮小泛化落差，哪個方向最有資料支持？
+code: |
+  sizes = [250, 1000, 4000]
+  train = [0.05, 0.11, 0.15]
+  valid = [0.75, 0.49, 0.31]
+  for n, tr, va in zip(sizes, train, valid):
+      print(n, tr, va, round(va-tr, 2))
+code_lang: python
+options:
+  A: 減少訓練樣本，讓訓練損失回到較低水準
+  B: 增加訓練樣本，觀察驗證損失是否持續降低
+  C: 延長每次訓練，讓目前各資料量更接近收斂
+  D: 擴大模型架構，讓兩條損失曲線同步下降
+answer: B
+explanation:
+  summary: 增加資料時訓練損失上升，不必然代表泛化變差。
+  correct: 樣本數增加時，訓練損失雖略升，驗證損失卻下降，兩者差距也縮小。這支持用更多同分布資料降低變異的方向。仍需以後續驗證確認收益，不能只看訓練損失判斷資料是否有用。
+  wrong:
+    A: 減少樣本可讓模型更容易記住訓練資料，卻與目前驗證損失隨資料增加而改善的證據相反。
+    C: 每次已訓練至收斂，現有曲線沒有支持訓練步數不足是主要原因。
+    D: 擴大容量可能降低訓練損失，但不保證驗證損失同步下降；目前落差反而支持先驗證增加資料。
+guide_refs:
+  - guide-3:5-20
+author: codex
+review:
+  status: verified
+  blind_answer: B

@@ -1,0 +1,27 @@
+id: M-L21201-012
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes: [L21201]
+concepts: [return-on-investment]
+stem: |
+  某零售商評估一年期 AI 推薦專案，預估相較既有方案增加銷售額 300 萬元。扣除新增商品與履約成本後，這部分銷售的貢獻率為 40%，尚未扣 AI 專案費用。AI 建置費 60 萬元，同年維運費 20 萬元。指定 ROI＝（新增貢獻－AI 專案總成本）／AI 專案總成本，不計其他項目，ROI 為多少？
+options:
+  A: 40%
+  B: 50%
+  C: 100%
+  D: 275%
+answer: B
+explanation:
+  summary: 評估推薦效益時，新增銷售額不能直接當成新增貢獻。
+  correct: 新增貢獻為 300×40%＝120 萬元，AI 專案總成本為 60＋20＝80 萬元。ROI＝(120－80)／80＝50%。
+  wrong:
+    A: 40% 是新增銷售的貢獻率，分母是銷售額；題目要算的投資報酬率以 AI 專案總成本為分母。
+    C: 100% 可由只用建置費 60 萬元計算得到，但忽略同年維運費。指定總成本必須包含兩項支出。
+    D: 275% 把 300 萬元銷售額直接當成效益。商品與履約支出尚須由銷售額扣除，不能視為 AI 創造的淨貢獻。
+guide_refs: [guide-1:4-5, guide-1:4-6]
+author: codex
+review:
+  status: verified
+  blind_answer: B
