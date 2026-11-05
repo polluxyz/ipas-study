@@ -1,0 +1,33 @@
+id: M-L23203-009
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23203
+concepts:
+  - transformer-encoder-decoder
+  - self-attention
+stem: 某團隊訓練逐字生成維修說明的解碼器。輸入已右移 1 格，第 t 個輸出要預測原序列第 t 個字。訓練可同時運算 128 個位置，但第 t 個位置不得讀到後方的正解字。最適合的自注意力安排為何？
+options:
+  A: 只遮住補齊位置，其餘有效字都可彼此讀取
+  B: 使用因果遮罩，限制每個位置只能讀取自身與前方
+  C: 只開放後方位置，使模型優先讀取尚未生成的字
+  D: 僅推論時加因果遮罩，訓練時讓各位置讀取完整句子
+answer: B
+explanation:
+  summary: 右移輸入搭配因果遮罩可維持自迴歸條件。
+  correct: B 正確。因果遮罩阻擋每個位置對未來位置的注意力，訓練仍可平行計算各位置。右移輸入後，允許讀取自身位置不等於直接讀取該輸出的目標字；兩項安排須同時成立。
+  wrong:
+    A: 補齊遮罩只排除無效填充值，後方有效字仍包含待預測答案。
+    C: 這與部署時只能使用已知前文的條件相反，會讓模型依賴未來資訊。
+    D: 訓練仍能看到後方目標，會依賴推論時拿不到的資訊；只改推論無法補救訓練條件。
+guide_refs:
+  - guide-3:4-77
+  - guide-3:4-78
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B

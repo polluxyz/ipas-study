@@ -1,0 +1,32 @@
+id: M-L21103-007
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21103
+concepts:
+  - human-generation-evaluation
+  - model-comparison
+stem: 某團隊請 8 位編輯比較兩個文案模型，各評 40 組相同需求。甲模型的名稱與輸出固定放左側，編輯知道甲是新採購方案。團隊想減少品牌與位置造成的評分偏差。哪項調整最合適？
+options:
+  A: 只保留資深編輯的評分，模型名稱與左右位置仍照原順序呈現
+  B: 將評分改成 10 分制，並在每份表單重複註明新採購模型名稱
+  C: 讓甲模型輸出較長文案，讓評審更容易辨認模型的完整能力
+  D: 隱藏模型名稱、隨機安排左右位置，並統一評分規準
+answer: D
+explanation:
+  summary: 生成結果的人工評估偏差控制。
+  correct: 匿名可減少品牌預期，隨機位置可減少固定順序影響。兩個模型仍使用相同需求與評分規準，才方便比較內容品質。
+  wrong:
+    A: 評審資歷不能排除品牌與固定位置效應，題幹指出的線索仍然存在。
+    B: 更細的量尺不會移除模型身分，持續標示新方案還保留了預期偏差。
+    C: 改變輸出長度會新增比較差異，也沒有消除品牌與位置造成的影響。
+guide_refs:
+  - guide-1:3-67
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D

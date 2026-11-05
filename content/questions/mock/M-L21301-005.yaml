@@ -1,0 +1,33 @@
+id: M-L21301-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - data-quality
+  - text-classification
+stem: 某保險公司準備 8,000 封客服信件訓練分類模型。兩組標註人員各用不同規則，把「取消保單並申請退款」分別標成取消或帳務。抽查顯示分歧集中在這類跨主題信件。建模前最應優先做什麼？
+options:
+  A: 增加模型參數量，讓模型自行從兩套標籤推測公司想要的分類規則
+  B: 直接採用人數較多組的所有標籤，將少數組的標註全部視為錯誤
+  C: 把有分歧的信件都移到測試集，讓訓練資料維持表面上的一致
+  D: 釐清分類優先規則，校準標註者並複核受影響標籤
+answer: D
+explanation:
+  summary: 建模前先處理標註定義不一致。
+  correct: 分歧集中在不同規則對同一需求的解讀，首先要決定可重複套用的分類規則。透過共同案例校準並複核既有標籤，才能建立一致的訓練與評估依據。
+  wrong:
+    A: 增加模型容量不能替公司決定需求，可能只學到互相矛盾的標籤。
+    B: 人數不能證明規則正確，仍須依業務定義判定跨主題信件的分類方式。
+    C: 將分歧移到測試集沒有修正標籤，還會使評估集中在未定義清楚的樣本。
+guide_refs:
+  - guide-1:5-4
+  - guide-1:3-34
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D

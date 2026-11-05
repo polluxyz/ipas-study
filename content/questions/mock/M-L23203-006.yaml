@@ -1,0 +1,45 @@
+id: M-L23203-006
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - batch-normalization
+  - pytorch
+  - transfer-learning
+stem: 某工程師微調模型時，想同時凍結 BatchNorm 的可訓練參數與移動統計。以下使用全新 BatchNorm1d，將參數 requires_grad 關閉，但保留 train 模式。momentum=1.0 表示移動平均直接採本批平均。程式會印出什麼？
+code: |
+  import torch
+  bn = torch.nn.BatchNorm1d(1, momentum=1.0)
+  for parameter in bn.parameters():
+      parameter.requires_grad_(False)
+  bn.train()
+  bn(torch.tensor([[2.0], [6.0]]))
+  print(bn.running_mean.tolist())
+  print(bn.num_batches_tracked.item())
+code_lang: python
+options:
+  A: "[0.0]、0；關閉參數梯度會同時凍結全部統計狀態"
+  B: "[2.0]、1；移動平均只會讀取本批的第 1 筆輸入"
+  C: "[4.0]、1；關閉參數梯度仍會更新訓練模式的統計"
+  D: "[4.0]、0；平均數會更新，但計數要等 backward 才更新"
+answer: C
+explanation:
+  summary: 凍結參數不等於凍結 BatchNorm 的移動統計。
+  correct: C 正確。本批平均為 4，momentum=1.0 讓 running_mean 變成 4，num_batches_tracked 也增加為 1。若要固定已學得的移動統計，須另外將此層設為 eval 模式。指引介紹正規化與 PyTorch；本題延伸到參數與緩衝狀態的區別。
+  wrong:
+    A: 移動平均與批次計數是緩衝狀態，不由參數的 requires_grad 控制。
+    B: 本批兩筆資料平均為 (2+6)/2=4，不是只取第一筆。
+    D: 訓練模式的前向運算就會更新批次計數，不需要反向傳播。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:4-91
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C

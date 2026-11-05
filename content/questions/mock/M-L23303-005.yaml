@@ -1,0 +1,34 @@
+id: M-L23303-005
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23303
+concepts:
+  - data-leakage
+  - train-val-test-split
+stem: 某團隊以 80 台馬達各 30 段振動訊號建立故障分類器。每台馬達的標籤固定，訊號也帶有該台馬達的特徵。資料沒有時間預測需求，上線對象是未參與訓練的新馬達。團隊以分層隨機切分得到 0.98 準確率。若要估計對新馬達的表現，最適合如何切分？
+options:
+  A: 以馬達編號分組，讓驗證馬達完全不參與訓練
+  B: 每台馬達各抽 6 段驗證，確保每台都有評估資料
+  C: 先隨機重排全部訊號，再依正負比例切成 5 摺
+  D: 把每段訊號平均拆成兩半，前半訓練、後半驗證
+answer: A
+explanation:
+  summary: 評估切分的單位須符合部署時的未知對象。
+  correct: A 將整台馬達保留在單一資料角色，可避免模型利用已見馬達的特徵取得高分。一般分層切分無法處理這種群組相依。指引介紹資料分割與交叉驗證；本題延伸到以設備作為切分單位。
+  wrong:
+    B: 同一台馬達仍同時出現在兩邊，無法模擬未見馬達。
+    C: 分層只控制類別比例，不會隔離同一台馬達的相似訊號。
+    D: 同源訊號的兩半仍共享馬達特徵，評估單位沒有改成新馬達。
+guide_refs:
+  - guide-3:5-17
+  - guide-3:5-18
+  - guide-3:5-26
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A

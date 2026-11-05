@@ -1,0 +1,34 @@
+id: M-L23301-006
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - temporal-features
+  - data-leakage
+stem: 某商店每天 08:00 預測當天全日銷量。歷史資料每列是一日，日總銷量只能在當日 24:00 取得。工程師已依日期先後分割資料，卻把含當日銷量的 7 日平均當成輸入。若要保留近期銷量趨勢，哪項修正最適當？
+options:
+  A: 保留含當日值的平均，只把訓練與測試的日期拉更遠
+  B: 改用以當日為中心的 7 日平均，平滑當日銷量波動
+  C: 以測試集的平均銷量補齊當日值，再計算 7 日平均
+  D: 改用前 1 日至前 7 日的銷量，且只取預測時已入庫值
+answer: D
+explanation:
+  summary: 時間切分之外，還須檢查每個特徵的可用時間。
+  correct: D 把窗口移到過去，並要求實際入庫時間早於預測時間。離線表格雖已有當日總銷量，08:00 推論時卻沒有，使用它會洩漏未來。指引介紹時間特徵與資料分割；本題延伸到資料何時可用。
+  wrong:
+    A: 日期隔離沒有移除每一列自身所含的未來日總銷量。
+    B: 置中的窗口包含當日與後續日期，08:00 預測時更無法取得完整資料。
+    C: 測試期統計不能當成預測當下已知資訊，也沒有修正特徵可用時間。
+guide_refs:
+  - guide-3:5-9
+  - guide-3:5-17
+  - guide-3:5-18
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
