@@ -1,0 +1,32 @@
+id: M-L23101-021
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - hypothesis-testing
+  - bernoulli-binomial
+stem: 某團隊檢驗警報器的誤報率是否高於 0.5。8 次測試彼此獨立，觀察到 7 次誤報。虛無假設為 p=0.5，對立假設為 p>0.5，事前顯著水準為 0.05。以 X≥7 作為同方向更極端的結果，其單尾精確 p 值與決策最正確為何？
+options:
+  A: p 值約 0.004；拒絕虛無假設
+  B: p 值約 0.018；拒絕虛無假設
+  C: p 值約 0.031；拒絕虛無假設
+  D: p 值約 0.035；拒絕虛無假設
+answer: D
+explanation:
+  summary: 離散型單尾檢定須加總觀察值及更極端結果的機率。
+  correct: 在 p=0.5 下，X 服從 8 次試驗的二項分布。P(X≥7)=[C(8,7)+C(8,8)]/2⁸=9/256≈0.03516，小於 0.05，因此拒絕虛無假設。
+  wrong:
+    A: 此值約為 P(X=8)=1/256，只計比觀察結果更極端的次數，漏掉觀察到的 7 次。
+    B: 此值約為 0.03516 再除以 2；右尾機率已符合單尾定義，不需再次折半。
+    C: 此值約為 P(X=7)=8/256，只計觀察到的次數，漏掉同方向更極端的 8 次。
+guide_refs:
+  - guide-3:3-3
+  - guide-3:3-7
+  - guide-3:3-8
+author: codex
+review:
+  status: verified
+  blind_answer: D

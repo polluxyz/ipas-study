@@ -1,0 +1,31 @@
+id: M-L23101-022
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - poisson-distribution
+  - statistical-inference
+stem: 某工程師用固定速率的泊松模型估計每小時警報數。2 個互不重疊的觀察時段分別長 1 小時、3 小時，警報數為 4 次、6 次。已知忽略常數後，對數概似為 10 ln(λ)−4λ，λ>0。其最大概似估計值最接近多少次／小時？
+options:
+  A: 2.50 次／小時
+  B: 3.00 次／小時
+  C: 4.00 次／小時
+  D: 5.00 次／小時
+answer: A
+explanation:
+  summary: 觀察時長不同時，泊松速率的概似要累計總暴露時間。
+  correct: 最大概似選擇讓觀察資料最可能的參數。對 10 ln(λ)−4λ 求導得 10/λ−4，設為零得 λ=2.5。這也等於總次數 10 除以總時長 4，二階導數為負。
+  wrong:
+    B: 3 是兩個時段速率 4/1 與 6/3 的等權平均，沒有按不同觀察時長累計資訊。
+    C: 4 是第一個時段的速率，忽略另外 3 小時的 6 次觀察結果。
+    D: 5 是每個時段的平均警報次數，尚未換算成每小時速率。
+guide_refs:
+  - guide-3:3-3
+  - guide-3:3-7
+author: codex
+review:
+  status: verified
+  blind_answer: A

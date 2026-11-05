@@ -1,0 +1,36 @@
+id: M-L23301-088
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - temporal-features
+stem: 某事件串流的資料列間隔不固定，工程師要以「本次及之前 30 分鐘內的數值平均」作為特徵，左界不含、右界包含。範例在 01:00 的前 3 列包含過早資料。哪項寫法最符合要求？
+code: |
+  import pandas as pd
+  s = pd.Series([10., 20., 30.], index=pd.to_datetime([
+      "2026-01-01 00:00", "2026-01-01 00:10", "2026-01-01 01:00"]))
+  print(s.rolling(3).mean().iloc[-1])
+  print(s.rolling("30min").mean().iloc[-1])
+code_lang: python
+options:
+  A: 使用 s.rolling(3).mean()，依最近 3 列平均
+  B: 使用 s.rolling("30min").mean()，依時間區間平均
+  C: 使用 s.expanding().mean()，依全部已見資料平均
+  D: 使用 s.ewm(span=3).mean()，依指數衰減權重平均
+answer: B
+explanation:
+  summary: 不等間隔資料的時間窗口不能用固定列數代替。
+  correct: 時間窗口依時間索引選取 (00:30,01:00]，本例只包含 01:00 的 30，因此結果為 30。固定 3 列會連 00:00 與 00:10 都納入，結果為 20。
+  wrong:
+    A: 3 表示資料列數，無法保證涵蓋的時間剛好為 30 分鐘。
+    C: 累積平均會保留窗口之前的歷史資料，不符合 30 分鐘範圍。
+    D: 指數加權讓較舊資料權重下降，但不按 30 分鐘界線移除舊資料，也不是窗口內等權平均。
+guide_refs:
+  - guide-3:5-10
+author: codex
+review:
+  status: verified
+  blind_answer: B
