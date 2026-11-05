@@ -24,7 +24,7 @@ explanation:
     D: 雜湊可發現檔案內容變更，不能對已取得密文及解密金鑰的人提供內容保密。
 guide_refs:
   - guide-1:5-15
-  - guide-3:6-6
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: C

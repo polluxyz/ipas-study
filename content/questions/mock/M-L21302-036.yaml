@@ -7,7 +7,7 @@ codes:
   - L21302
 concepts:
   - hybrid-deployment
-  - data-model-versioning
+  - edge-inference
 stem: 某邊緣預警模型在雲端訓練時，使用本機感測值及雲端即時取得的氣象欄位。現場模擬發現，斷網後氣象欄位持續沿用過期值，誤報明顯增加。本機有足夠算力，團隊正在設計可斷網運作的下一版。最適合的模型與部署調整為何？
 options:
   A: 將現有模型量化後放到本機，沿用相同的氣象欄位更新方式
@@ -27,4 +27,5 @@ guide_refs:
   - guide-1:5-15
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: D
