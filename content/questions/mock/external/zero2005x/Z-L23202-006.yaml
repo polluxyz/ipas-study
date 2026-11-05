@@ -30,6 +30,7 @@ review:
   status: disputed
   answer_checked: null
   dispute: 原答 A 把 OOB 分數稱為無偏泛化估計過度概括。袋外模型的有效訓練樣本、樣本量與調參方式皆可能造成偏差，機制也不能替整個流程保證無洩漏。保留原答，待主審確認是否可改寫來源正解。
+  blind_answer: B
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

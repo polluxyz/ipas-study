@@ -50,6 +50,7 @@ review:
   status: disputed
   answer_checked: null
   dispute: 原答 B 的「執行時會報錯」容易誤解為向外拋出例外。實測 scikit-learn cross_val_score 預設 error_score=NaN，3 類配 scoring=f1 會產生警告並回傳 NaN 陣列；指定 error_score=raise 才會向外拋 ValueError。
+  blind_answer: B
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

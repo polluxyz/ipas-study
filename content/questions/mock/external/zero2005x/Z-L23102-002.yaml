@@ -26,9 +26,10 @@ guide_refs:
   - guide-3:3-10
 author: codex
 review:
-  status: draft
+  status: verified
   answer_checked: null
   dispute: null
+  blind_answer: B
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

@@ -31,6 +31,7 @@ review:
   status: disputed
   answer_checked: null
   dispute: 原答 B 的例外條件不完整。兩群基率 0.2、0.5，TPR 同為 0.5 且 FPR 同為 0，雖有漏檢而不完美，仍同時滿足 equalized odds 與 PPV=1 的預測值均等。若預測值均等指 PPV，相容性的斷言需要排除這類退化邊界。
+  blind_answer: C
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI

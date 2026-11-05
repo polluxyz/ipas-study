@@ -30,6 +30,7 @@ review:
   status: disputed
   answer_checked: null
   dispute: 原答 C 認為水平翻轉最不適當，但 D 未限制裁切區域，可能移除病灶或必要解剖結構。題目也未明確界定分類標籤是否依賴左右位置，無法充分支持唯一最不適當選項。
+  blind_answer: A
 origin:
   author: zero2005x
   repo: https://github.com/zero2005x/ipasAI
