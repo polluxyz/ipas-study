@@ -1,0 +1,48 @@
+id: Z-L23301-003
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23301
+concepts:
+  - feature-scaling
+  - gradient-boosted-trees
+stem: 下列哪一種模型不需要對特徵進行縮放？
+options:
+  A: 具 L2正則化之邏輯斯迴歸
+  B: K近鄰演算法
+  C: 支援向量機
+  D: 梯度提升樹
+answer: D
+explanation:
+  summary: 樹模型依單一特徵閾值分割，通常不需縮放。
+  correct: 梯度提升樹主要利用特徵排序尋找切點。一般線性尺度轉換不改變排序，所以通常不需為模型本身標準化。
+  wrong:
+    A: L2 懲罰作用於係數，尺度不同會改變各欄位受到的相對限制。
+    B: K 近鄰用距離找鄰居，大量尺欄位可能主導距離。
+    C: 支援向量機的距離與懲罰設定會受特徵尺度影響。
+guide_refs:
+  - guide-3:5-7
+  - guide-3:4-37
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch07.md
+  original_id: SIM-L23301-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；解析逐項重寫

@@ -1,0 +1,47 @@
+id: Z-L21201-005
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21201
+concepts:
+  - net-present-value
+  - return-on-investment
+stem: 某製造商評估兩個 AI方案。方案甲：總投資 800萬，年度淨效益 200萬。方案乙：總投資 500萬，年度淨效益 100萬。若兩案皆為五年期且公司要求折現率為 8%，假設年初一次投入、每年年底收取淨效益，期末無殘值。下列判斷何者最為適當？
+options:
+  A: 以 8% 折現率計算，兩案 NPV 皆小於 0，無其他效益時均不宜投資
+  B: 方案甲 ROI為 25%、方案乙為 20%，故直接選甲即可，無須其他計算
+  C: 應選方案乙，因其總投資較低，風險必然較小
+  D: 兩案 ROI相同，故任選其一皆可
+answer: A
+explanation:
+  summary: 單看年度比率會漏掉五年現金流的折現。
+  correct: 假設每年年底取得淨效益且無殘值，五年 8% 的年金現值係數約 3.99271。甲 NPV=200×3.99271−800≈−1.46 萬元，乙約 −100.73 萬元；兩案皆未達要求。
+  wrong:
+    B: 25% 與 20% 只是年度淨效益除以投入的比率，不能取代五年期折現後能否回收成本的判斷。
+    C: 較低投入不等於所有風險較低。乙的折現後效益也不足以回收其投入。
+    D: 兩案年度比率分別為 25% 與 20%，並不相同；即使相同，也要檢查現金流與風險。
+guide_refs:
+  - guide-1:4-6
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch05.md
+  original_id: SIM-L21201-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    A: B
+    C: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；明示原計算採用年末現金流且無殘值

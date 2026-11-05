@@ -1,0 +1,48 @@
+id: Z-L21104-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21104
+concepts:
+  - multimodal-fusion
+  - missing-modality
+stem: 某智慧醫療診斷輔助系統結合「病患常規生化檢驗數值表格」與「胸部 X 光放射線影像」進行肺炎與肺癌風險預測。在臨床環境中，生化檢驗常因患者檢查項目不同而有部分欄位缺失；且兩類資料的維度與雜訊型態差異甚大。若系統設計目標要求「當生化檢驗尚未出爐或影像設備維護時，系統仍具備容錯能力，能以單一模態降級提供初步預測」，最適當的多模態融合架構為何？
+options:
+  A: 早期融合（Early Fusion）：將影像像素陣列展平後直接與生化檢驗數值拼接為單一特徵向量
+  B: 取消多模態設計，遇有任何模態缺失即中斷所有推論服務
+  C: 使用單一卷積神經網路同時處理影像與數值，並將缺失數值一律填補為 0
+  D: 晚期融合：影像與數值各自預測，再於決策層加權或投票
+answer: D
+explanation:
+  summary: 獨立模態模型有利於缺模態時降級服務。
+  correct: 各模態先產生可獨立使用的預測，再在決策層整併，較容易在缺少影像或數值時使用另一條路徑。缺失時的權重與可信度仍須驗證。
+  wrong:
+    A: 像素與數值直接串接會綁定兩種輸入；缺少任一模態時，沒有自然可用的獨立預測路徑。
+    B: 遇缺失就全部停用，直接違反題目的單模態降級要求。
+    C: 把異質數值塞進同一卷積模型並一律補 0，未處理缺失訊息與單模態可用性。
+guide_refs:
+  - guide-1:3-77
+  - guide-1:3-80
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch04.md
+  original_id: SIM-L21104-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    D: C
+    B: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

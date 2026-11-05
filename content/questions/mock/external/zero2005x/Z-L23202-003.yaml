@@ -1,0 +1,48 @@
+id: Z-L23202-003
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23202
+concepts:
+  - gradient-boosted-trees
+  - underfitting
+stem: 某工程師設定`GradientBoostingClassifier`(`learning_rate=0.005`, `n_estimators=50`)，訓練後發現訓練與驗證誤差皆偏高。最可能的原因為何？
+options:
+  A: 提高 n_estimators 或適度提高 learning_rate，改善擬合不足
+  B: 樹數過多導致過擬合，應減少`n_estimators`
+  C: 進一步限制模型的有效容量，採用更強的 L2 正則化，維持原有學習率與樹數以降低訓練和驗證誤差
+  D: 應改用隨機森林並設`n_estimators=5`
+answer: A
+explanation:
+  summary: 小學習率配少量提升步數，可能還沒學夠就結束。
+  correct: 訓練與驗證都差符合欠擬合。可以增添提升步數，或在驗證下適度提高每棵樹的修正幅度。
+  wrong:
+    B: 過擬合常見訓練好、驗證差，與題目兩邊都差不同。
+    C: 再強化限制通常不利於解決尚未充分擬合的問題。
+    D: 少量森林樹不是針對現有提升模型學習不足的直接修正。
+guide_refs:
+  - guide-3:4-37
+  - guide-3:5-16
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch05.md
+  original_id: SIM-L23202-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

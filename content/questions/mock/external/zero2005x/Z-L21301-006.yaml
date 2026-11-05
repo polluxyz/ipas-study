@@ -1,0 +1,50 @@
+id: Z-L21301-006
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - precision
+  - recall
+  - roc-auc
+  - class-imbalance
+stem: 某銀行建立違約預測模型，於驗收會議中出現四個主張。已知違約者僅佔全部樣本 2%。下列何者**正確**？
+options:
+  A: ROC 曲線應以真陽性率 TPR 為橫軸、精確率 Precision 為縱軸；可直接用曲線面積表示每 100 個警示中有多少個真的違約
+  B: 由於違約者只佔 2%，應以 Accuracy 為主要驗收指標，因為它最能反映整體表現
+  C: Recall 0.90 表示抓到九成違約者；Precision 0.15 表示每百個警示約 15 個真違約
+  D: 模型 AUC 達 0.95，故模型已可直接上線，不需再看其他指標
+answer: C
+explanation:
+  summary: 召回率與精確率使用不同分母。
+  correct: Recall 的分母是真實違約者，0.90 表示抓到其中 90%；Precision 的分母是被警示者，0.15 表示每 100 個警示約 15 個真的違約。
+  wrong:
+    A: ROC 橫軸是假陽性率，縱軸是真陽性率；精確率與召回率則構成另一種曲線。
+    B: 一律判不違約便有 98% 準確率，仍會漏掉全部違約，不能拿準確率當唯一主要驗收。
+    D: AUC 評估跨閾值的排序能力，不能保證指定閾值下的誤報成本、校準與上線安全。
+guide_refs:
+  - guide-1:5-9
+  - guide-1:5-20
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch08.md
+  original_id: SIM-L21301-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；改寫原 D 干擾項以平衡長度

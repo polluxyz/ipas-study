@@ -1,0 +1,48 @@
+id: Z-L23304-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - overfitting
+  - gradient-boosted-trees
+stem: 某梯度提升模型的訓練集 F1為 0.97、驗證集 F1為 0.71。下列處置何者最不適當？
+options:
+  A: 加入子取樣與特徵抽樣（比例小於 1）
+  B: 以驗證集監控並啟用早停
+  C: 大幅增加`max_depth`與`n_estimators`以提升模型容量
+  D: 降低`max_depth`並提高`min_child_weight`
+answer: C
+explanation:
+  summary: 訓練好但驗證差時，先限制容量或增加泛化控制。
+  correct: 本題選最不適當處置。把深度與樹數都大幅加大，可能讓模型更容易記住訓練細節，與已見的過擬合差距不符。
+  wrong:
+    A: 子取樣和特徵抽樣可降低對特定資料的依賴，效果需驗證。
+    B: 監控驗證分數再停止，可避免繼續加入無益的提升步數。
+    D: 降低深度及提高 min_child_weight 可限制樹的細分；後者是葉節點 Hessian 加總門檻，不直接等於樣本筆數。
+guide_refs:
+  - guide-3:5-16
+  - guide-3:5-17
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: D
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；解析逐項重寫

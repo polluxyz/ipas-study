@@ -1,0 +1,50 @@
+id: Z-L21202-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21202
+concepts:
+  - ai-implementation-plan
+  - privacy-compliance-assessment
+  - human-in-the-loop
+stem: 某公立醫院規劃導入 AI排程系統以優化門診資源配置。下列規劃作法何者最不適當？
+options:
+  A: 設定護欄指標，例如各科別等候時間差距不得因新排程而擴大
+  B: 為求時程效率，將資料權限申請與法遵審查排在模型開發完成之後再處理
+  C: 明確界定 AI產出為「建議排程」，最終核定權保留於行政人員，並保留可推翻之紀錄
+  D: 於規劃書中載明風險評估方法與內控管理機制，並指定業務負責人與風險覆核單位
+answer: B
+explanation:
+  summary: 資料權限與法遵要在開發前納入規劃。
+  correct: 題目問最不適當的安排。資料能否合法取得與使用會影響開發可行性，拖到模型完成才審查，可能造成返工或無法使用。
+  wrong:
+    A: 各科候診差距可當作服務公平性的觀察值，以免總體效率改善卻傷害部分科別。
+    C: 保留人工核定及推翻建議的紀錄，可維持人員控制與可追查性。
+    D: 明確分配業務與風險責任，有助追蹤誰做評估及誰核可，屬合理規劃。
+guide_refs:
+  - guide-1:4-27
+  - guide-1:4-29
+  - guide-1:4-40
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch06.md
+  original_id: SIM-L21202-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫

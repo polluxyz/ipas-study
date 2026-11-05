@@ -1,0 +1,47 @@
+id: Z-L23202-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23202
+concepts:
+  - dbscan
+  - unsupervised-learning
+stem: 某製造廠的感測資料在特徵空間中呈現兩個彎月形分布，另有零星散落的異常讀值。若欲同時完成分群並標記異常，下列演算法何者最為適當？
+options:
+  A: 線性迴歸
+  B: K-Means，設 k = 2
+  C: "`DBSCAN`"
+  D: 隨機森林
+answer: C
+explanation:
+  summary: 密度分群可表達彎曲形狀並保留雜訊標記。
+  correct: DBSCAN 依鄰域密度連接樣本，不要求群集是球形，也可把無法連入密集區的點標為雜訊。
+  wrong:
+    A: 線性迴歸預測連續值，沒有提供所需的群集與雜訊標記。
+    B: K-Means 的質心分配不適合這類彎月結構，且一般仍會把異常點歸群。
+    D: 隨機森林分類要有目標標籤，不會直接完成這個無標註分群任務。
+guide_refs:
+  - guide-3:4-43
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch05.md
+  original_id: SIM-L23202-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；解析逐項重寫

@@ -1,0 +1,50 @@
+id: Z-L21301-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - gradient-boosted-trees
+  - shap
+  - model-comparison
+stem: 某醫院欲建置「住院天數預測」模型。資料為結構化表格（約 40個欄位、8萬筆），且院方要求模型須能對主治醫師說明每一項預測的依據。下列方案何者最為適當？
+options:
+  A: 以梯度提升樹搭配個案貢獻解釋，另建線性迴歸基準比較
+  B: 使用主成分分析將 40個欄位降至 3維後再建模，以提升可解釋性
+  C: 使用 K近鄰演算法，因其不需要訓練
+  D: 直接使用深度神經網路，因其效能在所有任務上均最佳
+answer: A
+explanation:
+  summary: 表格模型應兼顧預測表現與個案解釋。
+  correct: 提升樹是表格資料的合理候選，可搭配局部特徵貢獻說明每筆結果；線性模型則提供較易理解的比較基準。解釋仍需與臨床人員核對。
+  wrong:
+    B: 主成分混合原欄位後，較難直接對回臨床特徵；降至 3 維也可能丟失預測資訊。
+    C: 沒有顯式訓練不等於容易解釋，也未處理距離尺度、推論成本與醫師所需的預測依據。
+    D: 沒有模型在所有任務都最好，深度網路也不會自動提供院方所需的個案依據。
+guide_refs:
+  - guide-1:5-7
+  - guide-1:5-8
+  - guide-1:4-38
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch08.md
+  original_id: SIM-L21301-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    D: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析
