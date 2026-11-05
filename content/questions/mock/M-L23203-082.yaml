@@ -1,0 +1,42 @@
+id: M-L23203-082
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - batch-normalization
+  - pytorch
+stem: 某模型要保留批次正規化的既有統計，同時繼續訓練縮放與平移參數。以下沒有使用 no_grad，也沒有關閉參數梯度。工程師只呼叫 eval，再計算輸出總和的梯度。結果最接近哪一項？
+code: |
+  import torch
+  bn = torch.nn.BatchNorm1d(1)
+  bn.running_mean.fill_(0.0)
+  bn.running_var.fill_(1.0)
+  bn.eval()
+  x = torch.tensor([[1.0], [3.0]])
+  bn(x).sum().backward()
+  print(bn.weight.grad.item(), bn.bias.grad.item())
+  print(bn.running_mean.item())
+code_lang: python
+options:
+  A: 縮放梯度為 0；平移梯度為 0；移動平均為 0
+  B: 縮放梯度約 4；平移梯度為 2；移動平均為 0
+  C: 縮放梯度約 4；平移梯度為 2；移動平均為 2
+  D: 縮放梯度為 0；平移梯度為 2；移動平均為 0
+answer: B
+explanation:
+  summary: 批次正規化的統計模式與仿射參數是否求梯度，可分開控制。
+  correct: eval 讓正規化採用移動統計，且不更新移動平均。縮放參數的導數是正規化值總和，約為 1+3=4；平移參數每筆貢獻 1，因此梯度為 2。
+  wrong:
+    A: eval 不會關閉自動微分，兩個仿射參數仍可取得非零梯度。
+    C: 2 是輸入的當批平均，但 eval 不會以這批資料更新移動平均。
+    D: 縮放參數仍在計算圖內，其梯度約為 4，並未因採固定統計而消失。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: B

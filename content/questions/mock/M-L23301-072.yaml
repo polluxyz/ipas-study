@@ -1,0 +1,32 @@
+id: M-L23301-072
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23301
+concepts:
+  - class-imbalance
+  - data-quality
+  - oversampling
+stem: 某客服訓練集有 200 件緊急案件與 9,800 件一般案件。抽查發現，一批一般案件因標註規則誤用而被列入緊急類，原始對話可查。團隊原定先複製緊急類來平衡資料。開始重取樣前，哪項處理最適合優先進行？
+options:
+  A: 以整批緊急類的現有比例設定類別權重
+  B: 以緊急類的現有特徵分布合成更多案例
+  C: 提高緊急類在每個訓練批次中的出現頻率
+  D: 回查這批案件並修正標籤後再決定取樣比例
+answer: D
+explanation:
+  summary: 先修正已確認的標註問題，才能合理調整類別分布。
+  correct: 緊急類混有錯誤標籤。直接複製或加權會增加錯誤訊號的影響，應先依原始對話修正，再以修正後的分布規劃重取樣。
+  wrong:
+    A: 權重依錯誤的標籤計算，仍會強化被誤列為緊急的案件，不能替代標籤修正。
+    B: 合成新案例可能沿用被污染的類別結構，不能確認哪些現有標籤應修正。
+    C: 提高出現頻率也會重複錯標案件，使這些錯誤更常參與更新。
+guide_refs:
+  - guide-3:5-2
+  - guide-3:5-48
+author: codex
+review:
+  status: verified
+  blind_answer: D
