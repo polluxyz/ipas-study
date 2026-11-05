@@ -1,0 +1,30 @@
+id: M-L23101-014
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23101
+concepts:
+  - bayes-theorem
+  - conditional-probability
+stem: 某設備的故障先驗機率為 10%。工程師依 1 筆警報紀錄更新後，故障機率為 40%。資料管線稍後又傳來同一紀錄的完整副本，確認不是另一次量測，也沒有新增欄位。第二次收到紀錄後，故障機率應如何處理最適合？
+options:
+  A: 將故障機率更新為 64%
+  B: 將故障機率更新為 80%
+  C: 將故障機率維持為 40%
+  D: 將故障機率恢復為 10%
+answer: C
+explanation:
+  summary: 重複收到同一證據不會增加新的條件資訊。
+  correct: 設原紀錄為 E，副本仍只提供 E。條件事件 E∩E 等於 E，因此 P(故障｜E,E)=P(故障｜E)=40%。不能把重送資料當成另一筆獨立證據。
+  wrong:
+    A: 64% 相當於把未故障機率 60% 再乘 60% 後取補數。這不是對同一證據重複接收的貝氏更新。
+    B: 把後驗機率直接加倍沒有機率推論依據；副本也沒有提供第二次量測。
+    D: 重複傳送不會撤銷先前警報的資訊。原本由該警報得到的後驗仍然有效。
+guide_refs:
+  - guide-3:3-5
+  - guide-3:3-6
+author: codex
+review:
+  status: draft

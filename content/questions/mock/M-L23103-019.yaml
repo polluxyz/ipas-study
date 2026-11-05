@@ -1,0 +1,31 @@
+id: M-L23103-019
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23103
+concepts:
+  - convex-optimization
+  - optimization-problem
+  - l2-regularization
+stem: 某團隊以 L(w)=‖Xw-y‖² 訓練線性模型。X 的欄向量線性相依，所以最適係數可能不唯一。團隊希望在允許改變目標函數的前提下，讓實數參數 w 有唯一最適解。下列調整何者最適合？
+options:
+  A: 把資料擬合損失乘上正數 10
+  B: 把相同訓練資料完整複製 10 次
+  C: 把係數初始值改成全為零
+  D: 把 λ‖w‖² 加入目標且 λ>0
+answer: D
+explanation:
+  summary: 正的平方範數懲罰可補上資料目標的平坦方向。
+  correct: 新目標的二階導數矩陣為 2XᵀX+2λI。XᵀX 為半正定，λ>0 使新矩陣正定，因此目標嚴格凸且有唯一最適解。題目允許改變目標，故可用此方法選定受懲罰的最適係數。
+  wrong:
+    A: 正數縮放不改變原本的最適解集合，也不會消除係數空間中的平坦方向。
+    B: 複製相同資料只重複相同方程；欄向量的相依關係仍在，不能增加可辨識的參數方向。
+    C: 初始值可能讓某個演算法選到特定解，但不會讓目標函數本身的最適解變成唯一。
+guide_refs:
+  - guide-3:3-19
+  - guide-3:3-20
+author: codex
+review:
+  status: draft

@@ -1,0 +1,30 @@
+id: M-L23102-020
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23102
+concepts:
+  - svd
+  - eigenvalue-decomposition
+stem: 某中心化資料矩陣 X 有 10 筆樣本、2 個特徵，奇異值為 6、3。工程師以 C=XᵀX/(n-1) 計算樣本協方差矩陣，其中 n=10。C 由大到小的 2 個特徵值最接近何者？
+options:
+  A: 6 與 3
+  B: 3.6 與 0.9
+  C: 4 與 1
+  D: 36 與 9
+answer: C
+explanation:
+  summary: 協方差特徵值等於資料奇異值平方再除以協方差分母。
+  correct: 由 X=UΣVᵀ 可得 XᵀX=VΣ²Vᵀ，因此 C 的特徵值為 6²/9=4 與 3²/9=1。兩個特徵值描述對應主軸的樣本變異量。
+  wrong:
+    A: 6 與 3 是 X 的奇異值。轉成 XᵀX 的特徵值時須先平方，再依樣本協方差分母縮放。
+    B: 3.6 與 0.9 使用分母 10，對應另一種協方差定義，與題目指定的 n-1 不同。
+    D: 36 與 9 是 XᵀX 的特徵值，尚未除以指定的分母 9。
+guide_refs:
+  - guide-3:3-13
+  - guide-3:3-14
+author: codex
+review:
+  status: draft

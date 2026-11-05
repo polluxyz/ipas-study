@@ -1,0 +1,34 @@
+id: M-L23102-022
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23102
+concepts:
+  - eigenvalue-decomposition
+stem: 某工程師收到下列矩陣 C，供應端宣稱它是精確的協方差矩陣。程式用 eigh 計算實數對稱矩陣的特徵值。關於輸出及這項宣稱，下列判斷何者最正確？
+code: |
+  import numpy as np
+  C = np.array([[1., 2.], [2., 1.]])
+  print(np.linalg.eigh(C)[0].round(3).tolist())
+code_lang: python
+options:
+  A: 特徵值為 -1 與 3，C 不能作為精確協方差矩陣
+  B: 特徵值為 -1 與 3，C 可作為含負相關的協方差矩陣
+  C: 特徵值為 1 與 1，C 可作為兩個獨立特徵的協方差矩陣
+  D: 特徵值為 2 與 2，C 不能作為未標準化特徵的協方差矩陣
+answer: A
+explanation:
+  summary: 協方差矩陣必須半正定，對稱本身不夠。
+  correct: 特徵值為 -1 與 3。任意方向 a 的變異 aᵀCa 不可為負，因此精確協方差矩陣不能有負特徵值。這裡 -1 不是浮點誤差；取 a=(1,-1) 就得到 aᵀCa=-2。
+  wrong:
+    B: 負相關指的是某些非對角元素為負，不表示可以有負特徵值。負特徵值會導致某方向出現負變異。
+    C: 對角線 1、1 不是此矩陣的特徵值；非對角的 2 也不支持兩特徵獨立。
+    D: 非對角線 2、2 不是特徵值。是否標準化也不是此矩陣無效的原因；關鍵是負方向變異。
+guide_refs:
+  - guide-3:3-13
+  - guide-3:3-14
+author: codex
+review:
+  status: draft

@@ -1,0 +1,35 @@
+id: M-L23102-023
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23102
+concepts:
+  - svd
+  - matrix-factorization
+stem: 某工程師檢查數值矩陣秩，matrix_rank 以大於 tol 的奇異值數量作為結果。以下矩陣包含 1 個很小的非零方向。程式印出的兩個秩，及兩種門檻的差異，何者最正確？
+code: |
+  import numpy as np
+  A = np.diag([1., 1e-10, 0.])
+  print(np.linalg.matrix_rank(A, tol=1e-8),
+        np.linalg.matrix_rank(A, tol=1e-12))
+code_lang: python
+options:
+  A: 1、1；兩個門檻都把小方向排除於有效秩
+  B: 1、2；較小門檻把小方向列入有效秩
+  C: 2、1；較大門檻把小方向列入有效秩
+  D: 2、2；兩個門檻都把小方向列入有效秩
+answer: B
+explanation:
+  summary: 數值矩陣秩取決於奇異值與容差的比較。
+  correct: 奇異值為 1、10⁻¹⁰、0。門檻 10⁻⁸ 只留下 1，所以秩為 1；門檻 10⁻¹² 也保留 10⁻¹⁰，所以秩為 2。精確代數秩仍為 2，這裡比較的是數值門檻下的有效秩。
+  wrong:
+    A: 10⁻¹⁰ 大於第 2 個門檻 10⁻¹²，因此第 2 次應計入此方向，結果不會仍為 1。
+    C: 較大門檻會排除更多小奇異值，不是納入更多；兩次秩的順序顛倒。
+    D: 第 1 個門檻高於小奇異值，所以第 1 次只能得到秩 1；兩次都計入小方向的解讀不符合門檻比較。
+guide_refs:
+  - guide-3:3-14
+author: codex
+review:
+  status: draft

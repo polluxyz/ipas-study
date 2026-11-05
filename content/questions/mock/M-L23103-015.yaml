@@ -1,0 +1,39 @@
+id: M-L23103-015
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23103
+concepts:
+  - optimization-for-models
+  - convex-optimization
+stem: 某工程師最小化二次損失 f(w)=w₁²+10w₂²。牛頓法使用二階導數矩陣 H 解出 H×step=gradient，再以 w-step 更新。以下程式不含阻尼或其他限制。更新 1 次後輸出最接近何者？
+code: |
+  import numpy as np
+  w = np.array([3., 1.])
+  gradient = np.array([2*w[0], 20*w[1]])
+  H = np.diag([2., 20.])
+  step = np.linalg.solve(H, gradient)
+  w = w - step
+  print(w.round(3).tolist())
+code_lang: python
+options:
+  A: "[-3.0, -19.0]"
+  B: "[1.5, 0.05]"
+  C: "[3.0, 1.0]"
+  D: "[0.0, 0.0]"
+answer: D
+explanation:
+  summary: 牛頓更新用二階導數矩陣校正各方向的曲率。
+  correct: 在 (3,1) 的梯度為 (6,20)，H 為對角矩陣 diag(2,20)。解線性方程得到 step=(3,1)，因此更新後為 (0,0)。此正定二次函數使用完整牛頓步即可到達最適解。指引介紹模型求解與凸性，牛頓步為補充計算。
+  wrong:
+    A: 此值是直接以學習率 1 減去梯度，沒有使用 H 校正曲率，不是程式的牛頓更新。
+    B: 此值相當於把原參數除以 H 的對角值，沒有先求 H×step=gradient 再扣除 step。
+    C: 這是更新前的參數。線性方程的解非零，執行 w-step 後參數會改變。
+guide_refs:
+  - guide-3:3-18
+  - guide-3:3-20
+author: codex
+review:
+  status: draft
