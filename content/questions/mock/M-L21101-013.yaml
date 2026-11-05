@@ -7,7 +7,7 @@ codes:
   - L21101
 concepts:
   - machine-translation
-stem: 某機械廠翻譯 200 份操作手冊。人工確認句法流暢，但同一零件名稱被譯成 3 種中文，操作員因而對錯料號。團隊已有核准的雙語零件表。哪項改善最直接？
+stem: 某機械廠翻譯 200 份操作手冊。人工確認句法流暢，但同一零件名稱被譯成 3 種中文，操作員因而誤認零件料號。團隊已有核准的雙語零件表。哪項改善最直接？
 options:
   A: 提高生成取樣的隨機程度，讓各份手冊使用更豐富詞彙
   B: 將流暢度設為唯一驗收項目，選用語句自然的翻譯結果
@@ -25,4 +25,5 @@ guide_refs:
   - guide-1:3-32
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: C
