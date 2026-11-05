@@ -1,0 +1,32 @@
+id: M-L23401-030
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23401
+concepts:
+  - api-access-security
+  - privacy-governance
+stem: 某模型資料平台有 8 位維護人員共用一個管理帳號。平台會記錄時間、帳號與操作內容，來源網路位址則相同。稽核要能把每次匯出明細追溯到實際操作人。最適合優先採哪項措施？
+options:
+  A: 以更長的管理帳號密碼保護登入
+  B: 採更高強度的加密連線保護傳輸
+  C: 將操作日誌時間記錄到更細單位
+  D: 將個人管理身分連結到每次匯出紀錄
+answer: D
+explanation:
+  summary: 要追查實際操作人，須讓操作紀錄連結到個人身分。
+  correct: 共用帳號只能指出某管理帳號曾執行操作，不能可靠區分 8 位維護人員。個人管理身分搭配操作紀錄，才有基礎追溯哪一人進行了明細匯出。
+  wrong:
+    A: 更長密碼可提高猜測難度，但多人仍共用同一身分，操作歸屬不會因此清楚。
+    B: 更強連線加密保護傳輸內容，卻沒有讓紀錄區分使用共用帳號的不同維護人員。
+    C: 更細的時間有利事件排序，但沒有個人身分可連結時，仍無法可靠判定實際操作人。
+guide_refs:
+  - guide-1:5-15
+  - guide-3:6-12
+  - guide-3:6-13
+author: codex
+review:
+  status: verified
+  blind_answer: D
