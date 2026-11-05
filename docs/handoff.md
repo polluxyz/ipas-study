@@ -1,7 +1,20 @@
 # 完整網站整合交接
 
-2026-11-04。使用者要求的既有成果已整合到正式分支與4321網站。
-最新產品合併為05cc425eec1fc8955d1a661b453ca16713103dd6（PR122）。
+## 目前進度（2026-11-05）
+
+- 進行中：每日題組交卷模式。規格`docs/specs/daily-exam-mode.md`，計畫與待辦`tasks/daily-exam-mode-*`。
+- 下一步：Codex做版面mockup，使用者看過才實作。使用者看過前不大量改`demo/src/`。
+- 題庫：main為b992705時，verified模擬題科目1有560題、科目3有491題，需求各450。狀態見`tasks/question-bank-expansion-todo.md`。
+- 4321：程序PID 11996，終端term_18ac8644-c8a9-43c2-91dc-3a2049e12a81（常駐，勿關）。提供`D:/ipas-study/demo/dist`，在repo根目錄`pnpm --dir demo run build --force`就地更新，1895頁。
+- Orca Run：run_e8563c302ab9。worker可能卡在輸入框，派工後要確認畫面有Working。
+- 工作樹：main＋5個保留工作樹，遠端只剩main。清理工具`tmp/question-bank/archive-worktree.mjs`。
+
+以下是2026-11-04以前的內容。其中的題數、唯一常駐終端與未提交草稿的敘述已過時，以本節為準。
+
+## 2026-11-04整合紀錄
+
+使用者要求的既有成果已整合到正式分支與4321網站。
+當時最新產品合併為05cc425eec1fc8955d1a661b453ca16713103dd6（PR122）。
 後續文件提交的HEAD以Git為準。網站程式仍在demo/。
 
 ## 使用者最新規則
