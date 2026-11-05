@@ -1,0 +1,42 @@
+id: M-L23203-026
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - convolution-layer
+  - efficient-cnn
+stem: 某工程師測試逐通道卷積。輸入依序為批次、通道、高、寬，只有第 0 個通道有訊號。下列程式的 groups=4，每個卷積核權重皆為 1。關於輸出形狀與各通道總和，何者最正確？
+code: |
+  import torch
+  x = torch.zeros(1, 4, 5, 5)
+  x[:, 0] = 1.0
+  layer = torch.nn.Conv2d(4, 4, 3, groups=4, bias=False)
+  with torch.no_grad():
+      layer.weight.fill_(1.0)
+  y = layer(x)
+  print(tuple(y.shape))
+  print(y.sum(dim=(0, 2, 3)).tolist())
+code_lang: python
+options:
+  A: 形狀 (1,4,3,3)；總和 [81,0,0,0]
+  B: 形狀 (1,4,3,3)；總和 [81,81,81,81]
+  C: 形狀 (1,1,3,3)；總和 [81]
+  D: 形狀 (1,4,5,5)；總和 [225,0,0,0]
+answer: A
+explanation:
+  summary: 辨識逐通道卷積的通道連接方式。
+  correct: groups 等於輸入通道數，且輸出通道數相同，代表每個輸出通道只接收對應輸入通道。未填充的 3×3 卷積將 5×5 變成 3×3。第 0 個通道各位置輸出 9，共 9 格，總和 81；其他通道為 0。
+  wrong:
+    B: 這是把每個輸出通道都接收第 0 個輸入通道的情況。groups=4 會隔開通道連接，訊號不會直接傳到其他通道。
+    C: groups 控制連接分組，不會將指定的 4 個輸出通道合成 1 個。
+    D: 這個設定沒有 padding，不能維持 5×5 的空間尺寸。題目的有效卷積只有 3×3 個輸出位置。
+guide_refs:
+  - guide-3:4-68
+  - guide-3:4-72
+author: codex
+review:
+  status: verified
+  blind_answer: A

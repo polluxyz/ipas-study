@@ -1,0 +1,44 @@
+id: M-L23203-030
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - position-wise-ffn
+stem: 某工程師想知道逐位置前饋網路是否會混合詞的位置。以下 2 層線性轉換只作用在特徵軸，中間使用 ReLU。工程師把第 1 句第 3 個詞的 8 維輸入都增加 1，其餘位置不動。下列輸出形狀與變動位置何者最正確？
+code: |
+  import torch
+  net = torch.nn.Sequential(torch.nn.Linear(8, 32),
+                            torch.nn.ReLU(), torch.nn.Linear(32, 8))
+  with torch.no_grad():
+      for p in net.parameters():
+          p.fill_(0.1)
+  x = torch.zeros(2, 5, 8)
+  y = net(x)
+  x[0, 2] += 1.0
+  z = net(x)
+  changed = ((y - z).abs().sum(dim=-1) > 1e-6)
+  print(tuple(z.shape))
+  print(changed.tolist())
+code_lang: python
+options:
+  A: 輸出為 (2,5,8)；只改變第 1 句第 3 個詞
+  B: 輸出為 (2,5,8)；改變第 1 句的全部詞
+  C: 輸出為 (2,5,32)；只改變第 1 句第 3 個詞
+  D: 輸出為 (2,5,8)；改變 2 句的第 3 個詞
+answer: A
+explanation:
+  summary: 區分逐位置特徵轉換與跨位置資訊混合。
+  correct: 每個位置都獨立經過 8→32→8 的相同轉換，因此批次與詞數不變。參數共享表示各位置使用同一組權重，不表示各位置的輸入互相混合。本例只修改 1 個位置，其他位置的輸出保持不變。
+  wrong:
+    B: 跨詞混合需注意力或其他跨位置運算。這段前饋網路只處理各位置自己的 8 維特徵。
+    C: 32 是中間層寬度。第二個線性層已將特徵轉回 8 維，回傳值不保留 32 維。
+    D: 批次間共享權重不會共享輸入值。修改第 1 句不會直接改變第 2 句的輸出。
+guide_refs:
+  - guide-3:4-81
+author: codex
+review:
+  status: verified
+  blind_answer: A
