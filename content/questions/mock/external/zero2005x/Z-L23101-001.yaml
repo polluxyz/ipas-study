@@ -1,0 +1,47 @@
+id: Z-L23101-001
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - bayes-theorem
+  - conditional-probability
+stem: 某罕見疾病盛行率為 2%。篩檢工具的靈敏度（召回率）為 95%、特異度為 90%。若某人篩檢結果為陽性，其實際患病機率最接近下列何者？
+options:
+  A: 95%
+  B: 90%
+  C: 16%
+  D: 2%
+answer: C
+explanation:
+  summary: 陽性後的機率要納入疾病盛行率。
+  correct: 以 10,000 人估算，真陽性為 190 人，偽陽性為 980 人。陽性者患病率為 190/1170，約 16.24%。
+  wrong:
+    A: 95% 是患病者驗出陽性的比例，題目問的是陽性者患病的比例。
+    B: 90% 是特異度，描述未患病者驗出陰性的機率。
+    D: 2% 是檢測前的患病比例，尚未用陽性結果更新。
+guide_refs:
+  - guide-3:3-5
+  - guide-3:3-6
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch01.md
+  original_id: SIM-L23101-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；解析逐項重寫

@@ -1,0 +1,46 @@
+id: Z-L23304-004
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23304
+concepts:
+  - random-search
+  - grid-search
+stem: 在相同的運算預算下（例如各試 60組），關於網格搜尋與隨機搜尋之比較，下列敘述何者最為正確？
+options:
+  A: 兩者效果完全相同，差別僅在實作方式
+  B: 隨機搜尋因具隨機性，結果不可重現，不應使用
+  C: 網格搜尋在固定 60 次預算下仍必然勝出，因為預先列出離散候選值等同完整涵蓋連續參數空間
+  D: 多數參數影響小時，隨機搜尋通常更有效率，可探索重要參數的更多取值
+answer: D
+explanation:
+  summary: 固定預算時，隨機搜尋可讓重要參數試到更多不同值。
+  correct: 若許多參數影響不大，規則網格可能反覆測到相同的重要參數值；隨機抽樣有機會更有效使用有限試驗次數。
+  wrong:
+    A: 兩種取樣方式探索的點不同，不能保證效果完全一致。
+    B: 可固定種子與環境記錄來重現抽樣程序，隨機不代表不可使用。
+    C: 網格只涵蓋預先指定的點，不代表涵蓋連續空間全部可能。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

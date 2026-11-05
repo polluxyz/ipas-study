@@ -1,0 +1,49 @@
+id: Z-L23202-002
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23202
+concepts:
+  - roc-auc
+stem: 假設模型的二元標籤為 0／1，下列程式計算 AUC 時發生錯誤。原因與修正為何？
+code: |-
+  proba= model.predict_proba(X_test)
+  auc= roc_auc_score(y_test, proba)
+code_lang: python
+options:
+  A: 應先對proba做標準化
+  B: "`roc_auc_score`的參數順序寫反了"
+  C: 應改用`model.predict`(`X_test`)
+  D: 將二維的 predict_proba 輸出改取正類欄 proba[:, 1]
+answer: D
+explanation:
+  summary: 二元 AUC 要接收每筆資料的一個連續正類分數。
+  correct: 當類別順序是 [0,1]，predict_proba 的第 2 欄才是正類機率。取 proba[:,1] 可得到長度 n 的評分向量。
+  wrong:
+    A: 重新標準化不會把 (n,2) 變成正確的一維正類向量。
+    B: 真實標籤在前、模型分數在後，這裡順序正確。
+    C: 硬標籤會壓掉連續排序資訊，無法取代原本想衡量的分數表現。
+guide_refs:
+  - guide-3:5-22
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch05.md
+  original_id: SIM-L23202-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；解析逐項重寫

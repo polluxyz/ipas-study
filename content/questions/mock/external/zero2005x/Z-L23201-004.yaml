@@ -1,0 +1,47 @@
+id: Z-L23201-004
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23201
+concepts:
+  - probabilistic-modeling
+  - bayes-theorem
+stem: 品管人員抽檢 20 件零件，發現 4 件瑕疵，以伯努利模型估計瑕疵率 p。若另外採用 Beta(2, 8) 作為先驗，MLE 與 MAP 估計值分別約為多少？
+options:
+  A: MLE 0.18，MAP 0.20
+  B: MLE 0.25，MAP 0.18
+  C: MLE 0.20，MAP 0.18
+  D: MLE 0.20，MAP 0.20
+answer: C
+explanation:
+  summary: 最大概似看資料，最大後驗還納入先驗。
+  correct: MLE 為 4/20=0.20。後驗為 Beta(6,24)，其眾數是 (6−1)/(6+24−2)=5/28，約 0.18。
+  wrong:
+    A: MLE 不用先驗，應為 0.20，兩種結果不能互換。
+    B: 4/16 是瑕疵對良品的比率，並非全部零件中的瑕疵率。
+    D: 0.20 是後驗平均，不是這組後驗分布的眾數。
+guide_refs:
+  - guide-3:3-6
+  - guide-3:3-7
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch04.md
+  original_id: SIM-L23201-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

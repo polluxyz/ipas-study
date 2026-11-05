@@ -1,0 +1,48 @@
+id: Z-L23304-006
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - quantization
+  - model-pruning
+  - knowledge-distillation
+stem: 某模型需部署至記憶體受限的邊緣裝置，目前模型檔案過大且推論延遲超標。下列手段何者無法直接降低模型的記憶體佔用？
+options:
+  A: 知識蒸餾（訓練一個較小的學生模型）
+  B: 提高批次大小以增加吞吐量
+  C: 量化（將權重由 32位元浮點數降為 8位元整數）
+  D: 結構化剪枝（移除整個通道或濾波器）
+answer: B
+explanation:
+  summary: 批次大小影響執行記憶體，不會縮小模型權重。
+  correct: 本題找無法直接縮小的方法。增加批次不會減少權重個數或位元數，還會增加同時保留的輸入與中間張量。
+  wrong:
+    A: 以較小學生模型承接教師能力，部署時可減少參數量。
+    C: 32 位改 8 位可減少權重資料量，但實際儲存還包含量化參數等開銷。
+    D: 移除整個通道可讓結構和參數量實際變小。
+guide_refs:
+  - guide-3:5-49
+  - guide-3:5-50
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: D
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

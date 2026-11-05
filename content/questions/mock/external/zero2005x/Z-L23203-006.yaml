@@ -1,0 +1,47 @@
+id: Z-L23203-006
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23203
+concepts:
+  - mini-batch-gradient-descent
+  - learning-rate-schedule
+stem: 某團隊使用動量 SGD，維持原學習率與 epoch 數，將批次大小由 32 提高至 256 以加速訓練，但發現損失下降變得極慢。下列處置何者最為適當？
+options:
+  A: 改用 sigmoid作為隱藏層激活函數
+  B: 試驗線性縮放學習率（例如約提高 8 倍）並搭配 warmup，再以驗證曲線確認
+  C: 直接把批次從 256 改回 32，不再測試學習率或訓練排程，因為只要批次變大就必然損害所有任務的收斂
+  D: 加強 L2正則化
+answer: B
+explanation:
+  summary: 批次改變後要共同檢查步長與每輪更新次數。
+  correct: 256 是 32 的 8 倍，固定輪數時更新次數約減到 1/8。可試驗較高學習率並逐步暖身，但必須用驗證結果確認穩定性。
+  wrong:
+    A: 改用 sigmoid 沒有處理批次與步長的配置關係。
+    C: 大批次有吞吐量效益，不存在所有任務都不適用的結論。
+    D: 加強 L2 沒有補回更新次數，還可能讓學習更受限。
+guide_refs:
+  - guide-3:3-24
+  - guide-3:5-31
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch06.md
+  original_id: SIM-L23203-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；補寫干擾項細節，平衡選項長度；解析逐項重寫

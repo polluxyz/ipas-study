@@ -1,0 +1,49 @@
+id: Z-L23303-006
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23303
+concepts:
+  - f1-score
+  - r-squared
+  - pr-auc
+stem: 關於模型評估指標，下列敘述何者錯誤？
+options:
+  A: R²可能為負值，代表模型的預測比「一律猜受評估資料目標值的平均值」還差
+  B: RMSE對離群值比 MAE敏感，因其對誤差取平方
+  C: 極度不平衡的二元分類中，AUPRC通常比 AUROC更具鑑別力
+  D: F1為精確率與召回率的算術平均，因此兩者之一極低時 F1仍可維持中等水準
+answer: D
+explanation:
+  summary: F1 使用調和平均，會受較低的那一項限制。
+  correct: 本題選錯誤敘述。F1=2PR/(P+R)，並非 (P+R)/2。例如 P=0.9、R=0.1 時，F1 只有 0.18。
+  wrong:
+    A: 一般非定值目標下，殘差平方和比平均基準更大時，R² 確實可為負。
+    B: RMSE 對大殘差有平方放大效果，通常較 MAE 敏感。
+    C: 不平衡時 PR 曲線聚焦正類與誤報，常能補充 ROC 的限制。
+guide_refs:
+  - guide-3:5-21
+  - guide-3:5-23
+  - guide-3:5-24
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: D
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；解析逐項重寫

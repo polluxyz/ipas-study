@@ -1,0 +1,54 @@
+id: Z-L23303-003
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - smote
+  - data-leakage
+  - k-fold-cross-validation
+stem: 某工程師評估「同一批病患多次就診紀錄」（每位病患平均 4筆）的再住院風險模型。下列程式的主要問題為何？
+code: |-
+  X_res,y_res = SMOTE().fit_resample(X, y)
+  scores= cross_val_score(model, X_res, y_res, cv=5)
+  print(scores)
+code_lang: python
+options:
+  A: "`cross_val_score`會自動回傳平均分數，故print會印出單一數值"
+  B: 沒有問題，合成過採樣可有效解決類別不平衡
+  C: 切分前重採樣會使來源與合成紀錄跨折；未按病患分組也可能洩漏
+  D: 把 cv 由 5 改成 10，保留切分前的 SMOTE 與原有病患紀錄排列，透過增加折數同時排除 2 種洩漏
+answer: C
+explanation:
+  summary: 重採樣時機與病患分組要分別處理。
+  correct: 先對全資料合成會讓驗證資料影響訓練樣本；病患跨折則讓同人的訊息出現在兩邊。應先分組，再只在每折訓練部分重採樣。
+  wrong:
+    A: 回傳的是各折分數陣列，而不是自動求好的平均。
+    B: 技術適合不平衡不代表放在切分前就安全。
+    D: 增加折數仍會保留切分前合成與病患跨折的問題。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-26
+  - guide-3:5-48
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

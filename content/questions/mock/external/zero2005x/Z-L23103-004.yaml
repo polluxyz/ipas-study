@@ -1,0 +1,49 @@
+id: Z-L23103-004
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23103
+concepts:
+  - algorithm-selection
+stem: |-
+  某風控系統需比對所有客戶配對之間的相似度，程式結構為兩層巢狀迴圈，各遍歷全部 n位客戶。
+
+  當客戶數由 1萬成長至 10萬時，計算時間約成長為原來的幾倍？
+options:
+  A: 10倍
+  B: 20倍
+  C: 100倍
+  D: 不變
+answer: C
+explanation:
+  summary: 兩層各跑 n 次的迴圈會做約 n² 次工作。
+  correct: 客戶數變成 10 倍，配對工作量約成為 10²=100 倍。
+  wrong:
+    A: 10 倍對應線性成長，未計入另一層迴圈。
+    B: 兩層迴圈的倍數應相乘，並非把 10 倍相加。
+    D: 資料量增加會增加配對數，這裡不是固定成本運算。
+guide_refs:
+  - guide-3:3-23
+  - guide-3:4-82
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch03.md
+  original_id: SIM-L23103-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；解析逐項重寫

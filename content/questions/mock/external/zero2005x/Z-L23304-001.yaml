@@ -1,0 +1,52 @@
+id: Z-L23304-001
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - grid-search
+  - nested-cross-validation
+stem: 下列程式執行後，工程師以`gs.best_score_`作為模型上線後的預期效能向主管報告。此作法的問題為何？
+code: |-
+  gs= GridSearchCV(model, param_grid, cv=5, scoring='f1')
+  gs.fit(X_train,y_train)
+  print(gs.best_score_)
+code_lang: python
+options:
+  A: best_score_ 經挑選而偏樂觀；應另用未參與調參的測試集評估
+  B: 應改用`gs.best_params_`報告
+  C: 應把cv調高至 10即可解決
+  D: 交叉驗證分數本來就是泛化的無偏估計，因此即使先比較多個配置再挑最高分，也不需要保留測試集
+answer: A
+explanation:
+  summary: 用同一組驗證分數選最佳組合，不能再視為獨立最終評估。
+  correct: best_score_ 來自參數選擇過程，可能偏樂觀。選定流程後應使用未參與選擇的測試集，或以巢狀交叉驗證評估整體程序。
+  wrong:
+    B: best_params_ 回傳設定內容，不是評估分數。
+    C: 折數增加沒有隔離參數選擇與最終報告的資料。
+    D: 交叉驗證若同時拿來選設定，最佳分數就不再是獨立評估。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-30
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

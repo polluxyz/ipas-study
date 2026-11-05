@@ -1,0 +1,48 @@
+id: Z-L23402-001
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23402
+concepts:
+  - algorithmic-bias
+  - fairness-audit
+stem: 某人力資源科技公司開發 AI履歷篩選系統。稽核發現：模型未使用性別欄位，但「畢業學校」「居住郵遞區號」「曾任職產業」三項特徵的組合，使某一性別群體的通過率顯著低於另一群體。下列處置何者最為適當？
+options:
+  A: 因模型未使用性別欄位，此差異純屬巧合，無須處理
+  B: 檢查代理變數，敏感屬性限稽核使用；比較群體通過及誤判率，再依脈絡選指標矯正
+  C: 直接刪除學校、郵遞區號與產業 3 項特徵，保留其餘欄位而不再做分群稽核，即可完全消除性別代理資訊
+  D: 為求公平，應改為對所有應徵者隨機抽選
+answer: B
+explanation:
+  summary: 移除敏感欄位不代表其他特徵不會攜帶相同資訊。
+  correct: 學校、地區與產業可能共同代理敏感屬性。應在受控稽核下比較各群體的通過與錯誤表現，再決定適合任務的修正方式。
+  wrong:
+    A: 未直接輸入性別不代表群體差距必然是巧合。
+    C: 其他特徵仍可能攜帶相同訊號，刪掉這 3 欄無法保證完全消除差異。
+    D: 隨機挑選不能取代對資格、效能與公平目標的共同設計。
+guide_refs:
+  - guide-3:6-14
+  - guide-3:6-17
+  - guide-3:6-24
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch12.md
+  original_id: SIM-L23402-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

@@ -1,0 +1,47 @@
+id: Z-L23201-001
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23201
+concepts:
+  - lasso
+  - l1-regularization
+stem: 某模型有 500個特徵，其中多數彼此高度相關且部分貢獻有限。團隊希望在避免過擬合的同時，讓模型自動篩選出少數具代表性的特徵。下列正則化方式何者最為適當？
+options:
+  A: Dropout
+  B: 早停
+  C: L2正則化（`Ridge`）
+  D: L1正則化（`Lasso`）
+answer: D
+explanation:
+  summary: L1 能把部分係數壓到 0，形成特徵篩選。
+  correct: 需要留下少數特徵時，L1 的稀疏解符合需求。高度相關特徵間的選擇仍可能不穩，需另檢查。
+  wrong:
+    A: Dropout 隨機遮蔽神經元，並非固定挑選少數輸入特徵。
+    B: 早停限制訓練歷程，不直接要求特徵係數為零。
+    C: L2 主要縮小係數，一般不會直接產生大量零係數。
+guide_refs:
+  - guide-3:4-15
+  - guide-3:4-16
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch04.md
+  original_id: SIM-L23201-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

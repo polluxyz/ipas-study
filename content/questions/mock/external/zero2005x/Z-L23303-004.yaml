@@ -1,0 +1,46 @@
+id: Z-L23303-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23303
+concepts:
+  - time-series-split
+stem: 某團隊建置「每日電力需求預測」模型，資料為三年份的日資料。下列交叉驗證方式何者最為適當？
+options:
+  A: 留一法，逐日驗證
+  B: K-Fold，隨機分為 5折
+  C: 先把需求量高低轉成分層組別，再隨機使用 Stratified K-Fold，讓每折兼含前期與後期日期
+  D: TimeSeriesSplit，使用較早資料訓練、較晚資料驗證
+answer: D
+explanation:
+  summary: 前向驗證用過去預測較晚的時間段。
+  correct: TimeSeriesSplit 可按順序擴增訓練區間，再評估後面的日期。實務上還要檢查標籤跨期與特徵視窗是否需留間隔。
+  wrong:
+    A: 一般留一法仍會用該日之後的資料訓練，而且訓練成本高。
+    B: 隨機 K 折會混用未來紀錄，不能忠實模擬部署情況。
+    C: 保留類別比例與維持時間順序是不同需求，分層不能代替前向切分。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-26
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

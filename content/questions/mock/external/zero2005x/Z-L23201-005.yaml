@@ -1,0 +1,46 @@
+id: Z-L23201-005
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23201
+concepts:
+  - statistical-inference
+  - roc-auc
+stem: 某醫療團隊只有 60 筆已標註的測試樣本，想為模型的 AUC 提供 95% 信賴區間，且不想假設 AUC 服從任何特定分布。下列作法何者最適當？
+options:
+  A: 把 60 筆資料複製 10 次變成 600 筆，再計算一次 AUC
+  B: 對 60 筆測試樣本有放回地重抽 1,000 次，每次重算 AUC，取第 2.5 與第 97.5 百分位
+  C: 以 MLE 求出最可能的 AUC，作為信賴區間
+  D: 從常態分布產生 10,000 筆假資料再計算 AUC
+answer: B
+explanation:
+  summary: 有放回重抽可估計指標的抽樣變動。
+  correct: 對測試樣本重抽並重算 AUC，再取兩側百分位可得到自助法區間。若抽到單一類別，需改用分層重抽或處理無法計分的情況。
+  wrong:
+    A: 複製同一資料沒有新增獨立資訊，不能取代重抽估計。
+    C: 單一最可能值仍是點估計，沒有給出區間的不確定性。
+    D: 自行假設常態生成資料，不符合題目不指定分布的要求。
+guide_refs:
+  - guide-3:3-7
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch04.md
+  original_id: SIM-L23201-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；解析逐項重寫

@@ -1,0 +1,53 @@
+id: Z-L23301-001
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - feature-scaling
+  - data-leakage
+stem: 下列程式的問題為何？
+code: |-
+  scaler= StandardScaler()
+  X_train_s= scaler.fit_transform(X_train)
+  X_test_s= scaler.fit_transform(X_test)
+  model.fit(X_train_s,y_train)
+code_lang: python
+options:
+  A: 測試集重新 fit 使用了測試統計量，屬資料洩漏且尺度不一致；改用 scaler.transform(X_test)
+  B: 應改用`MinMaxScaler`即可避免
+  C: 先合併訓練與測試資料，再由合併資料估計平均與標準差，以相同尺度作為理由保留這份共同轉換器
+  D: 沒有問題，兩個資料集各自標準化較為公平
+answer: A
+explanation:
+  summary: 測試資料應沿用訓練階段學到的縮放參數。
+  correct: 測試集重新 fit 會使用測試統計量，且改變座標尺度。訓練 fit 完後，測試只呼叫 transform，才能維持同一組轉換。
+  wrong:
+    B: 更換縮放公式不能解決測試階段重新估參數的流程問題。
+    C: 合併後 fit 會讓測試集參與前處理參數估計，評估不再獨立。
+    D: 各自估平均與標準差，會讓相同原始數值產生不同座標。
+guide_refs:
+  - guide-3:5-7
+  - guide-3:5-18
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch07.md
+  original_id: SIM-L23301-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

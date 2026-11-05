@@ -1,0 +1,47 @@
+id: Z-L23202-006
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23202
+concepts:
+  - random-forest
+  - ensemble-models
+stem: 關於隨機森林（Random Forest）演算法中的自助抽樣（Bootstrap Aggregating）與袋外（Out-of-Bag, OOB）評估機制，下列敘述何者最為正確？
+options:
+  A: 只有設定 `oob_score`=True 時，隨機森林才能進行樹與特徵的隨機抽樣訓練
+  B: 每棵樹約有 (1−1/N)^N ≈ 36.8% 的樣本未抽中；這些袋外資料可用於無偏評估單樹與森林的泛化效能
+  C: 袋外資料評估結果會受到嚴重的資料洩漏（Data Leakage）影響，因此不能作為模型泛化能力的評估依據
+  D: 自助抽樣採不放回方式，每棵樹固定只抽原資料的 50%，因此每筆資料恰好有一半機率被當作袋外資料
+answer: B
+explanation:
+  summary: 袋外預測要排除曾看過該樣本的樹。
+  correct: 單筆資料未被一棵樹抽中的機率為 (1−1/N)^N，極限約 36.8%。這能提供袋外評估，但原選項把泛化估計說成無偏，條件不足，故保留原答並標爭議。
+  wrong:
+    A: oob_score 控制是否另計袋外分數，不是啟用森林隨機化的總開關。
+    C: 袋外機制本身不等於洩漏；但前處理與調參仍須另外檢查。
+    D: 自助抽樣有放回，並非固定不放回抽取一半。
+guide_refs:
+  - guide-3:4-36
+  - guide-3:4-37
+author: codex
+review:
+  status: disputed
+  answer_checked: null
+  dispute: 原答 A 把 OOB 分數稱為無偏泛化估計過度概括。袋外模型的有效訓練樣本、樣本量與調參方式皆可能造成偏差，機制也不能替整個流程保證無洩漏。保留原答，待主審確認是否可改寫來源正解。
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch05.md
+  original_id: SIM-L23202-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

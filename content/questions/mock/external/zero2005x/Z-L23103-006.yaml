@@ -1,0 +1,47 @@
+id: Z-L23103-006
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23103
+concepts:
+  - residual-connections
+  - recurrent-gradients
+stem: 在訓練超過 50 層的深層前饋神經網路時，若隱藏層皆採用 Sigmoid 或 Tanh 激活函數，模型往往面臨嚴重的「梯度消失（Vanishing Gradient）」問題，導致淺層網路權重幾乎無法更新。下列關於梯度消失的原因與緩解技術之敘述，何者最為正確？
+options:
+  A: 以 ResNet 的 F(x)+x 跳接提供恆等梯度路徑，緩解深層梯度衰減
+  B: Sigmoid 導數最大為 1，梯度消失主要因層數不足；把隱藏層由 50 層增加到 100 層就能自行消除衰減
+  C: 梯度消失只發生在學習率設得過大的情況下，只要將學習率調大 100 倍即可使淺層權重快速更新
+  D: 採用 ReLU 激活函數會在正區間將導數限制在 0.25，因此其對緩解梯度消失的效果遠劣於 Sigmoid
+answer: A
+explanation:
+  summary: 殘差連接提供較直接的梯度傳遞路徑。
+  correct: 對 y=F(x)+x 求導會得到 F′(x)+1。即使殘差分支導數偏小，恆等分支仍可傳遞梯度，減輕深層連乘造成的衰減。
+  wrong:
+    B: Sigmoid 導數上限是 0.25；單純增加層數不會消除連乘衰減。
+    C: 放大學習率不能改變各層導數連乘的結構。
+    D: ReLU 在正值區導數為 1，0.25 是 sigmoid 的導數上限。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:4-75
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch03.md
+  original_id: SIM-L23103-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

@@ -1,0 +1,47 @@
+id: Z-L23201-002
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23201
+concepts:
+  - logistic-regression
+  - regularization
+stem: 某工程師使用`LogisticRegression`(`C=0.01`)訓練模型，發現嚴重欠擬合。下列調整何者最為適當？
+options:
+  A: 增加訓練 epoch數
+  B: 將C進一步調小為 0.001
+  C: 將 C 調大，例如設為 10
+  D: 改用`Lasso`(`alpha=10`)
+answer: C
+explanation:
+  summary: C 與正則化強度反向變化。
+  correct: 在已收斂且限制過強的前提下，提高 C 可減弱正則化，讓邏輯斯迴歸更能配合資料。
+  wrong:
+    A: 單純增加迭代不會改變正則化目標；需先分辨未收斂與容量受限。
+    B: 把 C 再調小會加強限制，與改善欠擬合的方向相反。
+    D: Lasso 是迴歸估計器，且較大的 alpha 會加強限制。
+guide_refs:
+  - guide-3:4-26
+  - guide-3:4-30
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch04.md
+  original_id: SIM-L23201-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；解析逐項重寫

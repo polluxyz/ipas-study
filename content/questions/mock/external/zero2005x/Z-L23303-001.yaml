@@ -1,0 +1,48 @@
+id: Z-L23303-001
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23303
+concepts:
+  - precision
+  - recall
+  - f1-score
+stem: 某詐欺交易偵測模型在測試集上的混淆矩陣為：TP = 180、FP = 120、FN = 20、TN = 9,680。下列敘述何者正確？
+options:
+  A: Precision為 0.60，Recall為 0.90，F1約為 0.72
+  B: Accuracy為 0.986，故此模型效能優異，可直接上線
+  C: 若欲進一步降低漏檢，應調高分類閾值
+  D: Precision為 0.90，Recall為 0.60
+answer: A
+explanation:
+  summary: 精確率看預測正類，召回率看實際正類。
+  correct: Precision=180/300=0.60，Recall=180/200=0.90；F1=2×0.60×0.90/1.50=0.72。
+  wrong:
+    B: 全猜負類也有 98% 準確率，不能由 98.6% 直接推論可以上線。
+    C: 提高閾值會減少或維持預測正類數，不能藉此減少漏檢。
+    D: 這裡把精確率與召回率的分母對調。
+guide_refs:
+  - guide-3:5-20
+  - guide-3:5-21
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；解析逐項重寫

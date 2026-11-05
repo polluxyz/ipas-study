@@ -1,0 +1,48 @@
+id: Z-L23203-005
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23203
+concepts:
+  - lstm
+  - gru
+  - recurrent-gradients
+stem: 關於 RNN家族之敘述，下列何者正確？
+options:
+  A: LSTM的參數量少於 GRU，因此訓練較快
+  B: GRU 同時使用遺忘門、輸入門與輸出門 3 道門，並在隱藏狀態之外保有獨立的細胞狀態
+  C: LSTM 有 3 道門及獨立細胞狀態；GRU 有更新與重置 2 道門，無獨立細胞狀態
+  D: RNN的梯度消失問題源自於激活函數過於陡峭
+answer: C
+explanation:
+  summary: LSTM 與 GRU 的門控數及狀態配置不同。
+  correct: 標準 LSTM 具有輸入、遺忘、輸出 3 道門與獨立細胞狀態；標準 GRU 使用更新、重置 2 道門，整合記憶狀態。
+  wrong:
+    A: 相同維度下，標準 LSTM 通常比 GRU 有更多門控參數，速度還要實測。
+    B: 這裡描述的是 LSTM 的標準結構。
+    D: 梯度消失與連乘以及飽和區的小導數有關，不能歸因為過於陡峭。
+guide_refs:
+  - guide-3:4-75
+  - guide-3:4-76
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch06.md
+  original_id: SIM-L23203-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

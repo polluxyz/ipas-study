@@ -1,0 +1,47 @@
+id: Z-L23101-006
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - pca
+  - eigenvalue-decomposition
+stem: 某資料科學家對標準化後的 4 個特徵進行主成分分析（PCA），計算特徵共變異數矩陣得到其 4 個特徵值（Eigenvalues）依序為：$\lambda_1 = 2.4, \lambda_2 = 1.0, \lambda_3 = 0.4, \lambda_4 = 0.2$。若欲保留總變異量達到 85% 以上的資訊，下列分析與決策何者最為正確？
+options:
+  A: 選前 2 個主成分，累積解釋變異為 85%
+  B: 特徵值總和在數學上固定為 1.0，題幹給予的特徵值數值有誤，無法計算
+  C: 第一主成分（PC1）解釋了 $2.4 / 4.0 = 60\%$ 的變異，故僅需 1 個主成分即滿足 85% 需求
+  D: 主成分投影後仍保有原始特徵的高度線性相關，因此需再做特徵篩選才能消除主成分間的共線性
+answer: A
+explanation:
+  summary: 累積解釋率用保留的特徵值和除以全部特徵值和。
+  correct: 特徵值合計 4，前 1 個保留 60%，前 2 個保留 3.4/4=85%。因此最少需要 2 個。
+  wrong:
+    B: 特徵值的合計代表總變異，並沒有固定必須等於 1 的規則。
+    C: 60% 小於 85%，只留第 1 個不夠。
+    D: PCA 的不同主成分線性不相關，不會因投影本身產生高共線性。
+guide_refs:
+  - guide-3:3-14
+  - guide-3:4-44
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch01.md
+  original_id: SIM-L23101-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

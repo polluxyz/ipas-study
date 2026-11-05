@@ -1,0 +1,67 @@
+id: Z-L23303-010
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - sklearn-pipeline
+  - data-leakage
+stem: |-
+  二元分類資料 `X`、`y`（`y` 為 0／1），以下程式評估支援向量機的表現，輸出如下：
+
+  本例已得到下列輸出：
+
+  ```text
+  [0.81 0.79 0.84 0.62 0.8 ] 0.772
+  ```
+
+  為什麼要把 `StandardScaler` 放進 `make_pipeline`，而不是先對整個 `X` 標準化？
+code: |-
+  from sklearn.model_selection import StratifiedKFold, cross_val_score
+  from sklearn.pipeline import make_pipeline
+  from sklearn.preprocessing import StandardScaler
+  from sklearn.svm import SVC
+
+  pipe = make_pipeline(StandardScaler(), SVC(C=1.0))
+  cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+  scores = cross_val_score(pipe, X, y, cv=cv, scoring="f1")
+  print(scores.round(2), scores.mean().round(3))
+code_lang: python
+options:
+  A: 管線會自動調整參數 C
+  B: 不放進管線就無法計算 F1
+  C: 每一折只用該折的訓練部分估計標準化參數，避免驗證資料的資訊洩漏
+  D: StandardScaler 放進管線的主要目的是讓 SVC 的演算法自動更快，是否每折重新估計縮放統計量並不重要
+answer: C
+explanation:
+  summary: 把前處理放進管線，才能隨每折訓練資料重新擬合。
+  correct: 交叉驗證會複製整條管線。每折 scaler 只從該折訓練部分估平均與標準差，驗證資料只套用轉換。
+  wrong:
+    A: make_pipeline 本身不搜尋 C，需另接搜尋器。
+    B: F1 可以對任何合法的預測標籤計算，與是否封裝管線不同。
+    D: 是否加速不是管線避免洩漏的原因，也沒有一般速度保證。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-26
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-010
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；補寫干擾項細節，平衡選項長度；由原檔補回共用程式、情境與輸出；解析逐項重寫

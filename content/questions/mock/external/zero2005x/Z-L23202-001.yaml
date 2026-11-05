@@ -1,0 +1,48 @@
+id: Z-L23202-001
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23202
+concepts:
+  - ensemble-models
+  - random-forest
+  - boosting
+stem: 關於集成學習之敘述，下列何者正確？
+options:
+  A: 隨機森林增加樹的數量會顯著提高過擬合風險，故樹數須嚴格限制
+  B: 梯度提升的學習率調小時，應同時減少樹的數量以維持模型複雜度
+  C: 隨機森林採 Boosting，每棵樹依前棵樹的殘差序列訓練，再逐步修正偏差；樹與樹之間不做獨立自助抽樣
+  D: Bagging 以自助樣本分別訓練再平均，主要降低變異；Boosting 序列修正錯誤，主要降低偏差
+answer: D
+explanation:
+  summary: Bagging 透過整合降低變異，Boosting 逐步修正誤差。
+  correct: Bagging 對不同自助樣本分別建模後整合，常用來穩定高變異模型。Boosting 依前一步結果繼續學習，常改善欠擬合。
+  wrong:
+    A: 增加森林樹數通常使平均更穩定，不能直接等同顯著過擬合。
+    B: 較小學習率讓每步修正減少，通常要檢查是否需更多提升步數。
+    C: 隨機森林屬 Bagging 類方法，不是依序擬合殘差的 Boosting。
+guide_refs:
+  - guide-3:4-36
+  - guide-3:4-37
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch05.md
+  original_id: SIM-L23202-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

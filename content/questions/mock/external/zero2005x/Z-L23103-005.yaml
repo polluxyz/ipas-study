@@ -1,0 +1,54 @@
+id: Z-L23103-005
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23103
+concepts:
+  - learning-rate-schedule
+  - mini-batch-gradient-descent
+stem: |-
+  某模型訓練時損失持續震盪且不收斂。工程師檢視設定如下。最可能的問題與修正為何？
+
+  程式為訓練設定示意，lr 表示學習率，不指定函式庫版本。
+code: |-
+  optimizer= Adam(lr=0.5)
+  batch_size= 8
+code_lang: python
+options:
+  A: 應移除 Adam改用 AdaGrad，因其學習率會自動遞減
+  B: 調低 Adam 學習率（例如 0.001），並試驗較大批次
+  C: 應改用 sigmoid作為隱藏層激活函數
+  D: 應增加訓練 epoch數，震盪會自然消失
+answer: B
+explanation:
+  summary: 先調整過大的更新幅度，再比較批次造成的梯度波動。
+  correct: 0.5 是很大的 Adam 初始步長，批次 8 又可能帶來較大波動。先試較小步長與較大批次，再用曲線確認是否收斂。
+  wrong:
+    A: AdaGrad 的步長也需設定與驗證，換名稱不能取代修正過大的初始值。
+    C: 更換為 sigmoid 沒有直接控制步長，還可能使部分梯度變小。
+    D: 若更新持續越過穩定區，只增加輪數並不能保證收斂。
+guide_refs:
+  - guide-3:3-25
+  - guide-3:5-31
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch03.md
+  original_id: SIM-L23103-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；標明 lr 為學習率設定示意；解析逐項重寫

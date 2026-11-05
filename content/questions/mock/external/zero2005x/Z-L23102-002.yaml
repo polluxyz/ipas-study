@@ -1,0 +1,46 @@
+id: Z-L23102-002
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23102
+concepts:
+  - matrix-shapes
+  - matrix-operations
+stem: NumPy 二維陣列 A 的形狀為 (64,128)，B 的形狀為 (128,10)。下列運算何者會拋出錯誤？
+options:
+  A: A.T@ A
+  B: A * B
+  C: B.T @ B
+  D: A@ B
+answer: B
+explanation:
+  summary: 矩陣乘法與逐元素相乘使用不同的維度規則。
+  correct: 把 A、B 視為 NumPy 二維陣列時，(64,128) 與 (128,10) 無法逐元素廣播，所以 A * B 會失敗。
+  wrong:
+    A: A.T 的形狀為 (128,64)，乘 A 後得到 (128,128)。
+    C: B.T 乘 B 的內側維度同為 128，結果為 (10,10)。
+    D: 矩陣乘法內側維度同為 128，結果為 (64,10)。
+guide_refs:
+  - guide-3:3-10
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch02.md
+  original_id: SIM-L23102-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；明示 A、B 為 NumPy 陣列；解析逐項重寫

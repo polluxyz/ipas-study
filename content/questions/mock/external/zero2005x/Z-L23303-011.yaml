@@ -1,0 +1,67 @@
+id: Z-L23303-011
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - model-comparison
+  - k-fold-cross-validation
+stem: |-
+  二元分類資料 `X`、`y`（`y` 為 0／1），以下程式評估支援向量機的表現，輸出如下：
+
+  本例已得到下列輸出：
+
+  ```text
+  [0.81 0.79 0.84 0.62 0.8 ] 0.772
+  ```
+
+  第 4 折的 F1 只有 0.62，明顯低於其他四折。下列作法何者最適當？
+code: |-
+  from sklearn.model_selection import StratifiedKFold, cross_val_score
+  from sklearn.pipeline import make_pipeline
+  from sklearn.preprocessing import StandardScaler
+  from sklearn.svm import SVC
+
+  pipe = make_pipeline(StandardScaler(), SVC(C=1.0))
+  cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+  scores = cross_val_score(pipe, X, y, cv=cv, scoring="f1")
+  print(scores.round(2), scores.mean().round(3))
+code_lang: python
+options:
+  A: 持續嘗試不同 random_state，只保留 5 折 F1 最接近的種子，將其餘結果視為隨機誤差而不報告
+  B: 只報告最高的 0.84
+  C: 把第 4 折刪除，只報告其他四折的平均
+  D: 同時報告平均與標準差，並檢查第 4 折的資料是否有特殊子群、標註問題或分布差異
+answer: D
+explanation:
+  summary: 表現較差的折也是評估結果，應保留並調查。
+  correct: 5 折平均為 0.772，母體標準差約 0.0770。保留全數結果並檢查低分折，可避免挑選有利結果造成偏差。
+  wrong:
+    A: 挑到有利種子再報告，等於用驗證分數選擇呈現方式。
+    B: 最高分只反映最有利切分，不能代表整體可靠性。
+    C: 刪去不利折會改變原先評估程序並高估表現。
+guide_refs:
+  - guide-3:5-26
+  - guide-3:5-29
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-011
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；補寫干擾項細節，平衡選項長度；由原檔補回共用程式、情境與輸出；解析逐項重寫

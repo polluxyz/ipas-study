@@ -1,0 +1,46 @@
+id: Z-L23101-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23101
+concepts:
+  - mean-absolute-error
+  - huber-loss
+stem: 某房價預測模型的訓練資料中含少數豪宅成交紀錄（價格為一般住宅的數十倍），且這些紀錄為真實有效資料不可刪除。若希望模型不被這些極端值過度主導，下列損失函數何者最為適當？
+options:
+  A: 二元交叉熵
+  B: 類別交叉熵
+  C: 均方誤差（MSE）
+  D: 平均絕對誤差（MAE）或 Huber Loss
+answer: D
+explanation:
+  summary: 真實極端值不宜刪除，可選較穩健的迴歸損失。
+  correct: 絕對誤差對大殘差採線性懲罰；Huber 損失在大殘差區也轉為線性，較不易讓少數豪宅主導訓練。
+  wrong:
+    A: 二元交叉熵對應二元標籤，房價是連續目標。
+    B: 類別交叉熵用來處理分類目標，並不直接衡量房價殘差。
+    C: 平方會放大豪宅的大殘差，與降低極端值影響的目標相反。
+guide_refs:
+  - guide-3:3-22
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch01.md
+  original_id: SIM-L23101-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

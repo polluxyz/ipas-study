@@ -1,0 +1,49 @@
+id: Z-L23303-002
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - k-fold-cross-validation
+stem: 執行下列程式後，print會輸出什麼型別？
+code: |-
+  scores= cross_val_score(model, X, y, cv=5)
+  print(scores)
+code_lang: python
+options:
+  A: 單一浮點數，即五折的平均分數
+  B: 長度 5 的陣列，每折一個分數；平均須另呼叫 mean()
+  C: 包含每折訓練分數、驗證分數、各指標與耗時的 DataFrame，函式會自動將完整資訊整理為一張表
+  D: 訓練完成的模型物件
+answer: B
+explanation:
+  summary: cross_val_score 分別回傳各折分數。
+  correct: cv=5 會得到長度為 5 的 NumPy 陣列；要報平均需另呼叫 mean，也應檢查折間波動。
+  wrong:
+    A: 函式沒有自動把每折結果合併成一個平均數。
+    C: cross_validate 可回傳多種評估資訊的字典，本函式不是 DataFrame。
+    D: 交叉驗證評分不會把最終訓練模型當作回傳值。
+guide_refs:
+  - guide-3:5-26
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

@@ -1,0 +1,47 @@
+id: Z-L23302-002
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23302
+concepts:
+  - output-loss-contract
+  - softmax
+stem: 某影像分類任務有 10個互斥類別。下列輸出層配置何者正確？
+options:
+  A: Dense(10, `activation='linear'`)＋均方誤差
+  B: Dense(1,`activation='softmax'`)＋類別交叉熵
+  C: Dense(10,`activation='softmax'`)＋類別交叉熵
+  D: Dense(10, `activation='sigmoid'`)＋二元交叉熵
+answer: C
+explanation:
+  summary: 互斥 10 類要有 10 個共同正規化的輸出。
+  correct: 10 維 softmax 可表達總和為 1 的類別分布，再以類別交叉熵比較標籤；此配置對應獨熱或分布形式的標籤。
+  wrong:
+    A: 線性值不是所需的類別機率分布，平方誤差也非此題的標準分類損失。
+    B: 1 維 softmax 永遠為 1，無法區分 10 個類別。
+    D: 各自 sigmoid 不直接施加互斥分布約束，通常是多標籤的配置。
+guide_refs:
+  - guide-3:5-35
+  - guide-3:5-36
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch08.md
+  original_id: SIM-L23302-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；解析逐項重寫

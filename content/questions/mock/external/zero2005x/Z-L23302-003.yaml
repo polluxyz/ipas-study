@@ -1,0 +1,47 @@
+id: Z-L23302-003
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23302
+concepts:
+  - model-comparison
+  - class-imbalance
+stem: 某團隊直接以深度神經網路建模，準確率達 84%，主管詢問「這樣算好嗎」。下列回應何者最為適當？
+options:
+  A: 應直接加深網路至 50層以提升準確率
+  B: 改用召回率或 F1 取代準確率，再依分數絕對大小決定是否上線，不必為這些新指標另外建立比較基準
+  C: 84%屬高準確率，可直接上線
+  D: 先建立基準線；若多數類策略已有 82%，再評估增加 2 個百分點是否值得成本
+answer: D
+explanation:
+  summary: 模型分數要和相同資料上的基準比較。
+  correct: 84% 與多數類基準 82% 只差 2 個百分點。仍需檢查錯誤成本、少數類表現與部署成本，不能僅憑絕對分數上線。
+  wrong:
+    A: 尚未診斷誤差來源，直接加層數沒有依據。
+    B: 更換指標後仍要使用相同指標的基準來比較。
+    C: 高準確率可能來自多數類比例，未必代表模型具實用增益。
+guide_refs:
+  - guide-3:5-14
+  - guide-3:5-20
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch08.md
+  original_id: SIM-L23302-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

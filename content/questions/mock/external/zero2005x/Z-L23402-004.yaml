@@ -1,0 +1,46 @@
+id: Z-L23402-004
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23402
+concepts:
+  - shap
+  - explainable-ai
+stem: 某醫療診斷 AI 模型使用病患的生理特徵預測心血管疾病風險。模型對母體資料的平均基準預測風險為 15%。針對某位病患個體 x，模型預測其罹病風險為 42%。資料科學家呼叫 SHAP 解釋套件產出該病患的特徵貢獻度（Shapley values），已知各特徵貢獻如下：收縮壓（+15%）、總膽固醇（+8%）、年齡（+6%）、吸菸習慣（+4%）、每日步數（-6%）。關於此 SHAP 分析之公理性質與判讀，下列何者最為正確？
+options:
+  A: SHAP 值是全域特徵重要性指標，對於所有病患而言，收縮壓的 SHAP 值必定恆等於 +15%
+  B: 若某項特徵在所有特徵組合中對預測結果均無任何邊際貢獻（虛設特徵），其 SHAP 值仍可能因模型隨機性而為非零正值
+  C: SHAP 為正就證明該特徵對疾病具有因果作用，因此只要要求病患降低收縮壓，就保證完全消除心血管風險
+  D: 效率性要求各貢獻合計為預測與基準之差：27 個百分點；15% 加上 27 個百分點為 42%
+answer: D
+explanation:
+  summary: 同一輸出尺度下，基準加上特徵歸因應回到個案預測。
+  correct: 題目明定貢獻在機率尺度上，總和為 15+8+6+4−6=27 個百分點；基準 15% 加 27 個百分點等於 42%。
+  wrong:
+    A: 個案歸因會隨輸入改變，不是每位病患都固定同一數值。
+    B: 理想精確 Shapley 計算中，對所有聯盟都沒有邊際貢獻的特徵，其歸因為 0。
+    C: 模型歸因描述預測關聯，不能保證介入後的因果效果。
+guide_refs:
+  - guide-3:5-15
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch12.md
+  original_id: SIM-L23402-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

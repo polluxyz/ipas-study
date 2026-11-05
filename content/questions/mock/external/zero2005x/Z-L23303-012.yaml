@@ -1,0 +1,67 @@
+id: Z-L23303-012
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - f1-score
+  - stratified-k-fold
+stem: |-
+  二元分類資料 `X`、`y`（`y` 為 0／1），以下程式評估支援向量機的表現，輸出如下：
+
+  本例已得到下列輸出：
+
+  ```text
+  [0.81 0.79 0.84 0.62 0.8 ] 0.772
+  ```
+
+  若把資料換成三個類別的 `y`，其餘程式不變，最可能發生什麼事？
+code: |-
+  from sklearn.model_selection import StratifiedKFold, cross_val_score
+  from sklearn.pipeline import make_pipeline
+  from sklearn.preprocessing import StandardScaler
+  from sklearn.svm import SVC
+
+  pipe = make_pipeline(StandardScaler(), SVC(C=1.0))
+  cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+  scores = cross_val_score(pipe, X, y, cv=cv, scoring="f1")
+  print(scores.round(2), scores.mean().round(3))
+code_lang: python
+options:
+  A: 正常執行，scoring="f1" 會自動辨識 3 個類別，對各類 F1 取平均後回傳 5 個有效分數
+  B: '`scoring="f1"` 只適用於二元分類，執行時會報錯；應改用 `"f1_macro"` 或 `"f1_weighted"`'
+  C: 自動改用準確率評分
+  D: "`StratifiedKFold` 不支援多類別，會報錯"
+answer: B
+explanation:
+  summary: 多類別 F1 要明確指定平均方式。
+  correct: 原選項指出 binary F1 不能直接計 3 類，方向正確。但 cross_val_score 預設會警告並填入 NaN，不必然向外拋出例外，故保留原答並標爭議。
+  wrong:
+    A: f1 不會自動切換成多類平均。
+    C: 評分失敗不會自動改成準確率。
+    D: StratifiedKFold 可用於一般多類別標籤，不是此處失敗原因。
+guide_refs:
+  - guide-3:5-21
+  - guide-3:5-27
+author: codex
+review:
+  status: disputed
+  answer_checked: null
+  dispute: 原答 B 的「執行時會報錯」容易誤解為向外拋出例外。實測 scikit-learn cross_val_score 預設 error_score=NaN，3 類配 scoring=f1 會產生警告並回傳 NaN 陣列；指定 error_score=raise 才會向外拋 ValueError。
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-012
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；補寫干擾項細節，平衡選項長度；由原檔補回共用程式、情境與輸出；解析逐項重寫

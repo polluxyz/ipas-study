@@ -1,0 +1,46 @@
+id: Z-L23301-002
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - target-encoding
+  - categorical-encoding
+stem: 某資料集含「郵遞區號」欄位，共 3,000個相異值。若使用線性模型，下列編碼方式何者最為適當？
+options:
+  A: 依郵遞區號大小順序編碼，直接把整數輸入線性模型，並讓數字差距代表地區之間固定的線性影響
+  B: 採折外且平滑的目標編碼，或依地理意義合併較粗區域
+  C: 直接刪除該欄位
+  D: One-Hot編碼，產生 3,000個二元欄位
+answer: B
+explanation:
+  summary: 高基數類別要兼顧維度與目標洩漏。
+  correct: 折外統計不使用當筆所在折的標籤，平滑可降低低頻類別的不穩定。依實際地理意義合併區域，也是可比較的方案。
+  wrong:
+    A: 數值郵遞區號不代表線性的地域差距，直接排序會引入不當關係。
+    C: 先刪除可能有用的地域訊號，不如先評估適當編碼。
+    D: 獨熱編碼並非一定不可用，但需處理高維及低頻係數的不穩定。
+guide_refs:
+  - guide-3:5-8
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch07.md
+  original_id: SIM-L23301-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

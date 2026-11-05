@@ -1,0 +1,46 @@
+id: Z-L23203-001
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23203
+concepts:
+  - convolution-layer
+  - cnn-tensor-shapes
+stem: 輸入特徵圖尺寸為 64×64，卷積核大小 5×5，填充 P = 2，步幅 S = 2。輸出特徵圖的邊長為何？
+options:
+  A: "32"
+  B: "30"
+  C: "64"
+  D: "33"
+answer: A
+explanation:
+  summary: 卷積邊長先除以步幅向下取整，再加 1。
+  correct: (64−5+2×2)/2=31.5，取整後加 1，輸出邊長為 32。
+  wrong:
+    B: 30 是忽略兩側填充後的結果。
+    C: 64 對應這組核與填充在步幅 1 時的邊長。
+    D: 31.5 應向下取整，不是先進位。
+guide_refs:
+  - guide-3:4-68
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch06.md
+  original_id: SIM-L23203-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

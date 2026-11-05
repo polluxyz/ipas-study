@@ -1,0 +1,47 @@
+id: Z-L23102-003
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23102
+concepts:
+  - pca
+  - explainable-ai
+stem: 關於 PCA之敘述，下列何者錯誤？
+options:
+  A: 主成分為原特徵的線性組合，因此降維後仍可直接向業務單位說明每個維度的意義
+  B: PCA為非監督式方法，不保證保留對預測目標最有鑑別力的資訊
+  C: PCA對共變異數矩陣做特徵分解，特徵值大小代表該主成分解釋的變異量
+  D: 各特徵單位不同時，執行前應先標準化，否則單位大的變數會主宰主成分
+answer: A
+explanation:
+  summary: 降維後的座標未必容易對應業務語意。
+  correct: 本題選錯誤敘述。主成分通常混合多個原特徵，線性組合不保證每個新座標都有直接的業務解釋。
+  wrong:
+    B: PCA 沒有用標籤決定方向，確實不保證保留最佳分類訊號。
+    C: 共變異數矩陣的特徵值確實用來描述各方向的變異。
+    D: 不同量尺會影響最大變異方向，先處理尺度是合理做法。
+guide_refs:
+  - guide-3:3-14
+  - guide-3:4-44
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch02.md
+  original_id: SIM-L23102-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

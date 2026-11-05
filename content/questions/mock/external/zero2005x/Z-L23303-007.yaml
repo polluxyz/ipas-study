@@ -1,0 +1,49 @@
+id: Z-L23303-007
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - confusion-matrix
+stem: 二元分類的標籤為 0／1。執行下列程式後，變數fp的值代表什麼？
+code: |-
+  from sklearn.metrics import confusion_matrix
+  tn,fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+code_lang: python
+options:
+  A: 真陽性數，即模型正確找出的正樣本數
+  B: 偽陽性數，即實際為負卻被預測為正的樣本數（誤報）
+  C: 偽陰性數，即漏檢數
+  D: 真陰性數
+answer: B
+explanation:
+  summary: scikit-learn 的預設標籤順序會讓 TN 位在左上。
+  correct: 在 0、1 兩類皆存在時，列為實際、欄為預測；ravel 依序取 TN、FP、FN、TP，所以 fp 是負類被判成正類的數量。
+  wrong:
+    A: 真陽性對應 tp，是攤平後的第 4 格。
+    C: 漏檢對應 fn，是第 3 格。
+    D: 真陰性對應 tn，是第 1 格。
+guide_refs:
+  - guide-3:5-20
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-007
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；解析逐項重寫

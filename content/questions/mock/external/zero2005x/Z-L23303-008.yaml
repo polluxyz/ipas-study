@@ -1,0 +1,47 @@
+id: Z-L23303-008
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23303
+concepts:
+  - data-leakage
+  - model-comparison
+stem: 某團隊的信用違約模型在交叉驗證上 AUC達 0.995，但上線後 AUC僅 0.68。下列最可能的原因為何？
+options:
+  A: AUC本來就不適用於信用違約模型
+  B: 線上樣本較少造成估計不穩，因此直接將落差歸因樣本數，保留離線評估與所有前處理步驟不再檢查
+  C: 離線評估有資料洩漏，例如使用當時不可得的特徵、切分前處理，或用測試集調參
+  D: 模型參數在部署過程中遺失
+answer: C
+explanation:
+  summary: 離線異常高分且上線下降，要檢查評估是否使用未來資訊。
+  correct: 洩漏是優先排查的原因之一：檢查特徵取得時點、切分前處理，以及測試資料是否參與調參。僅憑兩個 AUC 數字仍不能直接確診。
+  wrong:
+    A: 信用違約可用 AUC 衡量排序，仍應搭配校準及成本指標。
+    B: 樣本量不足可以造成波動，但需查區間；不能比洩漏檢查更直接解釋整個流程。
+    D: 部署參數錯誤是另一項排查方向，題目沒有提供權重遺失的直接證據。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-25
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-008
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

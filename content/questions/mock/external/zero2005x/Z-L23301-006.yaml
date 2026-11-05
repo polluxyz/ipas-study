@@ -1,0 +1,46 @@
+id: Z-L23301-006
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23301
+concepts:
+  - missingness-mechanisms
+  - missing-value-imputation
+stem: 某資料集的「年收入」欄位缺失率為 22%，且分析顯示高收入者較不願填答。下列處置何者最為適當？
+options:
+  A: 用已填答者的年收入平均值填補全部缺失，將未填答視為與收入無關，因此不需記錄缺失指示或揭露偏誤
+  B: 屬非隨機缺失；保留缺失指示，審慎插補並揭露偏誤風險
+  C: 刪除所有含缺失的列
+  D: 以 0填補
+answer: B
+explanation:
+  summary: 缺失與欄位未觀測值相關，不能只靠平均填補假裝無偏。
+  correct: 高收入者較易不填，符合非隨機缺失的描述。保留缺失指示、檢查假設並揭露敏感度與偏誤，比直接抹去缺失更妥當。
+  wrong:
+    A: 觀測者平均可能低於缺失者平均，直接套用會掩蓋系統性差異。
+    C: 刪除缺失列可能讓高收入群更缺乏代表性。
+    D: 0 代表已知沒有收入，與未取得收入資料不同。
+guide_refs:
+  - guide-3:5-2
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch07.md
+  original_id: SIM-L23301-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

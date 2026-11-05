@@ -1,0 +1,62 @@
+id: Z-L23304-009
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - random-search
+  - bayesian-optimization
+stem: |-
+  以下程式對隨機森林做超參數搜尋，最後在測試集上評估：
+
+  若把 `max_depth` 擴充為 7 個候選值，再加入兩個各有 5 個候選值的新參數，搜尋成本大幅增加。下列作法何者最適當？
+code: |-
+  from sklearn.model_selection import GridSearchCV
+  from sklearn.ensemble import RandomForestClassifier
+
+  grid = {"n_estimators": [100, 300],
+          "max_depth": [4, 8, None],
+          "min_samples_leaf": [1, 5]}
+  gs = GridSearchCV(RandomForestClassifier(random_state=0), grid,
+                    cv=5, scoring="roc_auc", n_jobs=-1)
+  gs.fit(X_train, y_train)
+  print(gs.best_params_, round(gs.best_score_, 3))
+  print(round(gs.score(X_test, y_test), 3))
+code_lang: python
+options:
+  A: 直接使用測試集反覆比較設定，選最高測試分數的參數後，再把同一測試分數作為最終效能報告
+  B: 把 `cv` 改為 1
+  C: 移除 `n_jobs=-1`
+  D: 改用 `RandomizedSearchCV`，固定抽樣次數（例如 `n_iter=40`），或改用貝氏最佳化
+answer: D
+explanation:
+  summary: 搜尋空間增加時，可固定試驗預算。
+  correct: 新網格有 2×7×2×5×5=700 組，5 折為 3500 次。隨機搜尋固定 n_iter 可限制成本，貝氏方法則利用既有結果選下一點。
+  wrong:
+    A: 測試集若拿來挑參數，就無法再提供獨立最終評估。
+    B: 整數 cv 至少須為 2；設為 1 不是有效交叉驗證。
+    C: 取消平行化沒有減少需要訓練的模型總數。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: draft
+  answer_checked: null
+  dispute: null
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-009
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；補寫干擾項細節，平衡選項長度；由原檔補回共用程式、情境；解析逐項重寫
