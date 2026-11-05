@@ -1,40 +1,32 @@
 id: M-L23304-012
-rev: 1
+rev: 2
 source: mock
 subject: 3
-type: 程式
+type: 計算
 codes:
   - L23304
 concepts:
+  - optimizer-selection
   - momentum
-  - sgd
-stem: 某工程師以 PyTorch 的動量 SGD 測試參數更新。第 1 步手動給梯度 2，第 2 步給零梯度，沒有權重衰減、阻尼或 Nesterov。關於第 2 步後的結果，何者最正確？
-code: |
-  import torch
-  w = torch.nn.Parameter(torch.tensor(1.0))
-  opt = torch.optim.SGD([w], lr=0.1, momentum=0.5)
-  w.grad = torch.tensor(2.0)
-  opt.step()
-  w.grad = torch.tensor(0.0)
-  opt.step()
-  print(round(w.item(), 2))
-code_lang: python
+  - adam
+  - model-resource-costs
+stem: 某裝置的模型有 1000 萬個參數，每個值占 4 位元組。只計權重、梯度與優化器狀態，不計中間輸出及暫存。動量 SGD 為每個參數保存 1 個動量值；Adam 保存 2 個矩估計值，所有值都用相同精度。指定 1 MB=100 萬位元組，記憶體上限為 140 MB。兩種方案的占用與可行性何者最正確？
 options:
-  A: w 為 0.8；目前梯度是零，因此歷史動量在這一步被清除
-  B: w 為 0.7；歷史動量仍有貢獻，因此零梯度也可能移動參數
-  C: w 為 0.6；優化器會直接重用上一步的完整梯度作第二次更新
-  D: w 為 1.0；零梯度代表應撤銷前一次更新並恢復初始參數
+  A: 動量 SGD 約 80 MB、Adam 約 120 MB；兩者都未超過 140 MB，皆符合上限。
+  B: 動量 SGD 約 120 MB、Adam 約 160 MB；只有前者符合上限。
+  C: 動量 SGD 約 40 MB、Adam 約 80 MB；兩者皆符合上限。
+  D: 動量 SGD 約 160 MB、Adam 約 120 MB；只有後者符合上限。
 answer: B
 explanation:
-  summary: 動量更新結合歷史狀態，不只取決於目前梯度。
-  correct: 第 1 步的動量為 2，w 變成 0.8。第 2 步的動量是 0.5×2+0=1，故再減少 0.1，得到 0.7。零梯度與沒有歷史動量是不同條件。
+  summary: 選優化器時，須把每個參數所附帶的歷史狀態計入記憶體。
+  correct: 每份參數大小的陣列占 1000萬×4=4000萬位元組，即 40 MB。動量 SGD 需要權重、梯度、動量共 3 份，為 120 MB。Adam 需要權重、梯度與 2 份矩估計，共 4 份，為 160 MB。依指定的 140 MB 上限，只有動量 SGD 符合。本例已排除中間輸出與暫存，不能把結果當成完整訓練記憶體。
   wrong:
-    A: 零梯度不會清除動量緩衝區；先前的動量仍按 0.5 衰減後參與更新。
-    C: 上一步的動量會乘上 0.5，不是完整重用梯度 2。
-    D: 優化器不會把零梯度解讀為撤銷指令，沒有恢復初始參數的操作。
+    A: 兩種方案都漏算了梯度這一份陣列，低估各 40 MB。
+    C: 這只計優化器歷史狀態，沒有加入權重與梯度。
+    D: 把兩種優化器的狀態數對調；Adam 才需要保存 2 份矩估計。
 guide_refs:
+  - guide-3:5-38
   - guide-3:5-39
-  - guide-3:5-40
 author: codex
 review:
   status: verified
