@@ -1,0 +1,30 @@
+id: M-L23101-006
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23101
+concepts:
+  - continuous-random-variable
+  - normal-uniform-distributions
+stem: 某量測器的誤差 X 以連續分布建模，在 0 至 0.2 毫米間的密度固定為 5，其餘位置密度為 0。工程師因密度超過 1 而懷疑模型無效。下列解讀何者最正確？
+options:
+  A: 密度固定不變；每個精確誤差值的機率是 0.2
+  B: 密度可超過 1；區間機率要以密度的面積計算
+  C: 密度超過 1；應將每個位置的密度截到 1 以下
+  D: 密度等於 5；任一精確誤差值的機率就是 5
+answer: B
+explanation:
+  summary: 區分連續變數的密度與機率。
+  correct: 密度的數值不是單點機率。此密度在支撐區間的面積為 5×0.2=1，因此是有效分布。連續分布中，任一精確單點的機率為 0。
+  wrong:
+    A: 0.2 是區間寬度，不是單點機率。連續分布的單點機率為 0。
+    C: 機率不能超過 1，但密度沒有相同的上限。直接截斷會讓總面積小於 1，破壞正規化。
+    D: 密度描述單位區間內的機率集中程度，不能直接當作精確單點的機率。
+guide_refs:
+  - guide-3:3-4
+author: codex
+review:
+  status: verified
+  blind_answer: B
