@@ -1,0 +1,29 @@
+id: M-L23102-012
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23102
+concepts:
+  - svd
+stem: 某團隊以奇異值分解壓縮資料矩陣，4 個奇異值依序為 8、5、3、1。只保留前 2 個奇異值及其向量。若以「每格重建誤差平方的總和」衡量壓縮損失，該損失為多少？
+options:
+  A: "4"
+  B: "9"
+  C: "13"
+  D: "10"
+answer: D
+explanation:
+  summary: 截斷奇異值分解的誤差平方和，等於捨棄奇異值的平方和。
+  correct: 不同奇異方向彼此正交，捨棄方向的誤差能量可相加。因此每格重建誤差平方的總和為 3²+1²=10，而不是奇異值直接相加。
+  wrong:
+    A: 4 是被捨棄奇異值的直接加總 3+1，沒有依平方誤差定義計算。
+    B: 9 只計入奇異值 3 的誤差，漏掉另一次捨棄造成的 1²。
+    C: 13 是保留奇異值的直接加總 8+5，既不是捨棄部分，也不是平方和。
+guide_refs:
+  - guide-3:3-14
+author: codex
+review:
+  status: verified
+  blind_answer: D

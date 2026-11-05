@@ -1,0 +1,39 @@
+id: M-L23102-014
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23102
+concepts:
+  - matrix-operations
+  - linear-transformation
+stem: 某感測資料先乘 S 做非等向縮放，再乘 R 做旋轉，程式使用欄向量。團隊要從 z 還原 x。下列運算何者最適合取代問號？
+code: |
+  import numpy as np
+  S = np.diag([2., 1.])
+  R = np.array([[0., -1.], [1., 0.]])
+  x = np.array([3., 4.])
+  z = R @ S @ x
+  # recovered = ?
+code_lang: python
+options:
+  A: np.linalg.inv(R) @ np.linalg.inv(S) @ z
+  B: np.linalg.inv(S) @ np.linalg.inv(R) @ z
+  C: np.transpose(S) @ np.transpose(R) @ z
+  D: np.transpose(R) @ np.transpose(S) @ z
+answer: B
+explanation:
+  summary: 還原串接轉換時，反轉換的執行次序須倒過來。
+  correct: z=RSx，所以 x=S⁻¹R⁻¹z。應先消去最後套用的旋轉，再消去縮放；R 的轉置等於其反矩陣，但 S 的轉置不等於 S⁻¹。
+  wrong:
+    A: S 與 R 在本例不可交換。先對 z 做逆縮放，再做逆旋轉，無法依序消去 RS。
+    C: 旋轉可用轉置還原，但 S 的對角值為 2、1，轉置仍是 S，並沒有把第一軸除以 2。
+    D: 此式同時把反轉換的次序與縮放的逆運算弄錯，不能得到原向量。
+guide_refs:
+  - guide-3:3-11
+  - guide-3:3-12
+author: codex
+review:
+  status: verified
+  blind_answer: B
