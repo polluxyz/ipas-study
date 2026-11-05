@@ -1,0 +1,31 @@
+id: M-L23201-014
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23201
+concepts:
+  - regularization
+  - l2-regularization
+stem: 某線性模型對 5 筆資料最小化 J(w)=Σᵢℓᵢ(w)+2||w||²，損失採加總。工程師要把同一批資料的損失改成每筆平均。若要讓新目標只是原目標乘以 1/5，正則化項的係數最適合改成多少？
+options:
+  A: "0.4"
+  B: "2"
+  C: "5"
+  D: "10"
+answer: A
+explanation:
+  summary: 資料損失的縮放必須與正則化係數配合。
+  correct: 把資料損失除以 5 時，懲罰係數也須由 2 除以 5，變成 0.4。此時 J_new=Σᵢℓᵢ/5+0.4||w||²=J/5，維持相同的最小值位置。
+  wrong:
+    B: 保留係數 2 會讓懲罰相對於平均資料損失增強 5 倍。
+    C: 5 是樣本數，不是將原係數除以樣本數後的值，不能作為換算結果。
+    D: 把係數乘以 5，與資料損失除以 5 的方向相反，會使相對懲罰強度增強 25 倍。
+guide_refs:
+  - guide-3:4-15
+  - guide-3:5-44
+author: codex
+review:
+  status: verified
+  blind_answer: A

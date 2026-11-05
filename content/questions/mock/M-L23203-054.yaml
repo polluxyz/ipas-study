@@ -1,0 +1,44 @@
+id: M-L23203-054
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - gradient-clipping
+  - mini-batch-gradient-descent
+stem: 某訓練流程把 2 個微批次的梯度相加後才更新。簡例的兩次導數分別為 10 與 -9，整體梯度限制為 1。函式比較每次 backward 後裁剪，與累積完成才裁剪。兩個結果最接近哪一項？
+code: |
+  import torch
+  def run(each):
+      p = torch.nn.Parameter(torch.tensor(0.0))
+      for g in [10.0, -9.0]:
+          (p * g).backward()
+          if each:
+              torch.nn.utils.clip_grad_norm_([p], 1.0)
+      if not each:
+          torch.nn.utils.clip_grad_norm_([p], 1.0)
+      return round(p.grad.item(), 1)
+  print(run(True), run(False))
+code_lang: python
+options:
+  A: 1.0、1.0
+  B: -1.0、1.0
+  C: -1.0、-1.0
+  D: 1.0、-1.0
+answer: B
+explanation:
+  summary: 非線性的裁剪不能任意移入梯度累積迴圈。
+  correct: 逐次裁剪先把 10 縮至約 1，再加 -9，最後得到約 -1。先累積則為 10-9=1，裁剪後仍約為 1；兩種流程甚至可能反向。
+  wrong:
+    A: 逐次裁剪會先改變第 1 次導數，後續 -9 因而主導累積結果。
+    C: 最後裁剪看到的是相加後的正梯度 1，不是負梯度。
+    D: 逐次裁剪的最後結果為負，而累積完成才裁剪的結果為正。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: B
