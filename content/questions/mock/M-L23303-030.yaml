@@ -22,7 +22,7 @@ code_lang: python
 options:
   A: 設定 4 折與 3 輪的 RepeatedKFold，並使用固定種子
   B: 改以 random_state=17，每輪重新建立同樣的 4 折 KFold
-  C: 關閉目前 4 折 KFold 的 shuffle，重複呼叫 3 次 split
+  C: 設定 shuffle=False 與 random_state=None，重複呼叫 3 次 split
   D: 先建立 1 份 4 折清單，再隨機改變每輪取用折的先後順序
 answer: A
 explanation:
@@ -30,11 +30,12 @@ explanation:
   correct: RepeatedKFold 可在同一次可重現的隨機流程內產生多輪分組。每輪仍是完整 4 折，而非反覆重播同一份 4 折清單。
   wrong:
     B: 改成另一個固定種子只會換成另一份分組，各次重新建構仍得到相同清單。
-    C: 不打亂時，每次依原排列切分，無法觀察分組隨機性。
+    C: 不打亂時，每次都依原排列切出同一組 4 折，無法觀察分組隨機性。原程式的 random_state=7 也要一併移除，否則建立 KFold 時會報錯。
     D: 更動折的執行順序不會更動每折的成員，仍無法觀察重新切分的波動。
 guide_refs:
   - guide-3:5-28
   - guide-3:5-29
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: A
