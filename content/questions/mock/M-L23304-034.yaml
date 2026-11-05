@@ -27,7 +27,7 @@ guide_refs:
   - guide-3:5-20
 author: codex
 review:
-  status: draft
+  status: verified
   blind_answer: A
 code: |
   def next_w(x):
