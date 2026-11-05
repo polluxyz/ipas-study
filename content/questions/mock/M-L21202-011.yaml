@@ -1,0 +1,30 @@
+id: M-L21202-011
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21202
+concepts:
+  - gantt-critical-path
+  - ai-implementation-plan
+stem: 某 AI 試辦有資料整理 2 週與介面串接 2 週，兩者沒有資料依賴，但都須由同一名工程師全時執行，不能同時做。兩項完成後，另一名測試員需 1 週整合驗證。團隊不增員，也不縮減工作。規劃時最短工期為多少？
+options:
+  A: 3 週
+  B: 4 週
+  C: 6 週
+  D: 5 週
+answer: D
+explanation:
+  summary: 沒有任務依賴，不代表同一人可以同時執行兩份全時工作。
+  correct: 同一名工程師須先後完成兩項各 2 週的工作，共 4 週。整合驗證要等兩項完成，再加 1 週，最短共 5 週。排程必須同時考慮任務依賴與人力占用。
+  wrong:
+    A: 3 週把兩項 2 週工作視為平行，只考慮任務沒有資料依賴，漏算同一工程師的資源衝突。
+    B: 4 週只計工程師的兩項工作，沒有加入必須在兩者完成後執行的整合驗證。
+    C: 若在每項工程工作後各加 1 週驗證，會重複計入測試時間。本題只需在兩項工作結束後做 1 次整合驗證。
+guide_refs:
+  - guide-1:4-18
+  - guide-1:4-19
+author: codex
+review:
+  status: draft
