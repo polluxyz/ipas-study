@@ -1,0 +1,28 @@
+id: M-L23301-023
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23301
+concepts:
+  - power-transforms
+stem: 某維修成本模型的輸入是溫度相對基準的差值，包含 -12、0、35 等合法數值，分布明顯偏斜。團隊希望先比較可估計冪次參數的分布轉換，並保留正負方向，不先平移資料。下列候選何者最適合？
+options:
+  A: 直接對差值使用自然對數轉換
+  B: 直接對差值使用 Box-Cox 轉換
+  C: 直接對差值使用 Yeo-Johnson 轉換
+  D: 先取差值絕對值，再使用 Box-Cox 轉換
+answer: C
+explanation:
+  summary: 轉換方法的定義域必須包含資料中的合法值。
+  correct: Yeo-Johnson 可處理正數、零與負數，並可由訓練資料估計轉換參數。因此能作為本題保留方向的候選。能成功轉換不代表預測一定改善，仍須比較驗證表現。
+  wrong:
+    A: 實數自然對數不能直接處理零與負數，因此不適用於全部合法差值。
+    B: 標準 Box-Cox 需要嚴格正值。資料含零與負值，不先平移就不能直接套用。
+    D: 取絕對值會混合同樣幅度的正負溫差，也仍可能留下零值，不符合方向與定義域的需求。
+guide_refs:
+  - guide-3:5-7
+author: codex
+review:
+  status: draft
