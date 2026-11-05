@@ -7,37 +7,49 @@ codes:
   - L23303
 concepts:
   - sklearn-pipeline
+  - data-leakage
+  - k-fold-cross-validation
   - one-hot-encoding
-stem: 某商品分類流程以訓練資料中的顏色建立獨熱編碼。驗證時遇到訓練資料沒出現的 green。工程師已設定忽略未知類別，如下列程式。對驗證資料的轉換，何者最正確？
+stem: 某商品分類器要驗證新顏色資料的表現。部署時編碼器固定，且無法預先取得新顏色清單。以下小型範例每折完整留出一種顏色。流程甲先用全部資料擬合編碼器，再驗證分類器；流程乙在各折訓練資料內擬合整條 Pipeline。程式依序印出甲、乙的各折準確率與編碼欄數。哪項判斷最符合指定的驗證目標？
 code: |
+  import numpy as np
+  from sklearn.model_selection import KFold, cross_val_score, cross_validate
+  from sklearn.linear_model import LogisticRegression
   from sklearn.pipeline import Pipeline
   from sklearn.preprocessing import OneHotEncoder
-  from sklearn.dummy import DummyClassifier
+  X = np.array([['red'], ['red'], ['blue'], ['blue'], ['green'], ['green']])
+  y = np.array([0, 1] * 3)
+  folds = list(KFold(3).split(X))
+  enc = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
+  z = enc.fit_transform(X)
+  a = cross_val_score(LogisticRegression(), z, y, cv=folds)
   pipe = Pipeline([
       ('encode', OneHotEncoder(handle_unknown='ignore', sparse_output=False)),
-      ('model', DummyClassifier(strategy='most_frequent'))
+      ('model', LogisticRegression())
   ])
-  pipe.fit([['red'], ['blue'], ['red']], [0, 1, 0])
-  z = pipe.named_steps['encode'].transform([['green']])
-  print(z.tolist())
-  print(pipe.predict([['green']]).tolist())
+  b = cross_validate(pipe, X, y, cv=folds, return_estimator=True)
+  widths = [len(p.named_steps['encode'].categories_[0])
+            for p in b['estimator']]
+  print(a.tolist(), [z.shape[1]] * 3)
+  print(b['test_score'].tolist(), widths)
 code_lang: python
 options:
-  A: 新增 green 欄，驗證資料改用 3 欄編碼
-  B: 維持既有 2 欄，green 轉成全零向量
-  C: 沿用 red 欄，green 轉成 red 的編碼
-  D: 中止這筆轉換，未知類別不進入模型
+  A: 採用甲；較多欄位能識別留出顏色，對新類別的驗證較完整
+  B: 採用乙；留出顏色對編碼器仍未知，才能驗證部署時的處理路徑
+  C: 兩者均可；各折準確率相同，表示未知類別的驗證條件也相同
+  D: 兩者均可；編碼器只看特徵，未使用驗證標籤就不影響驗證條件
 answer: B
 explanation:
-  summary: 未知類別的處理設定決定驗證資料如何編碼。
-  correct: 編碼輸出為 `[[0.0, 0.0]]`，模型預測為 [0]。編碼器維持訓練所得的 blue 與 red 兩欄。handle_unknown 設為 ignore 時，未知類別在這組欄位中以全零表示，不會增加新欄。
+  summary: 分數相同不代表驗證流程都保留了部署時的未知類別條件。
+  correct: B 正確。甲輸出 [0.5, 0.5, 0.5] 與 [3, 3, 3]；乙輸出 [0.5, 0.5, 0.5] 與 [2, 2, 2]。甲事先從全資料取得了留出顏色，驗證時不會走未知類別的處理路徑。乙只由各折訓練資料建立類別表，留出顏色會以全零向量送入分類器，符合部署條件。本例兩流程恰好同分，不能據此認定驗證條件相同，也不能推論甲必定高估多少。乙的分數是此小型留出實驗的結果，不保證所有新顏色都有相同表現。
   wrong:
-    A: transform 不會增補訓練時未學到的欄位，否則後段模型的輸入維度也會改變。
-    C: 忽略未知類別不等於把未知類別視為眾數顏色，本例不會轉成 red。
-    D: 此設定允許未知類別通過；若使用預設的報錯設定才會中止。
+    A: 甲的額外欄位來自事先觀察驗證資料，部署時拿不到這份新顏色清單。問題在類別表的取得來源，不是欄數多就一定有洩漏；若類別表事先合法固定，則須另依部署條件判斷。
+    C: 相同分數只能說明本例預測的正確比例相同。甲把留出顏色當成已知類別，乙把留出顏色當成未知類別，兩種驗證條件不同。
+    D: 驗證特徵也能影響前處理。本例即使沒有使用驗證標籤，全資料擬合仍讓編碼器提前認識部署時未知的顏色。
 guide_refs:
   - guide-3:5-8
   - guide-3:5-18
+  - guide-3:5-26
 author: codex
 review:
   status: draft

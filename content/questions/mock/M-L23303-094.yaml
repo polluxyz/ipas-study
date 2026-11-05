@@ -7,7 +7,7 @@ codes:
   - L23303
 concepts:
   - roc-auc
-stem: 某二元風險模型要評估機率分數的排序能力，正類為 1。甲、乙在門檻 0.5 的分類結果相同，但分數順序不同。下列程式同時比較分數與分類結果的 AUC。最正確的解讀為何？
+stem: 某二元風險模型要評估機率分數的排序能力，正類為 1。甲（程式中的 a）、乙（程式中的 b）在門檻 0.5 的分類結果相同，但分數順序不同。下列程式同時比較分數與分類結果的 AUC。最正確的解讀為何？
 code: |
   import numpy as np
   from sklearn.metrics import roc_auc_score
