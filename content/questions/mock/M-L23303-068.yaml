@@ -1,0 +1,30 @@
+id: M-L23303-068
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23303
+concepts:
+  - f1-score
+  - pr-auc
+stem: 某維修警報專案已事先約定，以固定操作門檻下的 F1 分數驗收。兩版使用同一測試集：甲版 F1 為 0.78、PR-AUC 為 0.62；乙版依序為 0.71、0.75。PR-AUC 彙整多個門檻的精確率與召回率表現。依本次驗收規則，哪項判斷最正確？
+options:
+  A: 甲版較符合驗收，採固定操作門檻的 F1 比較
+  B: 乙版較符合驗收，採多個門檻的 PR-AUC 比較
+  C: 兩版表現相同，採 F1 與 PR-AUC 的名次相加
+  D: 暫時無法比較，需先把兩版的 PR-AUC 調成相同
+answer: A
+explanation:
+  summary: 固定操作點的驗收不能由跨門檻摘要指標取代。
+  correct: 本次事前指定比較固定門檻的 F1，因此甲版較高的 F1 符合規則。乙版較高的 PR-AUC 反映另一個評估面向，不代表指定門檻的表現較好。
+  wrong:
+    B: PR-AUC 適合觀察跨門檻表現，但不是本次事前指定的驗收指標。
+    C: 兩種指標量測的面向不同，規則也沒有採名次加總；自行相加會改變驗收目標。
+    D: 兩版在同一測試集且已有指定指標，可以直接比較 F1，不必讓其他指標相等。
+guide_refs:
+  - guide-3:5-21
+  - guide-3:5-22
+author: codex
+review:
+  status: draft

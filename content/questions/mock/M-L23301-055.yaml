@@ -1,0 +1,30 @@
+id: M-L23301-055
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23301
+concepts:
+  - missing-value-imputation
+  - categorical-encoding
+stem: 某客服資料的受理管道為電話、郵件或門市，三者沒有高低順序。少量紀錄因匯入故障而缺失，缺失與管道無關。團隊要保留這些紀錄，先採不需額外模型、且填入既有管道的簡單補值法。哪項做法最適合？
+options:
+  A: 將管道編成數字後，以編號平均數補值
+  B: 將管道編成數字後，以編號中位數補值
+  C: 將管道依名稱排序，以首個管道補值
+  D: 統計管道的出現次數，以眾數補值
+answer: D
+explanation:
+  summary: 無序類別缺值的簡單補值選擇。
+  correct: 眾數是已知管道中出現最多的類別，不需要賦予管道數值大小。它符合本例使用既有管道進行簡單補值的要求。
+  wrong:
+    A: 編號只是類別代號，平均編號沒有管道意義，也可能得到不存在的類別。
+    B: 中位編號取決於任意編號順序，不能反映無序管道的典型類別。
+    C: 名稱排序與管道的出現情形無關，首個名稱不是本例補值的統計依據。
+guide_refs:
+  - guide-3:5-2
+  - guide-3:5-8
+author: codex
+review:
+  status: draft
