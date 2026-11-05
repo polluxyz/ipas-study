@@ -1,0 +1,39 @@
+id: M-L23203-049
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - transfer-learning
+  - pytorch
+stem: 某遷移模型把可訓練的輸入轉接層放在固定骨幹之前。簡例以 a 代表轉接層，w 代表骨幹。團隊只凍結 w，仍要讓損失更新 a。以下梯度結果何者最正確？
+code: |
+  import torch
+  a = torch.nn.Parameter(torch.tensor(3.0))
+  w = torch.nn.Parameter(torch.tensor(2.0), requires_grad=False)
+  loss = a * w
+  loss.backward()
+  print(a.grad.item(), w.grad)
+code_lang: python
+options:
+  A: a.grad=None；w.grad=None
+  B: a.grad=0；w.grad=None
+  C: a.grad=2；w.grad=3
+  D: a.grad=2；w.grad=None
+answer: D
+explanation:
+  summary: 凍結權重不等於切斷通往前方可訓練層的導數。
+  correct: w 不累積參數梯度，但乘法仍對 a 可微。損失對 a 的導數為 w=2，因此 a.grad 為 2，而 w.grad 為 None。
+  wrong:
+    A: 只關閉 w 的參數梯度，不會把整段運算移出自動微分圖。
+    B: 凍結不會把通往 a 的導數設成 0；固定的倍率 2 仍參與求導。
+    C: w 已關閉梯度累積，不會取得數值為 3 的參數梯度。
+guide_refs:
+  - guide-3:4-82
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: D

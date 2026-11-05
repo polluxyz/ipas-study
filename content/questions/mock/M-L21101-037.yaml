@@ -1,0 +1,31 @@
+id: M-L21101-037
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - tokenization
+  - named-entity-recognition
+stem: 某文件系統先合併連續空白，再以正規化文字做實體辨識。辨識出的名稱內容正確，但把起訖索引套回原始文件時，標亮位置常向前偏移。系統須標亮原始文件。最適合補上哪項處理？
+options:
+  A: 改用更細的子詞切分後重新產生索引
+  B: 保存正規化前後的字元位置對應並回映
+  C: 提高實體信心門檻後只標亮高分候選
+  D: 依實體類型套用固定的起訖位置偏移
+answer: B
+explanation:
+  summary: 前處理若改變字元長度，實體索引須映回原始文字。
+  correct: 合併空白後，正規化文字與原文的字元位置已不同。保留位置對應，才能把辨識範圍映回原文。偏移量取決於前方合併過的空白，並非實體類型。
+  wrong:
+    A: 細分子詞改變模型輸入單位，仍無法還原正規化時刪減了哪些原文字元。
+    C: 信心門檻可過濾不確定候選，但高分實體也會遇到相同的位置映射錯誤。
+    D: 不同文件及不同位置合併的空白數不同，按類型固定平移無法重建逐處索引。
+guide_refs:
+  - guide-1:3-10
+  - guide-1:3-32
+author: codex
+review:
+  status: verified
+  blind_answer: B

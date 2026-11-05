@@ -1,0 +1,31 @@
+id: M-L23301-053
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23301
+concepts:
+  - data-augmentation
+  - loss-function-selection
+stem: 某影像分類器採混合增強：用 0.25 倍貓圖加上 0.75 倍狗圖，並用相同係數混合標籤。類別順序為 [貓, 狗]，損失函數可接受機率型目標。下列訓練標籤何者最符合此增強規則？
+options:
+  A: 使用 [0.25, 0.75] 作為這筆混合圖的目標
+  B: 使用 [0, 1] 作為這筆混合圖的目標
+  C: 使用 [0.75, 0.25] 作為這筆混合圖的目標
+  D: 使用 [0.5, 0.5] 作為這筆混合圖的目標
+answer: A
+explanation:
+  summary: 混合增強的標籤應與影像使用相同的混合係數。
+  correct: 貓圖權重是 0.25，狗圖權重是 0.75。依相同係數混合兩個獨熱標籤，得到 [0.25, 0.75]。機率型目標可保留混合比例。
+  wrong:
+    B: 這是取最大類別後的硬標籤，捨棄了題目要求的貓圖混合比例。
+    C: 此向量把兩類權重對調，與影像實際的混合係數不一致。
+    D: 各半的標籤適用於各半混合，與本題指定的 0.25 及 0.75 不同。
+guide_refs:
+  - guide-3:5-9
+  - guide-3:4-62
+author: codex
+review:
+  status: verified
+  blind_answer: A

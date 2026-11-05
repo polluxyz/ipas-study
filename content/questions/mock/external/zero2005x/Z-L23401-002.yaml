@@ -6,6 +6,7 @@ type: 觀念
 codes:
   - L23401
 concepts:
+  - data-poisoning
   - ai-risk-governance
 stem: 攻擊者在公開的訓練資料集中混入少量特製樣本，使模型在遇到特定觸發圖案時輸出攻擊者指定的類別，而在一般樣本上表現正常。此攻擊型態為何？
 options:

@@ -1,0 +1,41 @@
+id: M-L23303-055
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - f1-score
+  - precision
+  - recall
+stem: 某客服系統有 3 類案件。驗收要求先算每類 F1，再依該類真實案件數加權。工程師用程式比較兩種寫法。要符合此規則，何者最正確？
+code: |
+  from sklearn.metrics import precision_score, recall_score, f1_score
+  y = [0, 0, 0, 0, 1, 1, 2, 2]
+  pred = [0, 0, 0, 1, 1, 1, 0, 1]
+  p = precision_score(y, pred, average='weighted', zero_division=0)
+  r = recall_score(y, pred, average='weighted', zero_division=0)
+  f = f1_score(y, pred, average='weighted', zero_division=0)
+  h = 2*p*r/(p+r)
+  print(round(f, 4), round(h, 4))
+code_lang: python
+options:
+  A: 使用 h；先加權精確率與召回率再取調和平均
+  B: 使用 r；按真實案件數加權每類召回率
+  C: 使用 f；先逐類取調和平均再加權彙整
+  D: 使用各類 F1 的算術平均
+answer: C
+explanation:
+  summary: 加權 F1 不等於加權精確率與加權召回率的調和平均。
+  correct: f1_score 的 weighted 會先計算各類 F1，再按真實類別筆數加權，符合指定順序。f 約 0.5417，h 約 0.5556。調和平均是非線性運算，不能任意交換加權與計算的先後。
+  wrong:
+    A: h 先彙整精確率與召回率，再做調和平均；這與驗收規定的逐類 F1 加權不同。
+    B: r 彙總的是召回率，沒有把精確率與召回率合成各類 F1，與指定指標不同。
+    D: 各類 F1 的算術平均是 macro F1，給每類相同權重，沒有依該類真實案件數加權。
+guide_refs:
+  - guide-3:5-21
+author: codex
+review:
+  status: verified
+  blind_answer: C

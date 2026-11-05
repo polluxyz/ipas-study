@@ -1,0 +1,37 @@
+id: M-L23303-053
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - stratified-k-fold
+stem: 某資料集的樣本彼此獨立，沒有時間預測需求。工程師先依類別排序，再在每類內依厚度由小到大排序。程式顯示每折都有相同類別比例，但厚度範圍不同。若目標是近似隨機抽到新樣本的表現，最適合如何修改切分？
+code: |
+  import numpy as np
+  from sklearn.model_selection import StratifiedKFold
+  X = np.tile(np.arange(6), 2).reshape(-1, 1)
+  y = np.repeat([0, 1], 6)
+  for _, va in StratifiedKFold(n_splits=3).split(X, y):
+      print(np.bincount(y[va]).tolist(), X[va, 0].tolist())
+code_lang: python
+options:
+  A: 保留目前索引，增加每折模型的訓練輪數
+  B: 啟用分層切分的打亂功能，設定可重現種子
+  C: 改用相同順序的不分層 KFold，維持折數
+  D: 依每筆厚度排序後切成連續區段，維持折數
+answer: B
+explanation:
+  summary: 分層保留標籤比例，不代表已打亂類別內的樣本。
+  correct: StratifiedKFold 未啟用 shuffle 時，會保留各類別內的排序結構。本例的厚度因此集中在不同折。資料可隨機抽樣且沒有時序限制，啟用 shuffle 並固定 random_state，較符合目標。
+  wrong:
+    A: 增加訓練輪數不會改變驗證樣本的厚度組成，無法處理由排序造成的切分差異。
+    C: 不分層且不打亂仍保留排序效應，還可能讓單一折缺少某類別。
+    D: 連續區段會繼續將相近厚度集中，適合檢查跨厚度外推，但不是本例的隨機新樣本目標。
+guide_refs:
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  blind_answer: B

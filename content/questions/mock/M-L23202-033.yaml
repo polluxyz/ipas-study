@@ -1,0 +1,30 @@
+id: M-L23202-033
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23202
+concepts:
+  - xgboost
+stem: 某 XGBoost 候選分裂的梯度和為 G_L=2、G_R=−2，Hessian 和為 H_L=4、H_R=4。指定 λ=1，分裂淨增益為 ½[G_L²/(H_L+λ)+G_R²/(H_R+λ)−(G_L+G_R)²/(H_L+H_R+λ)]−γ。其他限制皆通過，γ=1。依此公式，下列判斷何者最正確？
+options:
+  A: 淨增益為 0.8，可接受此分裂
+  B: 淨增益為 0.6，可接受此分裂
+  C: 淨增益為 −0.2，應拒絕此分裂
+  D: 淨增益為 −1.0，應拒絕此分裂
+answer: C
+explanation:
+  summary: 分裂增益需扣除新增葉節點的複雜度成本。
+  correct: 兩側得分各為 4/5，父節點梯度和為 0。扣除 γ 前增益為 0.8，扣除 1 後為 −0.2，因此此候選分裂不能改善目標。
+  wrong:
+    A: 0.8 是尚未扣除 γ 的增益，不能用來判定這個設定會接受分裂。
+    B: 這是漏掉外側 1/2 係數後得到的 1.6−1=0.6；正確公式須先乘 1/2。
+    D: 父節點的梯度和為 0 不代表子節點得分也為 0，仍須計入兩側合計 0.8 的改善。
+guide_refs:
+  - guide-3:4-23
+  - guide-3:4-24
+author: codex
+review:
+  status: verified
+  blind_answer: C
