@@ -1,0 +1,51 @@
+id: Z-L21201-003
+rev: 2
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21201
+concepts:
+  - proof-of-concept
+  - poc-go-no-go
+  - sector-compliance-screening
+stem: 某醫療器材商評估導入 AI影像判讀。團隊完成 POC，離線測試指標亮眼，遂主張可直接進入正式上線。風控主管認為不妥。下列理由何者最為適當？
+options:
+  A: 離線指標必然高於線上指標，因此直接把驗收目標調高 10%，再沿用原離線測試通過即核准上線，無須另外驗證臨床流程或設計人工覆核
+  B: 應先更換為更大的模型以確保準確率，再考慮上線
+  C: POC只驗證技術可行性，尚未驗證業務價值與真實流程可行性；且醫材涉及生命安全法益，合規成本與人工覆核設計須先確認
+  D: POC已通過即代表所有可行性層次皆已滿足，風控主管的顧慮並無依據
+answer: C
+explanation:
+  summary: 離線概念驗證通過仍不足以直接上線。
+  correct: 本案僅提供離線測試結果，仍缺臨床流程、實際業務效益、安全及合規要求的驗證，也須確認人工覆核設計。這些缺口支持不宜直接上線的結論。但 C 把 POC 一概限定為只驗證技術，並不正確；POC 也能依目標納入流程與效益驗證，因此本題仍有正解表述爭議。
+  wrong:
+    A: 離線與線上的差距沒有固定方向或 10% 的通用修正量，應實地驗證而非任意調目標。
+    B: 更大模型不保證較適合，也不能代替流程驗證、風險評估與必要的法遵確認。
+    D: 局部驗證通過不能推論所有可行性均獲證明；仍要確認正式環境、責任與監控措施。
+guide_refs:
+  - guide-1:4-12
+  - guide-1:4-13
+  - guide-1:4-14
+  - guide-1:4-26
+author: codex
+review:
+  status: disputed
+  answer_checked: null
+  dispute: 來源答案為 A，重排後對應本站 C。該選項將 POC 一概限定為只驗證技術可行性，但指引科1 4-12 至 4-14、4-26 包含導入價值、流程與效益驗證。本案只有離線證據，不宜直接上線的結論合理，然而正解選項對 POC 的通則過度概括，因此維持爭議。
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch05.md
+  original_id: SIM-L21201-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    B: A
+    C: B
+    A: C
+    D: D
+  modified: 選項重排；解析全部重寫；改寫原 B 干擾項以平衡長度；移除解析的來源答案字母，列明本案缺少的上線證據與 C 的過度概括；爭議欄補明來源答案 A 對應本站 C 與 POC 通則過度概括的原因
