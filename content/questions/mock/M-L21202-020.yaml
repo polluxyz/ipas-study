@@ -1,0 +1,30 @@
+id: M-L21202-020
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21202
+concepts:
+  - ai-implementation-plan
+  - ai-project-roles
+stem: 某企業規劃每日處理 8,000 件 AI 分流案件，其中 10% 需人工覆核，每件耗時 2 分鐘。每位覆核員每天可投入 8 小時，案件須當日清完；不考慮休假、尖峰與其他工作。規劃書至少應編列幾位覆核員？
+options:
+  A: 4 位
+  B: 3 位
+  C: 2 位
+  D: 1 位
+answer: A
+explanation:
+  summary: 人工覆核也要按每日工作量估算人力。
+  correct: 每天需覆核 800 件，共需 1,600 分鐘。每人每日提供 480 分鐘，所需人數為 1,600 ÷ 480，再向上取整，至少為 4 位。
+  wrong:
+    B: 3 位只能提供 1,440 分鐘，少於每日覆核所需的 1,600 分鐘。不能把 3.33 位四捨五入為 3 位。
+    C: 2 位只能提供 960 分鐘。估算人力須把需覆核的件數乘上每件耗時，不能只看案件比例。
+    D: 1 位只能提供 480 分鐘。模型能處理多數案件，不代表剩餘人工案件可由 1 人完成。
+guide_refs:
+  - guide-1:4-16
+  - guide-1:4-17
+author: codex
+review:
+  status: draft
