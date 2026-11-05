@@ -31,6 +31,17 @@ const codes = defineCollection({
   }).loose(),
 });
 const choice = z.enum(['A', 'B', 'C', 'D']);
+const originSchema = z.object({
+  author: z.string().trim().min(1), repo: z.url({ protocol: /^https?$/ }),
+  commit: z.string().regex(/^[0-9a-f]{40}$/), path: z.string().trim().min(1), original_id: z.string().trim().min(1),
+  license: z.literal('CC-BY-NC-SA-4.0'), license_url: z.url({ protocol: /^https?$/ }),
+  original_answer: choice,
+  option_map: z.object({ A: choice, B: choice, C: choice, D: choice }).strict().refine(
+    (map) => new Set(Object.values(map)).size === 4,
+    { message: 'option_map 必須是 A–D 的一對一對應' },
+  ),
+  modified: z.string().trim().min(1),
+});
 const cheatsheetSchema = z.object({ code: z.string().regex(/^L2[13]\d{3}$/), title: z.string().trim().min(1) });
 const cheatsheets = defineCollection({ loader: glob({ pattern: '**/*.md', base: '../content/cheatsheets' }), schema: cheatsheetSchema });
 // 假教材用不同集合，切換驗證建置時不和正式檔案共用 glob 快取。
@@ -38,16 +49,23 @@ const cheatsheetFixtures = defineCollection({
   loader: process.env.TEXTBOOK_TEST_FIXTURES === '1' ? glob({ pattern: '**/*.md', base: './scripts/check-textbook/fixtures/cheatsheets' }) : async () => [],
   schema: cheatsheetSchema,
 });
-const questions = defineCollection({
-  loader: glob({ pattern: '**/*.{yaml,yml}', base: '../content/questions' }),
-  schema: z.object({
+export const questionSchema = z.object({
     id: z.string(), rev: z.number().int().positive(), source: z.enum(['exam', 'guide', 'mock']),
     session: z.string().optional(), subject: z.number(), number: z.number().optional(), type: z.string(),
     codes: z.array(z.string()), concepts: z.array(z.string()), stem: z.string(), code: z.string().optional(), code_lang: z.string().optional(), image: z.string().optional(),
     options: z.object({ A: z.string(), B: z.string(), C: z.string(), D: z.string() }), answer: choice,
     explanation: z.object({ summary: z.string(), correct: z.string(), wrong: z.record(z.string(), z.string()), rule: z.string().optional() }),
     guide_refs: z.array(z.string()).default([]),
+    origin: originSchema.optional(),
     review: z.object({ status: z.enum(['draft', 'verified', 'disputed']), dispute: z.unknown().optional() }).loose(),
-  }).loose(),
+  }).loose().superRefine((question, context) => {
+    // 原題答案經重排後仍須可追溯，避免換選項時漏改答案。
+    if (question.origin && question.answer !== question.origin.option_map[question.origin.original_answer]) {
+      context.addIssue({ code: 'custom', path: ['answer'], message: 'answer 必須等於 option_map[original_answer]' });
+    }
+  });
+const questions = defineCollection({
+  loader: glob({ pattern: '**/*.{yaml,yml}', base: '../content/questions' }),
+  schema: questionSchema,
 });
 export const collections = { docs: defineCollection({ loader: docsLoader(), schema: docsSchema() }), concepts, codes, questions, cheatsheets, cheatsheetFixtures };
