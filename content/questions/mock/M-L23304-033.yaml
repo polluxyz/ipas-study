@@ -1,38 +1,31 @@
 id: M-L23304-033
-rev: 1
+rev: 2
 source: mock
 subject: 3
-type: 程式
+type: 情境
 codes:
   - L23304
 concepts:
-  - hyperparameter-search
-  - mean-squared-error
-stem: 某迴歸模型搜尋以 neg_mean_squared_error 評分，3 組配置的交叉驗證平均分數如下。團隊要選平均平方誤差最小者。關於下列 argmax 的選擇，何者最正確？
-code: |
-  import numpy as np
-  mean_test_score = np.array([-9., -4., -6.])
-  best = int(np.argmax(mean_test_score))
-  print(best + 1)
-  print(-mean_test_score[best])
-code_lang: python
+  - grid-search
+  - hyperparameter-tuning
+stem: 某團隊只比較樹深度 {2,8} 與學習率 {0.01,0.1}。同一驗證流程的準確率為：(2,0.01)=80%、(8,0.01)=79%、(2,0.1)=78%、(8,0.1)=90%。從 (2,0.01) 開始，一次只改 1 個參數，且只接受立即改善時，會停在 80%。若預算足夠試完這 4 組，哪項判斷最正確？
 options:
-  A: 選第 2 組，負分數越大代表平均平方誤差越小
-  B: 選第 1 組，負分數越小代表平均平方誤差越小
-  C: 選第 3 組，負分數排序應取中位數作最佳值
-  D: 先將負分數取絕對值，再選數值最大的配置
+  A: 完整比較可找出 (8,0.1)；兩參數存在需共同驗證的交互作用。
+  B: 單參數逐次調整已足夠；兩個單改都不改善，就能排除兩者共同改動後改善。
+  C: 應直接選較小學習率；學習率越小便保證驗證準確率越高。
+  D: 應直接選較淺的樹；樹越深便保證驗證準確率越低。
 answer: A
 explanation:
-  summary: 搜尋評分採越大越好時，損失通常以負值呈現。
-  correct: 3 組分數對應的平均平方誤差是 9、4、6。第 2 組的誤差 4 最小，其負分數 -4 也最大，因此 argmax 正確選到第 2 組。
+  summary: 一次只接受單一參數改善，可能錯過需要聯合改變的最佳組合。
+  correct: 從起點單改深度得到 79%，單改學習率得到 78%，因此只接受立即改善的流程會停住。但兩個參數共同改變時可到 90%。既然這個候選集合只有 4 組且預算足夠，完整比較能看見交互作用，不能用兩次單改失敗排除聯合改動。
   wrong:
-    B: 負分數越小，對應的正誤差越大；-9 對應誤差 9，並非最佳。
-    C: 中位數與最小誤差沒有最佳化對應，會錯過誤差更小的第 2 組。
-    D: 取絕對值後越大代表誤差越大，會反向選到表現最差的配置。
+    B: 單獨改動的結果不能代表共同改動，表中的 90% 已顯示這個限制。
+    C: 本例較小學習率沒有形成一致較高的分數，必須和深度共同比較。
+    D: 較深的樹在學習率 0.1 時反而表現較好，深度不是單向保證。
 guide_refs:
-  - guide-3:5-23
-  - guide-3:5-30
+  - guide-3:5-17
+  - guide-3:5-26
 author: codex
 review:
-  status: verified
+  status: draft
   blind_answer: A

@@ -1,43 +1,40 @@
 id: M-L23304-010
-rev: 1
+rev: 2
 source: mock
 subject: 3
 type: 程式
 codes:
   - L23304
 concepts:
-  - mini-batch-gradient-descent
-  - pytorch
-stem: 某訓練器將 2 筆資料拆成大小相同的微批次，想模擬合併後「平均損失」的 1 次更新。沒有 Dropout、批次正規化、動量或權重衰減。以下程式只在結尾更新 1 次；最適合如何修正？
+  - batch-normalization
+stem: 某團隊把 4 筆資料分成 2 個等大小微批次，每個微批次的平均損失都乘 1/2 後才累積梯度，最後更新 1 次。模型含訓練模式的 BatchNorm。工程師認為這必定等同 4 筆一起前向傳播。以下比較兩種前向結果，哪項判斷最正確？
 code: |
   import torch
-  w = torch.nn.Parameter(torch.tensor(0.0))
-  opt = torch.optim.SGD([w], lr=0.1)
-  opt.zero_grad()
-  for target in [1.0, 3.0]:
-      loss = (w - target).square()
-      loss.backward()
-  opt.step()
-  print(round(w.item(), 2))
+  x = torch.tensor([[0.0], [2.0], [10.0], [12.0]])
+  large = torch.nn.BatchNorm1d(1, affine=False, track_running_stats=False)
+  micro = torch.nn.BatchNorm1d(1, affine=False, track_running_stats=False)
+  y_large = large(x)
+  y_micro = torch.cat([micro(x[:2]), micro(x[2:])])
+  print([round(v, 3) for v in y_large.flatten().tolist()])
+  print([round(v, 3) for v in y_micro.flatten().tolist()])
 code_lang: python
 options:
-  A: 每次反向傳播前把 loss 除以 2，保留結尾的單次更新
-  B: 每次反向傳播前先清除梯度，保留結尾的單次更新
-  C: 每次反向傳播後立刻更新，再於結尾補做一次更新
-  D: 每次反向傳播前把 loss 乘以 2，保留結尾的單次更新
+  A: 不保證相同；每個微批次使用的平均值與變異數不同。
+  B: 必定相同；損失權重正確便會統一前向使用的統計量。
+  C: 必定相同；延後更新權重會讓 BatchNorm 等到最後才計算。
+  D: 不保證相同；原因只是兩種方法使用的樣本總數不同。
 answer: A
 explanation:
-  summary: 梯度累積須配合平均目標的縮放，不能把微批次平均直接加總。
-  correct: 目前 2 個梯度為 -2 與 -6，相加為 -8，權重由 0 更新到 0.8。合併平均目標的梯度應為 -4，更新結果是 0.4。兩個等大微批次各除以 2 即可得到該平均。
+  summary: 正確累積梯度權重，不能消除批次相依的前向運算差異。
+  correct: 補充：訓練模式的 BatchNorm 在每次前向傳播使用當次批次的統計量。本例兩個微批次分別以約 1 與 11 為中心，整批則以 6 為中心，輸出因而不同。損失乘上正確比例只能處理損失加權，不能把已計算的正規化結果改成大批次結果。
   wrong:
-    B: 每次清除會捨棄前一筆貢獻，最後僅以第 2 筆梯度更新到 0.6。
-    C: 中途更新會改變下一筆計算梯度時的權重，不再等同題目指定的合併後單次更新。
-    D: 乘以 2 會讓累積梯度再放大，與平均損失的目標相反。
+    B: 損失權重作用於後續反傳，不會改變前向時已使用的平均值與變異數。
+    C: BatchNorm 在每次前向就計算當次統計，不是等到優化器更新才處理。
+    D: 兩種方法都使用相同 4 筆資料；差別是分批運算的統計範圍。
 guide_refs:
-  - guide-3:5-18
+  - guide-3:3-27
   - guide-3:5-19
-  - guide-3:4-92
 author: codex
 review:
-  status: verified
+  status: draft
   blind_answer: A

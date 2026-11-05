@@ -1,5 +1,5 @@
 id: M-L23203-053
-rev: 1
+rev: 2
 source: mock
 subject: 3
 type: 程式
@@ -8,32 +8,30 @@ codes:
 concepts:
   - gradient-clipping
   - pytorch
-stem: 某模型的 2 個純量參數分別累積梯度 3 與 4。工程師要把整體二範數限制為 1，並保留整體梯度方向。以下程式印出的梯度最接近哪一項？
+stem: 某模型目前梯度為 (3,4)。工程師要比較「每個分量截在 [−1,1]」與「把整體二範數縮到不超過 1」的差別。以下程式執行逐元素截斷，結果及與原方向的關係何者最正確？
 code: |
   import torch
-  p = torch.nn.Parameter(torch.tensor(0.0))
-  q = torch.nn.Parameter(torch.tensor(0.0))
-  p.grad = torch.tensor(3.0)
-  q.grad = torch.tensor(4.0)
-  torch.nn.utils.clip_grad_norm_([p, q], max_norm=1.0)
-  print(round(p.grad.item(), 1), round(q.grad.item(), 1))
+  p = torch.nn.Parameter(torch.zeros(2))
+  p.grad = torch.tensor([3.0, 4.0])
+  torch.nn.utils.clip_grad_value_([p], clip_value=1.0)
+  print(p.grad.tolist())
 code_lang: python
 options:
-  A: 1.0、1.0
-  B: 0.4、0.6
-  C: 0.6、0.8
-  D: 0.0、1.0
+  A: 約 (0.6,0.8)；兩種方法都保留原本方向。
+  B: 約 (1.0,1.0)；分量都有上限，所以兩種方法都保留原方向。
+  C: 約 (1.0,1.0)；只有整體範數縮放保留原方向。
+  D: 約 (0.6,0.8)；只有逐元素截斷保留原方向。
 answer: C
 explanation:
-  summary: 整體範數裁剪會用同一縮放係數處理全部參數梯度。
-  correct: 合併梯度的二範數是 5。把整體縮到範數 1 時，兩個分量都約乘以 1/5，得到 0.6 與 0.8，並保留 3 比 4 的方向。
+  summary: 逐元素截斷可能改變分量比例，因此不保留整體方向。
+  correct: clip_grad_value_ 分別把 3、4 截為 1、1，分量比例從 3:4 變成 1:1，方向改變。整體範數裁剪則把整組梯度乘上同一個係數，約得到 (0.6,0.8)，因此保留原方向。兩種上限的定義不同，不能直接互換。
   wrong:
-    A: 1、1 類似分別限值的結果，二範數仍大於 1，且方向不再是 3 比 4。
-    B: 0.4、0.6 接近除以分量絕對值總和後的結果；這是另一種範數，並非本例的二範數。
-    D: 只保留較大分量是稀疏化，會改變方向，並非範數裁剪。
+    A: (0.6,0.8) 是整體二範數裁剪的結果，並非逐元素截斷。
+    B: (1,1) 的方向與 (3,4) 不同；個別分量都受限不等於保留比例。
+    D: 兩種方法的結果與方向性質都對調了。
 guide_refs:
   - guide-3:3-27
 author: codex
 review:
-  status: verified
+  status: draft
   blind_answer: C
