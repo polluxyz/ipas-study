@@ -1,0 +1,35 @@
+id: M-L23304-040
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - voting-ensemble
+  - ensemble-models
+stem: 某二元分類系統有 3 個模型，對同一筆案件輸出正類機率如下。硬投票先讓各模型以 0.5 為門檻，再採多數決；軟投票平均機率後以 0.5 判斷。兩者都不加權。執行結果何者最正確？
+code: |
+  p = [0.4, 0.4, 1.0]
+  hard = int(sum(v >= 0.5 for v in p) >= 2)
+  soft = int(sum(p) / len(p) >= 0.5)
+  print(hard, soft)
+code_lang: python
+options:
+  A: 硬投票為 0；軟投票為 0
+  B: 硬投票為 0；軟投票為 1
+  C: 硬投票為 1；軟投票為 0
+  D: 硬投票為 1；軟投票為 1
+answer: B
+explanation:
+  summary: 先轉成類別再投票，與先平均機率可能產生不同決策。
+  correct: 個別類別為 0、0、1，因此硬投票選 0。平均正類機率為 0.6，因此軟投票選 1。硬投票丟失了機率距離門檻的資訊。
+  wrong:
+    A: 硬投票的判斷正確，但軟投票的平均機率是 0.6，已超過 0.5。
+    C: 將兩種投票的輸出顛倒；硬投票只有 1 票支持正類，軟投票平均機率支持正類。
+    D: 軟投票的判斷正確，但硬投票有 2 票支持負類，因此不會選 1。
+guide_refs:
+  - guide-3:4-37
+author: codex
+review:
+  status: draft

@@ -1,0 +1,36 @@
+id: M-L23402-018
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23402
+concepts:
+  - group-calibration
+  - fairness-audit
+stem: 某預測器的分數只有 0.2 與 0.8。各分數下甲乙兩群各有 100 人，實際事件人數如下。團隊用合併資料檢查「事件率等於預測分數」。不考慮抽樣誤差，哪個判斷最正確？
+code: |
+  events = {0.2: {"甲": 40, "乙": 0},
+            0.8: {"甲": 60, "乙": 100}}
+  for score, counts in events.items():
+      print(score, sum(counts.values()) / 200,
+            counts["甲"] / 100, counts["乙"] / 100)
+code_lang: python
+options:
+  A: 甲群已校準，乙群尚未校準
+  B: 乙群已校準，甲群尚未校準
+  C: 合併資料已校準，兩群各自尚未校準
+  D: 兩群各自已校準，合併資料尚未校準
+answer: C
+explanation:
+  summary: 合併校準可因群體誤差互相抵消而掩蓋分群問題。
+  correct: 分數 0.2 的合併事件率是 40/200=0.2；分數 0.8 是 160/200=0.8。但甲群各為 0.4、0.6，乙群各為 0、1，均不符合各自分數。
+  wrong:
+    A: 甲群在 0.2 分與 0.8 分的事件率分別為 0.4 與 0.6，兩者都不符合分數。
+    B: 乙群在 0.2 分與 0.8 分的事件率分別為 0 與 1，兩者都不符合分數。
+    D: 各群事件率與分數不符，但合併後恰好相符，因此此判斷顛倒了檢查結果。
+guide_refs:
+  - guide-3:6-23
+author: codex
+review:
+  status: draft

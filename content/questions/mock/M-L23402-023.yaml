@@ -1,0 +1,37 @@
+id: M-L23402-023
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23402
+concepts:
+  - group-calibration
+  - equal-opportunity
+stem: 某篩選分數只有 0.2 與 0.8。以下各分數格內的實際合格比例都等於分數，因此兩群各自校準。系統以分數至少 0.5 選人。僅依下列資料的點估計，對校準與機會平等的關係，哪項判斷最正確？
+code: |
+  # 每筆資料為：低分人數、低分合格數、高分人數、高分合格數
+  cells = {"甲": (50, 10, 50, 40), "乙": (80, 16, 20, 16)}
+  for name, (n_low, y_low, n_high, y_high) in cells.items():
+      recall = y_high / (y_low + y_high)
+      print(name, y_low / n_low, y_high / n_high, round(recall, 2))
+code_lang: python
+options:
+  A: 兩群皆已校準，所以合格者召回率也相同
+  B: 甲群召回率較高，所以甲群校準誤差較小
+  C: 乙群召回率較低，所以乙群高分格不符合校準
+  D: 兩群皆已校準，但合格者召回率仍可不同
+answer: D
+explanation:
+  summary: 相同分數的風險意義與合格者被選中的比例，是不同條件下的要求。
+  correct: 甲群低分格 10/50=0.2、高分格 40/50=0.8；乙群低分格 16/80=0.2、高分格 16/20=0.8，因此兩群各自校準。門檻只選高分格，召回率卻為甲 40/50=0.8、乙 16/32=0.5，機會平等不成立。
+  wrong:
+    A: 分群校準限制各分數格中的合格比例，不限制合格者分散在高低分格的比例，因此不保證相同召回率。
+    B: 本例兩群每個分數格都精確校準；甲群召回率較高不能推出校準誤差較小。
+    C: 乙群高分格的 20 人有 16 人合格，比例正好為 0.8；召回率較低來自合格者在低分格的分布。
+guide_refs:
+  - guide-3:6-18
+  - guide-3:6-23
+author: codex
+review:
+  status: draft
