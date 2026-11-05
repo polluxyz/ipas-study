@@ -1,0 +1,37 @@
+id: M-L23304-033
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - hyperparameter-search
+  - mean-squared-error
+stem: 某迴歸模型搜尋以 neg_mean_squared_error 評分，3 組配置的交叉驗證平均分數如下。團隊要選平均平方誤差最小者。關於下列 argmax 的選擇，何者最正確？
+code: |
+  import numpy as np
+  mean_test_score = np.array([-9., -4., -6.])
+  best = int(np.argmax(mean_test_score))
+  print(best + 1)
+  print(-mean_test_score[best])
+code_lang: python
+options:
+  A: 選第 2 組，負分數越大代表平均平方誤差越小
+  B: 選第 1 組，負分數越小代表平均平方誤差越小
+  C: 選第 3 組，負分數排序應取中位數作最佳值
+  D: 先將負分數取絕對值，再選數值最大的配置
+answer: A
+explanation:
+  summary: 搜尋評分採越大越好時，損失通常以負值呈現。
+  correct: 3 組分數對應的平均平方誤差是 9、4、6。第 2 組的誤差 4 最小，其負分數 -4 也最大，因此 argmax 正確選到第 2 組。
+  wrong:
+    B: 負分數越小，對應的正誤差越大；-9 對應誤差 9，並非最佳。
+    C: 中位數與最小誤差沒有最佳化對應，會錯過誤差更小的第 2 組。
+    D: 取絕對值後越大代表誤差越大，會反向選到表現最差的配置。
+guide_refs:
+  - guide-3:5-23
+  - guide-3:5-30
+author: codex
+review:
+  status: draft

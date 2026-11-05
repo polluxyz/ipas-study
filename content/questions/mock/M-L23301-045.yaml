@@ -1,0 +1,37 @@
+id: M-L23301-045
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - n-gram
+  - bag-of-words
+stem: 某客服系統要區分「客戶要求取消」與「取消客戶要求」兩種已分詞短句。範例中的單詞計數向量相同，但相鄰詞序決定標籤。若仍採稀疏詞頻模型，最適合採哪項調整？
+code: |
+  from sklearn.feature_extraction.text import CountVectorizer
+  docs = ["客戶 要求 取消", "取消 客戶 要求"]
+  vec = CountVectorizer()
+  X = vec.fit_transform(docs).toarray()
+  print((X[0] == X[1]).all())
+code_lang: python
+options:
+  A: 把單詞計數改為單詞是否出現的二元值
+  B: 把單詞計數改為單詞的逆文件頻率加權
+  C: 加入連續 2 詞的計數作為額外特徵
+  D: 把單詞計數逐列縮放成長度為 1 的向量
+answer: C
+explanation:
+  summary: 單詞集合相同時，需加入可表達局部詞序的特徵。
+  correct: 連續 2 詞的組合能區分「要求 取消」與「取消 客戶」等片段。單詞向量相同並不表示相鄰組合相同，加入這些特徵可讓模型辨識題目的詞序差異。
+  wrong:
+    A: 兩句的單詞集合相同，改成是否出現仍會得到相同向量。
+    B: 相同詞的次數相同，乘上相同的逆文件頻率後仍無法區分詞序。
+    D: 對相同向量做相同長度縮放，結果仍然相同，不會增加詞序資訊。
+guide_refs:
+  - guide-1:3-16
+  - guide-1:3-18
+author: codex
+review:
+  status: draft
