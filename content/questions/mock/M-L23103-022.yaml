@@ -1,0 +1,37 @@
+id: M-L23103-022
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23103
+concepts:
+  - adagrad
+stem: 某文字模型的兩個權重剛好收到相同梯度。工程師用下列簡化 Adagrad 更新，G 是更新前累積的梯度平方和。忽略數值穩定項。印出的兩個更新量最接近何者？
+code: |
+  import numpy as np
+  G = np.array([100.0, 1.0])
+  g = np.array([1.0, 1.0])
+  G = G + g ** 2
+  step = 0.1 * g / np.sqrt(G)
+  print(np.round(step, 4).tolist())
+code_lang: python
+options:
+  A: "[0.1000, 0.1000]"
+  B: "[0.0100, 0.0707]"
+  C: "[0.0995, 0.7071]"
+  D: "[0.0010, 0.0500]"
+answer: B
+explanation:
+  summary: 目前梯度相同，不代表 Adagrad 的更新幅度相同。
+  correct: 加入本次平方梯度後，G 變成 [101,2]。逐項除以平方根，再乘 0.1，得到約 [0.00995,0.07071]。
+  wrong:
+    A: 這相當於忽略歷史平方和，只使用同一個固定步長。
+    C: 這組數字漏乘學習率 0.1，因而將兩項更新量都放大 10 倍。
+    D: 這相當於直接除以累積平方和，沒有使用公式要求的平方根。
+guide_refs:
+  - guide-3:3-25
+  - guide-3:5-40
+author: codex
+review:
+  status: draft

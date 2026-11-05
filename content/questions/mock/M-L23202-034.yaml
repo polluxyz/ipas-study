@@ -1,0 +1,28 @@
+id: M-L23202-034
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23202
+concepts:
+  - xgboost
+stem: 某 XGBoost 二元分類器使用 logistic 損失，樣本權重均為 1。某候選子節點有 40 筆樣本，目前各筆正類機率皆為 0.01。指定每筆 Hessian 為 p(1−p)，min_child_weight=1。只考慮此門檻，下列判斷何者最正確？
+options:
+  A: Hessian 和為 40，子節點通過門檻
+  B: Hessian 和為 1，子節點通過門檻
+  C: Hessian 和為 0.396，子節點未通過門檻
+  D: Hessian 和為 0.01，子節點未通過門檻
+answer: C
+explanation:
+  summary: min_child_weight 檢查 Hessian 和，並非一般的最少筆數。
+  correct: 每筆 Hessian 為 0.01×0.99=0.0099，40 筆合計 0.396，小於 1。即使有 40 筆，這個候選子節點仍未達門檻。
+  wrong:
+    A: 這把樣本權重或筆數直接當作 Hessian 和；logistic 損失的 Hessian 還取決於目前機率。
+    B: 門檻是 1，不表示節點的 Hessian 和會自動變成 1，仍須依樣本機率加總。
+    D: 0.01 是單筆正類機率，既不是單筆 Hessian，也不是 40 筆的 Hessian 和。
+guide_refs:
+  - guide-3:4-24
+author: codex
+review:
+  status: draft

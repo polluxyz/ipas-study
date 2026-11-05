@@ -1,0 +1,28 @@
+id: M-L23202-036
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23202
+concepts:
+  - pca
+stem: 某團隊以 PCA 壓縮 4 個感測特徵。由大到小的主成分解釋變異比例為 0.60、0.25、0.10、0.05。團隊要求保留至少 90% 總變異，且維度數最少。最適合保留幾個主成分？
+options:
+  A: 1 個
+  B: 2 個
+  C: 3 個
+  D: 4 個
+answer: C
+explanation:
+  summary: 保留維度要依排序後的累積解釋變異判斷。
+  correct: 前 2 個累積為 85%，未達要求。前 3 個累積為 95%，已達至少 90%，且是符合條件的最少維度數。
+  wrong:
+    A: 第 1 個只能保留 60%，與 90% 的要求仍有差距。
+    B: 前 2 個合計為 85%，不能因為接近 90% 就視為達標。
+    D: 4 個可保留 100%，但第 3 個已達要求，保留 4 個不是最少維度。
+guide_refs:
+  - guide-3:4-45
+author: codex
+review:
+  status: draft

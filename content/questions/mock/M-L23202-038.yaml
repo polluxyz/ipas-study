@@ -1,0 +1,28 @@
+id: M-L23202-038
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23202
+concepts:
+  - xgboost
+stem: 某團隊用 XGBoost 的樹模型處理 100 個特徵。工程師要在每棵樹開始時抽取約 60% 特徵，讓該樹各層都從這份固定候選清單選擇分裂。只啟用 1 種抽樣設定，其他抽樣比例皆為 1。最符合此抽樣時點的設定為何？
+options:
+  A: colsample_bytree=0.6
+  B: colsample_bylevel=0.6
+  C: colsample_bynode=0.6
+  D: subsample=0.6
+answer: A
+explanation:
+  summary: 特徵抽樣參數的差別包含抽樣時點。
+  correct: colsample_bytree 在建立每棵樹時抽取特徵，該樹使用這份候選清單。其他特徵抽樣比例為 1 時，不會再逐層或逐節點重新縮減清單。
+  wrong:
+    B: colsample_bylevel 以深度層級抽樣，並非在整棵樹開始時只抽取一次。
+    C: colsample_bynode 以分裂節點抽樣，不同節點可拿到不同特徵清單。
+    D: subsample 抽取的是訓練樣本列，並非特徵欄位。
+guide_refs:
+  - guide-3:4-24
+author: codex
+review:
+  status: draft

@@ -1,0 +1,40 @@
+id: M-L23103-023
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23103
+concepts:
+  - adagrad
+  - rmsprop
+stem: 某工程師比較早期平方梯度狀態對更新的影響。測試時，Adagrad 的累積值 G 與 RMSprop 的衰減平均值 S 都設為 100。接著有 100 次零梯度，最後再出現梯度 1。兩者學習率均為 0.1，且忽略穩定項。最後的更新量何者最正確？
+code: |
+  G = S = 100.0
+  for _ in range(100):
+      G += 0.0 ** 2
+      S = 0.9 * S + 0.1 * 0.0 ** 2
+  g = 1.0
+  G += g ** 2
+  S = 0.9 * S + 0.1 * g ** 2
+  print(round(0.1 * g / G ** 0.5, 5))
+  print(round(0.1 * g / S ** 0.5, 5))
+code_lang: python
+options:
+  A: Adagrad 約 0.010；RMSprop 約 0.313
+  B: Adagrad 約 0.010；RMSprop 約 0.010
+  C: Adagrad 約 0.100；RMSprop 約 0.313
+  D: Adagrad 約 0.100；RMSprop 約 0.100
+answer: A
+explanation:
+  summary: 衰減平均能逐步降低早期大梯度的影響。
+  correct: Adagrad 的 G 保留 100，最後變成 101。RMSprop 的 S 先衰減成 100×0.9¹⁰⁰，再更新為約 0.10239；兩者更新量約為 0.00995 與 0.31251。
+  wrong:
+    B: RMSprop 會讓舊平方梯度的權重逐次衰減，不能把 S 當成仍為 100 的累積值。
+    C: 零梯度不會清除 Adagrad 的歷史平方和，所以最後的有效步長不會回到 0.1。
+    D: 兩者並未重設狀態；Adagrad 保留累積值，RMSprop 的 S 也不會在最後恰為 1。
+guide_refs:
+  - guide-3:3-25
+author: codex
+review:
+  status: draft
