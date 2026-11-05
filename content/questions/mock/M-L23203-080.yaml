@@ -1,0 +1,38 @@
+id: M-L23203-080
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - pytorch
+  - output-loss-contract
+stem: 某延遲預測器每批有 2 筆資料，預測值形狀為 (2,1)，標籤形狀為 (2,)。工程師以平方差平均測試損失。下列程式保留自動擴展維度的行為，a 與 b 的數值何者最正確？
+code: |
+  import torch
+  p = torch.tensor([[1.0], [3.0]])
+  y = torch.tensor([1.0, 3.0])
+  a = ((p - y) ** 2).mean()
+  b = ((p.squeeze(1) - y) ** 2).mean()
+  print(a.item(), b.item())
+code_lang: python
+options:
+  A: a=2.0；b=0.0
+  B: a=0.0；b=0.0
+  C: a=4.0；b=0.0
+  D: a=2.0；b=2.0
+answer: A
+explanation:
+  summary: 可相減的形狀未必代表逐筆對齊，須檢查自動擴展的結果。
+  correct: (2,1) 與 (2,) 相減時，後者視為 (1,2)，產生 (2,2) 差矩陣。平方值為 0、4、4、0，平均為 2。squeeze(1) 後才是 2 筆一對一比較，平方差均為 0。
+  wrong:
+    B: a 會計入跨樣本的平方差，不是只比較各筆對應的標籤。
+    C: 4 是非零平方差的數值；a 還會把 2 個零納入平均，因此為 2。
+    D: b 的預測與標籤形狀均為 (2,)，且對應值相同，沒有跨樣本差異。
+guide_refs:
+  - guide-3:4-62
+  - guide-3:4-92
+author: codex
+review:
+  status: draft

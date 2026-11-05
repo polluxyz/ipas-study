@@ -1,0 +1,37 @@
+id: M-L23203-084
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - embedding-representation
+  - pytorch
+stem: 某文字模型以索引 0 表示補齊詞。工程師使用 padding_idx=0 的嵌入層，並以輸出總和作簡化損失。沒有其他損失、權重衰減或舊梯度。以下印出的嵌入表梯度最正確為何？
+code: |
+  import torch
+  emb = torch.nn.Embedding(3, 2, padding_idx=0)
+  ids = torch.tensor([[0, 1, 0]])
+  emb(ids).sum().backward()
+  print(emb.weight.grad.tolist())
+code_lang: python
+options:
+  A: 第 0 列 [2,2]；第 1 列 [1,1]；第 2 列 [0,0]
+  B: 第 0 列 [0,0]；第 1 列 [1,1]；第 2 列 [0,0]
+  C: 第 0 列 [0,0]；第 1 列 [0,0]；第 2 列 [0,0]
+  D: 第 0 列 [0,0]；第 1 列 [2,2]；第 2 列 [0,0]
+answer: B
+explanation:
+  summary: 補齊索引會排除該列的嵌入梯度，不會排除整句的有效詞。
+  correct: padding_idx 指定第 0 列不接收查表反向傳播的梯度。索引 1 出現 1 次，其兩個分量的導數各為 1。第 2 列未使用，因此也是零。
+  wrong:
+    A: 這是未設定 padding_idx 時的累加結果；本例第 0 列已指定為補齊索引。
+    C: 補齊設定只排除指定列，並未阻斷索引 1 所對應的有效詞梯度。
+    D: 索引 1 只有 1 次查詢；2 個補齊位置不會把梯度轉移到第 1 列。
+guide_refs:
+  - guide-3:3-12
+  - guide-3:4-92
+author: codex
+review:
+  status: draft

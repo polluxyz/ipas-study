@@ -1,0 +1,42 @@
+id: M-L23203-081
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - batch-normalization
+  - pytorch
+stem: 某設備模型以批次正規化處理單一特徵。工程師已設定移動平均為 10、移動變異數為 4，並關閉仿射參數。以下先用 train，再用 eval 處理同一批數值。忽略 eps 的微小影響，a 與 b 最接近何者？
+code: |
+  import torch
+  bn = torch.nn.BatchNorm1d(1, affine=False, momentum=0.0)
+  bn.running_mean.fill_(10.0)
+  bn.running_var.fill_(4.0)
+  x = torch.tensor([[12.0], [16.0]])
+  bn.train()
+  a = bn(x)
+  bn.eval()
+  b = bn(x)
+  print(a.flatten().tolist(), b.flatten().tolist())
+code_lang: python
+options:
+  A: a=[-1,1]；b=[1,3]
+  B: a=[1,3]；b=[-1,1]
+  C: a=[-1,1]；b=[-1,1]
+  D: a=[1,3]；b=[1,3]
+answer: A
+explanation:
+  summary: 訓練用當批統計，評估用已保存的移動統計。
+  correct: 當批平均為 14，正規化使用的當批變異數為 4，因此 a 約為 [-1,1]。momentum=0 保持移動統計不變；b 用平均 10、標準差 2，得到 [1,3]。
+  wrong:
+    B: 此項顛倒統計來源，train 不會在本例使用已保存的平均 10。
+    C: 本例有追蹤移動統計，eval 會用移動平均 10，而非當批平均 14。
+    D: train 仍會依當批資料正規化；momentum=0 只限制移動統計更新。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:4-92
+author: codex
+review:
+  status: draft

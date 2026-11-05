@@ -1,0 +1,45 @@
+id: M-L23203-087
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - keras
+  - backpropagation
+stem: 某 Keras 模型同時預測溫度與能耗。工程師以兩個獨立、零初始化的單一權重檢查 loss_weights，輸入為 1，兩個目標皆為 1。無偏置與正則化。以下各權重只更新 1 次後，a、b 的權重最接近何者？
+code: |
+  import numpy as np
+  from tensorflow import keras
+  x = keras.Input(shape=(1,))
+  a = keras.layers.Dense(1, use_bias=False, kernel_initializer='zeros', name='a')(x)
+  b = keras.layers.Dense(1, use_bias=False, kernel_initializer='zeros', name='b')(x)
+  m = keras.Model(x, [a, b])
+  m.compile(optimizer=keras.optimizers.SGD(0.1),
+            loss=['mse', 'mse'], loss_weights=[1.0, 0.25])
+  u = np.ones((1, 1), dtype='float32')
+  m.train_on_batch(u, [u, u])
+  print(float(m.get_layer('a').get_weights()[0][0, 0]),
+        float(m.get_layer('b').get_weights()[0][0, 0]))
+code_lang: python
+options:
+  A: a 約 0.20；b 約 0.05
+  B: a 約 0.20；b 約 0.20
+  C: a 約 0.05；b 約 0.20
+  D: a 約 0.10；b 約 0.025
+answer: A
+explanation:
+  summary: 輸出損失的權重會縮放該損失對參數的梯度。
+  correct: 每個輸出的均方誤差為 (w-1)²，零初值的導數是 -2。a 的損失權重為 1，更新量為 0.2；b 的損失權重為 0.25，更新量為 0.05。
+  wrong:
+    B: 忽略 b 的損失權重 0.25；它的梯度應乘上該係數。
+    C: 把兩個輸出的權重順序對調；loss_weights 與模型輸出順序對應。
+    D: 均方誤差對 w 的導數含係數 2；本例沒有額外除以 2。
+guide_refs:
+  - guide-3:4-62
+  - guide-3:4-90
+  - guide-3:4-91
+author: codex
+review:
+  status: draft

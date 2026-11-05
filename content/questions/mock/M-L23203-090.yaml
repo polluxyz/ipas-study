@@ -1,0 +1,40 @@
+id: M-L23203-090
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - pytorch
+  - backpropagation
+stem: 某工程師測試連續 2 批的參數更新。以下採無動量、無權重衰減的 SGD，第一批更新後沒有清除梯度。第二批使用更新後的參數計算新損失。兩次 step 結束後，p 最接近多少？
+code: |
+  import torch
+  p = torch.nn.Parameter(torch.tensor(2.0))
+  opt = torch.optim.SGD([p], lr=0.1)
+  (p - 1).square().backward()
+  opt.step()
+  (p + 1).square().backward()
+  opt.step()
+  print(round(p.item(), 2))
+code_lang: python
+options:
+  A: "1.00"
+  B: "1.04"
+  C: "1.24"
+  D: "1.80"
+answer: B
+explanation:
+  summary: 參數更新不會自動清除梯度，下一次反向傳播會繼續累加。
+  correct: 第一批導數為 2，更新後 p=1.8。第二批新導數為 2×(1.8+1)=5.6，累加原梯度後為 7.6，因此 p=1.8-0.1×7.6=1.04。
+  wrong:
+    A: 1.00 對應第二批仍用初值 2 算出導數 6，再累加舊導數 2；實際第二批使用 p=1.8。
+    C: 1.24 是第二批先清除舊梯度的結果；本例保留了第一批的導數 2。
+    D: 1.80 只反映第一批更新，第二次 step 還會使用累加梯度改變參數。
+guide_refs:
+  - guide-3:4-60
+  - guide-3:4-92
+author: codex
+review:
+  status: draft

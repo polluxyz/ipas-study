@@ -1,0 +1,43 @@
+id: M-L23203-088
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - keras
+  - loss-function-selection
+stem: 某 Keras 迴歸模型要最小化均方誤差，並額外顯示平均絕對誤差。工程師用同一個零初值模型測試是否加入 metrics，無偏置或正則化。每次只訓練 1 批。下列兩次執行的權重最接近何者？
+code: |
+  import numpy as np
+  from tensorflow import keras
+  def run(show_metric):
+      m = keras.Sequential([keras.Input(shape=(1,)),
+          keras.layers.Dense(1, use_bias=False, kernel_initializer='zeros')])
+      m.compile(optimizer=keras.optimizers.SGD(0.1), loss='mse',
+                metrics=['mae'] if show_metric else [])
+      m.train_on_batch(np.array([[1.0]]), np.array([[2.0]]))
+      return float(m.layers[0].get_weights()[0][0, 0])
+  print(run(False), run(True))
+code_lang: python
+options:
+  A: 未加指標約 0.4；加入指標約 0.5
+  B: 未加指標約 0.4；加入指標約 0.1
+  C: 未加指標約 0.4；加入指標約 0.4
+  D: 未加指標約 0.2；加入指標約 0.2
+answer: C
+explanation:
+  summary: compile 的 metrics 用來回報表現，不會自動加進訓練目標。
+  correct: 兩次都以均方誤差 (w-2)² 更新，初始導數為 -4。學習率 0.1 使權重變為 0.4。mae 只增加回報的指標，沒有改變用於反向傳播的損失。
+  wrong:
+    A: 0.5 對應把平均絕對誤差的導數也加進更新，但 metrics 不會自動成為損失項。
+    B: 0.1 接近只用平均絕對誤差更新的結果；加入 metrics 不會取代 loss。
+    D: 均方誤差對權重的導數為 -4，而不是 -2；本例沒有將平方誤差除以 2。
+guide_refs:
+  - guide-3:4-62
+  - guide-3:4-90
+  - guide-3:4-91
+author: codex
+review:
+  status: draft

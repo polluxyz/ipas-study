@@ -1,0 +1,43 @@
+id: M-L23203-086
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - bidirectional-rnn
+  - rnn
+stem: 某離線序列分類器使用單層雙向 RNN。工程師以 3 步正值與 ReLU 簡化測試，兩方向的輸入與循環權重皆為 1，初始狀態為 0。程式比較最後位置的雙向輸出與兩方向的最終狀態。a、b 依序為何？
+code: |
+  import torch
+  rnn = torch.nn.RNN(1, 1, nonlinearity='relu',
+                     batch_first=True, bidirectional=True, bias=False)
+  with torch.no_grad():
+      for p in rnn.parameters():
+          p.fill_(1.0)
+  x = torch.tensor([[[1.0], [2.0], [3.0]]])
+  out, h = rnn(x)
+  a = out[0, -1]
+  b = h[:, 0, 0]
+  print(a.tolist(), b.tolist())
+code_lang: python
+options:
+  A: a=[6,6]；b=[6,6]
+  B: a=[6,3]；b=[6,6]
+  C: a=[3,6]；b=[6,6]
+  D: a=[6,3]；b=[3,6]
+answer: B
+explanation:
+  summary: 雙向網路最後位置的反向輸出，尚未讀完整段反向序列。
+  correct: 正向依序累積 1、2、3，最後為 6。反向從最後位置的 3 開始，因此 out 最後位置的反向值為 3；反向讀完 3、2、1 後，最終狀態才是 6。h 保存兩方向的最終狀態。
+  wrong:
+    A: 最後位置的反向狀態只處理到值 3，不能當成反向讀完整段的狀態。
+    C: out 的特徵順序先正向、後反向，最後位置應是 [6,3]。
+    D: h 的兩列各保存一個方向讀完整段的狀態，本例兩者都為 6。
+guide_refs:
+  - guide-3:4-73
+  - guide-3:4-75
+author: codex
+review:
+  status: draft

@@ -1,0 +1,38 @@
+id: M-L23203-079
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - cnn-tensor-shapes
+  - pooling
+stem: 某影像模型同時保留邊緣與紋理特徵。2 個分支的輸出都依批次、通道、高、寬排列，且已對齊相同影像與位置。工程師用下列程式合併通道，再逐通道取空間平均。印出的形狀依序為何？
+code: |
+  import torch
+  a = torch.ones(2, 3, 4, 4)
+  b = torch.zeros(2, 5, 4, 4)
+  z = torch.cat([a, b], dim=1)
+  f = z.mean(dim=(2, 3))
+  print(tuple(z.shape), tuple(f.shape))
+code_lang: python
+options:
+  A: z=(4,8,4,4)；f=(4,8)
+  B: z=(2,8,4,4)；f=(2,8)
+  C: z=(2,3,4,9)；f=(2,3)
+  D: z=(2,8,4,4)；f=(2,4)
+answer: B
+explanation:
+  summary: 沿通道串接會增加特徵數，空間平均則保留批次與通道。
+  correct: 兩個分支沿第 1 軸串接，通道數為 3+5=8，批次仍為 2。對第 2、3 軸取平均後，每張影像保留 8 個通道摘要，得到 (2,8)。
+  wrong:
+    A: 串接的軸是通道，不是批次；相同的 2 張影像不會因此變成 4 張。
+    C: dim=1 對應通道軸，並未沿寬度串接；兩個分支的通道數也不同。
+    D: 平均運算消去高與寬，留下 8 個通道，不會留下原本的空間邊長 4。
+guide_refs:
+  - guide-3:4-68
+  - guide-3:4-69
+author: codex
+review:
+  status: draft

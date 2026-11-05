@@ -1,0 +1,37 @@
+id: M-L23203-085
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - rnn
+  - pytorch
+stem: 某設備的循環神經網路每批接收 3 段序列，每段 4 步，每步 2 個特徵。模型為單層、單向，隱藏寬度為 5。batch_first=True 讓輸入以批次為首軸。要為每段序列提供零初始狀態，h0 最適合使用哪個形狀？
+code: |
+  import torch
+  rnn = torch.nn.RNN(2, 5, batch_first=True)
+  x = torch.zeros(3, 4, 2)
+  # 在此建立 h0，再執行 rnn(x, h0)
+code_lang: python
+options:
+  A: h0 = torch.zeros(3, 1, 5)
+  B: h0 = torch.zeros(3, 4, 5)
+  C: h0 = torch.zeros(1, 4, 5)
+  D: h0 = torch.zeros(1, 3, 5)
+answer: D
+explanation:
+  summary: batch_first 改變序列張量的批次位置，不改變循環初始狀態的軸順序。
+  correct: PyTorch RNN 的 h0 依序是層數乘方向數、批次、隱藏寬度。本例為 (1,3,5)。batch_first 只調整輸入與逐步輸出，h0 不使用序列長度 4。
+  wrong:
+    A: 把批次軸放到 h0 首軸；h0 的首軸應是層數乘方向數，本例為 1。
+    B: 這接近逐步輸出的形狀，但初始狀態不是每個時間步各存一份狀態。
+    C: 將序列長度 4 當成批次大小；3 段序列才是 h0 需要對應的批次。
+guide_refs:
+  - guide-3:4-72
+  - guide-3:4-73
+  - guide-3:4-92
+author: codex
+review:
+  status: draft
