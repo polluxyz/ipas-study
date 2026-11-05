@@ -30,11 +30,12 @@ explanation:
   correct: 每個故障起點最多只有其他 3 筆故障可作近鄰，因此 k_neighbors=3 可在本例執行。改成 3 後，np.bincount(y_new).tolist() 得到 [8, 8]，正常與故障各 8 筆。原設定 5 需要更多故障樣本；增加正常資料或改變距離尺度都無法補足這個數量。
   wrong:
     A: 亂數種子影響取樣選擇，但不增加可用故障近鄰數，仍不足 5 個。
-    B: 標準化會改變近鄰距離與排序，卻不會把其他故障點由 3 個增加至 5 個。
+    B: 標準化可能改變近鄰距離與排序，卻不會把其他故障點由 3 個增加至 5 個。
     D: 正常樣本不是故障起點可使用的同類近鄰，增加正常樣本無法排除錯誤。
 guide_refs:
   - guide-3:5-10
   - guide-3:5-48
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: C
