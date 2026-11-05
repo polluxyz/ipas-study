@@ -1,6 +1,6 @@
 /** 每日抽題的配額、未做判斷、容量補位及快取失效均用獨立題庫驗證。 */
 import { describe, expect, it } from 'vitest';
-import { apportion, dailyWeights, resolveDailySet, selectDailyQuestions, taipeiDate, type DailyQuestion } from './daily';
+import { apportion, dailyWeights, migrateDailySet, resolveDailySet, selectDailyQuestions, taipeiDate, type DailyQuestion } from './daily';
 import type { Attempt } from './attempts';
 const question = (id: string, overrides: Partial<DailyQuestion> = {}): DailyQuestion => ({ id, rev: 1, subject: 3, source: 'mock', codes: ['A'], type: '情境', review: { status: 'verified' }, ...overrides });
 const batch = (count: number, prefix = 'q', overrides: Partial<DailyQuestion> = {}) => Array.from({ length: count }, (_, i) => question(`${prefix}${i}`, overrides));
@@ -24,7 +24,7 @@ describe('每日抽題', () => {
     expect(result.selected.every((q) => q.review.status === 'verified' && q.subject === 3 && !['q1', 'q2'].includes(q.id))).toBe(true);
   });
   it('某代碼不足時，其餘代碼按權重補足，容量充足時配額不變', () => {
-    const pool = [...batch(90, 'a', { source: 'exam' }), ...batch(10, 'b', { source: 'exam', codes: ['B'] }), ...batch(100, 'bMock', { codes: ['B'] }), ...batch(100, 'c', { codes: ['C'] })];
+    const pool = [...batch(90, 'a', { source: 'exam' }), ...batch(10, 'b', { source: 'exam', codes: ['B'] }), ...batch(100, 'aMock'), ...batch(100, 'bMock', { codes: ['B'] }), ...batch(100, 'c', { codes: ['C'] })];
     const normal = select(pool, [], 3);
     const actual = Object.fromEntries(['A', 'B', 'C'].map((code) => [code, normal.selected.filter((q) => q.codes[0] === code).length]));
     expect(actual).toEqual(normal.quotas);
@@ -38,7 +38,7 @@ describe('每日抽題', () => {
     expect(select([]).shortage).toBe(50);
   });
   it('科 3 程式與圖表合計 12 題，必要時跨代碼補足', () => {
-    const pool = [...batch(100, 'normal', { source: 'exam' }), ...batch(30, 'program', { codes: ['B'], type: '程式' }), ...batch(30, 'chart', { codes: ['C'], type: '圖表' })];
+    const pool = [...batch(100, 'exam', { source: 'exam' }), ...batch(100, 'normal'), ...batch(30, 'program', { codes: ['B'], type: '程式' }), ...batch(30, 'chart', { codes: ['C'], type: '圖表' })];
     const result = select(pool);
     expect(result.selected).toHaveLength(50);
     expect(result.selected.filter((q) => ['程式', '圖表'].includes(q.type))).toHaveLength(12);
@@ -47,9 +47,10 @@ describe('每日抽題', () => {
     expect(select([...batch(70), ...batch(7, 'program', { type: '程式' })]).selected.filter((q) => q.type === '程式')).toHaveLength(7);
     expect(select(batch(70, 'program', { type: '程式' })).selected).toHaveLength(50);
   });
-  it('來源充足時達到 10 考古、5 指引、35 模擬，短缺仍抽滿', () => {
+  it('混合題庫只抽非官方題，剩餘題數也只算非官方題', () => {
     const result = select([...batch(60, 'exam', { source: 'exam', subject: 1 }), ...batch(60, 'guide', { source: 'guide', subject: 1 }), ...batch(100, 'mock', { subject: 1 })], [], 1);
-    expect(['exam', 'guide', 'mock'].map((source) => result.selected.filter((q) => q.source === source).length)).toEqual([10, 5, 35]);
+    expect(['exam', 'guide', 'mock'].map((source) => result.selected.filter((q) => q.source === source).length)).toEqual([0, 0, 50]);
+    expect(result.remaining).toBe(100);
     expect(select(batch(70, 'mock', { subject: 1 }), [], 1).selected).toHaveLength(50);
   });
   it('台北 00:00 換日，不受瀏覽器時區影響', () => {
@@ -61,7 +62,7 @@ describe('每日抽題', () => {
     const random = () => { state = (state * 1664525 + 1013904223) >>> 0; return state / 2 ** 32; };
     for (let iteration = 0; iteration < 200; iteration++) {
       const pool = Array.from({ length: 8 }, (_, code) => [
-        ...batch(Math.floor(random() * 20), `${code}-normal-`, { codes: [String(code)], source: code % 2 ? 'exam' : 'mock' }),
+        ...batch(Math.floor(random() * 20), `${code}-normal-`, { codes: [String(code)], source: 'mock' }),
         ...batch(Math.floor(random() * 8), `${code}-program-`, { codes: [String(code)], type: '程式' }),
       ]).flat();
       const before = JSON.stringify(pool);
@@ -73,7 +74,45 @@ describe('每日抽題', () => {
   });
   it('快取順序固定，移除、失去 verified 或改版只略過，不補題', () => {
     const set = { date: '2026-11-05', subject: 3 as const, questions: ['q3', 'q0', 'q1', 'q2'].map((id) => ({ id, rev: 1 })) };
-    const result = resolveDailySet(set, [question('q0'), question('q1', { review: { status: 'disputed' } }), question('q2', { rev: 2 }), question('new')]);
+    const result = resolveDailySet(set, [question('q0'), question('q1', { review: { status: 'disputed' } }), question('q2', { rev: 2 }), question('new'), question('exam', { source: 'exam' })]);
     expect(result.selected.map((q) => q.id)).toEqual(['q0']); expect(result.skipped).toEqual(['q3', 'q1', 'q2']); expect(result.shortage).toBe(49);
+  });
+});
+
+describe('舊每日快取換題', () => {
+  const setOf = (...ids: string[]) => ({ date: '2026-11-05', subject: 3 as const, questions: ids.map((id) => ({ id, rev: 1 })) });
+  it('優先同代碼，其他題目與順序不變，輸入不變', () => {
+    const set = setOf('keep', 'exam', 'last');
+    const catalog = [question('exam', { source: 'exam' }), question('same'), question('other', { codes: ['B'] }), question('keep'), question('last')];
+    const before = JSON.stringify({ set, catalog });
+    const result = migrateDailySet(set, catalog, [], () => .9);
+    expect(result.set.questions.map((q) => q.id)).toEqual(['keep', 'same', 'last']);
+    expect(result.replaced).toBe(1); expect(result.removed).toBe(0);
+    expect(JSON.stringify({ set, catalog })).toBe(before);
+  });
+  it('科目 3 被換掉的程式或圖表題優先保持題型', () => {
+    for (const type of ['程式', '圖表']) {
+      const result = migrateDailySet(setOf('exam'), [question('exam', { source: 'exam', type }), question('normal'), question('program', { type: '程式' })], [], () => 0);
+      expect(result.set.questions[0].id).toBe('program');
+    }
+  });
+  it('同代碼耗盡時選有候選且權重最高的代碼，不重複題目', () => {
+    const catalog = [question('exam', { source: 'exam', codes: ['X'] }), ...batch(9, 'weight', { source: 'exam', codes: ['B'] }), question('guide', { source: 'guide' }), question('b', { codes: ['B'] }), question('c', { codes: ['C'] })];
+    const result = migrateDailySet(setOf('exam', 'guide'), catalog, [], () => 0);
+    expect(result.set.questions.map((q) => q.id)).toEqual(['b', 'c']);
+  });
+  it('排除已做、題組內與未 verified 的候選，候選不足移除', () => {
+    const catalog = [question('exam', { source: 'exam' }), question('guide', { source: 'guide' }), question('done'), question('keep'), question('draft', { review: { status: 'draft' } }), question('disputed', { review: { status: 'disputed' } }), question('new', { rev: 2 })];
+    const result = migrateDailySet(setOf('exam', 'keep', 'guide'), catalog, [attempt('done', { rev: 99 })], () => 0);
+    expect(result.set.questions).toEqual([{ id: 'new', rev: 2 }, { id: 'keep', rev: 1 }]);
+    expect(result.replaced).toBe(2); expect(result.removed).toBe(1);
+  });
+  it('無官方題時保留原快取，失效題仍交由略過機制處理', () => {
+    const set = setOf('keep', 'missing');
+    const result = migrateDailySet(set, [question('keep')], [], () => { throw new Error('不應抽題'); });
+    expect(result.set).toBe(set); expect(result.replaced).toBe(0);
+  });
+  it('解析快取時防止官方題進入每日題組', () => {
+    expect(resolveDailySet(setOf('exam', 'guide', 'keep'), [question('exam', { source: 'exam' }), question('guide', { source: 'guide' }), question('keep')]).skipped).toEqual(['exam', 'guide']);
   });
 });
