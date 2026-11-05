@@ -1,0 +1,50 @@
+id: Z-L21301-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - data-leakage
+  - class-imbalance
+  - sklearn-pipeline
+stem: 某資料科學團隊要為「客戶流失預測」建模。資料為 12 萬筆結構化表格、28 個欄位（其中 6 個含缺失值、缺失比例 8%～35%），類別比例為流失 3%、未流失 97%。團隊目前的作法是：先在**全資料**上做缺失值填補與標準化，再切分訓練／測試集，並以 Accuracy 作為唯一驗收指標。下列何者是**最優先**應修正的問題？
+options:
+  A: 先把 Accuracy 改為 Macro-F1 作為唯一驗收值，全資料插補與標準化維持原流程，即可優先解決評估不可信的問題
+  B: 缺失比例 8%～35% 落差太大，應一律刪除含缺失的欄位
+  C: 28 個欄位過多，應先做特徵挑選再建模
+  D: 前處理在切分之前執行，造成資料洩漏，應先切分再於訓練集上擬合前處理
+answer: D
+explanation:
+  summary: 先恢復有效評估，再選合適指標。
+  correct: 全體資料參與填補與縮放，使測試分布提早流入訓練。先修順序並重建評估，再用精確率、召回率或 PR-AUC 等檢查少數類。
+  wrong:
+    A: Macro-F1 可改善多數類主導，但維持全資料前處理仍會讓測試資訊流入訓練，不能先靠換指標恢復評估可信度。
+    B: 缺失比例只是選擇處理方法的線索，還需看原因與欄位價值，不能一律刪除。
+    C: 28 欄不等於維度過多。若在全資料上做特徵挑選，還可能增加洩漏。
+guide_refs:
+  - guide-1:5-3
+  - guide-1:5-6
+  - guide-1:5-20
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch08.md
+  original_id: SIM-L21301-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    D: C
+    B: D
+  modified: 選項重排；解析全部重寫；改寫原 A 干擾項以平衡長度

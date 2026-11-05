@@ -1,0 +1,62 @@
+id: Z-L23304-007
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - grid-search
+stem: |-
+  以下程式對隨機森林做超參數搜尋，最後在測試集上評估：
+
+  在**不含最終 refit** 的情況下，`gs.fit` 共訓練了幾個模型？
+code: |-
+  from sklearn.model_selection import GridSearchCV
+  from sklearn.ensemble import RandomForestClassifier
+
+  grid = {"n_estimators": [100, 300],
+          "max_depth": [4, 8, None],
+          "min_samples_leaf": [1, 5]}
+  gs = GridSearchCV(RandomForestClassifier(random_state=0), grid,
+                    cv=5, scoring="roc_auc", n_jobs=-1)
+  gs.fit(X_train, y_train)
+  print(gs.best_params_, round(gs.best_score_, 3))
+  print(round(gs.score(X_test, y_test), 3))
+code_lang: python
+options:
+  A: "30"
+  B: "12"
+  C: "60"
+  D: "61"
+answer: C
+explanation:
+  summary: 每個候選配置都要完成指定的交叉驗證。
+  correct: 2×3×2=12 組，乘上 5 折為 60 次。若另外計最佳組合的 refit 才是 61 次。
+  wrong:
+    A: 30 少算了一半的配置或折次。
+    B: 12 只是組合數，還沒計算各折。
+    D: 61 包含最終 refit，題目明確排除。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-007
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；由原檔補回共用程式、情境；解析逐項重寫

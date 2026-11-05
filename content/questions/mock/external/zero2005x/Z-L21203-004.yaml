@@ -1,0 +1,50 @@
+id: Z-L21203-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - ai-risk-governance
+  - privacy-compliance-assessment
+  - audit-reproducibility
+stem: 某證券商規劃導入 AI投資建議系統，直接向散戶客戶推播個股操作建議，並使用客戶完整的交易與資產資料。依金管會《金融業運用 AI指引》所列的 6 項風險評估考量因素，下列評估何者最為適當？
+options:
+  A: 因指引僅為監理期待而非法律，證券商可自行決定是否適用
+  B: 只要模型使用開源套件並公開架構，即可降低風險等級
+  C: 因系統僅提供「建議」而非自動下單，故所有高風險指標均不成立
+  D: 依客戶服務與個資使用等因素評為高風險，採強化記錄、監控、審查及稽核
+answer: D
+explanation:
+  summary: 對客戶權益與個資的影響是金融 AI 風險因素。
+  correct: 本例直接影響散戶投資判斷，也大量使用交易與資產資料，宜綜合評為高風險並強化記錄、監控與審查。外部獨立驗證依風險與資源評估，非所有案例一律強制。
+  wrong:
+    A: 指引屬行政指導，仍是金融業風險管理的參考。不能從此推論既有法律、自律要求與客戶保護都可任意忽略。
+    B: 可檢視程式不會消除資料敏感性與財產損害；開源本身不是降低風險分類的充分條件。
+    C: 直接提供投資建議仍會影響資產決策，不會因未代為下單就使相關風險全部歸零。
+guide_refs:
+  - guide-1:4-29
+  - guide-1:4-34
+  - guide-1:4-38
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch07.md
+  original_id: SIM-L21203-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    C: B
+    A: C
+    B: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；主審依指引原文，把題幹的「高風險判斷指標」改為「風險評估考量因素」

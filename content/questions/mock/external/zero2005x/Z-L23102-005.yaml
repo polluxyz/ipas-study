@@ -1,0 +1,46 @@
+id: Z-L23102-005
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23102
+concepts:
+  - nonnegative-matrix-factorization
+stem: 非負矩陣分解（NMF）將資料矩陣 X 近似分解為 X ≈ WH，並要求 X ≥ 0、W ≥ 0、H ≥ 0。關於「≥ 0」的意義，下列何者正確？
+options:
+  A: 代表矩陣的行列式大於或等於 0
+  B: 代表矩陣內每一個元素都大於或等於 0
+  C: 代表矩陣所有元素的總和大於或等於 0
+  D: 代表矩陣的所有特徵值都大於或等於 0
+answer: B
+explanation:
+  summary: 非負矩陣的限制逐一施加在每個元素。
+  correct: X、W、H 的每一格都不能小於 0。這項限制不允許靠正負元素相互抵銷來重建資料。
+  wrong:
+    A: 行列式是方陣的整體數值，不能代替每個元素的非負限制。
+    C: 總和為正的矩陣仍可能包含負元素。
+    D: 特徵值非負與逐元素非負是不同條件。
+guide_refs:
+  - guide-3:3-15
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch02.md
+  original_id: SIM-L23102-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；解析逐項重寫

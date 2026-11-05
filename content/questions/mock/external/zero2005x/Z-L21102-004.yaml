@@ -1,0 +1,51 @@
+id: Z-L21102-004
+rev: 2
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21102
+concepts:
+  - convolution-layer
+  - residual-connections
+  - detection-map
+stem: 關於卷積神經網路與物件偵測評估之敘述，下列何者錯誤？
+options:
+  A: 非極大值抑制用於去除同一物體的重複預測框
+  B: 同一模型的 mAP@[.5:.95]數值通常會高於 mAP@0.5，因為前者取多個門檻平均
+  C: 殘差連接讓輸入可繞過部分轉換再與輸出相加，其主要目的為緩解深層網路的退化與梯度消失，並非單純增加每層卷積核數量
+  D: 固定卷積核大小與輸入、輸出通道數時，同一卷積層的參數量不隨輸入寬高改變，且各位置共用同一組卷積核
+answer: B
+explanation:
+  summary: 提高定位門檻通常會降低平均精確率。
+  correct: 題目問錯誤敘述。較高的 IoU 門檻要求預測框更貼近真實框，通常使平均精確率下降；納入多個較嚴門檻後取平均，不能據此推論分數高於只用 0.5 門檻的結果。
+  wrong:
+    A: 非極大值抑制保留較有信心的框，去掉高度重疊的重複框，此項符合其用途。
+    C: 跳接提供較直接的訊息與梯度路徑，幫助較深網路訓練，此項是合理敘述。
+    D: 卷積層的參數由卷積核大小、通道數與偏差設定決定，權重在各位置重用。輸入寬高會影響運算量與輸出尺寸，但不改變這一層的參數量。
+guide_refs:
+  - guide-1:3-48
+  - guide-1:3-49
+  - guide-1:3-51
+  - guide-1:3-52
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch02.md
+  original_id: SIM-L21102-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫；改寫原 B 干擾項以平衡長度；限定 D 的參數量敘述於同一卷積層，移除解析中的審稿用語；依協調者裁定清除已修正的爭議，審查狀態改回 draft

@@ -1,0 +1,49 @@
+id: Z-L23201-003
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23201
+concepts:
+  - learning-paradigms
+  - pretraining-fine-tuning
+stem: 某團隊擁有 1億筆無標註的網頁文本，以及 3,000筆人工標註的情感分類樣本。若欲先利用無標註資料學習語言表示，再以標註資料微調，此前置階段屬於下列何種學習範式？
+options:
+  A: 自監督式學習
+  B: 強化式學習
+  C: 監督式學習
+  D: 半監督式學習
+answer: A
+explanation:
+  summary: 預測目標由原始資料自身產生，屬自監督。
+  correct: 前置階段可遮住詞再讓模型預測。這些訓練目標由文本產生，與之後使用人工情感標籤的微調階段不同。
+  wrong:
+    B: 沒有代理人、環境互動或報酬訊號。
+    C: 前置階段沒有使用人工情感標籤，不是該下游任務的監督訓練。
+    D: 題目把前置表示學習獨立出來，並非同時用標註與未標註樣本訓練同一分類任務。
+guide_refs:
+  - guide-3:4-7
+  - guide-3:4-8
+  - guide-3:4-82
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch04.md
+  original_id: SIM-L23201-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: C
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

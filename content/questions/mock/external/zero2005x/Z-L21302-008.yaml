@@ -1,0 +1,48 @@
+id: Z-L21302-008
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - release-strategies
+  - service-performance-metrics
+stem: 某證券投資機構升級線上高頻量化風控模型。新版深度學習模型已在歷史回測中展現良好成效，但風控長高度重視線上極端盤勢下的穩定性，硬性要求：「新模型在正式接管下單審核前，必須先接收 100% 的線上即時市場交易真實流量進行實戰推論檢驗，但新模型的輸出絕不可對真實交易產生任何阻擋或放行動作，亦不得增加既有交易系統的延遲」。下列發布策略何者最能滿足此項要求？
+options:
+  A: 雙盲 A/B 測試：將 50% 交易交由新模型審核，50% 交由舊模型審核，收盤後比較獲利
+  B: 直接藍綠部署（Blue-Green Deployment）並於開盤瞬間將所有流量切換至新環境
+  C: 影子部署：非同步旁路複製全部流量，結果僅存監控資料庫
+  D: 金絲雀發布（Canary Deployment）：將 5% 的線上使用者交易流量直接交由新模型進行審核
+answer: C
+explanation:
+  summary: 非同步旁路可讓影子模型不改變交易決策。
+  correct: 真實流量複製到獨立旁路，讓新模型產出僅供事後比較，符合先觀察而不接管的目標。必須隔離佇列與運算資源，並實測主路徑延遲，不能只靠部署名稱保證零影響。
+  wrong:
+    A: A/B 測試會讓部分客戶受新模型影響，與輸出不得阻擋或放行交易的限制不相容。
+    B: 切換全部流量後，新環境會直接改變實際交易判定，缺少題目要求的先行觀察階段。
+    D: 即使只有 5% 流量，新模型仍會對真實交易作決定，不符合輸出不得生效的要求。
+guide_refs:
+  - guide-1:5-19
+  - guide-1:5-21
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch09.md
+  original_id: SIM-L21302-008
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    C: B
+    B: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

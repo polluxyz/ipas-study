@@ -1,0 +1,48 @@
+id: Z-L21203-005
+rev: 1
+source: mock
+subject: 1
+type: 觀念
+codes:
+  - L21203
+concepts:
+  - ai-risk-governance
+  - responsible-ai-principles
+stem: 關於我國 AI治理相關文件之機關與性質，下列配對何者正確？
+options:
+  A: 《人工智慧基本法》之中央主管機關為數位發展部；國科會依基本法第 16 條訂定《人工智慧風險分類框架》，供各目的事業主管機關參考
+  B: 兩者皆由行政院直接訂定，性質均為法律
+  C: 《人工智慧基本法》為行政指引；《人工智慧風險分類框架》為法規命令
+  D: 《人工智慧基本法》之中央主管機關為國科會；《人工智慧風險分類框架》由數位發展部依該法第 16條訂定
+answer: D
+explanation:
+  summary: 分清楚基本法主管機關與風險框架訂定機關。
+  correct: 基本法第 2 條將中央主管機關定為國科會；第 16 條由數位發展部推動風險分類框架，兩個角色不同。
+  wrong:
+    A: 此項把兩個機關的角色對調；基本法中央主管機關不是數位發展部。
+    B: 法律與主管機關發布的框架具有不同形式及用途，不能一概稱為行政院直接訂定的法律。
+    C: 基本法是法律；框架用來引導主管機關形成風險管理規範，不能倒置為法律與行政指引的性質。
+guide_refs:
+  - guide-1:4-29
+  - guide-1:4-38
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch07.md
+  original_id: SIM-L21203-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    D: C
+    B: D
+  modified: 選項重排；解析全部重寫；改寫原 A 干擾項以平衡長度

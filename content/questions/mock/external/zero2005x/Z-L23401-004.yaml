@@ -1,0 +1,48 @@
+id: Z-L23401-004
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23401
+concepts:
+  - privacy-impact-assessment
+  - overfitting
+stem: 某生醫科技公司訓練了一款預測癌症復發風險的深度學習模型，並對外提供 API 查詢服務。資安團隊進行演練時，欲評估該模型是否存在「成員推論攻擊（Membership Inference Attack, MIA）」隱私洩漏漏洞。下列關於成員推論攻擊的原理與防護措施之敘述，何者最為正確？
+options:
+  A: 成員推論攻擊只能在攻擊者取得模型內部神經網路權重（白箱條件）下發動，黑箱 API 查詢不可能遭受此攻擊
+  B: 嚴重過擬合（Overfitting）能降低模型對訓練樣本的記憶，因而能自然免疫成員推論攻擊
+  C: 服務回傳每一類完整的 64 位元浮點數機率，讓外部查詢者看到所有信心細節，以此阻止其猜測訓練成員
+  D: 利用訓練樣本較高信心、較低損失等輸出差異，推測個別樣本是否參與訓練
+answer: D
+explanation:
+  summary: 輸出信心差異可能洩漏樣本是否曾參與訓練。
+  correct: 攻擊者可比較信心、損失等訊號來猜測成員身分。這是統計攻擊，不保證每筆都成功，也不要求取得模型權重。
+  wrong:
+    A: 部分黑箱攻擊只用服務回傳的輸出，就能嘗試區分成員。
+    B: 過擬合常使成員與非成員的行為差距更明顯，不是保護措施。
+    C: 完整高精度機率可能增加攻擊可用訊號，不是直接的防禦。
+guide_refs:
+  - guide-3:6-3
+  - guide-3:6-5
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch11.md
+  original_id: SIM-L23401-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

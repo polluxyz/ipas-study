@@ -1,0 +1,48 @@
+id: Z-L23101-005
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23202
+  - L23101
+concepts:
+  - naive-bayes
+stem: 關於單純貝氏分類器之敘述，下列何者最為正確？
+options:
+  A: 類別先驗已反映樣本比例，因此將各特徵的邊際機率相乘，即可代替給定類別後的條件機率
+  B: 文本分類準確率高於基準，即可判定詞語在給定類別後彼此獨立，無須另行驗證此假設
+  C: 條件獨立常不成立，分類仍可能實用；輸出機率不宜未校準就直接計算期望損失
+  D: 將各類別分數除以分數總和後，輸出即已完成機率校準，可直接代入不同錯判成本計算期望損失
+answer: C
+explanation:
+  summary: 分類排序可用，不表示輸出機率已校準。
+  correct: 單純貝氏把給定類別後的特徵視為獨立。即使近似假設不完全成立，分類仍可能有效；涉及機率成本決策時要另檢查校準。
+  wrong:
+    A: 單純貝氏相乘的是給定類別後各特徵的條件機率。類別先驗不能把不分群的邊際機率轉成這些條件機率。
+    B: 準確率衡量分類結果，不能驗證條件獨立。詞語即使在同一類別內仍可能相關，模型也可能有實用的分類表現。
+    D: 分數加總為 1 只是正規化。機率校準還要檢查預測機率與實際發生率是否一致，不能由加總結果推定。
+guide_refs:
+  - guide-3:4-34
+  - guide-3:4-35
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch01.md
+  original_id: SIM-L23101-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫；主代碼改為 L23202，保留 L23101 為次要代碼；移除群體校準概念誤連結；重寫 A、B、D 為條件機率、假設驗證與機率校準的誤解，並同步解析
