@@ -1,0 +1,38 @@
+id: M-L23203-056
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - self-attention
+  - pytorch
+stem: 某注意力層有 2 個候選位置，分數均為 0，但第 2 個位置不可讀取。程式比較先正規化再乘遮罩，以及先遮住分數再正規化。兩者的權重最接近哪一項？
+code: |
+  import torch
+  s = torch.tensor([0.0, 0.0])
+  keep = torch.tensor([True, False])
+  a = torch.softmax(s, dim=0) * keep
+  b = torch.softmax(s.masked_fill(~keep, float('-inf')), dim=0)
+  print(a.tolist(), b.tolist())
+code_lang: python
+options:
+  A: a=[0.5,0.0]；b=[1.0,0.0]
+  B: a=[1.0,0.0]；b=[1.0,0.0]
+  C: a=[0.5,0.0]；b=[0.5,0.5]
+  D: a=[0.0,0.0]；b=[1.0,0.0]
+answer: A
+explanation:
+  summary: 在正規化後清零權重，會留下不足 1 的權重總和。
+  correct: a 先在 2 個位置間各分配 0.5，再把第 2 格清零。b 在正規化前排除第 2 格，因此把全部權重分配給第 1 格。
+  wrong:
+    B: a 的乘法沒有重新正規化，所以第 1 格仍是 0.5。
+    C: b 的第 2 格分數為負無限，正規化後權重為 0，不會與第 1 格均分。
+    D: a 只清除遮罩為 False 的第 2 格，不會清掉第 1 格。
+guide_refs:
+  - guide-3:4-79
+author: codex
+review:
+  status: verified
+  blind_answer: A

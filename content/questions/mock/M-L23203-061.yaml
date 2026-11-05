@@ -1,0 +1,32 @@
+id: M-L23203-061
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23203
+concepts:
+  - transfer-learning
+  - word-embedding
+  - pytorch
+stem: 某語言模型以同一個 Parameter 同時作為輸入嵌入表與輸出投影權重。新任務要固定輸入嵌入表，卻允許輸出投影獨立微調。工程師發現關閉嵌入表的 requires_grad 後，輸出投影也不能更新。最適合如何調整？
+options:
+  A: 維持共享 Parameter，僅將輸出投影模組切為 train 模式
+  B: 維持共享 Parameter，僅把輸出投影再次加入優化器
+  C: 維持共享 Parameter，僅提高輸出投影的學習率
+  D: 用嵌入表權重副本建立獨立 Parameter，作為可訓練輸出投影
+answer: D
+explanation:
+  summary: 共享同一參數時，不能同時要求該參數固定又獨立更新。
+  correct: 兩個模組引用同一個 Parameter，梯度開關也相同。建立獨立參數副本才能保留相同初值，並讓輸入權重固定、輸出權重獨立更新。
+  wrong:
+    A: train 模式控制部分模組的行為，不會為同一個 Parameter 建立另一組可訓練數值。
+    B: 加入優化器不會解除參數共享，也不會替關閉梯度的參數產生新梯度。
+    C: 學習率只影響更新幅度，無法分離共享權重或改變梯度開關。
+guide_refs:
+  - guide-3:4-82
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: D
