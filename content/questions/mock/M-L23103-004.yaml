@@ -1,34 +1,41 @@
 id: M-L23103-004
-rev: 1
+rev: 2
 source: mock
 subject: 3
-type: 計算
+type: 程式
 codes:
   - L23103
 concepts:
-  - mini-batch-gradient-descent
-stem: 某模型每輪使用 1,030 筆訓練資料，批次大小 128，保留最後不足一批的資料。每批都做 1 次反向傳播與 1 次參數更新，沒有梯度累積。每輪更新幾次？
+  - sgd
+stem: 某團隊的資料依類別排列，索引 0 至 7 是正常，8 至 9 是異常。每輪固定順序，批次大小為 4，且丟棄不足一批的尾端。以下模擬連續 3 輪實際使用的索引。若要讓所有類別都能參與訓練，哪項判斷最正確？
 options:
-  A: 8 次
-  B: 128 次
-  C: 1,030 次
-  D: 9 次
+  A: 3 輪後已涵蓋 10 筆；增加輪數可修正類別遺漏。
+  B: 每輪只少 2 筆；增加批次大小可保證類別完整。
+  C: 異常會在後續輪補入；只須維持目前資料順序。
+  D: 3 輪都未見異常；須保留尾批或變更取樣安排。
 answer: D
 explanation:
-  summary: 每輪小批次更新次數。
-  correct: 1,030=8×128+6，8 個完整批次加上最後 6 筆的小批次，共 9 次更新。
+  summary: 固定排序與丟棄尾批可能讓同一類資料永遠不參與更新。
+  correct: 每輪都使用索引 0 至 7，集合不會因重跑 3 輪而擴大。異常剛好全在被丟棄的尾端。應保留尾批，或設計能涵蓋全部樣本的取樣安排；若使用每輪洗牌，還須檢查實際覆蓋情形。
   wrong:
-    A: 這只計完整批次，忽略題目指定保留的最後 6 筆。
-    B: 128 是每批最多樣本數，與每輪批次個數不同。
-    C: 這相當於每筆更新一次，與本題批次大小 128 的設定不符。
+    A: 24 次樣本使用包含大量相同樣本，不能當成已涵蓋全部 10 筆。
+    B: 批次大小變大不保證尾端消失；例如大小 8 仍會丟掉相同異常。
+    C: 每輪重新從相同順序開始，尾端不會自動接到下一輪。
 guide_refs:
-  - guide-3:3-23
   - guide-3:3-24
-  - guide-3:5-18
   - guide-3:5-19
-  - guide-3:5-33
 author: codex
 review:
   status: verified
   answer_checked: null
   dispute: null
+  blind_answer: D
+code: |
+  used = []
+  for epoch in range(3):
+      order = list(range(10))
+      for start in range(0, len(order) - 3, 4):
+          used.extend(order[start:start + 4])
+  print(sorted(set(used)))
+  print(sum(i >= 8 for i in used))
+code_lang: python

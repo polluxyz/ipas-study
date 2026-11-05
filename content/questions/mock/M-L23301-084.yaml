@@ -1,0 +1,31 @@
+id: M-L23301-084
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23301
+concepts:
+  - outlier-detection
+  - feature-engineering-strategy
+stem: 某冷卻系統有入口溫度 T 與出口溫度 U。兩欄正常範圍都約為 10 至 40，但正常運轉時 U−T 應介於 2 至 4。新紀錄 T=18、U=34 都落在各欄正常範圍，卻違反正常配對關係。若要補足目前逐欄檢查，最適合新增哪項檢查？
+options:
+  A: 將 T 與 U 各自轉成百分位，再以各欄兩端百分位篩選
+  B: 將 U−T 作為衍生特徵，再檢查該差值是否偏離正常範圍
+  C: 將 T 與 U 各自做穩健縮放，再以各欄中央區間篩選
+  D: 將 T 與 U 各自做等寬分箱，再移除各欄樣本最少的箱
+answer: B
+explanation:
+  summary: 各欄個別正常，不代表欄位的組合關係也正常。
+  correct: 新紀錄的溫差為 16，明顯偏離正常的 2 至 4。差值特徵直接表達配對限制，能找出逐欄範圍檢查漏掉的聯合異常。
+  wrong:
+    A: 逐欄百分位仍只描述 T 與 U 各自的位置，沒有檢查同筆資料的差值。
+    C: 逐欄穩健縮放可減少極端值對尺度的影響，但不會表達兩欄應接近的關係。
+    D: 逐欄低頻箱篩選處理邊際稀有值，無法直接辨識兩個常見值形成的不合理配對。
+guide_refs:
+  - guide-3:5-3
+  - guide-3:5-10
+author: codex
+review:
+  status: verified
+  blind_answer: B

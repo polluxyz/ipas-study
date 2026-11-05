@@ -1,0 +1,45 @@
+id: M-L23303-106
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - learning-rate-schedule
+stem: 某訓練流程以驗證準確率控制學習率。規則是連續 2 次驗證沒有改善就乘上 0.1。以下簡化程式卻把較小值視為改善，首次驗證不計入等待次數。若要在準確率停滯時才降速，最適合如何修正？
+code: |
+  accuracies = [0.70, 0.74, 0.78]
+  best = accuracies[0]
+  wait = 0
+  lr = 0.01
+  for value in accuracies[1:]:
+      if value < best:
+          best = value
+          wait = 0
+      else:
+          wait += 1
+      if wait >= 2:
+          lr *= 0.1
+          wait = 0
+  print(lr)
+code_lang: python
+options:
+  A: 將初始學習率從 0.01 改為 0.1
+  B: 將觸發降速時的衰減倍率改為 0.5
+  C: 將判定停滯的等待次數從 2 改為 3
+  D: 將更新最佳值的條件改為 value > best
+answer: D
+explanation:
+  summary: 監控準確率時，改善方向應設定為越高越好。
+  correct: 原程式把 0.74、0.78 都判為未改善，會把學習率降至 0.001。把比較改為 value > best 後，兩次驗證都會更新最佳值並重設等待次數，學習率維持 0.01。
+  wrong:
+    A: 提高初始學習率會改變更新幅度，卻仍把持續進步的準確率當成停滯。
+    B: 衰減倍率控制降速多少，不能修正何時應降速的判斷方向。
+    C: 增加等待次數只是延後誤觸發，仍把準確率上升視為沒有改善。
+guide_refs:
+  - guide-3:5-19
+author: codex
+review:
+  status: verified
+  blind_answer: D

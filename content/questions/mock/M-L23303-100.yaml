@@ -1,0 +1,36 @@
+id: M-L23303-100
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - mini-batch-gradient-descent
+stem: 某模型每輪要使用 100 筆訓練資料，批次上限為 32 筆。每個批次更新 1 次參數，最後不足 32 筆也保留。以下程式模擬批次大小。若完成 5 輪，參數共更新幾次？
+code: |
+  sizes = [len(range(start, min(start + 32, 100)))
+           for start in range(0, 100, 32)]
+  print(sizes)
+  print(len(sizes) * 5)
+code_lang: python
+options:
+  A: 15 次
+  B: 16 次
+  C: 19 次
+  D: 20 次
+answer: D
+explanation:
+  summary: 最後一個不完整批次仍會觸發參數更新。
+  correct: 每輪批次大小是 [32,32,32,4]，因此每輪更新 4 次，5 輪共 20 次。最後 4 筆雖少於批次上限，仍依題意保留並更新。
+  wrong:
+    A: 15 次相當於每輪只算 3 個完整批次，漏掉各輪最後 4 筆。
+    B: 16 次相當於把各輪合併成 500 筆後才分批，與每輪重新分批不同。
+    C: 19 次仍少計 1 次；本例每輪最後的小批次都需要更新。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-19
+author: codex
+review:
+  status: verified
+  blind_answer: D

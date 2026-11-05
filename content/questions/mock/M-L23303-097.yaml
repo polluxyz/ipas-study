@@ -1,0 +1,47 @@
+id: M-L23303-097
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - sklearn-pipeline
+  - filter-feature-selection
+stem: 某團隊在 2 折驗證內先刪除變異數為 0 的欄，再訓練分類器。VarianceThreshold 只依訓練資料判斷欄位是否變動。以下兩個 Pipeline 各自擬合後，選到的欄位不同。哪項解讀最正確？
+code: |
+  import numpy as np
+  from sklearn.pipeline import Pipeline
+  from sklearn.feature_selection import VarianceThreshold
+  from sklearn.dummy import DummyClassifier
+  from sklearn.model_selection import KFold
+  X = np.array([[0, 0], [0, 1], [0, 2], [0, 3],
+                [0, 0], [1, 0], [2, 0], [3, 0]])
+  y = np.array([0, 1] * 4)
+  for tr, va in KFold(2).split(X):
+      pipe = Pipeline([('select', VarianceThreshold()),
+                       ('model', DummyClassifier())])
+      pipe.fit(X[tr], y[tr])
+      print(pipe.named_steps['select'].get_support(indices=True).tolist())
+      pipe.predict(X[va])
+code_lang: python
+options:
+  A: 跨折欄位不同就無法驗證，應先用全資料選欄
+  B: 各折可選到不同欄位，仍可評估同一套學習流程
+  C: 跨折欄位不同代表模型交換了驗證資料的資訊
+  D: 各折須固定選第 0 欄，才能保持模型輸入一致
+answer: B
+explanation:
+  summary: 驗證的是選欄與訓練的流程，不要求各折學出相同欄位。
+  correct: 第 1 折選到第 0 欄，第 2 折選到第 1 欄。各折的選欄器只看當折訓練資料，所以可能得到不同結果。各自的驗證資料經同一個折內選欄器轉換，仍能取得合法預測。
+  wrong:
+    A: 先用全資料選欄會把驗證資料的變異資訊帶進學習；欄位不同本身不妨礙驗證。
+    C: 各折都建立新流程，只以訓練索引擬合；欄位差異反映的是訓練子集不同。
+    D: 固定第 0 欄會改變題目指定的選欄流程，第 2 折的訓練資料在這一欄也沒有變異。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  blind_answer: B

@@ -1,4 +1,4 @@
-/** 每日題組只使用未做的已驗證題；配額、來源與程式題限制均由目前題庫計算。 */
+/** 每日題組只使用未做的已驗證非官方題；代碼權重仍由完整考古題計算。 */
 import type { Attempt, DailySet } from './attempts';
 
 export interface DailyQuestion {
@@ -37,7 +37,7 @@ export function unseenDailyQuestions<T extends DailyQuestion>(questions: readonl
   const done = new Set(attempts.map((a) => a.qid));
   const ids = new Set<string>();
   return questions.filter((q) => {
-    if (q.subject !== subject || q.review.status !== 'verified' || done.has(q.id) || ids.has(q.id) || !q.codes[0]) return false;
+    if (q.source !== 'mock' || q.subject !== subject || q.review.status !== 'verified' || done.has(q.id) || ids.has(q.id) || !q.codes[0]) return false;
     ids.add(q.id); return true;
   });
 }
@@ -82,19 +82,15 @@ export function selectDailyQuestions<T extends DailyQuestion>(questions: readonl
     const j = Math.min(i, Math.max(0, Math.floor(random() * (i + 1))));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  const sourceTargets: Record<string, number> = { exam: 10, guide: 5, mock: 35 };
-  const sourceCounts: Record<string, number> = {};
   const selected: T[] = [];
   while (selected.length < size) {
     const candidates = shuffled.filter((q) => allocation[q.codes[0]] > 0 && (subject !== 3 || (special(q) ? specialQuota[q.codes[0]] > 0 : allocation[q.codes[0]] - specialQuota[q.codes[0]] > 0)));
-    candidates.sort((a, b) => ((sourceTargets[b.source] ?? 0) - (sourceCounts[b.source] ?? 0)) - ((sourceTargets[a.source] ?? 0) - (sourceCounts[a.source] ?? 0)));
     const q = candidates[0];
     if (!q) break;
     selected.push(q); shuffled.splice(shuffled.indexOf(q), 1); allocation[q.codes[0]]--;
     if (subject === 3 && special(q)) specialQuota[q.codes[0]]--;
-    sourceCounts[q.source] = (sourceCounts[q.source] ?? 0) + 1;
   }
-  // 最後再洗順序，避免來源目標造成模擬題都排在前面。
+  // 最後洗順序，避免代碼配額影響閱讀順序。
   for (let i = selected.length - 1; i > 0; i--) {
     const j = Math.min(i, Math.max(0, Math.floor(random() * (i + 1))));
     [selected[i], selected[j]] = [selected[j], selected[i]];
@@ -109,8 +105,35 @@ export function resolveDailySet<T extends DailyQuestion>(set: DailySet, question
   const selected: T[] = [];
   for (const item of set.questions) {
     const q = byId.get(item.id);
-    if (!q || q.review.status !== 'verified' || q.subject !== set.subject || q.rev !== item.rev) skipped.push(item.id);
+    if (!q || q.source !== 'mock' || q.review.status !== 'verified' || q.subject !== set.subject || q.rev !== item.rev) skipped.push(item.id);
     else selected.push(q);
   }
   return { selected, skipped, shortage: 50 - selected.length };
+}
+
+/** 只替換舊快取的官方題；原有非官方題位置不變，候選不足就移除。 */
+export function migrateDailySet(set: DailySet, catalog: readonly DailyQuestion[], attempts: readonly Attempt[], random: () => number) {
+  const byId = new Map(catalog.map((q) => [q.id, q]));
+  const occupied = new Set(set.questions.map((q) => q.id));
+  const pool = unseenDailyQuestions(catalog, attempts, set.subject).filter((q) => !occupied.has(q.id));
+  const weights = dailyWeights(catalog, set.subject);
+  let replaced = 0;
+  let removed = 0;
+  const questions = set.questions.flatMap((item) => {
+    const old = byId.get(item.id);
+    if (!old || old.source === 'mock') return [item];
+    replaced++;
+    // 先維持主代碼；科目 3 在該代碼內優先保持程式或圖表題。
+    let candidates = pool.filter((q) => q.codes[0] === old.codes[0]);
+    if (!candidates.length) {
+      const code = [...new Set(pool.map((q) => q.codes[0]))].sort((a, b) => weights[b] - weights[a] || a.localeCompare(b))[0];
+      candidates = pool.filter((q) => q.codes[0] === code);
+    }
+    if (set.subject === 3 && special(old) && candidates.some(special)) candidates = candidates.filter(special);
+    const replacement = candidates[Math.min(candidates.length - 1, Math.max(0, Math.floor(random() * candidates.length)))];
+    if (!replacement) { removed++; return []; }
+    pool.splice(pool.indexOf(replacement), 1);
+    return [{ id: replacement.id, rev: replacement.rev }];
+  });
+  return { set: replaced ? { ...set, questions } : set, replaced, removed };
 }

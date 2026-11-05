@@ -1,0 +1,30 @@
+id: M-L23303-102
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23303
+concepts:
+  - experiment-tracking
+  - train-val-test-split
+stem: 某團隊固定資料內容、切分種子與模型設定，卻在資料檔重新排序後得到不同驗證分數。舊紀錄只有行號索引，無法確定驗證的是哪些案件。每筆案件都有不變的案件 ID。若要在排序改變後仍重建同一份切分，最適合保存什麼？
+options:
+  A: 資料版本與各側案件 ID 的名單
+  B: 資料版本與各類別的樣本數量
+  C: 資料版本與原切分使用的種子
+  D: 資料版本與各折的平均驗證分數
+answer: A
+explanation:
+  summary: 可重建的切分紀錄須能識別實際案件。
+  correct: 同一種子對相同行序可重現索引，但行序改變後，索引可能指向不同案件。保存資料版本與訓練、驗證、測試各側的案件 ID，才能按不變身分重建切分。
+  wrong:
+    B: 類別數量可核對比例，不能唯一決定各側包含哪些案件。
+    C: 種子控制抽樣過程，不能保證不同輸入順序仍抽到相同案件。
+    D: 分數是切分後的結果，不能從平均分數還原各案件的歸屬。
+guide_refs:
+  - guide-3:5-20
+author: codex
+review:
+  status: verified
+  blind_answer: A

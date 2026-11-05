@@ -1,0 +1,31 @@
+id: M-L23202-046
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23202
+concepts:
+  - xgboost
+  - missing-value-imputation
+stem: 某維修公司有 6 萬筆數值型表格資料。「未填檢查值」可能反映特定檢修流程，因此缺值狀態也可能有預測價值。該欄仍有多數可靠量測，團隊希望模型能利用量測內容與檢修流程資訊。下列候選流程何者最符合需求？
+options:
+  A: 以中位數填補該欄後，交由線性支援向量機分類
+  B: 刪除有缺值的該欄後，交由隨機森林進行分類
+  C: 保留缺值標記，交由可學習缺值分支的 XGBoost 分類
+  D: 以最常見數值填補該欄後，交由邏輯迴歸進行分類
+answer: C
+explanation:
+  summary: 選模流程須保留題目要求的缺值資訊。
+  correct: XGBoost 的樹模型可在訓練時學習缺值應走的分支。保留明確缺值標記，能避免把未填值與某個實測數值混為一談。能否提升品質仍須以驗證資料確認。
+  wrong:
+    A: 只做中位數填補而未加缺值指標，會把缺值和實際等於中位數的量測混在一起。
+    B: 刪欄能排除缺值處理負擔，但也同時移除該欄的量測與缺值狀態資訊。
+    D: 只做眾數填補而未加缺值指標，無法區分未填與實際出現該常見數值。
+guide_refs:
+  - guide-3:4-40
+  - guide-3:5-3
+author: codex
+review:
+  status: verified
+  blind_answer: C

@@ -1,0 +1,31 @@
+id: M-L23101-023
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - normal-uniform-distributions
+  - statistical-inference
+stem: 某工程師以 3 筆獨立的感測器誤差 0、0、6 校準常態模型，母體變異數固定為 4，只估平均 μ。已知聯合概似與 exp(−Σ(xᵢ−μ)²/8) 成正比。要取得最大概似的 μ，以下哪個值最正確？
+options:
+  A: "0"
+  B: "1"
+  C: "1.5"
+  D: "2"
+answer: D
+explanation:
+  summary: 固定常態變異數時，平均的最大概似等於最小平方差所對應的位置。
+  correct: 指數函數隨指數增加而增加，所以要最小化平方差和 2μ²+(6−μ)²。導數為 6μ−12，得到 μ=2，也就是樣本平均。固定變異數只影響概似的尺度，不改變最佳平均。
+  wrong:
+    A: 0 是樣本中位數，也最小化絕對誤差，但本題常態概似對應平方誤差。
+    B: 1 對應把平均值再除以已知標準差 2；標準化後的數值不是原單位的平均估計。
+    C: 1.5 對應以 3 筆資料的總和除以 4；分母應由樣本筆數決定，而非已知變異數。
+guide_refs:
+  - guide-3:3-4
+  - guide-3:3-7
+author: codex
+review:
+  status: verified
+  blind_answer: D
