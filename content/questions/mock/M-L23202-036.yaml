@@ -4,10 +4,11 @@ source: mock
 subject: 3
 type: 計算
 codes:
+  - L23301
   - L23202
 concepts:
-  - pca
   - feature-scaling
+  - pca
 stem: 某團隊先以 z=(x−μ)/σ 逐欄標準化 2 個感測特徵，再做 PCA。訓練平均值 μ=(10,100)，標準差 σ=(2,10)。某筆壓縮資料經 PCA 反向投影後，在標準化空間得到 z_hat=(1,−0.5)。報表要顯示原始單位的重建值 x_hat，應輸出哪一組？
 options:
   A: (1, −0.5)
@@ -23,8 +24,8 @@ explanation:
     B: 這只加回平均值，漏掉先乘各欄標準差的步驟。
     D: 這是把平均值加在乘法之前，錯把 (z_hat＋μ)×σ 當成反標準化。
 guide_refs:
-  - guide-3:4-45
   - guide-3:5-7
+  - guide-3:4-45
 author: codex
 review:
   status: draft

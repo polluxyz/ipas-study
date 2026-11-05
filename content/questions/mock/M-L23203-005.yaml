@@ -4,9 +4,9 @@ source: mock
 subject: 3
 type: 計算
 codes:
-  - L23203
+  - L23303
 concepts:
-  - output-loss-contract
+  - accuracy
 stem: 某多標籤影像模型每張輸出 [刮傷,裂紋] 兩個獨立機率，兩者可同時成立。以各欄機率至少 0.5 判為 1。兩張圖的真值為 [1,1]、[0,1]，輸出機率為 [0.8,0.4]、[0.2,0.7]。驗收規則要求一張圖的全部標籤都正確才算該張正確。此規則下正確率為多少？
 options:
   A: 25%，因為只有 1 個標籤判斷錯誤。
@@ -22,7 +22,6 @@ explanation:
     C: 這是逐標籤正確率，會把第 1 張部分正確的結果納入。
     D: 只保留最高機率標籤忽略了同張圖可以有多個真實標籤。
 guide_refs:
-  - guide-3:4-62
   - guide-3:5-21
 author: codex
 review:
