@@ -1,0 +1,40 @@
+id: M-L23304-059
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - learning-rate-schedule
+stem: 某訓練器希望驗證損失停滯時將學習率減半，但最低保留 0.01。下列 PyTorch 排程器每輪結束呼叫一次。4 輪的驗證損失相同，threshold=0，首輪建立基準。各輪結束時的學習率依序為何？
+code: |
+  import torch
+  w = torch.nn.Parameter(torch.tensor(1.0))
+  opt = torch.optim.SGD([w], lr=0.04)
+  schedule = torch.optim.lr_scheduler.ReduceLROnPlateau(
+      opt, mode="min", factor=0.5, patience=0, threshold=0.0, min_lr=0.01)
+  for val_loss in [1.0, 1.0, 1.0, 1.0]:
+      schedule.step(val_loss)
+      print(round(opt.param_groups[0]["lr"], 3))
+code_lang: python
+options:
+  A: 0.04、0.04、0.04、0.04
+  B: 0.04、0.02、0.01、0.01
+  C: 0.04、0.02、0.01、0.005
+  D: 0.02、0.01、0.01、0.01
+answer: B
+explanation:
+  summary: 停滯降率同時受改善判斷與學習率下限控制。
+  correct: 首輪損失 1.0 建立基準，學習率仍為 0.04。patience=0 讓後續每次未改善都觸發降率，先降至 0.02、再降至 0.01。第 4 輪因 min_lr=0.01 而維持下限。
+  wrong:
+    A: 相同損失未達嚴格改善，patience=0 會在首輪之後開始降率，不會維持初始值。
+    C: 第 4 輪若繼續減半會低於 min_lr；設定的下限會阻止降至 0.005。
+    D: 首輪用來建立最佳參考值，不是一次未改善，因此首輪不降率。
+guide_refs:
+  - guide-3:5-19
+  - guide-3:5-32
+author: codex
+review:
+  status: verified
+  blind_answer: B

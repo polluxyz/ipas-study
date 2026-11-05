@@ -1,0 +1,31 @@
+id: M-L23304-063
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - random-search
+  - hyperparameter-tuning
+stem: 某團隊以 RandomizedSearchCV 搜尋隨機森林。搜尋器設 random_state=17，各折索引、資料順序、套件版本與運算環境相同，且 n_jobs=1；隨機森林本身未設 random_state。兩次抽出的候選參數清單相同，但驗證分數略有不同。若要控制這項差異，最適合補哪個設定？
+options:
+  A: 提高搜尋器的 n_iter，增加候選數
+  B: 固定隨機森林本身的 random_state
+  C: 提高搜尋器的 cv，增加驗證折數
+  D: 固定搜尋器的 refit 為 True
+answer: B
+explanation:
+  summary: 搜尋抽樣與模型訓練有各自的亂數來源。
+  correct: 搜尋器的 random_state 控制候選抽樣，不會自動替隨機森林設定抽樣與特徵選擇的種子。其餘條件已固定時，還需固定隨機森林本身的 random_state，才能控制這個模型訓練階段的亂數來源。
+  wrong:
+    A: 增加候選數會擴大搜尋，不會固定每個候選內隨機森林訓練所用的亂數。
+    C: 增加折數可改變分數估計，但每折訓練仍可能因模型的亂數而改變，不能取代固定種子。
+    D: refit 控制選定參數後是否以完整資料重訓，不會固定交叉驗證期間模型的亂數。
+guide_refs:
+  - guide-3:5-20
+  - guide-3:5-30
+author: codex
+review:
+  status: verified
+  blind_answer: B
