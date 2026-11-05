@@ -1,0 +1,32 @@
+id: M-L21302-007
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21302
+concepts:
+  - service-performance-metrics
+  - gpu-inference-scheduling
+stem: 某互動服務要求每次請求在 80 毫秒內完成。本例各階段依序執行且不重疊：前處理 8 毫秒、網路往返 12 毫秒、模型推論 25 毫秒、結果整理 5 毫秒。若批次排程另加等待時間，且沒有其他耗時，等待上限是多少？
+options:
+  A: 80 毫秒
+  B: 55 毫秒
+  C: 50 毫秒
+  D: 30 毫秒
+answer: D
+explanation:
+  summary: 從完整回應預算扣除固定耗時。
+  correct: 固定耗時合計 50 毫秒。完整上限 80 毫秒扣除固定耗時後，等待最多可用 30 毫秒；若設得更長便會違反本例限制。
+  wrong:
+    A: 80 毫秒是完整請求的上限，不能全部分給排程等待。
+    B: 55 毫秒只扣除了推論，漏算網路與其他處理。
+    C: 50 毫秒是固定階段合計，還要從完整上限扣除才能得到等待預算。
+guide_refs:
+  - guide-1:5-20
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
