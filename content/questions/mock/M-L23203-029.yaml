@@ -41,4 +41,5 @@ guide_refs:
   - guide-3:4-74
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: D
