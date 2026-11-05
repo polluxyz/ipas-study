@@ -3,7 +3,7 @@ rev: 2
 source: mock
 subject: 1
 type: 情境
-codes: [ L21302 ]
+codes: [L21302]
 concepts:
   - rag
   - data-model-versioning
@@ -26,5 +26,5 @@ guide_refs:
   - guide-1:5-19
 author: codex
 review:
-  status: draft
+  status: verified
   blind_answer: B

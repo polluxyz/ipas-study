@@ -3,7 +3,7 @@ rev: 2
 source: mock
 subject: 1
 type: 計算
-codes: [ L21301 ]
+codes: [L21301]
 concepts:
   - data-quality
   - data-consistency
@@ -25,5 +25,5 @@ guide_refs:
   - guide-1:5-4
 author: codex
 review:
-  status: draft
+  status: verified
   blind_answer: B

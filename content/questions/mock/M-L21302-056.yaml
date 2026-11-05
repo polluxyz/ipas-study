@@ -3,7 +3,7 @@ rev: 2
 source: mock
 subject: 1
 type: 計算
-codes: [ L21302 ]
+codes: [L21302]
 concepts:
   - hybrid-search
   - rag
@@ -24,5 +24,5 @@ explanation:
 guide_refs: []
 author: codex
 review:
-  status: draft
+  status: verified
   blind_answer: C

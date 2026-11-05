@@ -3,7 +3,7 @@ rev: 2
 source: mock
 subject: 1
 type: 情境
-codes: [ L21202 ]
+codes: [L21202]
 concepts:
   - proof-of-concept
   - poc-go-no-go
@@ -27,5 +27,5 @@ guide_refs:
   - guide-1:4-27
 author: codex
 review:
-  status: draft
+  status: verified
   blind_answer: B
