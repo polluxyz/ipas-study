@@ -1,0 +1,30 @@
+id: M-L23203-073
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23203
+concepts:
+  - dropout
+  - model-pruning
+stem: 某團隊為降低過擬合，在分類器加入丟棄率 0.5 的 Dropout。主管希望直接把部署模型的一半單元永久刪除，不另外進行壓縮與驗證。對這項期待，何者最正確？
+options:
+  A: 隨機丟棄屬於訓練策略，不直接指定永久刪除的單元
+  B: 隨機丟棄會標記一組固定單元，部署時可直接移除
+  C: 隨機丟棄會把一半權重訓練成零，部署時可直接移除
+  D: 隨機丟棄會在部署時選出半數單元，只需載入所選權重
+answer: A
+explanation:
+  summary: Dropout 與永久模型壓縮是不同工作。
+  correct: Dropout 在訓練中隨機遮蔽部分輸出，減少單元之間的依賴。這不會直接給出一組可永久刪除的單元，壓縮仍需另外設計並驗證。
+  wrong:
+    B: 一般 Dropout 在不同訓練步驟可抽到不同單元，不是先標記固定的可刪除集合。
+    C: 遮蔽的是當次單元輸出，並非以讓一半權重永久為零作為訓練目標。
+    D: 一般部署會關閉訓練時的隨機丟棄，並使用完整網路；Dropout 不會自動產生只載入半數權重的部署流程。
+guide_refs:
+  - guide-3:5-45
+  - guide-3:5-46
+author: codex
+review:
+  status: draft

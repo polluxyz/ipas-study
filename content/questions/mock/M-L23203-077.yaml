@@ -1,0 +1,30 @@
+id: M-L23203-077
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23203
+concepts:
+  - efficient-cnn
+  - resource-aware-model-selection
+stem: 某影像專案的訓練上限為 4 GB 記憶體與 60 分鐘，驗證正確率須至少 90%。相同資料與硬體的實測為：甲需 8 GB、40 分鐘、94%；乙需 3 GB、50 分鐘、91%；丙需 2 GB、30 分鐘、86%；丁需 3 GB、90 分鐘、93%。若本輪只能採用一個既有方案，何者最適合？
+options:
+  A: 採用甲的較深卷積網路
+  B: 採用丙的較窄卷積網路
+  C: 採用丁的較長訓練方案
+  D: 採用乙的輕量卷積網路
+answer: D
+explanation:
+  summary: 應在品質與資源限制同時成立的候選中選型。
+  correct: 乙的記憶體、訓練時間與驗證正確率都符合門檻。較高分若超過資源限制，或成本較低但品質未達標，都不符合本輪採用條件。
+  wrong:
+    A: 甲的正確率較高，但 8 GB 超過訓練記憶體上限，不能以現有設定採用。
+    B: 丙雖成本較低，驗證正確率 86% 仍未達 90% 的品質要求。
+    C: 丁雖符合記憶體與品質要求，90 分鐘卻超過本輪 60 分鐘的訓練上限。
+guide_refs:
+  - guide-3:4-70
+  - guide-3:4-72
+author: codex
+review:
+  status: draft

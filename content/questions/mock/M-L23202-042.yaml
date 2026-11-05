@@ -1,0 +1,30 @@
+id: M-L23202-042
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23202
+concepts:
+  - k-means
+  - supervised-learning
+stem: 某公司用 K-means 將 2 萬名會員依交易行為分成 4 群。團隊尚未將群組連結到實際流失紀錄，主管想把其中一群直接稱為「高流失風險」。要支持這項用途，最適合補哪項證據？
+options:
+  A: 比較各群後續流失紀錄，確認群組與流失的關係
+  B: 增加 K-means 起點數，確認群內距離已降至較小
+  C: 增加 K-means 迭代數，確認各群中心已穩定
+  D: 將交易特徵重新縮放，確認各群尺寸更接近
+answer: A
+explanation:
+  summary: 行為分群不會自行產生已驗證的風險標籤。
+  correct: K-means 依輸入特徵的相似性分群，沒有使用實際流失結果。須觀察群組與後續流失的關聯，才能判斷該群是否適合被用來標示風險。
+  wrong:
+    B: 多起點可降低不佳初始化的影響，但群內距離小不代表群組有較高流失風險。
+    C: 中心穩定表示分群迭代已收斂，沒有提供任何實際流失的證據。
+    D: 縮放會改變距離與群組，群尺寸接近也不是高流失風險的定義。
+guide_refs:
+  - guide-3:4-41
+  - guide-3:4-42
+author: codex
+review:
+  status: draft
