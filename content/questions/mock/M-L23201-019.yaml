@@ -1,0 +1,40 @@
+id: M-L23201-019
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23201
+concepts:
+  - ridge-regression
+  - l2-regularization
+stem: 某需求模型使用含截距的 Ridge。工程師把每筆目標值統一加上 100，特徵與 alpha 不變。下列程式將輸出「兩次係數是否相同、截距差」。結果何者最正確？
+code: |
+  import numpy as np
+  from sklearn.linear_model import Ridge
+  X = np.array([[0.0], [1.0], [2.0], [3.0]])
+  y = np.array([1.0, 3.0, 5.0, 7.0])
+  a = Ridge(alpha=2.0, fit_intercept=True).fit(X, y)
+  b = Ridge(alpha=2.0, fit_intercept=True).fit(X, y + 100)
+  print(np.allclose(a.coef_, b.coef_))
+  print(round(float(b.intercept_ - a.intercept_), 1))
+code_lang: python
+options:
+  A: False；100.0
+  B: True；100.0
+  C: True；0.0
+  D: False；0.0
+answer: B
+explanation:
+  summary: Ridge 的截距可吸收目標值的整體平移。
+  correct: fit_intercept=True 時，此 Ridge 實作不懲罰截距。整體平移目標不改變中心化後的問題，因此係數相同，截距增加 100。
+  wrong:
+    A: 本例特徵與中心化目標的相對差異不變，係數不會因目標整體平移而改變。
+    C: 係數相同沒錯，但若截距不增加，就無法吸收目標值增加的 100。
+    D: 此結果同時忽略中心化問題不變，以及截距應吸收目標平移兩個效果。
+guide_refs:
+  - guide-3:4-15
+author: codex
+review:
+  status: verified
+  blind_answer: B

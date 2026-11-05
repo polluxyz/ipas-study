@@ -1,0 +1,39 @@
+id: M-L23203-046
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - output-loss-contract
+  - cross-entropy-loss
+stem: 某分類器保留人工標註的分歧程度，使用 [0.75,0.25] 的類別分布作為目標。工程師用以下簡例比較保留分布與取最大類別。兩種損失的關係何者最正確？
+code: |
+  import torch
+  import torch.nn.functional as F
+  z = torch.tensor([[2.0, 0.0]])
+  soft = torch.tensor([[0.75, 0.25]])
+  a = F.cross_entropy(z, soft)
+  b = F.cross_entropy(z, soft.argmax(dim=1))
+  print(round(a.item(), 4), round(b.item(), 4))
+code_lang: python
+options:
+  A: 分布損失與硬標籤損失相等
+  B: 分布損失大於硬標籤損失
+  C: 分布損失小於硬標籤損失
+  D: 分布損失與硬標籤損失皆為 0
+answer: B
+explanation:
+  summary: 把軟標籤取最大類別，會改變交叉熵要學習的分布。
+  correct: 目前預測偏向第 1 類，第 2 類的負對數機率較大。軟標籤仍分配 0.25 給第 2 類，所以損失高於只要求第 1 類的硬標籤。
+  wrong:
+    A: 交叉熵會用到全部目標質量，不只比較最大類別。
+    C: 目標為浮點分布不會自動降低樣本權重；本例反而增加損失。
+    D: 最大類別一致代表分類正確，並不代表預測機率符合目標分布。
+guide_refs:
+  - guide-3:4-62
+author: codex
+review:
+  status: verified
+  blind_answer: B

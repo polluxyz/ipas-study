@@ -1,0 +1,38 @@
+id: M-L23303-062
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - group-calibration
+  - mean-squared-error
+stem: 某團隊以 Brier 分數評估二元機率，定義為每筆 (機率−0或1真值)² 的平均，越低越好。下列 4 筆驗證資料中，甲固定輸出 0.5，乙則較能區分兩類。若乙的分數較低，哪項結論最正確？
+code: |
+  import numpy as np
+  y = np.array([0, 0, 1, 1])
+  a = np.array([0.5, 0.5, 0.5, 0.5])
+  b = np.array([0.4, 0.4, 0.6, 0.6])
+  print(round(np.mean((a-y)**2), 4), round(np.mean((b-y)**2), 4))
+code_lang: python
+options:
+  A: 乙的分數較低，表示其各分數區段更接近校準
+  B: 甲符合整體事件率，表示甲的 Brier 分數較低
+  C: 改調乙的分類門檻，可進一步降低其 Brier 分數
+  D: 乙的機率平方誤差較小，仍需另檢查校準
+answer: D
+explanation:
+  summary: 機率平方誤差同時受到校準與區分能力影響。
+  correct: 甲的 Brier 分數為 0.25，乙為 0.16。乙確實有較小的機率平方誤差，但乙的 0.4 分數對應事件率 0、0.6 分數對應事件率 1，這批觀察並未吻合預測機率。較低的單一分數不能單獨證明校準較好。
+  wrong:
+    A: Brier 分數同時反映機率與真值的距離及區分能力，較低不等同每個分數區段都吻合事件率。
+    B: 甲雖吻合整體事件率，卻沒有區分樣本；本例其平方誤差 0.25 仍高於乙的 0.16。
+    C: Brier 分數使用機率與真值，沒有使用門檻後的類別判定；只調門檻不會改變這個分數。
+guide_refs:
+  - guide-3:6-23
+  - guide-3:5-22
+author: codex
+review:
+  status: verified
+  blind_answer: D

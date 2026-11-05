@@ -1,0 +1,31 @@
+id: M-L23203-058
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23203
+concepts:
+  - multi-head-attention
+  - pytorch
+stem: 某模型使用 PyTorch MultiheadAttention，有 2 筆樣本、每筆 4 個頭，查詢長度 3、鍵長度 5。每筆樣本各有不同的「查詢位置、鍵位置」禁讀規則，同一樣本的 4 個頭共用規則。最適合如何傳入 attn_mask？
+options:
+  A: 把兩筆規則做聯集，傳入形狀 (3,5) 的共用遮罩
+  B: 保留樣本軸，直接傳入形狀 (2,3,5) 的遮罩
+  C: 按樣本順序為各頭複製規則，傳入形狀 (8,3,5) 的遮罩
+  D: 沿查詢軸彙整禁讀規則，傳入形狀 (2,5) 的遮罩
+answer: C
+explanation:
+  summary: 逐樣本且逐查詢的規則，需保留完整配對並展開頭維度。
+  correct: MultiheadAttention 的三維 attn_mask 第 1 軸是批次乘頭數。本例為 2×4=8，展開時讓同一樣本的 4 個頭取得相同規則。
+  wrong:
+    A: 二維遮罩會廣播給全部樣本，聯集會讓某筆樣本失去本來可讀取的位置。
+    B: 此介面的三維遮罩需要批次乘頭數，而不是單獨的批次大小 2。
+    D: 彙整查詢軸會遺失不同查詢的禁讀差異；該形狀也不是 attn_mask 所要求的配對格式。
+guide_refs:
+  - guide-3:4-77
+  - guide-3:4-80
+author: codex
+review:
+  status: verified
+  blind_answer: C

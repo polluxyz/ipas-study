@@ -1,0 +1,32 @@
+id: M-L23201-018
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23201
+concepts:
+  - supervised-learning
+  - reinforcement-learning
+stem: 某倉庫保留 6 萬筆「庫存狀態、資深人員採取的動作」。目前沒有各動作的後續收益，也不能進行環境試驗。第一階段只要求系統模仿人員，依狀態預測其動作類別。最符合這階段訓練訊號的設計為何？
+options:
+  A: 將動作編號當成報酬，訓練最大化編號的策略
+  B: 依狀態相似度分群，直接以群號作為人員動作
+  C: 以庫存重建誤差訓練，將最低誤差視為最佳動作
+  D: 以人員動作當標籤，最小化動作分類的預測損失
+answer: D
+explanation:
+  summary: 預測專家動作可以使用監督式訓練。
+  correct: 此階段的目標是模仿已記錄的動作，狀態是輸入、人員動作是分類標籤。這個訓練目標不需要把未知的後續收益當成獎勵。
+  wrong:
+    A: 動作編號只有類別意義，編號大小不能取代後續收益，也不符合模仿人員的目標。
+    B: 狀態群號只描述相似性，沒有建立群號與已記錄動作標籤的對應。
+    C: 重建狀態衡量表示能力，未直接學習人員在該狀態採取哪種動作。
+guide_refs:
+  - guide-3:4-5
+  - guide-3:4-9
+  - guide-3:4-10
+author: codex
+review:
+  status: verified
+  blind_answer: D

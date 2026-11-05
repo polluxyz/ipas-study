@@ -1,0 +1,43 @@
+id: M-L23301-043
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23301
+concepts:
+  - filter-feature-selection
+  - feature-scaling
+stem: 某團隊用 4 種詞的非負出現次數，做卡方特徵篩選。下列範例先做 Z 分數標準化，再呼叫 chi2。若要保留詞頻的卡方篩選意義，哪項修正最適合？
+code: |
+  import numpy as np
+  from sklearn.preprocessing import StandardScaler
+  from sklearn.feature_selection import chi2
+  X = np.array([[4, 0, 1, 0], [3, 0, 0, 1],
+                [0, 4, 1, 0], [0, 3, 0, 1]])
+  y = np.array([0, 0, 1, 1])
+  try:
+      chi2(StandardScaler().fit_transform(X), y)
+  except ValueError as error:
+      print(type(error).__name__)
+code_lang: python
+options:
+  A: 把中心化結果取絕對值，再執行卡方篩選
+  B: 把標籤也做 Z 分數標準化，再執行卡方篩選
+  C: 先對原始詞頻做卡方篩選，再處理後續模型尺度
+  D: 把中心化結果逐列做 L2 縮放，再執行卡方篩選
+answer: C
+explanation:
+  summary: 卡方詞頻篩選需要非負計數，不能直接使用中心化結果。
+  correct: chi2 用非負詞頻與類別檢查關聯。標準化會產生負值，失去計數意義並引發錯誤。先在原詞頻上篩選，後面再依分類器需求縮放，可保留篩選的意義。
+  wrong:
+    A: 取絕對值會把低於平均與高於平均的偏差合在一起，不能還原各詞的出現次數。
+    B: 問題在輸入特徵的負值，改動標籤不能修復特徵，也不適合把類別改成標準分數。
+    D: 逐列除以正的向量長度仍會保留負號，不能讓中心化資料成為非負計數。
+guide_refs:
+  - guide-3:5-5
+  - guide-3:5-7
+author: codex
+review:
+  status: verified
+  blind_answer: C
