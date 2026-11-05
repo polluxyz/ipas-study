@@ -1,0 +1,30 @@
+id: M-L23202-044
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23202
+concepts:
+  - support-vector-machine
+  - classification-model-selection
+stem: 某檢測團隊以 2 個已縮放特徵區分正常與異常。正常樣本集中在中央，異常樣本分布於外圍環狀區域。團隊只比較支援向量機，且暫不另外設計特徵。若希望模型能表達這種封閉的非線性邊界，下列方案何者最適合？
+options:
+  A: 採線性核，增加對分類錯誤的懲罰係數
+  B: 採線性核，調整兩個類別的樣本權重
+  C: 採線性核，將決策分數的判定門檻上移
+  D: 採徑向基底核，驗證非線性邊界的效果
+answer: D
+explanation:
+  summary: 核函數的選擇決定支援向量機能表達的邊界形狀。
+  correct: 徑向基底核可形成彎曲且封閉的分類區域，適合優先驗證中央與外圍環狀的分界。仍須用保留資料選擇參數，不能只依訓練結果判定。
+  wrong:
+    A: 懲罰係數會改變線性邊界對錯誤的取捨，但不會讓直線包住中央區域。
+    B: 類別權重可調整不同類別的錯誤代價，線性核的邊界仍是直線。
+    C: 改門檻會移動線性分界，不能把直線變成封閉曲線。
+guide_refs:
+  - guide-3:4-28
+  - guide-3:4-29
+author: codex
+review:
+  status: draft
