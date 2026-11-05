@@ -3,7 +3,7 @@ rev: 1
 source: mock
 subject: 1
 type: 情境
-codes: [L21101]
+codes: [L21301, L21101]
 concepts: [text-classification, data-leakage]
 stem: |
   某客服平台要在收到第一封來信時，立即分派到 4 個部門。離線測試以歷史結案工單為輸入，包含來信與後來的客服回覆，準確率達 98%。人工發現回覆常直接寫出承辦部門。若要評估收到來信當下的分流能力，最適合如何修正測試輸入？
