@@ -31,10 +31,11 @@ explanation:
   wrong:
     A: LayerNorm(2) 只涵蓋最後一軸的 2 個特徵，不會跨詞位置計算統計。
     B: 正規化包含減去平均值。對該詞所有特徵加相同常數，會在中心化時消除。
-    D: LayerNorm 在訓練與評估模式都會使用輸入統計；eval 不會停用此層。
+    D: 本例每個詞的 2 個特徵正規化後約為 [-1, 1]。正規化讓平均值為 0，不代表各特徵都接近 0。
 guide_refs:
   - guide-3:4-81
   - guide-3:4-92
 author: codex
 review:
-  status: draft
+  status: verified
+  blind_answer: C
