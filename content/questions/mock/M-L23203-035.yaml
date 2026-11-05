@@ -1,0 +1,41 @@
+id: M-L23203-035
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - layer-normalization
+  - pytorch
+stem: 某文字模型的張量依序是批次、詞位置、特徵。工程師用以下簡例檢查 LayerNorm(2) 的統計範圍。只把第 2 個詞的 2 個特徵都加上 100，且不含可學習仿射參數。哪項判斷最正確？
+code: |
+  import torch
+  ln = torch.nn.LayerNorm(2, elementwise_affine=False)
+  ln.eval()
+  x = torch.tensor([[[1.0, 3.0], [2.0, 6.0]]])
+  changed = x.clone()
+  changed[:, 1, :] += 100
+  print(torch.allclose(ln(x), ln(changed)))
+  print(ln(x).round(decimals=3).tolist())
+code_lang: python
+options:
+  A: 第 1 個詞輸出改變；第 2 個詞輸出不變
+  B: 第 1 個詞輸出不變；第 2 個詞輸出增加 100
+  C: 第 1 個詞輸出不變；第 2 個詞輸出不變
+  D: 第 1 個詞輸出接近 0；第 2 個詞輸出接近 0
+answer: C
+explanation:
+  summary: 層正規化的 normalized_shape 決定統計軸。
+  correct: 每個詞各自減去其特徵平均，再除以尺度。第 2 個詞整體平移不改變中心化結果，也不影響第 1 個詞。
+  wrong:
+    A: LayerNorm(2) 只涵蓋最後一軸的 2 個特徵，不會跨詞位置計算統計。
+    B: 正規化包含減去平均值。對該詞所有特徵加相同常數，會在中心化時消除。
+    D: 本例每個詞的 2 個特徵正規化後約為 [-1, 1]。正規化讓平均值為 0，不代表各特徵都接近 0。
+guide_refs:
+  - guide-3:4-81
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: C

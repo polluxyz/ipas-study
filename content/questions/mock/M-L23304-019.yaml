@@ -1,0 +1,31 @@
+id: M-L23304-019
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - hyperparameter-tuning
+  - hyperparameter-search
+stem: 某團隊只可試驗 24 個學習率，搜尋範圍是 0.00001 到 0.1。初步實驗顯示不同數量級都有可能出現好結果，團隊希望每個十倍區間獲得相近的抽樣機會。最適合採哪種取樣？
+options:
+  A: 在原始學習率範圍內做均勻隨機取樣
+  B: 以範圍中點為中心，做窄幅常態隨機取樣
+  C: 先均勻取樣原始學習率，再將結果排序
+  D: 在學習率的對數範圍內做均勻隨機取樣
+answer: D
+explanation:
+  summary: 跨數量級的正值參數，可依倍數尺度分配搜尋預算。
+  correct: 對數座標中每個十倍區間寬度相同，因此對數均勻抽樣符合題目要求。
+  wrong:
+    A: 原始尺度均勻抽樣會依區間寬度分配機會，較大的十倍區間占去多數預算。
+    B: 中點附近的窄幅分布會集中在特定尺度，不能給各十倍區間相近機會。
+    C: 排序只改變試驗順序，不會改變不同區間被抽中的機率。
+guide_refs:
+  - guide-3:5-30
+  - guide-3:5-31
+author: codex
+review:
+  status: verified
+  blind_answer: D

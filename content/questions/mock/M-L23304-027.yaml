@@ -1,0 +1,31 @@
+id: M-L23304-027
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - hyperparameter-search
+  - learning-curve
+stem: 某搜尋流程先讓 30 組配置各訓練 3 輪，只保留前 10 組續訓。歷史曲線顯示，部分低學習率配置在第 8 輪才開始超越其他配置。團隊要降低這類配置被過早淘汰的機會，最適合如何修改？
+options:
+  A: 把首輪淘汰比例提高，讓較多預算集中到早期領先者
+  B: 把首輪排序改成訓練損失，保留原本的 3 輪預算
+  C: 把每個配置的亂數種子固定，保留原本的 3 輪預算
+  D: 延長每個配置的最低訓練預算，再開始分階段淘汰
+answer: D
+explanation:
+  summary: 早期表現不足以排名慢速收斂的超參數配置。
+  correct: 最低預算需涵蓋足以觀察收斂差異的階段。延後首次淘汰可降低只因起步較慢而被排除的風險，代價是初期成本增加。
+  wrong:
+    A: 淘汰更多配置會增加慢速起步候選被移除的機會。
+    B: 訓練損失不代表驗證品質，也沒有讓慢速配置走到可比較的訓練階段。
+    C: 固定種子可改善重現性，但仍只觀察 3 輪，無法看見第 8 輪後的潛力。
+guide_refs:
+  - guide-3:5-30
+  - guide-3:5-31
+author: codex
+review:
+  status: verified
+  blind_answer: D

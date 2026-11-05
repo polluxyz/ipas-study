@@ -1,0 +1,42 @@
+id: M-L23203-036
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - dropout
+  - pytorch
+stem: 某模型以函式形式加入 Dropout。以下在 eval 模式輸入 1000 個 1，輸出仍有 0 與 2。需求是訓練時隨機丟棄、評估時原值通過。最適合如何修改 forward 內的呼叫？
+code: |
+  import torch
+  import torch.nn.functional as F
+  class Net(torch.nn.Module):
+      def forward(self, x):
+          return F.dropout(x, p=0.5)
+  torch.manual_seed(7)
+  model = Net().eval()
+  y = model(torch.ones(1000))
+  print(sorted(y.unique().tolist()))
+code_lang: python
+options:
+  A: 保留呼叫參數，並在 forward 外包住 torch.no_grad()
+  B: 保留呼叫參數，並將 x 設為 requires_grad=False
+  C: 改成 F.dropout(x, p=0.5, training=True)
+  D: 改成 F.dropout(x, p=0.5, training=self.training)
+answer: D
+explanation:
+  summary: 函式形式的 Dropout 需明確接上模組的訓練狀態。
+  correct: 函式的預設 training=True 不會自動讀取父模組狀態。傳入 self.training 後，train 啟用丟棄，eval 原值通過。
+  wrong:
+    A: no_grad 不控制 Dropout 的隨機行為，函式仍沿用 training=True 的預設值。
+    B: 輸入是否追蹤梯度不決定 Dropout 模式，評估輸出仍會隨機丟棄。
+    C: 固定 True 會使評估時也丟棄，無法隨 train 與 eval 切換。
+guide_refs:
+  - guide-3:4-64
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: D
