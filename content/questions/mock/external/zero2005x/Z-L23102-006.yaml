@@ -1,0 +1,48 @@
+id: Z-L23102-006
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23102
+concepts:
+  - svd
+  - pca
+stem: 某推薦系統工程師欲對使用者-商品評分矩陣（高維稀疏矩陣）進行矩陣分解以萃取潛在特徵（Latent Factors）。在比較標準 PCA 與截斷奇異值分解（TruncatedSVD）時，下列敘述何者最為正確？
+options:
+  A: 奇異值矩陣 $\Sigma$ 的對角線元素（奇異值）可能為負數，其絕對值最小者代表最主要的資料變異方向
+  B: TruncatedSVD 與標準 PCA 一樣，必須先中心化全部欄位，再把稀疏輸入轉為稠密矩陣才能求解
+  C: 採用支援稀疏矩陣且不要求全域中心化的 TruncatedSVD
+  D: SVD 只能分解正方形且可逆的方陣，若資料筆數不等於特徵數則無法執行分解
+answer: C
+explanation:
+  summary: 截斷 SVD 可直接利用稀疏結構。
+  correct: TruncatedSVD 不先減去各欄平均，可避免中心化使大量零元素變成非零，適合文字與評分等稀疏矩陣。
+  wrong:
+    A: 奇異值不小於 0；通常優先保留大的奇異值來近似主要訊號。
+    B: TruncatedSVD 不必先把稀疏輸入全部轉成稠密矩陣。
+    D: SVD 可分解長方形矩陣，也不要求矩陣可逆。
+guide_refs:
+  - guide-3:3-14
+  - guide-3:5-6
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch02.md
+  original_id: SIM-L23102-006
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: A
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

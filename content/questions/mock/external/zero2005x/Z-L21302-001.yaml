@@ -1,0 +1,48 @@
+id: Z-L21302-001
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - release-strategies
+  - model-monitoring
+stem: 某金融機構欲將新版反詐欺模型上線，該模型直接影響客戶交易是否被攔截。風控部門要求在不影響現有客戶體驗的前提下，先驗證新模型在真實流量下的表現差異。下列部署策略何者最為適當？
+options:
+  A: 藍綠部署，一次性將全部流量切至新模型，若有問題再切回
+  B: 直接以離線測試集的 AUC提升作為上線依據，無須線上驗證
+  C: 影子部署：新舊模型接收真實流量，只讓舊模型結果生效
+  D: 將新模型部署於開發環境，以合成資料進行壓力測試後即可上線
+answer: C
+explanation:
+  summary: 影子部署讓新模型觀察真實流量而不接管決策。
+  correct: 將真實請求副本交給新模型，只讓舊模型的結果生效，可比較線上差異而不改變客戶判定。副本處理仍需與主路徑隔離。
+  wrong:
+    A: 一次切換會使客戶立刻承受新模型的影響，不能滿足先觀察再接管的要求。
+    B: 離線 AUC 提升不能完整反映線上延遲、資料與實際交易影響。
+    D: 合成壓測可檢查負載，但無法代替真實流量上的行為比較。
+guide_refs:
+  - guide-1:5-19
+  - guide-1:5-21
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch09.md
+  original_id: SIM-L21302-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    B: C
+    D: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析

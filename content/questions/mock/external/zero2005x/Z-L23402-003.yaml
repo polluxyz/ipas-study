@@ -1,0 +1,46 @@
+id: Z-L23402-003
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23402
+concepts:
+  - explainable-ai
+stem: 某銀行的授信模型被客戶申訴，客戶詢問「我要怎麼做才能通過核准」。下列可解釋性工具何者最能直接回應此需求？
+options:
+  A: 反事實解釋，例如指出收入需增加多少才會改判核准
+  B: 部分依賴圖，提供各特徵變動時全體樣本的平均預測曲線，直接把平均曲線當成這位客戶的核准條件
+  C: 模型的整體準確率報告
+  D: 全域特徵重要性排行
+answer: A
+explanation:
+  summary: 反事實解釋回答哪些可行改變會讓個案決策不同。
+  correct: 反事實解釋能提出模型下的條件改變，直接對應客戶如何改善申請。還需檢查可行性，且不能當作現實因果保證。
+  wrong:
+    B: 部分依賴圖是平均趨勢，不能直接替代個別申請的變更條件。
+    C: 整體正確比例不會說明這位客戶被拒的原因或改善方向。
+    D: 整體重要性排行不能直接給出這位客戶需要改變多少。
+guide_refs:
+  - guide-3:5-15
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch12.md
+  original_id: SIM-L23402-003
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

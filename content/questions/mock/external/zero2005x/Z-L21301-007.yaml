@@ -1,0 +1,48 @@
+id: Z-L21301-007
+rev: 2
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21301
+concepts:
+  - target-encoding
+  - data-leakage
+  - k-fold-cross-validation
+stem: 某電商團隊進行「商品點擊率（CTR）預測」建模，特徵中包含「商品細分類別」（共 500 個類別，屬高基數類別特徵）。初階工程師在資料切分前，直接以全體資料計算每個類別的目標點擊率平均值，作為新特徵取代原始類別（即全域目標編碼 Target Encoding），再切分訓練集與測試集。模型在離線驗證時表現驚人，上線推論時效果卻嚴重雪崩。造成此現象的核心原因與標準處置為何？
+options:
+  A: 先切分，再以全訓練集標籤計算均值，回填同批訓練列即可避免洩漏
+  B: 先切分並做折外編碼，再以含測試標籤的全資料選定平滑強度
+  C: 保留全資料的類別均值，加入適量隨機雜訊後再切分訓練與測試集
+  D: 先切分，訓練資料用折外目標編碼，並加入平滑與適量雜訊
+answer: D
+explanation:
+  summary: 目標編碼不能看到待評估資料的標籤。
+  correct: 全資料類別均值含測試標籤，造成資訊洩漏。應先切測試集；訓練列用其他訓練折估計編碼，測試列只用訓練集映射。平滑可降低稀有類別估值的不穩定。
+  wrong:
+    A: 切分可隔離測試標籤，但同批訓練列的均值仍含各列自己的標籤，稀有類別尤其容易過擬合。訓練列需由其他折估計編碼，測試列才使用全訓練集建立的映射。
+    B: 折外編碼不能抵銷後續調參所用的測試標籤。平滑強度應在訓練資料內驗證選定，測試集保留作最終評估。
+    C: 雜訊可作正則化，但無法移除均值已含的測試標籤資訊。應先切分，再在訓練資料內建立編碼。
+guide_refs:
+  - guide-1:5-6
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch08.md
+  original_id: SIM-L21301-007
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    C: B
+    D: C
+    B: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；將 A、B、C 改為同批回填、用測試標籤調平滑強度、用雜訊處理全資料編碼的流程錯誤，並同步解析

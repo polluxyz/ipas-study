@@ -1,0 +1,48 @@
+id: Z-L23303-005
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23303
+concepts:
+  - recall
+  - cost-sensitive-loss
+stem: 某醫療篩檢模型的漏檢（未檢出真正病患）後果嚴重，而誤報僅需增加一次複檢。若模型目前使用預設閾值 0.5，下列調整何者最為適當？
+options:
+  A: 調低閾值至 0.3，以提高召回率，並以複檢流程承接增加的誤報
+  B: 維持 0.5，因其為統計上的最佳值
+  C: 改以準確率作為唯一驗收指標
+  D: 把閾值由 0.5 調高至 0.8，優先減少需要複檢的警示，以較高精確率取代漏檢風險的控制
+answer: A
+explanation:
+  summary: 漏檢成本較高時，可降低閾值並監控新增誤報。
+  correct: 較低閾值會納入更多疑似病患，召回率可提高或維持。新增誤報需由複檢承接，實際閾值仍以驗證成本決定。
+  wrong:
+    B: 0.5 是常用預設，不能取代錯誤成本與資料分布的分析。
+    C: 只看準確率會掩蓋低盛行率下的重要漏檢。
+    D: 較高閾值更嚴格，通常會增加漏檢風險。
+guide_refs:
+  - guide-3:5-21
+  - guide-3:5-22
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch09.md
+  original_id: SIM-L23303-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: D
+    B: A
+    C: B
+    D: C
+  modified: 選項重排；補寫干擾項細節，平衡選項長度；解析逐項重寫

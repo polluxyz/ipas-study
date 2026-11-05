@@ -1,0 +1,29 @@
+id: M-L23103-009
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23103
+concepts:
+  - gradient-descent
+stem: 某工程師使用不含動量與正則化的普通梯度下降，原本最小化 L(w)，學習率為 0.04。現在僅把整個目標改成 J(w)=4L(w)，並要求從相同初始值出發，每次參數更新與原本完全一致。應將學習率改成多少？
+options:
+  A: "0.040"
+  B: "0.010"
+  C: "0.0025"
+  D: "0.160"
+answer: B
+explanation:
+  summary: 目標整體縮放會同比例縮放梯度。
+  correct: J 的梯度是 L 的 4 倍。為使學習率與梯度的乘積不變，新學習率需為 0.04/4=0.01。題目限定普通梯度下降，因此沒有其他自適應機制。
+  wrong:
+    A: 保留學習率時，梯度已放大 4 倍，更新量也會放大 4 倍。
+    C: 這相當於將學習率除以 16。乘上放大 4 倍的梯度後，更新量只剩原來的四分之一。
+    D: 將學習率也乘 4，會使更新量變為原來的 16 倍。
+guide_refs:
+  - guide-3:3-23
+author: codex
+review:
+  status: verified
+  blind_answer: B
