@@ -24,7 +24,6 @@ explanation:
     D: 增加分類層容量不會改變批次樣本來自哪些機台，因此沒有改善統計的代表性。
 guide_refs:
   - guide-3:3-27
-  - guide-3:4-81
 author: codex
 review:
   status: draft
