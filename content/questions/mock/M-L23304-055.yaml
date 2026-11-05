@@ -8,7 +8,7 @@ codes:
 concepts:
   - grid-search
   - recall
-stem: 某工廠以 GridSearchCV 比較 12 組二元分類設定，以瑕疵為正類，同時記錄 accuracy 與 recall。瑕疵召回率是這輪唯一的選模指標，準確率只供報表參考。目前 scoring={"acc":"accuracy","rec":"recall"}、refit="acc"、cv=3、n_jobs=1。其中 refit 的字串指定用哪個指標選出最佳設定並重訓。若要讓實作符合這輪目標，哪項調整最適合？
+stem: 某工廠以 GridSearchCV 比較 12 組二元分類設定，以瑕疵為正類，同時記錄 accuracy 與 recall。瑕疵召回率是這輪唯一的選模指標，準確率只供報表參考。目前 scoring={"acc":"accuracy","rec":"recall"}、refit="acc"、cv=3、n_jobs=1。若要讓實作符合這輪目標，哪項調整最適合？
 options:
   A: 將 refit 改為 "rec"，保留雙指標評分
   B: 將 scoring 內的 "rec" 項目排到最前面
