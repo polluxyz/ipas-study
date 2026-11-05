@@ -1,0 +1,29 @@
+id: M-L23101-024
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23101
+concepts:
+  - normal-uniform-distributions
+stem: 某裝置的誤差 X 服從平均 0、標準差 2 的常態分布。新驗收規則要求 |X|≤4 才合格。已知標準常態變數 Z 的 P(Z≤2)=0.97725，分布左右對稱。單次量測不合格的機率最接近多少？
+options:
+  A: 1.14%
+  B: 2.28%
+  C: 4.55%
+  D: 95.45%
+answer: C
+explanation:
+  summary: 雙側誤差門檻須加總正負兩端的常態尾端機率。
+  correct: 將門檻標準化為 ±4/2=±2，右尾機率為 1−0.97725=0.02275。左尾相同，因此不合格機率為 2×0.02275=0.0455，即 4.55%。
+  wrong:
+    A: 1.14% 約是單側尾機率再除以 2；本題要求兩側超標的總機率。
+    B: 2.28% 只計算 X>4 的右尾，漏掉 X<−4 的左尾。
+    D: 95.45% 是落在 −4 到 4 的合格機率，題目要求不合格機率。
+guide_refs:
+  - guide-3:3-4
+author: codex
+review:
+  status: verified
+  blind_answer: C

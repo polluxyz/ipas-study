@@ -1,0 +1,31 @@
+id: M-L23304-061
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - dropout
+  - underfitting
+stem: 某影像模型只把 Dropout 的丟棄機率由 0.2 提高到 0.8。資料、網路與學習率相同，兩組均訓練至曲線穩定，且評估時都關閉 Dropout。訓練集準確率由 96% 降至 73%，驗證集由 91% 降至 72%，兩者損失仍高。若下一輪只調 Dropout，哪個方向最適合優先測試？
+options:
+  A: 將丟棄機率提高到 0.9
+  B: 讓驗證時也沿用丟棄機率 0.8
+  C: 讓每輪後段改用丟棄機率 0.95
+  D: 將丟棄機率降低到 0.4
+answer: D
+explanation:
+  summary: 過強的 Dropout 可能同時壓低訓練與驗證表現。
+  correct: 提高丟棄率後，連關閉 Dropout 評估的訓練集也明顯變差，且曲線已穩定，支持正則化過強的判斷。降低至較溫和的機率可測試是否恢復學習能力；最終數值仍須用驗證結果決定。
+  wrong:
+    A: 目前不是訓練表現很好但驗證差，而是兩者都差。繼續加強丟棄通常會加重學習受限。
+    B: 驗證時加入隨機遮罩會改變評估流程，沒有改善訓練時過度丟棄造成的學習問題。
+    C: 後段提高至 0.95 會在訓練收斂階段施加更強限制，與目前兩者都欠佳的線索不符。
+guide_refs:
+  - guide-3:5-45
+  - guide-3:5-46
+author: codex
+review:
+  status: verified
+  blind_answer: D

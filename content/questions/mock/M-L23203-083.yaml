@@ -1,0 +1,40 @@
+id: M-L23203-083
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - embedding-representation
+  - pytorch
+stem: 某工單模型以整數索引查詢嵌入表，輸入共有 2 句、每句 3 個詞。工程師將嵌入表設成容易辨識的數列。下列程式印出的輸出形狀與第 2 句第 1 個詞向量，何者最正確？
+code: |
+  import torch
+  emb = torch.nn.Embedding(4, 2)
+  with torch.no_grad():
+      emb.weight.copy_(torch.arange(8.0).reshape(4, 2))
+  ids = torch.tensor([[0, 2, 1], [3, 1, 0]])
+  z = emb(ids)
+  print(tuple(z.shape), z[1, 0].tolist())
+code_lang: python
+options:
+  A: 形狀 (2,3,4)；向量 [6,7]
+  B: 形狀 (2,2,3)；向量 [4,5]
+  C: 形狀 (2,3,2)；向量 [6,7]
+  D: 形狀 (2,3,2)；向量 [4,5]
+answer: C
+explanation:
+  summary: 嵌入查表在索引形狀後增加向量軸，索引值則指定權重列。
+  correct: 4 表示可查詢的索引數，2 才是向量寬度，因此輸出為 (2,3,2)。z[1,0] 對應索引 3，取得嵌入表第 3 列 [6,7]，索引從 0 起算。
+  wrong:
+    A: 把詞彙數 4 當成向量寬度；本層每個索引只輸出 2 個特徵。
+    B: 本層保留原本的句子與詞位置軸，並在最後增加特徵軸，不會交換兩軸。
+    D: "[4,5] 屬於索引 2；本題要求的位置存放索引 3。"
+guide_refs:
+  - guide-3:3-12
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: C
