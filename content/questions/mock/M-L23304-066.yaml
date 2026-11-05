@@ -1,38 +1,32 @@
 id: M-L23304-066
-rev: 1
+rev: 2
 source: mock
 subject: 3
-type: 程式
+type: 情境
 codes:
   - L23304
 concepts:
-  - dropout
-  - pytorch
-stem: 某團隊把使用 PyTorch Dropout 的模型切到一般推論流程。PyTorch 在訓練時已對保留的輸出做期望值補償；此處不做隨機不確定性估計。工程師執行以下程式，輸出最接近哪項？
-code: |
-  import torch
-  layer = torch.nn.Dropout(p=0.25)
-  layer.eval()
-  x = torch.tensor([2.0, 4.0])
-  print(layer(x).tolist())
-code_lang: python
+  - elastic-net
+  - l1-regularization
+  - l2-regularization
+stem: 某團隊以已統一尺度的感測特徵建立線性迴歸模型。只用 L1 懲罰時，相關特徵的入選名單隨資料切分明顯改變；只用 L2 懲罰時，係數較穩定，卻仍保留許多無用特徵。團隊希望兼顧稀疏篩選與相關特徵的係數穩定性。下一輪最適合優先比較哪項設定？
 options:
-  A: "[0.5, 1.0]"
-  B: "[1.5, 3.0]"
-  C: "[2.0, 4.0]"
-  D: "[2.67, 5.33]"
+  A: 維持純 L1 懲罰，搜尋更大的係數以加強稀疏篩選
+  B: 維持純 L2 懲罰，搜尋更大的係數以加強權重收縮
+  C: 合用 L1 與 L2 懲罰，聯合搜尋兩項懲罰的係數
+  D: 移除 L1 與 L2 懲罰，改以最小訓練誤差選取模型
 answer: C
 explanation:
-  summary: PyTorch 的一般推論模式會停用 Dropout，無須再次縮放。
-  correct: eval() 讓 Dropout 成為不改變輸入的運算，因此輸出仍為 [2.0,4.0]。訓練時除以保留率的縮放已由套件處理，推論時再乘 0.75 會重複補償。
+  summary: 需要稀疏篩選與係數穩定時，可聯合調整 L1 與 L2 懲罰。
+  correct: Elastic Net 同時使用 L1 與 L2。L1 提供係數歸零的篩選效果，L2 則緩和相關特徵造成的係數不穩。這符合兩組實驗各自揭露的限制。兩個係數仍須依驗證結果調整，不能保證所有相關特徵都會保留。
   wrong:
-    A: 這是把輸入乘丟棄率 0.25 的結果，丟棄率不是一般推論時應乘的係數。
-    B: 這是把輸入再乘保留率 0.75 的結果。PyTorch 採訓練時補償，推論時不用再乘保留率。
-    D: 這是推論時再除以保留率 0.75 的結果，重複套用了訓練時的放大補償。eval 模式不會再執行這項縮放。
+    A: 加強 L1 可增加稀疏程度，但沒有加入穩定相關係數的 L2 限制；也可能刪去重要訊息。
+    B: 加強 L2 可進一步收縮係數，但不提供 L1 式的稀疏篩選，無法同時回應兩項需求。
+    D: 移除懲罰後，既沒有稀疏限制，也失去係數收縮的穩定作用。訓練誤差最低不能代替驗證表現。
 guide_refs:
+  - guide-3:5-44
   - guide-3:5-45
-  - guide-3:5-46
 author: codex
 review:
-  status: verified
+  status: draft
   blind_answer: C

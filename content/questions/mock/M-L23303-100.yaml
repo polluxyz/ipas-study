@@ -1,5 +1,5 @@
 id: M-L23303-100
-rev: 1
+rev: 2
 source: mock
 subject: 3
 type: 程式
@@ -7,30 +7,34 @@ codes:
   - L23303
 concepts:
   - mini-batch-gradient-descent
-stem: 某模型每輪要使用 100 筆訓練資料，批次上限為 32 筆。每個批次更新 1 次參數，最後不足 32 筆也保留。以下程式模擬批次大小。若完成 5 輪，參數共更新幾次？
+  - mean-squared-error
+stem: 某工程師把固定模型的 5 筆驗證資料分成 3 批，驗證期間不更新參數。程式中的 errors 是各批逐筆殘差，batch_mse 是各批均方誤差。若報表要求全部 5 筆的均方誤差，應採哪種彙總？
 code: |
-  sizes = [len(range(start, min(start + 32, 100)))
-           for start in range(0, 100, 32)]
+  errors = [[0., 2.], [1., 3.], [6.]]
+  sizes = [len(batch) for batch in errors]
+  batch_mse = [sum(e * e for e in batch) / len(batch)
+               for batch in errors]
   print(sizes)
-  print(len(sizes) * 5)
+  print(batch_mse)
 code_lang: python
 options:
-  A: 15 次
-  B: 16 次
-  C: 19 次
-  D: 20 次
+  A: 各批均方誤差直接加總，除以總筆數，得到 8.60
+  B: 各批均方誤差直接加總，除以批次數，得到 14.33
+  C: 各批均方誤差乘該批筆數後加總，除以批次數，得到 16.67
+  D: 各批均方誤差乘該批筆數後加總，除以總筆數，得到 10.00
 answer: D
 explanation:
-  summary: 最後一個不完整批次仍會觸發參數更新。
-  correct: 每輪批次大小是 [32,32,32,4]，因此每輪更新 4 次，5 輪共 20 次。最後 4 筆雖少於批次上限，仍依題意保留並更新。
+  summary: 彙總不等大批次的均方誤差，須先還原各批平方誤差和。
+  correct: 程式印出批次筆數 [2,2,1] 與均方誤差 [2.0,5.0,36.0]。各批均方誤差乘該批筆數後，得到平方誤差和 4、10、36。全部平方誤差和為 50，除以 5 筆即為 10。直接平均各批數值會讓尾批單筆獲得過大的權重。
   wrong:
-    A: 15 次相當於每輪只算 3 個完整批次，漏掉各輪最後 4 筆。
-    B: 16 次相當於把各輪合併成 500 筆後才分批，與每輪重新分批不同。
-    C: 19 次仍少計 1 次；本例每輪最後的小批次都需要更新。
+    A: 分子 2+5+36 已經包含各批自己的平均，不能再直接除以 5；須先乘回各批筆數。
+    B: 14.33 是每批等權的平均，尾批只有 1 筆，卻與前兩批各占相同權重，不是逐筆等權的均方誤差。
+    C: 分子已正確還原成 50，但分母用了 3 批。均方誤差的分母應是全部 5 筆觀測值。
 guide_refs:
-  - guide-3:5-18
   - guide-3:5-19
+  - guide-3:5-22
+  - guide-3:5-23
 author: codex
 review:
-  status: verified
+  status: draft
   blind_answer: D
