@@ -1,0 +1,39 @@
+id: M-L23203-091
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - pooling
+  - pytorch
+stem: 某影像模型用平均池化處理邊界。單通道 2×2 特徵都是 4，視窗為 3×3，四周補 1 格零。工程師比較是否把補零格納入平均分母。下列程式左上角 a、b 的值最接近何者？
+code: |
+  import torch
+  import torch.nn.functional as F
+  x = torch.full((1, 1, 2, 2), 4.0)
+  a = F.avg_pool2d(x, 3, stride=1, padding=1, count_include_pad=True)
+  b = F.avg_pool2d(x, 3, stride=1, padding=1, count_include_pad=False)
+  print(round(a[0, 0, 0, 0].item(), 3), b[0, 0, 0, 0].item())
+code_lang: python
+options:
+  A: a 約 4.000；b 約 4.000
+  B: a 約 4.000；b 約 1.778
+  C: a 約 1.778；b 約 4.000
+  D: a 約 1.778；b 約 1.778
+answer: C
+explanation:
+  summary: 平均池化在邊界的分母，取決於是否納入補零位置。
+  correct: 左上角視窗包含 4 個有效值與 5 個補零，總和為 16。納入補零時除以 9，約為 1.778；排除補零時除以 4，得到 4。
+  wrong:
+    A: a 明確設定納入補零，分母為整個 3×3 視窗的 9 格，不能只除以 4。
+    B: 此項顛倒 count_include_pad 的作用；True 才會把補零位置納入分母。
+    D: b 只計算有效位置的平均，分母為 4，不會與 a 同樣除以 9。
+guide_refs:
+  - guide-3:4-68
+  - guide-3:4-69
+author: codex
+review:
+  status: verified
+  blind_answer: C

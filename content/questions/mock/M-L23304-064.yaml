@@ -1,0 +1,31 @@
+id: M-L23304-064
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - early-stopping
+  - train-val-test-split
+stem: 某工程師設定 EarlyStopping(monitor="val_loss", mode="min", patience=2)，卻在 model.fit 中只提供訓練資料。每輪紀錄僅有 loss，並出現找不到 val_loss 的提示。即使訓練損失連續 5 輪停滯，訓練仍繼續。若目標是依未參與梯度更新的資料決定早停，最適合如何處理？
+options:
+  A: 在 fit 提供獨立驗證資料作為 validation_data
+  B: 將 monitor 改為 "loss" 並沿用訓練資料
+  C: 將 patience 改為 0 並沿用目前資料輸入
+  D: 將 mode 改為 "auto" 並沿用目前資料輸入
+answer: A
+explanation:
+  summary: 早停必須取得指定的監控指標，才能比較是否改善。
+  correct: 只有訓練資料時，fit 不會憑空產生驗證損失。提供與梯度更新資料分開的 validation_data，才能在每輪取得 val_loss，讓早停依驗證表現作決策。這份驗證資料仍不能取代最終獨立測試。
+  wrong:
+    B: 改監控 loss 可讀到訓練損失，但訓練損失不符合本例要以未參與梯度更新資料決定早停的目的。
+    C: 縮短容忍次數仍需先取得 val_loss；缺少監控資料時，改 patience 不會建立驗證結果。
+    D: auto 用來推斷指標應增大或減小，不會替 fit 產生缺少的驗證資料與 val_loss。
+guide_refs:
+  - guide-3:5-19
+  - guide-3:5-46
+author: codex
+review:
+  status: verified
+  blind_answer: A

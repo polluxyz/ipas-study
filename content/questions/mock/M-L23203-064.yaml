@@ -1,0 +1,29 @@
+id: M-L23203-064
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L23203
+concepts:
+  - cnn-architectures
+stem: 某外觀分類器需同時辨識直徑約 5 像素的污點與約 30 像素的斑塊。團隊希望同一層直接結合不同觀察尺度，硬體也容許平行分支。下列哪項架構設計最符合需求？
+options:
+  A: 在同一層重複使用相同大小的卷積分支
+  B: 在同一層結合不同大小的卷積與池化分支
+  C: 在同一層增加相同卷積分支的輸出通道
+  D: 在同一層加入固定比例的隨機單元遮蔽
+answer: B
+explanation:
+  summary: 多尺度分支可在同一層彙整不同範圍的特徵。
+  correct: 不同大小的卷積與池化分支可觀察不同範圍，再結合輸出，符合同層處理小污點與大斑塊的需求。這也是 Inception 的主要設計方向。
+  wrong:
+    A: 相同大小的分支可學到不同模式，但沒有直接提供題目要求的不同觀察尺度。
+    C: 增加通道可增加特徵種類，單獨這項調整不會改變卷積分支的空間觀察範圍。
+    D: 隨機遮蔽用於減少單元依賴，不會建立不同大小的空間觀察分支。
+guide_refs:
+  - guide-3:4-71
+author: codex
+review:
+  status: verified
+  blind_answer: B

@@ -1,0 +1,37 @@
+id: M-L23304-060
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - l2-regularization
+stem: 某工程師檢查 SGD 的權重衰減是否會影響負權重。以下沒有動量，資料損失給出的梯度為 -1；更新式為 w←w−lr×(資料梯度＋weight_decay×w)。執行 1 次更新後，列印值最接近哪項？
+code: |
+  import torch
+  w = torch.nn.Parameter(torch.tensor(-2.0))
+  opt = torch.optim.SGD([w], lr=0.1, weight_decay=0.5)
+  w.grad = torch.tensor(-1.0)
+  opt.step()
+  print(round(w.item(), 2))
+code_lang: python
+options:
+  A: "-2.20"
+  B: "-2.10"
+  C: "-1.90"
+  D: "-1.80"
+answer: D
+explanation:
+  summary: 權重衰減的方向由權重符號決定，再與資料梯度合併。
+  correct: weight_decay×w=0.5×(-2)=-1，加上資料梯度 -1 後為 -2。更新得到 -2-0.1×(-2)=-1.8。對負權重，收縮項會把數值往 0 推進，而非固定往負方向推。
+  wrong:
+    A: 這相當於把負的總梯度當成應往負方向移動；梯度下降是減去梯度，方向相反。
+    B: 這是把資料梯度當成更新方向、直接加上 -0.1 的結果，且漏掉衰減項。梯度下降須先合併梯度，再減去更新量。
+    C: -1.90 是只使用資料梯度的結果，漏掉了本步的權重衰減。
+guide_refs:
+  - guide-3:5-44
+author: codex
+review:
+  status: verified
+  blind_answer: D
