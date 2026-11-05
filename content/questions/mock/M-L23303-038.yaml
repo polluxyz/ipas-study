@@ -1,0 +1,39 @@
+id: M-L23303-038
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - roc-auc
+  - model-comparison
+stem: 某設備警報系統要求假陽率不超過 0.01，再選真陽率最高的模型。甲、乙的整體 ROC-AUC 分別是 0.96、0.92。已掃描各自門檻，程式列出符合上限時最高的真陽率。依此驗收規則，最適合選哪個模型？
+code: |
+  points = {
+      "甲": [(0.005, 0.40), (0.010, 0.55), (0.020, 0.85)],
+      "乙": [(0.005, 0.60), (0.010, 0.70), (0.020, 0.78)]
+  }
+  for name, values in points.items():
+      best = max(tpr for fpr, tpr in values if fpr <= 0.01)
+      print(name, best)
+code_lang: python
+options:
+  A: 選甲，採用整體 ROC-AUC 較高的版本
+  B: 選乙，採用受限區域真陽率較高的版本
+  C: 選甲，採用兩率差值較小的版本
+  D: 兩版並用，各分配一半待測設備
+answer: B
+explanation:
+  summary: 整體曲線面積的排序可能不同於指定操作區域。
+  correct: 程式得到甲為 0.55、乙為 0.70。兩者都遵守假陽率上限，但乙在可用區域能找出較多故障。ROC-AUC 彙整整條曲線，不能取代本題低假陽率區域的比較。
+  wrong:
+    A: 整體面積較大並未保證曲線在假陽率不超過 0.01 的區域也較高；已知資料在該區域以乙較好。
+    C: 真陽率與假陽率差得較小，不是此驗收目標；此規則要在限制內提高真陽率。
+    D: 將部分設備分配給真陽率較低的甲，會降低可達召回表現，沒有優於全用乙的證據。
+guide_refs:
+  - guide-3:5-22
+author: codex
+review:
+  status: verified
+  blind_answer: B

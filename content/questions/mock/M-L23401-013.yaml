@@ -1,0 +1,30 @@
+id: M-L23401-013
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23401
+concepts:
+  - gdpr
+  - lawful-data-use
+stem: 某公司依有效同意，使用適用 GDPR（歐盟通用資料保護規則）的個人資料訓練推薦模型。某人撤回同意後，公司尚未啟動下一批訓練，且該訓練用途沒有其他合法處理依據。依 GDPR 第 7 條第 3 項，對撤回前後的處理，何者最正確？
+options:
+  A: 撤回前的處理轉為違法，撤回後可完成既定批次
+  B: 撤回前的處理仍屬合法，撤回後可依原同意續訓
+  C: 撤回前的合法性不受影響，撤回後停止該用途處理
+  D: 撤回前的合法性一併消失，撤回後停止該用途處理
+answer: C
+explanation:
+  summary: 撤回同意影響後續處理，不溯及推翻先前的合法處理。
+  correct: 第 7 條第 3 項區分撤回前與撤回後：先前依有效同意完成的處理，不因撤回本身變成違法。題目又排除該用途的其他合法依據，因此後續不能繼續依被撤回的同意訓練。資料留存與刪除的適用要求還需另行處理。可參閱[官方同意指引第 117 段](https://www.edpb.europa.eu/system/files/documents/files/file1/edpb_guidelines_202005_consent_en.pdf)。
+  wrong:
+    A: 撤回不會溯及改變先前合法處理的性質，也沒有讓已排定的新訓練批次豁免的規則。
+    B: 原同意已撤回，不能再用它作為下一批訓練的處理依據。
+    D: 停止後續處理的方向正確，但撤回不會溯及消除先前合法處理的依據。
+guide_refs:
+  - guide-3:6-12
+author: codex
+review:
+  status: verified
+  blind_answer: C
