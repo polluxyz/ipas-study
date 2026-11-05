@@ -1,0 +1,47 @@
+id: Z-L23304-004
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23304
+concepts:
+  - random-search
+  - grid-search
+stem: 在相同的運算預算下（例如各試 60組），關於網格搜尋與隨機搜尋之比較，下列敘述何者最為正確？
+options:
+  A: 採用 3×4×5 的網格評估 60 組時，每個參數都能測到 60 個不同取值，與連續隨機抽樣的覆蓋相近
+  B: 固定隨機種子會讓 60 次抽樣重複同一組參數，需在每次抽樣前改種子才能探索不同組合
+  C: 將網格每個維度的刻度數加倍，總組合數也只增加為 2 倍，可用少量額外預算加密高維搜尋
+  D: 多數參數影響小時，隨機搜尋通常更有效率，可探索重要參數的更多取值
+answer: D
+explanation:
+  summary: 固定預算時，隨機搜尋可讓重要參數試到更多不同值。
+  correct: 若許多參數影響不大，規則網格可能反覆測到相同的重要參數值；隨機抽樣有機會更有效使用有限試驗次數。
+  wrong:
+    A: 3×4×5 網格有 60 個組合，但各參數只有 3、4、5 個不同取值。組合數不能當成每個參數的取值數。
+    B: 搜尋開始時固定種子，可重現整段抽樣序列；同一序列仍可產生不同組合。每次抽樣前重設成同一種子，才可能反覆得到相同結果。
+    C: 網格組合數是各維度刻度數的乘積。若有 k 個參數，每個維度加倍後，組合數增為 2^k 倍，而非僅 2 倍。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫；重寫 A、B、C 為取值數、種子與網格預算的誤解，並同步解析

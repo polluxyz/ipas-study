@@ -1,0 +1,29 @@
+id: M-L23102-008
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23102
+concepts:
+  - nonnegative-matrix-factorization
+stem: 某團隊有 2,000 篇文件的非負詞頻矩陣，想用非負矩陣分解（NMF）取得可相加的主題表示。前處理卻先將每欄減去平均值，使部分元素為負。若要維持原定 NMF 的輸入條件與詞頻意義，下列處理何者最適合？
+options:
+  A: 使用非負詞頻表示，取消這次減去平均值的步驟
+  B: 將中心化結果轉置，使文件與詞彙的位置互換
+  C: 對中心化結果逐元素取絕對值，還原原始詞頻
+  D: 保留中心化結果，只把主題數減少為原來一半
+answer: A
+explanation:
+  summary: NMF 的前處理須保留非負資料表示。
+  correct: NMF 以非負基底及係數組合非負資料。原始詞頻已符合非負要求，取消中心化能保留詞頻意義及必要條件。
+  wrong:
+    B: 轉置只交換矩陣的軸，不會改變負值的符號。
+    C: 絕對值會把低於平均的差異變成正值。這不是原始詞頻，也無法還原中心化前的數值。
+    D: 主題數影響表示容量，無法把輸入中的負值轉成非負值。
+guide_refs:
+  - guide-3:3-15
+author: codex
+review:
+  status: verified
+  blind_answer: A

@@ -1,0 +1,49 @@
+id: Z-L21103-004
+rev: 2
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+  - L21103
+concepts:
+  - generative-ai-governance
+  - privacy-compliance-assessment
+stem: 某公務機關承辦人欲以外部商用生成式 AI服務協助撰寫一份含有未公開個人資料的公文草稿。依行政院《使用生成式 AI參考指引》，下列作法何者最為適當？
+options:
+  A: 因該指引僅為參考性質，不具任何拘束力，承辦人可自行決定
+  B: 不提供該資料給外部模型；評估安全封閉部署，產出由承辦人查證
+  C: 只要與服務商簽署保密協議，即可提供完整個人資料
+  D: 可直接使用，但須在公文末尾註明由 AI協助撰寫
+answer: B
+explanation:
+  summary: 公務資料輸入外部生成服務前需審查保密與個資限制。
+  correct: 行政院參考指引限制提供未公開或個人資訊給外部模型。封閉部署仍須先確認環境安全與使用分級；輸出內容也需由承辦人核實。
+  wrong:
+    A: 參考指引要求機關建立對應管理措施，承辦人不能據其名稱就忽略公務保密與個資義務。
+    C: 服務商保密承諾不會自動取代機關的資料使用限制與合法處理條件。
+    D: 揭露 AI 協助不能補救事先把受保護資料傳出機關的問題。
+guide_refs:
+  - guide-1:4-33
+  - guide-1:4-34
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch03.md
+  original_id: SIM-L21103-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    D: A
+    B: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫；精簡正解選項，將附帶理由移至解析；主要代碼改為 L21203，保留 L21103 為相關代碼；指引頁碼改對應隱私與個資保護

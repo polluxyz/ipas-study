@@ -1,0 +1,31 @@
+id: M-L21203-009
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - nist-ai-rmf
+  - ai-risk-governance
+stem: 某企業預計淘汰舊 AI 授權審查服務。盤點發現 4 個內部系統仍會呼叫舊服務，部分案件尚在覆核中。依 NIST AI RMF 1.0 對安全退場的觀點，哪項安排最適當？
+options:
+  A: 先停止舊推論服務，再由各系統依實際錯誤調整呼叫
+  B: 先公告新的模型準確率，再以公告日作為舊服務終止日
+  C: 先移除舊服務的使用介面，保留既有介接以免影響作業
+  D: 先驗證介接遷移與未結案交接，再依核定程序撤除舊服務
+answer: D
+explanation:
+  summary: AI 退場要處理相依系統與未結案件，避免衍生新風險。
+  correct: "[NIST AI RMF 1.0 核心的 GOVERN 1.7](https://airc.nist.gov/airmf-resources/airmf/5-sec-core/)要求有安全停用與逐步退場的程序。針對本例，須確認依賴服務已遷移、未結案件可接續處理，並依保存要求處理紀錄與權限，再完成撤除。"
+  wrong:
+    A: 先切斷服務可能中斷相依系統及待覆核案件，沒有先驗證安全退場條件。
+    B: 新模型準確率不能證明舊服務的呼叫者與待辦案件已遷移，公告本身不夠。
+    C: 移除介面不會停止後端呼叫，舊服務仍實際運作，未完成計畫中的退場。
+guide_refs:
+  - guide-1:4-29
+  - guide-1:4-42
+author: codex
+review:
+  status: verified
+  blind_answer: D

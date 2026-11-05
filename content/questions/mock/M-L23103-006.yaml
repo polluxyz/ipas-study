@@ -1,0 +1,30 @@
+id: M-L23103-006
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23103
+concepts:
+  - convex-optimization
+stem: 某工程師測試非凸最佳化，使用損失 L(a,b)=a²-b²，且 a、b 可取任意實數。從 (0,0) 啟動不含動量的確定性梯度下降後，參數持續不變。下列判斷何者最正確？
+options:
+  A: 此處是全域最小值，因為損失已經降到 0
+  B: 此處是局部最大值，因為沿 b 方向擾動會降低損失
+  C: 此處是鞍點，沿不同方向擾動會使損失增減
+  D: 此處是局部最小值，因為梯度的各分量都等於 0
+answer: C
+explanation:
+  summary: 零梯度不保證極小值。
+  correct: 原點的梯度為 (0,0)，因此這個更新規則不會移動。沿 a 方向離開原點會增加損失，沿 b 方向則會降低損失，符合鞍點的特徵。
+  wrong:
+    A: 損失可以為負，且隨 b 的絕對值增加而持續下降。損失為 0 不代表達到全域最小值。
+    B: 局部最大值要求附近點的損失不高於原點，但沿 a 方向存在損失更大的點。
+    D: 梯度為 0 只是駐點條件。原點附近存在損失更小的點，所以不是局部最小值。
+guide_refs:
+  - guide-3:3-20
+  - guide-3:3-21
+author: codex
+review:
+  status: verified
+  blind_answer: C

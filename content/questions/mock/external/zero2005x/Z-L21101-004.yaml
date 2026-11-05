@@ -1,0 +1,49 @@
+id: Z-L21101-004
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - transformer-model-families
+  - machine-translation
+  - text-classification
+stem: 某跨國電商需同時處理三項任務：(1)將英文商品描述翻譯為繁體中文；(2)判定中文評論的情緒極性；(3)自動生成商品行銷文案。若須為三項任務各選一種最適合的預訓練架構，下列組合何者最為適當？
+options:
+  A: (1) Encoder-Decoder、(2) Encoder-only、(3) Decoder-only
+  B: 三項任務均應使用 Decoder-only架構，因其為目前最新的架構
+  C: 三項任務均應使用 Encoder-only架構以確保語意理解品質
+  D: (1) Encoder-only、(2) Decoder-only、(3) Encoder-Decoder
+answer: A
+explanation:
+  summary: 依翻譯、分類、自由生成的任務選架構。
+  correct: 編碼器加解碼器適合輸入到輸出的序列轉換；雙向編碼器適合分類；自迴歸解碼器適合延續生成。這是題目所問的典型配對。
+  wrong:
+    B: 解碼器可經提示執行多種工作，但架構新舊不是選型標準，也不代表每項任務都應採相同方案。
+    C: 理解輸入不等於能直接生成任意長度輸出。僅有編碼器不能完整滿足三項任務。
+    D: 翻譯需要產生目標序列，Encoder-only 不直接提供完整的生成路徑。此組合也把分類與自由生成的典型架構對調。
+guide_refs:
+  - guide-1:3-27
+  - guide-1:3-31
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L21/v0.3/ch01.md
+  original_id: SIM-L21101-004
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    B: A
+    D: B
+    C: C
+    A: D
+  modified: 選項重排；解析全部重寫

@@ -1,0 +1,31 @@
+id: M-L21201-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21201
+concepts:
+  - proof-of-concept
+  - online-business-metrics
+stem: 某連鎖餐廳在 6 月啟用 AI 備料建議，報廢金額比 5 月少 18%。同期全區原料降價且來客量改變，主管希望確認改善是否來自 AI。下一輪試辦哪種安排最能提供可歸因的證據？
+options:
+  A: 延長導入前後的觀察期，以兩段期間總報廢金額比較
+  B: 增加使用 AI 的分店數，以各店導入後金額平均比較
+  C: 詢問使用者是否感覺較準，以滿意度高低評估節省
+  D: 同期隨機分派可比店點，按一致口徑比較報廢變化
+answer: D
+explanation:
+  summary: 同時期的可比對照有助分離 AI 與外部環境的影響。
+  correct: 隨機分派可比店點到 AI 與既有流程，並用相同口徑記錄報廢，可降低原料價格及季節變化造成的混淆。仍須留意跨店共用備料是否干擾兩組，並同時追蹤缺貨等副作用。
+  wrong:
+    A: 延長前後觀察仍可能混入價格與來客變化，沒有建立同期的可比對照。
+    B: 增加導入店數只增加處理組樣本，不能分離同期環境變化造成的改善。
+    C: 滿意度是使用者體驗證據，不能直接量化 AI 對報廢金額的增量影響。
+guide_refs:
+  - guide-1:4-13
+  - guide-1:4-26
+author: codex
+review:
+  status: verified
+  blind_answer: D

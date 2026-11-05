@@ -1,0 +1,48 @@
+id: Z-L23302-001
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23302
+concepts:
+  - task-model-selection
+  - explainable-ai
+stem: 某醫院欲建置「住院天數預測」模型。資料為結構化表格（約 40欄、8萬筆），且院方要求模型須能對主治醫師說明每一項預測的依據。下列方案何者最為適當？
+options:
+  A: 先以 PCA 把 40 欄變成 3 個主成分，再直接向醫師解釋這 3 個座標，以降維本身作為臨床可解釋性的保證
+  B: 直接使用深度神經網路，因其效能在所有任務上均最佳
+  C: 梯度提升樹搭配全域與個案解釋，並和線性迴歸基準比較
+  D: 使用 K近鄰演算法，因其不需要訓練
+answer: C
+explanation:
+  summary: 表格模型要同時比較預測品質與個案說明能力。
+  correct: 用樹提升模型評估非線性關係，再提供整體與個案歸因；線性基準能檢查額外複雜度是否帶來有用增益。
+  wrong:
+    A: PCA 混合原始欄位，降維不等於提高臨床解釋性。
+    B: 不存在任何任務都由深層網路取得最佳表現的保證。
+    D: K 近鄰仍有查詢成本，也沒有直接滿足醫師的個案說明需求。
+guide_refs:
+  - guide-3:5-14
+  - guide-3:5-15
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch08.md
+  original_id: SIM-L23302-001
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫

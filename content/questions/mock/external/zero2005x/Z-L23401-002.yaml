@@ -1,0 +1,47 @@
+id: Z-L23401-002
+rev: 1
+source: mock
+subject: 3
+type: 觀念
+codes:
+  - L23401
+concepts:
+  - ai-risk-governance
+stem: 攻擊者在公開的訓練資料集中混入少量特製樣本，使模型在遇到特定觸發圖案時輸出攻擊者指定的類別，而在一般樣本上表現正常。此攻擊型態為何？
+options:
+  A: 成員推論攻擊
+  B: 對抗樣本攻擊
+  C: 資料毒化（含後門植入）
+  D: 模型竊取
+answer: C
+explanation:
+  summary: 先污染訓練資料，再用觸發圖案啟動偏誤，屬後門毒化。
+  correct: 攻擊者改動學習來源，使模型記住特定觸發模式。一般樣本正常而觸發樣本異常，是後門攻擊的典型特徵。
+  wrong:
+    A: 成員推論在判斷樣本是否參與訓練，並非指定模型遇到圖案時輸出哪一類。
+    B: 常見逃避型對抗樣本是在推論輸入加入擾動，沒有修改訓練資料。
+    D: 模型竊取要重建模型行為，目的不是先植入觸發分類規則。
+guide_refs:
+  - guide-3:6-2
+  - guide-3:6-5
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: C
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch11.md
+  original_id: SIM-L23401-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: B
+    B: C
+    C: D
+    D: A
+  modified: 選項重排；解析逐項重寫；移除未教授毒化攻擊辨識的資料與模型版本追溯概念

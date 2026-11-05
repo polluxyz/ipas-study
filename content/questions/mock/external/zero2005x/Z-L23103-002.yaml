@@ -1,0 +1,46 @@
+id: Z-L23103-002
+rev: 1
+source: mock
+subject: 3
+type: 計算
+codes:
+  - L23103
+concepts:
+  - mini-batch-gradient-descent
+stem: 訓練集有 50,000筆樣本，批次大小設為 128，訓練 10個 epoch（不丟棄最後一批）。總共進行多少次參數更新？
+options:
+  A: 3,900
+  B: 3,910
+  C: "390"
+  D: "391"
+answer: B
+explanation:
+  summary: 不足一批仍更新時，先對每輪批數向上取整。
+  correct: 50000/128=390.625，每輪有 391 批；10 輪合計 3910 次更新。
+  wrong:
+    A: 3900 相當於每輪丟棄最後 80 筆，與題意不符。
+    C: 390 只計完整批次，且漏乘 10 輪。
+    D: 391 是單輪更新次數，還要乘以 10。
+guide_refs:
+  - guide-3:3-24
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch03.md
+  original_id: SIM-L23103-002
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: D
+  option_map:
+    A: C
+    B: D
+    C: A
+    D: B
+  modified: 選項重排；解析逐項重寫

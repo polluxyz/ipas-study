@@ -1,0 +1,53 @@
+id: Z-L23304-005
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - nested-cross-validation
+  - data-leakage
+stem: 某工程師欲同時完成調參與泛化評估，寫下列程式。其問題為何？
+code: |-
+  gs= GridSearchCV(model, param_grid, cv=5)
+  gs.fit(X,y)#X,y為全部資料
+  print(gs.best_score_)#作為最終效能
+code_lang: python
+options:
+  A: 沒有問題
+  B: 全資料已參與調參；應先保留測試集，或改用外層評估、內層搜尋的巢狀交叉驗證
+  C: 應把cv改為 3以加快速度
+  D: 將 GridSearchCV 改成 RandomizedSearchCV，仍使用全部資料搜尋並直接報告 best_score_，即可消除選擇偏誤
+answer: B
+explanation:
+  summary: 模型選擇與最終評估需要不同的資料角色。
+  correct: 全部資料參與搜尋後，最高的內層分數沒有獨立驗證選擇結果。可預留測試集，或每個外層訓練折內各自做參數搜尋。
+  wrong:
+    A: 直接把被挑出的分數當最終效能，忽略了選擇造成的偏差。
+    C: 改折數沒有保留未參與選擇的資料。
+    D: 隨機搜尋也會選出較高分的設定，仍需要獨立評估。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-26
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: B
+origin:
+  author: zero2005x
+  repo: https://github.com/zero2005x/ipasAI
+  commit: 253811bf7e4891537ed6738786847c532a11a573
+  path: book/L23/v0.3/ch10.md
+  original_id: SIM-L23304-005
+  license: CC-BY-NC-SA-4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant
+  original_answer: B
+  option_map:
+    A: A
+    B: B
+    C: C
+    D: D
+  modified: 保留選項順序；刪除或濃縮正解所附理由，保留原判斷；補寫干擾項細節，平衡選項長度；解析逐項重寫
