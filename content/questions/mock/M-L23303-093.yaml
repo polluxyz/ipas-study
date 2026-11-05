@@ -1,0 +1,38 @@
+id: M-L23303-093
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - confusion-matrix
+stem: 某品檢器以 1 表示瑕疵。工程師為了先顯示瑕疵，把混淆矩陣的標籤順序設成 [1, 0]。矩陣仍以列代表真值、欄代表預測。關於 cm[0, 1]，下列判斷何者最正確？
+code: |
+  from sklearn.metrics import confusion_matrix
+  y = [1, 1, 1, 0, 0, 0, 0, 0]
+  pred = [1, 1, 0, 1, 1, 0, 0, 0]
+  cm = confusion_matrix(y, pred, labels=[1, 0])
+  print(cm.tolist())
+  print(int(cm[0, 1]))
+code_lang: python
+options:
+  A: 數值為 1，代表瑕疵被判成正常的件數
+  B: 數值為 2，代表正常被判成瑕疵的件數
+  C: 數值為 1，代表正常被判成瑕疵的件數
+  D: 數值為 2，代表瑕疵被判成正常的件數
+answer: A
+explanation:
+  summary: 讀取矩陣格子前，須先核對指定的標籤順序。
+  correct: 矩陣是 `[[2,1],[2,3]]`。第 0 列是真值 1，第 1 欄是預測 0，因此 cm[0,1]=1 是漏掉瑕疵的件數。標籤順序改變後，不能沿用預設 [0,1] 的格子解讀。
+  wrong:
+    B: 正常判成瑕疵的 2 件位於 cm[1,0]，不是題目指定的格子。
+    C: 數字雖正確，卻把列與欄對應的類別反過來。
+    D: 瑕疵被判正常的件數只有 1，不能取用另一格的 2。
+guide_refs:
+  - guide-3:5-20
+  - guide-3:5-21
+author: codex
+review:
+  status: verified
+  blind_answer: A

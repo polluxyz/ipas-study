@@ -1,0 +1,41 @@
+id: M-L23303-088
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - k-fold-cross-validation
+  - train-val-test-split
+stem: 某工程師用 9 筆已標註樣本完成 3 折驗證，接著要用同一變數 model 預測新資料。以下程式檢查原物件是否有訓練後的類別屬性。關於驗證完成後的處理，何者最正確？
+code: |
+  import numpy as np
+  from sklearn.dummy import DummyClassifier
+  from sklearn.model_selection import cross_val_score
+  X = np.arange(9).reshape(-1, 1)
+  y = np.array([0, 0, 1] * 3)
+  model = DummyClassifier(strategy='most_frequent')
+  scores = cross_val_score(model, X, y, cv=3)
+  print(hasattr(model, 'classes_'))
+code_lang: python
+options:
+  A: 原物件保留最後一折的訓練結果，可直接預測
+  B: 原物件保留分數最高折的訓練結果，可直接預測
+  C: 原物件保留各折投票的整合結果，可直接預測
+  D: 原物件尚未擬合，須另以選定資料重新訓練
+answer: D
+explanation:
+  summary: 交叉驗證的評估物件與最後交付的模型不同。
+  correct: 輸出為 False。cross_val_score 為各折建立模型副本，不會把訓練結果寫回原物件。完成評估後，仍須以選定的訓練資料呼叫 model.fit，才能使用這個物件預測。
+  wrong:
+    A: 各折副本的訓練不會使原物件取得最後一折的訓練結果。
+    B: cross_val_score 回傳分數，沒有替原物件挑選並載入最佳折模型。
+    C: 交叉驗證用來估計表現，不會自動建立投票模型。
+guide_refs:
+  - guide-3:5-18
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  blind_answer: D

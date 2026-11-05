@@ -1,0 +1,38 @@
+id: M-L23303-092
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - time-series-split
+stem: 某銷量模型部署時，每次只用最近 3 天資料重訓，再一次預測後續 2 天。每天只有 1 列資料，已依日期排序。max_train_size 限制訓練列數，test_size 指定驗證列數。以下切分的解讀何者最正確？
+code: |
+  import numpy as np
+  from sklearn.model_selection import TimeSeriesSplit
+  X = np.arange(10).reshape(-1, 1)
+  cv = TimeSeriesSplit(n_splits=3, test_size=2, max_train_size=3)
+  for tr, va in cv.split(X):
+      print(tr.tolist(), va.tolist())
+code_lang: python
+options:
+  A: 每次累積較早資料，訓練列數逐次增加
+  B: 每次保留最近 3 列，驗證區段往後移
+  C: 每次保留最近 2 列，驗證區段有 3 列
+  D: 每次保留相同 3 列，驗證區段往後移
+answer: B
+explanation:
+  summary: 限制訓練長度可模擬固定歷史窗口的重訓。
+  correct: 3 次訓練索引依序是 [1,2,3]、[3,4,5]、[5,6,7]；驗證索引依序是 [4,5]、[6,7]、[8,9]。訓練資料保持最近 3 列，符合部署的歷史窗口。
+  wrong:
+    A: 沒有訓練長度上限時才會逐次擴張；本例設有 max_train_size=3。
+    C: 這把訓練上限與驗證大小對調了，test_size=2 指每次驗證 2 列。
+    D: 訓練窗口隨驗證起點前移，不會固定在相同的 3 列。
+guide_refs:
+  - guide-3:5-26
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  blind_answer: B

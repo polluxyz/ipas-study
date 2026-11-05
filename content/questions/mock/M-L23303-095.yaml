@@ -1,0 +1,40 @@
+id: M-L23303-095
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - k-fold-cross-validation
+  - stratified-k-fold
+stem: 某團隊要評估新病人的分類表現。6 位病人各有 2 筆紀錄，同一病人標籤相同。程式以病人編號作群組，overlap 記錄兩側共同的病人。本例實測依序輸出 `0 1.0`、`0 0.5`、`0 0.0`，每列為重疊病人數與正類比例。驗收要求病人不跨兩側，並希望各折正類比例接近 1/2。對輸出最正確的解讀為何？
+code: |
+  import numpy as np
+  from sklearn.model_selection import GroupKFold
+  X = np.arange(12).reshape(-1, 1)
+  groups = np.repeat(np.arange(6), 2)
+  y = np.repeat([0, 0, 1, 0, 1, 1], 2)
+  for tr, va in GroupKFold(n_splits=3).split(X, y, groups):
+      overlap = set(groups[tr]) & set(groups[va])
+      print(len(overlap), float(y[va].mean()))
+code_lang: python
+options:
+  A: 群組隔離已達成，類別比例也符合要求
+  B: 群組隔離已達成，類別比例仍偏離要求
+  C: 群組隔離未達成，類別比例也偏離要求
+  D: 群組隔離未達成，類別比例符合要求
+answer: B
+explanation:
+  summary: 群組隔離不等於按標籤分層。
+  correct: 各次 overlap 都是 0，病人隔離成功，但各折正類比例未必相同。GroupKFold 的基本目標是把群組分開，不是保證標籤比例。若兩種要求都重要，須檢查群組與標籤的配置是否能兼顧。
+  wrong:
+    A: 類別比例由分到哪些病人決定，不能從病人沒有重疊直接推出。本例有正類比例為 0 與 1 的驗證折。
+    C: 類別比例不均與病人跨側是不同問題；本例各折的病人重疊數為 0，群組隔離成功。
+    D: 病人重疊數為 0 表示隔離成功；驗證折的正類比例卻有 0、0.5 與 1，並未都接近 1/2。
+guide_refs:
+  - guide-3:5-27
+author: codex
+review:
+  status: verified
+  blind_answer: B
