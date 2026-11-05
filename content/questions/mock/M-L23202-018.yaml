@@ -1,0 +1,38 @@
+id: M-L23202-018
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23202
+concepts:
+  - classification-tree
+stem: 某工程師檢查設備分類器的機率輸出。4 筆訓練資料的特徵相同，類別為 0、0、0、1，未設樣本權重。以下程式的類別與機率輸出，何者最正確？
+code: |
+  from sklearn.tree import DecisionTreeClassifier
+  model = DecisionTreeClassifier(random_state=0)
+  model.fit([[5.0], [5.0], [5.0], [5.0]], [0, 0, 0, 1])
+  print(model.predict([[5.0]]).tolist())
+  print(model.classes_.tolist())
+  print(model.predict_proba([[5.0]]).tolist())
+code_lang: python
+options:
+  A: 類別為 0；類別 0、1 的機率依序為 0.75、0.25
+  B: 類別為 0；類別 0、1 的機率依序為 1.00、0.00
+  C: 類別為 1；類別 0、1 的機率依序為 0.25、0.75
+  D: 類別為 0；類別 0、1 的機率依序為 0.50、0.50
+answer: A
+explanation:
+  summary: 區分決策樹的葉節點類別比例與最終類別。
+  correct: 相同特徵無法再依特徵值切開，因此 4 筆資料留在同一葉節點。該葉的類別比例是 3/4 與 1/4，predict 選機率較高的類別 0。predict_proba 保留兩類比例，不會因已選出類別就轉成獨熱向量。
+  wrong:
+    B: 此結果把類別決策誤當成確定機率。葉節點含有類別 1，該類別的估計機率不是 0。
+    C: 此結果把類別順序與比例顛倒。classes_ 依序為 0、1，類別 0 有 3 筆。
+    D: 特徵相同不代表兩類等量。機率由葉內的類別計數估計，而非平均分給每類。
+guide_refs:
+  - guide-3:4-30
+  - guide-3:4-31
+author: codex
+review:
+  status: verified
+  blind_answer: A

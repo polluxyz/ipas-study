@@ -1,0 +1,30 @@
+id: M-L23202-019
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23202
+concepts:
+  - support-vector-machine
+stem: 某團隊以徑向基底核（RBF，依距離計算相似度）訓練支援向量機。資料已固定縮放，懲罰係數 C 保持 1。工程師只把 gamma 從 0.01 調為 100。對單筆支援向量的影響範圍，下列判斷何者最正確？
+options:
+  A: 影響範圍擴大，遠處樣本的核相似度會提高
+  B: 影響範圍縮小，遠處樣本的核相似度會降低
+  C: 影響改為固定半徑內等值，半徑外直接歸零
+  D: 距離的影響維持不變，間隔違規的代價提高
+answer: B
+explanation:
+  summary: 區分 RBF 核的距離尺度與支援向量機的懲罰係數。
+  correct: RBF 核可寫成 exp(-gamma×距離平方)。距離大於 0 時，提高 gamma 會使相似度更快衰減，影響較集中在支援向量附近。這可能形成更局部的邊界，仍需以驗證資料判斷是否合適。
+  wrong:
+    A: 擴大影響範圍對應較小的 gamma。提高 gamma 會讓相似度隨距離下降得更快。
+    C: RBF 核是隨距離平滑衰減的函數，不是半徑內固定、半徑外截斷的鄰域規則。
+    D: 間隔違規的代價由 C 控制。gamma 改變的是核相似度隨距離衰減的速度。
+guide_refs:
+  - guide-3:4-28
+  - guide-3:4-29
+author: codex
+review:
+  status: verified
+  blind_answer: B
