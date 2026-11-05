@@ -1,0 +1,34 @@
+id: M-L21203-005
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - nist-ai-rmf
+  - ai-risk-governance
+  - human-in-the-loop
+stem: 某求職媒合平台依 NIST AI RMF 1.0 建立風險管理。新模型的整體分數達標，但指定族群的錯誤淘汰率已觸及事前訂定的停用條件。值班人員卻不知道誰能停止自動淘汰。哪項改善最直接補足治理缺口？
+options:
+  A: 提高整體分數門檻，以新的平均成績取代原有族群停用條件
+  B: 把停用決定全交模型供應商，平台只保存供應商的事後說明
+  C: 持續記錄族群誤判，等例行改版時再由開發人員自行評估處理
+  D: 指定停用權責與替代審查流程，並驗證條件觸發時可實際接管
+answer: D
+explanation:
+  summary: 風險處置需要可執行的停用機制與明確責任。
+  correct: NIST AI RMF 1.0 的 MANAGE 2.4 指出應建立並運用替代、脫離或停用機制，且清楚分配責任。本例已有停用條件，仍缺執行權責與替代作業；應讓負責人能按既定條件中止自動淘汰並轉交人工。
+  wrong:
+    A: 平均分數不能取代已約定的族群風險條件，也沒有處理無人能執行停用的問題。
+    B: 供應商可協助排除問題，但平台仍須明定自身的決策責任及可立即啟動的處置。
+    C: 只保存紀錄而延後處置，無法落實已觸發的停用條件。
+guide_refs:
+  - guide-1:4-40
+  - guide-1:4-42
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: D

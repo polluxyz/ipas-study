@@ -1,0 +1,33 @@
+id: M-L21302-009
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21302
+concepts:
+  - feedback-loop
+  - model-retraining
+stem: 某保固預測模型每天產生結果，但產品是否退修要等 30 天才確定。維運團隊想每天監控品質，並以真實結果決定是否重訓。哪項資料回收設計最適合？
+options:
+  A: 保留預測識別碼與版本，待結果成熟後連結真值並分批評估
+  B: 把尚未收到退修紀錄的當日案件全標成未退修，立即計算分數
+  C: 直接用模型當日輸出的類別當真值，每晚評估後自動批准新版
+  D: 只追蹤服務延遲與請求量，將預測品質固定沿用上線前的分數
+answer: A
+explanation:
+  summary: 延遲真值的回收與評估。
+  correct: 服務運作可每日監測，但預測品質須等待可判定的真值。保留識別碼、預測時間與版本，才能把成熟案件正確連回原預測，避免把未結案誤當未退修。
+  wrong:
+    B: 尚未發生或尚未回報的事件不代表確定不會發生，會造成標籤偏差。
+    C: 模型自己的輸出不是獨立真值，無法藉此確認模型犯錯或批准更新。
+    D: 延遲與流量反映服務狀態，不能取代上線後的預測品質驗證。
+guide_refs:
+  - guide-1:5-20
+  - guide-1:5-21
+author: codex
+review:
+  status: verified
+  answer_checked: null
+  dispute: null
+  blind_answer: A
