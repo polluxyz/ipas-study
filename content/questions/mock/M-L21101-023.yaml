@@ -1,0 +1,29 @@
+id: M-L21101-023
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21101
+concepts:
+  - speech-quality-metrics
+  - speech-recognition-pipeline
+stem: 某會議轉寫系統以人工稿的 200 個詞作為參考。最少編輯對齊得到替換 12 詞、刪除 5 詞、插入 3 詞。詞錯誤率（Word Error Rate，WER）定義為三種錯誤數之和除以參考詞數。此批 WER 為何？
+options:
+  A: 8.5%
+  B: 10.0%
+  C: 10.1%
+  D: 6.0%
+answer: B
+explanation:
+  summary: 詞錯誤率包含替換、刪除與插入。
+  correct: 錯誤數為 12＋5＋3＝20，除以參考的 200 詞得到 0.10，也就是 10%。分母使用人工稿詞數。
+  wrong:
+    A: 此值只計替換與刪除，即 17/200。插入的 3 詞同樣是轉寫錯誤，必須納入。
+    C: 此值接近 20/198，其中 198 是輸出詞數 200－5＋3。定義要求除以參考詞數，不能改用輸出詞數。
+    D: 此值只計 12 次替換。刪除與插入也反映轉寫內容與人工稿的差異，不能省略。
+guide_refs:
+  - guide-1:3-70
+author: codex
+review:
+  status: draft

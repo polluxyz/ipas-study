@@ -1,0 +1,28 @@
+id: M-L21101-021
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - pos-tagging
+stem: 某英文文件解析器將「Please review the report」中的 review 標成動詞，卻也把「The review was helpful」中的 review 標成動詞。兩句的切詞邊界都正確。若要處理這類同形詞的詞性差異，最適合調整哪項設計？
+options:
+  A: 以詞在整份語料中的頻率決定詞性
+  B: 以詞的大小寫正規化結果決定詞性
+  C: 以詞是否存在於通用詞典決定詞性
+  D: 以詞在句中的語法關係決定詞性
+answer: D
+explanation:
+  summary: 詞性必須由詞在句中的語法角色決定。
+  correct: 第一句的 review 表示執行審閱，第二句的 review 指審閱結果。詞性標註需要讀取句法線索，不能僅為每個拼字固定指定一種詞性。
+  wrong:
+    A: 頻率能反映常見用法，卻不能判定當次句子的語法角色，仍會把較少見用法套成多數詞性。
+    B: 兩處都是相同的小寫拼字。大小寫轉換可以統一字形，沒有提供動詞與名詞的判別依據。
+    C: 詞典可以列出候選詞性，但兩處都存在於詞典，仍須利用句子決定使用哪個候選。
+guide_refs:
+  - guide-1:3-11
+author: codex
+review:
+  status: draft
