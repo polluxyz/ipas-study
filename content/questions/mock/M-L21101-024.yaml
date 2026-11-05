@@ -1,0 +1,31 @@
+id: M-L21101-024
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21101
+concepts:
+  - nonnegative-matrix-factorization
+  - text-representation
+stem: 某客服中心有 6,000 篇未標註工單。團隊要從文件—詞頻矩陣找出潛在主題，讓每篇可同時帶有多個主題權重；文件權重與主題詞權重都要非負，以便編輯理解為加總的內容成分。最適合採用哪項方法？
+options:
+  A: 以主成分分析取得文件在各主軸的座標
+  B: 以一般奇異值分解取得左右兩組向量
+  C: 以非負矩陣分解取得文件與主題的權重
+  D: 以標準 K-Means 取得每篇的單一群別
+answer: C
+explanation:
+  summary: 由可解釋的非負成分需求選擇文字主題表示。
+  correct: 非負矩陣分解可把文件—詞矩陣近似成文件—主題與主題—詞兩個非負矩陣。每篇可由多個主題的非負權重組合，不必先有人工類別標籤。
+  wrong:
+    A: 主成分與投影座標可有正負值，適合保留變異，卻不符合題目要求的兩組非負內容成分。
+    B: 一般奇異向量可有正負值，不能直接當成題目所要求的非負文件與主題詞權重。
+    D: 標準 K-Means 以最近中心給單一群別，沒有直接提供每篇由多個主題加總形成的兩組非負權重。
+guide_refs:
+  - guide-1:3-16
+  - guide-3:3-15
+author: codex
+review:
+  status: verified
+  blind_answer: C

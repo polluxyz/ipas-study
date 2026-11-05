@@ -1,0 +1,31 @@
+id: M-L21302-024
+rev: 1
+source: mock
+subject: 1
+type: 計算
+codes:
+  - L21302
+concepts:
+  - service-scaling
+  - service-performance-metrics
+stem: 某推論副本的壓測上限為每秒 60 筆，規劃要求每個可用副本負載不超過上限的 70%。尖峰每秒 210 筆，流量可平均分配；另要求任一副本故障後仍符合此負載限制，不考慮其他瓶頸。最少需部署幾個副本？
+options:
+  A: 4 個副本
+  B: 5 個副本
+  C: 6 個副本
+  D: 7 個副本
+answer: C
+explanation:
+  summary: 容量規劃要同時計入負載餘裕與單副本故障。
+  correct: 每個可用副本的規劃容量是 60×0.7＝42 筆／秒。故障後仍需 210÷42＝5 個可用副本，因此至少部署 6 個。若只部署 5 個，故障後每個剩餘副本須承接 52.5 筆／秒，超過限制。
+  wrong:
+    A: 4 個可能來自用壓測上限計算後向上取整，但沒有保留 70% 負載限制及故障備援。
+    B: 5 個剛好足以在無故障時承接流量，故障後只剩 4 個，不符規劃限制。
+    D: 7 個可以承接流量，但題目問最少數量，6 個已滿足故障後的容量要求。
+guide_refs:
+  - guide-1:5-16
+  - guide-1:5-17
+author: codex
+review:
+  status: verified
+  blind_answer: C

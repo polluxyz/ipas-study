@@ -1,0 +1,31 @@
+id: M-L21203-015
+rev: 1
+source: mock
+subject: 1
+type: 情境
+codes:
+  - L21203
+concepts:
+  - nist-ai-rmf
+  - ai-ethics-review
+stem: 某公司定期評估 AI 排班系統，但評估者都是該系統的第一線開發人員。公司內另有未參與開發且具排班經驗的評估小組。依 NIST AI RMF 1.0 的 MEASURE 1.3，最適合如何調整？
+options:
+  A: 由原開發人員增加評估次數，將新測試報告交給專案主管確認
+  B: 由原開發人員輪流擔任主評，再將每輪結果彙整為正式紀錄
+  C: 讓未參與開發的內部專家加入，並按風險需要諮詢相關人員
+  D: 讓開發團隊改用自動評分工具，將工具輸出作為定期評估結果
+answer: C
+explanation:
+  summary: 定期風險評估應納入未參與開發的專家。
+  correct: MEASURE 1.3 包含未任第一線開發者的內部專家或獨立評估者參與評估。本例可運用現有評估小組，並依風險需要諮詢領域專家、使用者等相關人員。
+  wrong:
+    A: 提高同一開發團隊的評估頻率，沒有補入未參與開發者的觀點。
+    B: 開發人員之間輪流評估，仍未改變評估者皆為第一線開發者的情形。
+    D: 自動工具可以輔助量測，卻不能取代未參與開發的專家所提供的評估。
+guide_refs:
+  - guide-1:4-39
+  - guide-1:4-40
+author: codex
+review:
+  status: verified
+  blind_answer: C
