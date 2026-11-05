@@ -1,0 +1,41 @@
+id: M-L23304-016
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - early-stopping
+  - pytorch
+stem: 某訓練器要在驗證損失最低時保存模型。以下程式用權重 2 代表最佳輪，後續訓練把同一權重改成 5。最後從 best 載入後仍得到 5。若要保留最佳輪，哪項判斷與修正最正確？
+code: |
+  import torch
+  model = torch.nn.Linear(1, 1, bias=False)
+  with torch.no_grad():
+      model.weight.fill_(2.0)
+  best = model.state_dict()
+  with torch.no_grad():
+      model.weight.fill_(5.0)
+  model.load_state_dict(best)
+  print(model.weight.item())
+code_lang: python
+options:
+  A: load_state_dict 只會載入梯度，因此應在還原前再做一次 backward
+  B: state_dict 中的張量仍共用儲存，因此應以 deepcopy 保存獨立副本
+  C: eval 會把歷史最佳權重復原，因此應在保存 best 前呼叫 eval
+  D: weight.fill_ 只改了偏差，因此應改為保存 model.parameters 的產生器
+answer: B
+explanation:
+  summary: 最佳模型快照須保留獨立張量，不能只留目前參數的參照。
+  correct: state_dict 回傳的字典包含參數張量的參照。後續原地更新權重時，best 中對應內容也會改變。可在最佳輪以 copy.deepcopy(model.state_dict()) 保存獨立副本，或當時序列化到檔案。
+  wrong:
+    A: load_state_dict 載入的是參數與持久緩衝狀態，不是只載入梯度。反向傳播不能復原已被覆寫的快照。
+    C: eval 只切換評估行為，沒有追蹤或還原歷史最佳權重。
+    D: 此層明確設定 bias=False，fill_ 改的是權重。產生器也不會複製參數的數值。
+guide_refs:
+  - guide-3:5-46
+  - guide-3:4-92
+author: codex
+review:
+  status: draft

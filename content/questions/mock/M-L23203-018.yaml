@@ -1,0 +1,38 @@
+id: M-L23203-018
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - embedding-representation
+  - backpropagation
+  - pytorch
+stem: 某文字模型用嵌入表查出詞向量。以下同一個詞索引 2 在輸入出現 2 次，未啟用頻率縮放，也沒有其他損失。反向傳播後，嵌入表的梯度何者最正確？
+code: |
+  import torch
+  table = torch.nn.Embedding(5, 2, scale_grad_by_freq=False)
+  loss = table(torch.tensor([2, 2, 4])).sum()
+  loss.backward()
+  print(table.weight.grad.tolist())
+code_lang: python
+options:
+  A: 第 2 列為 [2,2]，第 4 列為 [1,1]，未出現的列為 [0,0]
+  B: 第 2 列為 [1,1]，第 4 列為 [1,1]，重複索引的梯度會去重
+  C: 第 2 列為 [0.5,0.5]，第 4 列為 [1,1]，頻率越高更新越小
+  D: 每列都為 [1,1]，嵌入查表會像全連接層般更新每個詞
+answer: A
+explanation:
+  summary: 重複查詢相同嵌入列，會把各次使用的梯度累加。
+  correct: loss 對每個查出元素的導數為 1。索引 2 查詢 2 次，所以同一列累計 [2,2]；索引 4 只查詢 1 次。其餘列未參與此損失，梯度為零。
+  wrong:
+    B: 相同索引共享同一列參數，但各次使用的梯度仍須相加，不會因索引相同就去重。
+    C: 本題沒有啟用 scale_grad_by_freq；預設不會按出現次數除小梯度。
+    D: 查表只讓被查詢的列參與運算，並非讓全部詞向量都參與相同的矩陣乘法。
+guide_refs:
+  - guide-3:4-60
+  - guide-3:4-92
+author: codex
+review:
+  status: draft

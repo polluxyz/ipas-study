@@ -1,0 +1,29 @@
+id: M-L23304-015
+rev: 1
+source: mock
+subject: 3
+type: 情境
+codes:
+  - L23304
+concepts:
+  - hyperparameter-search
+  - grid-search
+stem: 某 SVM 分類器比較線性核與 RBF 核，後者才使用 gamma。C 有 4 個候選值，gamma 有 6 個候選值。團隊想保留兩種核的有效候選，同時避免重複測試對線性核無效的 gamma。最適合如何定義搜尋空間？
+options:
+  A: 分成線性核只配 C、RBF 核配 C 與 gamma 的兩個子空間
+  B: 將兩種核、C 與 gamma 放在同一個完整笛卡兒積空間
+  C: 先固定成線性核，再只搜尋 C 與 gamma 的完整組合
+  D: 先固定成 RBF 核，再搜尋 C 與 gamma 的完整組合
+answer: A
+explanation:
+  summary: 條件式搜尋空間可排除對某類模型無作用的參數組合。
+  correct: 線性核沒有使用 gamma，因此只需搜尋 C；RBF 核才搜尋 C 與 gamma。分成子空間可保留兩種核的有效選擇，避免將線性核設定重複 6 次。
+  wrong:
+    B: 完整笛卡兒積會讓線性核搭配多個無效的 gamma，正是題目要避免的重複。
+    C: 固定線性核會排除 RBF 候選，而且搜尋 gamma 對線性核仍沒有作用。
+    D: 固定 RBF 核雖可讓 gamma 有作用，但刪除了題目要求保留的線性核候選。
+guide_refs:
+  - guide-3:5-30
+author: codex
+review:
+  status: draft
