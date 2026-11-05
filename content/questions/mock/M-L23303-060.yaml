@@ -1,0 +1,36 @@
+id: M-L23303-060
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - f1-score
+stem: 某缺陷系統固定有 0、1、2 共 3 類。這批驗證資料未出現類別 2，模型也沒預測類別 2。報告規定每批都使用固定 3 類做 macro F1，無法定義的類別分數以 0 計。下列程式的兩值不同，哪項處理最符合規定？
+code: |
+  from sklearn.metrics import f1_score
+  y = [0, 0, 1, 1]
+  pred = [0, 0, 0, 0]
+  a = f1_score(y, pred, average='macro', zero_division=0)
+  b = f1_score(y, pred, labels=[0, 1, 2], average='macro', zero_division=0)
+  print(round(a, 4), round(b, 4))
+code_lang: python
+options:
+  A: 採用 a；以該批出現的類別決定平均分母
+  B: 採用 b；以固定的類別清單決定平均分母
+  C: 採用兩者最大值；以較穩定的分數呈現
+  D: 採用 a；將缺席類別視為已正確辨識
+answer: B
+explanation:
+  summary: 固定標籤清單可防止 macro F1 的平均範圍隨批次改變。
+  correct: a 只使用本批真值或預測出現的 0、1 兩類，結果約 0.3333。b 明列 0、1、2，按規定把缺席類別的未定義 F1 設為 0，結果約 0.2222。這是報告規約，不是對缺席類別辨識品質的實證。
+  wrong:
+    A: a 的分母只有 2，與固定使用 3 類的規定不符。
+    C: 取最大值改變了預先指定的評估定義，不能保持跨批次的相同平均範圍。
+    D: 缺席表示沒有此類的驗證證據，不能當作模型已正確辨識；a 也沒有把它計為正確。
+guide_refs:
+  - guide-3:5-21
+author: codex
+review:
+  status: draft

@@ -1,0 +1,35 @@
+id: M-L23303-057
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - mean-absolute-error
+  - root-mean-squared-error
+stem: 某設備預測器的驗收同時報告平均絕對誤差與均方根誤差。甲、乙在同一批 4 台設備的誤差如程式所示。兩者平均絕對誤差相同。若此次選型更重視避免集中在單台的大誤差，何者最正確？
+code: |
+  import numpy as np
+  for name, error in [('甲', [0, 0, 0, 8]), ('乙', [2, 2, 2, 2])]:
+      e = np.array(error, dtype=float)
+      print(name, np.mean(np.abs(e)), np.sqrt(np.mean(e**2)))
+code_lang: python
+options:
+  A: 優先選乙，並以均方根誤差比較
+  B: 優先選甲，並以均方根誤差比較
+  C: 視為同等，並以平均絕對誤差比較
+  D: 視為同等，並以帶符號誤差平均比較
+answer: A
+explanation:
+  summary: 相同平均絕對誤差，仍可能有不同的大誤差風險。
+  correct: 兩者平均絕對誤差都是 2。甲的均方根誤差為 4，乙為 2。平方運算會加重甲集中在單台的誤差，故乙較符合本次重視大誤差的選型目標。
+  wrong:
+    B: 甲的平方誤差平均為 16，開根號後是 4，高於乙的 2。
+    C: 平均絕對誤差不區分誤差是集中還是均勻；本例的選型重點需要額外查看大誤差。
+    D: 兩者帶符號誤差的平均都為 2；此平均也可能因正負抵銷而無法反映大誤差。
+guide_refs:
+  - guide-3:5-23
+author: codex
+review:
+  status: draft

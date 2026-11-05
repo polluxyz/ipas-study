@@ -1,0 +1,35 @@
+id: M-L23303-054
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - f1-score
+stem: 某文件分類器每筆只選 1 類，真值也只有 1 類。團隊以完整的 3 類標籤計算程式中的指標，沒有樣本權重。主管發現 micro F1 與準確率相同。下列解讀何者最正確？
+code: |
+  from sklearn.metrics import accuracy_score, f1_score
+  y = [0, 0, 0, 1, 1, 2]
+  pred = [0, 0, 1, 1, 2, 2]
+  print(round(accuracy_score(y, pred), 4))
+  print(round(f1_score(y, pred, average='micro'), 4))
+code_lang: python
+options:
+  A: 兩個分數相同，表示各類別的召回率相同
+  B: 兩個分數相同，表示各類別的樣本數相同
+  C: 此任務下兩者相等，不能視為兩份獨立證據
+  D: 此任務下兩者相等，表示未出現跨類別誤判
+answer: C
+explanation:
+  summary: 完整單標籤多類別評估中，micro F1 等於準確率。
+  correct: 每筆誤分類會對整體累計各增加 1 個假正例與假負例。因此 micro precision、micro recall 與準確率相同，micro F1 也相同。程式的兩個輸出都是 0.6667；這不表示各類別表現一致。
+  wrong:
+    A: 相等來自整體累計方式，並未要求各類召回率相同；本例各類的召回率不同。
+    B: 本例類別筆數是 3、2、1，並不平衡，但兩個整體指標仍相等。
+    D: 資料中有 2 筆誤分類，分數仍相等；相等不能用來推論沒有錯誤。
+guide_refs:
+  - guide-3:5-21
+author: codex
+review:
+  status: draft

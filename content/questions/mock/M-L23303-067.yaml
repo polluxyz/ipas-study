@@ -1,0 +1,37 @@
+id: M-L23303-067
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23303
+concepts:
+  - mean-absolute-error
+  - mean-squared-error
+  - learning-curve
+stem: 某需求模型的訓練均方誤差持續降低。相同驗證集上，第 10、20 輪的絕對誤差如程式所示。業務事先指定以驗證平均絕對誤差選權重，且只在這 2 輪中選。工程師發現第 20 輪的驗證均方誤差上升。最適合如何判斷？
+code: |
+  import numpy as np
+  for epoch, errors in [(10, [2, 2, 2, 2]), (20, [0, 0, 0, 6])]:
+      e = np.array(errors, dtype=float)
+      print(epoch, np.mean(e), np.mean(e**2))
+code_lang: python
+options:
+  A: 選第 10 輪，驗證均方誤差上升即否決後續權重
+  B: 選第 10 輪，兩種驗證指標會選到同一輪
+  C: 選第 20 輪，依預先指定的平均絕對誤差選擇
+  D: 選第 20 輪，訓練均方誤差下降即可代表泛化
+answer: C
+explanation:
+  summary: 兩種驗證指標可能反向變化，選權重要依預先指定的目標。
+  correct: 第 10 輪的平均絕對誤差為 2、均方誤差為 4。第 20 輪分別是 1.5 與 9，代表多數樣本改善、少數大誤差加劇。既然業務預先指定平均絕對誤差，這 2 輪之間應選第 20 輪，同時如實保留均方誤差惡化的紀錄。
+  wrong:
+    A: 均方誤差上升可提醒大誤差增加，但不能未經決策就取代已指定的選模指標。
+    B: 平均絕對誤差與均方誤差對大誤差的權重不同，本例實際會偏好不同輪次。
+    D: 訓練誤差降低不能單獨證明泛化改善；選第 20 輪的依據是驗證平均絕對誤差降低。
+guide_refs:
+  - guide-3:5-20
+  - guide-3:5-23
+author: codex
+review:
+  status: draft

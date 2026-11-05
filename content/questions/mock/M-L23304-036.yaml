@@ -1,0 +1,37 @@
+id: M-L23304-036
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - learning-rate-schedule
+  - hyperparameter-tuning
+stem: 某團隊以相同初始權重、資料順序及 8 次更新，比較 4 個固定學習率。測試目標函數為 2w²，梯度為 4w。程式印出每組最後的損失。若下一階段只保留本次損失最低且未發散的設定，應選哪一個？
+code: |
+  for lr in [0.01, 0.10, 0.20, 0.60]:
+      w = 1.0
+      for _ in range(8):
+          w -= lr * 4*w
+      print(lr, format(2*w*w, '.3e'))
+code_lang: python
+options:
+  A: 學習率 0.01
+  B: 學習率 0.10
+  C: 學習率 0.20
+  D: 學習率 0.60
+answer: C
+explanation:
+  summary: 短程學習率比較須固定起點與更新預算。
+  correct: 更新式是 w←(1−4η)w。學習率 0.20 每步把 |w| 縮成 0.2 倍，在本次候選與預算下損失最低。0.60 的倍率為 −1.4，絕對值大於 1，會震盪放大。這個結論只適用本次目標與候選，不是通用最佳學習率。
+  wrong:
+    A: 0.01 的倍率為 0.96，雖可收斂，但本次 8 次更新內下降較慢。
+    B: 0.10 的倍率為 0.6，下降速度慢於 0.20 的 0.2，最後損失較高。
+    D: 0.60 使參數每步反向且絕對值乘 1.4，損失逐步放大，不符合未發散的條件。
+guide_refs:
+  - guide-3:5-31
+  - guide-3:5-32
+author: codex
+review:
+  status: draft
