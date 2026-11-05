@@ -1,0 +1,43 @@
+id: M-L23304-011
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23304
+concepts:
+  - learning-rate-schedule
+  - pytorch
+stem: 某團隊以驗證準確率作為學習率調整依據，準確率越高越好。以下紀錄依序為 0.70、0.75、0.74；patience=0 表示遇到首次未改善就降率。哪項結果與修正最正確？
+code: |
+  import torch
+  w = torch.nn.Parameter(torch.tensor(0.0))
+  opt = torch.optim.SGD([w], lr=0.1)
+  scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+      opt, mode='min', factor=0.5, patience=0, threshold=0.0)
+  for accuracy in [0.70, 0.75, 0.74]:
+      scheduler.step(accuracy)
+      print(round(opt.param_groups[0]['lr'], 3))
+code_lang: python
+options:
+  A: 目前只降 1 次；若希望準確率下降時才降率，應將 factor 改成 1
+  B: 目前不會降率；若希望準確率下降時才降率，應將 patience 改成 1
+  C: 目前降 2 次；若希望準確率下降時才降率，應將 mode 改成 max
+  D: 目前降 3 次；若希望準確率下降時才降率，應先將準確率乘以 100
+answer: C
+explanation:
+  summary: 監控指標的改善方向，須與學習率排程設定一致。
+  correct: mode=min 將第 1 次的 0.70 設為基準，後面兩次都比它大，故學習率依序是 0.1、0.05、0.025。改成 max 後 0.75 是改善，0.74 才觸發降率。
+  wrong:
+    A: 目前會降 2 次；factor=1 也不符合此排程要求的衰減係數範圍，不能修正指標方向。
+    B: 目前已會降率；增加 patience 只改變容忍次數，不會把 min 的改善方向改成 max。
+    D: 首次只建立基準，不觸發降率。乘以正數不會反轉大小順序，也不能修正方向。
+guide_refs:
+  - guide-3:3-27
+  - guide-3:5-19
+  - guide-3:5-31
+  - guide-3:5-32
+author: codex
+review:
+  status: verified
+  blind_answer: C

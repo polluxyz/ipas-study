@@ -1,0 +1,41 @@
+id: M-L23203-013
+rev: 1
+source: mock
+subject: 3
+type: 程式
+codes:
+  - L23203
+concepts:
+  - transfer-learning
+  - pytorch
+stem: 某工程師先只訓練分類頭，再解凍特徵層。下列程式模擬解凍後的第 1 次更新，沒有舊梯度。a 代表特徵層參數，b 代表分類頭參數。兩者都算出梯度，但 a 沒有改變。最正確的原因為何？
+code: |
+  import torch
+  a = torch.nn.Parameter(torch.tensor(1.0), requires_grad=False)
+  b = torch.nn.Parameter(torch.tensor(1.0))
+  opt = torch.optim.SGD([b], lr=0.1)
+  a.requires_grad_(True)
+  (a * b).backward()
+  opt.step()
+  print(round(a.grad.item(), 1), round(a.item(), 1), round(b.item(), 1))
+code_lang: python
+options:
+  A: 優化器只登記 b，解凍 a 後還須將 a 加入參數群組
+  B: a 是計算式中較前面的參數，必須再呼叫一次 backward
+  C: a 曾關閉梯度，重新開啟後還須呼叫 train 才能更新
+  D: a 和 b 的梯度相同，優化器會自動只保留其中一個
+answer: A
+explanation:
+  summary: 可計算梯度的參數，仍須列入優化器才會更新。
+  correct: a 的梯度為 1，但優化器建立時只收到 b。因此 a 維持 1.0，b 更新為 0.9。解凍後可用 add_param_group 納入 a，或依訓練設計重建優化器。
+  wrong:
+    B: 梯度已算出，問題在更新對象，不是反向傳播次數。再次反向傳播也不會替優化器登記 a。
+    C: train 切換部分層的訓練行為，不會替優化器新增參數。此處的純量參數也不受該模式控制。
+    D: 優化器不會因梯度值相同就合併不同參數；只有傳入的 b 屬於本次更新對象。
+guide_refs:
+  - guide-3:4-61
+  - guide-3:4-92
+author: codex
+review:
+  status: verified
+  blind_answer: A
