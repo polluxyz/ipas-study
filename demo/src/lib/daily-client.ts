@@ -74,7 +74,11 @@ export function initDaily(): void {
       const label = ({ correct: '答對', wrong: '答錯', unavailable: '已移除或改版', unsure: '已答，標記不確定', answered: '已答', unanswered: '未答' })[state];
       button.setAttribute('aria-label', `第 ${index + 1} 題，${label}${submitted && item.unsure ? '，曾標記不確定' : ''}`);
       if (index === draft.position) button.setAttribute('aria-current', 'step');
-      button.addEventListener('click', () => navigation?.go(index)); numbers.append(button);
+      button.addEventListener('click', () => {
+        // 先收合再導覽，讓題目標題在收合後取得焦點並定位。
+        if (!desktopPanel.matches) panel.open = false;
+        navigation?.go(index);
+      }); numbers.append(button);
     }
     const legend = element('legend'); legend.replaceChildren();
     for (const [state, label] of submitted ? [['correct', '答對'], ['wrong', '答錯'], ['outlined', '曾標不確定'], ['unavailable', '解析不可用']] : [['unanswered', '未答'], ['answered', '已答'], ['unsure', '不確定']]) {
