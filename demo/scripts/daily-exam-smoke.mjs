@@ -263,6 +263,107 @@ export async function runDailyExamSmoke() {
       for (const chip of await chips.all()) { await chip.scrollIntoViewIfNeeded(); if (state === 'hover') await chip.hover(); else await page.mouse.move(0, 0); await page.waitForTimeout(200); assert.equal(await chip.evaluate((e) => e.matches(':hover')), state === 'hover'); const result = await contrast(chip); results.push({ text: await chip.innerText(), ...result }); assert.ok(result.ratio >= 4.5, `暗色概念按鈕 ${state} 對比 ${result.ratio.toFixed(3)}:1，需至少 4.5:1`); }
       return { theme: 'dark', state, contrasts: results };
     });
+    // 在另一科讀取草稿，才不會由目前題組的還原流程先濾掉空題與部分失效題。
+    for (const state of ['absent', 'empty', 'submitted', 'invalid-removed', 'invalid-revision', 'open', 'partial-removed', 'partial-revision']) await regression(`regression-round3-subject-copy-${state}`, async (ctx) => {
+      const active = fixture(questions, 1, 2); const other = fixture(questions, 3, state === 'submitted' ? 50 : 4, state === 'submitted' ? 'submitted' : 'open');
+      await seed(ctx, state === 'empty' ? [] : state === 'absent' ? [active] : [active, other], other.submission?.attempts ?? []);
+      const page = await ctx.newPage(); await page.clock.install({ time: instant });
+      const invalid = new Set(other.questions.slice(0, state.startsWith('partial') ? 1 : 50).map((q) => q.id));
+      if (state === 'empty') await changeCatalog(page, (catalog) => catalog.filter((q) => q.subject !== 1 || q.source !== 'mock'));
+      else if (state.includes('removed') || state === 'submitted') await changeCatalog(page, (catalog) => catalog.filter((q) => !invalid.has(q.id)));
+      else if (state.includes('revision')) await changeCatalog(page, (catalog) => catalog.map((q) => invalid.has(q.id) ? { ...q, rev: q.rev + 1 } : q));
+      await loadDaily(page, base + '/daily/');
+      const subject = state === 'empty' ? 1 : 3; const card = page.locator(`[data-daily-subject="${subject}"] [data-subject-progress]`);
+      const expected = state === 'absent' ? '尚未開啟' : state === 'empty' ? '沒有可作答題' : state === 'submitted' ? '已交卷・已答 50／50' : state.startsWith('invalid') ? '題目已失效・需換題' : '作答中・已答 4／50';
+      // 舊版已具備的文案也要證明斷言有效，故意破壞顯示結果即可重現退步。
+      if (process.env.DAILY_EXAM_FAULT_ROUND3 === 'subject-copy') await card.evaluate((e) => { e.textContent = '故障注入：錯誤科目狀態'; });
+      assert.equal(await card.innerText(), expected, `科目卡 ${state} 須精確符合狀態文字`);
+      if (!['absent', 'empty'].includes(state)) assert.deepEqual(await getDraft(page, 3), other, '顯示另一科狀態不得改寫草稿');
+      if (state === 'empty') assert.equal(await page.evaluate((key) => localStorage.getItem(key), DRAFT), JSON.stringify({ version: 1, drafts: [] }));
+      return { state, subject, text: expected, total: state === 'empty' ? 0 : other.questions.length };
+    });
+    const subjectCardText = (page, subject) => page.locator(`[data-daily-subject="${subject}"] [data-subject-progress]`);
+    const waitSubjectCard = async (page, subject, expected) => {
+      // 等待跨分頁事件完成，再保留實際文字供舊建置的失敗報告比對。
+      const card = subjectCardText(page, subject);
+      try { await card.filter({ hasText: new RegExp(`^${expected}$`) }).waitFor({ timeout: 3000 }); } catch { /* 下方斷言會列出預期值與實際值。 */ }
+      assert.equal(await card.innerText(), expected, `科目 ${subject} 卡須不重載即更新`);
+    };
+    const currentSnapshot = async (page) => ({ draft: await getDraft(page), qid: await currentCard(page).getAttribute('data-qid'), position: await page.locator('#daily-position').innerText(), url: page.url(), document: await page.evaluate(() => window.round3Document) });
+    await regression('regression-round3-other-tab-storage', async (ctx) => {
+      const first = await ctx.newPage(); await first.clock.install({ time: instant }); await first.clock.pauseAt(new Date(instant.getTime() + 1000));
+      if (process.env.DAILY_EXAM_FAULT_ROUND3 === 'storage-sync') await first.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation(), true));
+      const three = fixture(questions, 3).questions.slice(0, 3); const ids = new Set(three.map((q) => q.id));
+      const smallCatalog = (catalog) => catalog.filter((q) => q.subject !== 3 || ids.has(q.id));
+      await changeCatalog(first, smallCatalog); await loadDaily(first, base + '/daily/?subject=1');
+      await currentCard(first).locator('input[value="A"]').check(); await first.locator('#daily-next').click(); await currentCard(first).locator('input[value="B"]').check();
+      await first.evaluate(() => { window.round3Document = 'original-subject-1-document'; });
+      const before = await currentSnapshot(first); let navigations = 0; first.on('framenavigated', (frame) => { if (frame === first.mainFrame()) navigations++; });
+      const second = await ctx.newPage(); await second.clock.install({ time: instant }); await second.clock.pauseAt(new Date(instant.getTime() + 1000)); await changeCatalog(second, smallCatalog);
+      await loadDaily(second, base + '/daily/?subject=3'); await waitSubjectCard(first, 3, '作答中・已答 0／3');
+      await currentCard(second).locator('input[value="A"]').check(); await waitSubjectCard(first, 3, '作答中・已答 1／3');
+      assert.deepEqual(await currentSnapshot(first), before, '另一科選答不得改目前題目、位置、科目 1 seq 或頁面');
+      for (let index = 1; index < 3; index++) { await second.locator('#daily-next').click(); await currentCard(second).locator('input[value="A"]').check(); }
+      await waitSubjectCard(first, 3, '作答中・已答 3／3'); await second.locator('#daily-submit').click(); await second.locator('#daily-confirm').click(); await second.locator('#daily-score').waitFor();
+      await waitSubjectCard(first, 3, '已交卷・已答 3／3'); assert.deepEqual(await currentSnapshot(first), before, '另一科交卷不得改目前題目、位置、科目 1 seq 或頁面');
+      assert.equal(navigations, 0, '科目卡同步不得重新載入'); assert.equal((await getAttempts(first)).length, 3);
+      return { tabs: 2, updates: ['作答中・已答 0／3', '作答中・已答 1／3', '作答中・已答 3／3', '已交卷・已答 3／3'], subject1Seq: before.draft.seq, subject1Preserved: true, navigations };
+    });
+    await regression('regression-round3-other-tab-visibility', async (ctx) => {
+      // 已交卷的目前題組不會在可見事件保存計時，因此可精確驗證 seq 不變。
+      const active = fixture(questions, 1, 50, 'submitted'); const other = fixture(questions, 3, 4); await seed(ctx, [active, other], active.submission.attempts);
+      const page = await ctx.newPage(); await page.clock.install({ time: instant }); await page.clock.pauseAt(new Date(instant.getTime() + 1000));
+      if (process.env.DAILY_EXAM_FAULT_ROUND3 === 'visibility-sync') await page.addInitScript(() => document.addEventListener('visibilitychange', (event) => event.stopImmediatePropagation(), true));
+      await loadDaily(page, base + '/daily/?subject=1'); await page.evaluate(() => { window.round3Document = 'visibility-document'; }); const before = await currentSnapshot(page);
+      assert.equal(await subjectCardText(page, 3).innerText(), '作答中・已答 4／50');
+      // 同頁改儲存區不會收到 storage，能單獨證明 visibilitychange 的刷新路徑。
+      await page.evaluate((key) => { const root = JSON.parse(localStorage.getItem(key)); const other = root.drafts.find((d) => d.subject === 3); other.seq++; other.questions.slice(0, 9).forEach((q) => { q.choice = 'A'; }); localStorage.setItem(key, JSON.stringify(root)); }, DRAFT);
+      assert.equal(await subjectCardText(page, 3).innerText(), '作答中・已答 4／50', '派發事件前尚未刷新');
+      await page.evaluate(() => { Object.defineProperty(document, 'hidden', { configurable: true, value: false }); document.dispatchEvent(new Event('visibilitychange')); });
+      await waitSubjectCard(page, 3, '作答中・已答 9／50'); assert.equal(await subjectCardText(page, 1).innerText(), '已交卷・已答 50／50'); assert.deepEqual(await currentSnapshot(page), before, '回到分頁只刷新科目卡，不換目前題組');
+      return { before: '作答中・已答 4／50', after: '作答中・已答 9／50', subject1Seq: before.draft.seq, subject1Preserved: true, event: 'visibilitychange' };
+    });
+    for (const direction of ['shrink', 'grow']) await regression(`regression-round3-resize-focus-${direction}`, async (ctx) => {
+      const d = fixture(questions, 1, 2); d.position = 1; await seed(ctx, [d]); const page = await ctx.newPage(); const shrink = direction === 'shrink';
+      await page.setViewportSize({ width: shrink ? 1440 : 375, height: 1000 }); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      const number = page.locator('#daily-numbers [aria-current="step"]'); const summary = page.locator('#daily-panel summary'); const initial = shrink ? number : summary;
+      await initial.focus(); assert.equal(await initial.evaluate((e) => document.activeElement === e), true, '寬度變動前先確認焦點');
+      await page.setViewportSize({ width: shrink ? 375 : 1440, height: 1000 });
+      const selector = shrink ? '#daily-panel summary' : '#daily-numbers [aria-current="step"]';
+      try { await page.waitForFunction((selector) => document.activeElement === document.querySelector(selector), selector, { timeout: 3000 }); } catch { /* 下方列出實際焦點，不能只檢查面板開合。 */ }
+      if (process.env.DAILY_EXAM_FAULT_ROUND3 === 'resize-focus') await page.evaluate(() => document.activeElement.blur());
+      const focus = await page.evaluate((selector) => ({ matches: document.activeElement === document.querySelector(selector), tag: document.activeElement.tagName, id: document.activeElement.id, text: document.activeElement.textContent?.trim().slice(0, 40) }), selector);
+      assert.equal(focus.matches, true, `寬度 ${direction} 焦點須到 ${selector}，實際 ${JSON.stringify(focus)}`); assert.notEqual(focus.tag, 'BODY');
+      assert.equal(await page.locator('#daily-panel').evaluate((e) => e.open), !shrink); assert.equal(await page.locator('#daily-position').innerText(), '第 2／50 題');
+      return { from: shrink ? 1440 : 375, to: shrink ? 375 : 1440, focus };
+    });
+    await regression('regression-round3-rejected-number-pending', async (ctx) => {
+      const d = fixture(questions, 1, 50); await seed(ctx, [d]); const page = await ctx.newPage(); await page.setViewportSize({ width: 375, height: 1000 }); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      // 讓正式作答已寫入、草稿結案失敗，重試才能同時驗證防重複與固定 ID。
+      await page.evaluate(() => {
+        const original = Storage.prototype.setItem; window.restoreRound3Storage = () => { Storage.prototype.setItem = original; };
+        window.round3GeneratedIds = []; const uuid = crypto.randomUUID.bind(crypto); crypto.randomUUID = () => { const id = uuid(); window.round3GeneratedIds.push(id); return id; };
+        Storage.prototype.setItem = function(key, raw) { if (key === 'ipas-daily-draft-v1' && JSON.parse(raw).drafts.some((d) => d.subject === 1 && d.status === 'submitted')) throw new Error('round3 final draft quota'); return original.call(this, key, raw); };
+      });
+      await page.locator('#daily-submit').click(); await page.locator('#daily-confirm').click(); await page.locator('#daily-save-error').waitFor(); await assertHiddenResults(page);
+      const pending = await getDraft(page); assert.equal(pending.status, 'submitting'); const ids = pending.submission.attempts.map((a) => a.id); const attemptsBefore = await getAttempts(page);
+      assert.equal(attemptsBefore.length, 50); assert.equal(await page.locator('#daily-numbers button:disabled').count(), 50, '真實交卷中斷時所有題號停用');
+      await page.locator('#daily-panel summary').click(); const panel = page.locator('#daily-panel'); const target = page.locator('#daily-numbers button').filter({ hasText: /^2$/ });
+      assert.equal(await panel.evaluate((e) => e.open), true); const before = { position: await page.locator('#daily-position').innerText(), qid: await currentCard(page).getAttribute('data-qid') };
+      await target.scrollIntoViewIfNeeded(); const box = await target.boundingBox(); assert.ok(box); await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+      assert.equal(await target.isDisabled(), true); assert.equal(await panel.evaluate((e) => e.open), true, '滑鼠點停用題號不收合');
+      assert.deepEqual({ position: await page.locator('#daily-position').innerText(), qid: await currentCard(page).getAttribute('data-qid') }, before, '滑鼠點停用題號不跳題');
+      // 協調者核可：只解除目標停用，觸發目前真實介面走不到的拒絕防禦路徑。
+      await target.evaluate((button) => { button.disabled = false; });
+      if (process.env.DAILY_EXAM_FAULT_ROUND3 === 'rejected-close') await target.evaluate((button) => button.addEventListener('click', () => { document.querySelector('#daily-panel').open = false; }, true));
+      await target.click(); assert.equal(await panel.evaluate((e) => e.open), true, 'pending 拒絕跳題時不可收合');
+      assert.deepEqual({ position: await page.locator('#daily-position').innerText(), qid: await currentCard(page).getAttribute('data-qid') }, before, 'pending 拒絕跳題時目前題目不變');
+      assert.equal(await target.evaluate((button) => document.activeElement === button), true, '拒絕後焦點留在被點的題號'); assert.deepEqual(await getDraft(page), pending); assert.deepEqual(await getAttempts(page), attemptsBefore);
+      await page.evaluate(() => window.restoreRound3Storage()); await page.locator('#daily-retry').click(); await page.locator('#daily-score').waitFor(); const attempts = await getAttempts(page);
+      assert.equal((await getDraft(page)).status, 'submitted'); assert.equal(attempts.length, 50); assert.equal(new Set(attempts.map((a) => a.id)).size, 50); assert.deepEqual(attempts.map((a) => a.id), ids); assert.deepEqual(await page.evaluate(() => window.round3GeneratedIds), ids); assert.deepEqual(attempts, attemptsBefore);
+      await page.reload(); await page.locator('#daily-score').waitFor(); assert.deepEqual(await getAttempts(page), attempts, '重載後仍只有原來 50 筆作答');
+      return { width: 375, realDisabledClick: true, defensivePath: 'only target disabled removed, then native click', rejectedFocusPreserved: true, beforeRetry: 50, afterRetry: attempts.length, uniqueIds: 50, idsStable: true };
+    });
     // 真實逐題操作、Enter、取消交卷、改答與關閉後重開。
     if (selected("sequential-enter-edit-reopen-backup-back")) {
       const ctx = await context(); const page = await ctx.newPage(); await page.clock.install({ time: instant });
@@ -582,5 +683,5 @@ export async function runDailyExamSmoke() {
   }
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  const report = await runDailyExamSmoke(); process.stdout.write(JSON.stringify({ success: report.success, cases: report.cases.length, newCaseNames: report.newCases.map((item) => item.name), measurements: report.measurements.length, screenshots: report.screenshots.length, faults: report.faults, errors: report.errors, cleanup: report.cleanup }, null, 2) + '\n');
+  const report = await runDailyExamSmoke(); process.stdout.write(JSON.stringify({ success: report.success, cases: report.cases.length, totalCases: report.cases.length + report.measurements.length + report.faults.length, newCaseNames: report.newCases.map((item) => item.name), round3CaseNames: report.newCases.filter((item) => item.name.startsWith('regression-round3-')).map((item) => item.name), measurements: report.measurements.length, screenshots: report.screenshots.length, faults: report.faults, errors: report.errors, cleanup: report.cleanup }, null, 2) + '\n');
 }
