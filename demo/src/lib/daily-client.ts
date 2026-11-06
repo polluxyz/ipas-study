@@ -52,6 +52,16 @@ export function initDaily(): void {
     const q = draft.questions[index]; if (!availableDailyQuestion(q, catalog, subject)) return;
     displayQuestionCard(card, { choice: q.choice, locked: !editable() || Boolean(q.legacyAttemptId), reveal: draft.status === 'submitted', correct: q.correct, saved: draft.status === 'submitted' });
   });
+  const renderSubjectCards = () => {
+    try {
+      const drafts = getDailyDrafts();
+      for (const link of document.querySelectorAll<HTMLElement>('[data-daily-subject]')) {
+        const item = link.dataset.dailySubject === String(subject) ? draft : drafts.find((d) => String(d.subject) === link.dataset.dailySubject);
+        if (link.dataset.dailySubject === String(subject)) link.setAttribute('aria-current', 'page');
+        link.querySelector('[data-subject-progress]')!.textContent = dailySubjectStatus(item, catalog, link.dataset.dailySubject === '3' ? 3 : 1);
+      }
+    } catch { /* 科目卡讀取失敗時保留原文字，避免中斷目前作答。 */ }
+  };
   const render = () => {
     const { answered, unsure: count, total } = dailyCounts(draft); const submitted = draft.status === 'submitted';
     const subjectProgress = document.querySelector(`[data-daily-subject="${subject}"] [data-subject-progress]`);
@@ -140,11 +150,7 @@ export function initDaily(): void {
     try {
       text('remaining', `該科剩餘未做的已驗證非官方題：${unseenDailyQuestions(catalog, existing ? getAttempts() : attempts, subject).length} 題（含本份未交卷題目）。`);
     } catch { text('remaining', '無法更新剩餘題數；草稿仍可繼續作答與檢討。'); }
-    for (const link of document.querySelectorAll<HTMLElement>('[data-daily-subject]')) {
-      const item = link.dataset.dailySubject === String(subject) ? draft : drafts.find((d) => String(d.subject) === link.dataset.dailySubject);
-      if (link.dataset.dailySubject === String(subject)) link.setAttribute('aria-current', 'page');
-      link.querySelector('[data-subject-progress]')!.textContent = dailySubjectStatus(item, catalog, link.dataset.dailySubject === '3' ? 3 : 1);
-    }
+    renderSubjectCards();
     element('practice').hidden = !cards.length;
     draft.position = dailyPosition(draft, Number(new URL(location.href).searchParams.get('position')) - 1); displayCards();
     if (cards.length) navigation = initQuestionNavigation({ prefix: 'daily', cards, position: draft.position, heading: element('question-heading'),
@@ -202,8 +208,8 @@ export function initDaily(): void {
     try { assertDailyDraftCurrent(expected, subject); }
     catch (cause) { readOnly = true; started = null; error(cause); displayCards(); render(); }
   };
-  window.addEventListener('storage', (event) => { if (event.key === DRAFT_KEY || event.key === null) checkCurrent(); });
-  document.addEventListener('visibilitychange', () => { settle(); if (draft.status === 'open') persist(); if (!document.hidden) checkCurrent(); displayCards(); render(); });
+  window.addEventListener('storage', (event) => { if (event.key === DRAFT_KEY || event.key === null) { checkCurrent(); renderSubjectCards(); } });
+  document.addEventListener('visibilitychange', () => { settle(); if (draft.status === 'open') persist(); if (!document.hidden) { checkCurrent(); renderSubjectCards(); } displayCards(); render(); });
   const startTimer = () => { timer = window.setInterval(() => {
     showTime(); if (draft.status === 'submitted') {
       const today = draft.date === taipeiDate(new Date()); element('today').hidden = today;
