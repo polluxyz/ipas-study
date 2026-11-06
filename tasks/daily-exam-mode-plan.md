@@ -1,6 +1,6 @@
 # 每日題組交卷模式：實作計畫
 
-規格：`docs/specs/daily-exam-mode.md`（v2）。協調與驗收：Claude。前端設計與實作：Codex（`gpt-6.1-sol` + `high`）。
+規格：`docs/specs/daily-exam-mode.md`（v3）。協調與驗收：Claude。前端設計與實作：Codex（`gpt-6.1-sol` + `high`）。
 
 ## 元件與相依
 
@@ -39,9 +39,10 @@
 ## 驗證點
 
 - mockup：協調者親讀截圖，使用者核可。
-- 實作：規格第 10 節 10 條逐條有證據。
+- 實作：規格第 10 節 12 條逐條有證據。
 - 上線：4321 重建後，以真實 localStorage 開頁，確認今日舊作答被鎖定、解析收起。
 
 ## 實作紀錄
 
 - 2026-11-06：使用者看過第 1 版 mockup，要求逐題作答、選單逐題增加、只用顏色。規格升 v2，mockup 退回修改。實際分支是 `polluxyz/daily-exam-mockup`，不合併，所以不改名。
+- 2026-11-06：使用者看過第 2 輪 mockup，指定按鈕位置。第 3 輪 commit `7744ac1` 複核通過，使用者回覆「可以」，並要求合併。規格升 v3。進度列與底部操作列固定在畫面上，是 Codex 提案，隨 mockup 核可。
