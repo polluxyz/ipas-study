@@ -53,6 +53,8 @@ export function initDaily(): void {
   });
   const render = () => {
     const { answered, unsure: count, total } = dailyCounts(draft); const submitted = draft.status === 'submitted';
+    const subjectProgress = document.querySelector(`[data-daily-subject="${subject}"] [data-subject-progress]`);
+    if (subjectProgress) subjectProgress.textContent = `${submitted ? '已交卷' : '作答中'}・已答 ${answered}／${total}`;
     text('position', `第 ${draft.position + 1}／${total} 題`); text('question-heading', `第 ${draft.position + 1} 題`);
     text('progress', `已答 ${answered}／${total}`); text('unsure-count', `不確定 ${count}`);
     const bar = element<HTMLProgressElement>('progress-bar'); bar.max = Math.max(1, total); bar.value = answered;
