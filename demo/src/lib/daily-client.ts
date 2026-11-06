@@ -192,8 +192,14 @@ export function initDaily(): void {
     summaryFocused = false;
     panel.open = desktopPanel.matches;
     // 寬度改變會隱藏題號或開關，將焦點留在仍可操作的選單位置。
-    if (!panel.open && focusInPanel) summary.focus({ preventScroll: true });
-    else if (panel.open && focusOnSummary) {
+    if (!panel.open && focusInPanel) {
+      summary.focus({ preventScroll: true });
+      const bounds = summary.getBoundingClientRect();
+      const top = Math.max(0, document.querySelector('.daily-toolbar')!.getBoundingClientRect().bottom);
+      const bottom = Math.min(window.innerHeight, document.querySelector('.daily-actions')!.getBoundingClientRect().top);
+      // 只有開關被固定列遮住或超出畫面時才捲動，保留原本可見的位置。
+      if (bounds.top < top || bounds.bottom > bottom) summary.scrollIntoView({ block: 'center', behavior: 'instant' });
+    } else if (panel.open && focusOnSummary) {
       const current = panel.querySelector<HTMLButtonElement>('[aria-current="step"]:not(:disabled)');
       const retry = element('retry');
       const target = current ?? (retry.checkVisibility() ? retry : element('question-heading'));
