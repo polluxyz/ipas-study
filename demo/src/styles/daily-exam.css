@@ -60,6 +60,8 @@ body:has(.daily-exam) .sl-menu-button { position: absolute; }
 .daily-exam .judgment-rule { background: var(--exam-soft); color: var(--ink); }
 .daily-exam .wrong-reasons dt { color: var(--muted); }
 .daily-exam .answer-explanation h3 { margin-top: 18px; }
+[data-theme='dark'] .daily-exam .link-chips a { background: var(--exam-soft); border-color: var(--line); }
+[data-theme='dark'] .daily-exam .link-chips a:hover { background: var(--exam-green-bg); }
 .daily-actions { position: sticky; bottom: 0; z-index: 20; display: flex; justify-content: space-between; align-items: start; gap: 8px; padding: 12px 24px; background: var(--paper); border: 1px solid var(--line); border-radius: 0 0 10px 10px; box-shadow: 0 -4px 16px #00000004; }
 .daily-forward { display: flex; align-items: start; gap: 8px; }
 .daily-exam .button { font-size: 13px; padding: 10px 12px; min-height: 44px; line-height: 22px; white-space: nowrap; gap: 4px; }
