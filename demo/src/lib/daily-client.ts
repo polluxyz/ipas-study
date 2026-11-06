@@ -172,7 +172,21 @@ export function initDaily(): void {
   panel.addEventListener('toggle', () => { panel.querySelector('summary')!.setAttribute('aria-expanded', String(panel.open)); text('panel-toggle', panel.open ? '收合' : '展開'); });
   const desktopPanel = window.matchMedia('(min-width: 1100px)');
   panel.open = desktopPanel.matches;
-  desktopPanel.addEventListener('change', () => { panel.open = desktopPanel.matches; });
+  const summary = panel.querySelector('summary')!;
+  let summaryFocused = false;
+  summary.addEventListener('focus', () => { summaryFocused = true; });
+  // 桌面樣式會在寬度事件前隱藏開關，先保留因此失去的焦點。
+  summary.addEventListener('blur', () => { if (!desktopPanel.matches) summaryFocused = false; });
+  desktopPanel.addEventListener('change', () => {
+    const focused = document.activeElement;
+    const focusInPanel = panel.contains(focused) && focused !== summary;
+    const focusOnSummary = focused === summary || summaryFocused;
+    summaryFocused = false;
+    panel.open = desktopPanel.matches;
+    // 寬度改變會隱藏題號或開關，將焦點留在仍可操作的選單位置。
+    if (!panel.open && focusInPanel) summary.focus({ preventScroll: true });
+    else if (panel.open && focusOnSummary) panel.querySelector<HTMLButtonElement>('[aria-current="step"]')?.focus({ preventScroll: true });
+  });
   element('today').addEventListener('click', () => {
     if (!canOpenToday(draft, catalog, taipeiDate(new Date())) || readOnly) return;
     try {
