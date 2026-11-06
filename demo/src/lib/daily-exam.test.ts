@@ -1,7 +1,7 @@
 /** 每日狀態與持久化的正反例，特別驗證交卷每一步失敗後沿用同一批 ID。 */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { clearStudyData, DailyConflictError, DRAFT_KEY, exportAttempts, getAttempts, getDailyDrafts, getWrongBook, importAttempts, isDailyDraft, saveAttemptBatch, saveDailyDraft, submitDailyDraft, type Attempt, type DailyDraft, type DailySet } from './attempts';
-import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
+import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, dailySubjectStatus, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { unseenDailyQuestions } from './daily';
 const set: DailySet = { date: '2026-11-05', subject: 1, questions: Array.from({ length: 5 }, (_, index) => ({ id: `q${index}`, rev: 2 })) };
 const attempt = (overrides: Partial<Attempt> = {}): Attempt => ({ id: 'old', qid: 'q0', rev: 2, choice: 'A', correct: true, ts: '2026-11-05T03:00:00Z', mode: 'daily:2026-11-05:S1', ms: 200, ...overrides });
@@ -55,6 +55,45 @@ describe('草稿驗證及隔離', () => {
     expect(getDailyDrafts()[0].status).toBe('open'); clearStudyData(); expect(storage.has(DRAFT_KEY)).toBe(false);
   });
 });
+describe('科目卡狀態', () => {
+  it('沒有草稿時尚未開啟', () => {
+    expect(dailySubjectStatus(undefined, catalog, 1)).toBe('尚未開啟');
+  });
+  it('空題目清單優先顯示沒有可作答題', () => {
+    for (const status of ['open', 'submitting', 'submitted'] as const) {
+      expect(dailySubjectStatus({ ...make(), status, questions: [] }, catalog, 1)).toBe('沒有可作答題');
+    }
+  });
+  it('已交卷顯示草稿的已答數與總題數', () => {
+    const submitted = { ...prepare(complete()), status: 'submitted' as const };
+    expect(dailySubjectStatus(submitted, catalog, 1)).toBe('已交卷・已答 5／5');
+  });
+  it('未交卷且全部失效時需換題', () => {
+    for (const status of ['open', 'submitting'] as const) {
+      for (const changed of [[], catalog.map((q) => ({ ...q, rev: 99 })), catalog.map((q) => ({ ...q, subject: 3 })), catalog.map((q) => ({ ...q, source: 'official' })), catalog.map((q) => ({ ...q, review: { status: 'draft' } }))]) {
+        expect(dailySubjectStatus({ ...complete(), status }, changed, 1)).toBe('題目已失效・需換題');
+      }
+      expect(dailySubjectStatus({ ...complete(), status }, catalog, 3)).toBe('題目已失效・需換題');
+    }
+  });
+  it('有效且未交卷時顯示作答中', () => {
+    const draft = make(); draft.questions[0].choice = 'A';
+    for (const status of ['open', 'submitting'] as const) {
+      expect(dailySubjectStatus({ ...draft, status }, catalog, 1)).toBe('作答中・已答 1／5');
+    }
+  });
+  it('部分有效的 open 草稿仍是作答中，計數保留草稿定義', () => {
+    const draft = make(); draft.questions[0].choice = 'A';
+    expect(dailySubjectStatus(draft, catalog.slice(1), 1)).toBe('作答中・已答 1／5');
+  });
+  it('全部失效但已交卷仍是已交卷', () => {
+    const submitted = { ...prepare(complete()), status: 'submitted' as const };
+    for (const changed of [[], catalog.map((q) => ({ ...q, rev: 99 }))]) {
+      expect(dailySubjectStatus(submitted, changed, 1)).toBe('已交卷・已答 5／5');
+    }
+  });
+});
+
 describe('今日快取有效性', () => {
   it('全部失效的快取視同不存在，無草稿或空草稿都重新抽題', () => {
     for (const changed of [[], catalog.map((q) => ({ ...q, rev: 99 })), catalog.map((q) => ({ ...q, subject: 3 })), catalog.map((q) => ({ ...q, source: 'official' })), catalog.map((q) => ({ ...q, review: { status: 'draft' } }))]) {

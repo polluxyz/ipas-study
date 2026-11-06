@@ -1,7 +1,7 @@
 /** 每日流程組裝狀態與互動；保存一律透過 attempts，題卡及導覽沿用共用函式。 */
 import { assertDailyDraftCurrent, DailyConflictError, DRAFT_KEY, getAttempts, getDailyDrafts, getDailySet, saveDailyDraft, saveDailySet, submitDailyDraft, type Choice, type DailyDraft } from './attempts';
 import { migrateDailySet, selectDailyQuestions, taipeiDate, unseenDailyQuestions, type DailyQuestion, type DailySubject } from './daily';
-import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
+import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, dailySubjectStatus, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { displayQuestionCard } from './question-card-display';
 import { initQuestionNavigation } from './question-set-client';
 
@@ -54,7 +54,7 @@ export function initDaily(): void {
   const render = () => {
     const { answered, unsure: count, total } = dailyCounts(draft); const submitted = draft.status === 'submitted';
     const subjectProgress = document.querySelector(`[data-daily-subject="${subject}"] [data-subject-progress]`);
-    if (subjectProgress) subjectProgress.textContent = `${submitted ? '已交卷' : '作答中'}・已答 ${answered}／${total}`;
+    if (subjectProgress) subjectProgress.textContent = dailySubjectStatus(draft, catalog, subject);
     text('position', `第 ${draft.position + 1}／${total} 題`); text('question-heading', `第 ${draft.position + 1} 題`);
     text('progress', `已答 ${answered}／${total}`); text('unsure-count', `不確定 ${count}`);
     const bar = element<HTMLProgressElement>('progress-bar'); bar.max = Math.max(1, total); bar.value = answered;
@@ -141,7 +141,7 @@ export function initDaily(): void {
     for (const link of document.querySelectorAll<HTMLElement>('[data-daily-subject]')) {
       const item = link.dataset.dailySubject === String(subject) ? draft : drafts.find((d) => String(d.subject) === link.dataset.dailySubject);
       if (link.dataset.dailySubject === String(subject)) link.setAttribute('aria-current', 'page');
-      link.querySelector('[data-subject-progress]')!.textContent = item ? `${item.status === 'submitted' ? '已交卷' : '作答中'}・已答 ${dailyCounts(item).answered}／${item.questions.length}` : '尚未開啟';
+      link.querySelector('[data-subject-progress]')!.textContent = dailySubjectStatus(item, catalog, link.dataset.dailySubject === '3' ? 3 : 1);
     }
     element('practice').hidden = !cards.length;
     draft.position = dailyPosition(draft, Number(new URL(location.href).searchParams.get('position')) - 1); displayCards();

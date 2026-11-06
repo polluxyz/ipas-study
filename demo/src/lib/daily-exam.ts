@@ -46,6 +46,14 @@ export function dailyNext(draft: DailyDraft, position: number): number {
 export function dailyCounts(draft: DailyDraft): { answered: number; unsure: number; total: number } {
   return { answered: draft.questions.filter((q) => q.choice).length, unsure: draft.questions.filter((q) => q.unsure).length, total: draft.questions.length };
 }
+export function dailySubjectStatus(draft: DailyDraft | undefined, catalog: readonly DailyQuestion[], subject: DailySubject): string {
+  if (!draft) return '尚未開啟';
+  if (!draft.questions.length) return '沒有可作答題';
+  const { answered, total } = dailyCounts(draft);
+  if (draft.status === 'submitted') return `已交卷・已答 ${answered}／${total}`;
+  if (!draft.questions.some((q) => availableDailyQuestion(q, catalog, subject))) return '題目已失效・需換題';
+  return `作答中・已答 ${answered}／${total}`;
+}
 export type DailyNumberState = 'unavailable' | 'correct' | 'wrong' | 'unsure' | 'answered' | 'unanswered';
 export function dailyNumberState(draft: DailyDraft, position: number, available = true): DailyNumberState {
   const q = draft.questions[position];
