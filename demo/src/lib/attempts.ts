@@ -123,5 +123,100 @@ export function saveDailySet(set: DailySet, replaceExisting = false): DailySet {
 }
 /** 清除本機學習資料時一併移除每日題組，避免保留與作答不一致的快取。 */
 export function clearStudyData(): void {
-  for (const key of [STORAGE_KEY, READING_KEY, DAILY_KEY]) localStorage.removeItem(key);
+  for (const key of [DRAFT_KEY, STORAGE_KEY, READING_KEY, DAILY_KEY]) localStorage.removeItem(key);
+}
+
+/** 每日草稿獨立於備份；版本或內容不明時拒絕讀寫，避免蓋掉尚未交卷的答案。 */
+export const DRAFT_KEY = 'ipas-daily-draft-v1';
+export interface DailyDraftQuestion {
+  id: string; rev: number; choice: Choice | null; unsure: boolean; ms: number;
+  legacyAttemptId?: string; correct?: boolean | null;
+}
+export interface DailySubmission { ts: string; attempts: Attempt[]; total: number; correct: number; }
+export interface DailyDraft {
+  id: string; seq: number; subject: 1 | 3; date: string; status: 'open' | 'submitting' | 'submitted';
+  position: number; questions: DailyDraftQuestion[]; submission?: DailySubmission;
+}
+export class DailyConflictError extends Error {
+  constructor() { super('另一頁已更新或清除資料。本頁已改為唯讀，請重新載入。'); }
+}
+const record = (value: unknown): value is Record<string, unknown> => Boolean(value) && typeof value === 'object';
+const nonnegative = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value) && value >= 0;
+const choiceValue = (value: unknown): value is Choice => typeof value === 'string' && ['A', 'B', 'C', 'D'].includes(value);
+export function isDailyDraft(value: unknown): value is DailyDraft {
+  if (!record(value) || typeof value.id !== 'string' || !value.id || !Number.isInteger(value.seq) || Number(value.seq) < 0 ||
+    ![1, 3].includes(Number(value.subject)) || typeof value.subject !== 'number' || typeof value.date !== 'string' ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(value.date) || !Number.isFinite(Date.parse(value.date + 'T00:00:00Z')) || new Date(value.date + 'T00:00:00Z').toISOString().slice(0, 10) !== value.date ||
+    !['open', 'submitting', 'submitted'].includes(String(value.status)) || !Number.isInteger(value.position) ||
+    !Array.isArray(value.questions) || value.questions.length > 50 || Number(value.position) < 0 || Number(value.position) >= Math.max(1, value.questions.length)) return false;
+  const ids = new Set<string>();
+  for (const q of value.questions) {
+    if (!record(q) || typeof q.id !== 'string' || !q.id || ids.has(q.id) || !Number.isInteger(q.rev) || Number(q.rev) < 1 ||
+      !(q.choice === null || choiceValue(q.choice)) || typeof q.unsure !== 'boolean' || !nonnegative(q.ms) || (q.unsure && q.choice === null) ||
+      (q.correct !== undefined && q.correct !== null && typeof q.correct !== 'boolean') ||
+      (q.legacyAttemptId !== undefined && (typeof q.legacyAttemptId !== 'string' || !q.legacyAttemptId || q.choice === null || typeof q.correct !== 'boolean'))) return false;
+    if (value.status === 'open' && !q.legacyAttemptId && q.correct !== undefined) return false;
+    ids.add(q.id);
+  }
+  if (value.status === 'open') return value.submission === undefined;
+  const submission = value.submission;
+  if (!record(submission) || typeof submission.ts !== 'string' || !Number.isFinite(Date.parse(submission.ts)) ||
+    submission.total !== value.questions.length || !submission.total || !Number.isInteger(submission.correct) ||
+    !Array.isArray(submission.attempts) || !submission.attempts.every(isAttempt)) return false;
+  const questions = value.questions as DailyDraftQuestion[];
+  if (questions.some((q) => !q.choice || typeof q.correct !== 'boolean') || submission.correct !== questions.filter((q) => q.correct).length) return false;
+  const added = questions.filter((q) => !q.legacyAttemptId);
+  const attempts: Attempt[] = submission.attempts;
+  return attempts.length === added.length && new Set(attempts.map((a) => a.id)).size === added.length &&
+    added.every((q) => attempts.filter((a) => a.qid === q.id && a.rev === q.rev && a.choice === q.choice && a.correct === q.correct &&
+      a.ms === q.ms && a.ts === submission.ts && a.mode === `daily:${value.date}:S${value.subject}`).length === 1);
+}
+export function getDailyDrafts(): DailyDraft[] {
+  const raw = localStorage.getItem(DRAFT_KEY);
+  if (raw === null) return [];
+  try {
+    const data: unknown = JSON.parse(raw);
+    if (record(data) && data.version === 1 && Array.isArray(data.drafts) && data.drafts.every(isDailyDraft) &&
+      new Set(data.drafts.map((draft: DailyDraft) => draft.subject)).size === data.drafts.length) return data.drafts;
+  } catch { /* 原始資料保持不動，由頁面明示停止作答。 */ }
+  throw new Error('每日草稿損壞或版本未知，已保留原資料並停止覆寫。');
+}
+export function assertDailyDraftCurrent(expected: Pick<DailyDraft, 'id' | 'seq' | 'subject'> | null, subject: 1 | 3): DailyDraft[] {
+  const drafts = getDailyDrafts();
+  const current = drafts.find((item) => item.subject === subject);
+  if (expected ? !current || current.id !== expected.id || current.seq !== expected.seq : Boolean(current)) throw new DailyConflictError();
+  return drafts;
+}
+export function saveDailyDraft(draft: DailyDraft, expected: Pick<DailyDraft, 'id' | 'seq' | 'subject'> | null): DailyDraft {
+  if (!isDailyDraft(draft)) throw new Error('每日草稿欄位不完整。');
+  const drafts = assertDailyDraftCurrent(expected, draft.subject);
+  const saved = { ...draft, seq: expected ? expected.seq + 1 : 1 };
+  if (!isDailyDraft(saved)) throw new Error('每日草稿欄位不完整。');
+  localStorage.setItem(DRAFT_KEY, JSON.stringify({ version: 1, drafts: [...drafts.filter((item) => item.subject !== draft.subject), saved] }));
+  return saved;
+}
+/** 整批先驗證再合併，只寫一次；固定 ID 讓交卷重試不增加紀錄。 */
+export function saveAttemptBatch(batch: readonly Attempt[]): void {
+  if (!batch.every(isAttempt)) throw new Error('整批作答欄位不完整。');
+  const attempts = read();
+  const byId = new Map(attempts.map((a) => [a.id, a]));
+  for (const attempt of batch) {
+    const existing = byId.get(attempt.id);
+    if (existing && (Object.keys(attempt) as (keyof Attempt)[]).some((key) => existing[key] !== attempt[key])) throw new Error('作答 ID 與既有紀錄衝突。');
+    if (!existing) { attempts.push(attempt); byId.set(attempt.id, attempt); }
+  }
+  write(attempts);
+}
+/** 回傳最後成功保存的草稿；失敗時呼叫端保留同一份 submission 後重試。 */
+export function submitDailyDraft(draft: DailyDraft, prepared: DailyDraft): { draft: DailyDraft; error?: Error } {
+  let saved = draft;
+  try {
+    if (saved.status === 'submitted') { assertDailyDraftCurrent(saved, saved.subject); return { draft: saved }; }
+    if (saved.status === 'open') saved = saveDailyDraft(prepared, saved);
+    assertDailyDraftCurrent(saved, saved.subject);
+    if (saved.status !== 'submitting' || !saved.submission || !isDailyDraft(saved)) throw new Error('交卷資料不完整。');
+    saveAttemptBatch(saved.submission.attempts);
+    saved = saveDailyDraft({ ...saved, status: 'submitted' }, saved);
+    return { draft: saved };
+  } catch (cause) { return { draft: saved, error: cause instanceof Error ? cause : new Error('交卷保存失敗。') }; }
 }
