@@ -193,7 +193,12 @@ export function initDaily(): void {
     panel.open = desktopPanel.matches;
     // 寬度改變會隱藏題號或開關，將焦點留在仍可操作的選單位置。
     if (!panel.open && focusInPanel) summary.focus({ preventScroll: true });
-    else if (panel.open && focusOnSummary) panel.querySelector<HTMLButtonElement>('[aria-current="step"]')?.focus({ preventScroll: true });
+    else if (panel.open && focusOnSummary) {
+      const current = panel.querySelector<HTMLButtonElement>('[aria-current="step"]:not(:disabled)');
+      const retry = element('retry');
+      const target = current ?? (retry.checkVisibility() ? retry : element('question-heading'));
+      target.focus({ preventScroll: true });
+    }
   });
   element('today').addEventListener('click', () => {
     if (!canOpenToday(draft, catalog, taipeiDate(new Date())) || readOnly) return;
