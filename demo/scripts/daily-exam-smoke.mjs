@@ -14,7 +14,11 @@ const date = '2026-11-05';
 const instant = new Date('2026-11-05T04:00:00Z');
 let hiddenChecks = 0;
 const output = process.env.DAILY_EXAM_OUTPUT ?? 'D:/ipas-study/tmp/demo-shots/daily-exam-impl/';
-const dist = fileURLToPath(new URL('../dist/', import.meta.url));
+const dist = process.env.DAILY_EXAM_DIST ? resolve(process.env.DAILY_EXAM_DIST) : fileURLToPath(new URL('../dist/', import.meta.url));
+// 名稱片段可用逗號並列，讓舊建置與故障注入只跑需要證明的案例。
+const only = process.env.DAILY_EXAM_ONLY?.split(',').map((name) => name.trim()).filter(Boolean);
+const selected = (...names) => !only || names.some((name) => only.some((part) => name.includes(part)));
+const CACHE = 'ipas-daily-v1';
 const dataRoot = fileURLToPath(new URL('../../content/questions/', import.meta.url));
 const currentCard = (page) => page.locator('#daily-cards [data-question]:visible');
 const getDraft = (page, subject = 1) => page.evaluate(({ key, subject }) => JSON.parse(localStorage.getItem(key)).drafts.find((d) => d.subject === subject), { key: DRAFT, subject });
@@ -94,7 +98,7 @@ export async function runDailyExamSmoke() {
   const revisions = await readFile(new URL('../src/data/revisions.json', import.meta.url), 'utf8');
   const attemptsSource = (await readFile(new URL('../src/lib/attempts.ts', import.meta.url), 'utf8')).replace(/import revisionIndex from .*?;/, `const revisionIndex = ${revisions};`);
   const testModule = transpileModule(attemptsSource, { compilerOptions: { module: ModuleKind.ESNext, target: ScriptTarget.ES2022 } }).outputText;
-  const report = { cases: [], measurements: [], dialogs: [], screenshots: [], errors: [], faults: [], instantSaves: [] };
+  const report = { cases: [], measurements: [], dialogs: [], screenshots: [], errors: [], faults: [], instantSaves: [], newCases: [], dist, only };
   const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.wasm': 'application/wasm' };
   const server = createServer(async (request, response) => {
     try {
@@ -126,10 +130,141 @@ export async function runDailyExamSmoke() {
     await ctx.route('**/*', (route) => route.request().url().startsWith(base + '/') ? route.continue() : route.abort());
     ctx.on('page', (p) => p.on('pageerror', (error) => report.errors.push(String(error)))); return ctx;
   };
+  // 新案例各自清理並收集失敗，舊建置一次即可留下每項退步的證據。
+  const regression = async (name, run) => {
+    if (!selected(name)) return;
+    const ctx = await context();
+    try {
+      const result = await run(ctx);
+      report.cases.push({ name, ...result }); report.newCases.push({ name, success: true });
+    } catch (error) { report.newCases.push({ name, success: false, failure: String(error.stack ?? error) }); }
+    finally { await ctx.close(); }
+  };
+  const cacheSet = (draft) => ({ date: draft.date, subject: draft.subject, questions: draft.questions.map(({ id, rev }) => ({ id, rev })) });
+  const seedCache = async (ctx, sets) => ctx.addInitScript(({ key, sets }) => {
+    if (location.origin !== 'http://127.0.0.1:4333' || sessionStorage.getItem('regression-cache')) return;
+    localStorage.setItem(key, JSON.stringify({ version: 1, sets })); sessionStorage.setItem('regression-cache', '1');
+  }, { key: CACHE, sets });
+  const readCache = (page) => page.evaluate((key) => JSON.parse(localStorage.getItem(key)), CACHE);
+  const otherSubjectUnchanged = async (page, other, cached) => {
+    assert.deepEqual(await getDraft(page, 3), other, '另一科草稿不變');
+    assert.deepEqual((await readCache(page)).sets.find((set) => set.subject === 3), cached, '另一科快取不變');
+  };
+  // 從實際樣式逐層合成透明背景，避免只比對色碼卻漏掉背景造成的低對比。
+  const contrast = async (locator) => locator.evaluate((element) => {
+    const rgba = (value) => {
+      const canvas = document.createElement('canvas'); canvas.width = canvas.height = 1;
+      const ctx = canvas.getContext('2d'); ctx.fillStyle = value; ctx.fillRect(0, 0, 1, 1);
+      const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data; return [r / 255, g / 255, b / 255, a / 255];
+    };
+    const over = (front, back) => { const alpha = front[3] + back[3] * (1 - front[3]); return [...front.slice(0, 3).map((v, i) => (v * front[3] + back[i] * back[3] * (1 - front[3])) / alpha), alpha]; };
+    const ancestors = []; for (let node = element; node; node = node.parentElement) ancestors.unshift(node);
+    let background = [1, 1, 1, 1];
+    for (const node of ancestors) { const style = getComputedStyle(node); if (style.backgroundImage !== 'none' || Number(style.opacity) !== 1) throw new Error('對比案例需純色背景且無群組透明度'); background = over(rgba(style.backgroundColor), background); }
+    const style = getComputedStyle(element); const foreground = over(rgba(style.color), background);
+    const luminance = (rgb) => rgb.slice(0, 3).map((v) => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4).reduce((sum, v, i) => sum + v * [.2126, .7152, .0722][i], 0);
+    const light = luminance(foreground); const dark = luminance(background);
+    return { color: style.color, background: background.slice(0, 3), ratio: (Math.max(light, dark) + .05) / (Math.min(light, dark) + .05) };
+  });
   try {
     browser = await chromium.launch({ headless: true, channel: 'chrome' }); report.browser = browser.version();
+    for (const invalid of ['removed', 'revision']) for (const draftState of ['absent', 'empty']) {
+      await regression(`regression-stale-cache-${invalid}-${draftState}`, async (ctx) => {
+        const stale = fixture(questions, 1); const empty = { ...stale, questions: [], position: 0 }; const other = fixture(questions, 3, 4); const otherCache = cacheSet(other); const cached = cacheSet(stale);
+        await seed(ctx, draftState === 'empty' ? [empty, other] : [other]); await seedCache(ctx, [cached, otherCache]);
+        const page = await ctx.newPage(); await page.clock.install({ time: instant }); const ids = new Set(cached.questions.map((q) => q.id));
+        const catalog = questions.filter((q) => invalid !== 'removed' || !ids.has(q.id)).map((q) => invalid === 'revision' && ids.has(q.id) ? { ...q, rev: q.rev + 1 } : q);
+        await changeCatalog(page, () => catalog); await loadDaily(page, base + '/daily/');
+        const draft = await getDraft(page); assert.ok(draft, '全失效快取須建立新草稿'); assert.equal(draft.questions.length, 50, '全失效快取須重新抽滿 50 題'); assert.notEqual(draft.id, stale.id);
+        assert.equal(new Set(draft.questions.map((q) => q.id)).size, 50);
+        for (const q of draft.questions) assert.ok(catalog.some((item) => item.id === q.id && item.rev === q.rev && item.subject === 1 && item.source === 'mock' && item.review.status === 'verified'), `新草稿題目有效 ${q.id}`);
+        const replacement = (await readCache(page)).sets.find((set) => set.subject === 1); assert.notDeepEqual(replacement, cached, '失效快取須被取代'); assert.deepEqual(replacement, cacheSet(draft));
+        await otherSubjectUnchanged(page, other, otherCache); assert.equal((await getAttempts(page)).length, 0);
+        await page.reload(); await page.locator('#daily-position').filter({ hasText: '第 1／50' }).waitFor(); assert.equal((await getDraft(page)).id, draft.id, '重載須沿用新草稿 ID');
+        assert.deepEqual((await readCache(page)).sets.find((set) => set.subject === 1), replacement); await otherSubjectUnchanged(page, other, otherCache); assert.equal((await getAttempts(page)).length, 0);
+        return { total: 50, added: 0, reloadIdStable: true, otherSubjectPreserved: true };
+      });
+    }
+    for (const invalid of ['removed', 'revision']) {
+      await regression(`regression-partial-cache-${invalid}`, async (ctx) => {
+        const stale = fixture(questions, 1); const cached = cacheSet(stale); const other = fixture(questions, 3, 4); const otherCache = cacheSet(other); const ids = new Set(cached.questions.slice(0, 3).map((q) => q.id));
+        await seed(ctx, [other]); await seedCache(ctx, [cached, otherCache]);
+        // 模擬錯誤補題寫入，讓保留原順序及不補題的斷言都有可重跑的反例。
+        if (process.env.DAILY_EXAM_FAULT_REGRESSION === 'partial-refill') await ctx.addInitScript(() => {
+          const original = Storage.prototype.setItem;
+          Storage.prototype.setItem = function(key, raw) { if (key === 'ipas-daily-draft-v1') { const root = JSON.parse(raw); const draft = root.drafts.find((d) => d.subject === 1); if (draft?.questions.length === 47) { draft.questions.push({ ...draft.questions[0], id: 'injected-refill' }); raw = JSON.stringify(root); } } return original.call(this, key, raw); };
+        });
+        const page = await ctx.newPage(); await page.clock.install({ time: instant }); await changeCatalog(page, (catalog) => invalid === 'removed' ? catalog.filter((q) => !ids.has(q.id)) : catalog.map((q) => ids.has(q.id) ? { ...q, rev: q.rev + 1 } : q));
+        await loadDaily(page, base + '/daily/'); const draft = await getDraft(page); assert.equal(draft.questions.length, 47, '部分失效只扣 3 題，不補題');
+        assert.deepEqual(cacheSet(draft).questions, cached.questions.slice(3), '有效題沿用原快取順序'); assert.deepEqual((await readCache(page)).sets, [cached, otherCache], '部分失效不得改寫快取');
+        assert.match(await page.locator('#daily-status').innerText(), /3 題已移除或改版/); await page.reload(); await page.locator('#daily-position').filter({ hasText: '第 1／47' }).waitFor(); assert.equal((await getDraft(page)).id, draft.id);
+        await otherSubjectUnchanged(page, other, otherCache); assert.equal((await getAttempts(page)).length, 0); return { total: 47, skipped: 3, refill: 0, cachePreserved: true };
+      });
+      await regression(`regression-stale-cache-zero-${invalid}`, async (ctx) => {
+        const stale = fixture(questions, 1); const cached = cacheSet(stale); const other = fixture(questions, 3, 4); const otherCache = cacheSet(other);
+        await seed(ctx, [other]); await seedCache(ctx, [cached, otherCache]);
+        // 在讀快取時模擬錯誤保存空草稿，避免零候選案例只驗畫面而漏驗儲存。
+        if (process.env.DAILY_EXAM_FAULT_REGRESSION === 'empty-draft-save') await ctx.addInitScript((empty) => {
+          const original = Storage.prototype.getItem;
+          Storage.prototype.getItem = function(key) { if (key === 'ipas-daily-v1') { const root = JSON.parse(original.call(this, 'ipas-daily-draft-v1')); if (!root.drafts.some((d) => d.subject === 1)) { root.drafts.push(empty); this.setItem('ipas-daily-draft-v1', JSON.stringify(root)); } } return original.call(this, key); };
+        }, { ...stale, questions: [], position: 0 });
+        const ids = new Set(cached.questions.map((q) => q.id)); const page = await ctx.newPage(); await page.clock.install({ time: instant });
+        await changeCatalog(page, (catalog) => catalog.flatMap((q) => q.subject !== 1 || q.source !== 'mock' ? [q] : invalid === 'removed' || !ids.has(q.id) ? [] : [{ ...q, rev: q.rev + 1, review: { status: 'draft' } }]));
+        await loadDaily(page, base + '/daily/');
+        assert.equal(await getDraft(page), undefined, '零候選不得保存空草稿'); assert.equal(await page.locator('#daily-status').innerText(), '目前沒有可做的題目。題庫恢復後重新開頁即可建立題組。');
+        assert.equal(await page.locator('#daily-practice').isVisible(), false); assert.deepEqual((await readCache(page)).sets, [cached, otherCache], '零候選保留原快取');
+        await page.clock.runFor(16000); await page.reload(); await page.locator('#daily-status').filter({ hasText: '目前沒有可做' }).waitFor(); assert.equal(await getDraft(page), undefined);
+        assert.deepEqual((await readCache(page)).sets, [cached, otherCache]); await otherSubjectUnchanged(page, other, otherCache); assert.equal((await getAttempts(page)).length, 0); return { total: 0, draftCreated: false, cachePreserved: true };
+      });
+    }
+    await regression('regression-subject-card-live-progress', async (ctx) => {
+      const d = fixture(questions, 1, 49); d.position = 49; const other = fixture(questions, 3, 4); await seed(ctx, [d, other]);
+      const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      const card = page.locator('[data-daily-subject="1"] [data-subject-progress]'); const otherCard = page.locator('[data-daily-subject="3"]'); const before = await otherCard.innerHTML();
+      assert.equal(await card.innerText(), '作答中・已答 49／50'); await currentCard(page).locator('input[value="A"]').check(); assert.equal(await card.innerText(), '作答中・已答 50／50', '選答當下科目卡須同步'); assert.equal(await otherCard.innerHTML(), before);
+      await page.locator('#daily-submit').click(); await page.locator('#daily-confirm').click(); await page.locator('#daily-score').waitFor(); assert.equal(await card.innerText(), '已交卷・已答 50／50');
+      assert.equal(await otherCard.innerHTML(), before); assert.deepEqual(await getDraft(page, 3), other); return { answered: 50, submitted: true, otherSubjectPreserved: true };
+    });
+    for (const width of [375, 1440]) await regression(`regression-number-panel-${width}`, async (ctx) => {
+      // 桌面維持展開屬既有行為，故障注入用來證明桌面斷言能抓到誤收合。
+      if (process.env.DAILY_EXAM_FAULT_REGRESSION === 'desktop-panel-close') await ctx.addInitScript(() => document.addEventListener('click', (event) => {
+        if (innerWidth >= 1100 && event.target instanceof Element && event.target.closest('#daily-numbers button')) document.querySelector('#daily-panel').open = false;
+      }, true));
+      const d = fixture(questions, 1, 2); d.position = 1; await seed(ctx, [d]); const page = await ctx.newPage(); await page.setViewportSize({ width, height: 1000 }); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      const panel = page.locator('#daily-panel'); const summary = panel.locator('summary');
+      if (width === 375) { assert.equal(await panel.evaluate((e) => e.open), false); await summary.click(); }
+      await page.waitForFunction(() => document.querySelector('#daily-panel summary').getAttribute('aria-expanded') === 'true'); assert.equal(await page.locator('#daily-panel-toggle').innerText(), '收合');
+      await page.locator('#daily-numbers button').filter({ hasText: /^1$/ }).click(); assert.equal(await page.locator('#daily-question-heading').innerText(), '第 1 題');
+      assert.equal(await panel.evaluate((e) => e.open), width === 1440, '跳題後手機收合、桌面維持展開');
+      await page.waitForFunction((expanded) => document.querySelector('#daily-panel summary').getAttribute('aria-expanded') === String(expanded), width === 1440, { timeout: 3000 });
+      assert.equal(await panel.evaluate((e) => e.open), width === 1440); assert.equal(await summary.getAttribute('aria-expanded'), String(width === 1440)); assert.equal(await page.locator('#daily-panel-toggle').innerText(), width === 1440 ? '收合' : '展開');
+      assert.equal(await page.locator('#daily-question-heading').evaluate((e) => document.activeElement === e), true); return { width, expandedAfterJump: width === 1440, headingFocused: true };
+    });
+    for (const width of [320, 375, 1440]) await regression(`regression-submit-width-${width}`, async (ctx) => {
+      const d = fixture(questions, 1, 49); d.position = 49; await seed(ctx, [d]); const page = await ctx.newPage(); await page.setViewportSize({ width, height: 1000 }); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      const geometry = () => page.evaluate(() => { const button = document.querySelector('#daily-submit').getBoundingClientRect(); const paper = document.querySelector('.daily-paper'); const style = getComputedStyle(paper); return { width: button.width, edge: button.right - (paper.getBoundingClientRect().right - parseFloat(style.paddingRight) - parseFloat(style.borderRightWidth)), overflow: document.documentElement.scrollWidth - innerWidth }; });
+      assert.equal(await page.locator('#daily-submit').isDisabled(), true); const before = await geometry(); await currentCard(page).locator('input[value="A"]').check(); assert.equal(await page.locator('#daily-submit').isEnabled(), true); const complete = await geometry();
+      assert.equal(complete.width - before.width, 0, `交卷按鈕寬度差須為 0px：${JSON.stringify({ width, before, complete })}`);
+      for (const item of [before, complete]) { assert.ok(Math.abs(item.edge) <= 2, `交卷右緣差 ${item.edge}px`); assert.ok(item.overflow <= 0, `水平溢出 ${item.overflow}px`); }
+      return { width, before, complete, widthDelta: complete.width - before.width };
+    });
+    await regression('regression-header-copy', async (ctx) => {
+      const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/'); assert.equal(await page.locator('.daily-exam > .lead').innerText(), '每天每科最多 50 題。'); assert.doesNotMatch(await page.locator('#daily-status').innerText(), /完成全部題目後再一起檢討/); return { lead: '每天每科最多 50 題。' };
+    });
+    await regression('regression-light-progress-contrast', async (ctx) => {
+      const d = fixture(questions, 1, 49); await seed(ctx, [d]); const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/'); await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; });
+      const results = [];
+      for (const selector of ['#daily-time', '#daily-progress', '#daily-unsure-count', '[data-daily-subject="1"] [data-subject-progress]', '[data-daily-subject="3"] [data-subject-progress]']) { const result = await contrast(page.locator(selector)); results.push({ selector, ...result }); assert.ok(result.ratio >= 4.5, `${selector} 對比 ${result.ratio.toFixed(3)}:1，需至少 4.5:1`); }
+      return { theme: 'light', contrasts: results };
+    });
+    for (const state of ['default', 'hover']) await regression(`regression-dark-concept-contrast-${state}`, async (ctx) => {
+      const d = fixture(questions, 1, 50, 'submitted'); await seed(ctx, [d], d.submission.attempts); const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/'); await page.evaluate(() => { document.documentElement.dataset.theme = 'dark'; });
+      const chips = currentCard(page).locator('[data-explanation] .link-chips a'); assert.ok(await chips.count() > 0, '解析區須有概念按鈕'); const results = [];
+      for (const chip of await chips.all()) { await chip.scrollIntoViewIfNeeded(); if (state === 'hover') await chip.hover(); else await page.mouse.move(0, 0); await page.waitForTimeout(200); assert.equal(await chip.evaluate((e) => e.matches(':hover')), state === 'hover'); const result = await contrast(chip); results.push({ text: await chip.innerText(), ...result }); assert.ok(result.ratio >= 4.5, `暗色概念按鈕 ${state} 對比 ${result.ratio.toFixed(3)}:1，需至少 4.5:1`); }
+      return { theme: 'dark', state, contrasts: results };
+    });
     // 真實逐題操作、Enter、取消交卷、改答與關閉後重開。
-    {
+    if (selected("sequential-enter-edit-reopen-backup-back")) {
       const ctx = await context(); const page = await ctx.newPage(); await page.clock.install({ time: instant });
       await loadDaily(page, base + '/daily/?subject=1&position=50');
       assert.equal(await page.locator('#daily-position').innerText(), '第 1／50 題');
@@ -160,7 +295,7 @@ export async function runDailyExamSmoke() {
       report.cases.push({ name: 'sequential-enter-edit-reopen-backup-back', attemptsBeforeSubmission: 0, elapsedPersistedMs: beforeClose }); await ctx.close();
     }
     // 逐題實際完成少量題組，確認、分數、固定 ID 與鎖定。
-    {
+    if (selected("small-set-submit-cancel-review-reload")) {
       const ctx = await context(); const d = fixture(questions, 3); d.questions = d.questions.slice(0, 3); d.position = 0; await seed(ctx, [d]);
       const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/?subject=3');
       for (let i = 0; i < 3; i++) { await currentCard(page).locator('input[value="A"]').check(); if (i === 0) await page.locator('#daily-unsure').click(); if (i < 2) await page.locator('#daily-next').click(); }
@@ -182,7 +317,7 @@ export async function runDailyExamSmoke() {
       report.cases.push({ name: 'small-set-submit-cancel-review-reload', added: attempts.length, correct: (await getDraft(page, 3)).submission.correct, total: 3, ids: attempts.map((a) => a.id), stoppedTime: time }); await ctx.close();
     }
     // 每一步實際 setItem 故障：解析須等結案成功後才出現。
-    for (const step of [1, 2, 3]) {
+    if (selected("submission-storage-fault")) for (const step of [1, 2, 3]) {
       const ctx = await context(); const d = fixture(questions, 1, 50); await seed(ctx, [d]); const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
       await page.evaluate((step) => {
         const original = Storage.prototype.setItem; let writes = 0;
@@ -202,14 +337,14 @@ export async function runDailyExamSmoke() {
       report.faults.push({ step, before: before.length, after: after.length, idsStable: true }); await ctx.close();
     }
     // 還原 submitting 時自動重試，已寫與未寫作答鍵都保持原 ID。
-    for (const alreadyWritten of [false, true]) {
+    if (selected("submitting-auto-retry")) for (const alreadyWritten of [false, true]) {
       const ctx = await context(); const d = fixture(questions, 1, 50, 'submitting'); await seed(ctx, [d], alreadyWritten ? d.submission.attempts : []);
       const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/'); await page.locator('#daily-score').waitFor();
       assert.equal((await getDraft(page)).status, 'submitted'); assert.equal((await getAttempts(page)).length, 50); assert.deepEqual((await getAttempts(page)).map((a) => a.id), d.submission.attempts.map((a) => a.id));
       report.cases.push({ name: 'submitting-auto-retry', alreadyWritten, count: 50, idsStable: true }); await ctx.close();
     }
     // 跨日保留兩科，交卷後才可開今日；背景時間不計入。
-    {
+    if (selected("cross-day-subject-explicit-today")) {
       const ctx = await context(); const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/'); await currentCard(page).locator('input[value="B"]').check(); await page.locator('#daily-unsure').click();
       const one = await getDraft(page); await page.clock.setSystemTime(new Date('2026-11-06T04:00:00Z')); await page.reload(); await page.locator('#daily-status').filter({ hasText: '正在續作 2026-11-05' }).waitFor();
       assert.equal(await page.locator('#daily-today').isVisible(), false); assert.equal((await getDraft(page)).id, one.id);
@@ -222,7 +357,7 @@ export async function runDailyExamSmoke() {
       report.cases.push({ name: 'cross-day-subject-explicit-today', dates: [one.date, three.date], subject3Preserved: true }); await ctx.close();
     }
     // 多頁競爭、匯入不掃描、清除後拒絕舊頁續寫，包括清除後同 seq 新建。
-    {
+    if (selected("two-tabs-import-clear-recreate")) {
       const ctx = await context(); const first = await ctx.newPage(); await loadDaily(first, base + '/daily/'); const second = await ctx.newPage(); await loadDaily(second, base + '/daily/');
       await currentCard(second).locator('input[value="A"]').check(); await first.locator('#daily-error-message').filter({ hasText: '唯讀' }).waitFor();
       assert.equal(await currentCard(first).locator('input:enabled').count(), 0);
@@ -243,7 +378,7 @@ export async function runDailyExamSmoke() {
       report.cases.push({ name: 'two-tabs-import-clear-recreate', staleReadOnly: true, importedLegacyLocked: false, replacementProtected: true }); await ctx.close();
     }
     // 草稿儲存失敗保留畫面；背景停表與恢復只計可見區段。
-    {
+    if (selected("save-failure-background-15s")) {
       const ctx = await context(); const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
       await page.evaluate(() => { const original = Storage.prototype.setItem; window.restoreDailyStorage = () => { Storage.prototype.setItem = original; }; Storage.prototype.setItem = function(key, raw) { if (key === 'ipas-daily-draft-v1') throw new Error('test quota'); return original.call(this, key, raw); }; });
       await currentCard(page).locator('input[value="D"]').check(); await page.locator('#daily-save-error').waitFor();
@@ -261,7 +396,7 @@ export async function runDailyExamSmoke() {
       report.cases.push({ name: 'save-failure-background-15s', recoveredChoice: 'D', backgroundAddedMs: 0, visibleAddedMs: after - before, saveLagMs: Math.max(0, shown - after), visibility: 'browser visibilitychange event with simulated hidden state' }); await ctx.close();
     }
     // 不依賴 storage 通知：舊頁在通知被延後時也會在寫入前被拒絕。
-    {
+    if (selected("conflict-without-storage-event")) {
       const ctx = await context(); const first = await ctx.newPage();
       await first.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation()));
       await loadDaily(first, base + '/daily/'); const second = await ctx.newPage(); await loadDaily(second, base + '/daily/');
@@ -269,12 +404,13 @@ export async function runDailyExamSmoke() {
       assert.deepEqual(await getDraft(second), latest); report.cases.push({ name: 'conflict-without-storage-event', rejectedBeforeWrite: true }); await ctx.close();
     }
     // 損壞與未知版本不覆寫、不抽新題；交卷前改版略過，檢討時保持分數。
-    for (const raw of ['{', '{"version":9,"drafts":[]}']) {
+    if (selected("corrupt-draft-preserved")) for (const raw of ['{', '{"version":9,"drafts":[]}']) {
       const ctx = await context(); await ctx.addInitScript((raw) => { if (location.origin === 'http://127.0.0.1:4333') localStorage.setItem('ipas-daily-draft-v1', raw); }, raw); const page = await ctx.newPage();
       await page.goto(base + '/daily/'); await page.locator('#daily-status').filter({ hasText: '保留原資料' }).waitFor(); assert.equal(await page.evaluate(() => localStorage.getItem('ipas-daily-draft-v1')), raw);
       assert.equal(await page.locator('#daily-practice').isVisible(), false); report.cases.push({ name: 'corrupt-draft-preserved', raw }); await ctx.close();
     }
-    for (const submitted of [false, true]) {
+    if (selected("review-revision-score-fixed", "open-revision-skip-no-refill")) for (const submitted of [false, true]) {
+      if (!selected(submitted ? 'review-revision-score-fixed' : 'open-revision-skip-no-refill')) continue;
       const ctx = await context(); const d = fixture(questions, 1, submitted ? 50 : 0, submitted ? 'submitted' : 'open');
       await seed(ctx, [d], d.submission?.attempts ?? []); const page = await ctx.newPage();
       await page.route('**/daily/**', async (route) => {
@@ -287,7 +423,7 @@ export async function runDailyExamSmoke() {
       else { assert.equal((await getDraft(page)).questions.length, 49); await assertHiddenResults(page); assert.match(await page.locator('#daily-status').innerText(), /1 題已移除或改版/); }
       report.cases.push({ name: submitted ? 'review-revision-score-fixed' : 'open-revision-skip-no-refill', total: submitted ? 50 : 49, ...(submitted ? { correct: d.submission.correct } : {}) }); await ctx.close();
     }
-    for (const status of ['open', 'submitted']) {
+    if (selected("restore-only-from-draft")) for (const status of ['open', 'submitted']) {
       const ctx = await context(); const d = fixture(questions, 1, status === 'submitted' ? 50 : 0, status); await seed(ctx, [d]);
       await ctx.addInitScript(() => { if (location.origin === 'http://127.0.0.1:4333') localStorage.setItem('ipas-attempts-v1', '{"version":9,"attempts":[]}'); });
       const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
@@ -297,12 +433,12 @@ export async function runDailyExamSmoke() {
       assert.equal(await page.evaluate(() => localStorage.getItem('ipas-attempts-v1')), '{"version":9,"attempts":[]}');
       report.cases.push({ name: 'restore-only-from-draft', status, attemptsPreserved: true }); await ctx.close();
     }
-    {
+    if (selected("old-cache-without-draft-starts-today")) {
       const ctx = await context(); await ctx.addInitScript(() => { if (location.origin === 'http://127.0.0.1:4333') localStorage.setItem('ipas-daily-v1', JSON.stringify({ version: 1, sets: [{ date: '2026-11-01', subject: 1, questions: [{ id: 'old-missing', rev: 1 }] }] })); });
       const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/'); const draft = await getDraft(page);
       assert.equal(draft.date, date); assert.equal(draft.questions.length, 50); report.cases.push({ name: 'old-cache-without-draft-starts-today', total: 50 }); await ctx.close();
     }
-    {
+    if (selected("zero-questions-no-submission", "zero-candidates-next-day-recovery")) {
       const ctx = await context(); const page = await ctx.newPage(); await page.clock.install({ time: instant });
       let empty = true; await changeCatalog(page, (catalog) => empty ? catalog.filter((q) => q.subject !== 1 || q.source !== 'mock') : catalog);
       await loadDaily(page, base + '/daily/');
@@ -310,14 +446,17 @@ export async function runDailyExamSmoke() {
       assert.match(await page.locator('#daily-status').innerText(), /目前沒有可做的題目/);
       await page.clock.runFor(16000); await page.reload(); await page.locator('#daily-status').filter({ hasText: '目前沒有可做' }).waitFor();
       assert.equal(await page.evaluate((key) => localStorage.getItem(key), DRAFT), null);
-      report.cases.push({ name: 'zero-questions-no-submission', total: 0, draftCreated: false });
+      if (selected('zero-questions-no-submission')) report.cases.push({ name: 'zero-questions-no-submission', total: 0, draftCreated: false });
+      if (selected('zero-candidates-next-day-recovery')) {
       empty = false; await page.clock.setFixedTime(new Date('2026-11-06T04:00:00Z')); await loadDaily(page, base + '/daily/?subject=1');
       const restored = await getDraft(page); assert.equal(restored.date, '2026-11-06'); assert.equal(restored.subject, 1); assert.equal(restored.questions.length, 50);
       assert.equal((await getAttempts(page)).length, 0); assert.equal(await page.locator('#daily-practice').isVisible(), true);
-      report.cases.push({ name: 'zero-candidates-next-day-recovery', date: restored.date, total: 50, added: 0 }); await ctx.close();
+      report.cases.push({ name: 'zero-candidates-next-day-recovery', date: restored.date, total: 50, added: 0 });
+      }
+      await ctx.close();
     }
     // 舊版已保存的空草稿與空快取，重載時都不能阻擋今日抽題。
-    {
+    if (selected("existing-empty-draft-reload-recovery")) {
       const ctx = await context(); const d = fixture(questions, 1); d.questions = []; d.position = 0; await seed(ctx, [d]);
       await ctx.addInitScript(() => { if (location.origin === 'http://127.0.0.1:4333' && !sessionStorage.getItem('empty-cache')) { localStorage.setItem('ipas-daily-v1', JSON.stringify({ version: 1, sets: [{ date: '2026-11-05', subject: 1, questions: [] }] })); sessionStorage.setItem('empty-cache', '1'); } });
       const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
@@ -325,7 +464,7 @@ export async function runDailyExamSmoke() {
       await page.reload(); await page.locator('#daily-position').filter({ hasText: '第 1／50' }).waitFor(); assert.equal((await getDraft(page)).id, restored.id);
       assert.equal((await getAttempts(page)).length, 0); report.cases.push({ name: 'existing-empty-draft-reload-recovery', total: 50, added: 0 }); await ctx.close();
     }
-    for (const invalid of ['removed', 'revision']) {
+    if (selected("all-invalid-explicit-replacement")) for (const invalid of ['removed', 'revision']) {
       const ctx = await context(); const d = fixture(questions, 1); await seed(ctx, [d]); const page = await ctx.newPage(); await page.clock.install({ time: instant });
       const ids = new Set(d.questions.map((q) => q.id));
       await changeCatalog(page, (catalog) => invalid === 'removed' ? catalog.filter((q) => !ids.has(q.id)) : catalog.map((q) => ids.has(q.id) ? { ...q, rev: q.rev + 1 } : q));
@@ -341,7 +480,7 @@ export async function runDailyExamSmoke() {
       assert.equal((await getAttempts(page)).length, 0); report.cases.push({ name: 'all-invalid-explicit-replacement', invalid, beforeUnchanged: true, total: 50, added: 0 }); await ctx.close();
     }
     // 阻擋 storage 通知，驗證失效草稿的今日入口仍比對 id 與 seq。
-    for (const field of ['id', 'seq']) {
+    if (selected("all-invalid-today-conflict")) for (const field of ['id', 'seq']) {
       const ctx = await context(); const d = fixture(questions, 1); await seed(ctx, [d]); const page = await ctx.newPage(); await page.clock.install({ time: instant });
       const ids = new Set(d.questions.map((q) => q.id)); await changeCatalog(page, (catalog) => catalog.filter((q) => !ids.has(q.id)));
       await loadDaily(page, base + '/daily/');
@@ -351,7 +490,7 @@ export async function runDailyExamSmoke() {
       report.cases.push({ name: 'all-invalid-today-conflict', field, replacementProtected: true }); await ctx.close();
     }
     // 2 科 × 4 寬度 × 3 狀態 × 亮暗色，逐一量核可版面的全部門檻。
-    for (const subject of [1, 3]) for (const width of [320, 375, 390, 1440]) for (const theme of ['light', 'dark']) for (const state of ['before', 'complete', 'submitted']) {
+    if (selected("layout-matrix")) for (const subject of [1, 3]) for (const width of [320, 375, 390, 1440]) for (const theme of ['light', 'dark']) for (const state of ['before', 'complete', 'submitted']) {
       const ctx = await context({ viewport: { width, height: width === 320 ? 700 : 1000 }, colorScheme: theme });
       const d = fixture(questions, subject, state === 'before' ? 31 : 50, state === 'submitted' ? 'submitted' : 'open'); await seed(ctx, [d], d.submission?.attempts ?? []);
       const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, `${base}/daily/?subject=${subject}`);
@@ -374,7 +513,7 @@ export async function runDailyExamSmoke() {
       await ctx.close();
     }
     // 長題目、行內程式碼及鍵盤開關手機選單。
-    {
+    if (selected("long-code-keyboard-mobile")) {
       const ctx = await context({ viewport: { width: 320, height: 700 } }); const d = fixture(questions, 3, 50); const long = questions.find((q) => q.id === 'Z-L23302-004');
       d.questions[0] = { id: long.id, rev: long.rev, choice: 'A', unsure: false, ms: 0 }; await seed(ctx, [d]); const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/?subject=3');
       await measure(page, 3, 320, 'light', 'long'); await screenshot(page, '320-long');
@@ -383,7 +522,7 @@ export async function runDailyExamSmoke() {
       report.cases.push({ name: 'long-code-keyboard-mobile', width: 320, overflow: 0 }); await ctx.close();
     }
     // 不連續舊作答只掃描一次，鎖定原答案但可標不確定。
-    {
+    if (selected("legacy-noncontinuous-mode-rev-lock")) {
       const ctx = await context(); const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/'); const original = await getDraft(page);
       const old = [0, 1, 4].map((i) => ({ id: `legacy-${i}`, qid: original.questions[i].id, rev: original.questions[i].rev, choice: 'A', correct: i !== 4, ts: instant.toISOString(), mode: `daily:${date}:S1`, ms: 500 }));
       await page.evaluate(({ old }) => { localStorage.removeItem('ipas-daily-draft-v1'); localStorage.setItem('ipas-attempts-v1', JSON.stringify({ version: 1, attempts: old })); }, { old });
@@ -400,11 +539,12 @@ export async function runDailyExamSmoke() {
       report.cases.push({ name: 'legacy-noncontinuous-mode-rev-lock', legacyCount: 3, added: 47, legacyAdded: 0 }); await ctx.close();
     }
     // 其他入口保留即時解析；同列上緣與手機溢出一併量。
-    for (const width of [320, 375, 1440]) {
+    if (selected("instant-official", "instant-quiz", "instant-question")) for (const width of [320, 375, 1440]) {
       const ctx = await context({ viewport: { width, height: 1000 } }); const page = await ctx.newPage();
       await page.goto(base + '/official/'); await page.locator('#official-catalog').waitFor({ state: 'attached' }); await screenshot(page, `official-index-${width}`);
       const qid = questions.find((q) => q.source === 'exam').id;
       for (const [name, path] of [['official', '/official/115-1-S3/'], ['quiz', '/quiz/'], ['question', `/questions/${qid}/`]]) {
+        if (!selected(`instant-${name}`)) continue;
         await page.goto(base + path); const card = page.locator('[data-question]:visible').first(); await card.waitFor();
         const before = await getAttempts(page); const expected = { qid: await card.getAttribute('data-qid'), choice: 'A', mode: name === 'official' ? 'official:115-1:S3' : name === 'quiz' ? 'quiz' : 'question' };
         if (process.env.DAILY_EXAM_FAULT_INSTANT === name) await page.evaluate(() => { const original = Storage.prototype.setItem; Storage.prototype.setItem = function(key, raw) { if (key === 'ipas-attempts-v1') return; return original.call(this, key, raw); }; });
@@ -429,7 +569,10 @@ export async function runDailyExamSmoke() {
       }
       await ctx.close();
     }
-    assert.equal(report.measurements.length, 48); assert.equal(report.errors.length, 0);
+    if (selected('layout-matrix')) assert.equal(report.measurements.length, 48); assert.equal(report.errors.length, 0);
+    assert.ok(report.cases.length + report.faults.length + report.measurements.length + report.newCases.length > 0, 'DAILY_EXAM_ONLY 未符合任何案例');
+    const failures = report.newCases.filter((item) => !item.success);
+    assert.equal(failures.length, 0, failures.map((item) => `${item.name}: ${item.failure}`).join('\n'));
     report.success = true; report.accessibleHiddenChecks = hiddenChecks; return report;
   } catch (error) { report.failure = String(error.stack ?? error); throw error; }
   finally {
@@ -439,5 +582,5 @@ export async function runDailyExamSmoke() {
   }
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  const report = await runDailyExamSmoke(); process.stdout.write(JSON.stringify({ success: report.success, cases: report.cases.length, measurements: report.measurements.length, screenshots: report.screenshots.length, faults: report.faults, errors: report.errors, cleanup: report.cleanup }, null, 2) + '\n');
+  const report = await runDailyExamSmoke(); process.stdout.write(JSON.stringify({ success: report.success, cases: report.cases.length, newCaseNames: report.newCases.map((item) => item.name), measurements: report.measurements.length, screenshots: report.screenshots.length, faults: report.faults, errors: report.errors, cleanup: report.cleanup }, null, 2) + '\n');
 }
