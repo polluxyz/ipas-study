@@ -1,0 +1,128 @@
+/* 每日交卷頁沿用核可版面的雙欄、固定操作列與題號色彩；所有規則限於每日頁。 */
+/* 作答列接手固定導覽；頁首隨頁面捲動，避免遮住交卷或占用手機讀題空間。 */
+body:has(.daily-exam) header.header { position: absolute; }
+body:has(.daily-exam) .sl-menu-button { position: absolute; }
+:root[data-theme='dark']:has(.daily-exam) { --paper: #202e28; --ink: #e4eee8; --green: #9ad7af; --muted: #afc1b5; --line: #42564b; --sl-color-bg: #17211e; --sl-color-bg-nav: #202e28; --sl-color-bg-sidebar: #1b2922; --sl-color-text: #e4eee8; --sl-color-white: #e4eee8; --sl-color-text-accent: #9ad7af; --sl-color-gray-1: #e4eee8; --sl-color-gray-2: #afc1b5; --sl-color-gray-3: #8a9d91; --sl-color-gray-4: #53675c; --sl-color-gray-5: #35473c; --sl-color-gray-6: #293b31; --sl-color-black: #17211e; }
+.daily-exam { --exam-soft: #eef3ef; --exam-green: #286346; --exam-green-bg: #e4f1e8; --exam-orange: #925111; --exam-orange-bg: #fff0d9; --exam-red: #a7353c; --exam-red-bg: #fae8e9; --exam-focus: #236eaa; --number-green: #9fceb2; --number-green-ink: #214a34; --number-orange: #fff0d9; --number-orange-ink: #784512; --number-red: #f5d5d9; --number-red-ink: #912b38; min-width: 0; }
+[data-theme='dark'] .daily-exam { --paper: #202e28; --ink: #e4eee8; --muted: #afc1b5; --line: #42564b; --exam-soft: #293b31; --exam-green: #9ad7af; --exam-green-bg: #254632; --exam-orange: #ffc479; --exam-orange-bg: #4c381f; --exam-red: #ffafb3; --exam-red-bg: #4b2c30; --exam-focus: #8dc6f3; --number-green: #4f755c; --number-green-ink: #e9f5ed; --number-orange: #dfb679; --number-orange-ink: #4c2d0a; --number-red: #c58b93; --number-red-ink: #35171e; color: var(--ink); }
+.sl-markdown-content .daily-exam :is(div, section, nav, p, h2, h3, form, fieldset, article, details, summary, button, span, progress, a, small, strong) { margin-block: 0; }
+.daily-exam *, .daily-exam *::before, .daily-exam *::after { box-sizing: border-box; }
+.daily-exam .lead { margin-bottom: 20px !important; color: var(--muted); }
+.daily-subjects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px !important; }
+.daily-subjects a { display: grid; gap: 4px; min-width: 0; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; background: var(--paper); text-decoration: none; }
+.daily-subjects a[aria-current] { border-color: var(--exam-green); box-shadow: inset 3px 0 var(--exam-green); background: var(--exam-green-bg); }
+.daily-subjects strong { font-size: 14px; }
+.daily-subjects span, .daily-subjects small { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+#daily-status, #daily-date, #daily-legacy { font-size: 12px; margin-bottom: 10px !important; overflow-wrap: anywhere; }
+#daily-save-error { padding: 14px; border: 1px solid var(--exam-orange); background: var(--exam-orange-bg); margin-block: 12px !important; font-size: 13px; }
+#daily-save-error .button { margin-top: 8px; }
+.daily-grid { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 0 24px; min-width: 0; position: relative; }
+.daily-toolbar, .daily-paper, .daily-actions { grid-column: 1; min-width: 0; }
+.daily-toolbar { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; padding: 12px 24px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px 10px 0 0; }
+.daily-toolbar-main { display: flex; gap: 16px; align-items: center; min-width: 0; }
+#daily-position { font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+#daily-time { font-size: 11px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.daily-submission { display: flex; align-items: center; justify-content: end; min-height: 44px; }
+.daily-progress-copy { grid-column: 1 / -1; display: flex; gap: 16px; color: var(--muted); font-size: 12px; }
+#daily-progress-bar { grid-column: 1 / -1; width: 100%; display: block; height: 4px; border: 0; accent-color: var(--exam-green); }
+#daily-submitted { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.daily-paper { padding: 24px; background: var(--paper); border-inline: 1px solid var(--line); }
+.daily-exam #daily-question-heading { scroll-margin-top: 128px; font-size: 13px; font-weight: 500; color: var(--muted); margin-bottom: 12px; }
+.daily-exam .question-card { margin-top: 0 !important; }
+.daily-exam .question-card-meta { font-size: 11px; padding-bottom: 16px; }
+.daily-exam .question-stem { font-size: 17px; line-height: 1.9; font-weight: 550; }
+.daily-exam .question-stem p + p { margin-top: 12px; }
+.daily-exam .question-stem p { white-space: normal; }
+.daily-exam .question-code { margin-top: 18px !important; }
+.daily-exam .question-code pre, .daily-exam pre { max-width: 100%; overflow-x: auto; }
+.daily-exam .question-image { max-width: 100%; height: auto; }
+.daily-exam .answer-options { gap: 10px; }
+.daily-exam .answer-option { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 0 12px; align-items: start; padding: 13px 16px; font-size: 15px; line-height: 1.8; border-color: var(--line); background: var(--paper); }
+.daily-exam .answer-option input { position: absolute; opacity: 0; width: 28px; height: 28px; top: 13px; left: 16px; margin: 0; }
+.daily-exam .answer-option:focus-within { outline: 3px solid var(--exam-focus); outline-offset: 3px; }
+.daily-exam .answer-option:has(input:checked) { background: var(--exam-green-bg); border-color: var(--exam-green); box-shadow: inset 3px 0 var(--exam-green); }
+.daily-exam .option-letter { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 50%; font-size: 12px; color: var(--muted); }
+.daily-exam .answer-option:has(input:checked) .option-letter { background: var(--exam-green); color: var(--paper); border-color: var(--exam-green); }
+.daily-exam .option-content { grid-column: 2; font-size: 15px; overflow-wrap: anywhere; }
+.daily-exam .option-status { grid-column: 2; font-size: 11px; color: var(--exam-green); }
+.daily-exam .option-status:empty { display: none; }
+.daily-exam .answer-option.is-correct { background: var(--exam-green-bg); border-color: var(--exam-green); }
+.daily-exam .answer-option.is-wrong, .daily-exam .answer-option.is-wrong:has(input:checked) { background: var(--exam-red-bg); border-color: var(--exam-red); }
+.daily-exam .answer-option.is-wrong .option-status { color: var(--exam-red); }
+.daily-exam .fine-print { font-size: 11px; overflow-wrap: anywhere; }
+.daily-exam .answer-explanation { margin-top: 24px !important; }
+.daily-exam .answer-result { background: var(--exam-green-bg); color: var(--exam-green); border-color: var(--line); }
+.daily-exam .answer-result.incorrect { background: var(--exam-red-bg); color: var(--exam-red); }
+.daily-exam .answer-result p { color: inherit; }
+.daily-exam .answer-result > span, .daily-exam .answer-result.incorrect > span { background: var(--exam-soft); color: inherit; }
+.daily-exam .judgment-rule { background: var(--exam-soft); color: var(--ink); }
+.daily-exam .wrong-reasons dt { color: var(--muted); }
+.daily-exam .answer-explanation h3 { margin-top: 18px; }
+.daily-actions { position: sticky; bottom: 0; z-index: 20; display: flex; justify-content: space-between; align-items: start; gap: 8px; padding: 12px 24px; background: var(--paper); border: 1px solid var(--line); border-radius: 0 0 10px 10px; box-shadow: 0 -4px 16px #00000004; }
+.daily-forward { display: flex; align-items: start; gap: 8px; }
+.daily-exam .button { font-size: 13px; padding: 10px 12px; min-height: 44px; line-height: 22px; white-space: nowrap; gap: 4px; }
+.daily-exam .button:hover { transform: none; }
+.daily-exam .button:disabled { opacity: 1; background: var(--exam-soft); color: var(--muted); border-color: var(--line); cursor: default; }
+#daily-unsure[aria-pressed='true'] { color: var(--exam-orange); background: var(--exam-orange-bg); border-color: var(--exam-orange); }
+.daily-panel { position: sticky; top: 96px; grid-column: 2; grid-row: 1 / span 3; align-self: start; padding: 16px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; min-width: 0; }
+.daily-panel summary { display: none; }
+.daily-exam .daily-panel h2 { font-size: 14px; margin-bottom: 18px; }
+.daily-numbers { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px; padding: 5px; }
+.daily-numbers button { position: relative; min-width: 0; min-height: 36px; padding: 3px 0; border: 1px solid var(--line); border-radius: 5px; font: inherit; font-size: 13px; line-height: 1.1; background: var(--exam-soft); color: var(--muted); cursor: pointer; font-variant-numeric: tabular-nums; }
+.daily-exam [data-status='answered'], .daily-exam [data-status='correct'] { background: var(--number-green); color: var(--number-green-ink); }
+.daily-exam [data-status='unsure'] { background: var(--number-orange); color: var(--number-orange-ink); }
+.daily-exam [data-status='wrong'] { background: var(--number-red); color: var(--number-red-ink); }
+.daily-numbers button[data-unsure='true']::after { content: ''; position: absolute; inset: 0; outline: 2px solid var(--exam-orange); border-radius: 4px; pointer-events: none; }
+.daily-numbers [aria-current] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--exam-focus); }
+.daily-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 14px; margin-top: 16px !important; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+.daily-legend span { display: flex; align-items: center; gap: 6px; }
+.daily-legend i { display: inline-block; width: 13px; height: 13px; border: 1px solid var(--line); border-radius: 3px; background: var(--exam-soft); }
+.daily-legend i[data-status='outlined'] { border: 2px solid var(--exam-orange); background: var(--paper); }
+.daily-panel .muted { font-size: 11px; margin-top: 12px !important; }
+.daily-score { background: var(--paper); border: 1px solid var(--line); border-left: 4px solid var(--exam-green); padding: 20px; border-radius: 8px; margin-block: 16px !important; scroll-margin-top: 96px; }
+.daily-score h2 { font-size: 24px; }
+.daily-unavailable { padding: 24px; background: var(--exam-soft); font-size: 14px; }
+.daily-links { margin-block: 18px !important; font-size: 12px; gap: 14px; }
+#daily-remaining { margin-top: 16px !important; }
+.daily-backup-note { max-width: 70ch; }
+#daily-dialog { width: min(490px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 28px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); box-shadow: 0 30px 100px #0003; }
+#daily-dialog::backdrop { background: #15282080; backdrop-filter: blur(3px); }
+.daily-exam #daily-dialog h2 { margin-bottom: 14px; font-size: 24px; }
+#daily-dialog-description { font-size: 14px; }
+#daily-dialog-count { background: var(--exam-soft); padding: 18px; margin-top: 24px; font-size: 20px; }
+.daily-dialog-actions { display: flex; justify-content: end; gap: 12px; margin-top: 24px !important; }
+@media (min-width: 1100px) {
+  .daily-panel:not([open]) > #daily-panel-content { display: block; }
+  .daily-numbers { max-height: calc(100dvh - 340px); overflow-y: auto; scrollbar-width: thin; }
+}
+@media (max-width: 1099px) {
+  .daily-grid { display: flex; flex-direction: column; }
+  .daily-toolbar { border-radius: 8px; margin-bottom: 12px !important; }
+  .daily-panel { position: static; width: 100%; padding: 0; margin-bottom: 14px !important; }
+  .daily-panel summary { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; min-height: 48px; font-size: 13px; cursor: pointer; list-style: none; }
+  .daily-panel summary::-webkit-details-marker { display: none; }
+  #daily-panel-content { padding: 6px 16px 16px; }
+  .daily-panel h2 { display: none; }
+  .daily-numbers button { min-height: 44px; }
+  .daily-paper { border: 1px solid var(--line); border-radius: 8px 8px 0 0; }
+}
+@media (max-width: 520px) {
+  body:has(.daily-exam) .content-panel { padding-inline: 16px !important; }
+  .daily-subjects { gap: 8px; }
+  .daily-subjects a { padding: 10px 12px; }
+  .daily-subjects span, .daily-subjects small { font-size: 11px; }
+  .daily-subjects span { min-height: 3em; }
+  .daily-toolbar { padding: 10px 16px; gap: 6px 8px; }
+  .daily-toolbar-main { flex-direction: column; align-items: start; gap: 0; }
+  .daily-progress-copy { font-size: 11px; }
+  .daily-paper { padding: 18px 16px; }
+  .daily-exam .question-stem { font-size: 16px; }
+  .daily-exam .answer-option { padding: 12px; grid-template-columns: 25px minmax(0, 1fr); gap: 0 8px; }
+  .daily-exam .answer-option input { top: 12px; left: 12px; }
+  .daily-exam .option-letter { width: 25px; height: 25px; }
+  .daily-actions { padding: 12px; }
+  .daily-exam .button { font-size: 12px; padding-inline: 8px; }
+  .daily-forward { gap: 8px; }
+  #daily-submitted { font-size: 11px; }
+  #daily-dialog { padding: 22px; }
+}

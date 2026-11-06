@@ -16,6 +16,7 @@ const codeStats = summarizeProgress(catalog, []).byCode;
     <div class="stat-grid">{codeStats.map((group) => <div class="stat-card" data-code-stat={group.code}><span>{group.code} 正確率</span><strong data-code-accuracy>—</strong><span data-code-detail>{group.totalQuestions} 題・目前版本作答 0 次</span></div>)}</div>
   </section>
   <section class="backup-bar" aria-label="學習紀錄備份"><div><strong>讓學習紀錄跟著你</strong><p>備份包含作答與已讀紀錄；匯入自動略過重複，舊版作答備份也能使用。</p></div><div class="button-row"><button class="button secondary" id="export-attempts" type="button">↓ 匯出紀錄</button><label class="button secondary import-button" for="import-attempts">↑ 匯入紀錄</label><input type="file" id="import-attempts" accept="application/json,.json" class="sr-only" /></div></section>
+  <p class="muted">備份不包含每日草稿、不確定標記與題組順序。清除資料會一併刪除草稿，再匯入也無法恢復。匯入備份不會改動現有草稿。</p>
   <p id="import-status" role="status" class="import-status"></p>
   <div class="section-heading"><div><span class="eyebrow">REVISIT & UNDERSTAND</span><h2>我的待複習清單</h2></div><a class="text-link" href="/quiz/">繼續練題 ↗</a></div>
   <div id="wrong-list" class="wrong-list"></div>
