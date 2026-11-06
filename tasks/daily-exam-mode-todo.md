@@ -11,7 +11,7 @@
 | I2 題卡 | `demo/src/components/QuestionCard.astro`、題卡共用顯示函式、`question-set-client.ts` 與測試 | `reveal` 參數預設 `instant`；Enter 不提交；官方題行為不變 | 完成 |
 | I3 每日頁 | `demo/src/pages/daily.astro`、`demo/src/lib/daily-client.ts`、樣式、備份與清除的說明文字 | 規格第 3、5、6 節 | 完成 |
 | I4 瀏覽器測試 | `demo/scripts/daily-exam-smoke.mjs` | 第 8 節瀏覽器、多頁、回歸與版面案例；第 6.5 節按鈕位置；保留結果與截圖 | 完成 |
-| R1 非作者審查 | `tmp/advisor/daily-exam-review.md` | 高中度問題清零 | 第 3、4 輪高 0、中 0；低度項目已處理，見實作紀錄；第 5 輪定向複核待完成 |
+| R1 非作者審查 | `tmp/advisor/daily-exam-review.md` | 高中度問題清零 | 第 3、4、5 輪高 0、中 0；低度項目已處理，見實作紀錄 |
 | V1 協調者驗收 | 主工作區 | 規格第 10 節逐條有證據；親看截圖 | 待 R1 |
 | P1 上線 | PR、4321 | CI 全綠；4321 重建；以真實資料走完一次交卷 | 待 V1 |
 
