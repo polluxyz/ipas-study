@@ -1,22 +1,37 @@
 /** 題組共用答題還原、逐題導覽與計時；位置放在網址，沿用既有作答儲存。 */
 import type { Attempt } from './attempts';
+import { displayQuestionCard } from './question-card-display';
 
 function restoreCard(card: HTMLElement, attempt: Attempt): void {
-  card.dataset.answered = 'true'; card.dataset.saved = 'true';
-  for (const input of card.querySelectorAll<HTMLInputElement>('input')) { input.checked = input.value === attempt.choice; input.disabled = true; }
-  const submit = card.querySelector<HTMLButtonElement>('button[type="submit"]');
-  if (submit) { submit.disabled = true; submit.textContent = '已提交'; }
-  for (const option of card.querySelectorAll<HTMLElement>('[data-option]')) {
-    const isAnswer = option.dataset.option === card.dataset.answer;
-    const isWrong = option.dataset.option === attempt.choice && !attempt.correct;
-    option.classList.toggle('is-correct', isAnswer); option.classList.toggle('is-wrong', isWrong);
-    const status = option.querySelector('.option-status'); if (status) status.textContent = isAnswer ? '✓ 正解' : isWrong ? '✕ 你的答案' : '';
-  }
-  card.querySelector('.answer-result')?.classList.toggle('incorrect', !attempt.correct);
-  const label = card.querySelector('[data-result-label]'); if (label) label.textContent = attempt.correct ? '答對了，繼續保持！' : '這個觀念值得再看一次';
-  const symbol = card.querySelector('[data-result-symbol]'); if (symbol) symbol.textContent = attempt.correct ? '✓' : '↺';
-  const chosen = card.querySelector('[data-chosen]'); if (chosen) chosen.textContent = `・你的答案 ${attempt.choice}`;
-  const explanation = card.querySelector<HTMLElement>('[data-explanation]'); if (explanation) explanation.hidden = false;
+  displayQuestionCard(card, { choice: attempt.choice, correct: attempt.correct, locked: true, reveal: true, saved: true });
+}
+
+export interface NavigationOptions {
+  prefix: string; cards: HTMLElement[]; position: number;
+  canVisit?: (target: number, current: number) => boolean;
+  nextPosition?: (current: number) => number;
+  onLeave?: () => void; onShow: (position: number) => void;
+  heading?: HTMLElement;
+}
+/** 導覽只處理位置、網址與焦點；作答順序與資料保存由呼叫端決定。 */
+export function initQuestionNavigation(options: NavigationOptions): { go: (target: number, focus?: boolean) => void; current: () => number } {
+  let position = options.position;
+  const go = (target: number, focus = true) => {
+    if (target < 0 || target >= options.cards.length || options.canVisit?.(target, position) === false) return;
+    options.onLeave?.(); position = target;
+    options.cards.forEach((card, index) => { card.hidden = index !== position; });
+    const url = new URL(location.href); url.searchParams.set('position', String(position + 1)); history.replaceState(history.state, '', url);
+    options.onShow(position);
+    options.cards[position].dispatchEvent(new Event('question-shown'));
+    if (focus) {
+      const heading = options.heading ?? options.cards[position].querySelector<HTMLElement>('.question-stem');
+      if (heading) { heading.tabIndex = -1; heading.focus({ preventScroll: true }); heading.scrollIntoView({ block: 'start', behavior: 'instant' }); }
+    }
+  };
+  document.getElementById(options.prefix + '-previous')!.addEventListener('click', () => go(position - 1));
+  document.getElementById(options.prefix + '-next')!.addEventListener('click', () => go(options.nextPosition?.(position) ?? position + 1));
+  go(position, false);
+  return { go, current: () => position };
 }
 
 export interface QuestionSetOptions {
@@ -27,7 +42,6 @@ export interface QuestionSetOptions {
   elapsed: number;
   exam?: boolean;
   onAnswered?: () => void;
-  expired?: () => boolean;
 }
 
 export function initQuestionSet(options: QuestionSetOptions): void {
@@ -65,16 +79,6 @@ export function initQuestionSet(options: QuestionSetOptions): void {
     if (!document.hidden && !cards[position].dataset.answered) elapsed += performance.now() - segmentStarted;
     segmentStarted = performance.now();
   };
-  const show = () => {
-    cards.forEach((card, index) => { card.hidden = index !== position; });
-    const url = new URL(location.href); url.searchParams.set('position', String(position + 1));
-    history.replaceState(history.state, '', url);
-    segmentStarted = performance.now();
-    cards[position].dispatchEvent(new Event('question-shown'));
-    updateProgress(); showTime();
-  };
-  previous.addEventListener('click', () => { if (position > 0) { settleSegment(); position--; show(); } });
-  next.addEventListener('click', () => { if (position < cards.length - 1) { settleSegment(); position++; show(); } });
   document.getElementById(prefix + '-cards')!.addEventListener('question-answered', ((event: CustomEvent<{ qid: string; correct: boolean }>) => {
     const card = cards.find((item) => item.dataset.qid === event.detail.qid);
     if (!card) return;
@@ -86,13 +90,10 @@ export function initQuestionSet(options: QuestionSetOptions): void {
   const visibility = () => { segmentStarted = performance.now(); };
   document.addEventListener('visibilitychange', visibility);
   const timer = window.setInterval(() => {
-    if (options.expired?.()) {
-      text('status', '台北日期已換日。請重新整理，建立新一天的題組。');
-      for (const input of document.querySelectorAll<HTMLInputElement | HTMLButtonElement>('#' + prefix + '-cards input, #' + prefix + '-cards button')) input.disabled = true;
-      window.clearInterval(timer);
-    }
     showTime();
   }, 1000);
   window.addEventListener('pagehide', () => { window.clearInterval(timer); document.removeEventListener('visibilitychange', visibility); }, { once: true });
-  show();
+  initQuestionNavigation({ prefix, cards, position, onLeave: settleSegment, onShow: (next) => {
+    position = next; segmentStarted = performance.now(); updateProgress(); showTime();
+  } });
 }
