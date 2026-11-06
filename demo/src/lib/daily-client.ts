@@ -32,6 +32,7 @@ export function initDaily(): void {
   };
   const clearError = () => { failed = false; element('save-error').hidden = true; };
   const editable = () => draft.status === 'open' && cards.length > 0 && !pending && !readOnly;
+  const canVisit = (target: number, current: number) => (!pending || target === current) && dailyNumbers(draft).includes(target) && (draft.status === 'submitted' || Boolean(draft.questions[current]?.choice) || target <= current);
   const settle = () => {
     const now = performance.now(); const q = draft.questions[draft.position];
     if (started !== null && editable() && q && !q.legacyAttemptId) q.ms += Math.max(0, Math.round(now - started));
@@ -75,9 +76,10 @@ export function initDaily(): void {
       button.setAttribute('aria-label', `第 ${index + 1} 題，${label}${submitted && item.unsure ? '，曾標記不確定' : ''}`);
       if (index === draft.position) button.setAttribute('aria-current', 'step');
       button.addEventListener('click', () => {
+        if (!navigation || !canVisit(index, navigation.current())) return;
         // 先收合再導覽，讓題目標題在收合後取得焦點並定位。
         if (!desktopPanel.matches) panel.open = false;
-        navigation?.go(index);
+        navigation.go(index);
       }); numbers.append(button);
     }
     const legend = element('legend'); legend.replaceChildren();
@@ -146,7 +148,7 @@ export function initDaily(): void {
     element('practice').hidden = !cards.length;
     draft.position = dailyPosition(draft, Number(new URL(location.href).searchParams.get('position')) - 1); displayCards();
     if (cards.length) navigation = initQuestionNavigation({ prefix: 'daily', cards, position: draft.position, heading: element('question-heading'),
-      canVisit: (target, current) => (!pending || target === current) && dailyNumbers(draft).includes(target) && (draft.status === 'submitted' || Boolean(draft.questions[current]?.choice) || target <= current),
+      canVisit,
       nextPosition: (current) => dailyNext(draft, current), onLeave: settle,
       onShow: (position) => { draft.position = position; if (draft.status !== 'submitting') persist(); started = editable() && !document.hidden ? performance.now() : null; displayCards(); render(); } });
     else render();
