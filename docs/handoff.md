@@ -1,9 +1,10 @@
 # 完整網站整合交接
 
-## 目前進度（2026-11-05）
+## 目前進度（2026-11-06）
 
-- 進行中：每日題組交卷模式。規格`docs/specs/daily-exam-mode.md`，計畫與待辦`tasks/daily-exam-mode-*`。
-- 下一步：Codex做版面mockup，使用者看過才實作。使用者看過前不大量改`demo/src/`。
+- 已上線：每日題組交卷模式（PR #185，`0626fd2`）。規格`docs/specs/daily-exam-mode.md`，驗收與上線紀錄在`tasks/daily-exam-mode-plan.md`。
+- 待使用者確認：開`/daily/`看本人資料。自動走查只用隔離瀏覽器造資料。未驗證實體手機、Safari、Firefox、真實作業系統背景切換。
+- 派工：使用者要求多派worker、任務細分，每個worker只做一件事。
 - 題庫：main為b992705時，verified模擬題科目1有560題、科目3有491題，需求各450。狀態見`tasks/question-bank-expansion-todo.md`。
 - 4321：程序PID 11996，終端term_18ac8644-c8a9-43c2-91dc-3a2049e12a81（常駐，勿關）。提供`D:/ipas-study/demo/dist`，在repo根目錄`pnpm --dir demo run build --force`就地更新，1895頁。
 - Orca Run：run_e8563c302ab9。worker可能卡在輸入框，派工後要確認畫面有Working。
