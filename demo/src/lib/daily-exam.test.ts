@@ -1,7 +1,7 @@
 /** 每日狀態與持久化的正反例，特別驗證交卷每一步失敗後沿用同一批 ID。 */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { clearStudyData, DailyConflictError, DRAFT_KEY, exportAttempts, getAttempts, getDailyDrafts, getWrongBook, importAttempts, isDailyDraft, saveAttemptBatch, saveDailyDraft, submitDailyDraft, type Attempt, type DailyDraft, type DailySet } from './attempts';
-import { availableDailyQuestion, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
+import { availableDailyQuestion, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { unseenDailyQuestions } from './daily';
 const set: DailySet = { date: '2026-11-05', subject: 1, questions: Array.from({ length: 5 }, (_, index) => ({ id: `q${index}`, rev: 2 })) };
 const attempt = (overrides: Partial<Attempt> = {}): Attempt => ({ id: 'old', qid: 'q0', rev: 2, choice: 'A', correct: true, ts: '2026-11-05T03:00:00Z', mode: 'daily:2026-11-05:S1', ms: 200, ...overrides });
@@ -66,6 +66,24 @@ describe('還原、舊作答與順序', () => {
     expect(draft.questions.map((q) => q.choice)).toEqual(['B', null, null, null, 'A']); expect(draft.questions[0].legacyAttemptId).toBe('new'); expect(draft.position).toBe(1);
     expect(dailyNumbers(draft)).toEqual([0, 1, 4]); expect(dailyNext(draft, 4)).toBe(4);
     expect(createDailyDraft(set, records, false, 'fresh').questions.every((q) => !q.legacyAttemptId)).toBe(true);
+  });
+  it('空草稿視同沒有草稿；空快取不阻擋重新抽題', () => {
+    const empty = { ...make(), questions: [] };
+    expect(dailySource(empty, set)).toBe('legacy');
+    expect(dailySource(empty, { ...set, questions: [] })).toBe('new');
+    expect(dailySource(empty, undefined)).toBe('new');
+  });
+  it('全部移除或改版的 open 草稿才可提前開今日題組', () => {
+    for (const changed of [[], catalog.map((q) => ({ ...q, rev: 99 }))]) {
+      expect(canOpenToday(make(), changed, set.date)).toBe(true);
+      expect(() => prepare(reconcileDailyDraft(complete(), changed).draft)).toThrow();
+    }
+    expect(canOpenToday(make(), catalog.slice(0, 1), '2026-11-06')).toBe(false);
+    expect(canOpenToday({ ...make(), questions: [] }, catalog, set.date)).toBe(false);
+    expect(canOpenToday(prepare(complete()), [], '2026-11-06')).toBe(false);
+    const submitted = { ...prepare(complete()), status: 'submitted' as const };
+    expect(canOpenToday(submitted, [], set.date)).toBe(false);
+    expect(canOpenToday(submitted, catalog, '2026-11-06')).toBe(true);
   });
   it('未答不可前進；已答、不確定、交卷結果與不可用狀態優先序', () => {
     const draft = make(); expect(dailyNumbers(draft)).toEqual([0]); expect(dailyNext(draft, 0)).toBe(0); expect(dailyPosition(draft, 4)).toBe(0);

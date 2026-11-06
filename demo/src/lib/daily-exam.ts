@@ -3,7 +3,10 @@ import type { Attempt, DailyDraft, DailySet } from './attempts';
 import { dailyMode, type DailyQuestion, type DailySubject } from './daily';
 
 export function dailySource(draft: DailyDraft | undefined, todaySet: DailySet | undefined): 'draft' | 'legacy' | 'new' {
-  return draft ? 'draft' : todaySet ? 'legacy' : 'new';
+  return draft?.questions.length ? 'draft' : todaySet?.questions.length ? 'legacy' : 'new';
+}
+export function canOpenToday(draft: DailyDraft, catalog: readonly DailyQuestion[], today: string): boolean {
+  return draft.status === 'submitted' ? draft.date !== today : draft.status === 'open' && draft.questions.length > 0 && !draft.questions.some((q) => availableDailyQuestion(q, catalog, draft.subject));
 }
 export function createDailyDraft(set: DailySet, attempts: readonly Attempt[], scanLegacy: boolean, id: string): DailyDraft {
   const questions = set.questions.map((q) => {

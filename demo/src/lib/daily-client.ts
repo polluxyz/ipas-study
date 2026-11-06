@@ -1,7 +1,7 @@
 /** 每日流程組裝狀態與互動；保存一律透過 attempts，題卡及導覽沿用共用函式。 */
 import { assertDailyDraftCurrent, DailyConflictError, DRAFT_KEY, getAttempts, getDailyDrafts, getDailySet, saveDailyDraft, saveDailySet, submitDailyDraft, type Choice, type DailyDraft } from './attempts';
 import { migrateDailySet, selectDailyQuestions, taipeiDate, unseenDailyQuestions, type DailyQuestion, type DailySubject } from './daily';
-import { availableDailyQuestion, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
+import { availableDailyQuestion, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { displayQuestionCard } from './question-card-display';
 import { initQuestionNavigation } from './question-set-client';
 
@@ -31,14 +31,14 @@ export function initDaily(): void {
     element('save-error').hidden = false; element('retry').hidden = readOnly; element('reload').hidden = !readOnly;
   };
   const clearError = () => { failed = false; element('save-error').hidden = true; };
-  const editable = () => draft.status === 'open' && !pending && !readOnly;
+  const editable = () => draft.status === 'open' && cards.length > 0 && !pending && !readOnly;
   const settle = () => {
     const now = performance.now(); const q = draft.questions[draft.position];
     if (started !== null && editable() && q && !q.legacyAttemptId) q.ms += Math.max(0, Math.round(now - started));
     started = editable() && !document.hidden ? now : null;
   };
   const persist = () => {
-    if (readOnly || pending || draft.status === 'submitting') return;
+    if (readOnly || pending || draft.status === 'submitting' || !cards.length) return;
     try { draft = saveDailyDraft(draft, expected); expected = draft; clearError(); }
     catch (cause) { error(cause); }
   };
@@ -84,8 +84,10 @@ export function initDaily(): void {
       text('score-points', `${draft.submission.correct * 2} 分／${draft.submission.total * 2} 分${draft.submission.total === 50 ? '・每題 2 分' : '・不是正式考試換算'}`);
     }
     const old = draft.date !== taipeiDate(new Date());
-    element('today').hidden = !submitted || !old; element('today-note').hidden = !submitted;
-    text('today-note', old ? '本份題組已交卷。可開啟今日題組。' : '今日題組已交卷，明天才有新題組。'); showTime();
+    const exhausted = draft.status === 'open' && canOpenToday(draft, catalog, taipeiDate(new Date()));
+    element('today').hidden = !canOpenToday(draft, catalog, taipeiDate(new Date())); element<HTMLButtonElement>('today').disabled = readOnly;
+    element('today-note').hidden = !submitted && !exhausted;
+    text('today-note', exhausted ? '這份題組已沒有可作答的題目。可開啟今日題組。' : old ? '本份題組已交卷。可開啟今日題組。' : '今日題組已交卷，明天才有新題組。'); showTime();
   };
   const finishSubmission = () => {
     if (readOnly) return; settle(); started = null;
@@ -98,29 +100,35 @@ export function initDaily(): void {
     element('score').focus({ preventScroll: true }); element('score').scrollIntoView({ block: 'start', behavior: 'instant' });
   };
   try {
-    const drafts = getDailyDrafts(); const existing = drafts.find((item) => item.subject === subject);
+    const drafts = getDailyDrafts(); const stored = drafts.find((item) => item.subject === subject);
+    const existing = stored?.questions.length ? stored : undefined; expected = stored ?? null;
     const today = taipeiDate(new Date()); const attempts = existing ? [] : getAttempts();
-    const todaySet = existing ? undefined : getDailySet(today, subject);
+    const cached = existing ? undefined : getDailySet(today, subject);
+    const todaySet = cached?.questions.length ? cached : undefined;
     let skipped = 0;
     if (dailySource(existing, todaySet) === 'draft') { draft = existing!; expected = existing!; }
     else {
       let set = todaySet;
-      if (!set) { const result = selectDailyQuestions(catalog, attempts, subject, today, Math.random); set = saveDailySet({ date: today, subject, questions: result.selected.map(({ id, rev }) => ({ id, rev })) }); }
+      if (!set) { const result = selectDailyQuestions(catalog, attempts, subject, today, Math.random); set = { date: today, subject, questions: result.selected.map(({ id, rev }) => ({ id, rev })) }; if (set.questions.length) set = saveDailySet(set, Boolean(cached)); }
       const migration = migrateDailySet(set, catalog, attempts, Math.random); if (migration.replaced) set = saveDailySet(migration.set, true);
       draft = createDailyDraft(set, attempts, Boolean(todaySet), crypto.randomUUID());
       const initial = reconcileDailyDraft(draft, catalog); skipped = initial.skipped;
-      draft = saveDailyDraft(initial.draft, null); expected = draft;
+      draft = initial.draft;
+      if (draft.questions.length) { draft = saveDailyDraft(draft, expected); expected = draft; }
     }
     const resolved = reconcileDailyDraft(draft, catalog);
     skipped += resolved.skipped;
-    if (resolved.skipped) { draft = saveDailyDraft(resolved.draft, expected); expected = draft; }
+    // 全部失效時保留原草稿，直到使用者明確開啟今日題組。
+    if (resolved.skipped && resolved.draft.questions.length) { draft = saveDailyDraft(resolved.draft, expected); expected = draft; }
     const allCards = new Map(Array.from(container.querySelectorAll<HTMLElement>('[data-question]')).map((card) => [card.dataset.qid!, card]));
-    cards = draft.questions.map((q) => {
+    cards = (draft.status === 'open' && !resolved.draft.questions.length ? [] : draft.questions).map((q) => {
       if (availableDailyQuestion(q, catalog, subject)) return allCards.get(q.id)!;
       const missing = document.createElement('article'); missing.className = 'daily-unavailable'; missing.textContent = '已移除或改版，解析目前不可用。本次成績維持交卷時的紀錄。'; missing.hidden = true; return missing;
     });
     container.replaceChildren(...cards); text('date', `${draft.date} 題組・科目 ${subject}`);
     text('status', [draft.date !== today ? `正在續作 ${draft.date} 題組。` : '今日題組已固定。', draft.questions.length < 50 ? `可練 ${draft.questions.length} 題，距離 50 題缺 ${50 - draft.questions.length} 題。` : '完成全部題目後再一起檢討。', skipped ? `${skipped} 題已移除或改版，已略過，不補題。` : ''].join(' '));
+    if (!draft.questions.length) text('status', '目前沒有可做的題目。題庫恢復後重新開頁即可建立題組。');
+    else if (draft.status === 'open' && !cards.length) text('status', `這份題組已沒有可作答的題目。${skipped} 題已移除或改版，不能交卷。`);
     try {
       text('remaining', `該科剩餘未做的已驗證非官方題：${unseenDailyQuestions(catalog, existing ? getAttempts() : attempts, subject).length} 題（含本份未交卷題目）。`);
     } catch { text('remaining', '無法更新剩餘題數；草稿仍可繼續作答與檢討。'); }
@@ -160,10 +168,11 @@ export function initDaily(): void {
   panel.open = desktopPanel.matches;
   desktopPanel.addEventListener('change', () => { panel.open = desktopPanel.matches; });
   element('today').addEventListener('click', () => {
-    if (draft.status !== 'submitted' || draft.date === taipeiDate(new Date()) || readOnly) return;
+    if (!canOpenToday(draft, catalog, taipeiDate(new Date())) || readOnly) return;
     try {
       assertDailyDraftCurrent(expected, subject); const date = taipeiDate(new Date()); const result = selectDailyQuestions(catalog, getAttempts(), subject, date, Math.random);
-      const set = saveDailySet({ date, subject, questions: result.selected.map(({ id, rev }) => ({ id, rev })) });
+      if (!result.selected.length) { text('today-note', '目前沒有可做的題目。題庫恢復後可再開啟今日題組。'); return; }
+      const set = saveDailySet({ date, subject, questions: result.selected.map(({ id, rev }) => ({ id, rev })) }, draft.status === 'open');
       saveDailyDraft(createDailyDraft(set, [], false, crypto.randomUUID()), expected); location.href = `/daily/?subject=${subject}`;
     } catch (cause) { error(cause); displayCards(); render(); }
   });
