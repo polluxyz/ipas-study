@@ -364,6 +364,94 @@ export async function runDailyExamSmoke() {
       await page.reload(); await page.locator('#daily-score').waitFor(); assert.deepEqual(await getAttempts(page), attempts, '重載後仍只有原來 50 筆作答');
       return { width: 375, realDisabledClick: true, defensivePath: 'only target disabled removed, then native click', rejectedFocusPreserved: true, beforeRetry: 50, afterRetry: attempts.length, uniqueIds: 50, idsStable: true };
     });
+    const round4SummaryBounds = (page) => page.evaluate(() => {
+      const summary = document.querySelector('#daily-panel summary').getBoundingClientRect();
+      const toolbar = document.querySelector('.daily-toolbar').getBoundingClientRect(); const actions = document.querySelector('.daily-actions').getBoundingClientRect();
+      return { summary: { top: summary.top, bottom: summary.bottom }, toolbarBottom: toolbar.bottom, actionsTop: actions.top, scrollY, height: innerHeight };
+    });
+    const round4Visible = (bounds) => bounds.summary.top >= Math.max(0, bounds.toolbarBottom) && bounds.summary.bottom <= Math.min(bounds.height, bounds.actionsTop);
+    const round4Focus = async (page, selector) => {
+      try { await page.waitForFunction((selector) => document.activeElement === document.querySelector(selector), selector, { timeout: 3000 }); } catch { /* 保留實際焦點，讓修正前建置也有明確失敗訊息。 */ }
+      if (process.env.DAILY_EXAM_FAULT_ROUND4 === 'resize-focus') await page.evaluate(() => document.activeElement.blur());
+      const focus = await page.evaluate((selector) => ({ matches: document.activeElement === document.querySelector(selector), tag: document.activeElement.tagName, id: document.activeElement.id, text: document.activeElement.textContent?.trim().slice(0, 40) }), selector);
+      assert.equal(focus.matches, true, `第 4 輪焦點須到 ${selector}，實際 ${JSON.stringify(focus)}`); assert.notEqual(focus.tag, 'BODY'); return focus;
+    };
+    const round4Screenshot = async (page, name) => {
+      // 一般截圖工具會先捲到題幹；這裡保留縮放後的位置，才能檢查固定列遮擋。
+      const file = resolve(output, `${name}.png`); await page.screenshot({ path: file }); report.screenshots.push(file);
+    };
+    for (const fault of ['attempts', 'first-draft']) await regression(`regression-round4-grow-pending-${fault}`, async (ctx) => {
+      const d = fixture(questions, 1, 50); await seed(ctx, [d]); const page = await ctx.newPage(); await page.setViewportSize({ width: 375, height: 1000 }); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      await page.evaluate((fault) => {
+        const original = Storage.prototype.setItem; window.restoreRound4Storage = () => { Storage.prototype.setItem = original; };
+        window.round4GeneratedIds = []; const uuid = crypto.randomUUID.bind(crypto); crypto.randomUUID = () => { const id = uuid(); window.round4GeneratedIds.push(id); return id; };
+        Storage.prototype.setItem = function(key, raw) {
+          if (fault === 'attempts' && key === 'ipas-attempts-v1') throw new Error('round4 attempts quota');
+          if (fault === 'first-draft' && key === 'ipas-daily-draft-v1' && JSON.parse(raw).drafts.some((d) => d.subject === 1 && d.status === 'submitting')) throw new Error('round4 first submission draft quota');
+          return original.call(this, key, raw);
+        };
+      }, fault);
+      await page.locator('#daily-submit').click(); await page.locator('#daily-confirm').click(); await page.locator('#daily-save-error').waitFor(); await assertHiddenResults(page);
+      const failedDraft = await getDraft(page); const ids = await page.evaluate(() => window.round4GeneratedIds);
+      assert.equal(failedDraft.status, fault === 'attempts' ? 'submitting' : 'open'); assert.equal(ids.length, 50); assert.equal((await getAttempts(page)).length, 0);
+      if (fault === 'attempts') assert.deepEqual(failedDraft.submission.attempts.map((a) => a.id), ids);
+      else assert.equal(failedDraft.submission, undefined, '首次寫入失敗時 pending 只在記憶體中，不能假設草稿已保存');
+      assert.equal(await page.locator('#daily-numbers button:disabled').count(), 50, '有 pending 時所有題號停用'); assert.equal(await page.locator('#daily-numbers [aria-current="step"]').isDisabled(), true);
+      const summary = page.locator('#daily-panel summary'); await summary.focus(); assert.equal(await summary.evaluate((e) => document.activeElement === e), true);
+      await page.setViewportSize({ width: 1440, height: 1000 }); await round4Screenshot(page, `regression-round4-grow-pending-${fault}`); const focus = await round4Focus(page, '#daily-retry');
+      assert.equal(await page.locator('#daily-retry').innerText(), '重試保存'); assert.equal(await page.locator('#daily-panel').evaluate((e) => e.open), true);
+      await page.evaluate(() => window.restoreRound4Storage()); await page.locator('#daily-retry').click(); await page.locator('#daily-score').waitFor(); const attempts = await getAttempts(page);
+      assert.equal((await getDraft(page)).status, 'submitted'); assert.equal(attempts.length, 50); assert.equal(new Set(attempts.map((a) => a.id)).size, 50); assert.deepEqual(attempts.map((a) => a.id), ids); assert.deepEqual(await page.evaluate(() => window.round4GeneratedIds), ids);
+      await page.reload(); await page.locator('#daily-score').waitFor(); assert.deepEqual(await getAttempts(page), attempts, '重試及重載後每題只有 1 筆正式作答');
+      return { fault, from: 375, to: 1440, failedDraftStatus: failedDraft.status, focus, beforeRetry: 0, afterRetry: attempts.length, uniqueIds: 50, idsStable: true };
+    });
+    await regression('regression-round4-grow-current-number', async (ctx) => {
+      const d = fixture(questions, 1, 2); d.position = 1; await seed(ctx, [d]); const page = await ctx.newPage(); await page.setViewportSize({ width: 375, height: 1000 }); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      const summary = page.locator('#daily-panel summary'); await summary.focus(); assert.equal(await summary.evaluate((e) => document.activeElement === e), true);
+      await page.setViewportSize({ width: 1440, height: 1000 }); const focus = await round4Focus(page, '#daily-numbers [aria-current="step"]');
+      assert.equal(await page.locator('#daily-numbers [aria-current="step"]').isEnabled(), true); assert.equal(await page.locator('#daily-position').innerText(), '第 2／50 題');
+      await round4Screenshot(page, 'regression-round4-grow-current-number'); return { from: 375, to: 1440, focus };
+    });
+    for (const width of [375, 320]) await regression(`regression-round4-shrink-footer-${width}`, async (ctx) => {
+      const d = fixture(questions, 1, 2); d.position = 1; await seed(ctx, [d]); const page = await ctx.newPage(); await page.setViewportSize({ width: 1440, height: 1000 }); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      await page.locator('#daily-numbers [aria-current="step"]').evaluate((e) => e.focus({ preventScroll: true }));
+      await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+      const before = await page.evaluate(() => ({ scrollY, bottom: scrollY + innerHeight, height: document.documentElement.scrollHeight }));
+      assert.ok(before.scrollY > 0 && Math.abs(before.bottom - before.height) <= 1, `前提：已捲到頁尾 ${JSON.stringify(before)}`);
+      assert.equal(await page.locator('#daily-numbers [aria-current="step"]').evaluate((e) => document.activeElement === e), true);
+      await page.setViewportSize({ width, height: 1000 }); const focus = await round4Focus(page, '#daily-panel summary'); await page.waitForTimeout(100);
+      if (process.env.DAILY_EXAM_FAULT_ROUND4 === 'summary-visibility') await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+      const bounds = await round4SummaryBounds(page); await round4Screenshot(page, `regression-round4-shrink-footer-${width}`);
+      assert.ok(round4Visible(bounds), `縮到 ${width} 後 summary 須完整位於固定列之間：${JSON.stringify(bounds)}`);
+      assert.equal(await page.locator('#daily-panel').evaluate((e) => e.open), false); return { from: 1440, to: width, before, focus, bounds };
+    });
+    await regression('regression-round4-shrink-visible-no-scroll', async (ctx) => {
+      const d = fixture(questions, 1, 2); d.position = 1; await seed(ctx, [d]); const page = await ctx.newPage(); await page.setViewportSize({ width: 1440, height: 1000 }); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      // 避免測試工具自動捲到題號，才能驗證原本可見的開關不會造成額外捲動。
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+      await page.locator('#daily-numbers [aria-current="step"]').evaluate((e) => e.focus({ preventScroll: true })); const before = await page.evaluate(() => scrollY); assert.equal(before, 0);
+      assert.equal(await page.locator('#daily-numbers [aria-current="step"]').evaluate((e) => document.activeElement === e), true);
+      await page.setViewportSize({ width: 375, height: 1000 }); const focus = await round4Focus(page, '#daily-panel summary'); await page.waitForTimeout(100);
+      if (process.env.DAILY_EXAM_FAULT_ROUND4 === 'visible-scroll') await page.evaluate(() => window.scrollBy({ top: 1, behavior: 'instant' }));
+      const bounds = await round4SummaryBounds(page); await round4Screenshot(page, 'regression-round4-shrink-visible-no-scroll');
+      assert.ok(round4Visible(bounds), `縮窄後 summary 仍在固定列之間：${JSON.stringify(bounds)}`); assert.equal(bounds.scrollY, before, `summary 已可見時不可捲動：${JSON.stringify({ before, bounds })}`);
+      return { from: 1440, to: 375, beforeScrollY: before, afterScrollY: bounds.scrollY, focus, bounds };
+    });
+    await regression('regression-round4-rejected-noncontinuous-number', async (ctx) => {
+      const d = fixture(questions, 1, 1); d.questions = d.questions.slice(0, 5); d.questions[3].choice = 'A'; d.position = 1; await seed(ctx, [d]);
+      const page = await ctx.newPage(); await page.setViewportSize({ width: 375, height: 1000 }); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
+      assert.deepEqual((await getDraft(page)).questions.map((q) => Boolean(q.choice)), [true, false, false, true, false]);
+      assert.equal(await page.locator('#daily-position').innerText(), '第 2／5 題'); assert.equal(await currentCard(page).locator('input:checked').count(), 0);
+      const before = { position: await page.locator('#daily-position').innerText(), qid: await currentCard(page).getAttribute('data-qid') };
+      const panel = page.locator('#daily-panel'); await panel.locator('summary').click(); assert.equal(await panel.evaluate((e) => e.open), true);
+      const target = page.locator('#daily-numbers button').filter({ hasText: /^4$/ }); assert.equal(await target.isEnabled(), true);
+      // 注入誤收合，單獨證明選單斷言不只檢查目前題目。
+      if (process.env.DAILY_EXAM_FAULT_ROUND4 === 'rejected-close') await target.evaluate((button) => button.addEventListener('click', () => { document.querySelector('#daily-panel').open = false; }, true));
+      await target.click(); assert.deepEqual({ position: await page.locator('#daily-position').innerText(), qid: await currentCard(page).getAttribute('data-qid') }, before, '被拒絕的第 4 題不可改變目前第 2 題');
+      assert.equal(await panel.evaluate((e) => e.open), true, '被拒絕的第 4 題不可收合選單'); assert.equal(await panel.locator('summary').getAttribute('aria-expanded'), 'true');
+      assert.equal(await target.evaluate((e) => document.activeElement === e), true, '拒絕跳題後焦點留在第 4 題按鈕'); assert.equal((await getAttempts(page)).length, 0);
+      await round4Screenshot(page, 'regression-round4-rejected-noncontinuous-number'); return { width: 375, answered: [1, 4], current: 2, clicked: 4, expanded: true, clickedNumberFocused: true };
+    });
     // 真實逐題操作、Enter、取消交卷、改答與關閉後重開。
     if (selected("sequential-enter-edit-reopen-backup-back")) {
       const ctx = await context(); const page = await ctx.newPage(); await page.clock.install({ time: instant });
@@ -683,5 +771,5 @@ export async function runDailyExamSmoke() {
   }
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  const report = await runDailyExamSmoke(); process.stdout.write(JSON.stringify({ success: report.success, cases: report.cases.length, totalCases: report.cases.length + report.measurements.length + report.faults.length, newCaseNames: report.newCases.map((item) => item.name), round3CaseNames: report.newCases.filter((item) => item.name.startsWith('regression-round3-')).map((item) => item.name), measurements: report.measurements.length, screenshots: report.screenshots.length, faults: report.faults, errors: report.errors, cleanup: report.cleanup }, null, 2) + '\n');
+  const report = await runDailyExamSmoke(); process.stdout.write(JSON.stringify({ success: report.success, cases: report.cases.length, totalCases: report.cases.length + report.measurements.length + report.faults.length, newCaseNames: report.newCases.map((item) => item.name), round3CaseNames: report.newCases.filter((item) => item.name.startsWith('regression-round3-')).map((item) => item.name), round4CaseNames: report.newCases.filter((item) => item.name.startsWith('regression-round4-')).map((item) => item.name), measurements: report.measurements.length, screenshots: report.screenshots.length, faults: report.faults, errors: report.errors, cleanup: report.cleanup }, null, 2) + '\n');
 }
