@@ -132,7 +132,7 @@ export function initDaily(): void {
       const missing = document.createElement('article'); missing.className = 'daily-unavailable'; missing.textContent = '已移除或改版，解析目前不可用。本次成績維持交卷時的紀錄。'; missing.hidden = true; return missing;
     });
     container.replaceChildren(...cards); text('date', `${draft.date} 題組・科目 ${subject}`);
-    text('status', [draft.date !== today ? `正在續作 ${draft.date} 題組。` : '今日題組已固定。', draft.questions.length < 50 ? `可練 ${draft.questions.length} 題，距離 50 題缺 ${50 - draft.questions.length} 題。` : '完成全部題目後再一起檢討。', skipped ? `${skipped} 題已移除或改版，已略過，不補題。` : ''].join(' '));
+    text('status', [draft.date !== today ? `正在續作 ${draft.date} 題組。` : '今日題組已固定。', draft.questions.length < 50 ? `可練 ${draft.questions.length} 題，距離 50 題缺 ${50 - draft.questions.length} 題。` : '', skipped ? `${skipped} 題已移除或改版，已略過，不補題。` : ''].join(' '));
     if (!draft.questions.length) text('status', '目前沒有可做的題目。題庫恢復後重新開頁即可建立題組。');
     else if (draft.status === 'open' && !cards.length) text('status', `這份題組已沒有可作答的題目。${skipped} 題已移除或改版，不能交卷。`);
     try {
