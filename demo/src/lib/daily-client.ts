@@ -1,7 +1,7 @@
 /** 每日流程組裝狀態與互動；保存一律透過 attempts，題卡及導覽沿用共用函式。 */
 import { assertDailyDraftCurrent, DailyConflictError, DRAFT_KEY, getAttempts, getDailyDrafts, getDailySet, saveDailyDraft, saveDailySet, submitDailyDraft, type Choice, type DailyDraft } from './attempts';
 import { migrateDailySet, selectDailyQuestions, taipeiDate, unseenDailyQuestions, type DailyQuestion, type DailySubject } from './daily';
-import { availableDailyQuestion, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
+import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { displayQuestionCard } from './question-card-display';
 import { initQuestionNavigation } from './question-set-client';
 
@@ -104,7 +104,7 @@ export function initDaily(): void {
     const existing = stored?.questions.length ? stored : undefined; expected = stored ?? null;
     const today = taipeiDate(new Date()); const attempts = existing ? [] : getAttempts();
     const cached = existing ? undefined : getDailySet(today, subject);
-    const todaySet = cached?.questions.length ? cached : undefined;
+    const todaySet = availableDailySet(cached, catalog);
     let skipped = 0;
     if (dailySource(existing, todaySet) === 'draft') { draft = existing!; expected = existing!; }
     else {

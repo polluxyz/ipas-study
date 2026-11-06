@@ -20,6 +20,10 @@ export function createDailyDraft(set: DailySet, attempts: readonly Attempt[], sc
 export function availableDailyQuestion(q: { id: string; rev: number }, catalog: readonly DailyQuestion[], subject: DailySubject): boolean {
   return catalog.some((item) => item.id === q.id && item.rev === q.rev && item.subject === subject && item.source === 'mock' && item.review.status === 'verified');
 }
+export function availableDailySet(set: DailySet | undefined, catalog: readonly DailyQuestion[]): DailySet | undefined {
+  // 至少有 1 題有效就保留整份快取，略過失效題仍交給草稿還原處理。
+  return set?.questions.some((q) => availableDailyQuestion(q, catalog, set.subject)) ? set : undefined;
+}
 export function reconcileDailyDraft(draft: DailyDraft, catalog: readonly DailyQuestion[]): { draft: DailyDraft; skipped: number } {
   if (draft.status !== 'open') return { draft, skipped: 0 };
   const questions = draft.questions.filter((q) => availableDailyQuestion(q, catalog, draft.subject));

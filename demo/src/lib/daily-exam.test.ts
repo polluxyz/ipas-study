@@ -1,7 +1,7 @@
 /** 每日狀態與持久化的正反例，特別驗證交卷每一步失敗後沿用同一批 ID。 */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { clearStudyData, DailyConflictError, DRAFT_KEY, exportAttempts, getAttempts, getDailyDrafts, getWrongBook, importAttempts, isDailyDraft, saveAttemptBatch, saveDailyDraft, submitDailyDraft, type Attempt, type DailyDraft, type DailySet } from './attempts';
-import { availableDailyQuestion, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
+import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { unseenDailyQuestions } from './daily';
 const set: DailySet = { date: '2026-11-05', subject: 1, questions: Array.from({ length: 5 }, (_, index) => ({ id: `q${index}`, rev: 2 })) };
 const attempt = (overrides: Partial<Attempt> = {}): Attempt => ({ id: 'old', qid: 'q0', rev: 2, choice: 'A', correct: true, ts: '2026-11-05T03:00:00Z', mode: 'daily:2026-11-05:S1', ms: 200, ...overrides });
@@ -55,6 +55,37 @@ describe('草稿驗證及隔離', () => {
     expect(getDailyDrafts()[0].status).toBe('open'); clearStudyData(); expect(storage.has(DRAFT_KEY)).toBe(false);
   });
 });
+describe('今日快取有效性', () => {
+  it('全部失效的快取視同不存在，無草稿或空草稿都重新抽題', () => {
+    for (const changed of [[], catalog.map((q) => ({ ...q, rev: 99 })), catalog.map((q) => ({ ...q, subject: 3 })), catalog.map((q) => ({ ...q, source: 'official' })), catalog.map((q) => ({ ...q, review: { status: 'draft' } }))]) {
+      const todaySet = availableDailySet(set, [{ ...catalog[0], id: 'fresh' }, ...changed]);
+      expect(todaySet).toBeUndefined();
+      expect(dailySource(undefined, todaySet)).toBe('new');
+      expect(dailySource({ ...make(), questions: [] }, todaySet)).toBe('new');
+    }
+  });
+  it('部分有效的快取保留同日題目順序，N 扣除失效題且不補題', () => {
+    const changed = catalog.map((q, i) => i === 1 ? { ...q, rev: 99 } : q).slice(1);
+    const todaySet = availableDailySet(set, changed);
+    expect(todaySet).toBe(set);
+    expect(todaySet?.questions).toEqual(set.questions);
+    expect(dailySource(undefined, todaySet)).toBe('legacy');
+    const restored = reconcileDailyDraft(createDailyDraft(todaySet!, [], true, 'partial'), changed);
+    expect(restored.skipped).toBe(2);
+    expect(restored.draft.questions.map((q) => q.id)).toEqual(['q2', 'q3', 'q4']);
+    expect(dailyCounts(restored.draft).total).toBe(3);
+  });
+  it('全部有效的快取保留原題組', () => {
+    expect(availableDailySet(set, catalog)).toBe(set);
+  });
+  it('空快取視同不存在', () => {
+    expect(availableDailySet({ ...set, questions: [] }, catalog)).toBeUndefined();
+  });
+  it('沒有快取時維持不存在', () => {
+    expect(availableDailySet(undefined, catalog)).toBeUndefined();
+  });
+});
+
 describe('還原、舊作答與順序', () => {
   it('所有草稿狀態都優先於今日題組，否則先舊快取再抽新題', () => {
     for (const status of ['open', 'submitting', 'submitted'] as const) expect(dailySource({ ...make(), status }, { ...set, date: '2026-11-06' })).toBe('draft');
