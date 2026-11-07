@@ -6,7 +6,7 @@
 - 待使用者確認：開`/daily/`看本人資料。自動走查只用隔離瀏覽器造資料。未驗證實體手機、Safari、Firefox、真實作業系統背景切換。
 - 派工：使用者要求多派worker、任務細分，每個worker只做一件事。
 - 題庫：main為b992705時，verified模擬題科目1有560題、科目3有491題，需求各450。狀態見`tasks/question-bank-expansion-todo.md`。
-- 4321：程序PID 11996，終端term_18ac8644-c8a9-43c2-91dc-3a2049e12a81（常駐，勿關）。提供`D:/ipas-study/demo/dist`，在repo根目錄`pnpm --dir demo run build --force`就地更新，1895頁。
+- 4321：不是常駐服務，重開機會停。雙擊桌面`AI學習手札.cmd`（repo外）啟動並開`/daily/`；該檔用`astro preview`提供`D:/ipas-study/demo/dist`，固定4321。不要換連接埠，localStorage作答紀錄跟著網址走。在repo根目錄`pnpm --dir demo run build --force`就地更新，1895頁。
 - Orca Run：run_e8563c302ab9。worker可能卡在輸入框，派工後要確認畫面有Working。
 - 工作樹：main＋5個保留工作樹，遠端只剩main。清理工具`tmp/question-bank/archive-worktree.mjs`。
 
