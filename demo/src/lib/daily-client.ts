@@ -1,7 +1,7 @@
 /** 每日流程組裝狀態與互動；保存一律透過 attempts，題卡及導覽沿用共用函式。 */
 import { assertBookletCurrent, DailyConflictError, BOOKLET_KEY, getAttempts, readBookletStore, openBooklet, saveBooklet, submitBooklet, retireBooklet, type Choice, type Booklet, type BookletRef, type BookletStore } from './attempts';
 import { dailyFreeCount, selectDailyQuestions, taipeiDate, type DailyQuestion, type DailySubject, type DuplicateGroups } from './daily';
-import { availableDailyQuestion, bookletExclusions, bookletOpenLabel, bookletPageState, bookletProgramNotice, bookletProgress, bookletRows, createBooklet, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
+import { availableDailyQuestion, bookletExclusions, bookletOpenLabel, bookletPageState, bookletPartialNote, bookletProgramNotice, bookletProgress, bookletRows, createBooklet, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
 import { ensureBookletStore } from './booklet-migration';
 import { displayQuestionCard } from './question-card-display';
 import { initQuestionNavigation } from './question-set-client';
@@ -34,13 +34,16 @@ export async function initDaily(): Promise<void> {
   let cards: HTMLElement[] = [];
   let timer: number | undefined;
   let saveTimer: number | undefined;
-  const error = (cause: unknown) => {
+  const error = (cause: unknown, action: 'save' | 'open' | 'retire' = 'save', retry?: () => void) => {
     failed = true;
+    retryAction = retry;
     if (cause instanceof DailyConflictError) { readOnly = true; started = null; for (const id of ['open-first', 'open-next', 'retire-book']) element<HTMLButtonElement>(id).disabled = true; }
-    text('error-message', readOnly ? String(cause instanceof Error ? cause.message : cause) : '尚未保存，畫面上的答案仍保留。' + String(cause instanceof Error ? cause.message : cause));
+    const lead = action === 'open' ? '題本尚未建立，原本的題本不變。' : action === 'retire' ? '這本尚未結束。' : '尚未保存，畫面上的答案仍保留。';
+    text('error-message', readOnly ? String(cause instanceof Error ? cause.message : cause) : lead + String(cause instanceof Error ? cause.message : cause));
+    text('retry', action === 'save' ? '重試保存' : '重試');
     element('save-error').hidden = false; element('retry').hidden = readOnly; element('reload').hidden = !readOnly;
   };
-  const clearError = () => { failed = false; element('save-error').hidden = true; };
+  const clearError = () => { failed = false; retryAction = undefined; element('save-error').hidden = true; };
   const editable = () => draft?.status === 'open' && cards.length > 0 && !pending && !readOnly;
   const canVisit = (target: number, current: number) => Boolean(draft && (!pending || target === current) && dailyNumbers(draft).includes(target) && (draft.status === 'submitted' || Boolean(draft.questions[current]?.choice) || target <= current));
   const settle = () => {
@@ -92,6 +95,7 @@ export async function initDaily(): Promise<void> {
       } else caption.textContent = targetState.kind === 'review' ? '第 ' + targetState.booklet.number + ' 本' + (targetState.booklet.status === 'retired' ? '已結束' : '已交卷') : targetState.kind === 'retire' ? '題目已失效・需結束題本' : targetState.kind === 'first' ? '尚未開本' : '未做題已用完';
     }
     for (const id of ['current', 'score', 'empty', 'stock', 'retire', 'next-book', 'partial-note', 'code-note']) element(id).hidden = true;
+    element('stock-review').hidden = !store.booklets.some((b) => b.subject === subject && b.status === 'submitted');
     element('readonly').hidden = !viewing;
     element<HTMLAnchorElement>('return').href = currentUrl();
     const next = 'next' in state ? state.next : 0;
@@ -117,7 +121,8 @@ export async function initDaily(): Promise<void> {
       } else element(state.kind === 'retire' ? 'retire' : 'stock').hidden = false;
     } else if (draft) text('readonly-title', '科目 ' + subject + '・第 ' + draft.number + ' 本');
     if (draft && draft.status !== 'retired') {
-      if (draft.questions.length > 0 && draft.questions.length < 50) { element('partial-note').hidden = false; text('partial-note', '本題本共 ' + draft.questions.length + ' 題。未做題不足 50 題，不換算正式模擬卷分數。'); }
+      const partialNote = bookletPartialNote(draft);
+      if (partialNote) { element('partial-note').hidden = false; text('partial-note', partialNote); }
       const notice = bookletProgramNotice(draft, catalog);
       if (notice) { element('code-note').hidden = false; text('code-note', notice.message); }
       if (draft.status === 'submitted') {
@@ -195,7 +200,7 @@ export async function initDaily(): Promise<void> {
       store = readBookletStore()!;
       if (result.error) { error(result.error); displayCards(); render(); return; }
       pending = undefined; clearError(); displayCards(); render();
-      if (store.current[subject]) { location.href = currentUrl(); return; }
+      if (store.current[subject]) { location.href = currentUrl(draft.id); return; }
       element('score').focus({ preventScroll: true }); element('score').scrollIntoView({ block: 'start', behavior: 'instant' });
     } catch (cause) { error(cause); displayCards(); render(); }
   };
@@ -273,7 +278,7 @@ export async function initDaily(): Promise<void> {
   dialog.addEventListener('close', () => { if (draft?.status !== 'submitted') submit.focus({ preventScroll: true }); });
   element('cancel').addEventListener('click', () => dialog.close());
   element('confirm').addEventListener('click', () => { submit.disabled = true; dialog.close(); finishSubmission(); });
-  element('retry').addEventListener('click', () => { if (retryAction) { retryAction(); return; } if (pending || draft?.status === 'submitting') finishSubmission(); else { settle(); persist(); displayCards(); render(); } });
+  element('retry').addEventListener('click', () => { const action = retryAction; retryAction = undefined; if (action) { action(); return; } if (pending || draft?.status === 'submitting') finishSubmission(); else { settle(); persist(); displayCards(); render(); } });
   panel.addEventListener('toggle', () => { panel.querySelector('summary')!.setAttribute('aria-expanded', String(panel.open)); text('panel-toggle', panel.open ? '收合' : '展開'); });
   panel.open = desktopPanel.matches;
   const summary = panel.querySelector('summary')!;
@@ -313,7 +318,7 @@ export async function initDaily(): Promise<void> {
       });
       if (opened) { location.href = currentUrl(); return; }
       store = readBookletStore()!; clearError(); render();
-    } catch (cause) { retryAction = openNext; error(cause); displayCards(); render(); }
+    } catch (cause) { error(cause, 'open', openNext); displayCards(); render(); }
     finally { opening = false; }
   };
   element('open-first').addEventListener('click', openNext);
@@ -321,7 +326,7 @@ export async function initDaily(): Promise<void> {
   const retireCurrent = () => {
     if (!draft || !expected || readOnly) return;
     try { retireBooklet(draft, expected); location.href = currentUrl(); }
-    catch (cause) { retryAction = retireCurrent; error(cause); }
+    catch (cause) { error(cause, 'retire', retireCurrent); }
   };
   element('retire-book').addEventListener('click', retireCurrent);
   const checkCurrent = () => {

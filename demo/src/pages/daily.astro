@@ -38,7 +38,7 @@ const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
       <div class="booklet-result-main"><div><span id="daily-result-number" class="booklet-kicker"></span><h2 id="daily-score-heading"></h2><p id="daily-score-points"></p></div><div id="daily-next-book" class="booklet-next" hidden><button id="daily-open-next" class="button primary" type="button"></button><small id="daily-next-note"></small></div></div><p id="daily-result-note" class="booklet-result-note">先檢討這本的答案與解析。準備好再開下一本。</p>
     </section>
     <section id="daily-empty" class="booklet-empty" data-testid="booklet-empty" hidden><span class="booklet-kicker">從第 1 本開始</span><h2>還沒有題本</h2><p>每科每本 50 題，題目不重複。<br />按下按鈕才會建立，重新整理不會換題。</p><button id="daily-open-first" class="button primary" type="button">開第 1 本</button><p id="daily-first-note" hidden></p></section>
-    <section id="daily-stock" class="booklet-empty" data-testid="booklet-stock" hidden><h2>未做題已用完</h2><p>已交卷的題本仍可回看。<br />也可以到錯題本複習。</p><a class="button secondary" href="/wrong-book/">前往錯題本</a></section>
+    <section id="daily-stock" class="booklet-empty" data-testid="booklet-stock" hidden><h2>未做題已用完</h2><p><span id="daily-stock-review" hidden>已交卷的題本仍可回看。<br /></span>也可以到錯題本複習。</p><a class="button secondary" href="/wrong-book/">前往錯題本</a></section>
     <section id="daily-retire" class="booklet-empty" data-testid="booklet-retire" hidden><h2>這本已沒有可作答的題目</h2><p>題目已移除或改版，不能交卷。結束後保留題本清單，不新增作答。</p><button id="daily-retire-book" class="button secondary" type="button">結束這本</button></section>
     <p id="daily-partial-note" class="booklet-code-note" hidden></p>
     <section id="daily-practice" class="daily-grid" hidden aria-label="題本作答與檢討">

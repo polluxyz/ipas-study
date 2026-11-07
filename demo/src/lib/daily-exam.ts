@@ -129,6 +129,14 @@ export function bookletOpenLabel(hasBooklets: boolean, next: number): string | n
   return `${hasBooklets ? '開下一本' : '開第 1 本'}${next < 50 ? `（${next} 題）` : ''}`;
 }
 
+/** 分配題數保留原始清單，可區分題庫不足與題目被略過。 */
+export function bookletPartialNote(booklet: Booklet): string | null {
+  const total = booklet.questions.length;
+  if (total === 0 || total >= 50) return null;
+  const reason = booklet.assignedQids.length > total ? '部分題目已略過，不補題' : '未做題不足 50 題';
+  return `本題本共 ${total} 題。${reason}，不換算正式模擬卷分數。`;
+}
+
 export interface BookletRow {
   id: string; number: number; createdDate: string; statusLabel: string; total: number; answered?: number; correct?: number; canReview: boolean;
 }

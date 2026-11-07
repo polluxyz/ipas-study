@@ -4,7 +4,7 @@ import { clearStudyData, DailyConflictError, DRAFT_KEY, exportAttempts, getAttem
 import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, dailySubjectStatus, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { unseenDailyQuestions } from './daily';
 import { isBooklet, type Booklet, type BookletStore } from './attempts';
-import { bookletAttemptMode, bookletExclusions, bookletNeedsRetire, bookletOpenLabel, bookletPageState, bookletProgramNotice, bookletProgress, bookletRows, createBooklet, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
+import { bookletAttemptMode, bookletExclusions, bookletNeedsRetire, bookletOpenLabel, bookletPageState, bookletPartialNote, bookletProgramNotice, bookletProgress, bookletRows, createBooklet, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
 import { eligibleDailyQuestions, type DailyQuestion } from './daily';
 const set: DailySet = { date: '2026-11-05', subject: 1, questions: Array.from({ length: 5 }, (_, index) => ({ id: `q${index}`, rev: 2 })) };
 const attempt = (overrides: Partial<Attempt> = {}): Attempt => ({ id: 'old', qid: 'q0', rev: 2, choice: 'A', correct: true, ts: '2026-11-05T03:00:00Z', mode: 'daily:2026-11-05:S1', ms: 200, ...overrides });
@@ -227,6 +227,19 @@ const makeBooklet = (overrides: Partial<Booklet> = {}): Booklet => ({
 });
 const answeredBooklet = (overrides: Partial<Booklet> = {}): Booklet => makeBooklet({
   questions: set.questions.map((q) => ({ ...q, choice: 'A', unsure: false, ms: 321 })), ...overrides,
+});
+
+describe('不足 50 題的題本說明', () => {
+  it.each([
+    { total: 0, assigned: 0, note: null },
+    { total: 50, assigned: 50, note: null },
+    { total: 41, assigned: 41, note: '本題本共 41 題。未做題不足 50 題，不換算正式模擬卷分數。' },
+    { total: 49, assigned: 50, note: '本題本共 49 題。部分題目已略過，不補題，不換算正式模擬卷分數。' },
+  ])('$total 題、原分配 $assigned 題', ({ total, assigned, note }) => {
+    const questions = Array.from({ length: total }, (_, i) => ({ ...makeBooklet().questions[0], id: `q${i}` }));
+    const assignedQids = Array.from({ length: assigned }, (_, i) => `q${i}`);
+    expect(bookletPartialNote(makeBooklet({ questions, assignedQids }))).toBe(note);
+  });
 });
 const bookletAnswers = new Map([['q0', 'A'], ['q1', 'A'], ['q2', 'A'], ['q3', 'A'], ['q4', 'A']]);
 const submitBookletForTest = (booklet = answeredBooklet(), ts = '2026-11-06T03:00:00Z'): Booklet => {
