@@ -3,6 +3,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { clearStudyData, DailyConflictError, DRAFT_KEY, exportAttempts, getAttempts, getDailyDrafts, getWrongBook, importAttempts, isDailyDraft, saveAttemptBatch, saveDailyDraft, submitDailyDraft, type Attempt, type DailyDraft, type DailySet } from './attempts';
 import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, dailySubjectStatus, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { unseenDailyQuestions } from './daily';
+import { isBooklet, type Booklet, type BookletStore } from './attempts';
+import { bookletAttemptMode, bookletExclusions, bookletNeedsRetire, bookletOpenLabel, bookletPageState, bookletProgramNotice, bookletProgress, bookletRows, createBooklet, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
+import { eligibleDailyQuestions, type DailyQuestion } from './daily';
 const set: DailySet = { date: '2026-11-05', subject: 1, questions: Array.from({ length: 5 }, (_, index) => ({ id: `q${index}`, rev: 2 })) };
 const attempt = (overrides: Partial<Attempt> = {}): Attempt => ({ id: 'old', qid: 'q0', rev: 2, choice: 'A', correct: true, ts: '2026-11-05T03:00:00Z', mode: 'daily:2026-11-05:S1', ms: 200, ...overrides });
 const make = () => createDailyDraft(set, [], false, 'draft1');
@@ -212,5 +215,299 @@ describe('整批交卷與逐步故障', () => {
     const draft = saveDailyDraft(complete(), null); const prepared = prepare(draft);
     for (const field of ['total', 'correct'] as const) expect(isDailyDraft({ ...prepared, submission: { ...prepared.submission!, [field]: 99 } })).toBe(false);
     prepared.submission!.attempts[0].mode = 'daily:today:S3'; expect(submitDailyDraft(draft, prepared).error).toBeDefined(); expect(getAttempts()).toEqual([]);
+  });
+});
+
+// 題本資料直接給固定值，預期計數不借用被測函式計算。
+const bookletStore = (booklets: Booklet[] = [], current: BookletStore['current'] = { '1': null, '3': null }): BookletStore =>
+  ({ version: 2, migratedAt: null, current, booklets });
+const makeBooklet = (overrides: Partial<Booklet> = {}): Booklet => ({
+  id: 'book1', seq: 1, subject: 1, number: 1, createdDate: '2026-11-05', attemptMode: 'booklet:book1:S1', origin: 'new', status: 'open', position: 0,
+  assignedQids: ['q0', 'q1', 'q2', 'q3', 'q4'], questions: set.questions.map((q) => ({ ...q, choice: null, unsure: false, ms: 0 })), ...overrides,
+});
+const answeredBooklet = (overrides: Partial<Booklet> = {}): Booklet => makeBooklet({
+  questions: set.questions.map((q) => ({ ...q, choice: 'A', unsure: false, ms: 321 })), ...overrides,
+});
+const bookletAnswers = new Map([['q0', 'A'], ['q1', 'A'], ['q2', 'A'], ['q3', 'A'], ['q4', 'A']]);
+const submitBookletForTest = (booklet = answeredBooklet(), ts = '2026-11-06T03:00:00Z'): Booklet => {
+  let id = 0;
+  return { ...prepareBookletSubmission(booklet, bookletAnswers, ts, () => `${booklet.id}-a${++id}`), status: 'submitted' };
+};
+
+describe('題本建立與抽題排除', () => {
+  it('新科從第 1 本開始，分配順序與版本照 selected 保留', () => {
+    const selected = [{ id: 'q4', rev: 2 }, { id: 'q0', rev: 2 }];
+    const built = createBooklet({ store: bookletStore(), subject: 1, date: '2026-11-07', id: 'fresh', selected });
+    expect(built).toEqual({ id: 'fresh', subject: 1, number: 1, createdDate: '2026-11-07', attemptMode: 'booklet:fresh:S1', origin: 'new', status: 'open', position: 0,
+      assignedQids: ['q4', 'q0'], questions: [{ id: 'q4', rev: 2, choice: null, unsure: false, ms: 0 }, { id: 'q0', rev: 2, choice: null, unsure: false, ms: 0 }] });
+    expect(isBooklet({ ...built, seq: 1 })).toBe(true);
+    expect(bookletAttemptMode('fresh', 3)).toBe('booklet:fresh:S3');
+    selected[0].id = 'changed';
+    expect(built.assignedQids).toEqual(['q4', 'q0']);
+    expect(built.questions[0].id).toBe('q4');
+  });
+  it('編號取同科最大值加 1，忽略陣列順序與其他科編號', () => {
+    const store = bookletStore([makeBooklet({ id: 'b7', number: 7, status: 'retired' }), makeBooklet({ id: 's3', subject: 3, number: 20 }), makeBooklet({ number: 2 })]);
+    const input = { store, date: '2026-11-07', id: 'fresh', selected: [{ id: 'q0', rev: 2 }] };
+    expect(createBooklet({ ...input, subject: 1 }).number).toBe(8);
+    expect(createBooklet({ ...input, subject: 3 }).number).toBe(21);
+    expect(createBooklet({ ...input, store: bookletStore([makeBooklet()]), subject: 3 }).number).toBe(1);
+    expect(isBooklet({ ...createBooklet({ ...input, subject: 3 }), seq: 1 })).toBe(true);
+  });
+  it('排除全部題本的原分配，包含他科、未交卷與已結束的失效題', () => {
+    const store = bookletStore([
+      makeBooklet({ assignedQids: ['q0', 'skipped'], questions: [] }),
+      makeBooklet({ id: 'other', subject: 3, assignedQids: ['q1'] }),
+      makeBooklet({ id: 'retired', status: 'retired', assignedQids: ['q2', 'q0'] }),
+      submitBookletForTest(makeBooklet({ id: 'submitted', questions: [{ id: 'q3', rev: 2, choice: 'A', unsure: false, ms: 0 }], assignedQids: ['q3'] })),
+    ]);
+    const groups = [['q1', 'q4']];
+    const exclusions = bookletExclusions(store, groups);
+    expect([...exclusions.assignedQids]).toEqual(['q0', 'skipped', 'q1', 'q2', 'q3']);
+    expect(exclusions.groups).toBe(groups);
+    expect(eligibleDailyQuestions([...catalog, { ...catalog[0], id: 'fresh' }], [], 1, exclusions).map((q) => q.id)).toEqual(['fresh']);
+  });
+});
+
+describe('題本失效與位置', () => {
+  it('略過改版、爭議、移除與官方題，不改原分配清單', () => {
+    const book = makeBooklet(); const before = structuredClone(book);
+    const changed = [catalog[4], { ...catalog[0], rev: 3 }, { ...catalog[1], review: { status: 'disputed' } }, { ...catalog[3], source: 'exam' }];
+    const result = reconcileBooklet(book, changed);
+    expect(result.skipped).toBe(4);
+    expect(result.booklet.questions.map((q) => q.id)).toEqual(['q4']);
+    expect(result.booklet.assignedQids).toEqual(['q0', 'q1', 'q2', 'q3', 'q4']);
+    expect(book).toEqual(before);
+    expect(eligibleDailyQuestions(catalog, [], 1, bookletExclusions(bookletStore([result.booklet]), []) )).toEqual([]);
+  });
+  it('原題仍有效時，位置跟著原題', () => {
+    expect(reconcileBooklet(makeBooklet({ position: 3 }), catalog.slice(2)).booklet.position).toBe(1);
+  });
+  it('原題失效時，指向後面第 1 個留下的題', () => {
+    const result = reconcileBooklet(makeBooklet({ position: 1 }), [catalog[0], catalog[3], catalog[4]]);
+    expect(result.booklet.position).toBe(1);
+    expect(result.booklet.questions[1].id).toBe('q3');
+  });
+  it('原題後面沒有題時指向最後 1 題，全部失效時位置是 0', () => {
+    expect(reconcileBooklet(makeBooklet({ position: 4 }), catalog.slice(0, 2)).booklet.position).toBe(1);
+    const empty = reconcileBooklet(makeBooklet({ position: 4 }), []);
+    expect(empty.booklet.position).toBe(0); expect(empty.skipped).toBe(5);
+  });
+  it.each(['submitting', 'submitted', 'retired'] as const)('%s 不略過題目也不改物件', (status) => {
+    const book = { ...submitBookletForTest(), status };
+    const result = reconcileBooklet(book, []);
+    expect(result.booklet).toBe(book); expect(result.skipped).toBe(0);
+    expect(bookletNeedsRetire(book, [])).toBe(false);
+  });
+  it('僅 open 且沒有可作答題需要結束，部分有效仍可作答', () => {
+    expect(bookletNeedsRetire(makeBooklet(), [])).toBe(true);
+    expect(bookletNeedsRetire(makeBooklet({ questions: [] }), catalog)).toBe(true);
+    expect(bookletNeedsRetire(makeBooklet(), catalog.slice(4))).toBe(false);
+  });
+});
+
+describe('題本交卷', () => {
+  it.each([
+    { origin: 'new', attemptMode: 'booklet:book1:S1' },
+    { origin: 'v1-set', attemptMode: 'daily:2026-11-05:S1' },
+  ] as const)('$origin 使用固定的 attemptMode，不新增鎖定作答', (identity) => {
+    const book = answeredBooklet(identity);
+    book.questions[0] = { ...book.questions[0], legacyAttemptId: 'locked', correct: false };
+    book.questions[2].choice = 'B';
+    const before = structuredClone(book); let sequence = 0; const id = vi.fn(() => `new-id-${++sequence}`);
+    const prepared = prepareBookletSubmission(book, bookletAnswers, '2026-11-07T00:00:00Z', id);
+    expect(prepared.status).toBe('submitting'); expect(prepared.submission?.total).toBe(5); expect(prepared.submission?.correct).toBe(3);
+    expect(prepared.submission?.attempts.map((a) => a.qid)).toEqual(['q1', 'q2', 'q3', 'q4']);
+    expect(prepared.submission?.attempts.map((a) => a.mode)).toEqual([identity.attemptMode, identity.attemptMode, identity.attemptMode, identity.attemptMode]);
+    expect(prepared.submission?.attempts[1]).toEqual({ id: 'new-id-2', qid: 'q2', rev: 2, choice: 'B', correct: false, ts: '2026-11-07T00:00:00Z', mode: identity.attemptMode, ms: 321 });
+    expect(id).toHaveBeenCalledTimes(4); expect(book).toEqual(before); expect(isBooklet(prepared)).toBe(true);
+  });
+  it('全是鎖定作答時仍可交卷，作答陣列為空', () => {
+    const book = answeredBooklet(); book.questions.forEach((q) => { q.legacyAttemptId = `old-${q.id}`; q.correct = true; });
+    const id = vi.fn(() => 'unused'); const prepared = prepareBookletSubmission(book, bookletAnswers, '2026-11-07T00:00:00Z', id);
+    expect(prepared.submission).toEqual({ ts: '2026-11-07T00:00:00Z', attempts: [], total: 5, correct: 5 });
+    expect(isBooklet(prepared)).toBe(true); expect(id).not.toHaveBeenCalled();
+  });
+  it('未答完、缺答案、0 題與非 open 都拒絕，且不產生 ID', () => {
+    const id = vi.fn(() => 'unused');
+    for (const book of [makeBooklet(), makeBooklet({ questions: [] }), answeredBooklet({ status: 'retired' }), submitBookletForTest(), { ...submitBookletForTest(), status: 'submitting' as const }]) {
+      expect(() => prepareBookletSubmission(book, bookletAnswers, '2026-11-07T00:00:00Z', id)).toThrow('全部有效題目作答後才能交卷');
+    }
+    expect(() => prepareBookletSubmission(answeredBooklet(), new Map(), '2026-11-07T00:00:00Z', id)).toThrow();
+    expect(id).not.toHaveBeenCalled();
+  });
+});
+
+describe('題本科目畫面與開本文字', () => {
+  it('有目前題本時 resume，不改答案、標記、位置與用時', () => {
+    const book = answeredBooklet({ position: 3 }); book.questions[2].unsure = true;
+    expect(bookletPageState(bookletStore([book], { '1': book.id, '3': null }), 1, 100, catalog)).toEqual({ kind: 'resume', booklet: book });
+  });
+  it('current 指向的題全部失效時 retire，不跳到後面的有效題本', () => {
+    const invalid = makeBooklet({ id: 'invalid', questions: [{ id: 'missing', rev: 1, choice: null, unsure: false, ms: 0 }] });
+    expect(bookletPageState(bookletStore([makeBooklet({ number: 2 }), invalid], { '1': invalid.id, '3': null }), 1, 100, catalog)).toEqual({ kind: 'retire', booklet: invalid });
+  });
+  it('全部已交卷時 review 最後一本，未做題為 0 時 next 仍為 0', () => {
+    const first = submitBookletForTest(); const last = { ...first, id: 'last', number: 2 };
+    expect(bookletPageState(bookletStore([last, first]), 1, 0, [])).toEqual({ kind: 'review', booklet: last, next: 0 });
+  });
+  it('沒有該科題本且有未做題時 first，最多開 50 題', () => {
+    expect(bookletPageState(bookletStore([makeBooklet({ subject: 3 })]), 1, 100, catalog)).toEqual({ kind: 'first', next: 50 });
+    expect(bookletPageState(bookletStore(), 1, 41, catalog)).toEqual({ kind: 'first', next: 41 });
+  });
+  it('沒有題本且未做題為 0 時 exhausted', () => {
+    expect(bookletPageState(bookletStore(), 1, 0, catalog)).toEqual({ kind: 'exhausted' });
+  });
+  it('retired 不擋開下一本，有其他未交卷本就先接續', () => {
+    const retired = makeBooklet({ status: 'retired' });
+    expect(bookletPageState(bookletStore([retired]), 1, 41, [])).toEqual({ kind: 'review', booklet: retired, next: 41 });
+    const next = makeBooklet({ id: 'next', number: 2 });
+    expect(bookletPageState(bookletStore([retired, next]), 1, 41, catalog)).toEqual({ kind: 'resume', booklet: next });
+  });
+  it.each([
+    [false, 50, '開第 1 本'], [false, 41, '開第 1 本（41 題）'], [false, 0, null],
+    [true, 50, '開下一本'], [true, 41, '開下一本（41 題）'], [true, 0, null],
+  ] as const)('開本文字 hasBooklets=%s next=%s', (hasBooklets, next, label) => {
+    expect(bookletOpenLabel(hasBooklets, next)).toBe(label);
+  });
+});
+
+describe('題本清單與進度', () => {
+  it('清單依編號排序，3 種狀態與 submitting 分別帶正確欄位', () => {
+    const open = makeBooklet(); open.questions[0].choice = 'A';
+    const pending = { ...submitBookletForTest(answeredBooklet({ id: 'pending', number: 2 })), status: 'submitting' as const };
+    const submitted = submitBookletForTest(answeredBooklet({ id: 'done', number: 3 }));
+    const retired = makeBooklet({ id: 'retired', number: 4, status: 'retired', questions: [] });
+    expect(bookletRows(bookletStore([retired, submitted, pending, open, makeBooklet({ subject: 3 })]), 1)).toEqual([
+      { id: 'book1', number: 1, createdDate: '2026-11-05', statusLabel: '作答中', total: 5, answered: 1, canReview: false },
+      { id: 'pending', number: 2, createdDate: '2026-11-05', statusLabel: '作答中', total: 5, answered: 5, canReview: false },
+      { id: 'done', number: 3, createdDate: '2026-11-05', statusLabel: '已交卷', total: 5, correct: 5, canReview: true },
+      { id: 'retired', number: 4, createdDate: '2026-11-05', statusLabel: '已結束', total: 0, canReview: false },
+    ]);
+  });
+  it('交卷當天依台北日期加總多本，排除他科、未交卷、已結束與前一天', () => {
+    const at = (id: string, number: number, ts: string) => submitBookletForTest(answeredBooklet({ id, number }), ts);
+    const current = makeBooklet({ id: 'current', number: 7 }); current.questions[0].choice = 'A'; current.questions[3].choice = 'B';
+    const store = bookletStore([
+      at('day1', 1, '2026-11-06T16:00:00Z'), at('day2', 2, '2026-11-07T15:59:59Z'), at('previous', 3, '2026-11-06T15:59:59Z'),
+      { ...at('pending', 4, '2026-11-06T17:00:00Z'), status: 'submitting' },
+      { ...at('retired', 5, '2026-11-06T17:00:00Z'), status: 'retired' },
+      { ...at('other', 1, '2026-11-06T17:00:00Z'), subject: 3 }, current,
+    ], { '1': 'current', '3': null });
+    const free = { free: 191, fullBooks: 3, lastBook: 41 };
+    expect(bookletProgress(store, 1, '2026-11-07', free)).toEqual({ answered: 2, total: 5, todaySubmitted: 10, fullBooks: 3, lastBook: 41 });
+    expect(bookletProgress(store, 1, '2026-11-06', { fullBooks: 3, lastBook: 41 }).todaySubmitted).toBe(5);
+  });
+  it('沒有目前題本時已答與總題數為 0，retired 不計入進度', () => {
+    const retired = answeredBooklet({ status: 'retired' });
+    for (const current of [null, retired.id]) {
+      expect(bookletProgress(bookletStore([retired], { '1': current, '3': null }), 1, '2026-11-05', { fullBooks: 0, lastBook: 0 }))
+        .toEqual({ answered: 0, total: 0, todaySubmitted: 0, fullBooks: 0, lastBook: 0 });
+    }
+  });
+});
+
+describe('題本以外的舊紀錄', () => {
+  it('daily 與 booklet 各列一組，依日期倒序，同日科目 1 在前', () => {
+    const records = [attempt({ mode: 'daily:2026-11-05:S3' }), attempt({ id: 's1', mode: 'daily:2026-11-05:S1' }),
+      attempt({ id: 'new', mode: 'booklet:new:S3', correct: false, ts: '2026-11-06T16:00:00Z' })];
+    expect(legacyRecords(bookletStore(), records)).toEqual([
+      { mode: 'booklet:new:S3', date: '2026-11-07', subject: 3, answered: 1, correct: 0 },
+      { mode: 'daily:2026-11-05:S1', date: '2026-11-05', subject: 1, answered: 1, correct: 1 },
+      { mode: 'daily:2026-11-05:S3', date: '2026-11-05', subject: 3, answered: 1, correct: 1 },
+    ]);
+  });
+  it('同 mode 同題只算最新時間，同時間依 id 決定，版本不影響分組', () => {
+    expect(legacyRecords(null, [attempt(), attempt({ id: 'z', rev: 1, correct: false, ts: '2026-11-05T04:00:00Z' }),
+      attempt({ id: 'a', correct: true, ts: '2026-11-05T04:00:00Z' }), attempt({ id: 'q1', qid: 'q1' })])).toEqual([
+      { mode: 'daily:2026-11-05:S1', date: '2026-11-05', subject: 1, answered: 2, correct: 1 },
+    ]);
+  });
+  it('清除後匯入，store 為 null 時全部有效模式都列入', () => {
+    const records = [attempt(), attempt({ id: 'q1', qid: 'q1', correct: false }), attempt({ id: 'b', mode: 'booklet:backup:S1', ts: '2026-11-06T17:00:00Z' })];
+    expect(legacyRecords(null, records)).toEqual([
+      { mode: 'booklet:backup:S1', date: '2026-11-07', subject: 1, answered: 1, correct: 1 },
+      { mode: 'daily:2026-11-05:S1', date: '2026-11-05', subject: 1, answered: 2, correct: 1 },
+    ]);
+  });
+  it('失效後被略過的題回到舊紀錄，assignedQids 不算引用', () => {
+    const book = makeBooklet({ attemptMode: 'daily:2026-11-05:S1' });
+    book.questions[0] = { ...book.questions[0], choice: 'A', legacyAttemptId: 'old', correct: true };
+    expect(legacyRecords(bookletStore([book]), [attempt()])).toEqual([]);
+    const reconciled = reconcileBooklet(book, catalog.slice(1)).booklet;
+    expect(reconciled.assignedQids).toEqual(['q0', 'q1', 'q2', 'q3', 'q4']);
+    expect(legacyRecords(bookletStore([reconciled]), [attempt()])).toEqual([
+      { mode: 'daily:2026-11-05:S1', date: '2026-11-05', subject: 1, answered: 1, correct: 1 },
+    ]);
+  });
+  it('retired 的鎖定作答與提交作答都列入舊紀錄', () => {
+    const book = answeredBooklet({ attemptMode: 'daily:2026-11-05:S1' });
+    book.questions[0] = { ...book.questions[0], legacyAttemptId: 'old', correct: true };
+    const retired = { ...submitBookletForTest(book), status: 'retired' as const };
+    expect(legacyRecords(bookletStore([retired]), [attempt(), ...retired.submission!.attempts])).toEqual([
+      { mode: 'daily:2026-11-05:S1', date: '2026-11-05', subject: 1, answered: 5, correct: 5 },
+    ]);
+  });
+  it('案例 A：清單新版 q1 只留 q2，舊版 q1 答對紀錄仍列入', () => {
+    const book = makeBooklet({ attemptMode: 'daily:2026-11-05:S1', assignedQids: ['q1', 'q2'],
+      questions: [{ id: 'q2', rev: 1, choice: null, unsure: false, ms: 0 }] });
+    expect(legacyRecords(bookletStore([book]), [attempt({ qid: 'q1', rev: 1 })])).toEqual([
+      { mode: 'daily:2026-11-05:S1', date: '2026-11-05', subject: 1, answered: 1, correct: 1 },
+    ]);
+  });
+  it('案例 B：匯入舊版答對先列入，交卷後最新作答被引用就不再列', () => {
+    const book = makeBooklet({ attemptMode: 'daily:2026-11-05:S1', assignedQids: ['q1'],
+      questions: [{ id: 'q1', rev: 2, choice: 'B', unsure: false, ms: 12 }] });
+    const old = attempt({ qid: 'q1', rev: 1 }); const records = [old];
+    expect(legacyRecords(bookletStore([book]), records)).toEqual([
+      { mode: 'daily:2026-11-05:S1', date: '2026-11-05', subject: 1, answered: 1, correct: 1 },
+    ]);
+    const submitted = submitBookletForTest(book);
+    expect(submitted.submission?.correct).toBe(0);
+    expect(legacyRecords(bookletStore([submitted]), [...records, ...submitted.submission!.attempts])).toEqual([]);
+    expect(records).toEqual([old]);
+  });
+  it('只排除最新作答 ID 的實際引用，不退回被取代的紀錄', () => {
+    const book = makeBooklet(); book.questions[0] = { ...book.questions[0], legacyAttemptId: 'latest', choice: 'B', correct: false };
+    expect(legacyRecords(bookletStore([book]), [attempt(), attempt({ id: 'latest', correct: false, ts: '2026-11-06T00:00:00Z' })])).toEqual([]);
+    const newer = attempt({ id: 'newest', ts: '2026-11-07T00:00:00Z' });
+    expect(legacyRecords(bookletStore([book]), [attempt(), newer])).toEqual([
+      { mode: 'daily:2026-11-05:S1', date: '2026-11-05', subject: 1, answered: 1, correct: 1 },
+    ]);
+  });
+  it('排除一般測驗與非 S1、S3 結尾的模式', () => {
+    const modes = ['quiz', 'official:S1', 'single:S3', 'daily:2026-11-05:S2', 'booklet:b:S2', 'booklet:b:S13', 'daily:2026-11-05:S1:extra'];
+    expect(legacyRecords(null, modes.map((mode) => attempt({ mode })))).toEqual([]);
+  });
+  it('booklet 的日期取該組最新作答台北日期，同題的舊日期不列入', () => {
+    expect(legacyRecords(null, [attempt({ mode: 'booklet:b:S1' }), attempt({ id: 'new', mode: 'booklet:b:S1', qid: 'q1', correct: false, ts: '2026-11-07T16:00:00Z' })])).toEqual([
+      { mode: 'booklet:b:S1', date: '2026-11-08', subject: 1, answered: 2, correct: 1 },
+    ]);
+  });
+});
+
+describe('程式題提示與共用題號', () => {
+  it('13 題不提示，14 題提示題數與非程式題變少的原因', () => {
+    const questions: DailyQuestion[] = Array.from({ length: 15 }, (_, i) => ({ ...catalog[0], id: `p${i}`, type: i === 14 ? '圖表' : '程式' }));
+    const book = makeBooklet({ questions: questions.map((q) => ({ id: q.id, rev: q.rev, choice: null, unsure: false, ms: 0 })) });
+    expect(bookletProgramNotice({ ...book, questions: book.questions.slice(0, 13) }, questions)).toBeNull();
+    expect(bookletProgramNotice(book, questions)).toEqual({ count: 14, message: '這本有 14 題程式題，因為未做的非程式題變少。' });
+    expect(bookletProgramNotice(book, questions.filter((q) => q.id !== 'p0'))).toBeNull();
+    expect(bookletProgramNotice({ ...book, questions: [] }, questions)).toBeNull();
+  });
+  it('第 1 版與題本共用題號、狀態、位置、前進與計數', () => {
+    const draft = make(); draft.questions[0].choice = 'A'; draft.questions[0].unsure = true; draft.questions[4].choice = 'B';
+    for (const status of ['open', 'submitting', 'submitted'] as const) {
+      const old = { ...draft, status }; const book = makeBooklet({ questions: draft.questions, status });
+      expect(dailyNumbers(book)).toEqual(dailyNumbers(old));
+      expect(dailyNumbers(book)).toEqual(status === 'submitted' ? [0, 1, 2, 3, 4] : [0, 1, 4]);
+      expect(dailyCounts(book)).toEqual({ answered: 2, unsure: 1, total: 5 });
+      expect(dailyPosition(book, 4)).toBe(dailyPosition(old, 4)); expect(dailyNext(book, 0)).toBe(dailyNext(old, 0));
+      for (let i = 0; i < 5; i++) for (const available of [true, false]) expect(dailyNumberState(book, i, available)).toBe(dailyNumberState(old, i, available));
+    }
+    const retired = makeBooklet({ questions: draft.questions, status: 'retired' });
+    expect(dailyNumbers(retired)).toEqual([0, 1, 4]); expect(dailyNumberState(retired, 0, false)).toBe('unsure');
+    expect(dailyNumberState(retired, 1)).toBe('unanswered'); expect(dailyNumberState(retired, 4)).toBe('answered');
+    expect(dailyNext(retired, 1)).toBe(1);
   });
 });
