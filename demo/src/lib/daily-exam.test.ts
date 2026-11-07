@@ -247,6 +247,42 @@ const submitBookletForTest = (booklet = answeredBooklet(), ts = '2026-11-06T03:0
   return { ...prepareBookletSubmission(booklet, bookletAnswers, ts, () => `${booklet.id}-a${++id}`), status: 'submitted' };
 };
 
+describe('作答不可讀時的題本狀態', () => {
+  it.each([
+    { free: 41, kind: 'first', next: 41, label: '開第 1 本（41 題）' },
+    { free: 0, kind: 'exhausted', next: 0, label: null },
+    { free: null, kind: 'blocked', next: null, label: null },
+  ])('空白科目：剩餘 $free 題決定是否能開本', ({ free, kind, next, label }) => {
+    const state = bookletPageState(bookletStore(), 1, free, catalog);
+    expect(state.kind).toBe(kind);
+    expect(bookletOpenLabel(false, 'next' in state ? state.next : next)).toBe(label);
+    expect(state.kind === 'exhausted').toBe(free === 0);
+  });
+  it.each([41, 0, null])('已交卷：剩餘 %s 題仍可檢討，只有已知正數能開本', (free) => {
+    const book = submitBookletForTest();
+    expect(bookletPageState(bookletStore([book]), 1, free, catalog)).toEqual({ kind: 'review', booklet: book, next: free });
+    expect(bookletOpenLabel(true, free)).toBe(free === 41 ? '開下一本（41 題）' : null);
+  });
+  it('無法讀取作答仍接續未交卷題本，失效題本仍可結束', () => {
+    const book = makeBooklet();
+    const store = bookletStore([book], { '1': book.id, '3': null });
+    expect(bookletPageState(store, 1, null, catalog)).toEqual({ kind: 'resume', booklet: book });
+    expect(bookletPageState(store, 1, null, [])).toEqual({ kind: 'retire', booklet: book });
+    expect(bookletPageState(store, 3, null, catalog)).toEqual({ kind: 'blocked' });
+  });
+  it.each([
+    { free: { fullBooks: 3, lastBook: 41 }, fullBooks: 3, lastBook: 41 },
+    { free: { fullBooks: 0, lastBook: 0 }, fullBooks: 0, lastBook: 0 },
+    { free: null, fullBooks: null, lastBook: null },
+  ])('可再開 $fullBooks 本與今日交卷分開計算', ({ free, fullBooks, lastBook }) => {
+    const submitted = submitBookletForTest();
+    const open = makeBooklet({ id: 'next', number: 2 }); open.questions[0].choice = 'A';
+    const store = bookletStore([submitted, open], { '1': open.id, '3': null });
+    expect(bookletProgress(store, 1, '2026-11-06', free)).toEqual({ answered: 1, total: 5, todaySubmitted: 5, fullBooks, lastBook });
+    expect(bookletProgress(store, 3, '2026-11-06', free).todaySubmitted).toBe(0);
+  });
+});
+
 describe('題本建立與抽題排除', () => {
   it('新科從第 1 本開始，分配順序與版本照 selected 保留', () => {
     const selected = [{ id: 'q4', rev: 2 }, { id: 'q0', rev: 2 }];

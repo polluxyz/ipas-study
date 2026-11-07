@@ -68,11 +68,17 @@ export async function initDaily(): Promise<void> {
     displayQuestionCard(card, { choice: q.choice, locked: !editable() || Boolean(q.legacyAttemptId), reveal: draft!.status === 'submitted', correct: q.correct, saved: draft!.status === 'submitted' });
   });
   const currentUrl = (id?: string) => '/daily/?subject=' + subject + (id ? '&book=' + encodeURIComponent(id) : '');
-  const freeCount = (target: DailySubject) => dailyFreeCount(catalog, getAttempts(), target, bookletExclusions(store, groups));
+  // 作答損壞只阻擋抽新題；既有題本的答案與檢討不依賴作答紀錄。
+  const readAttempts = () => { try { return getAttempts(); } catch { return null; } };
+  const freeCount = (target: DailySubject) => {
+    const attempts = readAttempts();
+    return attempts === null ? null : dailyFreeCount(catalog, attempts, target, bookletExclusions(store, groups));
+  };
   const renderOverview = () => {
     const today = taipeiDate(new Date());
     const free = freeCount(subject);
-    const state = bookletPageState(store, subject, free.free, catalog);
+    const state = bookletPageState(store, subject, free?.free ?? null, catalog);
+    if (free === null) text('status', '作答紀錄無法辨識，暫時不能開新題本。');
     const progress = bookletProgress(store, subject, today, free);
     element('metrics').hidden = false;
     const shownCounts = progress.total ? progress : draft?.status === 'submitted' ? dailyCounts(draft) : null;
@@ -80,11 +86,13 @@ export async function initDaily(): Promise<void> {
     if (shownCounts) element('metric-answered').append(Object.assign(document.createElement('small'), { textContent: '／' + shownCounts.total }));
     element('metric-answered').classList.toggle('is-text', !shownCounts);
     text('metric-today', String(progress.todaySubmitted)); element('metric-today').append(Object.assign(document.createElement('small'), { textContent: '題' }));
-    text('metric-free', String(progress.fullBooks)); element('metric-free').append(Object.assign(document.createElement('small'), { textContent: '本' }));
+    text('metric-free', progress.fullBooks === null ? '無法更新' : String(progress.fullBooks));
+    element('metric-free').classList.toggle('is-text', progress.fullBooks === null);
+    if (progress.fullBooks !== null) element('metric-free').append(Object.assign(document.createElement('small'), { textContent: '本' }));
     if (progress.lastBook) { const tail = document.createElement('small'); tail.className = 'booklet-tail'; tail.textContent = '另 1 本 ' + progress.lastBook + ' 題'; element('metric-free').append(tail); }
     for (const link of document.querySelectorAll<HTMLElement>('[data-daily-subject]')) {
       const target: DailySubject = link.dataset.dailySubject === '3' ? 3 : 1;
-      const targetState = bookletPageState(store, target, freeCount(target).free, catalog);
+      const targetState = bookletPageState(store, target, freeCount(target)?.free ?? null, catalog);
       if (target === subject) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
       const caption = link.querySelector('[data-subject-progress]')!;
@@ -92,14 +100,14 @@ export async function initDaily(): Promise<void> {
       if (targetState.kind === 'resume') {
         const b = target === subject && draft?.status === 'open' ? draft : targetState.booklet;
         for (const label of ['第 ' + b.number + ' 本作答中', '已答 ' + dailyCounts(b).answered + '／' + b.questions.length]) caption.append(Object.assign(document.createElement('span'), { textContent: label }));
-      } else caption.textContent = targetState.kind === 'review' ? '第 ' + targetState.booklet.number + ' 本' + (targetState.booklet.status === 'retired' ? '已結束' : '已交卷') : targetState.kind === 'retire' ? '題目已失效・需結束題本' : targetState.kind === 'first' ? '尚未開本' : '未做題已用完';
+      } else caption.textContent = targetState.kind === 'review' ? '第 ' + targetState.booklet.number + ' 本' + (targetState.booklet.status === 'retired' ? '已結束' : '已交卷') : targetState.kind === 'retire' ? '題目已失效・需結束題本' : targetState.kind === 'first' ? '尚未開本' : targetState.kind === 'blocked' ? '作答紀錄無法辨識' : '未做題已用完';
     }
     for (const id of ['current', 'score', 'empty', 'stock', 'retire', 'next-book', 'partial-note', 'code-note']) element(id).hidden = true;
     element('stock-review').hidden = !store.booklets.some((b) => b.subject === subject && b.status === 'submitted');
     element('readonly').hidden = !viewing;
     element<HTMLAnchorElement>('return').href = currentUrl();
     const next = 'next' in state ? state.next : 0;
-    const partial = next > 0 && next < 50;
+    const partial = next !== null && next > 0 && next < 50;
     if (!viewing) {
       if (state.kind === 'resume') {
         element('current').hidden = false;
@@ -109,16 +117,16 @@ export async function initDaily(): Promise<void> {
         element('score').hidden = false;
         text('result-number', '第 ' + state.booklet.number + ' 本・' + (state.booklet.status === 'retired' ? '已結束' : '已交卷'));
         if (state.booklet.status === 'retired') { text('score-heading', '第 ' + state.booklet.number + ' 本已結束'); text('score-points', ''); }
-        element('next-book').hidden = next === 0;
+        element('next-book').hidden = next === null || next === 0;
         text('open-next', bookletOpenLabel(true, next) ?? '');
-        text('next-note', partial ? '保留實際題數，不補入做過的題。' : '可再開 ' + free.fullBooks + ' 本，每本 50 題。' + (free.lastBook ? '另 1 本 ' + free.lastBook + ' 題。' : ''));
+        text('next-note', partial ? '保留實際題數，不補入做過的題。' : free ? '可再開 ' + free.fullBooks + ' 本，每本 50 題。' + (free.lastBook ? '另 1 本 ' + free.lastBook + ' 題。' : '') : '');
         element('result-note').hidden = state.booklet.status === 'retired';
         element('stock').hidden = next !== 0;
       } else if (state.kind === 'first') {
         element('empty').hidden = false; text('open-first', bookletOpenLabel(false, next)!);
         element('first-note').hidden = !partial;
         text('first-note', partial ? '保留實際題數，不補入做過的題。' : '');
-      } else element(state.kind === 'retire' ? 'retire' : 'stock').hidden = false;
+      } else if (state.kind !== 'blocked') element(state.kind === 'retire' ? 'retire' : 'stock').hidden = false;
     } else if (draft) text('readonly-title', '科目 ' + subject + '・第 ' + draft.number + ' 本');
     if (draft && draft.status !== 'retired') {
       const partialNote = bookletPartialNote(draft);
@@ -146,7 +154,7 @@ export async function initDaily(): Promise<void> {
       if (row.canReview || row.answered !== undefined) { const link = document.createElement('a'); link.className = 'booklet-row-action'; link.href = row.canReview ? currentUrl(row.id) : currentUrl(); link.textContent = row.canReview ? '回看檢討 →' : '繼續作答 →'; action = link; }
       appendRow([name, status, row.total + ' 題', row.correct !== undefined ? '答對 ' + row.correct + '／' + row.total : row.answered !== undefined ? '已答 ' + row.answered + '／' + row.total : '', action], false, row.id === store.current[subject]);
     }
-    const records = legacyRecords(store, getAttempts());
+    const records = legacyRecords(store, readAttempts() ?? []);
     element('legacy-records').hidden = records.length === 0;
     element('legacy-rows').replaceChildren(...records.map((record) => { const row = document.createElement('div'); row.className = 'booklet-legacy-row'; for (const label of [record.date, '科目 ' + record.subject, '已答 ' + record.answered + ' 題', '答對 ' + record.correct + ' 題']) row.append(Object.assign(document.createElement('span'), { textContent: label })); return row; }));
     return state;
@@ -239,7 +247,7 @@ export async function initDaily(): Promise<void> {
           if (target === subject) skipped += resolved.skipped;
         }
       }
-      const state = bookletPageState(store, subject, freeCount(subject).free, catalog);
+      const state = bookletPageState(store, subject, freeCount(subject)?.free ?? null, catalog);
       draft = 'booklet' in state ? state.booklet : undefined;
       text('status', skipped ? skipped + ' 題已移除或改版，已略過，不補題。' : '');
     }

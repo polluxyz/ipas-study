@@ -110,22 +110,25 @@ export function prepareBookletSubmission(booklet: Booklet, answers: ReadonlyMap<
 export type BookletPageState =
   | { kind: 'resume'; booklet: Booklet }
   | { kind: 'retire'; booklet: Booklet }
-  | { kind: 'review'; booklet: Booklet; next: number }
+  | { kind: 'review'; booklet: Booklet; next: number | null }
   | { kind: 'first'; next: number }
+  | { kind: 'blocked' }
   | { kind: 'exhausted' };
 
-export function bookletPageState(store: BookletStore, subject: DailySubject, free: number, catalog: readonly DailyQuestion[]): BookletPageState {
+export function bookletPageState(store: BookletStore, subject: DailySubject, free: number | null, catalog: readonly DailyQuestion[]): BookletPageState {
   const booklets = store.booklets.filter((booklet) => booklet.subject === subject).sort((a, b) => a.number - b.number);
   const unfinished = booklets.filter((booklet) => booklet.status === 'open' || booklet.status === 'submitting');
   const current = unfinished.find((booklet) => booklet.id === store.current[subject]) ?? unfinished[0];
   if (current) return { kind: bookletNeedsRetire(current, catalog) ? 'retire' : 'resume', booklet: current };
-  const next = Math.min(50, free);
+  // 無法讀取作答時，未知題量不能當作 0，也不能據此開本。
+  const next = free === null ? null : Math.min(50, free);
   if (booklets.length) return { kind: 'review', booklet: booklets[booklets.length - 1], next };
+  if (next === null) return { kind: 'blocked' };
   return next > 0 ? { kind: 'first', next } : { kind: 'exhausted' };
 }
 
-export function bookletOpenLabel(hasBooklets: boolean, next: number): string | null {
-  if (next === 0) return null;
+export function bookletOpenLabel(hasBooklets: boolean, next: number | null): string | null {
+  if (next === null || next === 0) return null;
   return `${hasBooklets ? '開下一本' : '開第 1 本'}${next < 50 ? `（${next} 題）` : ''}`;
 }
 
@@ -149,12 +152,12 @@ export function bookletRows(store: BookletStore, subject: DailySubject): Booklet
   });
 }
 
-export function bookletProgress(store: BookletStore, subject: DailySubject, today: string, free: { fullBooks: number; lastBook: number }): { answered: number; total: number; todaySubmitted: number; fullBooks: number; lastBook: number } {
+export function bookletProgress(store: BookletStore, subject: DailySubject, today: string, free: { fullBooks: number; lastBook: number } | null): { answered: number; total: number; todaySubmitted: number; fullBooks: number | null; lastBook: number | null } {
   const current = store.booklets.find((booklet) => booklet.subject === subject && booklet.id === store.current[subject] && booklet.status !== 'retired');
   const { answered, total } = current ? dailyCounts(current) : { answered: 0, total: 0 };
   const todaySubmitted = store.booklets.reduce((sum, booklet) => sum + (booklet.subject === subject && booklet.status === 'submitted' &&
     booklet.submission && taipeiDate(new Date(booklet.submission.ts)) === today ? booklet.submission.total : 0), 0);
-  return { answered, total, todaySubmitted, fullBooks: free.fullBooks, lastBook: free.lastBook };
+  return { answered, total, todaySubmitted, fullBooks: free?.fullBooks ?? null, lastBook: free?.lastBook ?? null };
 }
 
 export interface LegacyRecord { mode: string; date: string; subject: DailySubject; answered: number; correct: number; }
