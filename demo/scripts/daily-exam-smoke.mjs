@@ -623,7 +623,9 @@ export async function runDailyExamSmoke() {
       const ctx = await context(); const first = await ctx.newPage();
       await first.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation()));
       await loadDaily(first, base + '/daily/'); await openFirst(first); const second = await ctx.newPage(); await loadDaily(second, base + '/daily/');
-      const latest = await getDraft(second); await currentCard(first).locator('input[value="A"]').check(); await first.locator('#daily-error-message').filter({ hasText: '唯讀' }).waitFor();
+      // 只開頁不寫入，所以要由第 2 頁真的選答，才會造成寫入衝突。
+      await currentCard(second).locator('input[value="B"]').check(); const latest = await getDraft(second); assert.equal(latest.questions[0].choice, 'B');
+      await currentCard(first).locator('input[value="A"]').check(); await first.locator('#daily-error-message').filter({ hasText: '唯讀' }).waitFor();
       assert.deepEqual(await getDraft(second), latest); report.cases.push({ name: 'conflict-without-storage-event', rejectedBeforeWrite: true }); await ctx.close();
     }
     // 損壞與未知版本不覆寫、不抽新題；交卷前改版略過，檢討時保持分數。
