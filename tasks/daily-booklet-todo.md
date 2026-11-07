@@ -18,6 +18,7 @@
 | I5-fix 行為修正 | `demo/src/lib/daily-client.ts`、`demo/src/pages/daily.astro`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts` | 交卷後同科還有未交卷題本時先看這本成績；不足 50 題提示寫對原因；開本與結束失敗訊息正確；沒有已交卷題本時不提回看 | 完成（`0a420ec`） |
 | I6 文字 | `demo/src/lib/sidebar.ts`、`demo/src/lib/sidebar.test.ts`、`demo/src/pages/official/index.astro`、`demo/src/pages/quiz.astro`、`demo/src/pages/wrong-book.astro` | 規格第 4.6、6.4 節；只改顯示文字，連結不變 | 完成（`d6d7a72`） |
 | I5-fix2 作答紀錄損壞時可接續 | `demo/src/lib/daily-client.ts`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts` | 規格第 7 節最後一列；作答紀錄正常時行為不變 | 未開始 |
+| I5-fix3 開頁與無改動時不寫入 | `demo/src/lib/daily-client.ts` | 規格第 420 行；`daily-booklet-smoke-multi.mjs` 11/11 通過 | 未開始 |
 | I7a 更新作答畫面測試 | `demo/scripts/daily-exam-smoke.mjs` | 原案例逐條對照後改到新鍵與新流程，不刪案例；版面量測門檻不放寬；全部通過 | 未開始 |
 | I7b 更新舊流程測試 | `demo/src/lib/daily-smoke.mjs`、`demo/src/lib/daily-cache.test.ts` | 原案例逐條對照後改到題本流程，不刪案例；官方題回歸保留；全部通過 | 未開始 |
 | I8a 新瀏覽器測試：主流程 | `demo/scripts/daily-booklet-smoke.mjs` | 開本、跨日、舊流程、連開 3 本、用完、交卷中斷、清單與進度全過；截圖 3 種寬度與亮暗色 | 未開始 |
