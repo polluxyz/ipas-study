@@ -2,6 +2,8 @@
 
 ## 目前進度（2026-11-06）
 
+- 進行中：每日題本（`docs/specs/daily-booklet.md`，2026-11-07 已核可）。進度與任務見`tasks/daily-booklet-todo.md`。版面要使用者看過mockup才實作。全部完成才合併main。
+- 查得：使用者`127.0.0.1:4321`作答0筆，只有科目1的2026-11-06題組（open）。其他瀏覽器或網址未查。上線前不要開沒有進度、清單是舊日期的科目。
 - 已上線：每日題組交卷模式（PR #185，`0626fd2`）。規格`docs/specs/daily-exam-mode.md`，驗收與上線紀錄在`tasks/daily-exam-mode-plan.md`。
 - 待使用者確認：開`/daily/`看本人資料。自動走查只用隔離瀏覽器造資料。未驗證實體手機、Safari、Firefox、真實作業系統背景切換。
 - 派工：使用者要求多派worker、任務細分，每個worker只做一件事。
