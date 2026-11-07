@@ -1,11 +1,15 @@
 /** 每日抽題的配額、未做判斷、容量補位及快取失效均用獨立題庫驗證。 */
 import { describe, expect, it } from 'vitest';
-import { apportion, dailyWeights, migrateDailySet, resolveDailySet, selectDailyQuestions, taipeiDate, type DailyQuestion } from './daily';
+import { apportion, dailyFreeCount, dailyWeights, eligibleDailyQuestions, migrateDailySet, resolveDailySet, selectDailyQuestions, taipeiDate, type DailyExclusions, type DailyQuestion, type DailySubject, type DuplicateGroups } from './daily';
 import type { Attempt } from './attempts';
 const question = (id: string, overrides: Partial<DailyQuestion> = {}): DailyQuestion => ({ id, rev: 1, subject: 3, source: 'mock', codes: ['A'], type: '情境', review: { status: 'verified' }, ...overrides });
 const batch = (count: number, prefix = 'q', overrides: Partial<DailyQuestion> = {}) => Array.from({ length: count }, (_, i) => question(`${prefix}${i}`, overrides));
 const attempt = (qid: string, overrides: Partial<Attempt> = {}): Attempt => ({ id: qid, qid, rev: 1, choice: 'A', correct: true, ts: '2026-11-05T00:00:00Z', mode: 'quiz', ms: 1000, ...overrides });
 const select = (questions: DailyQuestion[], attempts: Attempt[] = [], subject: 1 | 3 = 3) => selectDailyQuestions(questions, attempts, subject, '2026-11-05', () => .37);
+const seededRandom = (seed: number) => {
+  let state = seed;
+  return () => { state = (state * 1664525 + 1013904223) >>> 0; return state / 2 ** 32; };
+};
 
 describe('每日抽題', () => {
   it('80% 考古比例、20% 全部代碼平均，最大餘數配額合計 50', () => {
@@ -76,6 +80,200 @@ describe('每日抽題', () => {
     const set = { date: '2026-11-05', subject: 3 as const, questions: ['q3', 'q0', 'q1', 'q2'].map((id) => ({ id, rev: 1 })) };
     const result = resolveDailySet(set, [question('q0'), question('q1', { review: { status: 'disputed' } }), question('q2', { rev: 2 }), question('new'), question('exam', { source: 'exam' })]);
     expect(result.selected.map((q) => q.id)).toEqual(['q0']); expect(result.skipped).toEqual(['q3', 'q1', 'q2']); expect(result.shortage).toBe(49);
+  });
+});
+
+describe('題本不重複抽題', () => {
+  const exclusions = (assignedQids: Iterable<string> = [], groups: DuplicateGroups = []): DailyExclusions => ({ assignedQids, groups });
+  const draw = (questions: readonly DailyQuestion[], rules: DailyExclusions, attempts: readonly Attempt[] = [], subject: DailySubject = 3, seed = 71) =>
+    selectDailyQuestions(questions, attempts, subject, '2026-11-07', seededRandom(seed), rules);
+
+  it.each(['quiz', 'question', 'daily:2026-11-06:S3', 'booklet:old:S3', 'custom'])('任何模式 %s 的舊版本作答都排除，未做過的題保留', (mode) => {
+    const pool = [question('done', { rev: 2 }), question('fresh', { rev: 2 })];
+    expect(eligibleDailyQuestions(pool, [attempt('done', { mode, rev: 1 })], 3, exclusions())).toEqual([pool[1]]);
+  });
+
+  it.each([
+    { status: 'open', subject: 3 },
+    { status: 'submitted', subject: 3 },
+    { status: 'retired', subject: 3 },
+    { status: 'open', subject: 1 },
+  ])('排除 $status 科目 $subject 題本的分配題，未分配的題保留', (book) => {
+    // 呼叫端傳入全部題本的聯集，抽題器不依題本狀態或科目縮小範圍。
+    const books = [{ ...book, assignedQids: ['assigned'] }];
+    const assignedQids = new Set(books.flatMap((item) => item.assignedQids));
+    const pool = [question('assigned'), question('fresh')];
+    expect(eligibleDailyQuestions(pool, [], 3, exclusions(assignedQids))).toEqual([pool[1]]);
+  });
+
+  it.each(['attempt', 'assigned'])('同群組他科成員已有 %s 時排除，未佔用群組保留', (occupiedBy) => {
+    const pool = [question('blocked'), question('peer', { subject: 1 }), question('free-a'), question('free-b')];
+    const groups = [['blocked', 'peer'], ['free-a', 'free-b']];
+    const attempts = occupiedBy === 'attempt' ? [attempt('peer', { rev: 99, mode: 'question' })] : [];
+    const assignedQids = occupiedBy === 'assigned' ? new Set(['peer']) : [];
+    expect(eligibleDailyQuestions(pool, attempts, 3, exclusions(assignedQids, groups)).map((q) => q.id)).toEqual(['free-a', 'free-b']);
+  });
+
+  it('已移除的群組成員仍會排除同群組題，外部無關題不影響候選', () => {
+    const pool = [question('blocked'), question('fresh')];
+    const rules = exclusions((function* () { yield 'removed'; yield 'unrelated'; })(), [['blocked', 'removed']]);
+    expect(eligibleDailyQuestions(pool, [], 3, rules)).toEqual([pool[1]]);
+  });
+
+  it('仍限制 mock、verified、主代碼、科目與唯一題號，且保留完整物件', () => {
+    const fresh = { ...question('fresh'), extra: '原物件' };
+    const pool = [fresh, fresh, { ...fresh, id: 'exam', source: 'exam' }, { ...fresh, id: 'guide', source: 'guide' },
+      { ...fresh, id: 'draft', review: { status: 'draft' } }, { ...fresh, id: 'disputed', review: { status: 'disputed' } },
+      { ...fresh, id: 'no-code', codes: [] }, { ...fresh, id: 'other-subject', subject: 1 }];
+    const result = eligibleDailyQuestions(pool, [], 3, exclusions());
+    expect(result).toEqual([fresh]);
+    expect(result[0]).toBe(fresh);
+    expect(result[0].extra).toBe('原物件');
+  });
+
+  it('同科與跨代碼群組各算 1 題，未佔用的全部成員仍是候選', () => {
+    const pool = [question('same-a'), question('same-b'), question('cross-a'), question('cross-b', { codes: ['B'] }), question('single')];
+    const rules = exclusions([], [['same-a', 'same-b'], ['cross-a', 'cross-b']]);
+    expect(eligibleDailyQuestions(pool, [], 3, rules)).toEqual(pool);
+    expect(dailyFreeCount(pool, [], 3, rules)).toEqual({ free: 3, fullBooks: 0, lastBook: 3 });
+    const result = draw(pool, rules);
+    expect(result.selected).toHaveLength(3);
+    expect(result.remaining).toBe(3);
+    for (const group of rules.groups) expect(result.selected.filter((q) => group.includes(q.id))).toHaveLength(1);
+  });
+
+  it.each([
+    { free: 0, fullBooks: 0, lastBook: 0, selected: 0 },
+    { free: 49, fullBooks: 0, lastBook: 49, selected: 49 },
+    { free: 50, fullBooks: 1, lastBook: 0, selected: 50 },
+    { free: 51, fullBooks: 1, lastBook: 1, selected: 50 },
+  ])('F=$free 的完整本數、尾本與抽題數符合規格', ({ free, fullBooks, lastBook, selected }) => {
+    // 每個群組刻意放 2 題，避免把候選題數誤認為 F。
+    const pool = [...batch(free, 'a'), ...batch(free, 'b', { codes: ['B'] }), question('done'), question('assigned')];
+    const groups = Array.from({ length: free }, (_, i) => [`a${i}`, `b${i}`]);
+    const rules = exclusions(['assigned'], groups);
+    const attempts = [attempt('done')];
+    expect(dailyFreeCount(pool, attempts, 3, rules)).toEqual({ free, fullBooks, lastBook });
+    const result = draw(pool, rules, attempts);
+    expect(result.remaining).toBe(free);
+    expect(result.selected).toHaveLength(selected);
+    expect(result.shortage).toBe(50 - selected);
+  });
+
+  it('跨科群組只算該科候選，另一科分配後重算為 0', () => {
+    const pool = [question('s1', { subject: 1 }), question('s3')];
+    const groups = [['s1', 's3']];
+    expect(dailyFreeCount(pool, [], 1, exclusions([], groups))).toEqual({ free: 1, fullBooks: 0, lastBook: 1 });
+    expect(dailyFreeCount(pool, [], 3, exclusions([], groups))).toEqual({ free: 1, fullBooks: 0, lastBook: 1 });
+    expect(dailyFreeCount(pool, [], 3, exclusions(['s1'], groups))).toEqual({ free: 0, fullBooks: 0, lastBook: 0 });
+  });
+
+  it('只有至少 2 題候選的群組消耗代表題亂數，代表題可選任一成員', () => {
+    const pool = [question('a'), question('b'), question('single'), question('draft', { review: { status: 'draft' } })];
+    const groups = [['a', 'b'], ['single', 'draft'], ['absent-a', 'absent-b']];
+    for (const [randomValue, chosen] of [[0, 'a'], [.99, 'b']] as const) {
+      let calls = 0;
+      const result = selectDailyQuestions(pool, [], 3, '2026-11-07', () => { calls++; return randomValue; }, exclusions([], groups));
+      expect(result.selected.map((q) => q.id).sort()).toEqual([chosen, 'single'].sort());
+      expect(calls).toBe(3);
+    }
+  });
+
+  it('先縮減跨代碼群組的容量，仍抽足 50 題與 12 題程式或圖表', () => {
+    const pool = [...batch(90, 'a'), ...batch(90, 'b', { codes: ['B'] }), ...batch(20, 'program', { codes: ['C'], type: '程式' }), ...batch(20, 'chart', { codes: ['D'], type: '圖表' })];
+    const rules = exclusions([], Array.from({ length: 90 }, (_, i) => [`a${i}`, `b${i}`]));
+    const result = draw(pool, rules);
+    expect(result.remaining).toBe(130);
+    expect(result.selected).toHaveLength(50);
+    expect(result.selected.filter((q) => ['程式', '圖表'].includes(q.type))).toHaveLength(12);
+  });
+
+  it.each([1, 3] as const)('科目 %i 的 240 組亂數種子都抽足、不重複且排除已佔用群組', (subject) => {
+    for (let seed = 1; seed <= 240; seed++) {
+      const random = seededRandom(seed);
+      const pool: DailyQuestion[] = [];
+      const groups: string[][] = [];
+      const attempts: Attempt[] = [];
+      const assignedQids: string[] = [];
+      const blocked = new Set<string>();
+      let expectedFree = 0;
+      // 直接累計可用的獨立群組，預期題數不呼叫被測函式。
+      const unitCount = 20 + seed % 105;
+      for (let unit = 0; unit < unitCount; unit++) {
+        const ids: string[] = [];
+        const memberCount = 1 + Math.floor(random() * 3);
+        for (let member = 0; member < memberCount; member++) {
+          const id = `${unit}-${member}`;
+          ids.push(id);
+          pool.push(question(id, { subject, codes: [String(Math.floor(random() * 8))], type: ['情境', '程式', '圖表'][Math.floor(random() * 3)] }));
+        }
+        const peer = `foreign-${unit}`;
+        ids.push(peer);
+        pool.push(question(peer, { subject: subject === 1 ? 3 : 1 }));
+        groups.push(ids);
+        if (unit % 7 === 0) attempts.push(attempt(unit % 2 ? ids[0] : peer, { rev: 99, mode: 'question' }));
+        else if (unit % 5 === 0) assignedQids.push(unit % 2 ? ids[0] : peer);
+        else { expectedFree++; continue; }
+        for (const id of ids) blocked.add(id);
+      }
+      pool.push(...batch(30, 'exam', { subject, source: 'exam' }), ...batch(10, 'guide', { subject, source: 'guide' }));
+      const rules = exclusions(assignedQids, groups);
+      const before = JSON.stringify({ pool, attempts, rules });
+      const count = dailyFreeCount(pool, attempts, subject, rules);
+      expect(count.free).toBe(expectedFree);
+      const result = draw(pool, rules, attempts, subject, seed);
+      expect(result.remaining).toBe(expectedFree);
+      expect(result.selected).toHaveLength(Math.min(50, expectedFree));
+      const selectedIds = new Set(result.selected.map((q) => q.id));
+      expect(selectedIds.size).toBe(result.selected.length);
+      for (const group of groups) expect(group.filter((id) => selectedIds.has(id)).length).toBeLessThanOrEqual(1);
+      expect(result.selected.every((q) => q.subject === subject && q.source === 'mock' && !blocked.has(q.id))).toBe(true);
+      expect(JSON.stringify({ pool, attempts, rules })).toBe(before);
+    }
+  });
+
+  it.each([1, 3] as const)('科目 %i 連開到用完，任 2 本不重疊', (subject) => {
+    const pool = [...batch(123, 'a', { subject }), ...batch(123, 'b', { subject, codes: ['B'], type: '程式' }), ...batch(15, 'chart', { subject, type: '圖表' })];
+    const assignedQids = new Set<string>();
+    const rules = exclusions(assignedQids, Array.from({ length: 123 }, (_, i) => [`a${i}`, `b${i}`]));
+    const books: string[][] = [];
+    for (const expectedSize of [50, 50, 38]) {
+      const result = draw(pool, rules, [], subject, books.length + 1);
+      expect(result.selected).toHaveLength(expectedSize);
+      const ids = result.selected.map((q) => q.id);
+      for (const previous of books) expect(ids.some((id) => previous.includes(id))).toBe(false);
+      for (const id of ids) assignedQids.add(id);
+      books.push(ids);
+    }
+    expect(dailyFreeCount(pool, [], subject, rules)).toEqual({ free: 0, fullBooks: 0, lastBook: 0 });
+    expect(draw(pool, rules, [], subject).selected).toEqual([]);
+    expect(assignedQids.size).toBe(138);
+  });
+
+  it('大量排除與群組縮減後，仍用完整題庫的原配額', () => {
+    const pool = [...batch(90, 'examA', { source: 'exam' }), ...batch(10, 'examB', { source: 'exam', codes: ['B'] }), ...batch(200, 'a'), ...batch(100, 'b', { codes: ['B'] }), ...batch(100, 'c', { codes: ['C'] })];
+    const baseline = select(pool);
+    const rules = exclusions(batch(190, 'a').map((q) => q.id), Array.from({ length: 10 }, (_, i) => [`b${i}`, `c${i}`]));
+    const result = draw(pool, rules, batch(20, 'b').map((q) => attempt(q.id)));
+    expect(result.quotas).toEqual({ A: 40, B: 7, C: 3 });
+    expect(result.quotas).toEqual(baseline.quotas);
+    expect(result.selected).toHaveLength(50);
+  });
+
+  it('群組參數為空時與省略第 6 個參數的結果及亂數呼叫數相同', () => {
+    const pool = [...batch(70), ...batch(20, 'program', { codes: ['B'], type: '程式' }), ...batch(20, 'chart', { codes: ['C'], type: '圖表' })];
+    const attempts = [attempt('q0')];
+    const makeRandom = () => {
+      const next = seededRandom(123);
+      let calls = 0;
+      return { next: () => { calls++; return next(); }, calls: () => calls };
+    };
+    const oldRandom = makeRandom();
+    const newRandom = makeRandom();
+    const baseline = selectDailyQuestions(pool, attempts, 3, '2026-11-07', oldRandom.next);
+    const result = selectDailyQuestions(pool, attempts, 3, '2026-11-07', newRandom.next, exclusions());
+    expect(result).toEqual(baseline);
+    expect(newRandom.calls()).toBe(oldRandom.calls());
   });
 });
 
