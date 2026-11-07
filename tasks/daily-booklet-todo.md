@@ -17,13 +17,15 @@
 | I5 每日頁 | `demo/src/pages/daily.astro`、`demo/src/lib/daily-client.ts`、每日頁樣式 | 規格第 4.1–4.5、7 節；版面符合核可的 mockup；開頁不抽題；開頁完成兩科 `submitting`；回看只讀指定題本 | 完成（`78fd781`） |
 | I5-fix 行為修正 | `demo/src/lib/daily-client.ts`、`demo/src/pages/daily.astro`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts` | 交卷後同科還有未交卷題本時先看這本成績；不足 50 題提示寫對原因；開本與結束失敗訊息正確；沒有已交卷題本時不提回看 | 完成（`0a420ec`） |
 | I6 文字 | `demo/src/lib/sidebar.ts`、`demo/src/lib/sidebar.test.ts`、`demo/src/pages/official/index.astro`、`demo/src/pages/quiz.astro`、`demo/src/pages/wrong-book.astro` | 規格第 4.6、6.4 節；只改顯示文字，連結不變 | 完成（`d6d7a72`） |
-| I7 更新既有瀏覽器測試 | `demo/scripts/daily-exam-smoke.mjs`、`demo/src/lib/daily-smoke.mjs`、`demo/src/lib/daily-cache.test.ts` | 原案例逐條對照後改到新鍵與新流程，不刪案例；全部通過 | 未開始 |
-| I8 新瀏覽器測試 | `demo/scripts/daily-booklet-smoke.mjs` | 規格第 10 節瀏覽器案例全部通過；截圖 3 種寬度與亮暗色放 `tmp/demo-shots/daily-booklet/` | 未開始 |
+| I7a 更新作答畫面測試 | `demo/scripts/daily-exam-smoke.mjs` | 原案例逐條對照後改到新鍵與新流程，不刪案例；版面量測門檻不放寬；全部通過 | 未開始 |
+| I7b 更新舊流程測試 | `demo/src/lib/daily-smoke.mjs`、`demo/src/lib/daily-cache.test.ts` | 原案例逐條對照後改到題本流程，不刪案例；官方題回歸保留；全部通過 | 未開始 |
+| I8a 新瀏覽器測試：主流程 | `demo/scripts/daily-booklet-smoke.mjs` | 開本、跨日、舊流程、連開 3 本、用完、交卷中斷、清單與進度全過；截圖 3 種寬度與亮暗色 | 未開始 |
+| I8b 新瀏覽器測試：多分頁與回歸 | `demo/scripts/daily-booklet-smoke-multi.mjs` | 2 分頁、真實鎖、清除、備份往返、損壞資料、官方題、一般測驗、單題頁、錯題本全過 | 未開始 |
 | R1 非作者審查 | `tmp/advisor/daily-booklet-review.md` | 高中度問題清零 | 未開始 |
 | V1 協調者驗收 | 主工作區 | 規格第 12 節逐條有證據；親看截圖 | 未開始 |
 | P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完一輪 | 未開始 |
 
-I1、I3a、I3b 可平行。I1b、I2、I4 要等 I1。I5 要等 I2、I3a、I3b、I4。I5-fix、I6 要等 I5，可平行。I7、I8 要等 I5-fix 與 I6，因為測試會斷言修正後的文字與側欄名稱。
+I1、I3a、I3b 可平行。I1b、I2、I4 要等 I1。I5 要等 I2、I3a、I3b、I4。I5-fix、I6 要等 I5，可平行。I7a、I7b、I8a、I8b 要等 I5-fix 與 I6，因為測試會斷言修正後的文字與側欄名稱；這 4 項可平行，共用 `booklet-verify` 工作樹的建置產物。
 
 ## 驗收命令
 
@@ -33,5 +35,7 @@ node demo/scripts/check-textbook/cli.mjs --summary
 node scripts/tools/check-copy.cjs content/concepts content/questions content/cheatsheets
 pnpm --dir demo run build --force
 node demo/scripts/daily-exam-smoke.mjs
+node demo/src/lib/daily-smoke.mjs
 node demo/scripts/daily-booklet-smoke.mjs
+node demo/scripts/daily-booklet-smoke-multi.mjs
 ```
