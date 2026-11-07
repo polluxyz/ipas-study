@@ -24,6 +24,7 @@ export async function initDaily(): Promise<void> {
   const dialog = element<HTMLDialogElement>('dialog');
   let draft: Booklet | undefined;
   let expected: BookletRef | undefined;
+  let savedContent: string | undefined;
   let pending: Booklet | undefined;
   let readOnly = viewing;
   let retryAction: (() => void) | undefined;
@@ -54,7 +55,9 @@ export async function initDaily(): Promise<void> {
   };
   const persist = () => {
     if (!draft || !expected || !editable()) return;
-    try { draft = saveBooklet(draft, expected); expected = draft; store = readBookletStore()!; clearError(); }
+    if (JSON.stringify(draft) === savedContent) return;
+    // 保存後 draft 與 expected 共用物件；另存字串才能辨識後續原地修改，失敗時仍可重試。
+    try { draft = saveBooklet(draft, expected); expected = draft; savedContent = JSON.stringify(draft); store = readBookletStore()!; clearError(); }
     catch (cause) { error(cause); }
   };
   const showTime = () => {
@@ -262,6 +265,8 @@ export async function initDaily(): Promise<void> {
       const requested = Number(new URL(location.href).searchParams.get('position')) - 1;
       draft.position = dailyPosition(draft, requested); displayCards();
     }
+    // 網址指定的位置只影響初始畫面；開頁本身不應寫入或使其他分頁失效。
+    savedContent = draft ? JSON.stringify(draft) : undefined;
     element('practice').hidden = cards.length === 0;
     if (cards.length && draft) navigation = initQuestionNavigation({ prefix: 'daily', cards, position: draft.position, heading: element('question-heading'), canVisit,
       nextPosition: (current) => dailyNext(draft!, current), onLeave: settle,
