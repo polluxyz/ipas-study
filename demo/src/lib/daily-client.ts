@@ -1,23 +1,33 @@
 /** 每日流程組裝狀態與互動；保存一律透過 attempts，題卡及導覽沿用共用函式。 */
-import { assertDailyDraftCurrent, DailyConflictError, DRAFT_KEY, getAttempts, getDailyDrafts, getDailySet, saveDailyDraft, saveDailySet, submitDailyDraft, type Choice, type DailyDraft } from './attempts';
-import { migrateDailySet, selectDailyQuestions, taipeiDate, unseenDailyQuestions, type DailyQuestion, type DailySubject } from './daily';
-import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, dailySubjectStatus, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
+import { assertBookletCurrent, DailyConflictError, BOOKLET_KEY, getAttempts, readBookletStore, openBooklet, saveBooklet, submitBooklet, retireBooklet, type Choice, type Booklet, type BookletRef, type BookletStore } from './attempts';
+import { dailyFreeCount, selectDailyQuestions, taipeiDate, type DailyQuestion, type DailySubject, type DuplicateGroups } from './daily';
+import { availableDailyQuestion, bookletExclusions, bookletOpenLabel, bookletPageState, bookletProgramNotice, bookletProgress, bookletRows, createBooklet, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
+import { ensureBookletStore } from './booklet-migration';
 import { displayQuestionCard } from './question-card-display';
 import { initQuestionNavigation } from './question-set-client';
 
-export function initDaily(): void {
+export async function initDaily(): Promise<void> {
   const element = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById('daily-' + id) as T;
   const text = (id: string, value: string) => { element(id).textContent = value; };
   const subject: DailySubject = new URL(location.href).searchParams.get('subject') === '3' ? 3 : 1;
   const catalog: DailyQuestion[] = JSON.parse(element('catalog').textContent ?? '[]');
+  const groups: DuplicateGroups = JSON.parse(element('groups').textContent ?? '[]');
+  const bookId = new URL(location.href).searchParams.get('book');
+  const viewing = bookId !== null;
+  let store: BookletStore;
   const container = element('cards');
+  // 題卡保留於記憶體，只有目前題本的卡片會進入作答區。
+  const allCards = new Map(Array.from(container.querySelectorAll<HTMLElement>('[data-question]')).map((card) => [card.dataset.qid!, card]));
+  container.replaceChildren();
   const submit = element<HTMLButtonElement>('submit');
   const unsure = element<HTMLButtonElement>('unsure');
   const dialog = element<HTMLDialogElement>('dialog');
-  let draft: DailyDraft;
-  let expected: DailyDraft | null = null;
-  let pending: DailyDraft | undefined;
-  let readOnly = false;
+  let draft: Booklet | undefined;
+  let expected: BookletRef | undefined;
+  let pending: Booklet | undefined;
+  let readOnly = viewing;
+  let retryAction: (() => void) | undefined;
+  let opening = false;
   let failed = false;
   let started: number | null = null;
   let navigation: ReturnType<typeof initQuestionNavigation> | undefined;
@@ -26,48 +36,122 @@ export function initDaily(): void {
   let saveTimer: number | undefined;
   const error = (cause: unknown) => {
     failed = true;
-    if (cause instanceof DailyConflictError) readOnly = true;
+    if (cause instanceof DailyConflictError) { readOnly = true; started = null; for (const id of ['open-first', 'open-next', 'retire-book']) element<HTMLButtonElement>(id).disabled = true; }
     text('error-message', readOnly ? String(cause instanceof Error ? cause.message : cause) : '尚未保存，畫面上的答案仍保留。' + String(cause instanceof Error ? cause.message : cause));
     element('save-error').hidden = false; element('retry').hidden = readOnly; element('reload').hidden = !readOnly;
   };
   const clearError = () => { failed = false; element('save-error').hidden = true; };
-  const editable = () => draft.status === 'open' && cards.length > 0 && !pending && !readOnly;
-  const canVisit = (target: number, current: number) => (!pending || target === current) && dailyNumbers(draft).includes(target) && (draft.status === 'submitted' || Boolean(draft.questions[current]?.choice) || target <= current);
+  const editable = () => draft?.status === 'open' && cards.length > 0 && !pending && !readOnly;
+  const canVisit = (target: number, current: number) => Boolean(draft && (!pending || target === current) && dailyNumbers(draft).includes(target) && (draft.status === 'submitted' || Boolean(draft.questions[current]?.choice) || target <= current));
   const settle = () => {
+    if (!draft) return;
     const now = performance.now(); const q = draft.questions[draft.position];
     if (started !== null && editable() && q && !q.legacyAttemptId) q.ms += Math.max(0, Math.round(now - started));
     started = editable() && !document.hidden ? now : null;
   };
   const persist = () => {
-    if (readOnly || pending || draft.status === 'submitting' || !cards.length) return;
-    try { draft = saveDailyDraft(draft, expected); expected = draft; clearError(); }
+    if (!draft || !expected || !editable()) return;
+    try { draft = saveBooklet(draft, expected); expected = draft; store = readBookletStore()!; clearError(); }
     catch (cause) { error(cause); }
   };
   const showTime = () => {
+    if (!draft) return;
     const q = draft.questions[draft.position];
     const ms = draft.questions.reduce((sum, item) => sum + item.ms, 0) + (started !== null && editable() && q && !q.legacyAttemptId ? performance.now() - started : 0);
     const seconds = Math.floor(ms / 1000); text('time', `累計用時 ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`);
   };
   const displayCards = () => cards.forEach((card, index) => {
-    const q = draft.questions[index]; if (!availableDailyQuestion(q, catalog, subject)) return;
-    displayQuestionCard(card, { choice: q.choice, locked: !editable() || Boolean(q.legacyAttemptId), reveal: draft.status === 'submitted', correct: q.correct, saved: draft.status === 'submitted' });
+    const q = draft!.questions[index]; if (!availableDailyQuestion(q, catalog, subject)) return;
+    displayQuestionCard(card, { choice: q.choice, locked: !editable() || Boolean(q.legacyAttemptId), reveal: draft!.status === 'submitted', correct: q.correct, saved: draft!.status === 'submitted' });
   });
-  const renderSubjectCards = () => {
-    try {
-      const drafts = getDailyDrafts();
-      for (const link of document.querySelectorAll<HTMLElement>('[data-daily-subject]')) {
-        const item = link.dataset.dailySubject === String(subject) ? draft : drafts.find((d) => String(d.subject) === link.dataset.dailySubject);
-        if (link.dataset.dailySubject === String(subject)) link.setAttribute('aria-current', 'page');
-        link.querySelector('[data-subject-progress]')!.textContent = dailySubjectStatus(item, catalog, link.dataset.dailySubject === '3' ? 3 : 1);
+  const currentUrl = (id?: string) => '/daily/?subject=' + subject + (id ? '&book=' + encodeURIComponent(id) : '');
+  const freeCount = (target: DailySubject) => dailyFreeCount(catalog, getAttempts(), target, bookletExclusions(store, groups));
+  const renderOverview = () => {
+    const today = taipeiDate(new Date());
+    const free = freeCount(subject);
+    const state = bookletPageState(store, subject, free.free, catalog);
+    const progress = bookletProgress(store, subject, today, free);
+    element('metrics').hidden = false;
+    const shownCounts = progress.total ? progress : draft?.status === 'submitted' ? dailyCounts(draft) : null;
+    text('metric-answered', shownCounts ? String(shownCounts.answered) : state.kind === 'retire' ? '0／0' : store.booklets.some((b) => b.subject === subject) ? '目前無題本' : '尚未開本');
+    if (shownCounts) element('metric-answered').append(Object.assign(document.createElement('small'), { textContent: '／' + shownCounts.total }));
+    element('metric-answered').classList.toggle('is-text', !shownCounts);
+    text('metric-today', String(progress.todaySubmitted)); element('metric-today').append(Object.assign(document.createElement('small'), { textContent: '題' }));
+    text('metric-free', String(progress.fullBooks)); element('metric-free').append(Object.assign(document.createElement('small'), { textContent: '本' }));
+    if (progress.lastBook) { const tail = document.createElement('small'); tail.className = 'booklet-tail'; tail.textContent = '另 1 本 ' + progress.lastBook + ' 題'; element('metric-free').append(tail); }
+    for (const link of document.querySelectorAll<HTMLElement>('[data-daily-subject]')) {
+      const target: DailySubject = link.dataset.dailySubject === '3' ? 3 : 1;
+      const targetState = bookletPageState(store, target, freeCount(target).free, catalog);
+      if (target === subject) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+      const caption = link.querySelector('[data-subject-progress]')!;
+      caption.replaceChildren();
+      if (targetState.kind === 'resume') {
+        const b = target === subject && draft?.status === 'open' ? draft : targetState.booklet;
+        for (const label of ['第 ' + b.number + ' 本作答中', '已答 ' + dailyCounts(b).answered + '／' + b.questions.length]) caption.append(Object.assign(document.createElement('span'), { textContent: label }));
+      } else caption.textContent = targetState.kind === 'review' ? '第 ' + targetState.booklet.number + ' 本' + (targetState.booklet.status === 'retired' ? '已結束' : '已交卷') : targetState.kind === 'retire' ? '題目已失效・需結束題本' : targetState.kind === 'first' ? '尚未開本' : '未做題已用完';
+    }
+    for (const id of ['current', 'score', 'empty', 'stock', 'retire', 'next-book', 'partial-note', 'code-note']) element(id).hidden = true;
+    element('readonly').hidden = !viewing;
+    element<HTMLAnchorElement>('return').href = currentUrl();
+    const next = 'next' in state ? state.next : 0;
+    const partial = next > 0 && next < 50;
+    if (!viewing) {
+      if (state.kind === 'resume') {
+        element('current').hidden = false;
+        text('current-title', '第 ' + state.booklet.number + ' 本作答中');
+        text('current-note', '建立於 ' + state.booklet.createdDate + '・' + state.booklet.questions.length + ' 題。隔天仍接續這一本。');
+      } else if (state.kind === 'review') {
+        element('score').hidden = false;
+        text('result-number', '第 ' + state.booklet.number + ' 本・' + (state.booklet.status === 'retired' ? '已結束' : '已交卷'));
+        if (state.booklet.status === 'retired') { text('score-heading', '第 ' + state.booklet.number + ' 本已結束'); text('score-points', ''); }
+        element('next-book').hidden = next === 0;
+        text('open-next', bookletOpenLabel(true, next) ?? '');
+        text('next-note', partial ? '保留實際題數，不補入做過的題。' : '可再開 ' + free.fullBooks + ' 本，每本 50 題。' + (free.lastBook ? '另 1 本 ' + free.lastBook + ' 題。' : ''));
+        element('result-note').hidden = state.booklet.status === 'retired';
+        element('stock').hidden = next !== 0;
+      } else if (state.kind === 'first') {
+        element('empty').hidden = false; text('open-first', bookletOpenLabel(false, next)!);
+        element('first-note').hidden = !partial;
+        text('first-note', partial ? '保留實際題數，不補入做過的題。' : '');
+      } else element(state.kind === 'retire' ? 'retire' : 'stock').hidden = false;
+    } else if (draft) text('readonly-title', '科目 ' + subject + '・第 ' + draft.number + ' 本');
+    if (draft && draft.status !== 'retired') {
+      if (draft.questions.length > 0 && draft.questions.length < 50) { element('partial-note').hidden = false; text('partial-note', '本題本共 ' + draft.questions.length + ' 題。未做題不足 50 題，不換算正式模擬卷分數。'); }
+      const notice = bookletProgramNotice(draft, catalog);
+      if (notice) { element('code-note').hidden = false; text('code-note', notice.message); }
+      if (draft.status === 'submitted') {
+        element('score').hidden = false; text('result-number', '第 ' + draft.number + ' 本・已交卷');
+        text('score-heading', '答對 ' + draft.submission!.correct + '／' + draft.submission!.total + ' 題');
+        text('score-points', draft.submission!.correct * 2 + ' 分／' + draft.submission!.total * 2 + ' 分' + (draft.submission!.total === 50 ? '・每題 2 分' : '・不是正式考試換算'));
       }
-    } catch { /* 科目卡讀取失敗時保留原文字，避免中斷目前作答。 */ }
+    }
+    const rows = element('rows'); rows.replaceChildren();
+    const appendRow = (values: (string | HTMLElement)[], head = false, current = false) => {
+      const row = document.createElement('div'); row.className = 'booklet-row' + (head ? ' booklet-table-head' : '') + (current ? ' booklet-row-current' : ''); row.setAttribute('role', 'row');
+      for (const value of values) { const cell = document.createElement('div'); cell.setAttribute('role', head ? 'columnheader' : 'cell'); cell.append(value); row.append(cell); } rows.append(row);
+    };
+    const historyRows = bookletRows(store, subject).reverse();
+    element('history').hidden = historyRows.length === 0;
+    if (historyRows.length) appendRow(['題本／建立日期', '狀態', '題數', '作答結果', '操作'], true);
+    for (const row of historyRows) {
+      const name = document.createElement('div'); name.append(Object.assign(document.createElement('strong'), { textContent: '第 ' + row.number + ' 本' }), Object.assign(document.createElement('time'), { textContent: row.createdDate, dateTime: row.createdDate }));
+      const status = document.createElement('span'); status.className = 'booklet-status' + (row.answered !== undefined ? ' is-open' : ''); status.textContent = row.statusLabel;
+      let action: string | HTMLElement = '';
+      if (row.canReview || row.answered !== undefined) { const link = document.createElement('a'); link.className = 'booklet-row-action'; link.href = row.canReview ? currentUrl(row.id) : currentUrl(); link.textContent = row.canReview ? '回看檢討 →' : '繼續作答 →'; action = link; }
+      appendRow([name, status, row.total + ' 題', row.correct !== undefined ? '答對 ' + row.correct + '／' + row.total : row.answered !== undefined ? '已答 ' + row.answered + '／' + row.total : '', action], false, row.id === store.current[subject]);
+    }
+    const records = legacyRecords(store, getAttempts());
+    element('legacy-records').hidden = records.length === 0;
+    element('legacy-rows').replaceChildren(...records.map((record) => { const row = document.createElement('div'); row.className = 'booklet-legacy-row'; for (const label of [record.date, '科目 ' + record.subject, '已答 ' + record.answered + ' 題', '答對 ' + record.correct + ' 題']) row.append(Object.assign(document.createElement('span'), { textContent: label })); return row; }));
+    return state;
   };
   const render = () => {
+    renderOverview();
+    if (!draft) return;
     const { answered, unsure: count, total } = dailyCounts(draft); const submitted = draft.status === 'submitted';
-    const subjectProgress = document.querySelector(`[data-daily-subject="${subject}"] [data-subject-progress]`);
-    if (subjectProgress) subjectProgress.textContent = dailySubjectStatus(draft, catalog, subject);
     text('position', `第 ${draft.position + 1}／${total} 題`); text('question-heading', `第 ${draft.position + 1} 題`);
-    text('progress', `已答 ${answered}／${total}`); text('unsure-count', `不確定 ${count}`);
+    text('progress', `這本已答 ${answered}／${total}`); text('unsure-count', `不確定 ${count}`);
     const bar = element<HTMLProgressElement>('progress-bar'); bar.max = Math.max(1, total); bar.value = answered;
     submit.hidden = submitted; element('submitted').hidden = !submitted;
     submit.disabled = !editable() || answered !== total || !total || failed; submit.textContent = answered === total ? '交卷' : `交卷（${answered}／${total}）`;
@@ -96,89 +180,101 @@ export function initDaily(): void {
     for (const [state, label] of submitted ? [['correct', '答對'], ['wrong', '答錯'], ['outlined', '曾標不確定'], ['unavailable', '解析不可用']] : [['unanswered', '未答'], ['answered', '已答'], ['unsure', '不確定']]) {
       const span = document.createElement('span'); const swatch = document.createElement('i'); swatch.dataset.status = state; swatch.setAttribute('aria-hidden', 'true'); span.append(swatch, label); legend.append(span);
     }
-    element('score').hidden = !submitted; element('legacy').hidden = !draft.questions.some((item) => item.legacyAttemptId);
-    if (submitted && draft.submission) {
-      text('score-heading', `答對 ${draft.submission.correct}／${draft.submission.total} 題`);
-      text('score-points', `${draft.submission.correct * 2} 分／${draft.submission.total * 2} 分${draft.submission.total === 50 ? '・每題 2 分' : '・不是正式考試換算'}`);
-    }
-    const old = draft.date !== taipeiDate(new Date());
-    const exhausted = draft.status === 'open' && canOpenToday(draft, catalog, taipeiDate(new Date()));
-    element('today').hidden = !canOpenToday(draft, catalog, taipeiDate(new Date())); element<HTMLButtonElement>('today').disabled = readOnly;
-    element('today-note').hidden = !submitted && !exhausted;
-    text('today-note', exhausted ? '這份題組已沒有可作答的題目。可開啟今日題組。' : old ? '本份題組已交卷。可開啟今日題組。' : '今日題組已交卷，明天才有新題組。'); showTime();
+    element('legacy').hidden = !draft.questions.some((item) => item.legacyAttemptId);
+    showTime();
   };
+  // 提交中斷時保留同一份 prepared；儲存層依固定作答 ID 去重。
   const finishSubmission = () => {
-    if (readOnly) return; settle(); started = null;
-    try { pending ??= draft.status === 'submitting' ? draft : prepareDailySubmission(draft, new Map(cards.map((card) => [card.dataset.qid!, card.dataset.answer!])), new Date().toISOString(), () => crypto.randomUUID()); }
-    catch (cause) { error(cause); return; }
-    const result = submitDailyDraft(draft, pending); draft = result.draft; expected = draft;
-    if (result.error) { error(result.error); displayCards(); render(); return; }
-    pending = undefined; clearError(); displayCards(); render();
-    try { text('remaining', `該科剩餘未做的已驗證非官方題：${unseenDailyQuestions(catalog, getAttempts(), subject).length} 題。`); } catch (cause) { error(cause); }
-    element('score').focus({ preventScroll: true }); element('score').scrollIntoView({ block: 'start', behavior: 'instant' });
-  };
-  try {
-    const drafts = getDailyDrafts(); const stored = drafts.find((item) => item.subject === subject);
-    const existing = stored?.questions.length ? stored : undefined; expected = stored ?? null;
-    const today = taipeiDate(new Date()); const attempts = existing ? [] : getAttempts();
-    const cached = existing ? undefined : getDailySet(today, subject);
-    const todaySet = availableDailySet(cached, catalog);
-    let skipped = 0;
-    if (dailySource(existing, todaySet) === 'draft') { draft = existing!; expected = existing!; }
-    else {
-      let set = todaySet;
-      if (!set) { const result = selectDailyQuestions(catalog, attempts, subject, today, Math.random); set = { date: today, subject, questions: result.selected.map(({ id, rev }) => ({ id, rev })) }; if (set.questions.length) set = saveDailySet(set, Boolean(cached)); }
-      const migration = migrateDailySet(set, catalog, attempts, Math.random); if (migration.replaced) set = saveDailySet(migration.set, true);
-      draft = createDailyDraft(set, attempts, Boolean(todaySet), crypto.randomUUID());
-      const initial = reconcileDailyDraft(draft, catalog); skipped = initial.skipped;
-      draft = initial.draft;
-      if (draft.questions.length) { draft = saveDailyDraft(draft, expected); expected = draft; }
-    }
-    const resolved = reconcileDailyDraft(draft, catalog);
-    skipped += resolved.skipped;
-    // 全部失效時保留原草稿，直到使用者明確開啟今日題組。
-    if (resolved.skipped && resolved.draft.questions.length) { draft = saveDailyDraft(resolved.draft, expected); expected = draft; }
-    const allCards = new Map(Array.from(container.querySelectorAll<HTMLElement>('[data-question]')).map((card) => [card.dataset.qid!, card]));
-    cards = (draft.status === 'open' && !resolved.draft.questions.length ? [] : draft.questions).map((q) => {
-      if (availableDailyQuestion(q, catalog, subject)) return allCards.get(q.id)!;
-      const missing = document.createElement('article'); missing.className = 'daily-unavailable'; missing.textContent = '已移除或改版，解析目前不可用。本次成績維持交卷時的紀錄。'; missing.hidden = true; return missing;
-    });
-    container.replaceChildren(...cards); text('date', `${draft.date} 題組・科目 ${subject}`);
-    text('status', [draft.date !== today ? `正在續作 ${draft.date} 題組。` : '今日題組已固定。', draft.questions.length < 50 ? `可練 ${draft.questions.length} 題，距離 50 題缺 ${50 - draft.questions.length} 題。` : '', skipped ? `${skipped} 題已移除或改版，已略過，不補題。` : ''].join(' '));
-    if (!draft.questions.length) text('status', '目前沒有可做的題目。題庫恢復後重新開頁即可建立題組。');
-    else if (draft.status === 'open' && !cards.length) text('status', `這份題組已沒有可作答的題目。${skipped} 題已移除或改版，不能交卷。`);
+    if (!draft || readOnly) return; settle(); started = null;
     try {
-      text('remaining', `該科剩餘未做的已驗證非官方題：${unseenDailyQuestions(catalog, existing ? getAttempts() : attempts, subject).length} 題（含本份未交卷題目）。`);
-    } catch { text('remaining', '無法更新剩餘題數；草稿仍可繼續作答與檢討。'); }
-    renderSubjectCards();
-    element('practice').hidden = !cards.length;
-    draft.position = dailyPosition(draft, Number(new URL(location.href).searchParams.get('position')) - 1); displayCards();
-    if (cards.length) navigation = initQuestionNavigation({ prefix: 'daily', cards, position: draft.position, heading: element('question-heading'),
-      canVisit,
-      nextPosition: (current) => dailyNext(draft, current), onLeave: settle,
-      onShow: (position) => { draft.position = position; if (draft.status !== 'submitting') persist(); started = editable() && !document.hidden ? performance.now() : null; displayCards(); render(); } });
+      const resolved = reconcileBooklet(draft, catalog);
+      if (resolved.skipped) { draft = saveBooklet(resolved.booklet, expected!); expected = draft; text('status', resolved.skipped + ' 題已移除或改版，已略過，不補題。'); }
+      if (draft.questions.length === 0) { store = readBookletStore()!; element('practice').hidden = true; cards = []; render(); return; }
+      pending ??= draft.status === 'submitting' ? draft : prepareBookletSubmission(draft, new Map(cards.map((card) => [card.dataset.qid!, card.dataset.answer!])), new Date().toISOString(), () => crypto.randomUUID());
+      const result = submitBooklet(draft, pending); draft = result.booklet; expected = draft;
+      store = readBookletStore()!;
+      if (result.error) { error(result.error); displayCards(); render(); return; }
+      pending = undefined; clearError(); displayCards(); render();
+      if (store.current[subject]) { location.href = currentUrl(); return; }
+      element('score').focus({ preventScroll: true }); element('score').scrollIntoView({ block: 'start', behavior: 'instant' });
+    } catch (cause) { error(cause); displayCards(); render(); }
+  };
+  const recoverSubmissions = () => {
+    for (const b of store.booklets.filter((item) => item.status === 'submitting')) {
+      const result = submitBooklet(b, b);
+      if (result.error) throw result.error;
+    }
+    store = readBookletStore()!;
+  };
+  const panel = element<HTMLDetailsElement>('panel');
+  const desktopPanel = window.matchMedia('(min-width: 1100px)');
+  try {
+    if (viewing) {
+      // 回看完全唯讀，連遷移、修復及計時保存都不啟動。
+      store = readBookletStore() ?? { version: 2, migratedAt: null, current: { '1': null, '3': null }, booklets: [] };
+      const found = store.booklets.find((b) => b.id === bookId);
+      if (!found || found.subject !== subject || found.status !== 'submitted') {
+        element('readonly').hidden = false; element<HTMLAnchorElement>('return').href = currentUrl();
+        text('readonly-title', !found ? '找不到這本題本' : found.subject !== subject ? '這本題本不屬於目前科目' : '這本題本尚未交卷，不能回看'); text('status', '請返回目前題本。'); return;
+      }
+      draft = found; text('status', '');
+    } else {
+      const outcome = await ensureBookletStore({ catalog, groups, now: () => new Date(), locks: navigator.locks });
+      if (outcome.status === 'error') { text('status', outcome.message); return; }
+      store = outcome.store;
+      try { recoverSubmissions(); }
+      catch (cause) { error(cause); text('status', '交卷尚未完成，請重試。'); element('retry').addEventListener('click', () => location.reload()); return; }
+      let skipped = 0;
+      for (const target of [1, 3] as const) {
+        const b = store.booklets.find((item) => item.id === store.current[target]);
+        if (b?.status !== 'open') continue;
+        const resolved = reconcileBooklet(b, catalog);
+        if (resolved.skipped || resolved.booklet.questions.length === 0) {
+          saveBooklet(resolved.booklet, b); store = readBookletStore()!;
+          if (target === subject) skipped += resolved.skipped;
+        }
+      }
+      const state = bookletPageState(store, subject, freeCount(subject).free, catalog);
+      draft = 'booklet' in state ? state.booklet : undefined;
+      text('status', skipped ? skipped + ' 題已移除或改版，已略過，不補題。' : '');
+    }
+    expected = draft;
+    if (draft) {
+      cards = draft.status === 'retired' ? [] : draft.questions.map((q) => {
+        if (availableDailyQuestion(q, catalog, subject) && allCards.has(q.id)) return allCards.get(q.id)!;
+        const missing = document.createElement('article'); missing.className = 'daily-unavailable'; missing.textContent = '已移除或改版，解析目前不可用。本次成績維持交卷時的紀錄。'; missing.hidden = true; return missing;
+      });
+      container.replaceChildren(...cards);
+      text('date', draft.createdDate + ' 建立・科目 ' + subject + '・第 ' + draft.number + ' 本');
+      const requested = Number(new URL(location.href).searchParams.get('position')) - 1;
+      draft.position = dailyPosition(draft, requested); displayCards();
+    }
+    element('practice').hidden = cards.length === 0;
+    if (cards.length && draft) navigation = initQuestionNavigation({ prefix: 'daily', cards, position: draft.position, heading: element('question-heading'), canVisit,
+      nextPosition: (current) => dailyNext(draft!, current), onLeave: settle,
+      onShow: (position) => { draft!.position = position; persist(); started = editable() && !document.hidden ? performance.now() : null; displayCards(); render(); } });
     else render();
-    if (draft.status === 'submitting') finishSubmission();
   } catch (cause) {
-    text('status', '無法載入每日題組：' + String(cause instanceof Error ? cause.message : cause) + ' 題組尚未開放作答，避免重新整理後換題。'); element('practice').hidden = true; return;
+    text('status', '無法載入每日題本：' + String(cause instanceof Error ? cause.message : cause));
+    element('practice').hidden = true; error(cause);
+    element('retry').addEventListener('click', () => location.reload()); return;
   }
   container.addEventListener('change', (event) => {
     const input = event.target; if (!(input instanceof HTMLInputElement) || !editable()) return;
-    const q = draft.questions[draft.position]; if (q.legacyAttemptId) return;
+    const q = draft!.questions[draft!.position]; if (q.legacyAttemptId) return;
     settle(); q.choice = input.value as Choice; persist(); displayCards(); render();
   });
-  unsure.addEventListener('click', () => { const q = draft.questions[draft.position]; if (!editable() || !q?.choice) return; settle(); q.unsure = !q.unsure; persist(); render(); });
+  unsure.addEventListener('click', () => { const q = draft?.questions[draft.position]; if (!editable() || !q?.choice) return; settle(); q.unsure = !q.unsure; persist(); render(); });
   submit.addEventListener('click', () => {
+    if (!draft) return;
     const count = dailyCounts(draft); if (!editable() || count.answered !== count.total || !count.total || failed) return;
     text('dialog-count', `不確定 ${count.unsure} 題`); dialog.showModal(); element('cancel').focus();
   });
-  dialog.addEventListener('close', () => { if (draft.status !== 'submitted') submit.focus({ preventScroll: true }); });
+  dialog.addEventListener('close', () => { if (draft?.status !== 'submitted') submit.focus({ preventScroll: true }); });
   element('cancel').addEventListener('click', () => dialog.close());
   element('confirm').addEventListener('click', () => { submit.disabled = true; dialog.close(); finishSubmission(); });
-  element('retry').addEventListener('click', () => { if (pending || draft.status === 'submitting') finishSubmission(); else { settle(); persist(); displayCards(); render(); } });
-  const panel = element<HTMLDetailsElement>('panel');
+  element('retry').addEventListener('click', () => { if (retryAction) { retryAction(); return; } if (pending || draft?.status === 'submitting') finishSubmission(); else { settle(); persist(); displayCards(); render(); } });
   panel.addEventListener('toggle', () => { panel.querySelector('summary')!.setAttribute('aria-expanded', String(panel.open)); text('panel-toggle', panel.open ? '收合' : '展開'); });
-  const desktopPanel = window.matchMedia('(min-width: 1100px)');
   panel.open = desktopPanel.matches;
   const summary = panel.querySelector('summary')!;
   let summaryFocused = false;
@@ -206,30 +302,47 @@ export function initDaily(): void {
       target.focus({ preventScroll: true });
     }
   });
-  element('today').addEventListener('click', () => {
-    if (!canOpenToday(draft, catalog, taipeiDate(new Date())) || readOnly) return;
+  const openNext = () => {
+    if (readOnly || opening) return;
+    opening = true;
     try {
-      assertDailyDraftCurrent(expected, subject); const date = taipeiDate(new Date()); const result = selectDailyQuestions(catalog, getAttempts(), subject, date, Math.random);
-      if (!result.selected.length) { text('today-note', '目前沒有可做的題目。題庫恢復後可再開啟今日題組。'); return; }
-      const set = saveDailySet({ date, subject, questions: result.selected.map(({ id, rev }) => ({ id, rev })) }, draft.status === 'open');
-      saveDailyDraft(createDailyDraft(set, [], false, crypto.randomUUID()), expected); location.href = `/daily/?subject=${subject}`;
-    } catch (cause) { error(cause); displayCards(); render(); }
-  });
-  const checkCurrent = () => {
-    try { assertDailyDraftCurrent(expected, subject); }
-    catch (cause) { readOnly = true; started = null; error(cause); displayCards(); render(); }
+      const today = taipeiDate(new Date());
+      const opened = openBooklet(subject, ({ store: latest, attempts }) => {
+        const picked = selectDailyQuestions(catalog, attempts, subject, today, Math.random, bookletExclusions(latest, groups));
+        return picked.selected.length ? createBooklet({ store: latest, subject, date: today, id: crypto.randomUUID(), selected: picked.selected }) : null;
+      });
+      if (opened) { location.href = currentUrl(); return; }
+      store = readBookletStore()!; clearError(); render();
+    } catch (cause) { retryAction = openNext; error(cause); displayCards(); render(); }
+    finally { opening = false; }
   };
-  window.addEventListener('storage', (event) => { if (event.key === DRAFT_KEY || event.key === null) { checkCurrent(); renderSubjectCards(); } });
-  document.addEventListener('visibilitychange', () => { settle(); if (draft.status === 'open') persist(); if (!document.hidden) { checkCurrent(); renderSubjectCards(); } displayCards(); render(); });
-  const startTimer = () => { timer = window.setInterval(() => {
-    showTime(); if (draft.status === 'submitted') {
-      const today = draft.date === taipeiDate(new Date()); element('today').hidden = today;
-      text('today-note', today ? '今日題組已交卷，明天才有新題組。' : '本份題組已交卷。可開啟今日題組。');
-    }
-  }, 1000);
-    // 保存排程與顯示排程分開；計時仍只使用草稿與目前可見區段。
+  element('open-first').addEventListener('click', openNext);
+  element('open-next').addEventListener('click', openNext);
+  const retireCurrent = () => {
+    if (!draft || !expected || readOnly) return;
+    try { retireBooklet(draft, expected); location.href = currentUrl(); }
+    catch (cause) { retryAction = retireCurrent; error(cause); }
+  };
+  element('retire-book').addEventListener('click', retireCurrent);
+  const checkCurrent = () => {
+    if (viewing || readOnly) return;
+    try {
+      if (expected && (draft?.status === 'open' || draft?.status === 'submitting')) store = assertBookletCurrent(expected);
+      else {
+        const latest = readBookletStore();
+        if (!latest || latest.current[subject] !== store.current[subject] || (expected && latest.booklets.find((b) => b.id === expected!.id)?.seq !== expected.seq)) throw new DailyConflictError();
+        store = latest;
+      }
+    } catch (cause) { readOnly = true; started = null; error(cause); displayCards(); render(); }
+  };
+  window.addEventListener('storage', (event) => { if (!viewing && (event.key === BOOKLET_KEY || event.key === null)) { checkCurrent(); render(); } });
+  document.addEventListener('visibilitychange', () => { if (viewing) return; settle(); persist(); if (!document.hidden) checkCurrent(); displayCards(); render(); });
+  const startTimer = () => {
+    timer = window.setInterval(showTime, 1000);
+    // 保存排程與顯示排程分開；只有可見的作答中題本會寫入。
     saveTimer = window.setInterval(() => { if (!document.hidden && editable()) { settle(); persist(); displayCards(); render(); } }, 15_000);
   };
-  startTimer(); window.addEventListener('pagehide', () => { settle(); persist(); window.clearInterval(timer); window.clearInterval(saveTimer); });
-  window.addEventListener('pageshow', (event) => { if (event.persisted) { checkCurrent(); started = editable() && !document.hidden ? performance.now() : null; startTimer(); } });
+  if (!viewing) startTimer();
+  window.addEventListener('pagehide', () => { if (viewing) return; settle(); persist(); window.clearInterval(timer); window.clearInterval(saveTimer); });
+  window.addEventListener('pageshow', (event) => { if (!viewing && event.persisted) { checkCurrent(); started = editable() && !document.hidden ? performance.now() : null; startTimer(); } });
 }
