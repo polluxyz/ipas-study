@@ -74,3 +74,5 @@
 - 2026-11-07：測試觀察。`demo/scripts/figures/verify.test.mjs` 有間歇逾時（`close 期間晚到的 response 仍排空並納入收尾證據`、`正確 bytes 通過 route`）。併入後前 2 次全套各 2 項失敗，單獨跑 1 次失敗 1 次通過，之後 3 次全過。題本改動沒有碰這個檔案；原因未查明。CI 若失敗要回報，不靠重跑帶過。
 - 2026-11-07：I2 問作答紀錄損壞的範圍。協調者決定：`getAttempts()` 丟錯才算損壞；單筆無效與空字串維持全站現有行為（略過、視為沒有資料）。遷移不寫作答鍵，原字串不變。
 - 2026-11-07：I1b 實測（21 本都已交卷，Chrome 156，協調者重跑）：資料量 326,501 字元；連續保存 50 次 p50 0.5 ms、p95 0.9 ms、最大 1.4 ms。低於門檻（1 MB、50 ms），維持整包存放。worker 另回報首次全套有 2 處逾時，重跑全過，與 `verify.test.mjs` 的觀察一致。
+- 2026-11-07：I4、I2 併入 `feature/daily-booklet`。協調者逐行對照 Task spec，每個 commit 只動 Ownership 內的 2 個檔案。整合後 `pnpm --dir demo test` 45 檔 1164/1164，`tsc --noEmit` 結束碼 0。
+- 2026-11-07：`demo/src/pages/wrong-book.astro:19` 的備份說明提到每日草稿與題組，第 6.4 節要改寫，所以加進 I6 的 Ownership。
