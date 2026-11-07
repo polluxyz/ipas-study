@@ -15,8 +15,8 @@
 | I3b 不重複抽題 | `demo/src/lib/daily.ts`、`demo/src/lib/daily.test.ts` | 規格第 5.1、5.2 節：4 項排除各有失敗與通過案例；實際題數等於 `min(50, F)`；代碼權重用完整題庫；官方題仍排除 | 完成（`9210497`） |
 | I4 題本純邏輯 | `demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts` | 建立題本、固定 `attemptMode` 與 `assignedQids`、失效題略過、下一本與結束判斷、第 4.4 節進度數字、第 4.5 節舊紀錄彙整；第 5.4 節程式題提示 | 完成（`9d71529`） |
 | I5 每日頁 | `demo/src/pages/daily.astro`、`demo/src/lib/daily-client.ts`、每日頁樣式 | 規格第 4.1–4.5、7 節；版面符合核可的 mockup；開頁不抽題；開頁完成兩科 `submitting`；回看只讀指定題本 | 完成（`78fd781`） |
-| I5-fix 行為修正 | `demo/src/lib/daily-client.ts`、`demo/src/pages/daily.astro`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts` | 交卷後同科還有未交卷題本時先看這本成績；不足 50 題提示寫對原因；開本與結束失敗訊息正確；沒有已交卷題本時不提回看 | 進行中 |
-| I6 文字 | `demo/src/lib/sidebar.ts`、`demo/src/lib/sidebar.test.ts`、`demo/src/pages/official/index.astro`、`demo/src/pages/quiz.astro`、`demo/src/pages/wrong-book.astro` | 規格第 4.6、6.4 節；只改顯示文字，連結不變 | 進行中 |
+| I5-fix 行為修正 | `demo/src/lib/daily-client.ts`、`demo/src/pages/daily.astro`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts` | 交卷後同科還有未交卷題本時先看這本成績；不足 50 題提示寫對原因；開本與結束失敗訊息正確；沒有已交卷題本時不提回看 | 完成（`0a420ec`） |
+| I6 文字 | `demo/src/lib/sidebar.ts`、`demo/src/lib/sidebar.test.ts`、`demo/src/pages/official/index.astro`、`demo/src/pages/quiz.astro`、`demo/src/pages/wrong-book.astro` | 規格第 4.6、6.4 節；只改顯示文字，連結不變 | 完成（`d6d7a72`） |
 | I7 更新既有瀏覽器測試 | `demo/scripts/daily-exam-smoke.mjs`、`demo/src/lib/daily-smoke.mjs`、`demo/src/lib/daily-cache.test.ts` | 原案例逐條對照後改到新鍵與新流程，不刪案例；全部通過 | 未開始 |
 | I8 新瀏覽器測試 | `demo/scripts/daily-booklet-smoke.mjs` | 規格第 10 節瀏覽器案例全部通過；截圖 3 種寬度與亮暗色放 `tmp/demo-shots/daily-booklet/` | 未開始 |
 | R1 非作者審查 | `tmp/advisor/daily-booklet-review.md` | 高中度問題清零 | 未開始 |
