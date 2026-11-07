@@ -105,6 +105,9 @@ function isDailySet(value: unknown): value is DailySet {
 function readDailySets(): DailySet[] {
   const raw = localStorage.getItem(DAILY_KEY);
   if (!raw) return [];
+  return parseDailySets(raw);
+}
+function parseDailySets(raw: string): DailySet[] {
   const value: unknown = JSON.parse(raw);
   if (!value || typeof value !== 'object' || !('version' in value) || value.version !== 1 || !('sets' in value) || !Array.isArray(value.sets) || !value.sets.every(isDailySet)) throw new Error('每日題組快取格式無法辨識，請保留現有資料並確認瀏覽器儲存狀態。');
   return value.sets;
@@ -123,7 +126,7 @@ export function saveDailySet(set: DailySet, replaceExisting = false): DailySet {
 }
 /** 清除本機學習資料時一併移除每日題組，避免保留與作答不一致的快取。 */
 export function clearStudyData(): void {
-  for (const key of [DRAFT_KEY, STORAGE_KEY, READING_KEY, DAILY_KEY]) localStorage.removeItem(key);
+  for (const key of [BOOKLET_KEY, DRAFT_KEY, STORAGE_KEY, READING_KEY, DAILY_KEY]) localStorage.removeItem(key);
 }
 
 /** 每日草稿獨立於備份；版本或內容不明時拒絕讀寫，避免蓋掉尚未交卷的答案。 */
@@ -143,11 +146,17 @@ export class DailyConflictError extends Error {
 const record = (value: unknown): value is Record<string, unknown> => Boolean(value) && typeof value === 'object';
 const nonnegative = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value) && value >= 0;
 const choiceValue = (value: unknown): value is Choice => typeof value === 'string' && ['A', 'B', 'C', 'D'].includes(value);
+const dateValue = (value: unknown): value is string => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+  Number.isFinite(Date.parse(value + 'T00:00:00Z')) && new Date(value + 'T00:00:00Z').toISOString().slice(0, 10) === value;
 export function isDailyDraft(value: unknown): value is DailyDraft {
   if (!record(value) || typeof value.id !== 'string' || !value.id || !Number.isInteger(value.seq) || Number(value.seq) < 0 ||
     ![1, 3].includes(Number(value.subject)) || typeof value.subject !== 'number' || typeof value.date !== 'string' ||
-    !/^\d{4}-\d{2}-\d{2}$/.test(value.date) || !Number.isFinite(Date.parse(value.date + 'T00:00:00Z')) || new Date(value.date + 'T00:00:00Z').toISOString().slice(0, 10) !== value.date ||
-    !['open', 'submitting', 'submitted'].includes(String(value.status)) || !Number.isInteger(value.position) ||
+    !dateValue(value.date) || !['open', 'submitting', 'submitted'].includes(String(value.status))) return false;
+  return isDraftContent(value, value.status === 'open', `daily:${value.date}:S${value.subject}`);
+}
+/** 共用題目與提交驗證，讓新題本沿用舊草稿的答案、位置與計分規則。 */
+function isDraftContent(value: Record<string, unknown>, unsubmitted: boolean, attemptMode: string): boolean {
+  if (!Number.isInteger(value.position) ||
     !Array.isArray(value.questions) || value.questions.length > 50 || Number(value.position) < 0 || Number(value.position) >= Math.max(1, value.questions.length)) return false;
   const ids = new Set<string>();
   for (const q of value.questions) {
@@ -155,10 +164,10 @@ export function isDailyDraft(value: unknown): value is DailyDraft {
       !(q.choice === null || choiceValue(q.choice)) || typeof q.unsure !== 'boolean' || !nonnegative(q.ms) || (q.unsure && q.choice === null) ||
       (q.correct !== undefined && q.correct !== null && typeof q.correct !== 'boolean') ||
       (q.legacyAttemptId !== undefined && (typeof q.legacyAttemptId !== 'string' || !q.legacyAttemptId || q.choice === null || typeof q.correct !== 'boolean'))) return false;
-    if (value.status === 'open' && !q.legacyAttemptId && q.correct !== undefined) return false;
+    if (unsubmitted && !q.legacyAttemptId && q.correct !== undefined) return false;
     ids.add(q.id);
   }
-  if (value.status === 'open') return value.submission === undefined;
+  if (unsubmitted) return value.submission === undefined;
   const submission = value.submission;
   if (!record(submission) || typeof submission.ts !== 'string' || !Number.isFinite(Date.parse(submission.ts)) ||
     submission.total !== value.questions.length || !submission.total || !Number.isInteger(submission.correct) ||
@@ -169,7 +178,7 @@ export function isDailyDraft(value: unknown): value is DailyDraft {
   const attempts: Attempt[] = submission.attempts;
   return attempts.length === added.length && new Set(attempts.map((a) => a.id)).size === added.length &&
     added.every((q) => attempts.filter((a) => a.qid === q.id && a.rev === q.rev && a.choice === q.choice && a.correct === q.correct &&
-      a.ms === q.ms && a.ts === submission.ts && a.mode === `daily:${value.date}:S${value.subject}`).length === 1);
+      a.ms === q.ms && a.ts === submission.ts && a.mode === attemptMode).length === 1);
 }
 export function getDailyDrafts(): DailyDraft[] {
   const raw = localStorage.getItem(DRAFT_KEY);
@@ -219,4 +228,147 @@ export function submitDailyDraft(draft: DailyDraft, prepared: DailyDraft): { dra
     saved = saveDailyDraft({ ...saved, status: 'submitted' }, saved);
     return { draft: saved };
   } catch (cause) { return { draft: saved, error: cause instanceof Error ? cause : new Error('交卷保存失敗。') }; }
+}
+
+/** 題本保留完整歷史；每次變更都讀最新內容，只更新通過序號比對的那一本。 */
+export const BOOKLET_KEY = 'ipas-daily-draft-v2';
+export type BookletStatus = 'open' | 'submitting' | 'submitted' | 'retired';
+export interface Booklet {
+  id: string; seq: number; subject: 1 | 3; number: number; createdDate: string;
+  attemptMode: string; origin: 'new' | 'v1-draft' | 'v1-set'; status: BookletStatus;
+  position: number; assignedQids: string[]; questions: DailyDraftQuestion[]; submission?: DailySubmission;
+}
+export interface BookletStore {
+  version: 2; migratedAt: string | null;
+  current: { '1': string | null; '3': string | null }; booklets: Booklet[];
+}
+export type BookletRef = Pick<Booklet, 'id' | 'seq' | 'subject'>;
+export class BookletStoreError extends Error {
+  constructor() { super('題本損壞或版本未知，已保留原資料並停止覆寫。'); }
+}
+export function isBooklet(value: unknown): value is Booklet {
+  if (!record(value) || typeof value.id !== 'string' || !value.id || !Number.isInteger(value.seq) || Number(value.seq) < 0 ||
+    (value.subject !== 1 && value.subject !== 3) || !Number.isInteger(value.number) || Number(value.number) < 1 ||
+    !dateValue(value.createdDate) || typeof value.origin !== 'string' || !['new', 'v1-draft', 'v1-set'].includes(value.origin) ||
+    typeof value.status !== 'string' || !['open', 'submitting', 'submitted', 'retired'].includes(value.status) || typeof value.attemptMode !== 'string' ||
+    !Array.isArray(value.assignedQids) || value.assignedQids.length < 1 || value.assignedQids.length > 50 ||
+    !value.assignedQids.every((id: unknown) => typeof id === 'string' && id.length > 0) ||
+    new Set(value.assignedQids).size !== value.assignedQids.length) return false;
+  const dailyMode = /^daily:(\d{4}-\d{2}-\d{2}):S([13])$/.exec(value.attemptMode);
+  if (value.attemptMode !== `booklet:${value.id}:S${value.subject}` &&
+    !(dailyMode && dateValue(dailyMode[1]) && Number(dailyMode[2]) === value.subject)) return false;
+  const assignedQids = value.assignedQids;
+  return isDraftContent(value, value.status === 'open' || value.status === 'retired', value.attemptMode) &&
+    (value.questions as DailyDraftQuestion[]).every((q) => assignedQids.includes(q.id));
+}
+export function isBookletStore(value: unknown): value is BookletStore {
+  if (!record(value) || value.version !== 2 ||
+    !(value.migratedAt === null || (typeof value.migratedAt === 'string' && Number.isFinite(Date.parse(value.migratedAt)))) ||
+    !record(value.current) || Array.isArray(value.current) || !Array.isArray(value.booklets) || !value.booklets.every(isBooklet)) return false;
+  const booklets: Booklet[] = value.booklets;
+  if (new Set(booklets.map((b) => b.id)).size !== booklets.length ||
+    new Set(booklets.map((b) => `${b.subject}:${b.number}`)).size !== booklets.length) return false;
+  const current = value.current;
+  return ([1, 3] as const).every((subject) => current[subject] === null ||
+    (typeof current[subject] === 'string' && booklets.some((b) => b.id === current[subject] && b.subject === subject)));
+}
+export function readBookletStore(): BookletStore | null {
+  const raw = localStorage.getItem(BOOKLET_KEY);
+  if (raw === null) return null;
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (isBookletStore(value)) return value;
+  } catch { /* 解析失敗仍保留原字串，禁止以空題本覆蓋。 */ }
+  throw new BookletStoreError();
+}
+function writeBookletStore(store: BookletStore): void {
+  if (!isBookletStore(store)) throw new BookletStoreError();
+  localStorage.setItem(BOOKLET_KEY, JSON.stringify(store));
+}
+const unfinished = (booklet: Booklet): boolean => booklet.status === 'open' || booklet.status === 'submitting';
+export function openBooklet(subject: 1 | 3, build: (ctx: { store: BookletStore; attempts: Attempt[] }) => Omit<Booklet, 'seq'> | null): Booklet | null {
+  const store = readBookletStore() ?? { version: 2, migratedAt: null, current: { '1': null, '3': null }, booklets: [] };
+  if (store.booklets.some((b) => b.subject === subject && unfinished(b))) throw new DailyConflictError();
+  // 抽題器只取得副本，避免意外改動歷史題本後被一起寫入。
+  const built = build({ store: structuredClone(store), attempts: read() });
+  if (built === null) return null;
+  const booklet = { ...built, seq: 1 };
+  if (booklet.subject !== subject || booklet.status !== 'open' || !isBooklet(booklet)) throw new BookletStoreError();
+  writeBookletStore({ ...store, booklets: [...store.booklets, booklet], current: { ...store.current, [subject]: booklet.id } });
+  return booklet;
+}
+export function assertBookletCurrent(expected: BookletRef): BookletStore {
+  const store = readBookletStore();
+  const booklet = store?.booklets.find((b) => b.id === expected.id && b.subject === expected.subject);
+  if (!store || !booklet || booklet.seq !== expected.seq || store.current[expected.subject] !== expected.id) throw new DailyConflictError();
+  return store;
+}
+function sameBookletIdentity(booklet: Booklet, original: Booklet): boolean {
+  return booklet.id === original.id && booklet.subject === original.subject && booklet.number === original.number &&
+    booklet.createdDate === original.createdDate && booklet.attemptMode === original.attemptMode && booklet.origin === original.origin &&
+    JSON.stringify(booklet.assignedQids) === JSON.stringify(original.assignedQids);
+}
+export function saveBooklet(booklet: Booklet, expected: BookletRef): Booklet {
+  const store = assertBookletCurrent(expected);
+  const original = store.booklets.find((b) => b.id === expected.id)!;
+  if (!sameBookletIdentity(booklet, original)) throw new DailyConflictError();
+  const saved = { ...booklet, seq: expected.seq + 1 };
+  if (!isBooklet(saved)) throw new BookletStoreError();
+  const booklets = store.booklets.map((b) => b.id === saved.id ? saved : b);
+  const currentId = unfinished(saved) ? saved.id :
+    (booklets.filter((b) => b.subject === saved.subject && unfinished(b)).sort((a, b) => a.number - b.number)[0]?.id ?? null);
+  writeBookletStore({ ...store, booklets, current: { ...store.current, [saved.subject]: currentId } });
+  return saved;
+}
+/** 提交內容先落盤再寫作答；中斷時回傳已保存的階段，供同一批 ID 重試。 */
+export function submitBooklet(booklet: Booklet, prepared: Booklet): { booklet: Booklet; error?: Error } {
+  let saved = booklet;
+  try {
+    if (saved.status === 'submitted') {
+      // 已交卷時 current 已移到下一本；重試只核對原題本，不再寫作答。
+      const current = readBookletStore()?.booklets.find((b) => b.id === saved.id && b.subject === saved.subject);
+      if (!current || current.seq !== saved.seq || current.status !== 'submitted') throw new DailyConflictError();
+      return { booklet: current };
+    }
+    if (saved.status === 'open') {
+      if (prepared.status !== 'submitting' || !isBooklet(prepared)) throw new BookletStoreError();
+      saved = saveBooklet(prepared, saved);
+    }
+    assertBookletCurrent(saved);
+    if (saved.status !== 'submitting' || !saved.submission || !isBooklet(saved)) throw new BookletStoreError();
+    saveAttemptBatch(saved.submission.attempts);
+    saved = saveBooklet({ ...saved, status: 'submitted' }, saved);
+    return { booklet: saved };
+  } catch (cause) { return { booklet: saved, error: cause instanceof Error ? cause : new Error('交卷保存失敗。') }; }
+}
+/** 題目是否全部失效由畫面判斷；此處只結束未交卷題本，保留答案與分配紀錄。 */
+export function retireBooklet(booklet: Booklet, expected: BookletRef): Booklet {
+  const store = assertBookletCurrent(expected);
+  if (booklet.status !== 'open' || store.booklets.find((b) => b.id === expected.id)?.status !== 'open') throw new BookletStoreError();
+  return saveBooklet({ ...booklet, status: 'retired' }, expected);
+}
+/** 遷移必須讀全部日期；與舊讀取介面分開，空字串也視為資料損壞。 */
+export function readAllDailySets(): DailySet[] {
+  const raw = localStorage.getItem(DAILY_KEY);
+  return raw === null ? [] : parseDailySets(raw);
+}
+export function bumpDailyDraftSeqs(): DailyDraft[] {
+  const drafts = getDailyDrafts();
+  if (drafts.length === 0) return drafts;
+  const bumped = drafts.map((draft) => ({ ...draft, seq: draft.seq + 1 }));
+  const raw = JSON.stringify({ version: 1, drafts: bumped });
+  localStorage.setItem(DRAFT_KEY, raw);
+  if (localStorage.getItem(DRAFT_KEY) !== raw) throw new DailyConflictError();
+  return bumped;
+}
+/** 遷移寫入後若已有合法新內容就採用，避免覆蓋另一頁剛開始的作答。 */
+export function commitMigratedBookletStore(store: BookletStore): 'written' | 'adopted' {
+  writeBookletStore(store);
+  const raw = localStorage.getItem(BOOKLET_KEY);
+  if (raw === JSON.stringify(store)) return 'written';
+  try {
+    if (raw !== null && isBookletStore(JSON.parse(raw))) return 'adopted';
+  } catch { /* 讀回不合法才撤回新鍵，舊鍵仍可供下次遷移。 */ }
+  localStorage.removeItem(BOOKLET_KEY);
+  throw new BookletStoreError();
 }
