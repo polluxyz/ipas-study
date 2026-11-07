@@ -15,7 +15,7 @@ const titles = Object.fromEntries(concepts.map((c) => [c.data.id, c.data.title])
 const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
 ---
 <StudyPage title="用幾道題，確認你真的懂了。" section="單元小測驗">
-  <p><a class="text-link" href="/daily/">每日 50 題：只練未做的新題 →</a></p>
+  <p><a class="text-link" href="/daily/">每日題本：只練未做的新題 →</a></p>
   <form id="quiz-filters" class="quiz-filters" action="/quiz/" method="get" aria-label="測驗篩選" aria-describedby="quiz-filter-help">
     <fieldset>
       <legend>選擇練習範圍</legend>
