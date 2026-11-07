@@ -62,5 +62,7 @@
 - 2026-11-07：R0 審查：高 4、中 7、低 1（`tmp/advisor/daily-booklet-spec-review.md`）。全部修進規格 v2。協調者另外決定：遷移不換官方題也不補題，所以遷移不抽題；新增 `retired` 狀態與「結束這本」；新增 `assignedQids`；保存門檻 1 MB、50 ms 是工程判斷，I1 實測後可回報調整。
 - 2026-11-07：下列 3 項是寫規格時新增，advisor 未審，交 R0 審查：第 1 次開題本要按按鈕、同題群組、遷移時把第 1 版草稿 `seq` 加 1。
 - 2026-11-07：R0 複查 v2（`tmp/advisor/daily-booklet-spec-review-v2.md`）：12 項中 9 項解決，H2、H4、M7 部分解決。修法：H2 遷移全程持有 Web Locks 獨占鎖 `ipas-daily-migration`；H4 清單與 `open` 草稿的未答題都排除已作答群組，草稿同群組未答題去重，已選答案的題保留並列為成功條件 4 的唯一例外；M7 舊紀錄改看題本目前的 `questions`，`assignedQids` 只供抽題排除。
+- 2026-11-07：R0 第 3 輪（`tmp/advisor/daily-booklet-spec-review-v3.md`）：H2、H4 解決，M7 部分解決（高 0、中 1）。變體：`open` 草稿已選答案時，同模式匯入的舊作答被判定已呈現。協調者改成核對題本實際引用的作答 ID（`legacyAttemptId`、`submission.attempts`），並把複查的情境寫進測試。這個小修改沒有再派複查，由實作測試與 R1 驗證。
 - 2026-11-07：Web Locks 實測（Chrome 156，`http://127.0.0.1`，`tmp/daily-verify/booklet/locks-check.mjs`）：`isSecureContext` 為 true；第 2 頁等鎖 499 ms；逾時得 `TimeoutError`；關頁自動放鎖；放鎖後立刻讀 200 次，舊值 0 次。未確認這 2 頁是否在不同的瀏覽器程序。
 - 2026-11-07：M1 第 1 版違反已核可規則（選單列滿 1–50、圖例缺橙色），M1 Task spec 未明寫，由協調者檢查時發現並退回修正。
+- 2026-11-07：M1 修正版 `f671540` 通過協調者檢查。差異只有 mockup 頁與樣式。協調者親看作答、交卷後、沒有題本與 6 畫面總覽：選單只列已答題加 1 題，交卷前圖例 3 項，交卷後圖例 4 項，按鈕位置符合規則。互動、間距數字與測試結果是 worker 回報，協調者只核對報告，沒有重跑。

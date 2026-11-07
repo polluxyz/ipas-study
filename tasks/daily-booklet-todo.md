@@ -5,9 +5,9 @@
 | 任務 | Ownership | 驗收條件 | 狀態 |
 |---|---|---|---|
 | D0 文件 | `docs/specs/daily-booklet.md`、`docs/specs/daily-exam-mode.md`、`docs/specs/question-bank-expansion.md`、`tasks/daily-booklet-*`、`docs/handoff.md` | 使用者核可；CI 全綠並合併 | 完成（#188） |
-| R0 規格審查 | `tmp/advisor/daily-booklet-spec-review.md` | 每項意見附 `檔案:行號`；協調者處理完高中度問題 | 複查中 |
-| M1 版面 mockup | 分支 `polluxyz/daily-booklet-mockup` 的 `demo/src/pages/dev/`、`demo/src/styles/`；截圖放 `tmp/demo-shots/daily-booklet-mockup/` | 涵蓋規格第 8 節 6 個畫面；1440、390、320 寬度；亮暗色；不接真資料；不合併 | 進行中 |
-| U1 使用者看 mockup | 使用者 | 使用者回覆核可或修改意見 | 未開始 |
+| R0 規格審查 | `tmp/advisor/daily-booklet-spec-review.md` | 每項意見附 `檔案:行號`；協調者處理完高中度問題 | 完成（3 輪；第 3 輪高 0、中 1，已修進規格） |
+| M1 版面 mockup | 分支 `polluxyz/daily-booklet-mockup` 的 `demo/src/pages/dev/`、`demo/src/styles/`；截圖放 `tmp/demo-shots/daily-booklet-mockup/` | 涵蓋規格第 8 節 6 個畫面；1440、390、320 寬度；亮暗色；不接真資料；不合併 | 完成（`f671540`，只在本機分支，協調者已看截圖） |
+| U1 使用者看 mockup | 使用者 | 使用者回覆核可或修改意見 | 等使用者回覆 |
 | I1 題本儲存 | `demo/src/lib/attempts.ts`、`demo/src/lib/booklet-store.test.ts` | 規格第 6.2、6.4 節：新鍵讀寫、驗證器、衝突檢查、重新讀後合併寫入、`retired`、交卷寫入與重試、清除；21 本的實測數字對照第 10 節門檻 | 未開始 |
 | I2 遷移 | `demo/src/lib/booklet-migration.ts`、`demo/src/lib/booklet-migration.test.ts` | 規格第 6.3 節每一列與第 10 節遷移來源、遷移交錯都有測試；4 種失敗下舊鍵除草稿 `seq` 外不變；舊 `Attempt` 逐筆不變 | 未開始 |
 | I3 不重複抽題 | `demo/src/lib/daily.ts`、`demo/src/lib/daily.test.ts`、`content/question-duplicates.yaml`、新增的題庫掃描測試 | 規格第 5.1–5.3 節：4 項排除各有失敗與通過案例；實際題數等於 `min(50, F)`；代碼權重用完整題庫；未列入群組或 `distinct` 的配對會讓測試失敗；官方題仍排除 | 未開始 |
