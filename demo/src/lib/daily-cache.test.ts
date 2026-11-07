@@ -1,4 +1,4 @@
-/** 每日快取獨立於作答備份，清除資料會同步移除快取。 */
+/** 驗證第 1 版清單的相容讀寫；新題本流程見 booklet-store.test.ts。 */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { clearStudyData, exportAttempts, getAttempts, getDailySet, getReadings, saveAttempt, saveDailySet, setConceptRead, type DailySet } from './attempts';
 const set: DailySet = { date: '2026-11-05', subject: 1, questions: [{ id: 'q2', rev: 1 }, { id: 'q1', rev: 2 }] };
@@ -24,8 +24,16 @@ describe('每日快取儲存', () => {
     expect(localStorage.getItem('ipas-attempts-v1')).toContain('daily:2026-11-05:S1');
   });
   it('清除資料同時清除作答、閱讀與快取，不碰其他網站資料', () => {
-    saveDailySet(set); setConceptRead('data-leakage', true); localStorage.setItem('unrelated', 'keep');
+    saveDailySet(set); setConceptRead('data-leakage', true);
+    saveAttempt({ qid: 'q1', rev: 2, choice: 'A', correct: false, ts: '2026-11-05T00:00:00Z', mode: 'question', ms: 5 });
+    // 草稿只需存在即可驗證清除，避免空鍵讓斷言無條件通過。
+    localStorage.setItem('ipas-daily-draft-v2', '{"version":2}');
+    localStorage.setItem('ipas-daily-draft-v1', '{"version":1}');
+    localStorage.setItem('unrelated', 'keep');
+    const keys = ['ipas-daily-draft-v2', 'ipas-daily-draft-v1', 'ipas-daily-v1', 'ipas-attempts-v1', 'ipas-reading-v1'];
+    for (const key of keys) expect(localStorage.getItem(key)).not.toBeNull();
     clearStudyData();
+    for (const key of keys) expect(localStorage.getItem(key)).toBeNull();
     expect(getDailySet(set.date, 1)).toBeUndefined(); expect(getAttempts()).toEqual([]); expect(getReadings()).toEqual([]); expect(localStorage.getItem('unrelated')).toBe('keep');
   });
   it('拒絕重複 ID 與無效 rev，快取損壞時不暗中換題', () => {
