@@ -253,7 +253,7 @@ interface Booklet {
 題本失效規則：
 
 - 題目失效時，從 `questions` 略過，`assignedQids` 不變，所以恢復後也不會再抽到。該題已有的作答依第 4.5 節列入舊紀錄。
-- `questions` 為空或全部失效時，不能交卷。使用者按「結束這本」後，狀態改成 `retired`，該科 `current` 改成 `null`，保留原資料，不寫 `Attempt`。
+- `questions` 為空或全部失效時，不能交卷。使用者按「結束這本」後，狀態改成 `retired`，該科 `current` 改成同科下一本未交卷題本，沒有才是 `null`，保留原資料，不寫 `Attempt`。
 - `retired` 題本留在清單，標「已結束」，不計入進度。按鈕只在這個情況出現，不是「放棄題本」。
 
 ### 6.3 從第 1 版遷移
