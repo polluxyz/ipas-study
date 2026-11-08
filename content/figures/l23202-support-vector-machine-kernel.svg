@@ -1,1 +1,86 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 390" role="img" aria-labelledby="title desc"><title id="title">核方法示意流程</title><desc id="desc">製造例子的兩個瑕疵區域不宜強迫用原座標的一條直線表示；這是示意圖，非已擬合的模型邊界。</desc><rect width="360" height="390" fill="#fff"/><g fill="#172c43" font-family="Arial,Microsoft JhengHei,sans-serif"><text x="15" y="28" font-size="17" >非線性關係用核函數比較</text><rect x="20" y="52" width="320" height="66" rx="8" fill="#eaf2fa" stroke="#172c43"/><text x="180" y="90" font-size="14" text-anchor="middle">原座標：低壓力 或 高振動 → 瑕疵</text><line x1="180" y1="118" x2="180" y2="158" stroke="#172c43" /><rect x="20" y="158" width="320" height="66" rx="8" fill="#eaf2fa" stroke="#172c43"/><text x="180" y="196" font-size="14" text-anchor="middle">RBF：依點與點的距離算相似度</text><line x1="180" y1="224" x2="180" y2="264" stroke="#172c43" /><rect x="20" y="264" width="320" height="66" rx="8" fill="#eaf2fa" stroke="#172c43"/><text x="180" y="302" font-size="14" text-anchor="middle">隱含特徵空間：尋找分類超平面</text><text x="28" y="355" font-size="14" >核方法不保證任意資料都能完美分開</text><text x="12" y="380" font-size="11" >示意圖；非擬合結果</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="title desc">
+  <title id="title">核方法：加上新特徵後，資料就能用直線分開</title>
+  <desc id="desc">左圖是一條從負3到3的數線。藍圓點位於負3、負2、2、3，橘三角形位於負1、負0.5、0、0.5、1。任何一個切點都無法把兩類分開。右圖保留相同的x，新增縱座標x平方。同一批9個點落在拋物線上，橘三角形的高度最多為1，藍圓點的高度至少為4，因此高度2.5的一條水平直線就能分開兩類。核函數可直接計算新空間的相似度，不必列出新座標。本圖使用教學合成資料。</desc>
+  <rect width="720" height="410" fill="#fff"/>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0 0 8 4 0 8Z" fill="#172c43"/>
+    </marker>
+  </defs>
+  <g font-family="Arial,Microsoft JhengHei,sans-serif" fill="#172c43">
+    <text x="26" y="32" font-size="20" font-weight="700">核方法：加上新特徵，讓兩類可以用直線分開</text>
+    <g font-size="14">
+      <circle cx="34" cy="58" r="5.5" fill="#2463a6"/>
+      <text x="48" y="63">藍圓點</text>
+      <path d="M139 51 133 61.5 145 61.5Z" fill="#ac4200"/>
+      <text x="154" y="63">橘三角形</text>
+      <text x="414" y="63">左右是同一批9個點</text>
+    </g>
+    <text x="26" y="101" font-size="17" font-weight="700">原本：一條數線</text>
+    <text x="414" y="101" font-size="17" font-weight="700">加上 x² 之後：二維平面</text>
+
+    <!-- 左圖：螢幕橫座標 = 156 + 36x；所有點在同一條數線。 -->
+    <line x1="32" y1="250" x2="283" y2="250" stroke="#172c43" stroke-width="1.4"/>
+    <g stroke="#172c43">
+      <path d="M48 259V265 M84 259V265 M120 259V265 M156 259V265 M192 259V265 M228 259V265 M264 259V265"/>
+    </g>
+    <g text-anchor="middle" font-size="12">
+      <text x="48" y="282">−3</text><text x="84" y="282">−2</text>
+      <text x="120" y="282">−1</text><text x="156" y="282">0</text>
+      <text x="192" y="282">1</text><text x="228" y="282">2</text><text x="264" y="282">3</text>
+    </g>
+    <text x="290" y="255" font-size="14">x</text>
+    <g fill="#2463a6">
+      <circle cx="48" cy="250" r="5.5"/><circle cx="84" cy="250" r="5.5"/>
+      <circle cx="228" cy="250" r="5.5"/><circle cx="264" cy="250" r="5.5"/>
+    </g>
+    <g fill="#ac4200">
+      <path d="M120 243 114 253.5 126 253.5Z"/>
+      <path d="M138 243 132 253.5 144 253.5Z"/>
+      <path d="M156 243 150 253.5 162 253.5Z"/>
+      <path d="M174 243 168 253.5 180 253.5Z"/>
+      <path d="M192 243 186 253.5 198 253.5Z"/>
+    </g>
+    <text x="156" y="315" text-anchor="middle" font-size="16">任何一個切點都分不開</text>
+    <g text-anchor="middle" font-size="15">
+      <text x="344" y="177">加一個特徵：</text>
+      <text x="344" y="200" font-size="19" font-weight="700">x²</text>
+    </g>
+    <line x1="312" y1="222" x2="375" y2="222" stroke="#172c43" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- 右圖：螢幕橫座標 = 552 + 36x；縱座標 = 300 − 20x²。
+         三角形以重心標示資料點，保持與左圖相同的9個x值。 -->
+    <g stroke="#172c43" stroke-width="1.1" fill="none">
+      <path d="M424 114V300H682"/>
+      <path d="M418 120H424 M418 220H424 M418 280H424 M418 300H424"/>
+      <path d="M444 309V315 M480 309V315 M516 309V315 M552 309V315 M588 309V315 M624 309V315 M660 309V315"/>
+    </g>
+    <g font-size="12" text-anchor="end">
+      <text x="410" y="124">9</text><text x="410" y="224">4</text>
+      <text x="410" y="284">1</text><text x="410" y="304">0</text>
+    </g>
+    <text x="399" y="147" font-size="14">x²</text>
+    <text x="688" y="305" font-size="14">x</text>
+    <g font-size="12" text-anchor="middle">
+      <text x="444" y="332">−3</text><text x="480" y="332">−2</text>
+      <text x="516" y="332">−1</text><text x="552" y="332">0</text>
+      <text x="588" y="332">1</text><text x="624" y="332">2</text><text x="660" y="332">3</text>
+    </g>
+    <path d="M444 120Q552 480 660 120" fill="none" stroke="#e0eaf4" stroke-width="3"/>
+    <line x1="434" y1="250" x2="672" y2="250" stroke="#172c43" stroke-width="2"/>
+    <text x="552" y="242" text-anchor="middle" font-size="14">一條直線就分開了</text>
+    <g fill="#2463a6">
+      <circle cx="444" cy="120" r="5.5"/><circle cx="480" cy="220" r="5.5"/>
+      <circle cx="624" cy="220" r="5.5"/><circle cx="660" cy="120" r="5.5"/>
+    </g>
+    <g fill="#ac4200">
+      <path d="M516 273 510 283.5 522 283.5Z"/>
+      <path d="M534 288 528 298.5 540 298.5Z"/>
+      <path d="M552 293 546 303.5 558 303.5Z"/>
+      <path d="M570 288 564 298.5 576 298.5Z"/>
+      <path d="M588 273 582 283.5 594 283.5Z"/>
+    </g>
+    <text x="26" y="370" font-size="13">核函數直接算相似度，效果等同在新空間找直線，不必列出新座標。</text>
+    <text x="26" y="396" font-size="13">資料：教學合成</text>
+  </g>
+</svg>

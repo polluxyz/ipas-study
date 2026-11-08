@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 552" role="img" aria-labelledby="title desc">
+  <title id="title">軟間隔：C 小保留寬道路，C 大更在意訓練違規</title>
+  <desc id="desc">左右使用相同範圍、相同位置的 7 個藍圓點與 8 個橘三角形。多數藍點在左、多數橘點在右，只有 1 個橘點混進藍群附近。左圖 C 小，道路寬，黑圈橘點落在道路內且被分到藍側，容許少數違規。右圖 C 大，道路變窄，分類邊界向離群點偏斜，示意所有訓練點分對，但可能過擬合。淡色區是道路，實線是分類邊界，虛線是道路邊緣。這是教學示意，不是模型擬合結果。資料：教學合成。</desc>
+  <rect width="720" height="552" fill="#fff"/>
+  <g font-family="Arial,Microsoft JhengHei,sans-serif" fill="#172c43">
+    <text x="360" y="31" font-size="22" font-weight="700" text-anchor="middle">C 決定多在意訓練點的違規</text>
+    <text x="360" y="59" font-size="15" text-anchor="middle">兩圖的點位與範圍相同，只改參數 C</text>
+
+    <g font-size="14">
+      <circle cx="32" cy="91" r="6" fill="#2463a6"/>
+      <text x="46" y="96">藍類</text>
+      <path d="M109 84 L116 97 H102 Z" fill="#ac4200"/>
+      <text x="124" y="96">橘類</text>
+      <path d="M174 91 H205" stroke="#172c43" stroke-width="2.5"/>
+      <text x="213" y="96">分類邊界</text>
+      <path d="M285 91 H316" stroke="#172c43" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <text x="324" y="96">道路邊緣</text>
+      <circle cx="409" cy="91" r="9" stroke="#172c43" stroke-width="2" fill="none"/>
+      <text x="426" y="96">違規點（分錯或進入道路）</text>
+    </g>
+
+    <text x="180" y="136" font-size="20" font-weight="700" text-anchor="middle">C 小：道路較寬</text>
+    <text x="540" y="136" font-size="20" font-weight="700" text-anchor="middle">C 大：道路較窄</text>
+
+    <!-- 兩圖共用點位與 296 × 260 的範圍，僅更換道路與分類邊界。 -->
+    <g transform="translate(32 156)">
+      <rect width="296" height="260" fill="#fff" stroke="#172c43" stroke-opacity="0.3"/>
+      <path d="M108 0 H188 V260 H108 Z" fill="#eaf1f8"/>
+      <path d="M108 0 V260 M188 0 V260" fill="none" stroke="#172c43" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <path d="M148 0 V260" stroke="#172c43" stroke-width="2.5"/>
+      <g fill="#2463a6">
+        <circle cx="45" cy="55" r="6"/>
+        <circle cx="70" cy="90" r="6"/>
+        <circle cx="44" cy="125" r="6"/>
+        <circle cx="88" cy="140" r="6"/>
+        <circle cx="60" cy="181" r="6"/>
+        <circle cx="93" cy="213" r="6"/>
+        <circle cx="31" cy="210" r="6"/>
+      </g>
+      <g fill="#ac4200">
+        <path d="M128 43 L135 56 H121 Z"/>
+        <path d="M218 38 L225 51 H211 Z"/>
+        <path d="M246 74 L253 87 H239 Z"/>
+        <path d="M206 98 L213 111 H199 Z"/>
+        <path d="M239 129 L246 142 H232 Z"/>
+        <path d="M220 168 L227 181 H213 Z"/>
+        <path d="M245 207 L252 220 H238 Z"/>
+        <path d="M210 199 L217 212 H203 Z"/>
+      </g>
+      <circle cx="128" cy="50" r="13" stroke="#172c43" stroke-width="2" fill="none"/>
+    </g>
+
+    <g transform="translate(392 156)">
+      <rect width="296" height="260" fill="#fff" stroke="#172c43" stroke-opacity="0.3"/>
+      <path d="M67 0 H93 L197 260 H171 Z" fill="#eaf1f8"/>
+      <path d="M67 0 L171 260 M93 0 L197 260" fill="none" stroke="#172c43" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <path d="M80 0 L184 260" stroke="#172c43" stroke-width="2.5"/>
+      <g fill="#2463a6">
+        <circle cx="45" cy="55" r="6"/>
+        <circle cx="70" cy="90" r="6"/>
+        <circle cx="44" cy="125" r="6"/>
+        <circle cx="88" cy="140" r="6"/>
+        <circle cx="60" cy="181" r="6"/>
+        <circle cx="93" cy="213" r="6"/>
+        <circle cx="31" cy="210" r="6"/>
+      </g>
+      <g fill="#ac4200">
+        <path d="M128 43 L135 56 H121 Z"/>
+        <path d="M218 38 L225 51 H211 Z"/>
+        <path d="M246 74 L253 87 H239 Z"/>
+        <path d="M206 98 L213 111 H199 Z"/>
+        <path d="M239 129 L246 142 H232 Z"/>
+        <path d="M220 168 L227 181 H213 Z"/>
+        <path d="M245 207 L252 220 H238 Z"/>
+        <path d="M210 199 L217 212 H203 Z"/>
+      </g>
+    </g>
+
+    <text x="180" y="451" font-size="18" font-weight="700" text-anchor="middle">容許少數違規</text>
+    <text x="180" y="478" font-size="16" text-anchor="middle">邊界較平滑</text>
+    <text x="540" y="451" font-size="18" font-weight="700" text-anchor="middle">盡量不分錯訓練點</text>
+    <text x="540" y="478" font-size="16" text-anchor="middle">可能過擬合：太遷就訓練點</text>
+    <text x="360" y="513" font-size="13" text-anchor="middle">示意圖：道路寬度與偏斜方向用來表達取捨</text>
+    <text x="360" y="539" font-size="13" text-anchor="middle">資料：教學合成</text>
+  </g>
+</svg>
