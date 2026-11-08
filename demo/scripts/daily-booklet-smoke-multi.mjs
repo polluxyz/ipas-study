@@ -313,9 +313,139 @@ export async function runDailyBookletMultiSmoke() {
       assert.equal((await attempts(page)).length, 50);
       Object.assign(actual, { unsubmittedAttempts: 0, unsubmittedWrongRows: 0, submittedAttempts: 50, submittedWrongRows: 1, submittedCorrect: 49 });
     });
+    // 兩科各自恢復提交，故障題本的固定作答 ID 必須完整保留。
+    const recoveryFixture = (bothSubmitting = false) => {
+      const data = emptyStore();
+      for (const subject of [1, 3]) {
+        const id = `recovery-S${subject}`;
+        const mode = `booklet:${id}:S${subject}`;
+        const submitting = subject === 3 || bothSubmitting;
+        const questions = catalog.filter((q) => q.subject === subject && q.source === 'mock' && q.review.status === 'verified').slice(0, 2)
+          .map((q) => ({ id: q.id, rev: q.rev, choice: submitting ? answerMap.get(q.id) : null, unsure: false, ms: 1000, ...(submitting ? { correct: true } : {}) }));
+        assert.equal(questions.length, 2);
+        const batch = submitting ? questions.map((q, index) => ({ id: `recovery-S${subject}-${index}`, qid: q.id, rev: q.rev, choice: q.choice, correct: true, ts: INSTANT, mode, ms: q.ms })) : [];
+        data.current[subject] = id;
+        data.booklets.push({ id, seq: 7, subject, number: 1, createdDate: DATE, attemptMode: mode, origin: 'new', status: submitting ? 'submitting' : 'open', position: 0, assignedQids: questions.map((q) => q.id), questions,
+          ...(submitting ? { submission: { ts: INSTANT, attempts: batch, total: 2, correct: 2 } } : {}) });
+      }
+      return data;
+    };
+    const recoveryShot = async (page, name) => {
+      for (const width of [1440, 320]) {
+        await page.setViewportSize({ width, height: 1000 });
+        const path = resolve(output, `${name}-${width}.png`);
+        await page.screenshot({ path, fullPage: true }); report.screenshots.push(path);
+      }
+    };
+    const recoveryDaily = async (page, subject) => {
+      await page.goto(BASE + '/daily/?subject=' + subject);
+      await waitFor(page, () => !document.querySelector('#daily-practice').hidden || !document.querySelector('#daily-save-error').hidden);
+    };
+
+    await run(12, '他科恢復失敗仍可保存本科', async (ctx, actual) => {
+      const data = recoveryFixture(); const original = JSON.stringify(data); const failed = JSON.stringify(data.booklets[1]);
+      const invalid = '{"version":99,"attempts":[]}';
+      const page = await seed(ctx, { [BOOKLET]: original, [ATTEMPTS]: invalid });
+      await recoveryDaily(page, 1);
+      assert.equal(await page.locator('#daily-practice:visible').count(), 1, '科目 3 恢復失敗不可阻擋科目 1');
+      assert.equal(await raw(page), original, '開頁不改失敗題本或本科');
+      assert.equal(await page.locator('#daily-save-error:visible').count(), 0);
+      await choose(page, 'B');
+      const saved = await store(page);
+      assert.equal(saved.booklets[0].questions[0].choice, 'B'); assert.ok(saved.booklets[0].seq > data.booklets[0].seq);
+      assert.equal(JSON.stringify(saved.booklets[1]), failed); assert.equal(await raw(page, ATTEMPTS), invalid);
+      await recoveryShot(page, 'recovery-other-subject');
+      Object.assign(actual, { savedSubject: 1, savedAnswers: 1, failedSubject: 3, failedBookletUnchanged: true, attemptsRawUnchanged: true });
+    });
+
+    await run(13, '本科恢復失敗顯示錯誤與重試', async (ctx, actual) => {
+      const data = recoveryFixture(); const original = JSON.stringify(data); const invalid = '{"version":99,"attempts":[]}';
+      const page = await seed(ctx, { [BOOKLET]: original, [ATTEMPTS]: invalid });
+      await recoveryDaily(page, 3);
+      assert.equal(await page.locator('#daily-save-error:visible').count(), 1);
+      assert.ok((await page.locator('#daily-error-message').innerText()).length > 0);
+      assert.equal(await page.locator('#daily-status').innerText(), '交卷尚未完成，請重試。');
+      assert.equal(await page.locator('#daily-retry:visible').count(), 1);
+      assert.equal(await raw(page), original); assert.equal(await raw(page, ATTEMPTS), invalid);
+      await page.locator('#daily-retry').click();
+      await page.locator('#daily-save-error:visible').waitFor();
+      assert.equal(await raw(page), original); assert.equal(await raw(page, ATTEMPTS), invalid);
+      await recoveryShot(page, 'recovery-current-subject');
+      Object.assign(actual, { failedSubject: 3, retryButtons: 1, retryPreservedBooklet: true, attemptsRawUnchanged: true });
+    });
+
+    await run(14, '他科恢復寫入失敗後重開去重', async (ctx, actual) => {
+      const data = recoveryFixture(); const original = JSON.stringify(data); const failed = JSON.stringify(data.booklets[1]);
+      const initialAttempts = '{"version":1,"attempts":[]}';
+      const page = await seed(ctx, { [BOOKLET]: original, [ATTEMPTS]: initialAttempts });
+      await page.addInitScript(({ key, flag }) => {
+        const originalSetItem = Storage.prototype.setItem;
+        Storage.prototype.setItem = function (name, value) {
+          if (this === localStorage && name === key && localStorage.getItem(flag) !== 'disabled') throw new DOMException('科目 3 恢復寫入容量不足', 'QuotaExceededError');
+          return originalSetItem.call(this, name, value);
+        };
+      }, { key: ATTEMPTS, flag: 'test-recovery-quota' });
+      await recoveryDaily(page, 1);
+      assert.equal(await page.locator('#daily-practice:visible').count(), 1);
+      assert.equal(await page.locator('#daily-save-error:visible').count(), 0);
+      assert.equal(await raw(page), original);
+      await choose(page, 'C');
+      assert.equal((await store(page)).booklets[0].questions[0].choice, 'C');
+      assert.equal(JSON.stringify((await store(page)).booklets[1]), failed);
+      assert.equal(await raw(page, ATTEMPTS), initialAttempts);
+      await page.evaluate(() => localStorage.setItem('test-recovery-quota', 'disabled'));
+      await page.reload(); await page.locator('#daily-practice:visible').waitFor();
+      assert.equal((await store(page)).booklets[1].status, 'submitted');
+      await daily(page, '?subject=3');
+      await page.locator('#daily-submitted:visible').waitFor();
+      const restored = await store(page); const saved = await attempts(page);
+      assert.equal(restored.booklets[0].questions[0].choice, 'C'); assert.equal(restored.booklets[1].status, 'submitted'); assert.equal(restored.current[3], null);
+      assert.deepEqual(restored.booklets[1].submission, data.booklets[1].submission);
+      assert.deepEqual(saved, data.booklets[1].submission.attempts); assert.equal(new Set(saved.map((a) => a.id)).size, 2);
+      const completed = await raw(page); const savedRaw = await raw(page, ATTEMPTS);
+      await page.reload(); await page.locator('#daily-submitted:visible').waitFor();
+      assert.equal(await raw(page), completed); assert.equal(await raw(page, ATTEMPTS), savedRaw);
+      Object.assign(actual, { failedSubject: 3, savedSubject: 1, failedBookletUnchanged: true, attemptsBeforeRetry: 0, attemptsAfterRetry: 2, uniqueAttemptIds: 2, duplicateAttempts: 0 });
+    });
+
+    await run(15, '兩科提交中皆恢復且不重複作答', async (ctx, actual) => {
+      const data = recoveryFixture(true);
+      const page = await seed(ctx, { [BOOKLET]: data, [ATTEMPTS]: { version: 1, attempts: [] } });
+      await daily(page, '?subject=1');
+      await page.locator('#daily-submitted:visible').waitFor();
+      const restored = await store(page); const saved = await attempts(page);
+      assert.deepEqual(restored.booklets.map((b) => b.status), ['submitted', 'submitted']);
+      assert.deepEqual(restored.current, { '1': null, '3': null });
+      for (const [index, b] of restored.booklets.entries()) assert.deepEqual(b.submission, data.booklets[index].submission);
+      assert.deepEqual(saved, data.booklets.flatMap((b) => b.submission.attempts)); assert.equal(new Set(saved.map((a) => a.id)).size, 4);
+      const completed = await raw(page); const savedRaw = await raw(page, ATTEMPTS);
+      await daily(page, '?subject=3'); await page.locator('#daily-submitted:visible').waitFor();
+      assert.equal(await raw(page), completed); assert.equal(await raw(page, ATTEMPTS), savedRaw);
+      Object.assign(actual, { submittedSubjects: [1, 3], attempts: 4, uniqueAttemptIds: 4, duplicateAttempts: 0 });
+    });
+    await run(16, '先恢復本科失敗仍完成他科', async (ctx, actual) => {
+      const data = recoveryFixture(true); const failed = JSON.stringify(data.booklets[0]);
+      const page = await seed(ctx, { [BOOKLET]: data, [ATTEMPTS]: { version: 1, attempts: [] } });
+      await page.addInitScript((key) => {
+        const originalSetItem = Storage.prototype.setItem;
+        Storage.prototype.setItem = function (name, value) {
+          if (this === localStorage && name === key && JSON.parse(value).attempts.some((a) => a.mode === 'booklet:recovery-S1:S1')) throw new DOMException('科目 1 恢復寫入容量不足', 'QuotaExceededError');
+          return originalSetItem.call(this, name, value);
+        };
+      }, ATTEMPTS);
+      await recoveryDaily(page, 1);
+      assert.equal(await page.locator('#daily-save-error:visible').count(), 1);
+      assert.equal(await page.locator('#daily-retry:visible').count(), 1);
+      const restored = await store(page);
+      assert.equal(JSON.stringify(restored.booklets[0]), failed);
+      assert.equal(restored.booklets[1].status, 'submitted'); assert.equal(restored.current[3], null);
+      assert.deepEqual(restored.booklets[1].submission, data.booklets[1].submission);
+      assert.deepEqual(await attempts(page), data.booklets[1].submission.attempts);
+      Object.assign(actual, { failedSubject: 1, submittedSubject: 3, failedBookletUnchanged: true, attempts: 2, duplicateAttempts: 0 });
+    });
     report.passed = report.cases.filter((item) => item.success).length;
     report.failed = report.cases.filter((item) => !item.success).length;
-    report.exitCode = report.passed === 11 && report.errors.length === 0 ? 0 : 1;
+    report.exitCode = report.passed === 16 && report.errors.length === 0 ? 0 : 1;
   } catch (error) { report.fatal = String(error.stack ?? error); }
   finally {
     if (browser) await browser.close();
@@ -328,6 +458,6 @@ export async function runDailyBookletMultiSmoke() {
 
 // 匯入只取得函式，讓協調者能組合其他驗收而不意外啟動服務或瀏覽器。
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  runDailyBookletMultiSmoke().then((report) => { console.log(`report: ${resolve(report.output, 'report.json')}; passed=${report.passed ?? 0}/11; browserErrors=${report.browserErrors}; exitCode=${report.exitCode}`); process.exitCode = report.exitCode; })
+  runDailyBookletMultiSmoke().then((report) => { console.log(`report: ${resolve(report.output, 'report.json')}; passed=${report.passed ?? 0}/16; browserErrors=${report.browserErrors}; exitCode=${report.exitCode}`); process.exitCode = report.exitCode; })
     .catch((error) => { console.error(error); process.exitCode = 1; });
 }

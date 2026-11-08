@@ -217,11 +217,14 @@ export async function initDaily(): Promise<void> {
     } catch (cause) { error(cause); displayCards(); render(); }
   };
   const recoverSubmissions = () => {
+    const results = new Map<DailySubject, ReturnType<typeof submitBooklet>>();
+    // 各科獨立恢復，讓一科寫入失敗時仍能完成另一科並接續作答。
     for (const b of store.booklets.filter((item) => item.status === 'submitting')) {
       const result = submitBooklet(b, b);
-      if (result.error) throw result.error;
+      results.set(b.subject, result);
     }
     store = readBookletStore()!;
+    return results;
   };
   const panel = element<HTMLDetailsElement>('panel');
   const desktopPanel = window.matchMedia('(min-width: 1100px)');
@@ -239,8 +242,8 @@ export async function initDaily(): Promise<void> {
       const outcome = await ensureBookletStore({ catalog, groups, now: () => new Date(), locks: navigator.locks });
       if (outcome.status === 'error') { text('status', outcome.message); return; }
       store = outcome.store;
-      try { recoverSubmissions(); }
-      catch (cause) { error(cause); text('status', '交卷尚未完成，請重試。'); element('retry').addEventListener('click', () => location.reload()); return; }
+      const recoveryError = recoverSubmissions().get(subject)?.error;
+      if (recoveryError) { error(recoveryError); text('status', '交卷尚未完成，請重試。'); element('retry').addEventListener('click', () => location.reload()); return; }
       let skipped = 0;
       for (const target of [1, 3] as const) {
         const b = store.booklets.find((item) => item.id === store.current[target]);
