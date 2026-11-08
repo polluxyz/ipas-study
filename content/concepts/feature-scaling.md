@@ -5,7 +5,7 @@ kind: technique
 codes: [L23301, L21301]
 aliases: [Feature Scaling, Min-Max Scaling, "Min-Max、Z-score 與 Robust Scaling", MinMaxScaler, Normalization, RobustScaler, StandardScaler, Standardization, Z-score 標準化]
 requires: [descriptive-statistics, train-val-test-split]
-summary: 以訓練資料的範圍或離散程度調整尺度，避免量級支配模型
+summary: 用訓練資料調整各欄數字大小，避免數字較大的欄位過度影響模型
 textbook: v2
 author: codex
 status: draft
@@ -93,24 +93,32 @@ self_check:
 
 ## 為什麼需要
 
-同一張表的收入可能以萬元記，年齡以歲記。模型若直接計算距離或梯度，數值較大的欄位可能取得過多影響力。
+同一張表的收入可能以萬元記，年齡以歲記。模型直接計算距離時，數字較大的欄位可能影響更多。計算梯度（用來判斷參數調整方向的數值）時，也有同樣的問題。
 
-特徵縮放（Feature Scaling）把欄位放到可比較的尺度。指引特別提到線性模型、SVM、KNN與神經網路；這些模型常涉及距離、梯度或參數懲罰。
+特徵縮放（Feature Scaling）調整各欄數字的大小。這樣能避免欄位只因數字大，就影響模型更多。
+
+指引提到線性模型、SVM、KNN 與神經網路。這些模型常會算距離、計算梯度，或限制參數大小。限制參數大小的做法，稱為參數懲罰。
 
 ## 直覺
 
-Min-Max正規化（Normalization）用訓練範圍當尺；Z-score標準化（Standardization）用平均與標準差；Robust用中位數與四分位距。
+以下三種方法都用訓練資料決定換算規則。
+
+- 先減掉訓練最小值。再除以訓練最大值與最小值之差。這叫 Min-Max 正規化（Normalization）。
+- Z-score 先減掉訓練平均值。再除以標準差（衡量資料與平均值相差多遠的數值）。這叫標準化（Standardization）。
+- 先減掉中位數（資料排序後，由中間位置決定的數值）。再除以四分位距（衡量資料中間部分分散程度的數值）。這叫穩健縮放（Robust Scaling）。
 
 :::supplement[來源：scikit-learn Normalizer]
 scikit-learn的`Normalizer`逐列把非零向量調整成單位範數；本頁Min-Max則逐欄調整範圍，兩者不同。
 :::
 
-三者都是平移、再除以一個尺度。Min-Max與Z-score會受離群值影響；Robust較穩健，但不會自動刪掉極端旅次，也不保證任何特定分布。
+三者都是先減掉一個數，再除以一個數。少數值遠離大多數資料，這些值稱為離群值。Min-Max 與 Z-score 會受離群值影響。
 
-![四格各用自己的橫軸尺度；一般旅次與64公里長尾的相對位置都保留。](figure:l23301-feature-scaling-distribution)
+Robust 較不受離群值影響，但不會自動刪掉極端旅次。Robust 也不保證轉換後符合任何特定分布。
+
+![四格圖各用自己的橫軸範圍。一般旅次與64公里旅次的相對位置都保留。](figure:l23301-feature-scaling-distribution)
 
 :::caution[注意]
-科目3指引5-7把Z-score結果稱為常態分布，這點需要校正：平均0、標準差1不代表常態，輸入也不必先是常態。上圖保留長尾，就是反例。（補充）
+科目3指引5-7把 Z-score 結果稱為常態分布。平均0、標準差1，不代表常態分布。輸入也不必先符合常態分布。上圖仍保留少數長程旅次形成的長尾，是反例（補充）。
 :::
 
 ## 定義與公式
