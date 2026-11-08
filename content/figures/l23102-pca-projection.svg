@@ -1,1 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="360" height="448" viewBox="0 0 360 448" role="img" aria-labelledby="title desc"><title id="title">PCA中心化投影</title><desc id="desc">把三特徵先以兩個獨立方向呈現；垂直投影會丟掉第三欄的振動偏差。</desc><rect width="360" height="448" fill="white"/><g font-family="Microsoft JhengHei,Noto Sans TC,sans-serif"><text x="18" y="26" fill="#4b5563" font-size="16" text-anchor="start">中心化資料 → 第一方向投影</text><text x="18" y="51" fill="#4b5563" font-size="13" text-anchor="start">橫軸＝(溫度偏差＋壓力偏差)/√2</text><text x="18" y="74" fill="#4b5563" font-size="13" text-anchor="start">縱軸＝振動偏差；單位均為指數</text><line x1="34" y1="219" x2="330" y2="219" stroke="#4b5563" stroke-width="2"/><line x1="180" y1="110" x2="180" y2="320" stroke="#4b5563" stroke-width="2"/><text x="21" y="294" fill="#4b5563" font-size="13" text-anchor="start">-1</text><text x="21" y="224" fill="#4b5563" font-size="13" text-anchor="start">0</text><text x="21" y="154" fill="#4b5563" font-size="13" text-anchor="start">1</text><text x="54" y="340" fill="#4b5563" font-size="13" text-anchor="middle">-3</text><text x="180" y="340" fill="#4b5563" font-size="13" text-anchor="middle">0</text><text x="306" y="340" fill="#4b5563" font-size="13" text-anchor="middle">3</text><line x1="61.20606076066002" y1="289.0" x2="61.20606076066002" y2="219" stroke="#a4470c" stroke-width="2" stroke-dasharray="5 4"/><circle cx="61.20606076066002" cy="289.0" r="5" fill="#175fa5"/><rect x="57.20606076066002" y="215" width="8" height="8" fill="#a4470c"/><text x="68.20606076066002" y="281.0" fill="#175fa5" font-size="13" text-anchor="start">01</text><line x1="120.60303038033001" y1="149.0" x2="120.60303038033001" y2="219" stroke="#a4470c" stroke-width="2" stroke-dasharray="5 4"/><circle cx="120.60303038033001" cy="149.0" r="5" fill="#175fa5"/><rect x="116.60303038033001" y="215" width="8" height="8" fill="#a4470c"/><text x="127.60303038033001" y="141.0" fill="#175fa5" font-size="13" text-anchor="start">02</text><line x1="180.0" y1="289.0" x2="180.0" y2="219" stroke="#a4470c" stroke-width="2" stroke-dasharray="5 4"/><circle cx="180.0" cy="289.0" r="5" fill="#175fa5"/><rect x="176.0" y="215" width="8" height="8" fill="#a4470c"/><text x="187.0" y="281.0" fill="#175fa5" font-size="13" text-anchor="start">03</text><line x1="180.0" y1="149.0" x2="180.0" y2="219" stroke="#a4470c" stroke-width="2" stroke-dasharray="5 4"/><circle cx="180.0" cy="149.0" r="5" fill="#175fa5"/><rect x="176.0" y="215" width="8" height="8" fill="#a4470c"/><text x="187.0" y="141.0" fill="#175fa5" font-size="13" text-anchor="start">04</text><line x1="239.39696961967" y1="149.0" x2="239.39696961967" y2="219" stroke="#a4470c" stroke-width="2" stroke-dasharray="5 4"/><circle cx="239.39696961967" cy="149.0" r="5" fill="#175fa5"/><rect x="235.39696961967" y="215" width="8" height="8" fill="#a4470c"/><text x="246.39696961967" y="141.0" fill="#175fa5" font-size="13" text-anchor="start">05</text><line x1="298.79393923934" y1="289.0" x2="298.79393923934" y2="219" stroke="#a4470c" stroke-width="2" stroke-dasharray="5 4"/><circle cx="298.79393923934" cy="289.0" r="5" fill="#175fa5"/><rect x="294.79393923934" y="215" width="8" height="8" fill="#a4470c"/><text x="305.79393923934" y="281.0" fill="#175fa5" font-size="13" text-anchor="start">06</text><text x="18" y="373" fill="#175fa5" font-size="14" text-anchor="start">● 原資料：保留振動差異</text><text x="18" y="399" fill="#a4470c" font-size="14" text-anchor="start">■ 秩1重建：振動偏差變成0</text><text x="18" y="426" fill="#4b5563" font-size="13" text-anchor="start">顯示兩個獨立方向；教學合成資料</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="610" viewBox="0 0 700 610" role="img" aria-labelledby="title desc">
+  <title id="title">只留第一主成分，就是把點壓到橫線上</title>
+  <desc id="desc">製程 6 筆資料已換成主成分座標。橫向表示溫度和壓力一起偏高或偏低的程度，縱向表示振動偏高或偏低。6 個藍色圓點沿垂直箭頭移到橫線上的橘色方塊。橫向位置保留，振動的上下差異消失。03 原本在 (0,−1)，04 原本在 (0,1)，最後都到 (0,0)，成為同一點。兩軸每單位都是 75 像素。</desc>
+  <defs>
+    <marker id="projection-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse" viewBox="0 0 10 10">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#ac4200" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect width="700" height="610" fill="#fff"/>
+  <g font-family="Arial,Microsoft JhengHei,sans-serif" fill="#172c43">
+    <text x="28" y="37" font-size="23" font-weight="700">只留第一主成分 = 把點壓到橫線上</text>
+    <text x="28" y="68" font-size="15">製程 6 筆｜橫向位置不變，振動的上下差異消失</text>
+
+    <text x="100" y="119" font-size="16">第二主成分：振動偏高或偏低</text>
+    <g stroke="#172c43" stroke-width="1.5" fill="none">
+      <path d="M 100 145 V 373 M 100 260 H 610"/>
+      <path d="M 96 185 H 104 M 96 260 H 104 M 96 335 H 104"/>
+    </g>
+    <g font-size="13" text-anchor="end">
+      <text x="86" y="190">+1</text>
+      <text x="86" y="265">0</text>
+      <text x="86" y="340">−1</text>
+    </g>
+
+    <!-- 座標原點為 (350,260)，橫縱同為每單位 75 像素；橫向保留未取整的根號值。 -->
+    <g stroke="#ac4200" stroke-width="2" fill="none" marker-end="url(#projection-arrow)">
+      <path data-point="01" d="M 137.867966 324 V 270"/>
+      <path data-point="02" d="M 243.933983 196 V 250"/>
+      <path data-point="03" d="M 350 324 V 270"/>
+      <path data-point="04" d="M 350 196 V 250"/>
+      <path data-point="05" d="M 456.066017 196 V 250"/>
+      <path data-point="06" d="M 562.132034 324 V 270"/>
+    </g>
+    <g fill="#2463a6">
+      <circle data-point="01" cx="137.867966" cy="335" r="6"/>
+      <circle data-point="02" cx="243.933983" cy="185" r="6"/>
+      <circle data-point="03" cx="350" cy="335" r="6"/>
+      <circle data-point="04" cx="350" cy="185" r="6"/>
+      <circle data-point="05" cx="456.066017" cy="185" r="6"/>
+      <circle data-point="06" cx="562.132034" cy="335" r="6"/>
+    </g>
+    <g font-size="15" font-weight="700">
+      <text x="151" y="357">01</text>
+      <text x="257" y="171">02</text>
+      <text x="363" y="357">03</text>
+      <text x="363" y="171">04</text>
+      <text x="469" y="171">05</text>
+      <text x="575" y="357">06</text>
+    </g>
+    <g fill="#ac4200">
+      <rect data-shadow="01" x="132.867966" y="255" width="10" height="10"/>
+      <rect data-shadow="02" x="238.933983" y="255" width="10" height="10"/>
+      <!-- 03 與 04 共用這個落點，讓重疊位置直接呈現為同一方塊。 -->
+      <rect data-shadow="03 04" x="345" y="255" width="10" height="10"/>
+      <rect data-shadow="05" x="451.066017" y="255" width="10" height="10"/>
+      <rect data-shadow="06" x="557.132034" y="255" width="10" height="10"/>
+    </g>
+    <!-- 刻度文字靠右放，避開縱軸與由下往上移動的箭頭。 -->
+    <g font-size="13" text-anchor="start">
+      <text x="149.867966" y="287">−2.83</text>
+      <text x="255.933983" y="287">−1.41</text>
+      <text x="362" y="287">0</text>
+      <text x="468.066017" y="287">1.41</text>
+      <text x="574.132034" y="287">2.83</text>
+    </g>
+    <text x="350" y="407" font-size="16" text-anchor="middle">第一主成分：溫度和壓力一起偏高或偏低</text>
+
+    <rect x="100" y="433" width="510" height="69" rx="8" fill="#eaf2fb"/>
+    <rect x="120" y="452" width="10" height="10" fill="#ac4200"/>
+    <text x="145" y="461" font-size="17" font-weight="700">03、04 原本一上一下</text>
+    <text x="145" y="487" font-size="17">壓到橫線後，變成同一點</text>
+
+    <circle cx="107" cy="533" r="6" fill="#2463a6"/>
+    <text x="125" y="538" font-size="15">藍點：原資料</text>
+    <rect x="102" y="556" width="10" height="10" fill="#ac4200"/>
+    <text x="125" y="567" font-size="15">橘方塊：只留第一主成分後的位置</text>
+    <text x="28" y="595" font-size="13">資料：教學合成</text>
+  </g>
+</svg>

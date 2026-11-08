@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 674" role="img" aria-labelledby="pca-variance-title pca-variance-desc">
+  <title id="pca-variance-title">累積到 90%，要留幾個主成分？</title>
+  <desc id="pca-variance-desc">製程 6 筆資料有溫度、壓力、振動 3 欄。藍色直條表示每個主成分占全部變化的比例，依序是 76.9%、23.1%、0%。橘色折線與方點表示依序保留主成分後的累積比例，依序是 76.9%、100%、100%。水平虛線是 90% 門檻，因此只留第 1 個不到門檻，保留前 2 個就達標。溫度和壓力完全同步，所以 3 欄只有 2 種獨立變化，第 3 主成分占 0%。資料為教學合成。</desc>
+  <rect width="700" height="674" fill="#fff"/>
+  <g font-family="Arial,Microsoft JhengHei,sans-serif" fill="#172c43">
+    <text x="44" y="35" font-size="22" font-weight="700">累積到 90%，要留幾個主成分？</text>
+    <text x="44" y="61" font-size="15">製程 6 筆：溫度、壓力、振動</text>
+
+    <rect x="90" y="82" width="18" height="18" fill="#2463a6"/>
+    <text x="120" y="97" font-size="15">單一比例（直條）</text>
+    <path d="M 368 91 H 410" fill="none" stroke="#ac4200" stroke-width="3"/>
+    <rect x="385" y="87" width="8" height="8" fill="#ac4200"/>
+    <text x="422" y="97" font-size="15">累積比例（折線）</text>
+
+    <text x="90" y="126" font-size="14">占全部變化的比例</text>
+
+    <!-- 共用百分比刻度：0% 在 454，100% 在 154，每 1% 為 3 像素。 -->
+    <g stroke="#eaf2fb" stroke-width="1.5">
+      <path d="M 90 154 H 620 M 90 214 H 620 M 90 274 H 620 M 90 334 H 620 M 90 394 H 620"/>
+    </g>
+    <g font-size="12" text-anchor="end">
+      <text x="76" y="158">100%</text>
+      <text x="76" y="218">80%</text>
+      <text x="76" y="278">60%</text>
+      <text x="76" y="338">40%</text>
+      <text x="76" y="398">20%</text>
+      <text x="76" y="458">0%</text>
+    </g>
+
+    <!-- 直條使用指定比例；第三根高度為零，不以非零高度代替。 -->
+    <g fill="#2463a6">
+      <rect x="132" y="223.3" width="68" height="230.7"/>
+      <rect x="312" y="384.7" width="68" height="69.3"/>
+      <rect x="492" y="454" width="68" height="0"/>
+    </g>
+    <g font-size="15" text-anchor="middle" font-weight="700">
+      <text x="166" y="206">76.9%</text>
+      <text x="346" y="371">23.1%</text>
+      <text x="526" y="438">0%</text>
+    </g>
+
+    <path d="M 90 184 H 620" fill="none" stroke="#172c43" stroke-width="1.5" stroke-dasharray="7 5"/>
+    <text x="618" y="208" font-size="14" text-anchor="end">門檻 90%</text>
+
+    <path d="M 166 223.3 L 346 154 H 526" fill="none" stroke="#ac4200" stroke-width="3"/>
+    <g fill="#ac4200">
+      <rect x="162" y="219.3" width="8" height="8"/>
+      <rect x="342" y="150" width="8" height="8"/>
+      <rect x="522" y="150" width="8" height="8"/>
+    </g>
+    <g fill="#ac4200" font-size="15" font-weight="700">
+      <text x="214" y="253">累積 76.9%</text>
+      <text x="346" y="137" text-anchor="middle">累積 100%</text>
+      <text x="526" y="137" text-anchor="middle">累積 100%</text>
+    </g>
+
+    <path d="M 90 146 V 454 H 620" fill="none" stroke="#172c43" stroke-width="1.5"/>
+    <g font-size="15" text-anchor="middle">
+      <text x="166" y="483">第 1 主成分</text>
+      <text x="346" y="483">第 2 主成分</text>
+      <text x="526" y="483">第 3 主成分</text>
+    </g>
+
+    <rect x="90" y="507" width="530" height="67" rx="8" fill="#eaf2fb"/>
+    <text x="108" y="532" font-size="16">只留 1 個：76.9%，不到門檻</text>
+    <text x="108" y="557" font-size="16" font-weight="700">留 2 個：100%，達標</text>
+
+    <text x="90" y="605" font-size="14">第 3 主成分是 0%：溫度和壓力完全同步。</text>
+    <text x="90" y="628" font-size="14">3 欄其實只有 2 種獨立變化。</text>
+    <text x="90" y="657" font-size="13">資料：教學合成</text>
+  </g>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 610" role="img" aria-labelledby="title desc">
+  <title id="title">PCA 換一組座標軸：第一軸沿點雲最長方向，第二軸與它垂直</title>
+  <desc id="desc">12 筆教學合成資料以溫度偏差與壓力偏差作圖，兩個方向使用相同比例，平均值為原點。深色實線箭頭是第一主成分，與溫度軸夾角約 43 度；橘色虛線箭頭是第二主成分，與第一軸垂直。兩箭頭長度分別是各方向標準差的 2 倍，約為 5.49 與 0.91 單位，長度比約 6 比 1。第一主成分同時組合溫度與壓力，沿此方向的變化占全部變化 97.3%。</desc>
+  <rect width="720" height="610" fill="#fff"/>
+  <g font-family="Arial,Microsoft JhengHei,sans-serif" fill="#172c43">
+    <text x="28" y="36" font-size="23" font-weight="700">換一組座標軸，描述同一團資料</text>
+    <text x="28" y="65" font-size="16">藍點是同一組資料；新座標軸都從平均值出發。</text>
+
+    <!-- 每單位 40 px；畫面向下為負壓力，原點為 (270,290)。 -->
+    <g stroke="#172c43" stroke-opacity="0.25" stroke-width="1.5" fill="none">
+      <path d="M 70,290 H 464 M 270,450 V 108"/>
+      <path d="M 458,286 L 464,290 458,294 M 266,114 L 270,108 274,114"/>
+      <path d="M 110,286 V 294 M 190,286 V 294 M 350,286 V 294 M 430,286 V 294
+               M 266,130 H 274 M 266,210 H 274 M 266,370 H 274 M 266,450 H 274"/>
+    </g>
+    <g font-size="12" text-anchor="middle">
+      <text x="110" y="313">−4</text>
+      <text x="190" y="313">−2</text>
+      <text x="350" y="313">2</text>
+      <text x="430" y="313">4</text>
+    </g>
+    <g font-size="12" text-anchor="end">
+      <text x="258" y="134">4</text>
+      <text x="258" y="214">2</text>
+      <text x="258" y="374">−2</text>
+      <text x="258" y="454">−4</text>
+    </g>
+    <text x="479" y="296" font-size="15">溫度偏差</text>
+    <text x="286" y="106" font-size="15">壓力偏差</text>
+
+    <!-- 第一軸長 5.49 單位；第二軸長 0.91 單位。箭頭尖端就是長度終點。 -->
+    <g stroke="#172c43" fill="none">
+      <path d="M 270,290 L 431.54,141.24" stroke-width="4"/>
+      <path d="M 417.94,145.61 L 431.54,141.24 426.07,154.44" stroke-width="4" stroke-linejoin="round"/>
+    </g>
+    <g stroke="#ac4200" fill="none" stroke-width="3">
+      <path d="M 270,290 L 245.34,263.22" stroke-dasharray="5 4"/>
+      <path d="M 247.06,274.27 L 245.34,263.22 256.21,265.91" stroke-linejoin="round"/>
+    </g>
+
+    <!-- 直角記號的兩邊分別平行於新座標軸。 -->
+    <path d="M 276.62,283.90 L 270.52,277.28 263.90,283.38" fill="none" stroke="#172c43" stroke-width="1.5"/>
+
+    <g fill="#2463a6" stroke="#fff" stroke-width="1.5">
+      <circle cx="142" cy="394" r="5.5"/>
+      <circle cx="170" cy="406" r="5.5"/>
+      <circle cx="190" cy="338" r="5.5"/>
+      <circle cx="214" cy="366" r="5.5"/>
+      <circle cx="238" cy="286" r="5.5"/>
+      <circle cx="258" cy="326" r="5.5"/>
+      <circle cx="286" cy="258" r="5.5"/>
+      <circle cx="306" cy="254" r="5.5"/>
+      <circle cx="322" cy="222" r="5.5"/>
+      <circle cx="346" cy="250" r="5.5"/>
+      <circle cx="374" cy="174" r="5.5"/>
+      <circle cx="394" cy="206" r="5.5"/>
+    </g>
+    <circle cx="270" cy="290" r="4" fill="#fff" stroke="#172c43" stroke-width="1.5"/>
+    <path d="M 274,297 L 290,323" stroke="#172c43" stroke-width="1" fill="none"/>
+    <text x="291" y="343" font-size="14">平均值 (0,0)</text>
+
+    <path d="M 443,141 H 459" stroke="#172c43" stroke-width="1.2" fill="none"/>
+    <text x="469" y="146" font-size="18" font-weight="700">第一主成分</text>
+    <text x="469" y="172" font-size="16">資料變化最大的方向</text>
+
+    <path d="M 178,179 H 216 L 239,252" stroke="#ac4200" stroke-width="1.2" fill="none"/>
+    <text x="38" y="154" font-size="18" font-weight="700" fill="#ac4200">第二主成分</text>
+    <text x="38" y="180" font-size="16">與第一軸垂直</text>
+
+    <text x="38" y="482" font-size="14">箭頭長短表示各方向的資料變化幅度。</text>
+    <rect x="28" y="503" width="664" height="70" rx="8" fill="#eaf2fb"/>
+    <text x="44" y="529" font-size="16">第一主成分 ≈ 0.74×溫度 + 0.68×壓力：兩欄一起變</text>
+    <text x="44" y="555" font-size="16">第一主成分占全部變化 97.3%</text>
+    <text x="28" y="597" font-size="13">資料：教學合成</text>
+  </g>
+</svg>

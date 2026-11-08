@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 612" role="img" aria-labelledby="pca-shadow-title pca-shadow-desc">
+  <title id="pca-shadow-title">同一團點，換一個方向拍影子</title>
+  <desc id="pca-shadow-desc">兩格使用相同的12筆教學合成資料，橫軸為溫度偏差，縱軸為壓力偏差，平均在原點。藍色圓點是原始資料，細虛線把每個點垂直投影到通過平均值的直線，橘色方塊是影子。左格沿方向甲投影，影子擠在中心附近，變化小。右格沿方向乙投影，影子散得最開，這個方向就是第一主成分。下方將影子攤平，兩格使用相同比例。</desc>
+  <style>
+    text { font-family:Arial,Microsoft JhengHei,sans-serif; fill:#172c43; }
+    .heading { font-size:24px; font-weight:700; text-anchor:middle; }
+    .subtitle { font-size:15px; text-anchor:middle; }
+    .legend { font-size:14px; }
+    .panel-title { font-size:18px; font-weight:700; text-anchor:middle; }
+    .axes { stroke:#172c43; stroke-width:1; opacity:.18; }
+    .axis-label { font-size:13px; text-anchor:middle; }
+    .direction { stroke:#172c43; stroke-width:2; }
+    .projection { stroke:#172c43; stroke-width:1; stroke-dasharray:3 4; opacity:.5; }
+    .original { fill:#2463a6; stroke:#fff; stroke-width:1; }
+    .shadow { fill:#ac4200; stroke:#fff; stroke-width:.8; }
+    .strip { stroke:#172c43; stroke-width:1; opacity:.3; }
+    .result { font-size:18px; font-weight:700; text-anchor:middle; }
+    .source { font-size:13px; text-anchor:middle; }
+  </style>
+  <rect width="720" height="612" fill="#fff"/>
+  <text class="heading" x="360" y="36">同一團點，換一個方向拍影子</text>
+  <text class="subtitle" x="360" y="65">把點垂直投影到線上，看看影子散得多開。</text>
+  <g class="legend" transform="translate(142 94)">
+    <circle cx="0" cy="-5" r="4.5" fill="#2463a6"/>
+    <text x="12">原始的點</text>
+    <rect x="116" y="-8" width="6" height="6" fill="#ac4200"/>
+    <text x="133">影子</text>
+    <line x1="218" y1="-5" x2="246" y2="-5" class="projection"/>
+    <text x="255">垂直投影</text>
+  </g>
+  <g id="direction-a">
+    <text class="panel-title" x="190" y="137">方向甲：影子擠在一起</text>
+    <g class="axes">
+      <line x1="57.200" y1="295.000" x2="322.800" y2="295.000" />
+      <line x1="190.000" y1="427.800" x2="190.000" y2="162.200" />
+    </g>
+    <text class="axis-label" x="190" y="449">溫度偏差</text>
+    <text class="axis-label" transform="translate(39 295) rotate(-90)">壓力偏差</text>
+    <line x1="288.631" y1="402.105" x2="91.369" y2="187.895" class="direction"/>
+    <g class="projection"><line x1="87.600" y1="378.200" x2="184.470" y2="288.995" />
+      <line x1="110.000" y1="387.800" x2="199.532" y2="305.351" />
+      <line x1="126.000" y1="333.400" x2="179.767" y2="283.887" />
+      <line x1="145.200" y1="355.800" x2="199.739" y2="305.576" />
+      <line x1="164.400" y1="291.800" x2="176.658" y2="280.512" />
+      <line x1="180.400" y1="323.800" x2="199.946" y2="305.800" />
+      <line x1="202.800" y1="269.400" x2="183.117" y2="287.526" />
+      <line x1="218.800" y1="266.200" x2="188.865" y2="293.767" />
+      <line x1="231.600" y1="240.600" x2="181.982" y2="286.293" />
+      <line x1="250.800" y1="263.000" x2="201.954" y2="307.981" />
+      <line x1="273.200" y1="202.200" x2="181.936" y2="286.243" />
+      <line x1="289.200" y1="227.800" x2="202.035" y2="308.069" /></g>
+    <g class="original"><circle cx="87.600" cy="378.200" r="4.5"/>
+      <circle cx="110.000" cy="387.800" r="4.5"/>
+      <circle cx="126.000" cy="333.400" r="4.5"/>
+      <circle cx="145.200" cy="355.800" r="4.5"/>
+      <circle cx="164.400" cy="291.800" r="4.5"/>
+      <circle cx="180.400" cy="323.800" r="4.5"/>
+      <circle cx="202.800" cy="269.400" r="4.5"/>
+      <circle cx="218.800" cy="266.200" r="4.5"/>
+      <circle cx="231.600" cy="240.600" r="4.5"/>
+      <circle cx="250.800" cy="263.000" r="4.5"/>
+      <circle cx="273.200" cy="202.200" r="4.5"/>
+      <circle cx="289.200" cy="227.800" r="4.5"/></g>
+    <g><rect class="shadow" x="181.470" y="285.995" width="6" height="6"/>
+      <rect class="shadow" x="196.532" y="302.351" width="6" height="6"/>
+      <rect class="shadow" x="176.767" y="280.887" width="6" height="6"/>
+      <rect class="shadow" x="196.739" y="302.576" width="6" height="6"/>
+      <rect class="shadow" x="173.658" y="277.512" width="6" height="6"/>
+      <rect class="shadow" x="196.946" y="302.800" width="6" height="6"/>
+      <rect class="shadow" x="180.117" y="284.526" width="6" height="6"/>
+      <rect class="shadow" x="185.865" y="290.767" width="6" height="6"/>
+      <rect class="shadow" x="178.982" y="283.293" width="6" height="6"/>
+      <rect class="shadow" x="198.954" y="304.981" width="6" height="6"/>
+      <rect class="shadow" x="178.936" y="283.243" width="6" height="6"/>
+      <rect class="shadow" x="199.035" y="305.069" width="6" height="6"/></g>
+    <g aria-label="把影子攤平，兩格使用相同比例">
+      <line x1="46.000" y1="513.000" x2="334.000" y2="513.000" class="strip"/>
+      <line x1="190.000" y1="503.000" x2="190.000" y2="523.000" class="strip"/>
+      <rect class="shadow" x="195.164" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="172.928" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="202.107" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="172.623" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="206.696" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="172.318" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="197.161" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="188.676" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="198.837" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="169.353" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="198.904" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="169.234" y="510.000" width="6" height="6"/>
+    </g>
+    <text class="result" x="190" y="559">變化小</text>
+  </g>
+  <g id="direction-b">
+    <text class="panel-title" x="530" y="137">方向乙：影子散得最開</text>
+    <g class="axes">
+      <line x1="397.200" y1="295.000" x2="662.800" y2="295.000" />
+      <line x1="530.000" y1="427.800" x2="530.000" y2="162.200" />
+    </g>
+    <text class="axis-label" x="530" y="449">溫度偏差</text>
+    <text class="axis-label" transform="translate(379 295) rotate(-90)">壓力偏差</text>
+    <line x1="422.895" y1="393.631" x2="637.105" y2="196.369" class="direction"/>
+    <g class="projection"><line x1="427.600" y1="378.200" x2="433.130" y2="384.205" />
+      <line x1="450.000" y1="387.800" x2="440.468" y2="377.449" />
+      <line x1="466.000" y1="333.400" x2="476.233" y2="344.513" />
+      <line x1="485.200" y1="355.800" x2="475.461" y2="345.224" />
+      <line x1="504.400" y1="291.800" x2="517.742" y2="306.288" />
+      <line x1="520.400" y1="323.800" x2="510.454" y2="313.000" />
+      <line x1="542.800" y1="269.400" x2="549.683" y2="276.874" />
+      <line x1="558.800" y1="266.200" x2="559.935" y2="267.433" />
+      <line x1="571.600" y1="240.600" x2="579.618" y2="249.307" />
+      <line x1="590.800" y1="263.000" x2="578.846" y2="250.019" />
+      <line x1="613.200" y1="202.200" x2="621.264" y2="210.957" />
+      <line x1="629.200" y1="227.800" x2="617.165" y2="214.731" /></g>
+    <g class="original"><circle cx="427.600" cy="378.200" r="4.5"/>
+      <circle cx="450.000" cy="387.800" r="4.5"/>
+      <circle cx="466.000" cy="333.400" r="4.5"/>
+      <circle cx="485.200" cy="355.800" r="4.5"/>
+      <circle cx="504.400" cy="291.800" r="4.5"/>
+      <circle cx="520.400" cy="323.800" r="4.5"/>
+      <circle cx="542.800" cy="269.400" r="4.5"/>
+      <circle cx="558.800" cy="266.200" r="4.5"/>
+      <circle cx="571.600" cy="240.600" r="4.5"/>
+      <circle cx="590.800" cy="263.000" r="4.5"/>
+      <circle cx="613.200" cy="202.200" r="4.5"/>
+      <circle cx="629.200" cy="227.800" r="4.5"/></g>
+    <g><rect class="shadow" x="430.130" y="381.205" width="6" height="6"/>
+      <rect class="shadow" x="437.468" y="374.449" width="6" height="6"/>
+      <rect class="shadow" x="473.233" y="341.513" width="6" height="6"/>
+      <rect class="shadow" x="472.461" y="342.224" width="6" height="6"/>
+      <rect class="shadow" x="514.742" y="303.288" width="6" height="6"/>
+      <rect class="shadow" x="507.454" y="310.000" width="6" height="6"/>
+      <rect class="shadow" x="546.683" y="273.874" width="6" height="6"/>
+      <rect class="shadow" x="556.935" y="264.433" width="6" height="6"/>
+      <rect class="shadow" x="576.618" y="246.307" width="6" height="6"/>
+      <rect class="shadow" x="575.846" y="247.019" width="6" height="6"/>
+      <rect class="shadow" x="618.264" y="207.957" width="6" height="6"/>
+      <rect class="shadow" x="614.165" y="211.731" width="6" height="6"/></g>
+    <g aria-label="把影子攤平，兩格使用相同比例">
+      <line x1="386.000" y1="513.000" x2="674.000" y2="513.000" class="strip"/>
+      <line x1="530.000" y1="503.000" x2="530.000" y2="523.000" class="strip"/>
+      <rect class="shadow" x="395.313" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="405.288" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="453.909" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="452.858" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="510.336" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="500.429" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="553.757" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="567.695" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="594.452" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="593.402" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="651.066" y="510.000" width="6" height="6"/>
+      <rect class="shadow" x="645.494" y="510.000" width="6" height="6"/>
+    </g>
+    <text class="result" x="530" y="559">變化最大 → 第一主成分</text>
+  </g>
+  <text class="subtitle" x="360" y="483">把影子攤平看（兩格比例相同）</text>
+  <text class="source" x="360" y="600">資料：教學合成</text>
+</svg>
