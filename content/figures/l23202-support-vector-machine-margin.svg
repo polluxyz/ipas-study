@@ -1,1 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 430" role="img" aria-labelledby="title desc"><title id="title">線性 SVM 的幾何間隔</title><desc id="desc">權重向量為負一與一；兩個支持向量位於兩條虛線上；粗短線量垂直寬度；資料：教學合成資料。</desc><rect width="360" height="430" fill="#fff"/><g fill="#172c43" font-family="Arial,Microsoft JhengHei,sans-serif"><line x1="48" y1="310" x2="328" y2="310" stroke="#172c43" /><line x1="48" y1="310" x2="48" y2="36" stroke="#172c43" /><text x="48" y="327" font-size="12" text-anchor="middle">0</text><text x="93" y="327" font-size="12" text-anchor="middle">1</text><text x="138" y="327" font-size="12" text-anchor="middle">2</text><text x="183" y="327" font-size="12" text-anchor="middle">3</text><text x="228" y="327" font-size="12" text-anchor="middle">4</text><text x="273" y="327" font-size="12" text-anchor="middle">5</text><text x="318" y="327" font-size="12" text-anchor="middle">6</text><text x="39" y="314" font-size="12" text-anchor="end">0</text><text x="39" y="269" font-size="12" text-anchor="end">1</text><text x="39" y="224" font-size="12" text-anchor="end">2</text><text x="39" y="179" font-size="12" text-anchor="end">3</text><text x="39" y="134" font-size="12" text-anchor="end">4</text><text x="39" y="89" font-size="12" text-anchor="end">5</text><text x="39" y="44" font-size="12" text-anchor="end">6</text><text x="132" y="351" font-size="14" >收入座標 x₁</text><text x="55" y="27" font-size="14" >負債座標 x₂</text><line x1="48" y1="310" x2="318" y2="40" stroke="#172c43" stroke-width="1.5" stroke-dasharray="5 5"/><line x1="48" y1="265" x2="273" y2="40" stroke="#172c43" stroke-width="3" /><line x1="48" y1="220" x2="228" y2="40" stroke="#172c43" stroke-width="1.5" stroke-dasharray="5 5"/><circle cx="138" cy="220" r="5" fill="#2463a6"/><text x="145" y="213" font-size="11" >F020</text><circle cx="138" cy="220" r="10" stroke="#172c43" stroke-width="2" fill="none"/><path d="M93,170 l6,10 h-12 z" fill="#ac4200"/><text x="100" y="168" font-size="11" >F028</text><circle cx="93" cy="175" r="10" stroke="#172c43" stroke-width="2" fill="none"/><line x1="160.5" y1="197.5" x2="115.5" y2="152.5" stroke="#172c43" stroke-width="4"/><text x="170" y="175" font-size="12" >總間隔 1.414</text><text x="55" y="378" font-size="14" >實線 f=0；虛線 f=−1、f=1</text><text x="55" y="398" font-size="14" >黑圈：示範支持向量；粗短線垂直邊界</text><text x="12" y="420" font-size="11" >資料：教學合成；固定規則計算</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 600" role="img" aria-labelledby="margin-title margin-desc">
+  <title id="margin-title">最寬的道路與支持向量</title>
+  <desc id="margin-desc">收入與負債的座標軸皆為 0 到 6，且每單位等長。實線分類邊界為負債等於收入加 1，兩條虛線道路邊緣為負債等於收入，以及負債等於收入加 2。淡色道路夾在兩條邊緣之間。負類藍圓點（2,2）與正類橘三角形（1,3）恰好碰到道路邊緣，黑圈標出這 2 個支持向量；其餘各 5 個同類點皆在各自的道路邊緣外。垂直於分類邊界的雙箭頭標出總間隔 2 除以根號 2，約為 1.41。支持向量機讓道路寬度最大。資料：教學合成。</desc>
+  <defs>
+    <marker id="margin-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#172c43" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect width="720" height="600" fill="#fff"/>
+  <g font-family="Arial,Microsoft JhengHei,sans-serif" fill="#172c43">
+    <text x="32" y="36" font-size="22" font-weight="700">找出兩類之間最寬的道路</text>
+    <text x="32" y="68" font-size="16">分類邊界是中線；碰到道路邊緣的點，就是支持向量。</text>
+
+    <!-- 兩軸每單位皆為 60 px，垂直寬度才會對應座標距離。 -->
+    <path d="M 70 478 L 430 118 L 310 118 L 70 358 Z" fill="#eaf2f8"/>
+    <g stroke="#172c43" fill="none">
+      <path d="M 70 478 H 438 M 70 478 V 110" stroke-width="1.3"/>
+      <path d="M 70 478 L 430 118 M 70 358 L 310 118" stroke-width="1.6" stroke-dasharray="7 6"/>
+      <path d="M 70 418 L 370 118" stroke-width="2.8"/>
+      <path d="M 130 478 v 5 M 190 478 v 5 M 250 478 v 5 M 310 478 v 5 M 370 478 v 5 M 430 478 v 5 M 70 418 h -5 M 70 358 h -5 M 70 298 h -5 M 70 238 h -5 M 70 178 h -5 M 70 118 h -5" stroke-width="1"/>
+    </g>
+    <g font-size="12" text-anchor="middle">
+      <text x="70" y="500">0</text>
+      <text x="130" y="500">1</text>
+      <text x="190" y="500">2</text>
+      <text x="250" y="500">3</text>
+      <text x="310" y="500">4</text>
+      <text x="370" y="500">5</text>
+      <text x="430" y="500">6</text>
+    </g>
+    <g font-size="12" text-anchor="end">
+      <text x="56" y="482">0</text>
+      <text x="56" y="422">1</text>
+      <text x="56" y="362">2</text>
+      <text x="56" y="302">3</text>
+      <text x="56" y="242">4</text>
+      <text x="56" y="182">5</text>
+      <text x="56" y="122">6</text>
+    </g>
+    <text x="39" y="99" font-size="15">負債</text>
+    <text x="451" y="501" font-size="15">收入</text>
+
+    <!-- 非支持向量與道路邊緣保留距離，避免被誤認為支持向量。 -->
+    <g fill="#2463a6">
+      <circle cx="265" cy="346" r="6"/>
+      <circle cx="268" cy="430" r="6"/>
+      <circle cx="358" cy="382" r="6"/>
+      <circle cx="349" cy="286" r="6"/>
+      <circle cx="406" cy="202" r="6"/>
+      <circle cx="190" cy="358" r="6"/>
+    </g>
+    <g fill="#ac4200">
+      <path d="M 97 230 L 105 244 H 89 Z"/>
+      <path d="M 109 137 L 117 151 H 101 Z"/>
+      <path d="M 172 182 L 180 196 H 164 Z"/>
+      <path d="M 223 123 L 231 137 H 215 Z"/>
+      <path d="M 271 119 L 279 133 H 263 Z"/>
+      <path d="M 130 290 L 138 304 H 122 Z"/>
+    </g>
+    <g fill="none" stroke="#172c43">
+      <circle cx="130" cy="298" r="14" stroke-width="2"/>
+      <circle cx="190" cy="358" r="14" stroke-width="2"/>
+      <path d="M 157 276 L 143 288 M 234 389 L 204 363" stroke-width="1"/>
+    </g>
+    <text x="76" y="273" font-size="14">支持向量</text>
+    <text x="238" y="407" font-size="14">支持向量</text>
+    <text x="80" y="306" font-size="13">(1,3)</text>
+    <text x="180" y="394" font-size="13">(2,2)</text>
+
+    <!-- 箭頭從 (4.4,4.4) 到 (3.4,5.4)，與中線垂直。 -->
+    <path d="M 334 214 L 274 154" fill="none" stroke="#172c43" stroke-width="2" marker-start="url(#margin-arrow)" marker-end="url(#margin-arrow)"/>
+    <path d="M 309 184 H 447 V 207" fill="none" stroke="#172c43" stroke-width="1"/>
+    <text x="458" y="222" font-size="15">間隔（道路寬度）≈ 1.41</text>
+
+    <text x="474" y="288" font-size="16" font-weight="700">圖例</text>
+    <g stroke="#172c43" fill="none">
+      <path d="M 474 310 H 501" stroke-width="2.8"/>
+      <path d="M 474 344 H 501" stroke-width="1.6" stroke-dasharray="7 6"/>
+      <circle cx="487" cy="378" r="10" stroke-width="2"/>
+    </g>
+    <g font-size="14">
+      <text x="512" y="315">實線：分類邊界</text>
+      <text x="512" y="349">虛線：道路邊緣</text>
+      <text x="512" y="383">黑圈：支持向量</text>
+      <text x="501" y="427">負類</text>
+      <text x="600" y="427">正類</text>
+    </g>
+    <circle cx="480" cy="422" r="6" fill="#2463a6"/>
+    <path d="M 579 414 L 587 428 H 571 Z" fill="#ac4200"/>
+
+    <text x="70" y="547" font-size="14">其他點仍在道路外時，移動它們不會改變道路。</text>
+    <text x="32" y="582" font-size="13">資料：教學合成</text>
+  </g>
+</svg>
