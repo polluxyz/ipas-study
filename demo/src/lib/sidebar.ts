@@ -11,7 +11,7 @@ export function buildStudySidebar(routes: readonly SidebarRoute[], currentRoute:
   return [
     { label: '學習總覽', link: '/' }, { label: '概念目錄', link: '/catalog/' },
     { label: '概念地圖', link: '/map/' }, { label: '我的錯題本', link: '/wrong-book/' },
-    { label: '每日 50 題', link: '/daily/' },
+    { label: '每日題本', link: '/daily/' },
     { label: '官方題完整練習', link: '/official/' },
     ...(currentRoute?.stages?.length ? [{ label: `${currentRoute.code} ${currentRoute.title}`, items: currentRoute.stages.map((stage, index) => ({
       label: `${chapterNumbers[index] ?? index + 1}、${stage.title}`, collapsed: true,

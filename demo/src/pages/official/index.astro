@@ -14,7 +14,7 @@ const catalog = sets.map(({ id, session, mode, questions }) => ({ id, session, m
     <p id={`progress-${set.id}`} class="muted">已答與答對題數需要 JavaScript 才能讀取。</p>
     <a class="button primary" href={`/official/${set.id}/`}>開啟題組 →</a>
   </section>)}</div>
-  <p><a href="/daily/">練習非官方題：每日 50 題 →</a></p>
+  <p><a href="/daily/">練習非官方題：每日題本 →</a></p>
   <noscript><p>官方練習需要 JavaScript 才能逐題作答及保存進度。請啟用 JavaScript 後重新整理。</p></noscript>
   <script type="application/json" id="official-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\u003c')}></script>
 </StudyPage>

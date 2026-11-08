@@ -1,4 +1,4 @@
-/** 以建置產物與隔離瀏覽器驗證每日題組；暫時伺服器在驗證後立即關閉。 */
+/** 以建置產物與隔離瀏覽器驗證每日題本；暫時伺服器在驗證後立即關閉。 */
 import { chromium } from 'playwright';
 import { createServer } from 'node:http';
 import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
@@ -9,7 +9,7 @@ import { execFileSync } from 'node:child_process';
 import { parse } from 'yaml';
 
 export async function runDailySmoke() {
-  const root = fileURLToPath(new URL('../../dist/', import.meta.url));
+  const root = process.env.DAILY_SMOKE_DIST || fileURLToPath(new URL('../../dist/', import.meta.url));
   const output = process.env.DAILY_SMOKE_OUTPUT ?? 'D:/ipas-study/tmp/question-bank/daily-official/';
   const contentRoot = fileURLToPath(new URL('../../../content/questions/', import.meta.url));
   const content = await Promise.all((await readdir(contentRoot, { recursive: true })).filter((name) => name.endsWith('.yaml')).map(async (name) => parse(await readFile(resolve(contentRoot, name), 'utf8'))));
@@ -28,7 +28,7 @@ export async function runDailySmoke() {
   const base = `http://127.0.0.1:${server.address().port}`;
   let browser;
   let browserServer;
-  const report = { port: server.address().port, cases: [], errors: [], screenshots: [], additional: {} };
+  const report = { port: server.address().port, dist: resolve(root), cases: [], errors: [], screenshots: [], additional: {} };
   try {
     browserServer = await chromium.launchServer({ headless: true, channel: 'chrome' });
     browser = await chromium.connect(browserServer.wsEndpoint());
@@ -37,89 +37,136 @@ export async function runDailySmoke() {
       page.on('pageerror', (error) => report.errors.push(String(error)));
       page.on('console', (message) => { if (message.type() === 'error') report.errors.push(message.text()); });
     };
-    const load = async (page, url) => { await page.goto(url); await page.locator('#daily-status').filter({ hasText: /已固定|距離 50/ }).waitFor(); };
+    const load = async (page, url) => { await page.goto(url); await page.locator('#daily-metrics:not([hidden])').waitFor(); };
+    const idsOnPage = (page) => page.locator('#daily-cards [data-question]').evaluateAll((cards) => cards.map((card) => card.dataset.qid));
+    const openFirst = async (page, count) => {
+      await page.locator('#daily-open-first').click();
+      await page.locator('#daily-position').filter({ hasText: `第 1／${count} 題` }).waitFor();
+      assert.equal(await page.locator('#daily-practice').isVisible(), true);
+    };
+    const readStore = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('ipas-daily-draft-v2')));
+    const readAttempts = (page) => page.evaluate(() => localStorage.getItem('ipas-attempts-v1'));
     for (const width of [1440, 375]) for (const subject of [1, 3]) {
       const context = await browser.newContext({ viewport: { width, height: 1000 }, timezoneId: 'America/Los_Angeles' });
       const page = await context.newPage(); observe(page);
       await load(page, `${base}/daily/?subject=${subject}`);
+      assert.equal(await page.locator('#daily-open-first').isVisible(), true);
+      assert.deepEqual(await idsOnPage(page), []);
+      assert.equal((await readStore(page)).booklets.length, 0);
+      await page.reload(); await page.locator('#daily-open-first').waitFor();
+      assert.equal((await readStore(page)).booklets.length, 0);
+      const attemptsBefore = await readAttempts(page);
+      await openFirst(page, 50);
       const catalog = await page.locator('#daily-catalog').evaluate((element) => JSON.parse(element.textContent));
-      const ids = await page.locator('#daily-cards [data-question]').evaluateAll((cards) => cards.map((card) => card.dataset.qid));
+      const ids = await idsOnPage(page);
       assert.equal(catalog.filter((q) => ids.includes(q.id) && q.source !== 'mock').length, 0);
+      assert.equal(catalog.filter((q) => ids.includes(q.id) && q.source === 'mock' && q.subject === subject).length, 50);
       assert.equal(ids.length, 50); assert.equal(new Set(ids).size, 50);
       const specials = catalog.filter((q) => ids.includes(q.id) && ['程式', '圖表'].includes(q.type)).length;
       if (subject === 3) assert.ok(specials >= 10 && specials <= 13);
       const first = page.locator('#daily-cards [data-question]:visible');
       const firstId = await first.getAttribute('data-qid');
       const answer = await first.getAttribute('data-answer');
-      if (width === 1440 && subject === 1) await page.waitForFunction(() => !document.getElementById('daily-time').textContent.includes('0 分 0 秒'));
+      if (width === 1440 && subject === 1) await page.waitForFunction(() => document.getElementById('daily-time').textContent !== '累計用時 0:00');
       await first.locator(`input[value="${answer}"]`).check();
-      await first.locator('button[type="submit"]').click();
-      await first.locator('[data-explanation]').waitFor({ state: 'visible' });
-      assert.match(await page.locator('#daily-progress').textContent(), /已答 1／50 題・答對 1 題/);
-      const attemptsBefore = await page.evaluate(() => JSON.parse(localStorage.getItem('ipas-attempts-v1')).attempts);
-      assert.match(attemptsBefore[0].mode, new RegExp(`^daily:\\d{4}-\\d{2}-\\d{2}:S${subject}$`));
-      await page.reload(); await page.locator('#daily-progress').filter({ hasText: '已答 1／50' }).waitFor();
-      assert.deepEqual(await page.locator('#daily-cards [data-question]').evaluateAll((cards) => cards.map((card) => card.dataset.qid)), ids);
-      assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('ipas-attempts-v1')).attempts.length), 1);
+      assert.equal(await first.locator('[data-explanation]').isVisible(), false);
+      assert.match(await page.locator('#daily-progress').textContent(), /這本已答 1／50/);
+      assert.equal(await readAttempts(page), attemptsBefore);
+      const saved = (await readStore(page)).booklets[0];
+      assert.equal(saved.questions[0].choice, answer);
+      await page.reload(); await page.locator('#daily-progress').filter({ hasText: '這本已答 1／50' }).waitFor();
+      assert.deepEqual(await idsOnPage(page), ids);
+      assert.equal((await readStore(page)).booklets[0].id, saved.id);
+      assert.equal(await readAttempts(page), attemptsBefore);
       assert.equal(await page.locator('#daily-position').textContent(), '第 1／50 題');
       await page.locator('#daily-next').click();
       await page.reload(); await page.locator('#daily-position').filter({ hasText: '第 2／50 題' }).waitFor();
+      assert.equal((await readStore(page)).booklets[0].position, 1);
       await page.locator('#daily-previous').click();
       assert.equal(await first.getAttribute('data-qid'), firstId);
       assert.equal(await first.locator(`input[value="${answer}"]`).isChecked(), true);
-      assert.equal(await first.locator('button[type="submit"]').isDisabled(), true);
-      assert.equal(await first.locator('[data-explanation]').isVisible(), true);
+      assert.equal(await first.locator(`input[value="${answer}"]`).isEnabled(), true);
+      assert.equal(await first.locator('[data-explanation]').isVisible(), false);
+      assert.equal(await readAttempts(page), attemptsBefore);
+      if (width === 1440 && subject === 1) assert.ok((await readStore(page)).booklets[0].questions[0].ms >= 1000);
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
       assert.ok(overflow <= 0, `width=${width}, overflow=${overflow}`);
       const screenshot = resolve(output, `daily-${width}-S${subject}.png`);
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
       await page.screenshot({ path: screenshot, fullPage: true }); report.screenshots.push(screenshot);
-      report.cases.push({ width, subject, count: ids.length, specials, answered: 1, correct: 1, overflow, refreshFixed: true, restored: true, date: await page.locator('#daily-date').textContent(), elapsed: await page.locator('#daily-time').textContent(), sources: Object.fromEntries(['exam', 'guide', 'mock'].map((source) => [source, catalog.filter((q) => ids.includes(q.id) && q.source === source).length])) });
+      report.cases.push({ width, subject, count: ids.length, specials, answered: 1, attemptsAdded: 0, explanationHidden: true, overflow, refreshFixed: true, restored: true, date: await page.locator('#daily-date').textContent(), elapsed: await page.locator('#daily-time').textContent(), sources: Object.fromEntries(['exam', 'guide', 'mock'].map((source) => [source, catalog.filter((q) => ids.includes(q.id) && q.source === source).length])) });
       await context.close();
     }
     const context = await browser.newContext(); const page = await context.newPage(); observe(page);
     await load(page, `${base}/daily/?subject=1`);
-    const snapshot = await page.evaluate(() => ({ catalog: JSON.parse(document.getElementById('daily-catalog').textContent), set: JSON.parse(localStorage.getItem('ipas-daily-v1')) }));
-    const officialBefore = 2;
-    await page.evaluate(() => {
-      const catalog = JSON.parse(document.getElementById('daily-catalog').textContent);
-      const cache = JSON.parse(localStorage.getItem('ipas-daily-v1'));
-      const old = [catalog.find((q) => q.subject === 1 && q.source === 'exam'), catalog.find((q) => q.subject === 1 && q.source === 'guide')];
-      cache.sets[0].questions.splice(1, 2, ...old.map(({ id, rev }) => ({ id, rev })));
-      localStorage.setItem('ipas-daily-v1', JSON.stringify(cache));
-      localStorage.setItem('ipas-attempts-v1', JSON.stringify({ version: 1, attempts: [{ id: 'old-official', qid: old[0].id, rev: old[0].rev, choice: 'A', correct: true, ts: new Date().toISOString(), mode: 'daily:' + cache.sets[0].date + ':S1', ms: 500 }] }));
-    });
-    const beforeMigration = await page.evaluate(() => JSON.parse(localStorage.getItem('ipas-daily-v1')).sets[0].questions);
-    await page.reload(); await page.locator('#daily-status').filter({ hasText: '已替換 2 題官方題' }).waitFor();
-    const afterMigration = await page.evaluate(() => JSON.parse(localStorage.getItem('ipas-daily-v1')).sets[0].questions);
-    const afterOfficial = afterMigration.filter((item) => snapshot.catalog.find((q) => q.id === item.id)?.source !== 'mock').length;
-    assert.equal(afterOfficial, 0); assert.equal(afterMigration.length, 50);
-    assert.match(await page.locator('#daily-progress').textContent(), /已答 0／50 題・答對 0 題/);
-    assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('ipas-attempts-v1')).attempts[0].id), 'old-official');
-    assert.deepEqual(afterMigration.filter((_, i) => i !== 1 && i !== 2), beforeMigration.filter((_, i) => i !== 1 && i !== 2));
-    report.additional.cacheMigration = { officialBefore, officialAfter: afterOfficial, count: afterMigration.length };
-    // 瀏覽器中的隔離快取故障，不修改實際題庫。
-    await page.evaluate(() => { const cache = JSON.parse(localStorage.getItem('ipas-daily-v1')); cache.sets[0].questions[0].id = 'removed-question'; cache.sets[0].questions[1].rev = 999; localStorage.setItem('ipas-daily-v1', JSON.stringify(cache)); });
-    await page.reload(); await page.locator('#daily-status').filter({ hasText: '2 題已移除' }).waitFor();
+    const catalog = await page.locator('#daily-catalog').evaluate((element) => JSON.parse(element.textContent));
+    const mock = catalog.filter((q) => q.subject === 1 && q.source === 'mock' && q.review.status === 'verified' && q.codes.length).slice(0, 50).map(({ id, rev }) => ({ id, rev }));
+    const oldOfficial = ['exam', 'guide'].map((source) => catalog.find((q) => q.subject === 1 && q.source === source));
+    const legacyQuestions = [...mock]; legacyQuestions.splice(1, 2, ...oldOfficial.map(({ id, rev }) => ({ id, rev })));
+    const oldAttempt = { id: 'old-official', qid: oldOfficial[0].id, rev: oldOfficial[0].rev, choice: 'A', correct: true, ts: '2026-11-04T00:00:00Z', mode: 'daily:2026-11-05:S1', ms: 500 };
+    // 先離開頁面才種資料，避免舊頁的離開保存覆蓋故障樣本。
+    const seed = async (values) => {
+      await page.goto(base + '/quiz/');
+      await page.evaluate((entries) => { localStorage.clear(); for (const [key, value] of Object.entries(entries)) localStorage.setItem(key, JSON.stringify(value)); }, values);
+    };
+    await seed({ 'ipas-daily-v1': { version: 1, sets: [{ date: '2026-11-05', subject: 1, questions: legacyQuestions }] }, 'ipas-attempts-v1': { version: 1, attempts: [oldAttempt] } });
+    const attemptsBeforeMigration = await readAttempts(page);
+    await load(page, `${base}/daily/?subject=1`);
+    const migrated = (await readStore(page)).booklets[0];
+    const afterOfficial = migrated.questions.filter((item) => catalog.find((q) => q.id === item.id)?.source !== 'mock').length;
+    assert.equal(afterOfficial, 0); assert.equal(migrated.questions.length, 48);
     assert.equal(await page.locator('#daily-cards [data-question]').count(), 48);
+    assert.equal(migrated.origin, 'v1-set');
+    assert.deepEqual(migrated.assignedQids, legacyQuestions.map((q) => q.id));
+    assert.deepEqual(migrated.questions.map(({ id, rev }) => ({ id, rev })), legacyQuestions.filter((_, i) => i !== 1 && i !== 2));
+    assert.equal(await readAttempts(page), attemptsBeforeMigration);
+    assert.match(await page.locator('#daily-progress').textContent(), /這本已答 0／48/);
+    report.additional.cacheMigration = { officialBefore: 2, officialAfter: afterOfficial, count: migrated.questions.length, oldAttemptsUnchanged: true };
+    const makeStore = (id, subject, questions) => ({ version: 2, migratedAt: null, current: { '1': subject === 1 ? id : null, '3': subject === 3 ? id : null }, booklets: [{ id, seq: 0, subject, number: 1, createdDate: '2026-11-05', attemptMode: `booklet:${id}:S${subject}`, origin: 'new', status: 'open', position: 0, assignedQids: questions.map((q) => q.id), questions: questions.map(({ id, rev }) => ({ id, rev, choice: null, unsure: false, ms: 0 })) }] });
+    // 失效題仍留在已分配清單，驗證略過後不會補新題。
+    const invalid = mock.map((q) => ({ ...q })); invalid[0].id = 'removed-question'; invalid[1].rev = 999;
+    await seed({ 'ipas-daily-draft-v2': makeStore('invalid-fixture', 1, invalid) });
+    await load(page, `${base}/daily/?subject=1`);
+    await page.locator('#daily-status').filter({ hasText: '2 題已移除或改版，已略過，不補題。' }).waitFor();
+    assert.equal(await page.locator('#daily-cards [data-question]').count(), 48);
+    const reconciled = (await readStore(page)).booklets[0];
+    assert.deepEqual(reconciled.questions.map((q) => q.id), invalid.slice(2).map((q) => q.id));
+    assert.deepEqual(reconciled.assignedQids, invalid.map((q) => q.id));
     report.additional.invalidCacheSkipped = 2;
-    await page.evaluate((catalog) => {
-      localStorage.clear();
-      const verified = catalog.filter((q) => q.subject === 1 && q.source === 'mock' && q.review.status === 'verified');
-      const attempts = verified.slice(0, -7).map((q, index) => ({ id: `old-${index}`, qid: q.id, rev: 99, choice: 'A', correct: true, ts: '2026-11-04T00:00:00Z', mode: 'question', ms: 0 }));
-      localStorage.setItem('ipas-attempts-v1', JSON.stringify({ version: 1, attempts }));
-    }, snapshot.catalog);
-    await page.reload(); await page.locator('#daily-status').filter({ hasText: '缺 43 題' }).waitFor();
+    const verified = catalog.filter((q) => q.subject === 1 && q.source === 'mock' && q.review.status === 'verified' && q.codes.length);
+    const attempts = verified.slice(0, -7).map((q, index) => ({ id: `old-${index}`, qid: q.id, rev: 99, choice: 'A', correct: true, ts: '2026-11-04T00:00:00Z', mode: 'question', ms: 0 }));
+    await seed({ 'ipas-attempts-v1': { version: 1, attempts } });
+    await load(page, `${base}/daily/?subject=1`);
+    assert.equal(await page.locator('#daily-open-first').textContent(), '開第 1 本（7 題）');
+    assert.equal((await readStore(page)).booklets.length, 0);
+    await openFirst(page, 7);
     assert.equal(await page.locator('#daily-cards [data-question]').count(), 7);
-    report.additional.shortage = 43;
-    await page.locator('#daily-subject').selectOption('3'); await page.getByRole('button', { name: '開啟今日題組' }).click();
-    await page.locator('#daily-date').filter({ hasText: '科目 3' }).waitFor(); assert.equal(await page.locator('#daily-cards [data-question]').count(), 50);
-    await page.locator('#daily-subject').selectOption('1'); await page.getByRole('button', { name: '開啟今日題組' }).click();
-    await page.locator('#daily-status').filter({ hasText: '缺 43 題' }).waitFor();
+    assert.equal(await page.locator('#daily-partial-note').isVisible(), true);
+    assert.equal(await page.locator('#daily-partial-note').textContent(), '本題本共 7 題。未做題不足 50 題，不換算正式模擬卷分數。');
+    const shortIds = await idsOnPage(page); const shortBook = (await readStore(page)).current['1'];
+    report.additional.shortage = { missing: 43, count: 7, partialNote: true };
+    await page.locator('[data-daily-subject="3"]').click(); await page.locator('#daily-open-first').waitFor();
+    assert.deepEqual(await idsOnPage(page), []);
+    await openFirst(page, 50);
+    assert.equal(await page.locator('#daily-cards [data-question]').count(), 50);
+    await page.locator('[data-daily-subject="1"]').click(); await page.locator('#daily-position').filter({ hasText: '第 1／7 題' }).waitFor();
+    assert.deepEqual(await idsOnPage(page), shortIds);
+    assert.equal((await readStore(page)).current['1'], shortBook);
     report.additional.subjectCachesIndependent = true;
     await page.goto(`${base}/quiz/`); await page.locator('#quiz:not([hidden])').waitFor();
     assert.equal(await page.locator('#quiz [data-question]').count(), 10); assert.equal(await page.locator('a[href="/daily/"]').count() > 0, true);
-    report.additional.quizUnchanged = 10; await context.close();
+    report.additional.quizUnchanged = 10;
+    // 題庫後段可能超過原比例，另種 14 題程式題驗證原因提示。
+    const subjectThree = catalog.filter((q) => q.subject === 3 && q.source === 'mock' && q.review.status === 'verified' && q.codes.length);
+    const codeHeavy = [...subjectThree.filter((q) => q.type === '程式').slice(0, 14), ...subjectThree.filter((q) => !['程式', '圖表'].includes(q.type)).slice(0, 36)];
+    assert.equal(codeHeavy.length, 50);
+    await seed({ 'ipas-daily-draft-v2': makeStore('code-heavy-fixture', 3, codeHeavy) });
+    await load(page, `${base}/daily/?subject=3`);
+    assert.equal(await page.locator('#daily-code-note').isVisible(), true);
+    assert.equal(await page.locator('#daily-code-note').textContent(), '這本有 14 題程式題，因為未做的非程式題變少。');
+    assert.equal(await page.locator('#daily-cards [data-question]').count(), 50);
+    report.additional.programHeavyNotice = { count: 50, programQuestions: 14, notice: true };
+    await context.close();
     report.official = [];
     for (const width of [1440, 375]) {
       const officialContext = await browser.newContext({ viewport: { width, height: 1000 } });
@@ -195,15 +242,29 @@ export async function runDailySmoke() {
     await plain.goto(base + '/official/115-1-S3/'); assert.equal(await plain.locator('noscript').isVisible(), true);
     report.additional.officialNoJavaScript = true; await noJs.close();
     const blocked = await browser.newContext(); const denied = await blocked.newPage(); observe(denied);
-    await denied.addInitScript(() => { Storage.prototype.setItem = () => { throw new Error('storage denied'); }; });
-    await denied.goto(`${base}/daily/`); await denied.locator('#daily-status').filter({ hasText: '無法載入每日題組' }).waitFor();
-    assert.equal(await denied.locator('#daily-practice').isVisible(), false); report.additional.storageDenied = true; await blocked.close();
+    await load(denied, `${base}/daily/`);
+    const beforeDenied = await readStore(denied);
+    // 先完成空資料遷移，再拒絕所有保存，才能單獨驗證開本失敗。
+    await denied.evaluate(() => { Storage.prototype.setItem = () => { throw new Error('storage denied'); }; });
+    await denied.locator('#daily-open-first').click();
+    await denied.locator('#daily-error-message').filter({ hasText: '題本尚未建立，原本的題本不變。' }).waitFor();
+    assert.equal(await denied.locator('#daily-save-error').isVisible(), true);
+    assert.equal(await denied.locator('#daily-practice').isVisible(), false);
+    assert.deepEqual(await idsOnPage(denied), []);
+    assert.deepEqual(await readStore(denied), beforeDenied);
+    assert.equal(await denied.locator('#daily-open-first').isVisible(), true);
+    report.additional.storageDenied = true; await blocked.close();
     assert.equal(report.errors.length, 0);
     await writeFile(resolve(output, 'browser-report.json'), JSON.stringify(report, null, 2));
     return report;
+  } catch (cause) {
+    report.failure = String(cause instanceof Error ? cause.stack : cause);
+    throw cause;
   } finally {
     // 關閉這次測試建立的程序樹，避免 Chrome 關閉事件卡住而留下測試服務。
     try {
+      // 斷言失敗時也關閉本次建立的全部隔離 context。
+      if (browser) await Promise.all(browser.contexts().map((context) => context.close()));
       if (browserServer) {
         const closing = browserServer.kill();
         // Windows 可能保留已結束程序的管線；釋放本次瀏覽器的管線後等待收尾。

@@ -1,0 +1,95 @@
+/* 題本資訊沿用核可示意；作答雙欄與固定按鈕仍由 daily-exam.css 負責。 */
+.daily-booklet { font-variant-numeric: tabular-nums; }
+.daily-booklet :is(label, fieldset, legend) { margin-block: 0; }
+.daily-booklet .daily-subjects small span { display: block; min-height: 0; white-space: nowrap; }
+.daily-booklet .lead { margin-bottom: 16px !important; }
+.daily-booklet .daily-subjects { margin-bottom: 8px !important; }
+.booklet-independent { font-size: 12px; color: var(--muted); margin-bottom: 24px !important; }
+.booklet-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 8px; background: var(--paper); margin-bottom: 24px !important; }
+.booklet-metrics > div { display: grid; align-content: start; gap: 5px; padding: 16px 24px; }
+.booklet-metrics > div + div { border-left: 1px solid var(--line); }
+.booklet-metrics span { color: var(--muted); font-size: 12px; }
+.booklet-metrics strong { font-size: 28px; line-height: 1.4; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.booklet-metrics small { font-size: 13px; font-weight: 400; color: var(--muted); margin-left: 5px; }
+.booklet-metrics strong.is-text { font-size: 17px; line-height: 39px; }
+.booklet-kicker { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 4px !important; }
+.booklet-current { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; border: 1px solid var(--exam-green); border-radius: 8px; background: var(--exam-green-bg); margin-bottom: 32px !important; }
+.daily-booklet :is(.booklet-current, .booklet-readonly) h2 { font-size: 20px; }
+.booklet-current p { font-size: 12px; color: var(--muted); margin-top: 5px !important; }
+.booklet-section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; margin-bottom: 14px !important; }
+.booklet-section-head h2 { font-size: 19px; }
+.booklet-section-head p { font-size: 11px; color: var(--muted); }
+.booklet-table { border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+.booklet-row { display: grid; grid-template-columns: minmax(145px, 1.4fr) minmax(75px, .8fr) minmax(55px, .55fr) minmax(110px, 1fr) minmax(90px, .8fr); gap: 12px; align-items: center; padding: 16px 20px; font-size: 13px; }
+.booklet-row + .booklet-row { border-top: 1px solid var(--line); }
+.booklet-table-head { font-size: 11px; color: var(--muted); padding-block: 10px; background: var(--exam-soft); border-radius: 8px 8px 0 0; }
+.booklet-row strong { font-size: 14px; font-weight: 600; }
+.booklet-row time { display: block; font-size: 11px; color: var(--muted); margin-top: 3px !important; }
+.booklet-status { display: inline-block; font-size: 11px; border: 1px solid var(--line); border-radius: 4px; padding: 2px 7px; color: var(--muted); }
+.booklet-status.is-open { color: var(--exam-green); background: var(--exam-green-bg); border-color: var(--exam-green); }
+.booklet-row-action { display: inline-flex; align-items: center; gap: 6px; color: var(--green); font: inherit; font-size: 12px; border: 0; background: transparent; min-height: 44px; padding: 0; cursor: pointer; white-space: nowrap; }
+.booklet-row > :last-child { justify-self: end; }
+.booklet-result { border: 1px solid var(--line); border-left: 4px solid var(--exam-green); border-radius: 8px; background: var(--paper); margin-bottom: 28px !important; }
+.booklet-result-main { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 24px; }
+.booklet-result h2 { font-size: 25px; }
+.booklet-result p { font-size: 12px; color: var(--muted); }
+.booklet-next { display: grid; gap: 8px; justify-items: end; }
+.booklet-next small { font-size: 11px; color: var(--muted); }
+.booklet-result-note { padding: 10px 24px; border-top: 1px solid var(--line); }
+.booklet-empty { padding: 36px 28px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+.booklet-empty h2 { font-size: 25px; }
+.booklet-empty p { font-size: 14px; color: var(--muted); line-height: 1.9; margin-top: 10px !important; }
+.booklet-empty .button { margin-top: 24px !important; }
+.booklet-code-note { padding: 12px 16px; background: var(--exam-orange-bg); border-left: 3px solid var(--exam-orange); color: var(--exam-orange); font-size: 12px; margin-bottom: 20px !important; }
+.booklet-readonly { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 20px 24px; margin-bottom: 24px !important; border: 1px solid var(--exam-orange); border-left: 4px solid var(--exam-orange); border-radius: 8px; background: var(--exam-orange-bg); }
+.booklet-readonly :is(p, .booklet-kicker) { font-size: 12px; color: var(--exam-orange); }
+.booklet-legacy { margin-top: 24px !important; border-top: 1px solid var(--line); padding-top: 20px; }
+.booklet-legacy h3 { font-size: 14px; margin-bottom: 12px !important; }
+.booklet-legacy-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font-size: 12px; }
+.booklet-legacy > p { margin-top: 10px !important; color: var(--muted); font-size: 12px; }
+.daily-booklet .daily-grid { margin-top: 14px !important; }
+.daily-booklet .daily-legend b { font-weight: 400; margin: 0; line-height: 1.5; }
+.daily-booklet .daily-legend i { flex-shrink: 0; margin: 0; }
+.booklet-footer { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 32px !important; }
+.booklet-footer > div { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 12px; }
+.booklet-footer p { color: var(--muted); font-size: 11px; margin-top: 12px !important; max-width: 72ch; }
+[data-theme='dark']:has(.daily-booklet) { color-scheme: dark; }
+[data-theme='dark']:has(.daily-booklet) site-search button[data-open-modal] { background: var(--paper); color: var(--ink); }
+[data-theme='dark']:has(.daily-booklet) .sidebar-content a[aria-current='page'] { color: var(--exam-green, #9ad7af); background: var(--sl-color-gray-5); }
+[data-theme='dark'] .daily-booklet .button.secondary { border-color: var(--line); }
+[data-theme='dark'] .daily-booklet .button.secondary:hover { background: var(--exam-soft); }
+@media (max-width: 760px) {
+  .booklet-row { grid-template-columns: minmax(0, 1fr) auto; gap: 5px 12px; padding: 16px; }
+  .booklet-table-head { display: none; }
+  .booklet-row > :first-child { grid-column: 1; grid-row: 1 / span 2; }
+  .booklet-row > :nth-child(2) { grid-column: 2; grid-row: 1; justify-self: end; }
+  .booklet-row > :nth-child(3) { grid-column: 1; grid-row: 3; color: var(--muted); font-size: 12px; }
+  .booklet-row > :nth-child(4) { grid-column: 2; grid-row: 2; font-size: 12px; text-align: right; }
+  .booklet-row > :last-child { grid-column: 2; grid-row: 3; }
+  .booklet-current, .booklet-readonly { align-items: start; flex-direction: column; padding: 20px; }
+  .booklet-result-main { flex-direction: column; align-items: start; padding: 20px; }
+  .booklet-next { justify-items: start; }
+  .booklet-result-note { padding-inline: 20px; }
+}
+@media (max-width: 520px) {
+  .booklet-metrics { margin-bottom: 20px !important; }
+  .booklet-metrics > div { padding: 12px; gap: 8px; }
+  .booklet-metrics span { font-size: 11px; }
+  .booklet-metrics strong { font-size: 23px; }
+  .booklet-metrics small { font-size: 11px; margin-left: 2px; }
+  .booklet-metrics strong.is-text { font-size: 13px; line-height: 32px; }
+  .booklet-empty { padding: 28px 20px; }
+  .booklet-empty h2 { font-size: 23px; }
+  .booklet-legacy-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 5px 20px; }
+}
+
+/* 保留窄螢幕的空間，完整本數與尾本題數分行呈現。 */
+.booklet-metrics small { display: inline-block; }
+.booklet-metrics .booklet-tail { display: block; margin: 0; font-size: 11px; }
+.daily-booklet .booklet-history { margin-top: 32px !important; }
+.daily-booklet .booklet-result { scroll-margin-top: 96px; }
+.daily-booklet .booklet-legacy-row + .booklet-legacy-row { margin-top: 10px !important; }
+.daily-booklet [hidden] { display: none !important; }
+.daily-booklet progress::-webkit-progress-bar { background: var(--exam-soft); }
+.daily-booklet progress::-webkit-progress-value { background: var(--exam-green); }
+.daily-booklet progress::-moz-progress-bar { background: var(--exam-green); }

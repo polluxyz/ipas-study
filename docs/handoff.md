@@ -2,8 +2,8 @@
 
 ## 目前進度（2026-11-06）
 
-- 進行中：每日題本（`docs/specs/daily-booklet.md`，2026-11-07 已核可）。進度與任務見`tasks/daily-booklet-todo.md`。版面要使用者看過mockup才實作。全部完成才合併main。
-- 題本目前卡在U1：等使用者看mockup。規格複查3輪已結束。mockup在本機分支`polluxyz/daily-booklet-mockup`（`f671540`，不合併），截圖在`tmp/demo-shots/daily-booklet-mockup/`，總覽`overview.png`。使用者回覆後才開`feature/daily-booklet`，依todo派I1–I8。
+- 進行中：每日題本（`docs/specs/daily-booklet.md`，2026-11-07 已核可）。進度與任務見`tasks/daily-booklet-todo.md`。mockup已核可。全部完成才合併main。
+- 題本實作中，整合分支`feature/daily-booklet`，依todo派I1–I8。mockup在本機分支`polluxyz/daily-booklet-mockup`（`f671540`，不合併），是I5的版面依據，截圖在`tmp/demo-shots/daily-booklet-mockup/`。
 - Codex 0.166.0新worker用`--agent codex`會被更新提示擋住。使用者未要求升級。改用`orca terminal create --command "codex ... -c check_for_update_on_startup=false"`開終端，等`tui-idle`後再`worker-start --terminal`。
 - 查得：使用者`127.0.0.1:4321`作答0筆，只有科目1的2026-11-06題組（open）。其他瀏覽器或網址未查。上線前不要開沒有進度、清單是舊日期的科目。
 - 已上線：每日題組交卷模式（PR #185，`0626fd2`）。規格`docs/specs/daily-exam-mode.md`，驗收與上線紀錄在`tasks/daily-exam-mode-plan.md`。

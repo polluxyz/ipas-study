@@ -6,6 +6,13 @@ export interface DailyQuestion {
   type: string; review: { status: string };
 }
 export type DailySubject = 1 | 3;
+export type DuplicateGroups = readonly (readonly string[])[];
+export interface DailyExclusions {
+  /** 全部題本的分配題號聯集，包含他科、未交卷與已結束題本。 */
+  assignedQids: Iterable<string>;
+  /** 同題群組的成員可以跨科。 */
+  groups: DuplicateGroups;
+}
 export function taipeiDate(now: Date): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
 }
@@ -42,8 +49,42 @@ export function unseenDailyQuestions<T extends DailyQuestion>(questions: readonl
   });
 }
 
-export function selectDailyQuestions<T extends DailyQuestion>(questions: readonly T[], attempts: readonly Attempt[], subject: DailySubject, date: string, random: () => number) {
-  const pool = unseenDailyQuestions(questions, attempts, subject);
+/** 作答與分配都按題號排除；群組成員不受科目、版本或目前題庫限制。 */
+export function eligibleDailyQuestions<T extends DailyQuestion>(questions: readonly T[], attempts: readonly Attempt[], subject: DailySubject, exclusions: DailyExclusions): T[] {
+  const occupied = new Set([...attempts.map((a) => a.qid), ...exclusions.assignedQids]);
+  const blocked = new Set(occupied);
+  for (const group of exclusions.groups) {
+    if (group.some((id) => occupied.has(id))) for (const id of group) blocked.add(id);
+  }
+  return unseenDailyQuestions(questions, attempts, subject).filter((q) => !blocked.has(q.id));
+}
+
+/** 未列入群組的題自成一組，保留候選的出現順序供舊抽題流程使用。 */
+function groupDailyQuestions<T extends DailyQuestion>(questions: readonly T[], groups: DuplicateGroups): T[][] {
+  const membership = new Map(groups.flatMap((group) => group.map((id) => [id, group] as const)));
+  const buckets = new Map<string | readonly string[], T[]>();
+  for (const q of questions) {
+    const key = membership.get(q.id) ?? q.id;
+    const bucket = buckets.get(key);
+    if (bucket) bucket.push(q);
+    else buckets.set(key, [q]);
+  }
+  return [...buckets.values()];
+}
+
+/** 可抽群組數就是 F；完整本數與最後一本題數都由 F 換算。 */
+export function dailyFreeCount(questions: readonly DailyQuestion[], attempts: readonly Attempt[], subject: DailySubject, exclusions: DailyExclusions): { free: number; fullBooks: number; lastBook: number } {
+  const free = groupDailyQuestions(eligibleDailyQuestions(questions, attempts, subject, exclusions), exclusions.groups).length;
+  return { free, fullBooks: Math.floor(free / 50), lastBook: free % 50 };
+}
+
+export function selectDailyQuestions<T extends DailyQuestion>(questions: readonly T[], attempts: readonly Attempt[], subject: DailySubject, date: string, random: () => number, exclusions?: DailyExclusions) {
+  // 先選每組代表題再計算容量，避免跨代碼的同題重複佔用名額。
+  // 單題群組不消耗亂數，空群組參數因此保持原有抽題結果。
+  const pool = exclusions
+    ? groupDailyQuestions(eligibleDailyQuestions(questions, attempts, subject, exclusions), exclusions.groups).map((group) =>
+      group.length === 1 ? group[0] : group[Math.min(group.length - 1, Math.max(0, Math.floor(random() * group.length)))])
+    : unseenDailyQuestions(questions, attempts, subject);
   const weights = dailyWeights(questions, subject);
   const quotas = apportion(weights, 50);
   const codes = Object.keys(weights);
