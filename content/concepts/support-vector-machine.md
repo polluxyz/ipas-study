@@ -247,9 +247,13 @@ C=10 gamma=10 訓練=54/54 驗證=12/18
 
 ## 怎麼用、怎麼判讀
 
-先考慮中小資料、高維特徵，以及邊界清晰或需非線性分界的問題。樣本非常多時，核SVM的時間與記憶體可能成為限制；高維能力不等於低成本保證。
+先考慮中小資料、高維特徵，以及邊界清晰或需非線性分界的問題。樣本非常多時，核SVM會花很多時間和記憶體。它能處理特徵很多的資料，但不代表算得快。
 
-:::supplement[來源：scikit-learn SVM Tips on Practical Use]
+:::supplement[來源：scikit-learn SVM Complexity、Tips on Practical Use]
+核SVM訓練時，要反覆計算樣本兩兩之間的相似度。scikit-learn說明，訓練成本約隨樣本數的平方到三次方成長：筆數變10倍，時間可能變100到1000倍。
+
+樣本很多時，先試線性SVM（LinearSVC）；它的成本幾乎隨樣本數線性成長，可處理到百萬筆。
+
 標準化後再選C與gamma。`decision_function`提供分類分數，並非直接提供校準過的機率；不能把分數0.8解釋成80%機率。
 :::
 
@@ -275,7 +279,7 @@ C=10 gamma=10 訓練=54/54 驗證=12/18
 ### 參考來源
 
 - 科目1指引5.1，guide-1:5-8～5-9；科目3指引4.2，guide-3:4-28～4-30（版本未標示）：支持超平面、核決策式、分類共用場景、適用條件與成本限制。
-- [scikit-learn SVM](https://scikit-learn.org/stable/modules/svm.html)：支持軟間隔、尺度與RBF定義。
+- [scikit-learn SVM](https://scikit-learn.org/stable/modules/svm.html)：支持軟間隔、尺度、RBF定義與訓練成本（Complexity一節）。
 - [Stanford CS229講義，印刷頁15](https://cs229.stanford.edu/notes2020spring/cs229-notes3.pdf#page=15)：支持點到超平面的幾何距離推導。
 - [scikit-learn SVM Margins Example](https://scikit-learn.org/stable/auto_examples/svm/plot_svm_margin.html)：直接以權重範數計算單側間隔；本頁總間隔為兩側相加。
 - [scikit-learn RBF SVM parameters教學](https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html)：參考固定資料比較C／gamma的教法。
