@@ -1,16 +1,18 @@
 # 完整網站整合交接
 
-## 目前進度（2026-11-06）
+## 目前進度（2026-11-08）
 
-- 進行中：每日題本（`docs/specs/daily-booklet.md`，2026-11-07 已核可）。進度與任務見`tasks/daily-booklet-todo.md`。mockup已核可。全部完成才合併main。
-- 題本實作中，整合分支`feature/daily-booklet`，依todo派I1–I8。mockup在本機分支`polluxyz/daily-booklet-mockup`（`f671540`，不合併），是I5的版面依據，截圖在`tmp/demo-shots/daily-booklet-mockup/`。
-- Codex 0.166.0新worker用`--agent codex`會被更新提示擋住。使用者未要求升級。改用`orca terminal create --command "codex ... -c check_for_update_on_startup=false"`開終端，等`tui-idle`後再`worker-start --terminal`。
-- 查得：使用者`127.0.0.1:4321`作答0筆，只有科目1的2026-11-06題組（open）。其他瀏覽器或網址未查。上線前不要開沒有進度、清單是舊日期的科目。
-- 已上線：每日題組交卷模式（PR #185，`0626fd2`）。規格`docs/specs/daily-exam-mode.md`，驗收與上線紀錄在`tasks/daily-exam-mode-plan.md`。
-- 待使用者確認：開`/daily/`看本人資料。自動走查只用隔離瀏覽器造資料。未驗證實體手機、Safari、Firefox、真實作業系統背景切換。
+- 已上線：每日題本（PR #190，`ad359b6`）。規格`docs/specs/daily-booklet.md`，驗收與上線紀錄在`tasks/daily-booklet-plan.md`實作紀錄。4321已更新，隔離瀏覽器走查全過。
+- 待使用者確認：開`/daily/`看本人資料是否已遷移成題本（使用者原有科目1的2026-11-06題組，open，作答0筆）。提醒關閉舊分頁再開。自動走查只用隔離瀏覽器造資料，未驗證實體手機、Safari、Firefox。
+- 小待辦：規格第219行註解寫「沒有舊資料時`migratedAt`是null」，程式在全新環境也寫入時間。不影響資料，只改註解。
+- 建議（由Codex判斷）：320暗色「結束這本」按鈕對比偏低；他科交卷恢復失敗時該科卡片仍寫「作答中」。
+- 待決定（Ask first）：是否補科目3非程式題。規格第192行：第8本起程式題比例升高。
+- 待清理：`booklet-*`、`daily-booklet-mockup`、`deploy-main-dist`工作樹與對應本機分支。清理前確認證據已複製到`tmp/demo-shots/`。
+- Codex 0.166.0新worker用`--agent codex`會被更新提示擋住。改用`orca terminal create --command "codex ... -c check_for_update_on_startup=false"`開終端，等`tui-idle`後再`worker-start --terminal`。
+- 已上線：每日題組交卷模式（PR #185，`0626fd2`），紀錄在`tasks/daily-exam-mode-plan.md`。
 - 派工：使用者要求多派worker、任務細分，每個worker只做一件事。
 - 題庫：main為b992705時，verified模擬題科目1有560題、科目3有491題，需求各450。狀態見`tasks/question-bank-expansion-todo.md`。
-- 4321：不是常駐服務，重開機會停。雙擊桌面`AI學習手札.cmd`（repo外）啟動並開`/daily/`；該檔用`astro preview`提供`D:/ipas-study/demo/dist`，固定4321。不要換連接埠，localStorage作答紀錄跟著網址走。在repo根目錄`pnpm --dir demo run build --force`就地更新，1895頁。
+- 4321：不是常駐服務，重開機會停。雙擊桌面`AI學習手札.cmd`（repo外）啟動並開`/daily/`；加`--no-open`只啟動不開頁。該檔用`astro preview`提供`D:/ipas-study/demo/dist`，固定4321。不要換連接埠，localStorage作答紀錄跟著網址走。更新時絕不在主工作目錄建置：在獨立工作樹用main建置，再robocopy /MIR覆蓋（`tmp/daily-verify/booklet/deploy-main-dist.sh`）。
 - Orca Run：run_e8563c302ab9。worker可能卡在輸入框，派工後要確認畫面有Working。
 - 工作樹：main＋5個保留工作樹，遠端只剩main。清理工具`tmp/question-bank/archive-worktree.mjs`。
 
