@@ -216,7 +216,7 @@ F = 符合第 5.1 節第 1–3 項的題目分成的群組數（未列入群組�
 ```ts
 interface BookletStore {
   version: 2;
-  migratedAt: string | null;           // 從第 1 版遷移的時間；沒有舊資料時是 null
+  migratedAt: string | null;           // 建立新鍵的時間；沒有舊資料時也會寫入（型別保留 null 相容）
   current: { '1': string | null; '3': string | null }; // 各科目前題本 ID
   booklets: Booklet[];                 // 全部題本
 }
