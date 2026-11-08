@@ -28,7 +28,7 @@
 | I5-fix5 兩科交卷恢復分開處理 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-booklet-smoke-multi.mjs` | R1 M2；規格第 248 行 | 完成：worker `73e9df6`，併入 `5bfc9f7`。修改前 multi 13/16（新案 12、14、16 失敗），修改後 16/16。單元 1178/1178、booklet 10/10、exam smoke 71 案 success。觀察：他科交卷恢復失敗時，該科卡片仍寫「作答中」，點進去顯示錯誤與重試，不影響資料。 |
 | I5-fix6 清單列文字、匯入後更新題量 | `demo/src/lib/daily-client.ts`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts`、`demo/scripts/daily-booklet-smoke.mjs` | R1 L2、L3 | 完成：worker `cbc1d7b`，併入 `19dcba6`。單元 1180/1180、booklet smoke 12/12、multi 11/11、exam smoke 71 案 success。建議（由 Codex 判斷）：320 暗色「結束這本」按鈕對比偏低，修正前已存在。 |
 | V1 協調者驗收 | 主工作區 | 規格第 12 節逐條有證據；親看截圖 | 完成：第 1–11 條有證據（見 plan 實作紀錄），第 12 條待 P1。 |
-| P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完一輪 | 未開始 |
+| P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完一輪 | 完成：PR #190 合併為 `ad359b6`，4321 已更新，隔離瀏覽器走查全過（見 plan）。 |
 
 I1、I3a、I3b 可平行。I1b、I2、I4 要等 I1。I5 要等 I2、I3a、I3b、I4。I5-fix、I6 要等 I5，可平行。I7a、I7b、I8a、I8b 要等 I5-fix 與 I6，因為測試會斷言修正後的文字與側欄名稱；這 4 項可平行，共用 `booklet-verify` 工作樹的建置產物。
 
