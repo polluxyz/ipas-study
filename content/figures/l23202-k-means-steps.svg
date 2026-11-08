@@ -92,6 +92,8 @@
 <g data-center="B" data-state="current"><path d="M 123 326 L 132 335 L 123 344 L 114 335 Z" fill="#fff" stroke="#ac4200" stroke-width="2.4" /></g>
 <text x="166" y="121" >(4, 8)</text>
 <text x="141" y="322" >(3, 0)</text>
+<path d="M 155 229 L 166 220" fill="none" stroke="#172c43" stroke-width="1"/>
+<text x="171" y="210" font-size="13">離上方中心稍近</text>
 <text x="14" y="389" font-size="13">分界：到兩個中心一樣近</text>
     </g>
     <g id="step-3" transform="translate(16 578)" data-origin="48,335" data-scale="25">
@@ -200,8 +202,8 @@
 <circle data-point="9,8" data-group="A" cx="273" cy="135" r="4.5" fill="#2463a6"/>
 <g data-center="A" data-state="old" opacity="0.3"><path d="M 223 151 L 232 160 L 223 169 L 214 160 Z" fill="#fff" stroke="#2463a6" stroke-width="2.4" /></g>
 <g data-center="B" data-state="old" opacity="0.3"><path d="M 98 276 L 107 285 L 98 294 L 89 285 Z" fill="#fff" stroke="#ac4200" stroke-width="2.4" /></g>
-<path data-move="A" d="M 212 160 C 190 157 203 132 227 145" fill="none" stroke="#2463a6" stroke-width="1.8" marker-end="url(#kmeans-arrow-a)"/>
-<path data-move="B" d="M 109 285 C 152 322 162 254 119 275" fill="none" stroke="#ac4200" stroke-width="1.8" marker-end="url(#kmeans-arrow-b)"/>
+<path data-move="A" d="M 201 138 L 216 123" fill="none" stroke="#2463a6" stroke-width="1.8" marker-end="url(#kmeans-arrow-a)"/>
+<path data-move="B" d="M 118 305 L 128 295" fill="none" stroke="#ac4200" stroke-width="1.8" marker-end="url(#kmeans-arrow-b)"/>
 <g data-center="A" data-state="current"><path d="M 238 136 L 247 145 L 238 154 L 229 145 Z" fill="#fff" stroke="#2463a6" stroke-width="2.4" /></g>
 <g data-center="B" data-state="current"><path d="M 108 266 L 117 275 L 108 284 L 99 275 Z" fill="#fff" stroke="#ac4200" stroke-width="2.4" /></g>
 <text x="192" y="88" >(7.6, 7.6)</text>
