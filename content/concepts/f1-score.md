@@ -16,7 +16,7 @@ gaps:
 author: codex
 status: draft
 textbook: v2
-summary: F1 分數同時看警報有多準，以及實際盜刷有多少被抓到
+summary: F1 把精確率與召回率合成一個分數，兩項都高才會高
 goals:
   - id: g1
     text: 由精確率、召回率或四格計數算出 F1，並處理零分母，對照醫療與瑕疵的錯誤成本
