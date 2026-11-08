@@ -32,7 +32,6 @@ const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
     <p id="daily-status" role="status">正在讀取題本…</p>
     <p id="daily-legacy" class="muted" hidden>部分解析曾顯示；已沿用先前作答，計入本次成績。</p>
     <div id="daily-save-error" role="status" hidden><p id="daily-error-message"></p><button id="daily-retry" class="button secondary" type="button">重試保存</button><a href="" id="daily-reload" hidden>重新載入</a></div>
-    <section id="daily-current" class="booklet-current" data-testid="booklet-current" hidden><div><span class="booklet-kicker">目前題本</span><h2 id="daily-current-title"></h2><p id="daily-current-note"></p></div></section>
     <aside id="daily-readonly" class="booklet-readonly" data-testid="booklet-readonly" hidden><div><span class="booklet-kicker">回看已交卷題本</span><h2 id="daily-readonly-title"></h2><p>唯讀檢討・不計時・不能改答</p></div><a id="daily-return" class="button secondary" href="/daily/">返回目前題本</a></aside>
     <section id="daily-score" class="booklet-result" data-testid="booklet-result" tabindex="-1" aria-label="本次練習結果" hidden>
       <div class="booklet-result-main"><div><span id="daily-result-number" class="booklet-kicker"></span><h2 id="daily-score-heading"></h2><p id="daily-score-points"></p></div><div id="daily-next-book" class="booklet-next" hidden><button id="daily-open-next" class="button primary" type="button"></button><small id="daily-next-note"></small></div></div><p id="daily-result-note" class="booklet-result-note">先檢討這本的答案與解析。準備好再開下一本。</p>

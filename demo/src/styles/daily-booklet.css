@@ -13,9 +13,7 @@
 .booklet-metrics small { font-size: 13px; font-weight: 400; color: var(--muted); margin-left: 5px; }
 .booklet-metrics strong.is-text { font-size: 17px; line-height: 39px; }
 .booklet-kicker { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 4px !important; }
-.booklet-current { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; border: 1px solid var(--exam-green); border-radius: 8px; background: var(--exam-green-bg); margin-bottom: 32px !important; }
-.daily-booklet :is(.booklet-current, .booklet-readonly) h2 { font-size: 20px; }
-.booklet-current p { font-size: 12px; color: var(--muted); margin-top: 5px !important; }
+.daily-booklet .booklet-readonly h2 { font-size: 20px; }
 .booklet-section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; margin-bottom: 14px !important; }
 .booklet-section-head h2 { font-size: 19px; }
 .booklet-section-head p { font-size: 11px; color: var(--muted); }
@@ -66,7 +64,7 @@
   .booklet-row > :nth-child(3) { grid-column: 1; grid-row: 3; color: var(--muted); font-size: 12px; }
   .booklet-row > :nth-child(4) { grid-column: 2; grid-row: 2; font-size: 12px; text-align: right; }
   .booklet-row > :last-child { grid-column: 2; grid-row: 3; }
-  .booklet-current, .booklet-readonly { align-items: start; flex-direction: column; padding: 20px; }
+  .booklet-readonly { align-items: start; flex-direction: column; padding: 20px; }
   .booklet-result-main { flex-direction: column; align-items: start; padding: 20px; }
   .booklet-next { justify-items: start; }
   .booklet-result-note { padding-inline: 20px; }

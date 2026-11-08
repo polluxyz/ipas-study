@@ -34,7 +34,8 @@ async function daily(page, query = '') {
 }
 async function firstBook(page, total = 50) {
   await page.locator('#daily-open-first').click();
-  await page.locator('#daily-current-title').filter({ hasText: '第 1 本作答中' }).waitFor();
+  await page.locator('#daily-practice:visible').waitFor();
+  assert.match(await page.locator('#daily-date').innerText(), /第 1 本/);
   assert.equal((await store(page)).booklets.length, 1);
   assert.equal((await store(page)).booklets[0].number, 1);
   assert.equal((await store(page)).booklets[0].questions.length, total);
@@ -140,7 +141,8 @@ export async function runDailyBookletMultiSmoke() {
       await daily(a); const b = await ctx.newPage(); await daily(b);
       assert.equal(await b.locator('#daily-submitted:visible').count(), 1);
       await a.locator('#daily-open-next').click();
-      await a.locator('#daily-current-title').filter({ hasText: '第 2 本作答中' }).waitFor();
+      await a.locator('#daily-practice:visible').waitFor();
+      assert.match(await a.locator('#daily-date').innerText(), /第 2 本/);
       await readonly(b);
       const before = await raw(a);
       // 點擊被停用的控制項及重送事件，確認畫面沒有留下可再次寫入的路徑。
@@ -176,7 +178,7 @@ export async function runDailyBookletMultiSmoke() {
       await waitFor(a, async () => (await navigator.locks.query()).pending.some((lock) => lock.name === 'ipas-daily-migration'));
       assert.equal(await raw(b), null); Object.assign(actual, { heldLocks: 1, queuedLocks: 1, v2WhileWaiting: 0 });
       await a.evaluate(async () => { window.__release(); await window.__held; });
-      await b.locator('#daily-current-title:visible').waitFor();
+      await b.locator('#daily-practice:visible').waitFor();
       const migrated = await store(b); assert.equal(migrated.booklets.length, 1); assert.equal(migrated.booklets[0].questions.length, 2);
       const changedDraft = JSON.parse(old[DRAFT]); changedDraft.drafts[0].seq = 11;
       assert.equal(await raw(b, DRAFT), JSON.stringify(changedDraft));

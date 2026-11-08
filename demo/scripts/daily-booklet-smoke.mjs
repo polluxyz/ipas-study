@@ -81,6 +81,16 @@ async function expectDeferred(page) {
   assert.doesNotMatch(await page.locator('.daily-exam').ariaSnapshot(), /參考答案|官方答案|為什麼 [ABCD] 正確|答對了|你的答案|其他選項的問題/);
 }
 
+async function expectAnswerFocus(page) {
+  assert.equal(await page.locator('#daily-current').count(), 0, '已移除目前題本卡片');
+  for (const selector of ['#daily-history', '#daily-legacy-records']) {
+    assert.equal(await page.locator(selector).isVisible(), false, `作答中隱藏 ${selector}`);
+  }
+  for (const selector of ['#daily-date', '#daily-metrics', '.daily-subjects', '#daily-practice']) {
+    assert.equal(await page.locator(selector).isVisible(), true, `作答中保留 ${selector}`);
+  }
+}
+
 function booklet(questions, answers, { id, number, subject = 1, status = 'open', answered = 0, correct = answered, createdDate = TODAY, submittedAt = NOW }) {
   const attemptMode = `booklet:${id}:S${subject}`;
   const submitted = status === 'submitted' || status === 'submitting';
@@ -218,7 +228,7 @@ export async function runDailyBookletSmoke() {
       await page.locator('[data-daily-subject="1"]').click(); await ready(page); counts.push((await readStore(page))?.booklets.length ?? 0);
       assert.deepEqual(counts, [0, 0, 0, 0]);
       fixtures.first = { values: { [BOOK]: await readStore(page) }, target: '#daily-empty' };
-      await page.locator('#daily-open-first').click(); await page.locator('#daily-current:not([hidden])').waitFor();
+      await page.locator('#daily-open-first').click(); await page.locator('#daily-practice:not([hidden])').waitFor();
       const opened = await currentBook(page);
       assert.equal((await readStore(page)).booklets.length, 1); assert.equal(opened.number, 1); assert.equal(opened.questions.length, 50); assert.equal(opened.position, 0);
       assert.equal(await page.locator('#daily-position').innerText(), '第 1／50 題');
@@ -228,7 +238,7 @@ export async function runDailyBookletSmoke() {
     });
 
     await runCase(2, '跨日保留題目順序答案標記與位置', async (context, actual) => {
-      const page = await newPage(context); await go(page); await page.locator('#daily-open-first').click(); await page.locator('#daily-current:not([hidden])').waitFor();
+      const page = await newPage(context); await go(page); await page.locator('#daily-open-first').click(); await page.locator('#daily-practice:not([hidden])').waitFor();
       for (let index = 0; index < 20; index++) { await answer(page); if ([0, 7, 19].includes(index)) await page.locator('#daily-unsure').click(); await page.locator('#daily-next').click(); }
       const before = await currentBook(page);
       await page.clock.setFixedTime(new Date(TOMORROW)); await reload(page);
@@ -295,7 +305,7 @@ export async function runDailyBookletSmoke() {
     await runCase(5, '連開3本不重複且歷史回看唯讀', async (context, actual) => {
       const page = await newPage(context); await go(page); const books = [];
       for (let number = 1; number <= 3; number++) {
-        await page.locator(number === 1 ? '#daily-open-first' : '#daily-open-next').click(); await page.locator('#daily-current:not([hidden])').waitFor();
+        await page.locator(number === 1 ? '#daily-open-first' : '#daily-open-next').click(); await page.locator('#daily-practice:not([hidden])').waitFor();
         const opened = await currentBook(page); assert.equal(opened.number, number); assert.equal(opened.questions.length, 50);
         const priorAttempts = await readAttempts(page);
         assert.equal(opened.questions.filter((q) => priorAttempts.some((a) => a.qid === q.id)).length, 0);
@@ -334,7 +344,7 @@ export async function runDailyBookletSmoke() {
       for (let number = 1; number <= 3; number++) {
         const button = page.locator(number === 1 ? '#daily-open-first' : '#daily-open-next'); labels.push(await button.innerText());
         if (number === 3) assert.equal(await button.innerText(), '開下一本（20 題）');
-        await button.click(); await page.locator('#daily-current:not([hidden])').waitFor();
+        await button.click(); await page.locator('#daily-practice:not([hidden])').waitFor();
         const opened = await currentBook(page); assert.equal(opened.questions.length, number === 3 ? 20 : 50); books.push(opened);
         await answerThrough(page, number === 3 ? 20 : 50); await submit(page); await expectScore(page, number === 3 ? 20 : 50, number === 3 ? 20 : 50);
       }
@@ -355,7 +365,7 @@ export async function runDailyBookletSmoke() {
       await seed(page, { [ATT]: { version: 1, attempts: [attempted] } });
       await changeCatalog(page, (items) => items.filter((item) => item.subject !== 3 || candidates.has(item.id)));
       await go(page, '/daily/?subject=3'); assert.equal(await page.locator('#daily-open-first').innerText(), '開第 1 本（49 題）');
-      await page.locator('#daily-open-first').click(); await page.locator('#daily-current:not([hidden])').waitFor();
+      await page.locator('#daily-open-first').click(); await page.locator('#daily-practice:not([hidden])').waitFor();
       const opened = await currentBook(page, 3); assert.equal(opened.questions.length, 49);
       assert.equal(opened.assignedQids.includes(duplicate3), false); assert.deepEqual(await readAttempts(page), [attempted]);
       Object.assign(actual, { attempted: duplicate1, excluded: duplicate3, candidatesBeforeExclusion: 50, questions: 49, excludedMembers: 1, attempts: 1 });
@@ -411,6 +421,16 @@ export async function runDailyBookletSmoke() {
       const attempts = [...yesterday.submission.attempts, ...today.submission.attempts];
       await seed(page, { [BOOK]: store, [ATT]: { version: 1, attempts } });
       await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id))); await go(page);
+      await expectAnswerFocus(page);
+      const metrics = async () => ({ answered: (await page.locator('#daily-metric-answered').innerText()).replace(/\s/g, ''), today: (await page.locator('#daily-metric-today').innerText()).replace(/\s/g, ''), free: (await page.locator('#daily-metric-free').innerText()).replace(/\s/g, '') });
+      const before = await metrics(); assert.deepEqual(before, { answered: '17／50', today: '20題', free: '1本另1本5題' });
+      assert.equal(await page.locator('#daily-progress').innerText(), '這本已答 17／50');
+      await page.clock.setFixedTime(new Date(TOMORROW)); await reload(page);
+      const after = await metrics(); assert.deepEqual(after, { answered: '17／50', today: '0題', free: '1本另1本5題' });
+      await expectAnswerFocus(page);
+      // 題本清單只在檢討畫面驗證，保留原有逐欄內容與跨日進度的斷言。
+      await go(page, `/daily/?subject=1&book=${today.id}`);
+      assert.equal(await page.locator('#daily-history').isVisible(), true);
       const rows = await page.locator('#daily-rows .booklet-row:not(.booklet-table-head)').evaluateAll((elements) => elements.map((row) => [...row.children].map((cell) => cell.innerText.trim().replace(/\s+/g, ' '))));
       const expectedRows = [
         ['第 4 本 2026-11-08', '作答中', '50 題', '已答 17／50', '繼續作答 →'],
@@ -419,13 +439,8 @@ export async function runDailyBookletSmoke() {
         ['第 1 本 2026-11-06', '已交卷', '50 題', '答對 40／50', '回看檢討 →'],
       ];
       assert.deepEqual(rows, expectedRows);
-      const metrics = async () => ({ answered: (await page.locator('#daily-metric-answered').innerText()).replace(/\s/g, ''), today: (await page.locator('#daily-metric-today').innerText()).replace(/\s/g, ''), free: (await page.locator('#daily-metric-free').innerText()).replace(/\s/g, '') });
-      const before = await metrics(); assert.deepEqual(before, { answered: '17／50', today: '20題', free: '1本另1本5題' });
-      assert.equal(await page.locator('#daily-progress').innerText(), '這本已答 17／50');
       assert.match(await page.locator('#daily-history').innerText(), /題本只存在這個瀏覽器的這個網址/);
-      fixtures.history = { values: { [BOOK]: await readStore(page), [ATT]: { version: 1, attempts } }, allowed: [...allowed], target: '#daily-history' };
-      await page.clock.setFixedTime(new Date(TOMORROW)); await reload(page);
-      const after = await metrics(); assert.deepEqual(after, { answered: '17／50', today: '0題', free: '1本另1本5題' });
+      fixtures.history = { values: { [BOOK]: await readStore(page), [ATT]: { version: 1, attempts } }, allowed: [...allowed], url: `/daily/?subject=1&book=${today.id}`, target: '#daily-history' };
       Object.assign(actual, { rows, catalog: 180, assigned: 125, freeQuestions: 55, fullBooks: 1, lastBook: 5, attempts: 70, before, nextDay: after, taipeiBoundary: ['2026-11-07T15:59:00Z', '2026-11-07T16:01:00Z'] });
     });
 
@@ -492,6 +507,42 @@ export async function runDailyBookletSmoke() {
       Object.assign(actual, { initialQuestions: 50, updatedQuestions: 49, initialFullBooks: 1, updatedFullBooks: 0, legacyRecords: 1, bookletBytesUnchanged: true, writesFromDailyPage: 0, reloaded: false });
     });
 
+    await runCase(13, '作答與重整隱藏資訊且交卷即時恢復清單', async (context, actual) => {
+      const page = await newPage(context); const q = pool(1)[0];
+      const legacy = { id: 'focus-legacy', qid: q.id, rev: q.rev, choice: answers.get(q.id), correct: true, ts: NOW, mode: `daily:${YESTERDAY}:S1`, ms: 1000 };
+      await seed(page, { [BOOK]: emptyStore(), [ATT]: { version: 1, attempts: [legacy] } }); await go(page);
+      assert.equal(await page.locator('#daily-history').isVisible(), false);
+      assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
+      await page.locator('#daily-open-first').click(); await page.locator('#daily-practice:visible').waitFor();
+      const first = await currentBook(page); assert.equal(first.number, 1);
+      await expectAnswerFocus(page);
+      assert.equal(await page.locator('#daily-legacy-rows .booklet-legacy-row').count(), 1, '確實存在舊紀錄才驗證隱藏');
+      const date = await page.locator('#daily-date').innerText();
+      await reload(page); await expectAnswerFocus(page);
+      assert.equal(await page.locator('#daily-date').innerText(), date);
+      assert.equal((await currentBook(page)).id, first.id);
+      await page.evaluate(() => { window.answerFocusLoaded = true; });
+      await answerThrough(page, 50);
+      const url = page.url();
+      await submit(page); await expectScore(page, 50, 50);
+      assert.equal(page.url(), url); assert.equal(await page.evaluate(() => window.answerFocusLoaded), true, '交卷後未重新載入');
+      assert.equal(await page.locator('#daily-history').isVisible(), true);
+      assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
+      assert.equal(await page.locator('#daily-legacy-rows .booklet-legacy-row').count(), 1);
+      await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; });
+      await page.evaluate(() => document.fonts.ready);
+      actual.submittedScreenshot = resolve(output, 'submitted-1440-light-full.png');
+      await page.screenshot({ path: actual.submittedScreenshot, fullPage: true });
+      // 另開一本後回看，確認觀看已交卷題本優先於目前題本的作答狀態。
+      await page.locator('#daily-open-next').click(); await page.locator('#daily-practice:visible').waitFor();
+      await expectAnswerFocus(page);
+      await go(page, `/daily/?subject=1&book=${encodeURIComponent(first.id)}`); await expectScore(page, 50, 50);
+      assert.equal(await page.locator('#daily-readonly').isVisible(), true);
+      assert.equal(await page.locator('#daily-history').isVisible(), true);
+      assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
+      Object.assign(actual, { firstNumber: 1, hiddenBeforeAndAfterReload: true, legacyRecords: 1, dateUnchanged: true, submittedWithoutReload: true, reviewHistoryVisible: true, reviewLegacyVisible: true, viewingWithOpenBook: true });
+    });
+
     // 全失效畫面另外造資料，確認「結束」保留分配紀錄且不寫作答。
     const retired = booklet(pool(1).slice(0, 3), answers, { id: 'all-invalid', number: 1 });
     retired.questions = retired.questions.map((q) => ({ ...q, rev: q.rev + 100 }));
@@ -514,8 +565,8 @@ export async function runDailyBookletSmoke() {
         if (state === 'answering') { const measured = await measureActions(page); report.actionMeasurements.push({ state, width, theme, ...measured }); }
         const file = resolve(output, `${state}-${width}-${theme}-viewport.png`);
         await page.screenshot({ path: file, fullPage: false }); report.screenshots.push({ state, width, theme, fullPage: false, file });
-        if (width === 1440 && theme === 'light') {
-          const fullFile = resolve(output, `${state}-1440-light-full.png`);
+        if ((width === 1440 && theme === 'light') || (state === 'answering' && width === 320 && theme === 'dark')) {
+          const fullFile = resolve(output, `${state}-${width}-${theme}-full.png`);
           await page.screenshot({ path: fullFile, fullPage: true }); report.screenshots.push({ state, width, theme, fullPage: true, file: fullFile });
         }
         assert.ok(measurement.overflow <= 0, `${state}/${width}/${theme} 水平溢出 ${measurement.overflow}px`);
@@ -530,9 +581,9 @@ export async function runDailyBookletSmoke() {
       } catch (error) { measurement.status = 'failed'; measurement.failure = String(error.stack ?? error); }
       finally { await closeContext(context); }
     }
-    assert.equal(report.cases.length, 12);
+    assert.equal(report.cases.length, 13);
     assert.equal(report.screenshots.filter((s) => !s.fullPage).length, 36, '36張目前視窗截圖');
-    assert.equal(report.screenshots.filter((s) => s.fullPage).length, 6, '6張全頁截圖');
+    assert.equal(report.screenshots.filter((s) => s.fullPage).length, 7, '7張全頁截圖');
     report.maxHorizontalOverflow = Math.max(...report.measurements.map((m) => m.overflow ?? 0));
   } catch (error) { report.fatal = String(error.stack ?? error); }
   finally {
@@ -543,7 +594,7 @@ export async function runDailyBookletSmoke() {
     report.summary = { casesPassed: report.cases.filter((c) => c.status === 'passed').length, casesFailed: report.cases.filter((c) => c.status === 'failed').length,
       viewportScreenshots: report.screenshots.filter((s) => !s.fullPage).length, fullPageScreenshots: report.screenshots.filter((s) => s.fullPage).length,
       layoutsFailed: report.measurements.filter((m) => m.status === 'failed').length, browserErrors: report.errors.length, requestFailures: report.requestFailures.length };
-    report.exitCode = !report.fatal && report.summary.casesPassed === 12 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 36 && report.summary.fullPageScreenshots === 6 && report.errors.length === 0 && report.requestFailures.length === 0 ? 0 : 1;
+    report.exitCode = !report.fatal && report.summary.casesPassed === 13 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 36 && report.summary.fullPageScreenshots === 7 && report.errors.length === 0 && report.requestFailures.length === 0 ? 0 : 1;
     await writeFile(resolve(output, 'report.json'), JSON.stringify(report, null, 2));
   }
   return report;
