@@ -32,8 +32,8 @@ const loadDaily = async (page, url) => {
   await page.waitForFunction(() => !document.querySelector('#daily-metrics').hidden || !document.querySelector('#daily-save-error').hidden);
   assert.equal(await page.locator('#daily-metrics').isVisible(), true, await page.locator('#daily-status').innerText());
 };
-const openFirst = async (page) => { await page.locator('#daily-open-first').click(); await page.locator('#daily-current:not([hidden])').waitFor(); };
-const openNext = async (page) => { await page.locator('#daily-open-next').click(); await page.locator('#daily-current:not([hidden])').waitFor(); };
+const openFirst = async (page) => { await page.locator('#daily-open-first').click(); await page.locator('#daily-practice:not([hidden])').waitFor(); };
+const openNext = async (page) => { await page.locator('#daily-open-next').click(); await page.locator('#daily-practice:not([hidden])').waitFor(); };
 async function changeCatalog(page, transform) {
   await page.route('**/daily/**', async (route) => {
     const response = await route.fetch();
@@ -568,7 +568,7 @@ export async function runDailyExamSmoke() {
     if (selected('cross-day-subject-explicit-next')) {
       const ctx = await context(); const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/'); await openFirst(page);
       await currentCard(page).locator('input[value="B"]').check(); await page.locator('#daily-unsure').click();
-      const one = await getDraft(page); await page.clock.setSystemTime(new Date('2026-11-06T04:00:00Z')); await page.reload(); await page.locator('#daily-current:visible').waitFor();
+      const one = await getDraft(page); await page.clock.setSystemTime(new Date('2026-11-06T04:00:00Z')); await page.reload(); await page.locator('#daily-practice:visible').waitFor();
       assert.equal(await page.locator('#daily-open-next').isVisible(), false); assert.equal((await getDraft(page)).id, one.id); assert.deepEqual((await getDraft(page)).assignedQids, one.assignedQids);
       await page.locator('[data-daily-subject="3"]').click(); await page.locator('#daily-empty:visible').waitFor(); assert.equal((await getStore(page)).booklets.length, 1); await openFirst(page);
       const three = await getDraft(page, 3); assert.equal(three.createdDate, '2026-11-06');

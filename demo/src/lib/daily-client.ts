@@ -82,6 +82,7 @@ export async function initDaily(): Promise<void> {
     const today = taipeiDate(new Date());
     const free = freeCount(subject);
     const state = bookletPageState(store, subject, free?.free ?? null, catalog);
+    const answering = !viewing && state.kind === 'resume';
     if (free === null) text('status', (skippedNotice ? skippedNotice + ' ' : '') + '作答紀錄無法辨識，暫時不能開新題本。');
     const progress = bookletProgress(store, subject, today, free);
     element('metrics').hidden = false;
@@ -106,18 +107,14 @@ export async function initDaily(): Promise<void> {
         for (const label of ['第 ' + b.number + ' 本作答中', '已答 ' + dailyCounts(b).answered + '／' + b.questions.length]) caption.append(Object.assign(document.createElement('span'), { textContent: label }));
       } else caption.textContent = targetState.kind === 'review' ? '第 ' + targetState.booklet.number + ' 本' + (targetState.booklet.status === 'retired' ? '已結束' : '已交卷') : targetState.kind === 'retire' ? '題目已失效・需結束題本' : targetState.kind === 'first' ? '尚未開本' : targetState.kind === 'blocked' ? '作答紀錄無法辨識' : '未做題已用完';
     }
-    for (const id of ['current', 'score', 'empty', 'stock', 'retire', 'next-book', 'partial-note', 'code-note']) element(id).hidden = true;
+    for (const id of ['score', 'empty', 'stock', 'retire', 'next-book', 'partial-note', 'code-note']) element(id).hidden = true;
     element('stock-review').hidden = !store.booklets.some((b) => b.subject === subject && b.status === 'submitted');
     element('readonly').hidden = !viewing;
     element<HTMLAnchorElement>('return').href = currentUrl();
     const next = 'next' in state ? state.next : 0;
     const partial = next !== null && next > 0 && next < 50;
     if (!viewing) {
-      if (state.kind === 'resume') {
-        element('current').hidden = false;
-        text('current-title', '第 ' + state.booklet.number + ' 本作答中');
-        text('current-note', '建立於 ' + state.booklet.createdDate + '・' + state.booklet.questions.length + ' 題。隔天仍接續這一本。');
-      } else if (state.kind === 'review') {
+      if (state.kind === 'review') {
         element('score').hidden = false;
         text('result-number', '第 ' + state.booklet.number + ' 本・' + (state.booklet.status === 'retired' ? '已結束' : '已交卷'));
         if (state.booklet.status === 'retired') { text('score-heading', '第 ' + state.booklet.number + ' 本已結束'); text('score-points', ''); }
@@ -130,7 +127,7 @@ export async function initDaily(): Promise<void> {
         element('empty').hidden = false; text('open-first', bookletOpenLabel(false, next)!);
         element('first-note').hidden = !partial;
         text('first-note', partial ? '保留實際題數，不補入做過的題。' : '');
-      } else if (state.kind !== 'blocked') element(state.kind === 'retire' ? 'retire' : 'stock').hidden = false;
+      } else if (state.kind !== 'blocked' && state.kind !== 'resume') element(state.kind === 'retire' ? 'retire' : 'stock').hidden = false;
     } else if (draft) text('readonly-title', '科目 ' + subject + '・第 ' + draft.number + ' 本');
     if (draft && draft.status !== 'retired') {
       const partialNote = bookletPartialNote(draft);
@@ -149,7 +146,7 @@ export async function initDaily(): Promise<void> {
       for (const value of values) { const cell = document.createElement('div'); cell.setAttribute('role', head ? 'columnheader' : 'cell'); cell.append(value); row.append(cell); } rows.append(row);
     };
     const historyRows = bookletRows(store, subject).reverse();
-    element('history').hidden = historyRows.length === 0;
+    element('history').hidden = answering || historyRows.length === 0;
     if (historyRows.length) appendRow(['題本／建立日期', '狀態', '題數', '作答結果', '操作'], true);
     for (const row of historyRows) {
       const name = document.createElement('div'); name.append(Object.assign(document.createElement('strong'), { textContent: '第 ' + row.number + ' 本' }), Object.assign(document.createElement('time'), { textContent: row.createdDate, dateTime: row.createdDate }));
@@ -159,7 +156,7 @@ export async function initDaily(): Promise<void> {
       appendRow([name, status, row.total + ' 題', row.correct !== undefined ? '答對 ' + row.correct + '／' + row.total : row.answered !== undefined ? '已答 ' + row.answered + '／' + row.total : '', action], false, row.id === store.current[subject]);
     }
     const records = legacyRecords(store, readAttempts() ?? []);
-    element('legacy-records').hidden = records.length === 0;
+    element('legacy-records').hidden = answering || records.length === 0;
     element('legacy-rows').replaceChildren(...records.map((record) => { const row = document.createElement('div'); row.className = 'booklet-legacy-row'; for (const label of [record.date, '科目 ' + record.subject, '已答 ' + record.answered + ' 題', '答對 ' + record.correct + ' 題']) row.append(Object.assign(document.createElement('span'), { textContent: label })); return row; }));
     return state;
   };
