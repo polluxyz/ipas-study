@@ -26,7 +26,7 @@
 | R1 非作者審查 | `tmp/advisor/daily-booklet-review.md` | 高中度問題清零 | 審查完成，高 0 中 2 低 3；修正中 |
 | I5-fix4 空題本開頁不寫入、提示並存 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-exam-smoke.mjs` | R1 M1、L1 | 未開始 |
 | I5-fix5 兩科交卷恢復分開處理 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-booklet-smoke-multi.mjs` | R1 M2；規格第 248 行 | 未開始 |
-| I5-fix6 清單列文字、匯入後更新題量 | `demo/src/lib/daily-client.ts`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts`、`demo/scripts/daily-booklet-smoke.mjs` | R1 L2、L3 | 未開始 |
+| I5-fix6 清單列文字、匯入後更新題量 | `demo/src/lib/daily-client.ts`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts`、`demo/scripts/daily-booklet-smoke.mjs` | R1 L2、L3 | 完成：worker `cbc1d7b`，併入 `19dcba6`。單元 1180/1180、booklet smoke 12/12、multi 11/11、exam smoke 71 案 success。建議（由 Codex 判斷）：320 暗色「結束這本」按鈕對比偏低，修正前已存在。 |
 | V1 協調者驗收 | 主工作區 | 規格第 12 節逐條有證據；親看截圖 | 未開始 |
 | P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完一輪 | 未開始 |
 
