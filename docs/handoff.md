@@ -4,10 +4,9 @@
 
 - 已上線：每日題本（PR #190，`ad359b6`）。規格`docs/specs/daily-booklet.md`，驗收與上線紀錄在`tasks/daily-booklet-plan.md`實作紀錄。4321已更新，隔離瀏覽器走查全過。
 - 待使用者確認：開`/daily/`看本人資料是否已遷移成題本（使用者原有科目1的2026-11-06題組，open，作答0筆）。提醒關閉舊分頁再開。自動走查只用隔離瀏覽器造資料，未驗證實體手機、Safari、Firefox。
-- 小待辦：規格第219行註解寫「沒有舊資料時`migratedAt`是null」，程式在全新環境也寫入時間。不影響資料，只改註解。
 - 建議（由Codex判斷）：320暗色「結束這本」按鈕對比偏低；他科交卷恢復失敗時該科卡片仍寫「作答中」。
 - 待決定（Ask first）：是否補科目3非程式題。規格第192行：第8本起程式題比例升高。
-- 待清理：`booklet-*`、`daily-booklet-mockup`、`deploy-main-dist`工作樹與對應本機分支。清理前確認證據已複製到`tmp/demo-shots/`。
+- 已清理（2026-11-08）：`booklet-*`、`daily-booklet-mockup`、`deploy-main-dist`工作樹與 12 個本機分支。封存檔在`tmp/workspace-cleanup-20261105/archives`。
 - Codex 0.166.0新worker用`--agent codex`會被更新提示擋住。改用`orca terminal create --command "codex ... -c check_for_update_on_startup=false"`開終端，等`tui-idle`後再`worker-start --terminal`。
 - 已上線：每日題組交卷模式（PR #185，`0626fd2`），紀錄在`tasks/daily-exam-mode-plan.md`。
 - 派工：使用者要求多派worker、任務細分，每個worker只做一件事。
