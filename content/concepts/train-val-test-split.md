@@ -6,7 +6,7 @@ kind: technique
 codes: [L23303]
 guide_refs: [guide-3:5-17, guide-3:5-18]
 textbook: v2
-summary: 訓練集學參數、驗證集挑設定，測試集留到最後評估未見資料上的表現
+summary: 把資料分開用：訓練模型、挑選設定，最後檢查模型處理新資料的表現
 goals:
   - id: g1
     text: 說得出三份資料各自能參與的決策，配對分類與迴歸指標，走完訓練、選模到最後測試
@@ -99,18 +99,20 @@ status: draft
 
 ## 為什麼需要
 
-模型可以把看過的資料記得很好，卻不會處理新資料。因此，學習參數、比較設定與最後評估，需要分開使用資料。
+模型可以把看過的資料記得很好，卻不會處理新資料。因此，要把學習、挑設定與最後評估用的資料分開。
 
-訓練集、驗證集與測試集切分（Train/Validation/Test Split）把這三個工作分開。目標是判斷模型的泛化能力，而不是只看它記住多少訓練樣本。
+這叫資料分割（Train/Validation/Test Split）。我們要看模型處理新資料的能力，稱為泛化（Generalization）。不只看模型記住多少訓練資料。
 
 ## 直覺
 
-訓練集讓模型學參數；驗證集協助挑超參數（Hyperparameter）與監控訓練；測試集在開發結束後，檢查面對未知資料的表現。
+- 訓練集（Training Set）用來讓模型從資料學習參數。參數是模型從資料學到的數值。
+- 驗證集（Validation Set）用來挑超參數。超參數（Hyperparameter）是人事先選定的訓練設定。也用驗證集監控訓練時的表現。
+- 測試集（Test Set）留到開發結束後才用。用來檢查模型處理新資料的表現。
 
-![先看三份資料的角色，再沿著開發迴圈走；測試集只接在設定固定之後](figure:l23303-train-val-test-split-roles)
+![先看三份資料各做什麼，再看開發時如何配合。設定固定後，才用測試集評估。](figure:l23303-train-val-test-split-roles)
 
 :::supplement[來源：Google Machine Learning Crash Course：Datasets: Dividing the original dataset]
-把測試成績拿來挑設定，即使沒有用測試資料更新權重，也讓測試資訊影響模型。此後需要新的獨立資料，才能重新檢查泛化。
+若用測試成績挑設定，測試資訊就會影響模型。即使沒讓模型用測試資料學參數，也一樣。此後要換一份未用過的資料，才能重新檢查處理新資料的能力。
 :::
 
 ## 定義與公式

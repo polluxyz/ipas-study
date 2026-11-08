@@ -1,0 +1,425 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="984" viewBox="0 0 720 984" role="img" aria-labelledby="kmeans-title kmeans-desc">
+  <title id="kmeans-title">點不動，中心會移動</title>
+  <desc id="kmeans-desc">6 個一維資料點為 0、2、3、8、10、12，分成 2 群。每輪先分給最近的中心，再把中心移到該群的平均。起始中心為 0 與 3；第 1 輪只有點 0 在群 A，其餘在群 B，中心變成 0 與 7；第 2 輪點 2、3 換到群 A，中心變成 1.67 與 10。再分一次沒有點換群，因此停止。各列的點由淡色直虛線對齊，表示點沒有移動。空心菱形是中心，上方數字是中心的位置，箭頭表示中心移動，淡色菱形是舊中心。</desc>
+  <rect width="720" height="984" fill="#fff"/>
+  <g font-family="Arial,Microsoft JhengHei,sans-serif" fill="#172c43" font-size="14">
+    <text x="24" y="34" font-size="22" font-weight="700">點不動，中心會移動</text>
+    <text x="24" y="61" font-size="15">每輪先分給最近的中心，再把中心移到該群的平均。</text>
+    <circle cx="32" cy="91" r="6" fill="#2463a6"/><text x="46" y="96">群 A</text>
+    <rect x="130" y="85" width="12" height="12" fill="#ac4200"/><text x="150" y="96">群 B</text>
+    <path d="M 245 81 L 255 91 L 245 101 L 235 91 Z" fill="#fff" stroke="#172c43" stroke-width="2"/><text x="263" y="96">中心（上方數字是位置）</text>
+    <circle cx="496" cy="91" r="6" fill="#fff" stroke="#172c43" stroke-opacity="0.5" stroke-width="1.5"/><text x="510" y="96">尚未分群</text>
+    <text x="24" y="123" font-size="13">箭頭：中心移動；淡色菱形：舊中心；直虛線：同一個點。</text>
+  </g>
+  <g stroke="#172c43" stroke-opacity="0.15" stroke-width="1" stroke-dasharray="3 5">
+    <line x1="228" y1="184" x2="228" y2="915"/>
+    <line x1="304" y1="184" x2="304" y2="915"/>
+    <line x1="342" y1="184" x2="342" y2="915"/>
+    <line x1="532" y1="184" x2="532" y2="915"/>
+    <line x1="608" y1="184" x2="608" y2="915"/>
+    <line x1="684" y1="184" x2="684" y2="915"/>
+  </g>
+  <g font-family="Arial,Microsoft JhengHei,sans-serif" fill="#172c43" font-size="14">
+    <g id="step-1" data-point-y="210">
+      <text x="24" y="188" font-weight="700">1. 起點</text>
+      <text x="24" y="211">尚未分群</text>
+      <line x1="215" y1="210" x2="697" y2="210" stroke="#172c43" stroke-width="1.2"/>
+      <line x1="228" y1="220" x2="228" y2="224" stroke="#172c43"/>
+      <rect x="219" y="228" width="18" height="16" fill="#fff"/>
+      <text x="228" y="240" font-size="12" text-anchor="middle">0</text>
+      <line x1="266" y1="220" x2="266" y2="224" stroke="#172c43"/>
+      <rect x="257" y="228" width="18" height="16" fill="#fff"/>
+      <text x="266" y="240" font-size="12" text-anchor="middle">1</text>
+      <line x1="304" y1="220" x2="304" y2="224" stroke="#172c43"/>
+      <rect x="295" y="228" width="18" height="16" fill="#fff"/>
+      <text x="304" y="240" font-size="12" text-anchor="middle">2</text>
+      <line x1="342" y1="220" x2="342" y2="224" stroke="#172c43"/>
+      <rect x="333" y="228" width="18" height="16" fill="#fff"/>
+      <text x="342" y="240" font-size="12" text-anchor="middle">3</text>
+      <line x1="380" y1="220" x2="380" y2="224" stroke="#172c43"/>
+      <rect x="371" y="228" width="18" height="16" fill="#fff"/>
+      <text x="380" y="240" font-size="12" text-anchor="middle">4</text>
+      <line x1="418" y1="220" x2="418" y2="224" stroke="#172c43"/>
+      <rect x="409" y="228" width="18" height="16" fill="#fff"/>
+      <text x="418" y="240" font-size="12" text-anchor="middle">5</text>
+      <line x1="456" y1="220" x2="456" y2="224" stroke="#172c43"/>
+      <rect x="447" y="228" width="18" height="16" fill="#fff"/>
+      <text x="456" y="240" font-size="12" text-anchor="middle">6</text>
+      <line x1="494" y1="220" x2="494" y2="224" stroke="#172c43"/>
+      <rect x="485" y="228" width="18" height="16" fill="#fff"/>
+      <text x="494" y="240" font-size="12" text-anchor="middle">7</text>
+      <line x1="532" y1="220" x2="532" y2="224" stroke="#172c43"/>
+      <rect x="523" y="228" width="18" height="16" fill="#fff"/>
+      <text x="532" y="240" font-size="12" text-anchor="middle">8</text>
+      <line x1="570" y1="220" x2="570" y2="224" stroke="#172c43"/>
+      <rect x="561" y="228" width="18" height="16" fill="#fff"/>
+      <text x="570" y="240" font-size="12" text-anchor="middle">9</text>
+      <line x1="608" y1="220" x2="608" y2="224" stroke="#172c43"/>
+      <rect x="599" y="228" width="18" height="16" fill="#fff"/>
+      <text x="608" y="240" font-size="12" text-anchor="middle">10</text>
+      <line x1="646" y1="220" x2="646" y2="224" stroke="#172c43"/>
+      <rect x="637" y="228" width="18" height="16" fill="#fff"/>
+      <text x="646" y="240" font-size="12" text-anchor="middle">11</text>
+      <line x1="684" y1="220" x2="684" y2="224" stroke="#172c43"/>
+      <rect x="675" y="228" width="18" height="16" fill="#fff"/>
+      <text x="684" y="240" font-size="12" text-anchor="middle">12</text>
+      <circle data-point="0" cx="228" cy="210" r="6" fill="#fff" stroke="#172c43" stroke-opacity="0.5" stroke-width="1.5"/>
+      <circle data-point="2" cx="304" cy="210" r="6" fill="#fff" stroke="#172c43" stroke-opacity="0.5" stroke-width="1.5"/>
+      <circle data-point="3" cx="342" cy="210" r="6" fill="#fff" stroke="#172c43" stroke-opacity="0.5" stroke-width="1.5"/>
+      <circle data-point="8" cx="532" cy="210" r="6" fill="#fff" stroke="#172c43" stroke-opacity="0.5" stroke-width="1.5"/>
+      <circle data-point="10" cx="608" cy="210" r="6" fill="#fff" stroke="#172c43" stroke-opacity="0.5" stroke-width="1.5"/>
+      <circle data-point="12" cx="684" cy="210" r="6" fill="#fff" stroke="#172c43" stroke-opacity="0.5" stroke-width="1.5"/>
+      <g data-center="0">
+        <rect x="207" y="136" width="42" height="23" fill="#fff"/>
+        <text x="228" y="152" text-anchor="middle">0</text>
+        <path d="M 228 162 L 238 172 L 228 182 L 218 172 Z" fill="#fff" stroke="#2463a6" stroke-width="2.5"/>
+        <line x1="228" y1="186" x2="228" y2="197" stroke="#2463a6" stroke-width="1"/>
+      </g>
+      <g data-center="3">
+        <rect x="321" y="136" width="42" height="23" fill="#fff"/>
+        <text x="342" y="152" text-anchor="middle">3</text>
+        <path d="M 342 162 L 352 172 L 342 182 L 332 172 Z" fill="#fff" stroke="#ac4200" stroke-width="2.5"/>
+        <line x1="342" y1="186" x2="342" y2="197" stroke="#ac4200" stroke-width="1"/>
+      </g>
+    </g>
+    <g id="step-2" data-point-y="350">
+      <text x="24" y="328" font-weight="700">2. 第 1 輪：</text>
+      <text x="24" y="351">分給最近的中心</text>
+      <line x1="215" y1="350" x2="697" y2="350" stroke="#172c43" stroke-width="1.2"/>
+      <line x1="228" y1="360" x2="228" y2="364" stroke="#172c43"/>
+      <rect x="219" y="368" width="18" height="16" fill="#fff"/>
+      <text x="228" y="380" font-size="12" text-anchor="middle">0</text>
+      <line x1="266" y1="360" x2="266" y2="364" stroke="#172c43"/>
+      <rect x="257" y="368" width="18" height="16" fill="#fff"/>
+      <text x="266" y="380" font-size="12" text-anchor="middle">1</text>
+      <line x1="304" y1="360" x2="304" y2="364" stroke="#172c43"/>
+      <rect x="295" y="368" width="18" height="16" fill="#fff"/>
+      <text x="304" y="380" font-size="12" text-anchor="middle">2</text>
+      <line x1="342" y1="360" x2="342" y2="364" stroke="#172c43"/>
+      <rect x="333" y="368" width="18" height="16" fill="#fff"/>
+      <text x="342" y="380" font-size="12" text-anchor="middle">3</text>
+      <line x1="380" y1="360" x2="380" y2="364" stroke="#172c43"/>
+      <rect x="371" y="368" width="18" height="16" fill="#fff"/>
+      <text x="380" y="380" font-size="12" text-anchor="middle">4</text>
+      <line x1="418" y1="360" x2="418" y2="364" stroke="#172c43"/>
+      <rect x="409" y="368" width="18" height="16" fill="#fff"/>
+      <text x="418" y="380" font-size="12" text-anchor="middle">5</text>
+      <line x1="456" y1="360" x2="456" y2="364" stroke="#172c43"/>
+      <rect x="447" y="368" width="18" height="16" fill="#fff"/>
+      <text x="456" y="380" font-size="12" text-anchor="middle">6</text>
+      <line x1="494" y1="360" x2="494" y2="364" stroke="#172c43"/>
+      <rect x="485" y="368" width="18" height="16" fill="#fff"/>
+      <text x="494" y="380" font-size="12" text-anchor="middle">7</text>
+      <line x1="532" y1="360" x2="532" y2="364" stroke="#172c43"/>
+      <rect x="523" y="368" width="18" height="16" fill="#fff"/>
+      <text x="532" y="380" font-size="12" text-anchor="middle">8</text>
+      <line x1="570" y1="360" x2="570" y2="364" stroke="#172c43"/>
+      <rect x="561" y="368" width="18" height="16" fill="#fff"/>
+      <text x="570" y="380" font-size="12" text-anchor="middle">9</text>
+      <line x1="608" y1="360" x2="608" y2="364" stroke="#172c43"/>
+      <rect x="599" y="368" width="18" height="16" fill="#fff"/>
+      <text x="608" y="380" font-size="12" text-anchor="middle">10</text>
+      <line x1="646" y1="360" x2="646" y2="364" stroke="#172c43"/>
+      <rect x="637" y="368" width="18" height="16" fill="#fff"/>
+      <text x="646" y="380" font-size="12" text-anchor="middle">11</text>
+      <line x1="684" y1="360" x2="684" y2="364" stroke="#172c43"/>
+      <rect x="675" y="368" width="18" height="16" fill="#fff"/>
+      <text x="684" y="380" font-size="12" text-anchor="middle">12</text>
+      <circle data-point="0" cx="228" cy="350" r="6" fill="#2463a6"/>
+      <rect data-point="2" x="298" y="344" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="3" x="336" y="344" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="8" x="526" y="344" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="10" x="602" y="344" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="12" x="678" y="344" width="12" height="12" fill="#ac4200"/>
+      <g data-center="0">
+        <rect x="207" y="276" width="42" height="23" fill="#fff"/>
+        <text x="228" y="292" text-anchor="middle">0</text>
+        <path d="M 228 302 L 238 312 L 228 322 L 218 312 Z" fill="#fff" stroke="#2463a6" stroke-width="2.5"/>
+        <line x1="228" y1="326" x2="228" y2="337" stroke="#2463a6" stroke-width="1"/>
+      </g>
+      <g data-center="3">
+        <rect x="321" y="276" width="42" height="23" fill="#fff"/>
+        <text x="342" y="292" text-anchor="middle">3</text>
+        <path d="M 342 302 L 352 312 L 342 322 L 332 312 Z" fill="#fff" stroke="#ac4200" stroke-width="2.5"/>
+        <line x1="342" y1="326" x2="342" y2="337" stroke="#ac4200" stroke-width="1"/>
+      </g>
+    </g>
+    <g id="step-3" data-point-y="490">
+      <text x="24" y="468" font-weight="700">3. 第 1 輪：</text>
+      <text x="24" y="491">中心移到平均</text>
+      <line x1="215" y1="490" x2="697" y2="490" stroke="#172c43" stroke-width="1.2"/>
+      <line x1="228" y1="500" x2="228" y2="504" stroke="#172c43"/>
+      <rect x="219" y="508" width="18" height="16" fill="#fff"/>
+      <text x="228" y="520" font-size="12" text-anchor="middle">0</text>
+      <line x1="266" y1="500" x2="266" y2="504" stroke="#172c43"/>
+      <rect x="257" y="508" width="18" height="16" fill="#fff"/>
+      <text x="266" y="520" font-size="12" text-anchor="middle">1</text>
+      <line x1="304" y1="500" x2="304" y2="504" stroke="#172c43"/>
+      <rect x="295" y="508" width="18" height="16" fill="#fff"/>
+      <text x="304" y="520" font-size="12" text-anchor="middle">2</text>
+      <line x1="342" y1="500" x2="342" y2="504" stroke="#172c43"/>
+      <rect x="333" y="508" width="18" height="16" fill="#fff"/>
+      <text x="342" y="520" font-size="12" text-anchor="middle">3</text>
+      <line x1="380" y1="500" x2="380" y2="504" stroke="#172c43"/>
+      <rect x="371" y="508" width="18" height="16" fill="#fff"/>
+      <text x="380" y="520" font-size="12" text-anchor="middle">4</text>
+      <line x1="418" y1="500" x2="418" y2="504" stroke="#172c43"/>
+      <rect x="409" y="508" width="18" height="16" fill="#fff"/>
+      <text x="418" y="520" font-size="12" text-anchor="middle">5</text>
+      <line x1="456" y1="500" x2="456" y2="504" stroke="#172c43"/>
+      <rect x="447" y="508" width="18" height="16" fill="#fff"/>
+      <text x="456" y="520" font-size="12" text-anchor="middle">6</text>
+      <line x1="494" y1="500" x2="494" y2="504" stroke="#172c43"/>
+      <rect x="485" y="508" width="18" height="16" fill="#fff"/>
+      <text x="494" y="520" font-size="12" text-anchor="middle">7</text>
+      <line x1="532" y1="500" x2="532" y2="504" stroke="#172c43"/>
+      <rect x="523" y="508" width="18" height="16" fill="#fff"/>
+      <text x="532" y="520" font-size="12" text-anchor="middle">8</text>
+      <line x1="570" y1="500" x2="570" y2="504" stroke="#172c43"/>
+      <rect x="561" y="508" width="18" height="16" fill="#fff"/>
+      <text x="570" y="520" font-size="12" text-anchor="middle">9</text>
+      <line x1="608" y1="500" x2="608" y2="504" stroke="#172c43"/>
+      <rect x="599" y="508" width="18" height="16" fill="#fff"/>
+      <text x="608" y="520" font-size="12" text-anchor="middle">10</text>
+      <line x1="646" y1="500" x2="646" y2="504" stroke="#172c43"/>
+      <rect x="637" y="508" width="18" height="16" fill="#fff"/>
+      <text x="646" y="520" font-size="12" text-anchor="middle">11</text>
+      <line x1="684" y1="500" x2="684" y2="504" stroke="#172c43"/>
+      <rect x="675" y="508" width="18" height="16" fill="#fff"/>
+      <text x="684" y="520" font-size="12" text-anchor="middle">12</text>
+      <circle data-point="0" cx="228" cy="490" r="6" fill="#2463a6"/>
+      <rect data-point="2" x="298" y="484" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="3" x="336" y="484" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="8" x="526" y="484" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="10" x="602" y="484" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="12" x="678" y="484" width="12" height="12" fill="#ac4200"/>
+      <g data-center="0">
+        <rect x="207" y="416" width="42" height="23" fill="#fff"/>
+        <text x="228" y="432" text-anchor="middle">0</text>
+        <path d="M 228 442 L 238 452 L 228 462 L 218 452 Z" fill="#fff" stroke="#2463a6" stroke-width="2.5"/>
+        <line x1="228" y1="466" x2="228" y2="477" stroke="#2463a6" stroke-width="1"/>
+      </g>
+      <g data-center="3" opacity="0.3">
+        <rect x="321" y="416" width="42" height="23" fill="#fff"/>
+        <text x="342" y="432" text-anchor="middle">3</text>
+        <path d="M 342 442 L 352 452 L 342 462 L 332 452 Z" fill="#fff" stroke="#ac4200" stroke-width="2.5"/>
+        <line x1="342" y1="466" x2="342" y2="477" stroke="#ac4200" stroke-width="1"/>
+      </g>
+      <path d="M 357 452 H 478" fill="none" stroke="#ac4200" stroke-width="2"/>
+      <path d="M 472 448 L 479 452 L 472 456" fill="none" stroke="#ac4200" stroke-width="2"/>
+      <g data-center="7">
+        <rect x="473" y="416" width="42" height="23" fill="#fff"/>
+        <text x="494" y="432" text-anchor="middle">7</text>
+        <path d="M 494 442 L 504 452 L 494 462 L 484 452 Z" fill="#fff" stroke="#ac4200" stroke-width="2.5"/>
+        <line x1="494" y1="466" x2="494" y2="477" stroke="#ac4200" stroke-width="1"/>
+      </g>
+    </g>
+    <g id="step-4" data-point-y="630">
+      <text x="24" y="608" font-weight="700">4. 第 2 輪：</text>
+      <text x="24" y="631">重新分給最近的中心</text>
+      <line x1="215" y1="630" x2="697" y2="630" stroke="#172c43" stroke-width="1.2"/>
+      <line x1="228" y1="640" x2="228" y2="644" stroke="#172c43"/>
+      <rect x="219" y="648" width="18" height="16" fill="#fff"/>
+      <text x="228" y="660" font-size="12" text-anchor="middle">0</text>
+      <line x1="266" y1="640" x2="266" y2="644" stroke="#172c43"/>
+      <rect x="257" y="648" width="18" height="16" fill="#fff"/>
+      <text x="266" y="660" font-size="12" text-anchor="middle">1</text>
+      <line x1="304" y1="640" x2="304" y2="644" stroke="#172c43"/>
+      <rect x="295" y="648" width="18" height="16" fill="#fff"/>
+      <text x="304" y="660" font-size="12" text-anchor="middle">2</text>
+      <line x1="342" y1="640" x2="342" y2="644" stroke="#172c43"/>
+      <rect x="333" y="648" width="18" height="16" fill="#fff"/>
+      <text x="342" y="660" font-size="12" text-anchor="middle">3</text>
+      <line x1="380" y1="640" x2="380" y2="644" stroke="#172c43"/>
+      <rect x="371" y="648" width="18" height="16" fill="#fff"/>
+      <text x="380" y="660" font-size="12" text-anchor="middle">4</text>
+      <line x1="418" y1="640" x2="418" y2="644" stroke="#172c43"/>
+      <rect x="409" y="648" width="18" height="16" fill="#fff"/>
+      <text x="418" y="660" font-size="12" text-anchor="middle">5</text>
+      <line x1="456" y1="640" x2="456" y2="644" stroke="#172c43"/>
+      <rect x="447" y="648" width="18" height="16" fill="#fff"/>
+      <text x="456" y="660" font-size="12" text-anchor="middle">6</text>
+      <line x1="494" y1="640" x2="494" y2="644" stroke="#172c43"/>
+      <rect x="485" y="648" width="18" height="16" fill="#fff"/>
+      <text x="494" y="660" font-size="12" text-anchor="middle">7</text>
+      <line x1="532" y1="640" x2="532" y2="644" stroke="#172c43"/>
+      <rect x="523" y="648" width="18" height="16" fill="#fff"/>
+      <text x="532" y="660" font-size="12" text-anchor="middle">8</text>
+      <line x1="570" y1="640" x2="570" y2="644" stroke="#172c43"/>
+      <rect x="561" y="648" width="18" height="16" fill="#fff"/>
+      <text x="570" y="660" font-size="12" text-anchor="middle">9</text>
+      <line x1="608" y1="640" x2="608" y2="644" stroke="#172c43"/>
+      <rect x="599" y="648" width="18" height="16" fill="#fff"/>
+      <text x="608" y="660" font-size="12" text-anchor="middle">10</text>
+      <line x1="646" y1="640" x2="646" y2="644" stroke="#172c43"/>
+      <rect x="637" y="648" width="18" height="16" fill="#fff"/>
+      <text x="646" y="660" font-size="12" text-anchor="middle">11</text>
+      <line x1="684" y1="640" x2="684" y2="644" stroke="#172c43"/>
+      <rect x="675" y="648" width="18" height="16" fill="#fff"/>
+      <text x="684" y="660" font-size="12" text-anchor="middle">12</text>
+      <circle data-point="0" cx="228" cy="630" r="6" fill="#2463a6"/>
+      <circle data-point="2" cx="304" cy="630" r="6" fill="#2463a6"/>
+      <circle data-point="3" cx="342" cy="630" r="6" fill="#2463a6"/>
+      <rect data-point="8" x="526" y="624" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="10" x="602" y="624" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="12" x="678" y="624" width="12" height="12" fill="#ac4200"/>
+      <g data-center="0">
+        <rect x="207" y="556" width="42" height="23" fill="#fff"/>
+        <text x="228" y="572" text-anchor="middle">0</text>
+        <path d="M 228 582 L 238 592 L 228 602 L 218 592 Z" fill="#fff" stroke="#2463a6" stroke-width="2.5"/>
+        <line x1="228" y1="606" x2="228" y2="617" stroke="#2463a6" stroke-width="1"/>
+      </g>
+      <g data-center="7">
+        <rect x="473" y="556" width="42" height="23" fill="#fff"/>
+        <text x="494" y="572" text-anchor="middle">7</text>
+        <path d="M 494 582 L 504 592 L 494 602 L 484 592 Z" fill="#fff" stroke="#ac4200" stroke-width="2.5"/>
+        <line x1="494" y1="606" x2="494" y2="617" stroke="#ac4200" stroke-width="1"/>
+      </g>
+      <path d="M 236 685 H 270 L 294 639" fill="none" stroke="#2463a6" stroke-width="1.4"/>
+      <rect x="24" y="673" width="204" height="24" rx="4" fill="#eaf2fb"/>
+      <text x="32" y="690" font-size="13">點 2 換到較近的中心</text>
+    </g>
+    <g id="step-5" data-point-y="770">
+      <text x="24" y="748" font-weight="700">5. 第 2 輪：</text>
+      <text x="24" y="771">中心移到平均</text>
+      <line x1="215" y1="770" x2="697" y2="770" stroke="#172c43" stroke-width="1.2"/>
+      <line x1="228" y1="780" x2="228" y2="784" stroke="#172c43"/>
+      <rect x="219" y="788" width="18" height="16" fill="#fff"/>
+      <text x="228" y="800" font-size="12" text-anchor="middle">0</text>
+      <line x1="266" y1="780" x2="266" y2="784" stroke="#172c43"/>
+      <rect x="257" y="788" width="18" height="16" fill="#fff"/>
+      <text x="266" y="800" font-size="12" text-anchor="middle">1</text>
+      <line x1="304" y1="780" x2="304" y2="784" stroke="#172c43"/>
+      <rect x="295" y="788" width="18" height="16" fill="#fff"/>
+      <text x="304" y="800" font-size="12" text-anchor="middle">2</text>
+      <line x1="342" y1="780" x2="342" y2="784" stroke="#172c43"/>
+      <rect x="333" y="788" width="18" height="16" fill="#fff"/>
+      <text x="342" y="800" font-size="12" text-anchor="middle">3</text>
+      <line x1="380" y1="780" x2="380" y2="784" stroke="#172c43"/>
+      <rect x="371" y="788" width="18" height="16" fill="#fff"/>
+      <text x="380" y="800" font-size="12" text-anchor="middle">4</text>
+      <line x1="418" y1="780" x2="418" y2="784" stroke="#172c43"/>
+      <rect x="409" y="788" width="18" height="16" fill="#fff"/>
+      <text x="418" y="800" font-size="12" text-anchor="middle">5</text>
+      <line x1="456" y1="780" x2="456" y2="784" stroke="#172c43"/>
+      <rect x="447" y="788" width="18" height="16" fill="#fff"/>
+      <text x="456" y="800" font-size="12" text-anchor="middle">6</text>
+      <line x1="494" y1="780" x2="494" y2="784" stroke="#172c43"/>
+      <rect x="485" y="788" width="18" height="16" fill="#fff"/>
+      <text x="494" y="800" font-size="12" text-anchor="middle">7</text>
+      <line x1="532" y1="780" x2="532" y2="784" stroke="#172c43"/>
+      <rect x="523" y="788" width="18" height="16" fill="#fff"/>
+      <text x="532" y="800" font-size="12" text-anchor="middle">8</text>
+      <line x1="570" y1="780" x2="570" y2="784" stroke="#172c43"/>
+      <rect x="561" y="788" width="18" height="16" fill="#fff"/>
+      <text x="570" y="800" font-size="12" text-anchor="middle">9</text>
+      <line x1="608" y1="780" x2="608" y2="784" stroke="#172c43"/>
+      <rect x="599" y="788" width="18" height="16" fill="#fff"/>
+      <text x="608" y="800" font-size="12" text-anchor="middle">10</text>
+      <line x1="646" y1="780" x2="646" y2="784" stroke="#172c43"/>
+      <rect x="637" y="788" width="18" height="16" fill="#fff"/>
+      <text x="646" y="800" font-size="12" text-anchor="middle">11</text>
+      <line x1="684" y1="780" x2="684" y2="784" stroke="#172c43"/>
+      <rect x="675" y="788" width="18" height="16" fill="#fff"/>
+      <text x="684" y="800" font-size="12" text-anchor="middle">12</text>
+      <circle data-point="0" cx="228" cy="770" r="6" fill="#2463a6"/>
+      <circle data-point="2" cx="304" cy="770" r="6" fill="#2463a6"/>
+      <circle data-point="3" cx="342" cy="770" r="6" fill="#2463a6"/>
+      <rect data-point="8" x="526" y="764" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="10" x="602" y="764" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="12" x="678" y="764" width="12" height="12" fill="#ac4200"/>
+      <g data-center="0" opacity="0.3">
+        <rect x="207" y="696" width="42" height="23" fill="#fff"/>
+        <text x="228" y="712" text-anchor="middle">0</text>
+        <path d="M 228 722 L 238 732 L 228 742 L 218 732 Z" fill="#fff" stroke="#2463a6" stroke-width="2.5"/>
+        <line x1="228" y1="746" x2="228" y2="757" stroke="#2463a6" stroke-width="1"/>
+      </g>
+      <path d="M 243 732 H 275.333" fill="none" stroke="#2463a6" stroke-width="2"/>
+      <path d="M 269.333 728 L 276.333 732 L 269.333 736" fill="none" stroke="#2463a6" stroke-width="2"/>
+      <g data-center="1.6666666666666667">
+        <rect x="270.333" y="696" width="42" height="23" fill="#fff"/>
+        <text x="291.333" y="712" text-anchor="middle">1.67</text>
+        <path d="M 291.333 722 L 301.333 732 L 291.333 742 L 281.333 732 Z" fill="#fff" stroke="#2463a6" stroke-width="2.5"/>
+        <line x1="291.333" y1="746" x2="291.333" y2="757" stroke="#2463a6" stroke-width="1"/>
+      </g>
+      <g data-center="7" opacity="0.3">
+        <rect x="473" y="696" width="42" height="23" fill="#fff"/>
+        <text x="494" y="712" text-anchor="middle">7</text>
+        <path d="M 494 722 L 504 732 L 494 742 L 484 732 Z" fill="#fff" stroke="#ac4200" stroke-width="2.5"/>
+        <line x1="494" y1="746" x2="494" y2="757" stroke="#ac4200" stroke-width="1"/>
+      </g>
+      <path d="M 509 732 H 592" fill="none" stroke="#ac4200" stroke-width="2"/>
+      <path d="M 586 728 L 593 732 L 586 736" fill="none" stroke="#ac4200" stroke-width="2"/>
+      <g data-center="10">
+        <rect x="587" y="696" width="42" height="23" fill="#fff"/>
+        <text x="608" y="712" text-anchor="middle">10</text>
+        <path d="M 608 722 L 618 732 L 608 742 L 598 732 Z" fill="#fff" stroke="#ac4200" stroke-width="2.5"/>
+        <line x1="608" y1="746" x2="608" y2="757" stroke="#ac4200" stroke-width="1"/>
+      </g>
+    </g>
+    <g id="step-6" data-point-y="910">
+      <text x="24" y="888" font-weight="700">6. 再分一次：</text>
+      <text x="24" y="911">沒有點換群 → 停止</text>
+      <line x1="215" y1="910" x2="697" y2="910" stroke="#172c43" stroke-width="1.2"/>
+      <line x1="228" y1="920" x2="228" y2="924" stroke="#172c43"/>
+      <rect x="219" y="928" width="18" height="16" fill="#fff"/>
+      <text x="228" y="940" font-size="12" text-anchor="middle">0</text>
+      <line x1="266" y1="920" x2="266" y2="924" stroke="#172c43"/>
+      <rect x="257" y="928" width="18" height="16" fill="#fff"/>
+      <text x="266" y="940" font-size="12" text-anchor="middle">1</text>
+      <line x1="304" y1="920" x2="304" y2="924" stroke="#172c43"/>
+      <rect x="295" y="928" width="18" height="16" fill="#fff"/>
+      <text x="304" y="940" font-size="12" text-anchor="middle">2</text>
+      <line x1="342" y1="920" x2="342" y2="924" stroke="#172c43"/>
+      <rect x="333" y="928" width="18" height="16" fill="#fff"/>
+      <text x="342" y="940" font-size="12" text-anchor="middle">3</text>
+      <line x1="380" y1="920" x2="380" y2="924" stroke="#172c43"/>
+      <rect x="371" y="928" width="18" height="16" fill="#fff"/>
+      <text x="380" y="940" font-size="12" text-anchor="middle">4</text>
+      <line x1="418" y1="920" x2="418" y2="924" stroke="#172c43"/>
+      <rect x="409" y="928" width="18" height="16" fill="#fff"/>
+      <text x="418" y="940" font-size="12" text-anchor="middle">5</text>
+      <line x1="456" y1="920" x2="456" y2="924" stroke="#172c43"/>
+      <rect x="447" y="928" width="18" height="16" fill="#fff"/>
+      <text x="456" y="940" font-size="12" text-anchor="middle">6</text>
+      <line x1="494" y1="920" x2="494" y2="924" stroke="#172c43"/>
+      <rect x="485" y="928" width="18" height="16" fill="#fff"/>
+      <text x="494" y="940" font-size="12" text-anchor="middle">7</text>
+      <line x1="532" y1="920" x2="532" y2="924" stroke="#172c43"/>
+      <rect x="523" y="928" width="18" height="16" fill="#fff"/>
+      <text x="532" y="940" font-size="12" text-anchor="middle">8</text>
+      <line x1="570" y1="920" x2="570" y2="924" stroke="#172c43"/>
+      <rect x="561" y="928" width="18" height="16" fill="#fff"/>
+      <text x="570" y="940" font-size="12" text-anchor="middle">9</text>
+      <line x1="608" y1="920" x2="608" y2="924" stroke="#172c43"/>
+      <rect x="599" y="928" width="18" height="16" fill="#fff"/>
+      <text x="608" y="940" font-size="12" text-anchor="middle">10</text>
+      <line x1="646" y1="920" x2="646" y2="924" stroke="#172c43"/>
+      <rect x="637" y="928" width="18" height="16" fill="#fff"/>
+      <text x="646" y="940" font-size="12" text-anchor="middle">11</text>
+      <line x1="684" y1="920" x2="684" y2="924" stroke="#172c43"/>
+      <rect x="675" y="928" width="18" height="16" fill="#fff"/>
+      <text x="684" y="940" font-size="12" text-anchor="middle">12</text>
+      <circle data-point="0" cx="228" cy="910" r="6" fill="#2463a6"/>
+      <circle data-point="2" cx="304" cy="910" r="6" fill="#2463a6"/>
+      <circle data-point="3" cx="342" cy="910" r="6" fill="#2463a6"/>
+      <rect data-point="8" x="526" y="904" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="10" x="602" y="904" width="12" height="12" fill="#ac4200"/>
+      <rect data-point="12" x="678" y="904" width="12" height="12" fill="#ac4200"/>
+      <g data-center="1.6666666666666667">
+        <rect x="270.333" y="836" width="42" height="23" fill="#fff"/>
+        <text x="291.333" y="852" text-anchor="middle">1.67</text>
+        <path d="M 291.333 862 L 301.333 872 L 291.333 882 L 281.333 872 Z" fill="#fff" stroke="#2463a6" stroke-width="2.5"/>
+        <line x1="291.333" y1="886" x2="291.333" y2="897" stroke="#2463a6" stroke-width="1"/>
+      </g>
+      <g data-center="10">
+        <rect x="587" y="836" width="42" height="23" fill="#fff"/>
+        <text x="608" y="852" text-anchor="middle">10</text>
+        <path d="M 608 862 L 618 872 L 608 882 L 598 872 Z" fill="#fff" stroke="#ac4200" stroke-width="2.5"/>
+        <line x1="608" y1="886" x2="608" y2="897" stroke="#ac4200" stroke-width="1"/>
+      </g>
+    </g>
+    <rect x="24" y="951" width="450" height="22" fill="#fff"/>
+    <text x="24" y="968" font-size="13">資料：教學合成（本頁算一次的 6 個點）</text>
+  </g>
+</svg>
