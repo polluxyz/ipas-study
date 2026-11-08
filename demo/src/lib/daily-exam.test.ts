@@ -422,6 +422,19 @@ describe('題本科目畫面與開本文字', () => {
 });
 
 describe('題本清單與進度', () => {
+  it('空的作答中題本顯示需結束，資料仍為 open', () => {
+    const open = makeBooklet({ questions: [] });
+    expect(bookletRows(bookletStore([open]), 1)).toEqual([
+      { id: 'book1', number: 1, createdDate: '2026-11-05', statusLabel: '需結束', total: 0, answered: 0, canReview: false },
+    ]);
+    expect(open.status).toBe('open');
+  });
+  it('有題目的作答中題本仍顯示作答中與已答題數', () => {
+    const open = makeBooklet(); open.questions[0].choice = 'A';
+    expect(bookletRows(bookletStore([open]), 1)).toEqual([
+      { id: 'book1', number: 1, createdDate: '2026-11-05', statusLabel: '作答中', total: 5, answered: 1, canReview: false },
+    ]);
+  });
   it('清單依編號排序，3 種狀態與 submitting 分別帶正確欄位', () => {
     const open = makeBooklet(); open.questions[0].choice = 'A';
     const pending = { ...submitBookletForTest(answeredBooklet({ id: 'pending', number: 2 })), status: 'submitting' as const };

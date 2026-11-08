@@ -429,6 +429,69 @@ export async function runDailyBookletSmoke() {
       Object.assign(actual, { rows, catalog: 180, assigned: 125, freeQuestions: 55, fullBooks: 1, lastBook: 5, attempts: 70, before, nextDay: after, taipeiBoundary: ['2026-11-07T15:59:00Z', '2026-11-07T16:01:00Z'] });
     });
 
+    await runCase(11, '空的作答中題本顯示結束操作且能結束', async (context, actual) => {
+      const page = await newPage(context);
+      const empty = booklet(pool(1).slice(0, 3), answers, { id: 'empty-open', number: 1 }); empty.questions = [];
+      await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': empty.id, '3': null }, booklets: [empty] } }); await go(page);
+      const row = page.locator('#daily-rows .booklet-row:not(.booklet-table-head)');
+      const cells = await row.locator('[role="cell"]').allTextContents();
+      assert.deepEqual(cells.slice(1), ['需結束', '0 題', '已答 0／0', '前往結束題本 →']);
+      assert.equal((await currentBook(page)).status, 'open');
+      assert.equal(await row.getByRole('link', { name: '繼續作答 →' }).count(), 0);
+      actual.screenshots = [];
+      for (const [width, theme] of [[1440, 'light'], [320, 'dark']]) {
+        await page.setViewportSize({ width, height: width === 1440 ? 900 : 700 });
+        await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, theme);
+        await page.evaluate(() => document.fonts.ready);
+        await row.scrollIntoViewIfNeeded();
+        const file = resolve(output, `empty-row-${width}-${theme}.png`);
+        await page.screenshot({ path: file }); actual.screenshots.push(file);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0);
+      }
+      await row.getByRole('link', { name: '前往結束題本 →' }).click(); await ready(page);
+      await page.locator('#daily-retire:not([hidden])').waitFor();
+      assert.equal((await currentBook(page)).status, 'open');
+      await page.locator('#daily-retire-book').click(); await ready(page);
+      const finished = (await readStore(page)).booklets[0];
+      assert.equal(finished.status, 'retired'); assert.equal((await readStore(page)).current['1'], null);
+      assert.deepEqual(finished.assignedQids, empty.assignedQids); assert.equal((await readAttempts(page)).length, 0);
+      Object.assign(actual, { cells, statusBefore: 'open', statusAfter: finished.status, assigned: 3, attempts: 0 });
+    });
+
+    await runCase(12, '另一頁寫入作答後即時更新題量與舊紀錄但不寫題本', async (context, actual) => {
+      const page = await newPage(context); const candidates = pool(1).slice(0, 50); const allowed = new Set(candidates.map((q) => q.id));
+      await seed(page, { [BOOK]: emptyStore() });
+      await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id))); await go(page);
+      assert.equal(await page.locator('#daily-open-first').innerText(), '開第 1 本');
+      assert.equal((await page.locator('#daily-metric-free').innerText()).replace(/\s/g, ''), '1本');
+      assert.equal(await page.locator('#daily-legacy-records').isVisible(), false);
+      const before = await snapshot(page); const url = page.url();
+      await page.evaluate(() => {
+        window.overviewWrites = [];
+        const setItem = Storage.prototype.setItem; const removeItem = Storage.prototype.removeItem; const clear = Storage.prototype.clear;
+        Storage.prototype.setItem = function (key, value) { if (this === localStorage) window.overviewWrites.push(key); return setItem.call(this, key, value); };
+        Storage.prototype.removeItem = function (key) { if (this === localStorage) window.overviewWrites.push(key); return removeItem.call(this, key); };
+        Storage.prototype.clear = function () { if (this === localStorage) window.overviewWrites.push('*'); return clear.call(this); };
+        window.overviewLoaded = true;
+      });
+      const other = await newPage(context); await other.goto(BASE + '/__seed');
+      const q = candidates[0];
+      const attempted = { id: 'other-page-import', qid: q.id, rev: q.rev, choice: answers.get(q.id), correct: true, ts: NOW, mode: `daily:${TODAY}:S1`, ms: 1000 };
+      await other.evaluate(({ key, attempted }) => localStorage.setItem(key, JSON.stringify({ version: 1, attempts: [attempted] })), { key: ATT, attempted });
+      await page.waitForFunction(() => document.getElementById('daily-open-first').textContent === '開第 1 本（49 題）');
+      const after = await snapshot(page);
+      assert.equal(after[BOOK], before[BOOK]);
+      assert.deepEqual(Object.fromEntries(Object.entries(after).filter(([key]) => key !== ATT)), before);
+      assert.equal((await page.locator('#daily-metric-free').innerText()).replace(/\s/g, ''), '0本另1本49題');
+      assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
+      assert.deepEqual(await page.locator('#daily-legacy-rows .booklet-legacy-row').allTextContents(), [`${TODAY}科目 1已答 1 題答對 1 題`]);
+      assert.equal(page.url(), url); assert.equal(await page.evaluate(() => window.overviewLoaded), true);
+      assert.deepEqual(await page.evaluate(() => window.overviewWrites), []);
+      assert.equal(await page.locator('#daily-open-first').isEnabled(), true);
+      assert.equal(await page.locator('#daily-save-error').isVisible(), false);
+      Object.assign(actual, { initialQuestions: 50, updatedQuestions: 49, initialFullBooks: 1, updatedFullBooks: 0, legacyRecords: 1, bookletBytesUnchanged: true, writesFromDailyPage: 0, reloaded: false });
+    });
+
     // 全失效畫面另外造資料，確認「結束」保留分配紀錄且不寫作答。
     const retired = booklet(pool(1).slice(0, 3), answers, { id: 'all-invalid', number: 1 });
     retired.questions = retired.questions.map((q) => ({ ...q, rev: q.rev + 100 }));
@@ -467,7 +530,7 @@ export async function runDailyBookletSmoke() {
       } catch (error) { measurement.status = 'failed'; measurement.failure = String(error.stack ?? error); }
       finally { await closeContext(context); }
     }
-    assert.equal(report.cases.length, 10);
+    assert.equal(report.cases.length, 12);
     assert.equal(report.screenshots.filter((s) => !s.fullPage).length, 36, '36張目前視窗截圖');
     assert.equal(report.screenshots.filter((s) => s.fullPage).length, 6, '6張全頁截圖');
     report.maxHorizontalOverflow = Math.max(...report.measurements.map((m) => m.overflow ?? 0));
@@ -480,7 +543,7 @@ export async function runDailyBookletSmoke() {
     report.summary = { casesPassed: report.cases.filter((c) => c.status === 'passed').length, casesFailed: report.cases.filter((c) => c.status === 'failed').length,
       viewportScreenshots: report.screenshots.filter((s) => !s.fullPage).length, fullPageScreenshots: report.screenshots.filter((s) => s.fullPage).length,
       layoutsFailed: report.measurements.filter((m) => m.status === 'failed').length, browserErrors: report.errors.length, requestFailures: report.requestFailures.length };
-    report.exitCode = !report.fatal && report.summary.casesPassed === 10 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 36 && report.summary.fullPageScreenshots === 6 && report.errors.length === 0 && report.requestFailures.length === 0 ? 0 : 1;
+    report.exitCode = !report.fatal && report.summary.casesPassed === 12 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 36 && report.summary.fullPageScreenshots === 6 && report.errors.length === 0 && report.requestFailures.length === 0 ? 0 : 1;
     await writeFile(resolve(output, 'report.json'), JSON.stringify(report, null, 2));
   }
   return report;

@@ -2,7 +2,7 @@
 import revisionIndex from '../data/revisions.json';
 export type Choice = 'A' | 'B' | 'C' | 'D';
 export interface Attempt { id: string; qid: string; rev: number; choice: Choice; correct: boolean; ts: string; mode: string; ms: number; }
-const STORAGE_KEY = 'ipas-attempts-v1';
+export const STORAGE_KEY = 'ipas-attempts-v1';
 const READING_KEY = 'ipas-reading-v1';
 export interface Reading { conceptId: string; ts: string; }
 const revisions: Record<string, number> = revisionIndex;

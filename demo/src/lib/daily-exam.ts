@@ -148,6 +148,7 @@ export function bookletRows(store: BookletStore, subject: DailySubject): Booklet
     const row = { id: booklet.id, number: booklet.number, createdDate: booklet.createdDate, total: booklet.questions.length, canReview: false };
     if (booklet.status === 'submitted') return { ...row, statusLabel: '已交卷', total: booklet.submission!.total, correct: booklet.submission!.correct, canReview: true };
     if (booklet.status === 'retired') return { ...row, statusLabel: '已結束' };
+    if (booklet.status === 'open' && row.total === 0) return { ...row, statusLabel: '需結束', answered: 0 };
     return { ...row, statusLabel: '作答中', answered: dailyCounts(booklet).answered };
   });
 }

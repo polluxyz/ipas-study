@@ -1,5 +1,5 @@
 /** 每日流程組裝狀態與互動；保存一律透過 attempts，題卡及導覽沿用共用函式。 */
-import { assertBookletCurrent, DailyConflictError, BOOKLET_KEY, getAttempts, readBookletStore, openBooklet, saveBooklet, submitBooklet, retireBooklet, type Choice, type Booklet, type BookletRef, type BookletStore } from './attempts';
+import { assertBookletCurrent, DailyConflictError, BOOKLET_KEY, STORAGE_KEY, getAttempts, readBookletStore, openBooklet, saveBooklet, submitBooklet, retireBooklet, type Choice, type Booklet, type BookletRef, type BookletStore } from './attempts';
 import { dailyFreeCount, selectDailyQuestions, taipeiDate, type DailyQuestion, type DailySubject, type DuplicateGroups } from './daily';
 import { availableDailyQuestion, bookletExclusions, bookletOpenLabel, bookletPageState, bookletPartialNote, bookletProgramNotice, bookletProgress, bookletRows, createBooklet, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
 import { ensureBookletStore } from './booklet-migration';
@@ -154,7 +154,7 @@ export async function initDaily(): Promise<void> {
       const name = document.createElement('div'); name.append(Object.assign(document.createElement('strong'), { textContent: '第 ' + row.number + ' 本' }), Object.assign(document.createElement('time'), { textContent: row.createdDate, dateTime: row.createdDate }));
       const status = document.createElement('span'); status.className = 'booklet-status' + (row.answered !== undefined ? ' is-open' : ''); status.textContent = row.statusLabel;
       let action: string | HTMLElement = '';
-      if (row.canReview || row.answered !== undefined) { const link = document.createElement('a'); link.className = 'booklet-row-action'; link.href = row.canReview ? currentUrl(row.id) : currentUrl(); link.textContent = row.canReview ? '回看檢討 →' : '繼續作答 →'; action = link; }
+      if (row.canReview || row.answered !== undefined) { const link = document.createElement('a'); link.className = 'booklet-row-action'; link.href = row.canReview ? currentUrl(row.id) : currentUrl(); link.textContent = row.canReview ? '回看檢討 →' : row.total === 0 ? '前往結束題本 →' : '繼續作答 →'; action = link; }
       appendRow([name, status, row.total + ' 題', row.correct !== undefined ? '答對 ' + row.correct + '／' + row.total : row.answered !== undefined ? '已答 ' + row.answered + '／' + row.total : '', action], false, row.id === store.current[subject]);
     }
     const records = legacyRecords(store, readAttempts() ?? []);
@@ -353,7 +353,11 @@ export async function initDaily(): Promise<void> {
       }
     } catch (cause) { readOnly = true; started = null; error(cause); displayCards(); render(); }
   };
-  window.addEventListener('storage', (event) => { if (!viewing && (event.key === BOOKLET_KEY || event.key === null)) { checkCurrent(); render(); } });
+  window.addEventListener('storage', (event) => {
+    // 匯入作答只更新題量與舊紀錄，不觸發保存或改變題本的唯讀判斷。
+    if (event.key === STORAGE_KEY) renderOverview();
+    else if (!viewing && (event.key === BOOKLET_KEY || event.key === null)) { checkCurrent(); render(); }
+  });
   document.addEventListener('visibilitychange', () => { if (viewing) return; settle(); persist(); if (!document.hidden) checkCurrent(); displayCards(); render(); });
   const startTimer = () => {
     timer = window.setInterval(showTime, 1000);
