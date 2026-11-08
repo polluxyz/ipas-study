@@ -25,7 +25,7 @@
 | I8b 新瀏覽器測試：多分頁與回歸 | `demo/scripts/daily-booklet-smoke-multi.mjs` | 2 分頁、真實鎖、清除、備份往返、損壞資料、官方題、一般測驗、單題頁、錯題本全過 | 完成 `57037be`；第 3 案在 I5-fix3 後通過，最後驗收 11/11 |
 | R1 非作者審查 | `tmp/advisor/daily-booklet-review.md` | 高中度問題清零 | 審查完成，高 0 中 2 低 3；修正中 |
 | I5-fix4 空題本開頁不寫入、提示並存 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-exam-smoke.mjs` | R1 M1、L1 | 完成：worker `d3d4238`，併入 `b65649c`。修改前新斷言失敗（seq 2→3），修改後通過。單元 1178/1178、exam smoke 125 案 success、booklet 10/10、multi 11/11。 |
-| I5-fix5 兩科交卷恢復分開處理 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-booklet-smoke-multi.mjs` | R1 M2；規格第 248 行 | 未開始 |
+| I5-fix5 兩科交卷恢復分開處理 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-booklet-smoke-multi.mjs` | R1 M2；規格第 248 行 | 完成：worker `73e9df6`，併入 `5bfc9f7`。修改前 multi 13/16（新案 12、14、16 失敗），修改後 16/16。單元 1178/1178、booklet 10/10、exam smoke 71 案 success。觀察：他科交卷恢復失敗時，該科卡片仍寫「作答中」，點進去顯示錯誤與重試，不影響資料。 |
 | I5-fix6 清單列文字、匯入後更新題量 | `demo/src/lib/daily-client.ts`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts`、`demo/scripts/daily-booklet-smoke.mjs` | R1 L2、L3 | 完成：worker `cbc1d7b`，併入 `19dcba6`。單元 1180/1180、booklet smoke 12/12、multi 11/11、exam smoke 71 案 success。建議（由 Codex 判斷）：320 暗色「結束這本」按鈕對比偏低，修正前已存在。 |
 | V1 協調者驗收 | 主工作區 | 規格第 12 節逐條有證據；親看截圖 | 未開始 |
 | P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完一輪 | 未開始 |
