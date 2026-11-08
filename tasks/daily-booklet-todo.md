@@ -23,11 +23,11 @@
 | I7b 更新舊流程測試 | `demo/src/lib/daily-smoke.mjs`、`demo/src/lib/daily-cache.test.ts` | 原案例逐條對照後改到題本流程，不刪案例；官方題回歸保留；全部通過 | 完成 `e8f9154` |
 | I8a 新瀏覽器測試：主流程 | `demo/scripts/daily-booklet-smoke.mjs` | 開本、跨日、舊流程、連開 3 本、用完、交卷中斷、清單與進度全過；截圖 3 種寬度與亮暗色 | 完成 `6dd0028` |
 | I8b 新瀏覽器測試：多分頁與回歸 | `demo/scripts/daily-booklet-smoke-multi.mjs` | 2 分頁、真實鎖、清除、備份往返、損壞資料、官方題、一般測驗、單題頁、錯題本全過 | 完成 `57037be`；第 3 案在 I5-fix3 後通過，最後驗收 11/11 |
-| R1 非作者審查 | `tmp/advisor/daily-booklet-review.md` | 高中度問題清零 | 審查完成，高 0 中 2 低 3；修正中 |
+| R1 非作者審查 | `tmp/advisor/daily-booklet-review.md` | 高中度問題清零 | 完成：高 0 中 2 低 3，全部由 I5-fix4、fix5、fix6 修正並通過第 2 次最後驗收。 |
 | I5-fix4 空題本開頁不寫入、提示並存 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-exam-smoke.mjs` | R1 M1、L1 | 完成：worker `d3d4238`，併入 `b65649c`。修改前新斷言失敗（seq 2→3），修改後通過。單元 1178/1178、exam smoke 125 案 success、booklet 10/10、multi 11/11。 |
 | I5-fix5 兩科交卷恢復分開處理 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-booklet-smoke-multi.mjs` | R1 M2；規格第 248 行 | 完成：worker `73e9df6`，併入 `5bfc9f7`。修改前 multi 13/16（新案 12、14、16 失敗），修改後 16/16。單元 1178/1178、booklet 10/10、exam smoke 71 案 success。觀察：他科交卷恢復失敗時，該科卡片仍寫「作答中」，點進去顯示錯誤與重試，不影響資料。 |
 | I5-fix6 清單列文字、匯入後更新題量 | `demo/src/lib/daily-client.ts`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts`、`demo/scripts/daily-booklet-smoke.mjs` | R1 L2、L3 | 完成：worker `cbc1d7b`，併入 `19dcba6`。單元 1180/1180、booklet smoke 12/12、multi 11/11、exam smoke 71 案 success。建議（由 Codex 判斷）：320 暗色「結束這本」按鈕對比偏低，修正前已存在。 |
-| V1 協調者驗收 | 主工作區 | 規格第 12 節逐條有證據；親看截圖 | 未開始 |
+| V1 協調者驗收 | 主工作區 | 規格第 12 節逐條有證據；親看截圖 | 完成：第 1–11 條有證據（見 plan 實作紀錄），第 12 條待 P1。 |
 | P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完一輪 | 未開始 |
 
 I1、I3a、I3b 可平行。I1b、I2、I4 要等 I1。I5 要等 I2、I3a、I3b、I4。I5-fix、I6 要等 I5，可平行。I7a、I7b、I8a、I8b 要等 I5-fix 與 I6，因為測試會斷言修正後的文字與側欄名稱；這 4 項可平行，共用 `booklet-verify` 工作樹的建置產物。

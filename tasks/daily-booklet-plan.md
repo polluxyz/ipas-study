@@ -90,5 +90,21 @@
 - 2026-11-08：I8b 第一次跑單元測試，1 項逾時、3 項因 hook 逾時跳過；重跑該 2 檔 54/54 通過。當時多個 worker 同時執行。與 I8a 同類，最後驗收單獨確認。
 - 2026-11-08：I5-fix2 合併後，作答紀錄損壞時第 81 行的說明會蓋過「已略過 N 題」的提示。兩者要同時發生才會出現，失效題仍會略過，不影響資料，不另外修。R1 可判斷。
 - 2026-11-08：I5-fix3 合併後，只開頁不寫入。但前景分頁每 15 秒保存累計用時，內容有變會寫入，所以新分頁留在前景 15 秒後，舊分頁仍會改唯讀。這符合規格第 6.2 節的衝突處理，答案不遺失，重新載入即可。
-- 2026-11-08：最後驗收（`booklet-verify` 工作樹，依序執行不並行）。install、build、tsc、test、textbook、copy 結束碼 0；單元測試 45 檔 1178/1178，這次沒有逾時；建置 8 分 9 秒。瀏覽器：`daily-smoke.mjs` 通過；`daily-booklet-smoke.mjs` 10/10；`daily-booklet-smoke-multi.mjs` 11/11；`daily-exam-smoke.mjs` 第 1 次在 `conflict-without-storage-event` 逾時。原因是案例依賴「第 2 頁一開就寫入」，I5-fix3 已移除這個行為。改成第 2 頁真的選答製造衝突，拒絕斷言保留（`f7f6136`），重跑 122 個案例全過，瀏覽器錯誤 0。
+- 2026-11-08：最後驗收（`booklet-verify` 工作樹，依序執行不並行）。install、build、tsc、test、textbook、copy 結束碼 0；單元測試 45 檔 1178/1178，這次沒有逾時；建置 8 分 9 秒。瀏覽器：`daily-smoke.mjs` 通過；`daily-booklet-smoke.mjs` 10/10；`daily-booklet-smoke-multi.mjs` 11/11；`daily-exam-smoke.mjs` 第 1 次在 `conflict-without-storage-event` 逾時。原因是案例依賴「第 2 頁一開就寫入」，I5-fix3 已移除這個行為。改成第 2 頁真的選答製造衝突，拒絕斷言保留（`f7f6136`），重跑全過：71 個案例、48 組版面量測、3 組故障注入，合計 122 項，瀏覽器錯誤 0。
 - 2026-11-08：R1 審查（`tmp/advisor/daily-booklet-review.md`）高 0、中 2、低 3。協調者讀碼確認 M1、M2。M1：空題本每次開頁都保存，`seq` 增加，另一頁結束題本時被判衝突（`daily-client.ts:248`）；`daily-exam-smoke.mjs` 全失效案例的「重載前後逐字相同」斷言在 I7a 改寫時遺失。M2：任一科交卷恢復失敗就整頁停止，另一科不能接續（`daily-client.ts:219`、`:241`）。規格第 6.2 節補「兩科分別處理」。L1–L3 一併修：作答損壞提示蓋過略過提示、全失效題本清單列仍顯示「繼續作答」、另一視窗匯入作答後可開題量不更新。依「多派 worker、任務細分」拆成 I5-fix4（M1、L1）、I5-fix5（M2）、I5-fix6（L2、L3）。
+- 2026-11-08：I5-fix4、I5-fix5、I5-fix6 併入（`b65649c`、`5bfc9f7`、`19dcba6`），R1 的 M1、M2、L1–L3 都已修正。3 個 worker 並行時搶 4335 埠出現 EADDRINUSE，重跑通過，與程式無關。
+- 2026-11-08：第 2 次最後驗收（head `2d2c628`，`booklet-verify` 工作樹，依序執行）。merge、install、build（10 分 49 秒）、tsc、textbook（920/920）、copy（0 片段）結束碼 0；單元測試 45 檔 1180/1180，沒有逾時。瀏覽器：`daily-smoke.mjs` 通過；`daily-booklet-smoke.mjs` 12/12、版面失敗 0；`daily-booklet-smoke-multi.mjs` 16/16；`daily-exam-smoke.mjs` success，74 個案例、48 組版面量測、3 組故障注入，瀏覽器錯誤 0。
+- 2026-11-08：V1 逐條核對規格第 12 節。
+  1. 重新整理與跨日不變：booklet 案例 2、exam cross-day。
+  2. 只有按鈕才抽題：booklet 案例 1、4。
+  3. 交卷後可開下一本、可回看：booklet 案例 5、9。
+  4. 同科不重疊、不含做過的題：booklet 案例 5、6，`daily.test.ts`「題本不重複抽題」。
+  5. 4 對同題群組：瀏覽器驗 1 對（booklet 案例 7）；`question-duplicates.test.ts:171` 確認恰 4 組；協調者另寫暫存測試，用真實題庫逐對雙向檢查「未做可抽、做過或已分配不可抽」，9/9 通過，暫存檔已刪。
+  6. 第 6.3 節 8 列：`booklet-migration.test.ts:102`。
+  7. 遷移失敗與並行：`booklet-migration.test.ts:420`、`:468` 與鎖相關案例；multi 案例 3。
+  8. 清單內容：booklet 案例 10、`bookletRows` 單元測試。
+  9. 進度數字：booklet 案例 10、exam live-progress。
+  10. 其他頁面不變：multi 案例 8–10、exam instant-official、instant-quiz、instant-question。
+  11. 截圖：作答中、首次、回看、結束、需結束清單列、未做題用完、檢討，各有 1440、390、320 與亮暗色；協調者親看 7 張（含 multi 的交卷恢復）。CI 待 P1。
+  12. 待 P1。
+  親看觀察：320 暗色「結束這本」按鈕對比偏低（已記在 todo，建議由 Codex 判斷）；他科交卷恢復失敗時該科卡片仍寫「作答中」（I5-fix5 已記）。兩項都不影響資料，不擋上線。
