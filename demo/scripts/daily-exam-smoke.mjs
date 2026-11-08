@@ -645,7 +645,7 @@ export async function runDailyExamSmoke() {
       });
       await loadDaily(page, base + '/daily/');
       if (submitted) { assert.equal((await getDraft(page)).submission.total, 50); assert.equal(await page.locator('#daily-score-heading').innerText(), `答對 ${d.submission.correct}／50 題`); assert.equal(await page.locator('.daily-unavailable:visible').count(), 1); }
-      else { assert.equal((await getDraft(page)).questions.length, 49); await assertHiddenResults(page); assert.match(await page.locator('#daily-status').innerText(), /1 題已移除或改版/); }
+      else { assert.equal((await getDraft(page)).questions.length, 49); await assertHiddenResults(page); assert.equal(await page.locator('#daily-status').innerText(), '1 題已移除或改版，已略過，不補題。'); }
       report.cases.push({ name: submitted ? 'review-revision-score-fixed' : 'open-revision-skip-no-refill', total: submitted ? 50 : 49, ...(submitted ? { correct: d.submission.correct } : {}) }); await ctx.close();
     }
     for (const status of ['open', 'submitted']) await regression(`restore-only-from-draft-${status}`, async (ctx) => {
@@ -654,10 +654,28 @@ export async function runDailyExamSmoke() {
       const page = await ctx.newPage(); await page.clock.install({ time: instant }); await loadDaily(page, base + '/daily/');
       assert.equal((await getDraft(page)).id, d.id); assert.equal(await page.locator('#daily-practice').isVisible(), true, '作答紀錄損壞仍可還原既有題本');
       assert.match(await page.locator('#daily-metric-free').innerText(), /無法更新/);
+      assert.equal(await page.locator('#daily-status').innerText(), '作答紀錄無法辨識，暫時不能開新題本。');
       if (status === 'submitted') await page.locator('#daily-score').waitFor();
       else { await currentCard(page).locator('input[value="D"]').check(); assert.equal((await getDraft(page)).questions[0].choice, 'D'); await assertHiddenResults(page); }
       assert.equal(await page.evaluate(() => localStorage.getItem('ipas-attempts-v1')), '{"version":9,"attempts":[]}');
       return { status, attemptsPreserved: true };
+    });
+    for (const width of [1440, 320]) await regression(`corrupt-attempts-and-skipped-notices-${width}`, async (ctx) => {
+      const d = fixture(questions, 1); await seed(ctx, [d]);
+      const raw = '{"version":99,"attempts":[]}';
+      await ctx.addInitScript((raw) => { if (location.origin === 'http://127.0.0.1:4333') localStorage.setItem('ipas-attempts-v1', raw); }, raw);
+      const page = await ctx.newPage(); await page.setViewportSize({ width, height: 1000 }); await page.clock.install({ time: instant });
+      await changeCatalog(page, (catalog) => catalog.filter((q) => q.id !== d.questions[0].id));
+      await loadDaily(page, base + '/daily/');
+      const status = page.locator('#daily-status'); assert.equal(await status.isVisible(), true);
+      assert.match(await status.innerText(), /1 題已移除或改版，已略過，不補題。/);
+      assert.match(await status.innerText(), /作答紀錄無法辨識，暫時不能開新題本。/);
+      assert.equal((await getDraft(page)).questions.length, 49); assert.equal(await page.locator('#daily-practice').isVisible(), true);
+      assert.equal(await page.evaluate((key) => localStorage.getItem(key), ATTEMPTS), raw);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, '提示不造成水平溢出');
+      await status.scrollIntoViewIfNeeded();
+      const file = resolve(output, `corrupt-attempts-and-skipped-notices-${width}.png`); await page.screenshot({ path: file }); report.screenshots.push(file);
+      return { width, skipped: 1, bothNoticesVisible: true, attemptsPreserved: true };
     });
     // 沒有目前題本時，既有歷史不因跨日自動建立新本。
     if (selected('retired-history-explicit-next')) {
@@ -700,15 +718,36 @@ export async function runDailyExamSmoke() {
       const ids = new Set(d.assignedQids); await changeCatalog(page, (catalog) => invalid === 'removed' ? catalog.filter((q) => !ids.has(q.id)) : catalog.map((q) => ids.has(q.id) ? { ...q, rev: q.rev + 1 } : q));
       await loadDaily(page, base + '/daily/'); const skipped = await getDraft(page);
       assert.equal(skipped.id, d.id); assert.deepEqual(skipped.assignedQids, d.assignedQids); assert.equal(skipped.questions.length, 0); assert.equal(skipped.status, 'open');
+      assert.equal(skipped.seq, d.seq + 1, '首次略過全部題目仍須保存');
+      const skippedRaw = await page.evaluate((key) => localStorage.getItem(key), DRAFT);
       assert.equal(await page.locator('#daily-retire').isVisible(), true); assert.equal(await page.locator('#daily-submit').isDisabled(), true); assert.equal(await page.locator('#daily-open-next:visible').count(), 0);
       await page.locator('#daily-submit').evaluate((button) => button.click()); assert.equal(await page.locator('#daily-dialog[open]').count(), 0);
       await page.clock.runFor(16000); await page.reload(); await page.locator('#daily-retire:visible').waitFor(); assert.equal((await getStore(page)).booklets.length, 1); assert.equal((await getAttempts(page)).length, 0);
+      assert.equal(await page.evaluate((key) => localStorage.getItem(key), DRAFT), skippedRaw, '空題本計時與重載不寫入，原字串逐字不變');
       await screenshot(page, `all-${invalid}-before-retire`); await page.locator('#daily-retire-book').click(); await page.locator('#daily-open-next:visible').waitFor();
       const retired = await getDraft(page); assert.equal(retired.id, d.id); assert.equal(retired.status, 'retired'); assert.deepEqual(retired.assignedQids, d.assignedQids); assert.equal((await getAttempts(page)).length, 0);
       await openNext(page); const replaced = await getDraft(page); assert.notEqual(replaced.id, d.id); assert.equal(replaced.createdDate, date); assert.equal(replaced.questions.length, 50);
       assert.equal(replaced.assignedQids.some((id) => ids.has(id)), false, '改版也不能重抽已分配題'); assert.equal((await getStore(page)).booklets.length, 2);
       assert.equal((await getAttempts(page)).length, 0); report.cases.push({ name: 'all-invalid-explicit-retire-next', invalid, assignedPreserved: true, total: 50, added: 0 }); await ctx.close();
     }
+    await regression('empty-booklet-two-tabs-explicit-retire', async (ctx) => {
+      const d = fixture(questions, 1); d.questions = []; d.position = 0;
+      const raw = JSON.stringify({ version: 2, migratedAt: null, current: { 1: d.id, 3: null }, booklets: [d] });
+      // 每個分頁只在鍵不存在時播種，避免第二頁重設資料而掩蓋開頁寫入。
+      await ctx.addInitScript(({ key, raw }) => {
+        if (location.origin === 'http://127.0.0.1:4333' && localStorage.getItem(key) === null) localStorage.setItem(key, raw);
+      }, { key: DRAFT, raw });
+      const first = await ctx.newPage(); await first.clock.install({ time: instant }); await loadDaily(first, base + '/daily/');
+      assert.equal(await first.evaluate((key) => localStorage.getItem(key), DRAFT), raw, '第一頁開空題本不寫入');
+      const second = await ctx.newPage(); await second.clock.install({ time: instant }); await loadDaily(second, base + '/daily/');
+      assert.equal(await second.evaluate((key) => localStorage.getItem(key), DRAFT), raw, '第二頁開空題本不寫入');
+      assert.equal(await first.locator('#daily-save-error').isVisible(), false, '第一頁仍可操作');
+      await first.locator('#daily-retire-book').click(); await first.locator('#daily-open-next:visible').waitFor();
+      const retired = await getDraft(first); assert.equal(retired.id, d.id); assert.equal(retired.status, 'retired'); assert.equal(retired.seq, d.seq + 1);
+      assert.equal(await first.locator('#daily-save-error').isVisible(), false, '明確結束成功，不進唯讀');
+      assert.equal((await getAttempts(first)).length, 0);
+      return { openedTabs: 2, rawPreservedOnOpen: true, retired: true, added: 0 };
+    });
     // 同頁修改不會收到 storage，能獨立驗證結束題本前的身份與序號檢查。
     if (selected('all-invalid-retire-conflict')) for (const field of ['id', 'seq']) {
       const ctx = await context(); const d = fixture(questions, 1); await seed(ctx, [d]); const page = await ctx.newPage(); await page.clock.install({ time: instant });

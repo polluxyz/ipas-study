@@ -25,6 +25,7 @@ export async function initDaily(): Promise<void> {
   let draft: Booklet | undefined;
   let expected: BookletRef | undefined;
   let savedContent: string | undefined;
+  let skippedNotice = '';
   let pending: Booklet | undefined;
   let readOnly = viewing;
   let retryAction: (() => void) | undefined;
@@ -81,7 +82,7 @@ export async function initDaily(): Promise<void> {
     const today = taipeiDate(new Date());
     const free = freeCount(subject);
     const state = bookletPageState(store, subject, free?.free ?? null, catalog);
-    if (free === null) text('status', '作答紀錄無法辨識，暫時不能開新題本。');
+    if (free === null) text('status', (skippedNotice ? skippedNotice + ' ' : '') + '作答紀錄無法辨識，暫時不能開新題本。');
     const progress = bookletProgress(store, subject, today, free);
     element('metrics').hidden = false;
     const shownCounts = progress.total ? progress : draft?.status === 'submitted' ? dailyCounts(draft) : null;
@@ -245,14 +246,16 @@ export async function initDaily(): Promise<void> {
         const b = store.booklets.find((item) => item.id === store.current[target]);
         if (b?.status !== 'open') continue;
         const resolved = reconcileBooklet(b, catalog);
-        if (resolved.skipped || resolved.booklet.questions.length === 0) {
+        // 已空的題本沒有新變更；只在真的略過題目時保存，避免其他分頁誤判衝突。
+        if (resolved.skipped) {
           saveBooklet(resolved.booklet, b); store = readBookletStore()!;
           if (target === subject) skipped += resolved.skipped;
         }
       }
       const state = bookletPageState(store, subject, freeCount(subject)?.free ?? null, catalog);
       draft = 'booklet' in state ? state.booklet : undefined;
-      text('status', skipped ? skipped + ' 題已移除或改版，已略過，不補題。' : '');
+      skippedNotice = skipped ? skipped + ' 題已移除或改版，已略過，不補題。' : '';
+      text('status', skippedNotice);
     }
     expected = draft;
     if (draft) {
