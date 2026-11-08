@@ -124,7 +124,7 @@ self_check:
 只看一個閾值，還不知道問題出在哪裡。可能是模型沒有把盜刷排在正常交易前面。也可能是閾值選得不好。
 :::
 
-ROC 曲線（Receiver Operating Characteristic curve，接收者操作特徵曲線）把各個閾值的結果畫在同一張圖。AUC（Area Under the Curve）就是圖中曲線下方的面積。算出這個面積，就能用一個數字看整條曲線的結果。
+ROC 曲線（全名是 Receiver Operating Characteristic curve，譯為接收者操作特徵曲線）把各個閾值的結果畫在同一張圖。AUC（Area Under the Curve）就是圖中曲線下方的面積。算出這個面積，就能用一個數字看整條曲線的結果。
 
 ## 直覺（補充）
 
