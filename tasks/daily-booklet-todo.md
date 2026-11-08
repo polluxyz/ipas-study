@@ -23,7 +23,10 @@
 | I7b 更新舊流程測試 | `demo/src/lib/daily-smoke.mjs`、`demo/src/lib/daily-cache.test.ts` | 原案例逐條對照後改到題本流程，不刪案例；官方題回歸保留；全部通過 | 完成 `e8f9154` |
 | I8a 新瀏覽器測試：主流程 | `demo/scripts/daily-booklet-smoke.mjs` | 開本、跨日、舊流程、連開 3 本、用完、交卷中斷、清單與進度全過；截圖 3 種寬度與亮暗色 | 完成 `6dd0028` |
 | I8b 新瀏覽器測試：多分頁與回歸 | `demo/scripts/daily-booklet-smoke-multi.mjs` | 2 分頁、真實鎖、清除、備份往返、損壞資料、官方題、一般測驗、單題頁、錯題本全過 | 完成 `57037be`；第 3 案在 I5-fix3 後通過，最後驗收 11/11 |
-| R1 非作者審查 | `tmp/advisor/daily-booklet-review.md` | 高中度問題清零 | 進行中 |
+| R1 非作者審查 | `tmp/advisor/daily-booklet-review.md` | 高中度問題清零 | 審查完成，高 0 中 2 低 3；修正中 |
+| I5-fix4 空題本開頁不寫入、提示並存 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-exam-smoke.mjs` | R1 M1、L1 | 未開始 |
+| I5-fix5 兩科交卷恢復分開處理 | `demo/src/lib/daily-client.ts`、`demo/scripts/daily-booklet-smoke-multi.mjs` | R1 M2；規格第 248 行 | 未開始 |
+| I5-fix6 清單列文字、匯入後更新題量 | `demo/src/lib/daily-client.ts`、`demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts`、`demo/scripts/daily-booklet-smoke.mjs` | R1 L2、L3 | 未開始 |
 | V1 協調者驗收 | 主工作區 | 規格第 12 節逐條有證據；親看截圖 | 未開始 |
 | P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完一輪 | 未開始 |
 
