@@ -6,6 +6,7 @@ import { extname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
 import { parse } from 'yaml';
+import { waitCatalog, waitBooklet, openCatalog, gotoBooklet, enterBooklet, openNewBooklet, backToCatalog } from './daily-nav.mjs';
 
 const BOOK = 'ipas-daily-draft-v2';
 const ATT = 'ipas-attempts-v1';
@@ -22,9 +23,11 @@ const readStore = (page) => page.evaluate((key) => JSON.parse(localStorage.getIt
 const readAttempts = (page) => page.evaluate((key) => JSON.parse(localStorage.getItem(key) ?? '{"attempts":[]}').attempts, ATT);
 const currentBook = async (page, subject = 1) => { const store = await readStore(page); return store.booklets.find((b) => b.id === store.current[subject]); };
 const snapshot = (page) => page.evaluate(() => Object.fromEntries(Object.keys(localStorage).sort().map((key) => [key, localStorage.getItem(key)])));
-const ready = (page) => page.locator('#daily-metrics:not([hidden])').waitFor();
-const go = async (page, path = '/daily/?subject=1') => { await page.goto(BASE + path); await ready(page); };
+const ready = (page) => new URL(page.url()).searchParams.has('book') ? waitBooklet(page) : waitCatalog(page);
 const reload = async (page) => { await page.reload(); await ready(page); };
+const section = (page, subject = 1) => page.locator('#daily-directory-' + subject);
+const rows = (page, subject = 1) => section(page, subject).locator('.booklet-row:not(.booklet-table-head)');
+const rowCells = (page, subject = 1) => rows(page, subject).evaluateAll((elements) => elements.map((row) => [...row.children].map((cell) => cell.innerText.trim().replace(/\s+/g, ' '))));
 const eligible = (catalog, subject) => catalog.filter((q) => q.subject === subject && q.source === 'mock' && q.review.status === 'verified' && q.codes.length > 0).sort((a, b) => a.id.localeCompare(b.id));
 const wrongChoice = (answer) => answer === 'A' ? 'B' : 'A';
 
@@ -70,6 +73,7 @@ async function submit(page) {
 }
 
 async function expectScore(page, correct, total) {
+  await page.locator('#daily-readonly:not([hidden])').waitFor();
   await page.locator('#daily-score:not([hidden])').waitFor();
   assert.equal(await page.locator('#daily-score-heading').innerText(), `答對 ${correct}／${total} 題`);
   assert.match(await page.locator('#daily-score-points').innerText(), new RegExp(`^${correct * 2} 分／${total * 2} 分`));
@@ -83,15 +87,12 @@ async function expectDeferred(page) {
 }
 
 async function expectAnswerFocus(page) {
-  assert.equal(await page.locator('#daily-current').count(), 0, '已移除目前題本卡片');
-  assert.equal(await page.locator('#daily-history').isVisible(), false, '作答中清單預設收起');
-  assert.equal(await page.locator('#daily-history-toggle').isVisible(), true, '作答中保留題本清單開關');
-  assert.equal(await page.locator('#daily-history-toggle').getAttribute('aria-expanded'), 'false');
-  assert.equal(await page.locator('#daily-history-toggle').getAttribute('aria-controls'), 'daily-history');
+  assert.equal(await page.locator('#daily-directory').isVisible(), false, '作答只顯示這本');
   assert.equal(await page.locator('#daily-legacy-records').isVisible(), false, '作答中隱藏舊紀錄');
-  for (const selector of ['#daily-date', '#daily-metrics', '.daily-subjects', '#daily-practice']) {
+  for (const selector of ['#daily-date', '#daily-back', '#daily-practice']) {
     assert.equal(await page.locator(selector).isVisible(), true, `作答中保留 ${selector}`);
   }
+  assert.equal(await page.locator('[data-open-subject]').count(), 0);
 }
 
 function booklet(questions, answers, { id, number, subject = 1, status = 'open', answered = 0, correct = answered, createdDate = TODAY, submittedAt = NOW }) {
@@ -216,32 +217,43 @@ export async function runDailyBookletSmoke() {
     const runCase = async (id, name, run) => {
       const context = await newContext(); const result = { id, name, status: 'running', actual: {} }; report.cases.push(result);
       try { await run(context, result.actual); result.status = 'passed'; }
-      catch (error) { result.status = 'failed'; result.failure = String(error.stack ?? error); }
+      catch (error) {
+        result.status = 'failed'; result.failure = String(error.stack ?? error);
+        report.productIssues.push({ caseId: id, name, failure: result.failure });
+      }
       finally { await closeContext(context); }
       await writeFile(resolve(output, 'report.json'), JSON.stringify(report, null, 2));
       console.log(`${id}: ${result.status} ${name}`);
     };
 
-    await runCase(1, '全新環境只在按鈕後開本', async (context, actual) => {
-      const page = await newPage(context); await go(page);
-      const counts = [(await readStore(page))?.booklets.length ?? 0];
-      assert.equal(await page.locator('#daily-open-first').isVisible(), true);
-      await reload(page); counts.push((await readStore(page))?.booklets.length ?? 0);
-      await page.locator('[data-daily-subject="3"]').click(); await ready(page); counts.push((await readStore(page))?.booklets.length ?? 0);
-      await page.locator('[data-daily-subject="1"]').click(); await ready(page); counts.push((await readStore(page))?.booklets.length ?? 0);
+    await runCase(1, '全新目錄兩科只有開第 1 本且沒有題本列', async (context, actual) => {
+      const page = await newPage(context); await openCatalog(page, BASE);
+      const counts = [];
+      for (const subject of [undefined, 3, 1]) {
+        if (subject) await openCatalog(page, BASE, subject);
+        for (const target of [1, 3]) {
+          assert.equal(await section(page, target).isVisible(), true);
+          assert.equal(await rows(page, target).count(), 0);
+          assert.deepEqual(await section(page, target).locator('button').allTextContents(), ['開第 1 本']);
+        }
+        assert.equal(await page.locator('#daily-practice').isVisible(), false);
+        assert.equal(new URL(page.url()).searchParams.has('book'), false);
+        counts.push((await readStore(page)).booklets.length);
+      }
+      await reload(page); counts.push((await readStore(page)).booklets.length);
       assert.deepEqual(counts, [0, 0, 0, 0]);
-      fixtures.first = { values: { [BOOK]: await readStore(page) }, target: '#daily-empty' };
-      await page.locator('#daily-open-first').click(); await page.locator('#daily-practice:not([hidden])').waitFor();
+      fixtures.first = { values: { [BOOK]: await readStore(page) }, target: '#daily-directory' };
+      await openNewBooklet(page, BASE, 1);
       const opened = await currentBook(page);
       assert.equal((await readStore(page)).booklets.length, 1); assert.equal(opened.number, 1); assert.equal(opened.questions.length, 50); assert.equal(opened.position, 0);
       assert.equal(await page.locator('#daily-position').innerText(), '第 1／50 題');
       assert.equal(await page.locator('#daily-numbers button').count(), 1); await expectDeferred(page);
       assert.equal((await readAttempts(page)).length, 0);
-      Object.assign(actual, { bookletsBeforeClick: counts, bookletsAfterClick: 1, number: 1, questions: 50, position: 1, attempts: 0 });
+      Object.assign(actual, { bookletsBeforeClick: counts, subjectButtons: [1, 3], rowsBeforeClick: [0, 0], bookletsAfterClick: 1, number: 1, questions: 50, position: 1, attempts: 0 });
     });
 
     await runCase(2, '跨日保留題目順序答案標記與位置', async (context, actual) => {
-      const page = await newPage(context); await go(page); await page.locator('#daily-open-first').click(); await page.locator('#daily-practice:not([hidden])').waitFor();
+      const page = await newPage(context); await openNewBooklet(page, BASE, 1);
       for (let index = 0; index < 20; index++) { await answer(page); if ([0, 7, 19].includes(index)) await page.locator('#daily-unsure').click(); await page.locator('#daily-next').click(); }
       const before = await currentBook(page);
       await page.clock.setFixedTime(new Date(TOMORROW)); await reload(page);
@@ -257,7 +269,7 @@ export async function runDailyBookletSmoke() {
       assert.deepEqual(await page.locator('#daily-numbers button').allTextContents(), Array.from({ length: 21 }, (_, index) => String(index + 1)));
       Object.assign(actual, { questions: 50, answered: 20, unsure: 3, position: 21, booklets: 1, attempts: 0, visibleNumbers: 21, green: 17, orange: 3, gray: 1, orderAndAnswersUnchanged: true, dateBefore: TODAY, dateAfter: '2026-11-09' });
       // 截圖沿用真實開本及作答產生的資料，並把固定時間切回建立日。
-      fixtures.answering = { values: { [BOOK]: await readStore(page) }, target: '#daily-question-heading' };
+      fixtures.answering = { values: { [BOOK]: await readStore(page) }, subject: 1, bookId: after.id, target: '#daily-question-heading' };
     });
 
     await runCase(3, '昨天的舊清單與20筆作答原樣遷移', async (context, actual) => {
@@ -265,8 +277,8 @@ export async function runDailyBookletSmoke() {
       const set = { date: YESTERDAY, subject: 1, questions: questions.map(({ id, rev }) => ({ id, rev })) };
       const attempts = questions.slice(0, 20).map((q, index) => ({ id: `legacy-${index}`, qid: q.id, rev: q.rev, choice: answers.get(q.id), correct: true, ts: '2026-11-07T04:00:00.000Z', mode: `daily:${YESTERDAY}:S1`, ms: 1234 + index }));
       await seed(page, { [CACHE]: { version: 1, sets: [set] }, [ATT]: { version: 1, attempts } });
-      const rawBefore = await page.evaluate((key) => localStorage.getItem(key), ATT); await go(page);
-      const migrated = await currentBook(page);
+      const rawBefore = await page.evaluate((key) => localStorage.getItem(key), ATT); await openCatalog(page, BASE);
+      const migrated = await currentBook(page); await enterBooklet(page, BASE, 1, migrated.id);
       assert.equal(migrated.id, 'v1-S1-2026-11-07-set'); assert.equal(migrated.origin, 'v1-set');
       assert.deepEqual(migrated.questions.map(({ id, rev }) => ({ id, rev })), set.questions);
       assert.equal(migrated.questions.filter((q) => q.legacyAttemptId).length, 20);
@@ -280,7 +292,7 @@ export async function runDailyBookletSmoke() {
       }
       assert.equal((await currentBook(page)).questions[0].choice, attempts[0].choice);
       assert.equal(await page.evaluate((key) => localStorage.getItem(key), ATT), rawBefore);
-      assert.equal((await readStore(page)).booklets.length, 1); assert.equal(await page.locator('#daily-open-next').isVisible(), false);
+      assert.equal((await readStore(page)).booklets.length, 1); assert.equal(await page.locator('[data-open-subject]').isVisible(), false);
       Object.assign(actual, { questions: 50, assigned: migrated.assignedQids.length, locked: 20, attempts: 20, oldAttemptBytesUnchanged: true, booklets: 1, drawn: 0 });
     });
 
@@ -288,15 +300,15 @@ export async function runDailyBookletSmoke() {
       const pair1 = catalog.find((q) => q.id === duplicate1); const pair3 = catalog.find((q) => q.id === duplicate3);
       const sets = [[pair1, ...pool(1).slice(0, 49)], [pair3, ...pool(3).slice(0, 49)]].map((questions, index) => ({ date: YESTERDAY, subject: index === 0 ? 1 : 3, questions: questions.map(({ id, rev }) => ({ id, rev })) }));
       const values = { [CACHE]: { version: 1, sets } };
-      const page = await newPage(context); await seed(page, values); await go(page);
+      const page = await newPage(context); await seed(page, values); await openCatalog(page, BASE);
       assert.equal((await readStore(page)).booklets.length, 2);
-      await page.locator('[data-daily-subject="3"]').click(); await ready(page);
+      await openCatalog(page, BASE, 3);
       const afterSubject1 = await currentBook(page, 3);
       const control = await newContext();
       try {
-        const other = await newPage(control); await seed(other, values); await go(other, '/daily/?subject=3');
+        const other = await newPage(control); await seed(other, values); await openCatalog(other, BASE, 3);
         const directSubject3 = await currentBook(other, 3);
-        // 進頁保存會增加 seq 與計時，只比較遷移的內容，不把瀏覽次數當成內容差異。
+        // 兩種入口比較相同的遷移內容；保存次序與計時另由續答案例驗證。
         const content = (b) => ({ id: b.id, number: b.number, createdDate: b.createdDate, attemptMode: b.attemptMode, origin: b.origin, status: b.status, position: b.position, assignedQids: b.assignedQids, questions: b.questions.map(({ ms, ...q }) => q) });
         assert.deepEqual(content(afterSubject1), content(directSubject3)); assert.equal(afterSubject1.questions.length, 49);
         assert.equal(afterSubject1.assignedQids.length, 50); assert.equal(afterSubject1.questions.some((q) => q.id === duplicate3), false);
@@ -306,9 +318,9 @@ export async function runDailyBookletSmoke() {
     });
 
     await runCase(5, '連開3本不重複且歷史回看唯讀', async (context, actual) => {
-      const page = await newPage(context); await go(page); const books = [];
+      const page = await newPage(context); await openCatalog(page, BASE); const books = [];
       for (let number = 1; number <= 3; number++) {
-        await page.locator(number === 1 ? '#daily-open-first' : '#daily-open-next').click(); await page.locator('#daily-practice:not([hidden])').waitFor();
+        await openNewBooklet(page, BASE, 1);
         const opened = await currentBook(page); assert.equal(opened.number, number); assert.equal(opened.questions.length, 50);
         const priorAttempts = await readAttempts(page);
         assert.equal(opened.questions.filter((q) => priorAttempts.some((a) => a.qid === q.id)).length, 0);
@@ -328,7 +340,7 @@ export async function runDailyBookletSmoke() {
           const original = Storage.prototype.setItem;
           Storage.prototype.setItem = function (key, value) { if (this === localStorage) window.reviewWrites.push(key); return original.call(this, key, value); };
         });
-        await go(page, `/daily/?subject=1&book=${encodeURIComponent(finished.id)}`); await expectScore(page, 50, 50);
+        await gotoBooklet(page, BASE, 1, finished.id); await expectScore(page, 50, 50);
         assert.equal(await page.locator('#daily-readonly').isVisible(), true); assert.equal(await card(page).locator('input:disabled').count(), 4);
         const time = await page.locator('#daily-time').innerText(); await page.locator('#daily-previous').click();
         await page.clock.runFor(16_000); await page.evaluate(() => document.dispatchEvent(new Event('visibilitychange')));
@@ -337,27 +349,29 @@ export async function runDailyBookletSmoke() {
         reviews.push({ number: finished.number, correct: 50, total: 50, secondsAdvanced: 16, writes: 0, timerUnchanged: true, changedKeys: 0 });
       }
       Object.assign(actual, { books: 3, sizes: [50, 50, 50], answeredThroughUI: 150, pairwiseOverlap: overlaps, attempts: 150, uniqueAttemptIds: new Set((await readAttempts(page)).map((a) => a.id)).size, reviews });
-      fixtures.review = { values: { [BOOK]: await readStore(page), [ATT]: { version: 1, attempts: await readAttempts(page) } }, url: `/daily/?subject=1&book=${books[0].id}`, target: '#daily-score' };
+      fixtures.review = { values: { [BOOK]: await readStore(page), [ATT]: { version: 1, attempts: await readAttempts(page) } }, subject: 1, bookId: books[0].id, target: '#daily-score' };
     });
 
     await runCase(6, '120題縮庫的第3本只有20題並用完', async (context, actual) => {
       const page = await newPage(context); const allowed = new Set(pool(1).slice(0, 120).map((q) => q.id));
-      await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id))); await go(page);
+      await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id))); await openCatalog(page, BASE);
       const books = []; const labels = [];
       for (let number = 1; number <= 3; number++) {
-        const button = page.locator(number === 1 ? '#daily-open-first' : '#daily-open-next'); labels.push(await button.innerText());
+        await openCatalog(page, BASE, 1); const button = page.locator('[data-open-subject="1"]'); labels.push(await button.innerText());
         if (number === 3) assert.equal(await button.innerText(), '開下一本（20 題）');
-        await button.click(); await page.locator('#daily-practice:not([hidden])').waitFor();
+        await openNewBooklet(page, BASE, 1);
         const opened = await currentBook(page); assert.equal(opened.questions.length, number === 3 ? 20 : 50); books.push(opened);
         await answerThrough(page, number === 3 ? 20 : 50); await submit(page); await expectScore(page, number === 3 ? 20 : 50, number === 3 ? 20 : 50);
       }
       const overlaps = [[0, 1], [0, 2], [1, 2]].map(([a, b]) => books[a].assignedQids.filter((id) => books[b].assignedQids.includes(id)).length);
-      assert.deepEqual(overlaps, [0, 0, 0]); assert.equal(await page.locator('#daily-stock').isVisible(), true);
-      assert.match(await page.locator('#daily-stock').innerText(), /未做題已用完/);
-      assert.equal(await page.locator('#daily-open-first:visible, #daily-open-next:visible').count(), 0);
-      assert.match(await page.locator('#daily-score-points').innerText(), /不是正式考試換算/); assert.equal((await readAttempts(page)).length, 120);
+      assert.deepEqual(overlaps, [0, 0, 0]);
+      assert.match(await page.locator('#daily-score-points').innerText(), /不是正式考試換算/);
+      await backToCatalog(page);
+      assert.match(await section(page).innerText(), /未做題已用完/);
+      assert.equal(await section(page).locator('[data-open-subject]').count(), 0);
+      assert.equal((await readAttempts(page)).length, 120);
       Object.assign(actual, { eligible: 120, sizes: [50, 50, 20], labels, pairwiseOverlap: overlaps, attempts: 120, visibleOpenButtons: 0 });
-      fixtures.exhausted = { values: { [BOOK]: await readStore(page), [ATT]: { version: 1, attempts: await readAttempts(page) } }, allowed: [...allowed], target: '#daily-stock' };
+      fixtures.exhausted = { values: { [BOOK]: await readStore(page), [ATT]: { version: 1, attempts: await readAttempts(page) } }, allowed: [...allowed], target: '#daily-directory-1' };
     });
 
     await runCase(7, '做過同題群組成員後不抽另一題', async (context, actual) => {
@@ -367,8 +381,8 @@ export async function runDailyBookletSmoke() {
       assert.equal(candidates.size, 50);
       await seed(page, { [ATT]: { version: 1, attempts: [attempted] } });
       await changeCatalog(page, (items) => items.filter((item) => item.subject !== 3 || candidates.has(item.id)));
-      await go(page, '/daily/?subject=3'); assert.equal(await page.locator('#daily-open-first').innerText(), '開第 1 本（49 題）');
-      await page.locator('#daily-open-first').click(); await page.locator('#daily-practice:not([hidden])').waitFor();
+      await openCatalog(page, BASE, 3); assert.equal(await page.locator('[data-open-subject="3"]').innerText(), '開第 1 本（49 題）');
+      await openNewBooklet(page, BASE, 3);
       const opened = await currentBook(page, 3); assert.equal(opened.questions.length, 49);
       assert.equal(opened.assignedQids.includes(duplicate3), false); assert.deepEqual(await readAttempts(page), [attempted]);
       Object.assign(actual, { attempted: duplicate1, excluded: duplicate3, candidatesBeforeExclusion: 50, questions: 49, excludedMembers: 1, attempts: 1 });
@@ -380,7 +394,7 @@ export async function runDailyBookletSmoke() {
         const isolated = stage === 'prepare' ? context : await newContext();
         try {
           const page = await newPage(isolated); const b = booklet(pool(1).slice(0, 50), answers, { id: `fault-${stage}`, number: 1, answered: 50, correct: 37 });
-          await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': b.id, '3': null }, booklets: [b] } }); await go(page);
+          await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': b.id, '3': null }, booklets: [b] } }); await enterBooklet(page, BASE, 1, b.id);
           await armWriteFailure(page, stage); await submit(page); await page.locator('#daily-save-error:not([hidden])').waitFor();
           assert.equal(await page.locator('#daily-discard').isVisible(), false, '交卷中及交卷失敗不能放棄');
           const fault = await page.evaluate(() => ({ throws: window.bookletFault.throws, attemptIds: window.bookletFault.attemptIds }));
@@ -402,57 +416,54 @@ export async function runDailyBookletSmoke() {
       const page = await newPage(context); const first = booklet(pool(1).slice(0, 50), answers, { id: 'old-draft', number: 1, answered: 50, correct: 37, createdDate: '2026-11-06' });
       const draft = { id: first.id, seq: 1, subject: 1, date: '2026-11-06', status: 'open', position: 49, questions: first.questions };
       const set = { date: YESTERDAY, subject: 1, questions: pool(1).slice(50, 100).map(({ id, rev }) => ({ id, rev })) };
-      await seed(page, { [DRAFT]: { version: 1, drafts: [draft] }, [CACHE]: { version: 1, sets: [set] } }); await go(page);
+      await seed(page, { [DRAFT]: { version: 1, drafts: [draft] }, [CACHE]: { version: 1, sets: [set] } }); await openCatalog(page, BASE);
       const store = await readStore(page); assert.equal(store.booklets.length, 2); assert.equal(store.booklets.filter((b) => b.status === 'open').length, 2);
       const firstId = 'v1-S1-2026-11-06-draft'; const secondId = 'v1-S1-2026-11-07-set';
-      assert.equal(store.current['1'], firstId); await submit(page);
+      assert.equal(store.current['1'], firstId); await enterBooklet(page, BASE, 1, firstId); await submit(page);
       await page.waitForURL((url) => url.searchParams.get('book') === firstId); await ready(page); await expectScore(page, 37, 50);
       assert.equal((await readStore(page)).current['1'], secondId); assert.equal(await page.locator('#daily-readonly').isVisible(), true);
       assert.equal((await readAttempts(page)).length, 50);
-      await page.locator('#daily-return').click(); await ready(page);
-      assert.equal(new URL(page.url()).searchParams.has('book'), false); assert.equal((await currentBook(page)).id, secondId);
+      await backToCatalog(page);
+      assert.equal(await page.locator('#daily-practice').isVisible(), false);
+      await enterBooklet(page, BASE, 1, secondId);
+      assert.equal(new URL(page.url()).searchParams.get('book'), secondId); assert.equal((await currentBook(page)).id, secondId);
       assert.equal(await page.locator('#daily-position').innerText(), '第 1／50 題'); assert.equal((await readStore(page)).booklets.length, 2);
       Object.assign(actual, { migratedOpenBooks: 2, reviewBook: firstId, currentAfterSubmit: secondId, correct: 37, total: 50, points: 74, attempts: 50, returnedBook: secondId, returnedPosition: 1, bookletsAfterReturn: 2 });
     });
 
-    await runCase(10, '題本清單與跨日進度符合手算', async (context, actual) => {
+    await runCase(10, '目錄逐欄資料與台北跨日進度符合手算', async (context, actual) => {
       const page = await newPage(context); const questions = pool(1).slice(0, 180); const allowed = new Set(questions.map((q) => q.id));
       const yesterday = booklet(questions.slice(0, 50), answers, { id: 'history-yesterday', number: 1, status: 'submitted', answered: 50, correct: 40, createdDate: '2026-11-06', submittedAt: '2026-11-07T15:59:00.000Z' });
       const today = booklet(questions.slice(50, 70), answers, { id: 'history-today', number: 2, status: 'submitted', answered: 20, correct: 13, createdDate: YESTERDAY, submittedAt: '2026-11-07T16:01:00.000Z' });
-      const retired = booklet(questions.slice(70, 75), answers, { id: 'history-retired', number: 3, status: 'retired', createdDate: TODAY }); retired.questions = [];
+      const retired = booklet(questions.slice(70, 75), answers, { id: 'history-retired', number: 3, status: 'retired' }); retired.questions = [];
       const open = booklet(questions.slice(75, 125), answers, { id: 'history-open', number: 4, answered: 17 });
       const store = { ...emptyStore(), current: { '1': open.id, '3': null }, booklets: [yesterday, today, retired, open] };
       const attempts = [...yesterday.submission.attempts, ...today.submission.attempts];
       await seed(page, { [BOOK]: store, [ATT]: { version: 1, attempts } });
-      await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id))); await go(page);
-      await expectAnswerFocus(page);
-      const metrics = async () => ({ answered: (await page.locator('#daily-metric-answered').innerText()).replace(/\s/g, ''), today: (await page.locator('#daily-metric-today').innerText()).replace(/\s/g, ''), free: (await page.locator('#daily-metric-free').innerText()).replace(/\s/g, '') });
-      const before = await metrics(); assert.deepEqual(before, { answered: '17／50', today: '20題', free: '1本另1本5題' });
-      assert.equal(await page.locator('#daily-progress').innerText(), '這本已答 17／50');
+      await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id))); await openCatalog(page, BASE);
+      const metrics = () => section(page).locator('.booklet-catalog-metrics dd').allTextContents();
+      const before = await metrics(); assert.deepEqual(before, ['20 題', '1 本，另 1 本 5 題']);
       await page.clock.setFixedTime(new Date(TOMORROW)); await reload(page);
-      const after = await metrics(); assert.deepEqual(after, { answered: '17／50', today: '0題', free: '1本另1本5題' });
-      await expectAnswerFocus(page);
-      // 題本清單只在檢討畫面驗證，保留原有逐欄內容與跨日進度的斷言。
-      await go(page, `/daily/?subject=1&book=${today.id}`);
-      assert.equal(await page.locator('#daily-history').isVisible(), true);
-      const rows = await page.locator('#daily-rows .booklet-row:not(.booklet-table-head)').evaluateAll((elements) => elements.map((row) => [...row.children].map((cell) => cell.innerText.trim().replace(/\s+/g, ' '))));
-      const expectedRows = [
+      const after = await metrics(); assert.deepEqual(after, ['0 題', '1 本，另 1 本 5 題']);
+      const actualRows = await rowCells(page);
+      assert.deepEqual(actualRows, [
         ['第 4 本 2026-11-08', '作答中', '50 題', '已答 17／50', '繼續作答 →'],
         ['第 3 本 2026-11-08', '已結束', '0 題', '', ''],
         ['第 2 本 2026-11-07', '已交卷', '20 題', '答對 13／20', '回看檢討 →'],
         ['第 1 本 2026-11-06', '已交卷', '50 題', '答對 40／50', '回看檢討 →'],
-      ];
-      assert.deepEqual(rows, expectedRows);
-      assert.match(await page.locator('#daily-history').innerText(), /題本只存在這個瀏覽器的這個網址/);
-      fixtures.history = { values: { [BOOK]: await readStore(page), [ATT]: { version: 1, attempts } }, allowed: [...allowed], url: `/daily/?subject=1&book=${today.id}`, target: '#daily-history' };
-      Object.assign(actual, { rows, catalog: 180, assigned: 125, freeQuestions: 55, fullBooks: 1, lastBook: 5, attempts: 70, before, nextDay: after, taipeiBoundary: ['2026-11-07T15:59:00Z', '2026-11-07T16:01:00Z'] });
+      ]);
+      assert.equal(await rows(page).nth(1).locator('a').count(), 0);
+      assert.match(await page.locator('#daily-directory').innerText(), /題本只存在這個瀏覽器的這個網址/);
+      await enterBooklet(page, BASE, 1, open.id); await expectAnswerFocus(page);
+      assert.equal(await page.locator('#daily-progress').innerText(), '這本已答 17／50');
+      Object.assign(actual, { rows: actualRows, catalog: 180, assigned: 125, freeQuestions: 55, fullBooks: 1, lastBook: 5, attempts: 70, before, nextDay: after, taipeiBoundary: ['2026-11-07T15:59:00Z', '2026-11-07T16:01:00Z'] });
     });
 
     await runCase(11, '空的作答中題本顯示結束操作且能結束', async (context, actual) => {
       const page = await newPage(context);
       const empty = booklet(pool(1).slice(0, 3), answers, { id: 'empty-open', number: 1 }); empty.questions = [];
-      await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': empty.id, '3': null }, booklets: [empty] } }); await go(page);
-      const row = page.locator('#daily-rows .booklet-row:not(.booklet-table-head)');
+      await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': empty.id, '3': null }, booklets: [empty] } }); await openCatalog(page, BASE);
+      const row = rows(page);
       const cells = await row.locator('[role="cell"]').allTextContents();
       assert.deepEqual(cells.slice(1), ['需結束', '0 題', '已答 0／0', '前往結束題本 →']);
       assert.equal((await currentBook(page)).status, 'open');
@@ -465,12 +476,13 @@ export async function runDailyBookletSmoke() {
         await row.scrollIntoViewIfNeeded();
         const file = resolve(output, `empty-row-${width}-${theme}.png`);
         await page.screenshot({ path: file }); actual.screenshots.push(file);
+        report.screenshots.push({ state: 'empty-row', width, theme, fullPage: false, file });
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0);
       }
-      await row.getByRole('link', { name: '前往結束題本 →' }).click(); await ready(page);
+      await enterBooklet(page, BASE, 1, empty.id);
       await page.locator('#daily-retire:not([hidden])').waitFor();
       assert.equal((await currentBook(page)).status, 'open');
-      await page.locator('#daily-retire-book').click(); await ready(page);
+      await page.locator('#daily-retire-book').click(); await page.waitForURL((url) => !url.searchParams.has('book')); await waitCatalog(page);
       const finished = (await readStore(page)).booklets[0];
       assert.equal(finished.status, 'retired'); assert.equal((await readStore(page)).current['1'], null);
       assert.deepEqual(finished.assignedQids, empty.assignedQids); assert.equal((await readAttempts(page)).length, 0);
@@ -480,9 +492,9 @@ export async function runDailyBookletSmoke() {
     await runCase(12, '另一頁寫入作答後即時更新題量與舊紀錄但不寫題本', async (context, actual) => {
       const page = await newPage(context); const candidates = pool(1).slice(0, 50); const allowed = new Set(candidates.map((q) => q.id));
       await seed(page, { [BOOK]: emptyStore() });
-      await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id))); await go(page);
-      assert.equal(await page.locator('#daily-open-first').innerText(), '開第 1 本');
-      assert.equal((await page.locator('#daily-metric-free').innerText()).replace(/\s/g, ''), '1本');
+      await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id))); await openCatalog(page, BASE);
+      assert.equal(await page.locator('[data-open-subject="1"]').innerText(), '開第 1 本');
+      assert.equal((await section(page).locator('.booklet-catalog-metrics dd').nth(1).innerText()).replace(/\s/g, ''), '1本');
       assert.equal(await page.locator('#daily-legacy-records').isVisible(), false);
       const before = await snapshot(page); const url = page.url();
       await page.evaluate(() => {
@@ -497,129 +509,74 @@ export async function runDailyBookletSmoke() {
       const q = candidates[0];
       const attempted = { id: 'other-page-import', qid: q.id, rev: q.rev, choice: answers.get(q.id), correct: true, ts: NOW, mode: `daily:${TODAY}:S1`, ms: 1000 };
       await other.evaluate(({ key, attempted }) => localStorage.setItem(key, JSON.stringify({ version: 1, attempts: [attempted] })), { key: ATT, attempted });
-      await page.waitForFunction(() => document.getElementById('daily-open-first').textContent === '開第 1 本（49 題）');
+      await page.waitForFunction(() => document.querySelector('[data-open-subject="1"]').textContent === '開第 1 本（49 題）');
       const after = await snapshot(page);
       assert.equal(after[BOOK], before[BOOK]);
       assert.deepEqual(Object.fromEntries(Object.entries(after).filter(([key]) => key !== ATT)), before);
-      assert.equal((await page.locator('#daily-metric-free').innerText()).replace(/\s/g, ''), '0本另1本49題');
+      assert.equal((await section(page).locator('.booklet-catalog-metrics dd').nth(1).innerText()).replace(/\s/g, ''), '0本，另1本49題');
       assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
       assert.deepEqual(await page.locator('#daily-legacy-rows .booklet-legacy-row').allTextContents(), [`${TODAY}科目 1已答 1 題答對 1 題`]);
       assert.equal(page.url(), url); assert.equal(await page.evaluate(() => window.overviewLoaded), true);
       assert.deepEqual(await page.evaluate(() => window.overviewWrites), []);
-      assert.equal(await page.locator('#daily-open-first').isEnabled(), true);
+      assert.equal(await page.locator('[data-open-subject="1"]').isEnabled(), true);
       assert.equal(await page.locator('#daily-save-error').isVisible(), false);
       Object.assign(actual, { initialQuestions: 50, updatedQuestions: 49, initialFullBooks: 1, updatedFullBooks: 0, legacyRecords: 1, bookletBytesUnchanged: true, writesFromDailyPage: 0, reloaded: false });
     });
 
-    await runCase(13, '作答與重整隱藏資訊且交卷即時恢復清單', async (context, actual) => {
+    await runCase(13, '作答與重整只顯示這本，交卷後同本回看且沒有開本按鈕', async (context, actual) => {
       const page = await newPage(context); const q = pool(1)[0];
-      const legacy = { id: 'focus-legacy', qid: q.id, rev: q.rev, choice: answers.get(q.id), correct: true, ts: NOW, mode: `daily:${YESTERDAY}:S1`, ms: 1000 };
-      await seed(page, { [BOOK]: emptyStore(), [ATT]: { version: 1, attempts: [legacy] } }); await go(page);
-      assert.equal(await page.locator('#daily-history').isVisible(), false);
-      assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
-      await page.locator('#daily-open-first').click(); await page.locator('#daily-practice:visible').waitFor();
-      const first = await currentBook(page); assert.equal(first.number, 1);
-      await expectAnswerFocus(page);
-      assert.equal(await page.locator('#daily-legacy-rows .booklet-legacy-row').count(), 1, '確實存在舊紀錄才驗證隱藏');
-      const date = await page.locator('#daily-date').innerText();
-      await reload(page); await expectAnswerFocus(page);
-      assert.equal(await page.locator('#daily-date').innerText(), date);
-      assert.equal((await currentBook(page)).id, first.id);
-      await page.evaluate(() => { window.answerFocusLoaded = true; });
-      await answerThrough(page, 50);
-      const url = page.url();
-      await submit(page); await expectScore(page, 50, 50);
-      assert.equal(page.url(), url); assert.equal(await page.evaluate(() => window.answerFocusLoaded), true, '交卷後未重新載入');
-      assert.equal(await page.locator('#daily-history').isVisible(), true);
+      const legacy = { id: 'focus-legacy', qid: q.id, rev: q.rev, choice: answers.get(q.id), correct: true, ts: NOW, mode: 'daily:' + YESTERDAY + ':S1', ms: 1000 };
+      await seed(page, { [BOOK]: emptyStore(), [ATT]: { version: 1, attempts: [legacy] } }); await openCatalog(page, BASE);
       assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
       assert.equal(await page.locator('#daily-legacy-rows .booklet-legacy-row').count(), 1);
-      assert.equal(await page.locator('#daily-history-toggle').isVisible(), false);
-      await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; });
-      await page.evaluate(() => document.fonts.ready);
-      actual.submittedScreenshot = resolve(output, 'submitted-1440-light-full.png');
-      await page.screenshot({ path: actual.submittedScreenshot, fullPage: true });
-      // 另開一本後回看，確認觀看已交卷題本優先於目前題本的作答狀態。
-      await page.locator('#daily-open-next').click(); await page.locator('#daily-practice:visible').waitFor();
-      await expectAnswerFocus(page);
-      await go(page, `/daily/?subject=1&book=${encodeURIComponent(first.id)}`); await expectScore(page, 50, 50);
-      assert.equal(await page.locator('#daily-readonly').isVisible(), true);
-      assert.equal(await page.locator('#daily-history').isVisible(), true);
+      await openNewBooklet(page, BASE, 1);
+      const first = await currentBook(page); assert.equal(first.number, 1); await expectAnswerFocus(page);
+      const date = await page.locator('#daily-date').innerText();
+      await reload(page); await expectAnswerFocus(page);
+      assert.equal(await page.locator('#daily-date').innerText(), date); assert.equal((await currentBook(page)).id, first.id);
+      await answerThrough(page, 50); await submit(page); await expectScore(page, 50, 50);
+      assert.equal(new URL(page.url()).searchParams.get('book'), first.id);
+      assert.equal(await page.locator('#daily-directory').isVisible(), false);
+      assert.equal(await page.locator('#daily-legacy-records').isVisible(), false);
+      assert.equal(await page.locator('[data-open-subject]').count(), 0);
+      await backToCatalog(page);
       assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
-      assert.equal(await page.locator('#daily-history-toggle').isVisible(), false);
-      Object.assign(actual, { firstNumber: 1, hiddenBeforeAndAfterReload: true, legacyRecords: 1, dateUnchanged: true, submittedWithoutReload: true, reviewHistoryVisible: true, reviewLegacyVisible: true, viewingWithOpenBook: true });
+      await openNewBooklet(page, BASE, 1); await expectAnswerFocus(page);
+      await enterBooklet(page, BASE, 1, first.id); await expectScore(page, 50, 50);
+      assert.equal(await page.locator('#daily-readonly').isVisible(), true);
+      assert.equal(await page.locator('[data-open-subject]').count(), 0);
+      Object.assign(actual, { firstNumber: 1, hiddenBeforeAndAfterReload: true, legacyRecords: 1, dateUnchanged: true, submittedBook: first.id, reviewOpenButtons: 0, legacyVisibleOnlyInCatalog: true, viewingWithOpenBook: true });
     });
 
-    await runCase(14, '題本清單可收合且同本繼續作答不重載', async (context, actual) => {
+    await runCase(14, '兩科目錄分別顯示作答中與已交卷的列及動作', async (context, actual) => {
       const page = await newPage(context);
-      const previous = booklet(pool(1).slice(0, 2), answers, { id: 'list-previous', number: 1, status: 'submitted', answered: 2 });
-      const current = booklet(pool(1).slice(2, 4), answers, { id: 'list-current', number: 2 });
-      const other = booklet(pool(3).slice(0, 2), answers, { id: 'list-other', number: 1, subject: 3 });
-      const q = pool(1)[4];
-      const legacy = { id: 'list-legacy', qid: q.id, rev: q.rev, choice: answers.get(q.id), correct: true, ts: NOW, mode: `daily:${YESTERDAY}:S1`, ms: 1000 };
-      await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': current.id, '3': other.id }, booklets: [previous, current, other] }, [ATT]: { version: 1, attempts: [...previous.submission.attempts, legacy] } });
-      await go(page); await expectAnswerFocus(page);
-      await page.clock.pauseAt(new Date(Date.parse(NOW) + 60_000));
-      const toggle = page.locator('#daily-history-toggle'); const history = page.locator('#daily-history');
-      const before = await snapshot(page); const url = page.url();
-      await page.evaluate(() => { window.listLoaded = true; });
-      await toggle.click();
-      assert.equal(await history.isVisible(), true);
-      assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
-      assert.equal(await page.locator('#daily-current').count(), 0);
-      assert.equal(await page.locator('#daily-legacy-records').isVisible(), false);
-      await toggle.click(); await expectAnswerFocus(page);
-      await toggle.focus(); await page.keyboard.press('Enter');
-      assert.equal(await history.isVisible(), true);
-      assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
-      await page.keyboard.press('Space'); await expectAnswerFocus(page);
-      await toggle.click();
-      const beforeTime = await page.locator('#daily-time').innerText();
-      await history.getByRole('link', { name: '繼續作答 →' }).click();
-      await expectAnswerFocus(page);
-      assert.equal(await toggle.evaluate((element) => document.activeElement === element), true);
-      assert.equal(page.url(), url);
-      assert.equal(await page.evaluate(() => window.listLoaded), true, '同本連結不重新載入');
-      assert.deepEqual(await snapshot(page), before, '清單開關與同本連結不寫入任何儲存鍵');
-      await page.clock.runFor(2000);
-      assert.notEqual(await page.locator('#daily-time').innerText(), beforeTime, '同本連結後計時持續');
-      await toggle.click(); await reload(page); await expectAnswerFocus(page);
-      await toggle.click();
-      await page.locator('[data-daily-subject="3"]').click(); await ready(page); await expectAnswerFocus(page);
-      await page.locator('[data-daily-subject="1"]').click(); await ready(page); await expectAnswerFocus(page);
-      actual.screenshots = [];
-      for (const [width, theme] of [[1440, 'light'], [390, 'light'], [320, 'dark']]) {
-        await page.setViewportSize({ width, height: width === 1440 ? 900 : 700 });
-        await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, theme);
-        await page.evaluate(() => document.fonts.ready);
-        for (const expanded of [false, true]) {
-          if ((await toggle.getAttribute('aria-expanded') === 'true') !== expanded) await toggle.click();
-          assert.equal(await history.isVisible(), expanded);
-          assert.equal(await toggle.getAttribute('aria-expanded'), String(expanded));
-          assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0);
-          await page.evaluate(() => window.scrollTo(0, 0));
-          const file = resolve(output, `list-${expanded ? 'expanded' : 'collapsed'}-${width}-${theme}-full.png`);
-          await page.screenshot({ path: file, fullPage: true }); actual.screenshots.push(file);
-        }
+      const current = booklet(pool(1).slice(0, 50), answers, { id: 'catalog-current', number: 2, answered: 17 });
+      const previous = booklet(pool(1).slice(50, 52), answers, { id: 'catalog-previous', number: 1, status: 'submitted', answered: 2 });
+      const other = booklet(pool(3).slice(0, 20), answers, { id: 'catalog-other', number: 1, subject: 3, status: 'submitted', answered: 20, correct: 13 });
+      const values = { [BOOK]: { ...emptyStore(), current: { '1': current.id, '3': null }, booklets: [previous, current, other] }, [ATT]: { version: 1, attempts: [...previous.submission.attempts, ...other.submission.attempts] } };
+      await seed(page, values); const before = await snapshot(page); await openCatalog(page, BASE);
+      assert.deepEqual(await snapshot(page), before);
+      const subject1 = await rowCells(page, 1); const subject3 = await rowCells(page, 3);
+      assert.deepEqual(subject1, [
+        ['第 2 本 2026-11-08', '作答中', '50 題', '已答 17／50', '繼續作答 →'],
+        ['第 1 本 2026-11-08', '已交卷', '2 題', '答對 2／2', '回看檢討 →'],
+      ]);
+      assert.deepEqual(subject3, [['第 1 本 2026-11-08', '已交卷', '20 題', '答對 13／20', '回看檢討 →']]);
+      for (const b of [current, previous, other]) {
+        const link = section(page, b.subject).locator('[data-booklet-id="' + b.id + '"]');
+        const url = new URL(await link.getAttribute('href'), BASE);
+        assert.equal(url.searchParams.get('subject'), String(b.subject)); assert.equal(url.searchParams.get('book'), b.id);
       }
-      await answer(page);
-      assert.equal(await history.isVisible(), true, '保存答案後保留清單狀態');
-      assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
-      await history.getByRole('link', { name: '回看檢討 →' }).click(); await expectScore(page, 2, 2);
-      assert.equal(await history.isVisible(), true);
-      assert.equal(await toggle.isVisible(), false);
-      assert.equal(await page.locator('#daily-readonly').isVisible(), true);
-      await page.locator('#daily-return').click(); await ready(page); await expectAnswerFocus(page);
-      assert.equal((await currentBook(page)).questions[0].choice, answers.get(current.questions[0].id));
-      await page.locator('#daily-next').click(); await answer(page); await submit(page); await expectScore(page, 2, 2);
-      assert.equal(await history.isVisible(), true);
-      assert.equal(await toggle.isVisible(), false);
-      assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
-      Object.assign(actual, { keyboardEnter: true, keyboardSpace: true, storageUnchangedByToggle: true, sameBookReloaded: false, timerContinued: true, collapsedAfterReload: true, collapsedAfterSubjectChange: true, oldReviewAccessible: true, expandedSurvivesAnswer: true, submittedHistoryVisible: true });
+      assert.equal(await section(page, 1).locator('[data-open-subject]').count(), 0);
+      assert.equal(await section(page, 3).locator('[data-open-subject]').innerText(), '開下一本');
+      fixtures.catalog = { values, target: '#daily-directory' };
+      await enterBooklet(page, BASE, 3, other.id); await expectScore(page, 13, 20); await backToCatalog(page);
+      await enterBooklet(page, BASE, 1, current.id); await expectAnswerFocus(page);
+      Object.assign(actual, { subject1, subject3, storeUnchangedInCatalog: true, subject1OpenButtons: 0, subject3OpenButtons: 1, reviewAccessible: true, resumeAccessible: true });
     });
 
     await runCase(15, '未答題本顯示放棄，答題及重載後隱藏', async (context, actual) => {
-      const page = await newPage(context); await go(page);
-      await page.locator('#daily-open-first').click(); await page.locator('#daily-discard:visible').waitFor();
+      const page = await newPage(context); await openNewBooklet(page, BASE, 1); await page.locator('#daily-discard:visible').waitFor();
       actual.screenshots = [];
       for (const [width, theme] of [[1440, 'light'], [1440, 'dark'], [390, 'light'], [320, 'dark']]) {
         await page.setViewportSize({ width, height: width === 1440 ? 900 : 700 });
@@ -639,6 +596,7 @@ export async function runDailyBookletSmoke() {
           await page.evaluate(() => window.scrollTo(0, 0));
           const file = resolve(output, `discard-${modal ? 'dialog' : 'answering'}-${width}-${theme}-full.png`);
           await page.screenshot({ path: file, fullPage: true }); actual.screenshots.push(file);
+          report.screenshots.push({ state: modal ? 'discard-dialog' : 'discard-answering', width, theme, fullPage: true, file });
           if (modal) await page.locator('#daily-discard-cancel').click();
         }
       }
@@ -652,7 +610,7 @@ export async function runDailyBookletSmoke() {
       const current = booklet(pool(1).slice(0, 2), answers, { id: 'cancel-discard', number: 1 });
       const oldAttempt = { id: 'unrelated-attempt', qid: pool(3)[0].id, rev: pool(3)[0].rev, choice: 'A', correct: false, ts: NOW, mode: 'quiz', ms: 1000 };
       await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': current.id, '3': null }, booklets: [current] }, [ATT]: { version: 1, attempts: [oldAttempt] } });
-      await go(page); const before = await snapshot(page);
+      await enterBooklet(page, BASE, 1, current.id); const before = await snapshot(page);
       for (const cancel of ['button', 'escape']) {
         await page.locator('#daily-discard').click();
         // 跨過原保存週期，驗證確認框內沒有背景寫入。
@@ -672,19 +630,18 @@ export async function runDailyBookletSmoke() {
       Object.assign(actual, { cancelButton: true, escape: true, backgroundWrites: 0, unchangedKeys: [BOOK, ATT], focusReturned: true, savingResumed: true });
     });
 
-    await runCase(17, '兩科確認放棄都返回本科且不開新本', async (context, actual) => {
+    await runCase(17, '兩科確認放棄都返回目錄且不開新本', async (context, actual) => {
       const page = await newPage(context); actual.subjects = [];
       for (const subject of [1, 3]) {
         const oldAttempt = { id: 'keep-attempt', qid: pool(subject)[0].id, rev: pool(subject)[0].rev, choice: 'A', correct: false, ts: NOW, mode: 'quiz', ms: 1000 };
         await seed(page, { [ATT]: { version: 1, attempts: [oldAttempt] } });
-        await go(page, `/daily/?subject=${subject}`);
-        await page.locator('#daily-open-first').click(); await page.locator('#daily-discard:visible').waitFor();
+        await openNewBooklet(page, BASE, subject); await page.locator('#daily-discard:visible').waitFor();
         const discarded = await currentBook(page, subject); const before = (await snapshot(page))[ATT];
         await page.locator('#daily-discard').click(); await page.locator('#daily-discard-confirm').click();
-        await page.waitForURL(BASE + `/daily/?subject=${subject}`); await page.locator('#daily-empty:visible').waitFor();
+        await page.waitForURL(BASE + `/daily/?subject=${subject}`); await waitCatalog(page);
         let data = await readStore(page);
         assert.equal(data.booklets.length, 0); assert.equal(data.current[subject], null);
-        assert.equal(await page.locator('#daily-history').isVisible(), false);
+        assert.equal(await rows(page, subject).count(), 0); assert.equal(new URL(page.url()).searchParams.has('book'), false);
         assert.equal((await snapshot(page))[ATT], before);
         assert.notEqual((await snapshot(page))[BOOK], null);
         await reload(page); await page.clock.runFor(16_000); data = await readStore(page);
@@ -694,31 +651,26 @@ export async function runDailyBookletSmoke() {
       }
     });
 
-    await runCase(18, '放棄第 2 本返回第 1 本檢討，回看不能放棄', async (context, actual) => {
+    await runCase(18, '放棄第 2 本回目錄保留第 1 本，回看不能放棄', async (context, actual) => {
       const page = await newPage(context);
-      const first = booklet(pool(1).slice(0, 2), answers, { id: 'keep-first', number: 1, status: 'submitted', answered: 2 });
-      // 固定檢討題號，分別核對放棄的導向與既有導覽加上的 position。
-      first.position = 0;
+      const first = booklet(pool(1).slice(0, 2), answers, { id: 'keep-first', number: 1, status: 'submitted', answered: 2 }); first.position = 0;
       const second = booklet(pool(1).slice(2, 4), answers, { id: 'discard-second', number: 2 });
       await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': second.id, '3': null }, booklets: [first, second] }, [ATT]: { version: 1, attempts: first.submission.attempts } });
-      await go(page); const before = (await snapshot(page))[ATT];
-      const returning = page.waitForRequest((request) => request.isNavigationRequest() && request.url() === BASE + '/daily/?subject=1');
+      await enterBooklet(page, BASE, 1, second.id); const before = (await snapshot(page))[ATT];
       await page.locator('#daily-discard').click(); await page.locator('#daily-discard-confirm').click();
-      assert.equal((await returning).url(), BASE + '/daily/?subject=1');
-      await expectScore(page, 2, 2);
-      assert.equal(page.url(), BASE + '/daily/?subject=1&position=1');
+      await page.waitForURL((url) => !url.searchParams.has('book')); await waitCatalog(page);
+      assert.equal(new URL(page.url()).searchParams.get('subject'), '1');
+      assert.equal(await page.locator('#daily-practice').isVisible(), false);
       assert.deepEqual((await readStore(page)).booklets, [first]);
-      assert.equal(await page.locator('#daily-rows .booklet-row:not(.booklet-table-head)').count(), 1);
+      assert.equal(await rows(page).count(), 1); assert.equal(await page.locator('[data-booklet-id="' + second.id + '"]').count(), 0);
       assert.equal((await snapshot(page))[ATT], before);
+      await enterBooklet(page, BASE, 1, first.id); await expectScore(page, 2, 2);
       assert.equal(await page.locator('#daily-discard').isVisible(), false);
-      await go(page, `/daily/?subject=1&book=${first.id}`);
-      assert.equal(await page.locator('#daily-discard').isVisible(), false);
-      Object.assign(actual, { remainingBooklets: 1, reviewedNumber: 1, attemptsUnchanged: true, hiddenInReview: true });
+      Object.assign(actual, { remainingBooklets: 1, catalogAfterDiscard: true, reviewedNumber: 1, attemptsUnchanged: true, hiddenInReview: true, autoOpened: 0 });
     });
 
     await runCase(19, '放棄寫入失敗保留題本，重試仍須確認', async (context, actual) => {
-      const page = await newPage(context); await go(page);
-      await page.locator('#daily-open-first').click(); await page.locator('#daily-discard:visible').waitFor();
+      const page = await newPage(context); await openNewBooklet(page, BASE, 1); await page.locator('#daily-discard:visible').waitFor();
       const before = await snapshot(page);
       await page.evaluate((key) => {
         const original = Storage.prototype.setItem;
@@ -740,12 +692,119 @@ export async function runDailyBookletSmoke() {
       Object.assign(actual, { failedWrites: 1, bookletsPreserved: 1, attemptsUnchanged: true, reconfirmed: true });
     });
 
+    await runCase(20, '第 2 版資料開目錄、重整、帶科目都不呼叫寫入', async (context, actual) => {
+      const page = await newPage(context);
+      const open = booklet(pool(1).slice(0, 3), answers, { id: 'readonly-open', number: 1, answered: 1 });
+      // 題目失效與交卷中斷都只能在進入這本後處理，目錄不可順便保存。
+      open.questions[0].rev += 100;
+      const pending = booklet(pool(3).slice(0, 2), answers, { id: 'readonly-pending', number: 1, subject: 3, status: 'submitting', answered: 2 });
+      await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': open.id, '3': pending.id }, booklets: [open, pending] }, [ATT]: { version: 1, attempts: [] } });
+      const before = await snapshot(page);
+      await page.addInitScript(() => {
+        window.catalogWrites = [];
+        for (const method of ['setItem', 'removeItem', 'clear']) {
+          const original = Storage.prototype[method];
+          Storage.prototype[method] = function (...args) {
+            if (this === localStorage) window.catalogWrites.push({ method, key: args[0] ?? null });
+            return original.apply(this, args);
+          };
+        }
+      });
+      actual.visits = [];
+      for (const visit of ['plain', 'reload', 'subject1', 'subject3']) {
+        if (visit === 'reload') await reload(page);
+        else await openCatalog(page, BASE, visit === 'plain' ? undefined : visit === 'subject1' ? 1 : 3);
+        await page.clock.runFor(16_000);
+        assert.deepEqual(await snapshot(page), before);
+        const writes = await page.evaluate(() => window.catalogWrites);
+        assert.deepEqual(writes, []);
+        assert.equal(await page.locator('#daily-practice').isVisible(), false);
+        actual.visits.push({ visit, unchangedKeys: [BOOK, ATT], writes });
+      }
+    });
+
+    await runCase(21, '有未交卷題本仍先停目錄，續答與返回保留答案位置及用時', async (context, actual) => {
+      const page = await newPage(context);
+      const b = booklet(pool(1).slice(0, 5), answers, { id: 'resume-from-directory', number: 1, answered: 2 });
+      await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': b.id, '3': null }, booklets: [b] } });
+      const before = await snapshot(page); await openCatalog(page, BASE);
+      assert.equal(new URL(page.url()).searchParams.has('book'), false);
+      assert.equal(await page.locator('#daily-practice').isVisible(), false);
+      assert.deepEqual(await snapshot(page), before);
+      await enterBooklet(page, BASE, 1, b.id); await expectAnswerFocus(page);
+      assert.equal(await page.locator('#daily-position').innerText(), '第 3／5 題');
+      assert.equal(new URL(page.url()).searchParams.get('book'), b.id);
+      assert.deepEqual((await currentBook(page)).questions.map((q) => q.choice), b.questions.map((q) => q.choice));
+      const entryMs = (await currentBook(page)).questions.reduce((sum, q) => sum + q.ms, 0);
+      await answer(page); await page.locator('#daily-unsure').click();
+      await page.locator('#daily-next').click(); await page.clock.runFor(2500);
+      await backToCatalog(page);
+      const saved = await currentBook(page); const exitMs = saved.questions.reduce((sum, q) => sum + q.ms, 0);
+      assert.equal(saved.questions[2].choice, answers.get(b.questions[2].id));
+      assert.equal(saved.questions[2].unsure, true); assert.equal(saved.position, 3);
+      assert.ok(exitMs > entryMs, '回目錄前保存用時');
+      assert.equal((await readStore(page)).booklets.length, 1);
+      assert.equal(await page.locator('#daily-practice').isVisible(), false);
+      await enterBooklet(page, BASE, 1, b.id);
+      assert.equal(await page.locator('#daily-position').innerText(), '第 4／5 題');
+      assert.equal((await currentBook(page)).questions[2].choice, saved.questions[2].choice);
+      Object.assign(actual, { initiallyCatalog: true, initialPosition: 3, savedPosition: 4, savedAnswer: saved.questions[2].choice, savedUnsure: true, entryMs, exitMs, booklets: 1 });
+    });
+
+    await runCase(22, '目錄直接開下一本不顯示確認框，交卷後同本回看沒有開本按鈕', async (context, actual) => {
+      const page = await newPage(context);
+      const first = booklet(pool(1).slice(0, 2), answers, { id: 'opening-first', number: 1, status: 'submitted', answered: 2 });
+      await seed(page, { [BOOK]: { ...emptyStore(), booklets: [first] }, [ATT]: { version: 1, attempts: first.submission.attempts } });
+      const allowed = new Set(pool(1).slice(0, 4).map((q) => q.id));
+      await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id)));
+      let modalCalls = 0; let nativeDialogs = 0;
+      await context.exposeBinding('recordOpeningModal', () => { modalCalls++; });
+      await page.addInitScript(() => {
+        const original = HTMLDialogElement.prototype.showModal;
+        HTMLDialogElement.prototype.showModal = function (...args) { void window.recordOpeningModal(); return original.apply(this, args); };
+      });
+      page.on('dialog', async (dialog) => { nativeDialogs++; await dialog.dismiss(); });
+      const id = await openNewBooklet(page, BASE, 1);
+      const opened = await currentBook(page);
+      assert.equal(modalCalls, 0); assert.equal(nativeDialogs, 0);
+      assert.equal(id, opened.id); assert.equal(opened.number, 2); assert.equal(opened.position, 0);
+      assert.equal(await page.locator('#daily-position').innerText(), '第 1／2 題');
+      assert.equal(await page.locator('dialog[open]').count(), 0);
+      await answerThrough(page, 2); await submit(page); await expectScore(page, 2, 2);
+      assert.equal(new URL(page.url()).searchParams.get('book'), id);
+      assert.equal(await page.locator('[data-open-subject]').count(), 0);
+      Object.assign(actual, { openingModalCalls: 0, nativeDialogs: 0, newBookId: id, storeBookId: opened.id, number: 2, initialPosition: 1, reviewOpenButtons: 0 });
+    });
+
+    await runCase(23, '已放棄、不存在與科目不符的題本網址都不改資料', async (context, actual) => {
+      const page = await newPage(context);
+      const abandonedId = await openNewBooklet(page, BASE, 1);
+      await page.locator('#daily-discard').click(); await page.locator('#daily-discard-confirm').click();
+      await page.waitForURL((url) => !url.searchParams.has('book')); await waitCatalog(page);
+      const other = booklet(pool(3).slice(0, 2), answers, { id: 'missing-other-subject', number: 1, subject: 3 });
+      const values = { [BOOK]: { ...emptyStore(), current: { '1': null, '3': other.id }, booklets: [other] }, [ATT]: { version: 1, attempts: [] } };
+      await seed(page, values); const before = await snapshot(page);
+      actual.urls = [];
+      for (const [kind, id] of [['abandoned', abandonedId], ['nonexistent', 'does-not-exist'], ['subject-mismatch', other.id]]) {
+        await gotoBooklet(page, BASE, 1, id);
+        assert.equal(await page.locator('#daily-unavailable-title').innerText(), '找不到這本題本');
+        assert.equal(await page.locator('#daily-back').isVisible(), true);
+        assert.equal(await page.locator('#daily-back').getAttribute('href'), '/daily/?subject=1');
+        assert.equal(await page.locator('#daily-practice').isVisible(), false);
+        assert.equal(await page.locator('[data-open-subject]').count(), 0);
+        assert.deepEqual(await snapshot(page), before);
+        await backToCatalog(page); assert.deepEqual(await snapshot(page), before);
+        actual.urls.push({ kind, id, storeUnchanged: true, backToCatalog: true });
+      }
+      fixtures.missing = { values, subject: 1, bookId: abandonedId, target: '#daily-unavailable' };
+    });
+
     // 全失效畫面另外造資料，確認「結束」保留分配紀錄且不寫作答。
     const retired = booklet(pool(1).slice(0, 3), answers, { id: 'all-invalid', number: 1 });
     retired.questions = retired.questions.map((q) => ({ ...q, rev: q.rev + 100 }));
-    fixtures.retire = { values: { [BOOK]: { ...emptyStore(), current: { '1': retired.id, '3': null }, booklets: [retired] } }, target: '#daily-retire' };
+    fixtures.retire = { values: { [BOOK]: { ...emptyStore(), current: { '1': retired.id, '3': null }, booklets: [retired] } }, subject: 1, bookId: retired.id, target: '#daily-retire' };
 
-    const shotStates = ['first', 'answering', 'review', 'history', 'exhausted', 'retire'];
+    const shotStates = ['first', 'catalog', 'answering', 'review', 'missing', 'exhausted', 'retire'];
     for (const state of shotStates) for (const width of [1440, 390, 320]) for (const theme of ['light', 'dark']) {
       const context = await newContext(); const measurement = { state, width, height: width === 1440 ? 900 : 700, theme }; report.measurements.push(measurement);
       try {
@@ -753,7 +812,9 @@ export async function runDailyBookletSmoke() {
         const fixture = fixtures[state]; const page = await newPage(context);
         await page.setViewportSize({ width, height: measurement.height }); await seed(page, fixture.values);
         if (fixture.allowed) { const allowed = new Set(fixture.allowed); await changeCatalog(page, (items) => items.filter((q) => q.subject !== 1 || allowed.has(q.id))); }
-        await go(page, fixture.url); await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, theme);
+        if (fixture.bookId) await gotoBooklet(page, BASE, fixture.subject, fixture.bookId);
+        else await openCatalog(page, BASE);
+        await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, theme);
         await page.evaluate(() => document.fonts.ready); await page.waitForTimeout(200);
         await page.locator(fixture.target).evaluate((element) => element.scrollIntoView({ block: 'start', behavior: 'instant' }));
         await page.waitForTimeout(100);
@@ -762,27 +823,27 @@ export async function runDailyBookletSmoke() {
         if (state === 'answering') { const measured = await measureActions(page); report.actionMeasurements.push({ state, width, theme, ...measured }); }
         const file = resolve(output, `${state}-${width}-${theme}-viewport.png`);
         await page.screenshot({ path: file, fullPage: false }); report.screenshots.push({ state, width, theme, fullPage: false, file });
-        if ((width === 1440 && theme === 'light') || (state === 'answering' && width === 320 && theme === 'dark')) {
-          const fullFile = resolve(output, `${state}-${width}-${theme}-full.png`);
-          await page.screenshot({ path: fullFile, fullPage: true }); report.screenshots.push({ state, width, theme, fullPage: true, file: fullFile });
-        }
+        const fullFile = resolve(output, `${state}-${width}-${theme}-full.png`);
+        await page.screenshot({ path: fullFile, fullPage: true }); report.screenshots.push({ state, width, theme, fullPage: true, file: fullFile });
         assert.ok(measurement.overflow <= 0, `${state}/${width}/${theme} 水平溢出 ${measurement.overflow}px`);
         if (state === 'answering') assertActions(report.actionMeasurements.at(-1));
         if (state === 'retire' && width === 1440 && theme === 'light') {
-          assert.equal((await readAttempts(page)).length, 0); await page.locator('#daily-retire-book').click(); await ready(page);
+          assert.equal((await readAttempts(page)).length, 0); await page.locator('#daily-retire-book').click(); await page.waitForURL((url) => !url.searchParams.has('book')); await waitCatalog(page);
           const store = await readStore(page); assert.equal(store.booklets[0].status, 'retired'); assert.equal(store.current['1'], null);
           assert.equal(store.booklets[0].assignedQids.length, 3); assert.equal((await readAttempts(page)).length, 0);
           report.retireCheck = { status: 'retired', current: null, assigned: 3, attempts: 0 };
         }
         measurement.status = 'passed';
-      } catch (error) { measurement.status = 'failed'; measurement.failure = String(error.stack ?? error); }
+      } catch (error) {
+        measurement.status = 'failed'; measurement.failure = String(error.stack ?? error);
+        report.productIssues.push({ state, width, theme, failure: measurement.failure });
+      }
       finally { await closeContext(context); }
     }
-    assert.equal(report.cases.length, 19);
-    assert.equal(report.cases.find((entry) => entry.id === 14)?.actual.screenshots?.length, 6, '清單收合與展開各 3 張全頁截圖');
+    assert.equal(report.cases.length, 23);
     assert.equal(report.cases.find((entry) => entry.id === 15)?.actual.screenshots?.length, 8, '放棄按鈕與確認框各 4 張全頁截圖');
-    assert.equal(report.screenshots.filter((s) => !s.fullPage).length, 36, '36張目前視窗截圖');
-    assert.equal(report.screenshots.filter((s) => s.fullPage).length, 7, '7張全頁截圖');
+    assert.equal(report.screenshots.filter((s) => !s.fullPage).length, 44, '7 種畫面各 6 張，加上 2 張需結束的目錄列');
+    assert.equal(report.screenshots.filter((s) => s.fullPage).length, 50, '7 種畫面各 6 張，加上 8 張放棄畫面');
     report.maxHorizontalOverflow = Math.max(...report.measurements.map((m) => m.overflow ?? 0));
   } catch (error) { report.fatal = String(error.stack ?? error); }
   finally {
@@ -793,7 +854,7 @@ export async function runDailyBookletSmoke() {
     report.summary = { casesPassed: report.cases.filter((c) => c.status === 'passed').length, casesFailed: report.cases.filter((c) => c.status === 'failed').length,
       viewportScreenshots: report.screenshots.filter((s) => !s.fullPage).length, fullPageScreenshots: report.screenshots.filter((s) => s.fullPage).length,
       layoutsFailed: report.measurements.filter((m) => m.status === 'failed').length, browserErrors: report.errors.length, requestFailures: report.requestFailures.length };
-    report.exitCode = !report.fatal && report.summary.casesPassed === 19 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 36 && report.summary.fullPageScreenshots === 7 && report.errors.length === 0 && report.requestFailures.length === 0 ? 0 : 1;
+    report.exitCode = !report.fatal && report.summary.casesPassed === 23 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 44 && report.summary.fullPageScreenshots === 50 && report.errors.length === 0 && report.requestFailures.length === 0 && report.productIssues.length === 0 ? 0 : 1;
     await writeFile(resolve(output, 'report.json'), JSON.stringify(report, null, 2));
   }
   return report;
