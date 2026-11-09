@@ -167,3 +167,14 @@
 | 離開作答畫面時用時沒保存 | 「← 題本目錄」走現有 `pagehide` 保存；E3 驗證回目錄後再進入用時不少 |
 | 目錄頁誤觸抽題 | E1 單元測試與 E3 瀏覽器測試都比對開目錄前後 store 逐字相同 |
 | 舊書籤 `/daily/?subject=3` | 落在目錄並捲到科目 3 區塊，不報錯 |
+
+### 實作紀錄（第 4 版）
+
+- E1 `87cc8c1`：`dailyRoute`、`catalogSection` 與單元測試。
+- E2 `9b00892`：目錄頁、「← 題本目錄」、找不到與已結束畫面；移除清單開關與檢討頁的開本按鈕。協調者重跑：建置 0（1894 頁）、`tsc` 0、單元測試 45 檔 1257 項全過。
+- 協調者 `86147ff`：新增 `demo/scripts/daily-nav.mjs`，集中「開目錄、點進題本、開新題本、回目錄」4 種進出方式，3 支 smoke 共用。
+- E3a `a8b1e69`（booklet smoke）、E3b `afe3e58`（multi smoke）、E3c ``e78dd6e``（exam smoke）。
+- 偏離 1：契約寫 `dailyRoute(store, subject, bookId, free, catalog)`，實作拿掉 `free`。網址判斷不需要可用題數；可用題數只在 `catalogSection` 用來決定開本按鈕。
+- 偏離 2：plan 寫 E3 依序做。實際由協調者先寫共用的 `daily-nav.mjs`，再把 E3 拆成 3 個平行 worker，各改 1 支 smoke，檔案不重疊。依據是使用者偏好多派、細分。
+- 計畫外問題：E2 把交卷後的畫面改成重新載入同一本網址，焦點落在 `BODY`，不再移到成績摘要，違反 `docs/specs/daily-exam-mode.md:81`。E3c 的既有斷言抓到。協調者授權 E3c 修 `daily-client.ts`（``7e4934b``）：交卷後導向帶 `#daily-score` 的網址，載入時移焦點一次，再去掉 hash。斷言不變。
+- 已核可行為：網址指到「需結束」的題本時，按「結束這本」之前只讀不寫。舊版進入就會保存空題目並讓 `seq` 加 1；E3c 改成驗原資料逐字不變，按下後才驗寫入。

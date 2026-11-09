@@ -45,10 +45,10 @@ I1、I3a、I3b 可平行。I1b、I2、I4 要等 I1。I5 要等 I2、I3a、I3b、
 
 | 任務 | Ownership | 驗收條件 | 狀態 |
 |---|---|---|---|
-| E1 網址與目錄資料 | `demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts` | plan 第 4 版契約的 2 個函式；第 10 節「網址判斷」每列 1 例；開目錄不改 store；`pnpm --dir demo test` 全過；`tsc --noEmit` 0 錯 | 待派工 |
-| E2 目錄畫面 | `demo/src/lib/daily-client.ts`、`demo/src/pages/daily.astro`、每日頁樣式 | 規格第 4.1–4.3 節；契約的 DOM；清單開關與檢討頁開本按鈕移除；建置與測試全過 | 待派工 |
-| E3 瀏覽器測試 | `demo/scripts/daily-booklet-smoke.mjs`、`demo/scripts/daily-booklet-smoke-multi.mjs`、`demo/scripts/daily-exam-smoke.mjs` | 第 10 節第 4 版瀏覽器案例；3 支 smoke 全過；目錄與作答畫面截圖 1440、390、320 寬與亮暗色 | 待派工 |
-| V3 驗收上線 | 主工作區、PR、4321 | 規格第 12 節第 2、8 條有證據；CI 全綠；4321 重建；截圖給使用者看 | 待派工 |
+| E1 網址與目錄資料 | `demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts` | plan 第 4 版契約的 2 個函式；第 10 節「網址判斷」每列 1 例；開目錄不改 store；`pnpm --dir demo test` 全過；`tsc --noEmit` 0 錯 | 完成（`87cc8c1`） |
+| E2 目錄畫面 | `demo/src/lib/daily-client.ts`、`demo/src/pages/daily.astro`、每日頁樣式 | 規格第 4.1–4.3 節；契約的 DOM；清單開關與檢討頁開本按鈕移除；建置與測試全過 | 完成（`9b00892`；交卷焦點修正見 E3） |
+| E3 瀏覽器測試 | `demo/scripts/daily-booklet-smoke.mjs`、`demo/scripts/daily-booklet-smoke-multi.mjs`、`demo/scripts/daily-exam-smoke.mjs` | 第 10 節第 4 版瀏覽器案例；3 支 smoke 全過；目錄與作答畫面截圖 1440、390、320 寬與亮暗色 | 完成（共用 `daily-nav.mjs` 後拆 3 個平行 worker） |
+| V3 驗收上線 | 主工作區、PR、4321 | 規格第 12 節第 2、8 條有證據；CI 全綠；4321 重建；截圖給使用者看 | 驗收中 |
 
 ## 驗收命令
 
