@@ -110,13 +110,20 @@ export async function runDailyExamSmoke() {
   const questions = await Promise.all((await readdir(dataRoot, { recursive: true })).filter((name) => name.endsWith('.yaml')).map(async (name) => parse(await readFile(resolve(dataRoot, name), 'utf8'))));
   const revisions = await readFile(new URL('../src/data/revisions.json', import.meta.url), 'utf8');
   const attemptsSource = (await readFile(new URL('../src/lib/attempts.ts', import.meta.url), 'utf8')).replace(/import revisionIndex from .*?;/, `const revisionIndex = ${revisions};`);
-  const testModule = transpileModule(attemptsSource, { compilerOptions: { module: ModuleKind.ESNext, target: ScriptTarget.ES2022 } }).outputText;
+  // 儲存層共用放棄資格的純函式；隔離服務提供完整依賴，避免測試匯入時找不到模組。
+  const testModules = new Map();
+  for (const name of ['attempts', 'daily-exam', 'daily']) {
+    const input = name === 'attempts' ? attemptsSource : await readFile(new URL(`../src/lib/${name}.ts`, import.meta.url), 'utf8');
+    const compiled = transpileModule(input, { compilerOptions: { module: ModuleKind.ESNext, target: ScriptTarget.ES2022 } }).outputText
+      .replace(/from '(\.\/[^']+)'/g, "from '$1.js'");
+    testModules.set(`/__test/${name}.js`, compiled);
+  }
   const report = { success: false, cases: [], measurements: [], extraMeasurements: [], dialogs: [], screenshots: [], errors: [], faults: [], instantSaves: [], newCases: [], dist, only };
   const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.wasm': 'application/wasm' };
   const server = createServer(async (request, response) => {
     try {
       const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
-      if (pathname === '/__test/attempts.js') { response.setHeader('Content-Type', 'text/javascript'); response.end(testModule); return; }
+      if (testModules.has(pathname)) { response.setHeader('Content-Type', 'text/javascript'); response.end(testModules.get(pathname)); return; }
       const file = resolve(dist, `.${pathname.endsWith('/') ? pathname + 'index.html' : pathname}`);
       if (!file.startsWith(resolve(dist) + sep)) { response.writeHead(403).end(); return; }
       response.setHeader('Content-Type', mime[extname(file)] ?? 'application/octet-stream'); response.end(await readFile(file));

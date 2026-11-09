@@ -1,12 +1,14 @@
-/** 題本儲存的正反例涵蓋跨頁合併、資料保護及每個交卷中斷點。 */
+/** 題本儲存的正反例涵蓋跨頁合併、放棄與資料保護，避免刪除尚需保存的作答。 */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   BOOKLET_KEY, DRAFT_KEY, BookletStoreError, DailyConflictError, assertBookletCurrent,
-  bumpDailyDraftSeqs, clearStudyData, commitMigratedBookletStore, exportAttempts, getAttempts,
+  bumpDailyDraftSeqs, clearStudyData, commitMigratedBookletStore, discardBooklet, exportAttempts, getAttempts,
   getDailyDrafts, importAttempts, isBooklet, isBookletStore, isDailyDraft, openBooklet,
   readAllDailySets, readBookletStore, retireBooklet, saveAttemptBatch, saveBooklet,
   submitBooklet, type Attempt, type Booklet, type BookletStore, type DailyDraft,
 } from './attempts';
+import { createBooklet } from './daily-exam';
+import { ensureBookletStore } from './booklet-migration';
 
 const TS = '2026-11-07T03:00:00Z';
 function make(overrides: Partial<Booklet> = {}): Booklet {
@@ -295,6 +297,128 @@ describe('交卷與結束', () => {
   it('retire 仍檢查最新狀態、序號與 current', () => {
     const one = make(); seed(one); saveBooklet(prepare(one), one);
     unchanged(() => retireBooklet(one, one));
+  });
+});
+
+describe('放棄題本的資格與刪除', () => {
+  it('0 答案且有用時可刪除，其他題本、遷移時間與作答原字串不變', () => {
+    const one = make(); one.questions[0].ms = 1250;
+    const other = make({ id: 'three', subject: 3 });
+    const history = { ...prepare(make({ id: 'history', number: 2 })), status: 'submitted' as const };
+    const retired = make({ id: 'retired', number: 3, status: 'retired' });
+    const initial = { ...storeOf(one, other, history, retired), migratedAt: TS };
+    storage.set(BOOKLET_KEY, JSON.stringify(initial));
+    const attemptRaw = JSON.stringify({ version: 1, attempts: [oldAttempt()] }, null, 2);
+    storage.set('ipas-attempts-v1', attemptRaw);
+    const getItem = vi.spyOn(localStorage, 'getItem');
+    const result = discardBooklet(one);
+    expect(result).toEqual({ ...initial, booklets: [other, history, retired], current: { '1': null, '3': 'three' } });
+    expect(readBookletStore()).toEqual(result);
+    expect(storage.get('ipas-attempts-v1')).toBe(attemptRaw);
+    expect(getItem.mock.calls.every(([key]) => key === BOOKLET_KEY)).toBe(true);
+    expect(setItem).toHaveBeenCalledExactlyOnceWith(BOOKLET_KEY, JSON.stringify(result));
+  });
+  it.each(['已選答案', '鎖定作答', 'submitting', 'submitted', 'retired', '0 題', '略過題', '順序不同'] as const)
+  ('拒絕%s，store 原字串不變且不寫入', (kind) => {
+    let one = make();
+    if (kind === '已選答案') one.questions[0].choice = 'B';
+    if (kind === '鎖定作答') one.questions[0] = { ...one.questions[0], choice: 'B', legacyAttemptId: 'old', correct: false };
+    if (kind === 'submitting' || kind === 'submitted') one = { ...prepare(one), status: kind };
+    if (kind === 'retired') one.status = 'retired';
+    if (kind === '0 題') one.questions = [];
+    if (kind === '略過題') one.questions = one.questions.slice(1);
+    if (kind === '順序不同') one.questions.reverse();
+    expect(isBooklet(one)).toBe(true);
+    const initial = storeOf(one);
+    storage.set(BOOKLET_KEY, JSON.stringify(initial, null, 2));
+    unchanged(() => discardBooklet(one), BookletStoreError);
+    expect(setItem).not.toHaveBeenCalled();
+  });
+  it.each(['open', 'submitting'] as const)('current 接續 number 最小的 %s，保留其他題本順序與內容', (status) => {
+    const one = make({ number: 4 });
+    const nextBase = make({ id: 'next', number: 2 });
+    const next = status === 'submitting' ? prepare(nextBase) : nextBase;
+    const later = make({ id: 'later', number: 3 });
+    const history = make({ id: 'history', number: 1, status: 'retired' });
+    const initial = seed(one, later, history, next);
+    expect(discardBooklet(one)).toEqual({ ...initial, booklets: [later, history, next], current: { '1': 'next', '3': null } });
+    expect(setItem).toHaveBeenCalledTimes(1);
+  });
+  it.each(['v1-draft', 'v1-set'] as const)('可放棄 %s，空 store 阻止舊鍵重新遷移', async (origin) => {
+    const one = make({ origin, attemptMode: 'daily:2026-11-06:S1' });
+    const initial = { ...storeOf(one), migratedAt: TS };
+    storage.set(BOOKLET_KEY, JSON.stringify(initial));
+    const draftsRaw = JSON.stringify({ version: 1, drafts: [oldDraft()] });
+    const setsRaw = JSON.stringify({ version: 1, sets: [{ date: '2026-11-06', subject: 1, questions: [{ id: 'q0', rev: 1 }] }] });
+    storage.set(DRAFT_KEY, draftsRaw); storage.set('ipas-daily-v1', setsRaw);
+    const empty = discardBooklet(one);
+    expect(empty).toEqual({ version: 2, migratedAt: TS, current: { '1': null, '3': null }, booklets: [] });
+    expect(storage.has(BOOKLET_KEY)).toBe(true); expect(isBookletStore(readBookletStore())).toBe(true);
+    const raw = storage.get(BOOKLET_KEY);
+    const request = vi.fn(() => { throw new Error('既有空 store 不應重新取鎖'); });
+    expect(await ensureBookletStore({ catalog: [], groups: [], now: () => new Date(TS), locks: { request } }))
+      .toEqual({ status: 'ready', store: empty, migrated: false });
+    expect(request).not.toHaveBeenCalled(); expect(setItem).toHaveBeenCalledTimes(1);
+    expect(storage.get(BOOKLET_KEY)).toBe(raw);
+    expect(storage.get(DRAFT_KEY)).toBe(draftsRaw); expect(storage.get('ipas-daily-v1')).toBe(setsRaw);
+  });
+  it('放棄寫入失敗時保留題本與作答原字串', () => {
+    const one = make(); seed(one);
+    storage.set('ipas-attempts-v1', '作答原字串');
+    setItem.mockImplementationOnce(() => { throw new Error('quota'); });
+    const raw = storage.get(BOOKLET_KEY);
+    expect(() => discardBooklet(one)).toThrow('quota');
+    expect(storage.get(BOOKLET_KEY)).toBe(raw); expect(storage.get('ipas-attempts-v1')).toBe('作答原字串');
+  });
+});
+
+describe('放棄題本的衝突與題號', () => {
+  it.each(['seq', 'id', 'subject', 'current', 'deleted', 'no-store'] as const)('衝突 %s 丟 DailyConflictError 且完全不寫入', (kind) => {
+    const one = make(); const next = make({ id: 'next', number: 2 }); const initial = seed(one, next);
+    const expected = { id: one.id, seq: one.seq, subject: one.subject };
+    if (kind === 'seq') expected.seq = 0;
+    if (kind === 'id') expected.id = 'missing';
+    if (kind === 'subject') expected.subject = 3;
+    if (kind === 'current') storage.set(BOOKLET_KEY, JSON.stringify({ ...initial, current: { '1': 'next', '3': null } }));
+    if (kind === 'deleted') storage.set(BOOKLET_KEY, JSON.stringify(storeOf(next)));
+    if (kind === 'no-store') storage.delete(BOOKLET_KEY);
+    unchanged(() => discardBooklet(expected)); expect(setItem).not.toHaveBeenCalled();
+  });
+  it('使用最新題本檢查資格，即使參照相同也不刪除已有答案的資料', () => {
+    const one = make(); seed(one);
+    const expected = readBookletStore()!.booklets[0];
+    const latest = make(); latest.questions[0].choice = 'C';
+    storage.set(BOOKLET_KEY, JSON.stringify(storeOf(latest)));
+    unchanged(() => discardBooklet(expected), BookletStoreError);
+    expect(setItem).not.toHaveBeenCalled();
+  });
+  it('頁面讀取後另一科保存答案，放棄仍保留另一科最新資料', () => {
+    const one = make(); const other = make({ id: 'three', subject: 3 }); seed(one, other);
+    const expected = readBookletStore()!.booklets[0];
+    const updated = saveBooklet({ ...other, questions: other.questions.map((q) => ({ ...q, choice: 'C', ms: 400 })) }, other);
+    expect(updated.seq).toBe(2); setItem.mockClear();
+    expect(discardBooklet(expected)).toEqual({ ...storeOf(updated), current: { '1': null, '3': 'three' } });
+    expect(readBookletStore()?.booklets).toEqual([updated]); expect(setItem).toHaveBeenCalledTimes(1);
+  });
+  it('另一頁保存用時後 seq 過期，不能刪除', () => {
+    const one = make(); seed(one);
+    const updated = saveBooklet({ ...one, questions: one.questions.map((q) => ({ ...q, ms: 10 })) }, one);
+    expect(updated.seq).toBe(2); setItem.mockClear();
+    unchanged(() => discardBooklet(one)); expect(setItem).not.toHaveBeenCalled();
+  });
+  it.each([
+    { label: '唯一題本', numbers: [1], removed: 1, remaining: [], next: 1 },
+    { label: '最後一本', numbers: [1, 2, 3], removed: 3, remaining: [1, 2], next: 3 },
+    { label: '中間題本', numbers: [1, 2, 3], removed: 2, remaining: [1, 3], next: 4 },
+  ])('放棄$label，保留缺號並以剩下最大題號開本', ({ numbers, removed, remaining, next }) => {
+    const booklets = numbers.map((number) => make({ id: `b${number}`, number, status: number === removed ? 'open' : 'retired' }));
+    const initial = { ...storeOf(...booklets), current: { '1': `b${removed}`, '3': null } };
+    storage.set(BOOKLET_KEY, JSON.stringify(initial));
+    const saved = discardBooklet(booklets.find((b) => b.number === removed)!);
+    expect(saved.booklets.map((b) => b.number)).toEqual(remaining);
+    const created = createBooklet({ store: saved, subject: 1, date: '2026-11-09', id: 'fresh-id', selected: [{ id: 'q0', rev: 1 }] });
+    expect(created.number).toBe(next); expect(created.id).toBe('fresh-id');
+    expect(saved.booklets.map((b) => b.number)).toEqual(remaining);
   });
 });
 
