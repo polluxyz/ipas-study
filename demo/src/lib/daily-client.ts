@@ -233,7 +233,9 @@ export async function initDaily(): Promise<void> {
       store = readBookletStore()!;
       if (result.error) { error(result.error); displayCards(); render(); return; }
       pending = undefined; clearError(); displayCards(); render();
-      location.href = currentUrl(draft.id);
+      // 同一本只加 hash 不會重載；先放入一次性標記，再載入唯讀檢討。
+      history.replaceState(history.state, '', currentUrl(draft.id) + '#daily-score');
+      location.reload();
     } catch (cause) { error(cause); displayCards(); render(); }
   };
   const recoverSubmissions = () => {
@@ -319,6 +321,12 @@ export async function initDaily(): Promise<void> {
       nextPosition: (current) => dailyNext(draft!, current), onLeave: settle,
       onShow: (position) => { draft!.position = position; persist(); started = editable() && !document.hidden ? performance.now() : null; displayCards(); render(); } });
     else render();
+    // 交卷重載後才聚焦成績；移除一次性標記，避免重載或回看再次搶焦點。
+    if (viewing && location.hash === '#daily-score') {
+      element('score').focus();
+      const url = new URL(location.href); url.hash = '';
+      history.replaceState(history.state, '', url);
+    }
   } catch (cause) {
     text('status', '無法載入每日題本：' + String(cause instanceof Error ? cause.message : cause));
     element('practice').hidden = true; error(cause);
