@@ -41,6 +41,15 @@ I1、I3a、I3b 可平行。I1b、I2、I4 要等 I1。I5 要等 I2、I3a、I3b、
 | D2b 放棄畫面 | 同 D2a 的檔案 | 規格第 4.7 節畫面規則、第 7 節 3 列、第 10 節「放棄」瀏覽器案例；截圖 3 種寬度與亮暗色 | 完成 |
 | V2 驗收上線 | 主工作區、PR、4321 | 規格第 12 節第 1、2、8、13 條有證據；CI 全綠；4321 重建；親看截圖 | 驗收通過（build、tsc、1223 測試、booklet 19/19、multi 18/18、exam 成功）；PR 與部署進行中 |
 
+## 第 4 版任務（2026-11-09，使用者已核可）
+
+| 任務 | Ownership | 驗收條件 | 狀態 |
+|---|---|---|---|
+| E1 網址與目錄資料 | `demo/src/lib/daily-exam.ts`、`demo/src/lib/daily-exam.test.ts` | plan 第 4 版契約的 2 個函式；第 10 節「網址判斷」每列 1 例；開目錄不改 store；`pnpm --dir demo test` 全過；`tsc --noEmit` 0 錯 | 待派工 |
+| E2 目錄畫面 | `demo/src/lib/daily-client.ts`、`demo/src/pages/daily.astro`、每日頁樣式 | 規格第 4.1–4.3 節；契約的 DOM；清單開關與檢討頁開本按鈕移除；建置與測試全過 | 待派工 |
+| E3 瀏覽器測試 | `demo/scripts/daily-booklet-smoke.mjs`、`demo/scripts/daily-booklet-smoke-multi.mjs`、`demo/scripts/daily-exam-smoke.mjs` | 第 10 節第 4 版瀏覽器案例；3 支 smoke 全過；目錄與作答畫面截圖 1440、390、320 寬與亮暗色 | 待派工 |
+| V3 驗收上線 | 主工作區、PR、4321 | 規格第 12 節第 2、8 條有證據；CI 全綠；4321 重建；截圖給使用者看 | 待派工 |
+
 ## 驗收命令
 
 ```bash

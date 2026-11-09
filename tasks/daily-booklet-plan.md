@@ -139,3 +139,31 @@
 - D2b `3c0de87`：「放棄這本」按鈕與確認框。成功後設 `stopped` 旗標，停掉計時、定時保存、`visibilitychange`、`pagehide`、`pageshow` 保存，再導頁。確認框開著時不寫草稿，所以取消後資料逐字不變。
 - 計畫外問題：D1 讓 `attempts.ts` 多了一個本地匯入，`daily-exam-smoke.mjs` 的隔離服務只提供 `attempts.js`，瀏覽器測試因此失敗。D1 沒有跑瀏覽器測試，所以沒發現。協調者授權 D2b 只補模組提供方式（`dc49971`），不改斷言與逾時。往後改動 `attempts.ts` 的匯入時，要同時跑 3 組瀏覽器測試。
 - 既有行為：放棄後先導向 `/daily/?subject=<科目>`，載入第 1 本檢討時，網址會被既有檢討導覽加上 `position` 參數。這是既有行為，沒有更動。
+
+## 第 4 版：題本目錄（2026-11-09，使用者已核可）
+
+規格：`docs/specs/daily-booklet.md` v4，決策 10、12，第 4.1–4.3 節。使用者原話：「每日題本點開只會有目錄介面，要選擇後才會開始題目作答。」
+
+### 元件與順序
+
+1. E1 網址與目錄資料（純函式）：`daily-exam.ts` 加網址判斷與目錄資料函式，加單元測試。不動畫面。
+2. E2 畫面：`daily.astro`、`daily-client.ts`、每日頁樣式。目錄頁、作答畫面的「← 題本目錄」、找不到與已結束畫面；移除清單開關與檢討頁的開本按鈕。E1 合進整合分支後才開始。
+3. E3 瀏覽器測試：改寫 `daily-booklet-smoke.mjs`、`daily-booklet-smoke-multi.mjs`、`daily-exam-smoke.mjs` 的進入方式（先開目錄、再點進題本），補第 10 節第 4 版案例與截圖。E2 合進後開始。
+4. V3 協調者驗收、PR、部署 4321、截圖給使用者看。
+
+三個都派 Codex，各一個工作樹，依序做。原因：三者改同一組檔案或依賴前一個的輸出，平行會衝突。
+
+### 契約（E1 提供，E2、E3 使用）
+
+- `dailyRoute(store, subject, bookId, free, catalog)`：`bookId` 為 null 回 `{ kind: 'catalog' }`；否則回第 4.1 節帶 `book` 表格的其中一種，含 `'missing'` 與 `'retired'`。
+- `catalogSection(store, subject, today, free)`：回該科的列（沿用 `bookletRows`，新的在上）、今日交卷、可再開、開本按鈕文字或不給按鈕的原因。
+- 目錄頁每科區塊的 DOM：`#daily-directory-1`、`#daily-directory-3`；每列動作連結帶 `data-booklet-id`；開本按鈕 `[data-open-subject]`；回目錄連結 `#daily-back`。E3 只靠這些選取元素。
+
+### 風險與對策
+
+| 風險 | 對策 |
+|---|---|
+| 現有 smoke 大量假設 `/daily/` 直接作答 | E3 專門改寫，進入方式集中成一個輔助函式 |
+| 離開作答畫面時用時沒保存 | 「← 題本目錄」走現有 `pagehide` 保存；E3 驗證回目錄後再進入用時不少 |
+| 目錄頁誤觸抽題 | E1 單元測試與 E3 瀏覽器測試都比對開目錄前後 store 逐字相同 |
+| 舊書籤 `/daily/?subject=3` | 落在目錄並捲到科目 3 區塊，不報錯 |
