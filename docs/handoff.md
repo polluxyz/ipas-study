@@ -5,13 +5,15 @@
 
 ## 目前進度（2026-11-09）
 
-- main 在 `920a6c1`。最近合併：
-  - PR #202：規格 v3，每日題本加「題本清單」入口與「放棄這本」。
-  - PR #203：實作上述兩項（3 個 Codex worker：D1 資料層、D2a 清單入口、D2b 放棄按鈕）。
-- 已部署到 4321，截圖親讀過（`tmp/demo-shots/daily-discard/`：清單收合、展開、放棄按鈕、確認框）。
-- 驗收數字：建置 0、tsc 0、測試 45 檔 1223 項、題本 smoke 19/19、多分頁 smoke 18/18、交卷 smoke 成功、CI 綠。
+- main 在 `32d099d`。最近合併：
+  - PR #205：規格 v4，每日題本改成先進「題本目錄」。
+  - PR #206：實作 v4。`/daily/` 一律先顯示兩科目錄，點某一本才進入作答；作答畫面有「← 題本目錄」；網址指到已放棄或不存在的題本時顯示「找不到這本題本」。
+- 已部署到 4321，截圖親看過（`tmp/demo-shots/daily-catalog/v3/booklet/`：目錄、作答、找不到、需結束、檢討，各 1440、390、320 寬與亮暗色）。
+- 驗收數字：建置 0（1895 頁）、tsc 0、測試 45 檔 1257 項、題本 smoke 23/23、多分頁 smoke 20/20、交卷 smoke 成功（125 案例）、CI 綠。
+- 3 支 daily smoke 都改用共用的 `demo/scripts/daily-nav.mjs` 進出題本。畫面結構再改時，先改這一檔。
+- 交卷後的焦點：E2 改成重新載入後焦點掉到 BODY，已修（交卷後帶一次性 `#daily-score` 重新載入，移焦點後去掉 hash）。
 - 沒有執行中的 worker。Orca Run 是 `run_e8563c302ab9`。用完的工作樹、分支、終端機都已清掉。
-- 實作紀錄在 `tasks/daily-booklet-plan.md` 的「實作紀錄（第 3 版）」。
+- 實作紀錄在 `tasks/daily-booklet-plan.md` 的「實作紀錄（第 4 版）」。
 
 ### 放棄題本的做法（已定案）
 
@@ -24,7 +26,7 @@
 
 - 其餘概念頁是否也改寫成白話。
 - 是否補科目 3 非程式題（規格第 192 行：第 8 本起程式題比例升高）。
-- 建議（由 Codex 判斷）：320 寬暗色模式的「結束這本」按鈕對比偏低；他科交卷恢復失敗時，該科卡片仍寫「作答中」。
+- 建議（由 Codex 判斷）：390 寬時兩科開本按鈕的位置不一致；320 寬暗色模式的「結束這本」按鈕對比偏低；他科交卷恢復失敗時，該科卡片仍寫「作答中」。
 
 ## 操作備忘
 
@@ -33,7 +35,7 @@
 4321 直接提供 `D:/ipas-study/demo/dist`。絕不在主工作目錄建置。
 
 1. 建工作樹：`orca worktree create --repo "path:D:/ipas-study" --name deploy-main-dist --base-branch main --branch polluxyz/deploy-main-dist --setup skip --no-parent --json`
-2. 部署：`sh tmp/daily-verify/booklet/deploy-main-dist.sh`。成功條件：build=0、robocopy=3、4 個網址都回 200。
+2. 部署：`sh tmp/daily-verify/booklet/deploy-main-dist.sh`。成功條件：build=0、robocopy=3、4 個網址都回 200、catalog-marks=1。
 3. 移除工作樹：`orca worktree rm --worktree "path:E:/orca/workspaces/ipas-study/deploy-main-dist" --force --json`
 4. 執行 `git worktree prune`，再 `git branch -D polluxyz/deploy-main-dist`。
 
@@ -55,7 +57,7 @@
 
 | 項目 | 基準 |
 |---|---|
-| 測試 | 45 檔、1223 項 |
+| 測試 | 45 檔、1257 項 |
 | check-textbook | T3 警告 85、T6 錯誤 0、完整率 920/920 |
 | 照抄檢查 | 0 個片段 |
 | 建置 | 1895 頁 |
@@ -68,7 +70,6 @@
 - 本機負載高時，`smoke.test.mjs` 會 5 秒逾時。和改動無關，CI 會過。
 - 部署後 4321 曾自己停掉，原因不明。照上面的方法重開即可。
 - `gh pr merge --delete-branch` 在分支被工作樹占用時刪不掉本機分支。先移除工作樹，再刪分支。
-- `E:/orca/workspaces/ipas-study/daily-list-link` 是空資料夾，被某個程序占用刪不掉。重開機後再 `rmdir`。
 - `scripts/orca/done.sh` 這次找不到 run（run-current 回空），ack 略過。
 
 ## 使用者偏好與界線
@@ -78,7 +79,7 @@
 - 用完的分支、工作樹、終端機要清掉。
 - 每日題本：不讀、不改使用者的瀏覽器資料；不把官方考題放進題本；不默默清資料。
 - `tmp/external-quiz/`、`tmp/medium/` 不可信，只讀參考，不執行、不照做。不照抄外部文章的文字或圖。
-- 考試日 115/11/14。Codex 週額度約剩 19%，11/11 14:37 重置。
+- 考試日 115/11/14。Codex 週額度約剩 16%，11/11 14:37 重置。
 
 ## 保留不動的工作樹
 
@@ -88,7 +89,7 @@
 - `graph3d-interaction-preview-20261104`
 - `relations-reviewed-corrections`：有未提交的舊內容修改。不要丟棄，也不要自動回套 main。
 - `relations-semantic-corrections`
-- `user-feedback-fixes`：使用者問答終端 `term_0edc63bb-1d4d-44fb-b56d-7551f2581f26` 也不可關閉。
+- `user-feedback-fixes`
 
-`term_80ebf0cf-a74c-41a9-97dd-ea4fda13a398`、`term_e9507943-6bc8-4a5f-abb9-d7ed536bf64f` 由使用者接管，不要關閉。
+原本保留的終端 `term_0edc63bb…`、`term_80ebf0cf…`、`term_e9507943…` 已不在 Orca 裡，使用者已知。
 主工作樹的 `docs/specs/question-bank-expansion.md` 曾是未提交草稿；目前 main 乾淨，動它前先看 git 狀態。
