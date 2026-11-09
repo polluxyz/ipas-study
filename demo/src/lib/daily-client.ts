@@ -1,7 +1,7 @@
 /** 每日流程組裝狀態與互動；保存一律透過 attempts，題卡及導覽沿用共用函式。 */
-import { assertBookletCurrent, DailyConflictError, BOOKLET_KEY, STORAGE_KEY, getAttempts, readBookletStore, openBooklet, saveBooklet, submitBooklet, retireBooklet, type Choice, type Booklet, type BookletRef, type BookletStore } from './attempts';
+import { assertBookletCurrent, DailyConflictError, BOOKLET_KEY, STORAGE_KEY, getAttempts, readBookletStore, openBooklet, saveBooklet, submitBooklet, retireBooklet, discardBooklet, type Choice, type Booklet, type BookletRef, type BookletStore } from './attempts';
 import { dailyFreeCount, selectDailyQuestions, taipeiDate, type DailyQuestion, type DailySubject, type DuplicateGroups } from './daily';
-import { availableDailyQuestion, bookletExclusions, bookletOpenLabel, bookletPageState, bookletPartialNote, bookletProgramNotice, bookletProgress, bookletRows, createBooklet, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
+import { availableDailyQuestion, bookletExclusions, bookletOpenLabel, bookletPageState, bookletPartialNote, bookletProgramNotice, bookletProgress, bookletRows, canDiscardBooklet, createBooklet, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
 import { ensureBookletStore } from './booklet-migration';
 import { displayQuestionCard } from './question-card-display';
 import { initQuestionNavigation } from './question-set-client';
@@ -22,6 +22,8 @@ export async function initDaily(): Promise<void> {
   const submit = element<HTMLButtonElement>('submit');
   const unsure = element<HTMLButtonElement>('unsure');
   const dialog = element<HTMLDialogElement>('dialog');
+  const discard = element<HTMLButtonElement>('discard');
+  const discardDialog = element<HTMLDialogElement>('discard-dialog');
   let draft: Booklet | undefined;
   let expected: BookletRef | undefined;
   let savedContent: string | undefined;
@@ -36,6 +38,8 @@ export async function initDaily(): Promise<void> {
   let cards: HTMLElement[] = [];
   let timer: number | undefined;
   let saveTimer: number | undefined;
+  // 放棄後頁面仍可能收到離頁事件；鎖住所有保存入口，避免復活已刪題本。
+  let stopped = false;
   // 清單只保留本頁狀態，重新整理或切科都從收起開始。
   let historyExpanded = false;
   const historyToggle = element<HTMLButtonElement>('history-toggle');
@@ -44,17 +48,27 @@ export async function initDaily(): Promise<void> {
     historyToggle.setAttribute('aria-expanded', String(expanded));
     element('history').hidden = !expanded;
   };
-  const error = (cause: unknown, action: 'save' | 'open' | 'retire' = 'save', retry?: () => void) => {
+  const error = (cause: unknown, action: 'save' | 'open' | 'retire' | 'discard' = 'save', retry?: () => void) => {
     failed = true;
     retryAction = retry;
-    if (cause instanceof DailyConflictError) { readOnly = true; started = null; for (const id of ['open-first', 'open-next', 'retire-book']) element<HTMLButtonElement>(id).disabled = true; }
-    const lead = action === 'open' ? '題本尚未建立，原本的題本不變。' : action === 'retire' ? '這本尚未結束。' : '尚未保存，畫面上的答案仍保留。';
+    if (cause instanceof DailyConflictError) {
+      readOnly = true; started = null;
+      for (const id of ['open-first', 'open-next', 'retire-book', 'discard', 'discard-confirm']) element<HTMLButtonElement>(id).disabled = true;
+      if (discardDialog.open) discardDialog.close();
+    }
+    const lead = action === 'open' ? '題本尚未建立，原本的題本不變。' : action === 'retire' ? '這本尚未結束。' : action === 'discard' ? '這本尚未放棄。' : '尚未保存，畫面上的答案仍保留。';
     text('error-message', readOnly ? String(cause instanceof Error ? cause.message : cause) : lead + String(cause instanceof Error ? cause.message : cause));
     text('retry', action === 'save' ? '重試保存' : '重試');
     element('save-error').hidden = false; element('retry').hidden = readOnly; element('reload').hidden = !readOnly;
   };
   const clearError = () => { failed = false; retryAction = undefined; element('save-error').hidden = true; };
-  const editable = () => draft?.status === 'open' && cards.length > 0 && !pending && !readOnly;
+  const editable = () => draft?.status === 'open' && cards.length > 0 && !pending && !readOnly && !stopped;
+  const discardable = () => {
+    if (!draft || !expected || viewing || !editable() || failed || !canDiscardBooklet(draft)) return false;
+    const current = store.booklets.find((booklet) => booklet.id === store.current[subject]);
+    return current?.id === draft.id && current.seq === draft.seq && current.subject === subject &&
+      expected.id === draft.id && expected.seq === draft.seq && expected.subject === subject;
+  };
   const canVisit = (target: number, current: number) => Boolean(draft && (!pending || target === current) && dailyNumbers(draft).includes(target) && (draft.status === 'submitted' || Boolean(draft.questions[current]?.choice) || target <= current));
   const settle = () => {
     if (!draft) return;
@@ -63,7 +77,8 @@ export async function initDaily(): Promise<void> {
     started = editable() && !document.hidden ? now : null;
   };
   const persist = () => {
-    if (!draft || !expected || !editable()) return;
+    // 確認框不寫草稿，取消時資料逐字不變；用時可在回到作答後繼續保存。
+    if (!draft || !expected || !editable() || discardDialog.open) return;
     if (JSON.stringify(draft) === savedContent) return;
     // 保存後 draft 與 expected 共用物件；另存字串才能辨識後續原地修改，失敗時仍可重試。
     try { draft = saveBooklet(draft, expected); expected = draft; savedContent = JSON.stringify(draft); store = readBookletStore()!; clearError(); }
@@ -184,6 +199,7 @@ export async function initDaily(): Promise<void> {
   };
   const render = () => {
     renderOverview();
+    discard.hidden = !discardable();
     if (!draft) return;
     const { answered, unsure: count, total } = dailyCounts(draft); const submitted = draft.status === 'submitted';
     text('position', `第 ${draft.position + 1}／${total} 題`); text('question-heading', `第 ${draft.position + 1} 題`);
@@ -317,6 +333,26 @@ export async function initDaily(): Promise<void> {
   dialog.addEventListener('close', () => { if (draft?.status !== 'submitted') submit.focus({ preventScroll: true }); });
   element('cancel').addEventListener('click', () => dialog.close());
   element('confirm').addEventListener('click', () => { submit.disabled = true; dialog.close(); finishSubmission(); });
+  const requestDiscard = () => {
+    if (!discardable()) return;
+    discardDialog.showModal(); element('discard-cancel').focus();
+  };
+  discard.addEventListener('click', requestDiscard);
+  discardDialog.addEventListener('close', () => { if (!discard.hidden && !stopped) discard.focus({ preventScroll: true }); });
+  element('discard-cancel').addEventListener('click', () => discardDialog.close());
+  element('discard-confirm').addEventListener('click', () => {
+    if (!discardable() || !expected) return;
+    try {
+      discardBooklet(expected);
+      stopped = true; started = null;
+      window.clearInterval(timer); window.clearInterval(saveTimer);
+      discardDialog.close(); location.href = currentUrl();
+    } catch (cause) {
+      discardDialog.close();
+      error(cause, 'discard', () => { clearError(); render(); requestDiscard(); });
+      displayCards(); render();
+    }
+  });
   element('retry').addEventListener('click', () => { const action = retryAction; retryAction = undefined; if (action) { action(); return; } if (pending || draft?.status === 'submitting') finishSubmission(); else { settle(); persist(); displayCards(); render(); } });
   panel.addEventListener('toggle', () => { panel.querySelector('summary')!.setAttribute('aria-expanded', String(panel.open)); text('panel-toggle', panel.open ? '收合' : '展開'); });
   panel.open = desktopPanel.matches;
@@ -369,7 +405,7 @@ export async function initDaily(): Promise<void> {
   };
   element('retire-book').addEventListener('click', retireCurrent);
   const checkCurrent = () => {
-    if (viewing || readOnly) return;
+    if (viewing || readOnly || stopped) return;
     try {
       if (expected && (draft?.status === 'open' || draft?.status === 'submitting')) store = assertBookletCurrent(expected);
       else {
@@ -384,13 +420,13 @@ export async function initDaily(): Promise<void> {
     if (event.key === STORAGE_KEY) renderOverview();
     else if (!viewing && (event.key === BOOKLET_KEY || event.key === null)) { checkCurrent(); render(); }
   });
-  document.addEventListener('visibilitychange', () => { if (viewing) return; settle(); persist(); if (!document.hidden) checkCurrent(); displayCards(); render(); });
+  document.addEventListener('visibilitychange', () => { if (viewing || stopped) return; settle(); persist(); if (!document.hidden) checkCurrent(); displayCards(); render(); });
   const startTimer = () => {
     timer = window.setInterval(showTime, 1000);
     // 保存排程與顯示排程分開；只有可見的作答中題本會寫入。
     saveTimer = window.setInterval(() => { if (!document.hidden && editable()) { settle(); persist(); displayCards(); render(); } }, 15_000);
   };
   if (!viewing) startTimer();
-  window.addEventListener('pagehide', () => { if (viewing) return; settle(); persist(); window.clearInterval(timer); window.clearInterval(saveTimer); });
-  window.addEventListener('pageshow', (event) => { if (!viewing && event.persisted) { checkCurrent(); started = editable() && !document.hidden ? performance.now() : null; startTimer(); } });
+  window.addEventListener('pagehide', () => { if (viewing || stopped) return; settle(); persist(); window.clearInterval(timer); window.clearInterval(saveTimer); });
+  window.addEventListener('pageshow', (event) => { if (!viewing && !stopped && event.persisted) { checkCurrent(); started = editable() && !document.hidden ? performance.now() : null; startTimer(); } });
 }

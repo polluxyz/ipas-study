@@ -73,6 +73,7 @@ async function expectScore(page, correct, total) {
   await page.locator('#daily-score:not([hidden])').waitFor();
   assert.equal(await page.locator('#daily-score-heading').innerText(), `答對 ${correct}／${total} 題`);
   assert.match(await page.locator('#daily-score-points').innerText(), new RegExp(`^${correct * 2} 分／${total * 2} 分`));
+  assert.equal(await page.locator('#daily-discard').isVisible(), false);
 }
 
 async function expectDeferred(page) {
@@ -381,6 +382,7 @@ export async function runDailyBookletSmoke() {
           const page = await newPage(isolated); const b = booklet(pool(1).slice(0, 50), answers, { id: `fault-${stage}`, number: 1, answered: 50, correct: 37 });
           await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': b.id, '3': null }, booklets: [b] } }); await go(page);
           await armWriteFailure(page, stage); await submit(page); await page.locator('#daily-save-error:not([hidden])').waitFor();
+          assert.equal(await page.locator('#daily-discard').isVisible(), false, '交卷中及交卷失敗不能放棄');
           const fault = await page.evaluate(() => ({ throws: window.bookletFault.throws, attemptIds: window.bookletFault.attemptIds }));
           assert.equal(fault.throws, 1); assert.equal(fault.attemptIds.length, 50); assert.equal(await page.locator('#daily-score').isVisible(), false);
           const before = (await readAttempts(page)).length; assert.equal(before, stage === 'finalize' ? 50 : 0);
@@ -615,6 +617,129 @@ export async function runDailyBookletSmoke() {
       Object.assign(actual, { keyboardEnter: true, keyboardSpace: true, storageUnchangedByToggle: true, sameBookReloaded: false, timerContinued: true, collapsedAfterReload: true, collapsedAfterSubjectChange: true, oldReviewAccessible: true, expandedSurvivesAnswer: true, submittedHistoryVisible: true });
     });
 
+    await runCase(15, '未答題本顯示放棄，答題及重載後隱藏', async (context, actual) => {
+      const page = await newPage(context); await go(page);
+      await page.locator('#daily-open-first').click(); await page.locator('#daily-discard:visible').waitFor();
+      actual.screenshots = [];
+      for (const [width, theme] of [[1440, 'light'], [1440, 'dark'], [390, 'light'], [320, 'dark']]) {
+        await page.setViewportSize({ width, height: width === 1440 ? 900 : 700 });
+        await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; window.scrollTo(0, 0); }, theme);
+        await page.evaluate(() => document.fonts.ready);
+        for (const modal of [false, true]) {
+          if (modal) {
+            await page.locator('#daily-discard').click();
+            await page.locator('#daily-discard-dialog[open]').waitFor();
+            assert.equal(await page.locator('#daily-discard-cancel').evaluate((button) => button === document.activeElement), true);
+            const description = await page.locator('#daily-discard-description').innerText();
+            for (const copy of ['從題本清單移除', '解除分配，之後可能再抽到', '用時不保留，已有的作答紀錄不變']) assert.ok(description.includes(copy));
+            const layout = await page.locator('#daily-discard-dialog').evaluate((dialog) => ({ width: dialog.clientWidth, scroll: dialog.scrollWidth, left: dialog.getBoundingClientRect().left, right: dialog.getBoundingClientRect().right }));
+            assert.ok(layout.scroll <= layout.width && layout.left >= 0 && layout.right <= width, '確認框不可溢出');
+          }
+          assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0);
+          await page.evaluate(() => window.scrollTo(0, 0));
+          const file = resolve(output, `discard-${modal ? 'dialog' : 'answering'}-${width}-${theme}-full.png`);
+          await page.screenshot({ path: file, fullPage: true }); actual.screenshots.push(file);
+          if (modal) await page.locator('#daily-discard-cancel').click();
+        }
+      }
+      await answer(page); assert.equal(await page.locator('#daily-discard').isVisible(), false);
+      await reload(page); assert.equal(await page.locator('#daily-discard').isVisible(), false);
+      Object.assign(actual, { answered: 1, hiddenAfterAnswer: true, hiddenAfterReload: true, screenshots: actual.screenshots });
+    });
+
+    await runCase(16, '取消放棄不寫資料，恢復焦點並繼續計時', async (context, actual) => {
+      const page = await newPage(context);
+      const current = booklet(pool(1).slice(0, 2), answers, { id: 'cancel-discard', number: 1 });
+      const oldAttempt = { id: 'unrelated-attempt', qid: pool(3)[0].id, rev: pool(3)[0].rev, choice: 'A', correct: false, ts: NOW, mode: 'quiz', ms: 1000 };
+      await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': current.id, '3': null }, booklets: [current] }, [ATT]: { version: 1, attempts: [oldAttempt] } });
+      await go(page); const before = await snapshot(page);
+      for (const cancel of ['button', 'escape']) {
+        await page.locator('#daily-discard').click();
+        // 跨過原保存週期，驗證確認框內沒有背景寫入。
+        await page.clock.runFor(16_000);
+        assert.deepEqual(await snapshot(page), before);
+        if (cancel === 'button') await page.locator('#daily-discard-cancel').click();
+        else await page.keyboard.press('Escape');
+        await page.locator('#daily-discard-dialog').waitFor({ state: 'hidden' });
+        assert.equal(await page.locator('#daily-discard-dialog').evaluate((dialog) => dialog.open), false);
+        assert.deepEqual(await snapshot(page), before);
+        assert.equal(await page.locator('#daily-practice').isVisible(), true);
+        assert.equal(await page.locator('#daily-discard').evaluate((button) => button === document.activeElement), true);
+      }
+      await page.clock.runFor(16_000);
+      assert.ok((await currentBook(page)).questions[0].ms > current.questions[0].ms, '取消後恢復保存用時');
+      assert.equal((await snapshot(page))[ATT], before[ATT]);
+      Object.assign(actual, { cancelButton: true, escape: true, backgroundWrites: 0, unchangedKeys: [BOOK, ATT], focusReturned: true, savingResumed: true });
+    });
+
+    await runCase(17, '兩科確認放棄都返回本科且不開新本', async (context, actual) => {
+      const page = await newPage(context); actual.subjects = [];
+      for (const subject of [1, 3]) {
+        const oldAttempt = { id: 'keep-attempt', qid: pool(subject)[0].id, rev: pool(subject)[0].rev, choice: 'A', correct: false, ts: NOW, mode: 'quiz', ms: 1000 };
+        await seed(page, { [ATT]: { version: 1, attempts: [oldAttempt] } });
+        await go(page, `/daily/?subject=${subject}`);
+        await page.locator('#daily-open-first').click(); await page.locator('#daily-discard:visible').waitFor();
+        const discarded = await currentBook(page, subject); const before = (await snapshot(page))[ATT];
+        await page.locator('#daily-discard').click(); await page.locator('#daily-discard-confirm').click();
+        await page.waitForURL(BASE + `/daily/?subject=${subject}`); await page.locator('#daily-empty:visible').waitFor();
+        let data = await readStore(page);
+        assert.equal(data.booklets.length, 0); assert.equal(data.current[subject], null);
+        assert.equal(await page.locator('#daily-history').isVisible(), false);
+        assert.equal((await snapshot(page))[ATT], before);
+        assert.notEqual((await snapshot(page))[BOOK], null);
+        await reload(page); await page.clock.runFor(16_000); data = await readStore(page);
+        assert.equal(data.booklets.some((b) => b.id === discarded.id), false);
+        assert.equal(data.booklets.length, 0); assert.equal((await snapshot(page))[ATT], before);
+        actual.subjects.push({ subject, deleted: discarded.id, newKeyRetained: true, attemptsUnchanged: true, autoOpened: 0 });
+      }
+    });
+
+    await runCase(18, '放棄第 2 本返回第 1 本檢討，回看不能放棄', async (context, actual) => {
+      const page = await newPage(context);
+      const first = booklet(pool(1).slice(0, 2), answers, { id: 'keep-first', number: 1, status: 'submitted', answered: 2 });
+      // 固定檢討題號，分別核對放棄的導向與既有導覽加上的 position。
+      first.position = 0;
+      const second = booklet(pool(1).slice(2, 4), answers, { id: 'discard-second', number: 2 });
+      await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': second.id, '3': null }, booklets: [first, second] }, [ATT]: { version: 1, attempts: first.submission.attempts } });
+      await go(page); const before = (await snapshot(page))[ATT];
+      const returning = page.waitForRequest((request) => request.isNavigationRequest() && request.url() === BASE + '/daily/?subject=1');
+      await page.locator('#daily-discard').click(); await page.locator('#daily-discard-confirm').click();
+      assert.equal((await returning).url(), BASE + '/daily/?subject=1');
+      await expectScore(page, 2, 2);
+      assert.equal(page.url(), BASE + '/daily/?subject=1&position=1');
+      assert.deepEqual((await readStore(page)).booklets, [first]);
+      assert.equal(await page.locator('#daily-rows .booklet-row:not(.booklet-table-head)').count(), 1);
+      assert.equal((await snapshot(page))[ATT], before);
+      assert.equal(await page.locator('#daily-discard').isVisible(), false);
+      await go(page, `/daily/?subject=1&book=${first.id}`);
+      assert.equal(await page.locator('#daily-discard').isVisible(), false);
+      Object.assign(actual, { remainingBooklets: 1, reviewedNumber: 1, attemptsUnchanged: true, hiddenInReview: true });
+    });
+
+    await runCase(19, '放棄寫入失敗保留題本，重試仍須確認', async (context, actual) => {
+      const page = await newPage(context); await go(page);
+      await page.locator('#daily-open-first').click(); await page.locator('#daily-discard:visible').waitFor();
+      const before = await snapshot(page);
+      await page.evaluate((key) => {
+        const original = Storage.prototype.setItem;
+        window.discardThrows = 0;
+        Storage.prototype.setItem = function (name, value) {
+          if (name === key && JSON.parse(value).booklets.length === 0) { window.discardThrows++; throw new DOMException('injected discard failure', 'QuotaExceededError'); }
+          return original.call(this, name, value);
+        };
+      }, BOOK);
+      await page.locator('#daily-discard').click(); await page.locator('#daily-discard-confirm').click();
+      await page.locator('#daily-save-error:visible').waitFor();
+      assert.match(await page.locator('#daily-error-message').innerText(), /這本尚未放棄/);
+      assert.deepEqual(await snapshot(page), before);
+      assert.equal(await page.locator('#daily-practice').isVisible(), true);
+      assert.equal(await page.locator('#daily-discard').isVisible(), false);
+      await page.locator('#daily-retry').click(); await page.locator('#daily-discard-dialog[open]').waitFor();
+      assert.equal(await page.evaluate(() => window.discardThrows), 1, '重試只開確認框，不直接刪除');
+      await page.locator('#daily-discard-cancel').click(); assert.deepEqual(await snapshot(page), before);
+      Object.assign(actual, { failedWrites: 1, bookletsPreserved: 1, attemptsUnchanged: true, reconfirmed: true });
+    });
+
     // 全失效畫面另外造資料，確認「結束」保留分配紀錄且不寫作答。
     const retired = booklet(pool(1).slice(0, 3), answers, { id: 'all-invalid', number: 1 });
     retired.questions = retired.questions.map((q) => ({ ...q, rev: q.rev + 100 }));
@@ -653,8 +778,9 @@ export async function runDailyBookletSmoke() {
       } catch (error) { measurement.status = 'failed'; measurement.failure = String(error.stack ?? error); }
       finally { await closeContext(context); }
     }
-    assert.equal(report.cases.length, 14);
+    assert.equal(report.cases.length, 19);
     assert.equal(report.cases.find((entry) => entry.id === 14)?.actual.screenshots?.length, 6, '清單收合與展開各 3 張全頁截圖');
+    assert.equal(report.cases.find((entry) => entry.id === 15)?.actual.screenshots?.length, 8, '放棄按鈕與確認框各 4 張全頁截圖');
     assert.equal(report.screenshots.filter((s) => !s.fullPage).length, 36, '36張目前視窗截圖');
     assert.equal(report.screenshots.filter((s) => s.fullPage).length, 7, '7張全頁截圖');
     report.maxHorizontalOverflow = Math.max(...report.measurements.map((m) => m.overflow ?? 0));
@@ -667,7 +793,7 @@ export async function runDailyBookletSmoke() {
     report.summary = { casesPassed: report.cases.filter((c) => c.status === 'passed').length, casesFailed: report.cases.filter((c) => c.status === 'failed').length,
       viewportScreenshots: report.screenshots.filter((s) => !s.fullPage).length, fullPageScreenshots: report.screenshots.filter((s) => s.fullPage).length,
       layoutsFailed: report.measurements.filter((m) => m.status === 'failed').length, browserErrors: report.errors.length, requestFailures: report.requestFailures.length };
-    report.exitCode = !report.fatal && report.summary.casesPassed === 14 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 36 && report.summary.fullPageScreenshots === 7 && report.errors.length === 0 && report.requestFailures.length === 0 ? 0 : 1;
+    report.exitCode = !report.fatal && report.summary.casesPassed === 19 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 36 && report.summary.fullPageScreenshots === 7 && report.errors.length === 0 && report.requestFailures.length === 0 ? 0 : 1;
     await writeFile(resolve(output, 'report.json'), JSON.stringify(report, null, 2));
   }
   return report;

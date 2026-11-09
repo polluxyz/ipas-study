@@ -69,6 +69,8 @@ async function readonly(page) {
   assert.equal(await page.locator('#daily-retry:visible').count(), 0);
   assert.equal(await page.locator('#daily-reload:visible').count(), 1);
   assert.equal(await page.locator('#daily-cards input:not(:disabled)').count(), 0);
+  assert.equal(await page.locator('#daily-discard').isVisible(), false);
+  assert.equal(await page.locator('#daily-discard').isDisabled(), true);
 }
 function seedBooklet(questions, answers, submitted = false) {
   const id = 'multi-fixture-S1';
@@ -94,12 +96,19 @@ export async function runDailyBookletMultiSmoke() {
   assert.ok(mock.length >= 100 && answerMap.has(mock[0].id), '建置須有足夠模擬題及答案');
   const revisions = await readFile(new URL('../src/data/revisions.json', import.meta.url), 'utf8');
   const source = (await readFile(new URL('../src/lib/attempts.ts', import.meta.url), 'utf8')).replace(/import revisionIndex from .*?;/, `const revisionIndex = ${revisions};`);
-  const testModule = transpileModule(source, { compilerOptions: { module: ModuleKind.ESNext, target: ScriptTarget.ES2022 } }).outputText;
+  // 儲存層與畫面共用放棄資格；測試模組也載入同一組純函式，避免複製規則。
+  const testModules = new Map();
+  for (const name of ['attempts', 'daily-exam', 'daily']) {
+    const input = name === 'attempts' ? source : await readFile(new URL(`../src/lib/${name}.ts`, import.meta.url), 'utf8');
+    const compiled = transpileModule(input, { compilerOptions: { module: ModuleKind.ESNext, target: ScriptTarget.ES2022 } }).outputText
+      .replace(/from '(\.\/[^']+)'/g, "from '$1.js'");
+    testModules.set(`/__test/${name}.js`, compiled);
+  }
   const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.wasm': 'application/wasm', '.ico': 'image/x-icon' };
   const server = createServer(async (request, response) => {
     try {
       const pathname = decodeURIComponent(new URL(request.url, BASE).pathname);
-      if (pathname === '/__test/attempts.js') { response.setHeader('Content-Type', 'text/javascript'); response.end(testModule); return; }
+      if (testModules.has(pathname)) { response.setHeader('Content-Type', 'text/javascript'); response.end(testModules.get(pathname)); return; }
       if (pathname === '/__test/blank.html') { response.setHeader('Content-Type', 'text/html'); response.end('<!doctype html><title>隔離測試</title>'); return; }
       const file = resolve(dist, '.' + (pathname.endsWith('/') ? pathname + 'index.html' : pathname));
       if (!file.startsWith(dist + sep)) { response.writeHead(403).end(); return; }
@@ -438,6 +447,7 @@ export async function runDailyBookletMultiSmoke() {
       await recoveryDaily(page, 1);
       assert.equal(await page.locator('#daily-save-error:visible').count(), 1);
       assert.equal(await page.locator('#daily-retry:visible').count(), 1);
+      assert.equal(await page.locator('#daily-discard').isVisible(), false, '提交中恢復失敗不能放棄');
       const restored = await store(page);
       assert.equal(JSON.stringify(restored.booklets[0]), failed);
       assert.equal(restored.booklets[1].status, 'submitted'); assert.equal(restored.current[3], null);
@@ -445,9 +455,52 @@ export async function runDailyBookletMultiSmoke() {
       assert.deepEqual(await attempts(page), data.booklets[1].submission.attempts);
       Object.assign(actual, { failedSubject: 1, submittedSubject: 3, failedBookletUnchanged: true, attempts: 2, duplicateAttempts: 0 });
     });
+    await run(17, 'B 先保存用時或答案，A 確認放棄時改唯讀', async (ctx, actual) => {
+      actual.scenarios = [];
+      for (const change of ['time', 'answer']) {
+        const fixture = seedBooklet(mock, answerMap);
+        // 每種變更各用 2 個新頁；延後通知以測到確認當下的儲存層檢查。
+        const a = await seed(ctx, { [BOOKLET]: fixture.data });
+        await a.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation(), true));
+        await daily(a);
+        const b = await ctx.newPage(); await b.clock.install(); await daily(b);
+        await a.locator('#daily-discard').click();
+        if (change === 'answer') await choose(b, 'A');
+        else {
+          await b.clock.runFor(16_000);
+        }
+        const before = await raw(b);
+        const updated = (await store(b)).booklets[0];
+        assert.ok(updated.seq > fixture.booklet.seq, 'B 必須真的保存');
+        if (change === 'time') assert.ok(updated.questions[0].ms > fixture.booklet.questions[0].ms);
+        await a.locator('#daily-discard-confirm').click(); await readonly(a);
+        assert.equal(await a.locator('#daily-discard-dialog').evaluate((dialog) => dialog.open), false);
+        assert.equal(await raw(a), before); assert.equal((await store(a)).booklets.length, 1);
+        actual.scenarios.push({ change, savedSeq: updated.seq, deleted: 0, readonly: true });
+        // 先關閉已唯讀的 A，再讓 B 正常離頁，避免下一輪造資料被舊生命週期改寫。
+        await a.close(); await b.close();
+      }
+    });
+
+    await run(18, 'A 放棄後，B 保存被拒且不復活題本', async (ctx, actual) => {
+      const fixture = seedBooklet(mock, answerMap);
+      const a = await seed(ctx, { [BOOKLET]: fixture.data }); await daily(a);
+      const b = await ctx.newPage();
+      await b.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation(), true));
+      await daily(b);
+      await a.locator('#daily-discard').click(); await a.locator('#daily-discard-confirm').click();
+      await a.locator('#daily-empty:visible').waitFor();
+      const before = await raw(a);
+      await choose(b, 'B'); await readonly(b);
+      await b.evaluate(() => window.dispatchEvent(new Event('pagehide')));
+      assert.equal(await raw(a), before); assert.equal((await store(a)).booklets.length, 0);
+      assert.notEqual(before, null);
+      Object.assign(actual, { tabs: 2, deleted: 1, staleSaveRejected: true, resurrected: 0, newKeyRetained: true });
+    });
+
     report.passed = report.cases.filter((item) => item.success).length;
     report.failed = report.cases.filter((item) => !item.success).length;
-    report.exitCode = report.passed === 16 && report.errors.length === 0 ? 0 : 1;
+    report.exitCode = report.passed === 18 && report.errors.length === 0 ? 0 : 1;
   } catch (error) { report.fatal = String(error.stack ?? error); }
   finally {
     if (browser) await browser.close();
@@ -460,6 +513,6 @@ export async function runDailyBookletMultiSmoke() {
 
 // 匯入只取得函式，讓協調者能組合其他驗收而不意外啟動服務或瀏覽器。
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  runDailyBookletMultiSmoke().then((report) => { console.log(`report: ${resolve(report.output, 'report.json')}; passed=${report.passed ?? 0}/16; browserErrors=${report.browserErrors}; exitCode=${report.exitCode}`); process.exitCode = report.exitCode; })
+  runDailyBookletMultiSmoke().then((report) => { console.log(`report: ${resolve(report.output, 'report.json')}; passed=${report.passed ?? 0}/18; browserErrors=${report.browserErrors}; exitCode=${report.exitCode}`); process.exitCode = report.exitCode; })
     .catch((error) => { console.error(error); process.exitCode = 1; });
 }
