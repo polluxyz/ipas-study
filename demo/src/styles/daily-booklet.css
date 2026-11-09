@@ -1,17 +1,7 @@
 /* 題本資訊沿用核可示意；作答雙欄與固定按鈕仍由 daily-exam.css 負責。 */
 .daily-booklet { font-variant-numeric: tabular-nums; }
 .daily-booklet :is(label, fieldset, legend) { margin-block: 0; }
-.daily-booklet .daily-subjects small span { display: block; min-height: 0; white-space: nowrap; }
 .daily-booklet .lead { margin-bottom: 16px !important; }
-.daily-booklet .daily-subjects { margin-bottom: 8px !important; }
-.booklet-independent { font-size: 12px; color: var(--muted); margin-bottom: 24px !important; }
-.booklet-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 8px; background: var(--paper); margin-bottom: 24px !important; }
-.booklet-metrics > div { display: grid; align-content: start; gap: 5px; padding: 16px 24px; }
-.booklet-metrics > div + div { border-left: 1px solid var(--line); }
-.booklet-metrics span { color: var(--muted); font-size: 12px; }
-.booklet-metrics strong { font-size: 28px; line-height: 1.4; font-weight: 600; color: var(--ink); white-space: nowrap; }
-.booklet-metrics small { font-size: 13px; font-weight: 400; color: var(--muted); margin-left: 5px; }
-.booklet-metrics strong.is-text { font-size: 17px; line-height: 39px; }
 .booklet-kicker { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 4px !important; }
 .daily-booklet .booklet-readonly h2 { font-size: 20px; }
 .booklet-section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; margin-bottom: 14px !important; }
@@ -31,8 +21,6 @@
 .booklet-result-main { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 24px; }
 .booklet-result h2 { font-size: 25px; }
 .booklet-result p { font-size: 12px; color: var(--muted); }
-.booklet-next { display: grid; gap: 8px; justify-items: end; }
-.booklet-next small { font-size: 11px; color: var(--muted); }
 .booklet-result-note { padding: 10px 24px; border-top: 1px solid var(--line); }
 .booklet-empty { padding: 36px 28px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
 .booklet-empty h2 { font-size: 25px; }
@@ -48,10 +36,7 @@
 .daily-booklet .daily-grid { margin-top: 14px !important; }
 /* 題本操作獨立成列，保留作答工具列與後續題本操作的空間。 */
 .booklet-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; }
-.booklet-history-toggle { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--green); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-.booklet-history-toggle:hover { color: var(--ink); }
-.booklet-history-toggle:focus-visible { outline: 2px solid var(--exam-focus); outline-offset: 3px; border-radius: 3px; }
-/* 放棄靠近題本清單，低於作答按鈕的視覺層級；窄螢幕仍保留完整文字。 */
+/* 放棄維持次要操作，避免干擾作答；窄螢幕仍保留完整文字。 */
 .booklet-discard { margin-left: auto; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: 12px; cursor: pointer; }
 .booklet-discard:hover { color: var(--exam-red); text-decoration: underline; text-underline-offset: 3px; }
 .booklet-discard:focus-visible { outline: 2px solid var(--exam-focus); outline-offset: 3px; border-radius: 3px; }
@@ -65,7 +50,6 @@
   .booklet-discard-dialog { padding: 22px; }
   .booklet-discard-dialog .daily-dialog-actions { flex-direction: column; gap: 8px; }
 }
-.booklet-tools:not([hidden]) + .booklet-history { margin-block: 8px 20px !important; }
 .daily-booklet .daily-legend b { font-weight: 400; margin: 0; line-height: 1.5; }
 .daily-booklet .daily-legend i { flex-shrink: 0; margin: 0; }
 .booklet-footer { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 32px !important; }
@@ -86,28 +70,48 @@
   .booklet-row > :last-child { grid-column: 2; grid-row: 3; }
   .booklet-readonly { align-items: start; flex-direction: column; padding: 20px; }
   .booklet-result-main { flex-direction: column; align-items: start; padding: 20px; }
-  .booklet-next { justify-items: start; }
   .booklet-result-note { padding-inline: 20px; }
 }
 @media (max-width: 520px) {
-  .booklet-metrics { margin-bottom: 20px !important; }
-  .booklet-metrics > div { padding: 12px; gap: 8px; }
-  .booklet-metrics span { font-size: 11px; }
-  .booklet-metrics strong { font-size: 23px; }
-  .booklet-metrics small { font-size: 11px; margin-left: 2px; }
-  .booklet-metrics strong.is-text { font-size: 13px; line-height: 32px; }
   .booklet-empty { padding: 28px 20px; }
   .booklet-empty h2 { font-size: 23px; }
   .booklet-legacy-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 5px 20px; }
 }
 
-/* 保留窄螢幕的空間，完整本數與尾本題數分行呈現。 */
-.booklet-metrics small { display: inline-block; }
-.booklet-metrics .booklet-tail { display: block; margin: 0; font-size: 11px; }
-.daily-booklet .booklet-history { margin-top: 32px !important; }
 .daily-booklet .booklet-result { scroll-margin-top: 96px; }
 .daily-booklet .booklet-legacy-row + .booklet-legacy-row { margin-top: 10px !important; }
 .daily-booklet [hidden] { display: none !important; }
 .daily-booklet progress::-webkit-progress-bar { background: var(--exam-soft); }
 .daily-booklet progress::-webkit-progress-value { background: var(--exam-green); }
 .daily-booklet progress::-moz-progress-bar { background: var(--exam-green); }
+
+/* 目錄依科目分區，進度與開本放在同一區，題本列沿用桌面表格與手機卡片。 */
+.booklet-directory-intro { margin-bottom: 28px !important; }
+.booklet-directory-intro > p { font-size: 13px; color: var(--muted); }
+.daily-booklet .booklet-directory-intro .lead { margin-bottom: 6px !important; font-size: 16px; color: var(--ink); }
+.daily-booklet .booklet-local { margin-top: 14px !important; font-size: 12px; }
+.booklet-catalog-section { scroll-margin-top: 24px; padding: 24px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; }
+.booklet-catalog-section + .booklet-catalog-section { margin-top: 24px !important; }
+.booklet-catalog-section .booklet-section-head { align-items: center; }
+.booklet-catalog-section h2 { line-height: 1.5; }
+.booklet-catalog-section .booklet-kicker { color: var(--green); }
+.booklet-catalog-metrics { display: flex; flex-wrap: wrap; gap: 12px 32px; padding-bottom: 18px; margin: 0 0 18px !important; border-bottom: 1px solid var(--line); }
+.booklet-catalog-metrics > div { display: flex; gap: 10px; align-items: baseline; }
+.booklet-catalog-metrics dt { color: var(--muted); font-size: 12px; }
+.booklet-catalog-metrics dd { margin: 0; font-size: 14px; font-weight: 600; color: var(--ink); }
+.booklet-catalog-empty, .booklet-catalog-note { color: var(--muted); font-size: 13px; line-height: 1.8; }
+.booklet-catalog-note { margin-top: 16px !important; }
+.booklet-catalog-section .booklet-table { border: 0; }
+.booklet-catalog-section .booklet-row { padding-inline: 12px; }
+.booklet-catalog-section .booklet-table-head { border-radius: 4px; }
+.booklet-back { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 16px !important; font-size: 14px; text-underline-offset: 4px; }
+.booklet-row-action:focus-visible, .booklet-back:focus-visible { outline: 2px solid var(--exam-focus); outline-offset: 3px; border-radius: 3px; }
+.booklet-tools:has(> [hidden]) { display: none; }
+@media (max-width: 760px) {
+  .booklet-catalog-section { padding: 20px 16px; }
+  .booklet-catalog-section h2 { font-size: 18px; }
+  .booklet-catalog-section .booklet-section-head { gap: 12px; }
+  .booklet-catalog-section .booklet-row { padding-inline: 0; }
+  .booklet-catalog-metrics { gap: 8px 24px; }
+  .booklet-catalog-metrics > div { flex-wrap: wrap; gap: 4px 10px; }
+}
