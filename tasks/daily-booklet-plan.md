@@ -110,3 +110,24 @@
   親看觀察：320 暗色「結束這本」按鈕對比偏低（已記在 todo，建議由 Codex 判斷）；他科交卷恢復失敗時該科卡片仍寫「作答中」（I5-fix5 已記）。兩項都不影響資料，不擋上線。
 - 2026-11-08：P1 上線。PR #190 CI 全綠（3 分 3 秒），squash 合併為 `ad359b6`。在獨立工作樹 `deploy-main-dist` 用 `ad359b6` 建置，robocopy 覆蓋 `demo/dist`（結束碼 3）。4321 原本沒在跑，用桌面捷徑 `--no-open` 啟動；`/`、`/daily/`、`/official/`、`/quiz/` 都回 200。隔離瀏覽器（系統 Chrome、全新暫存設定檔，`tmp/daily-verify/booklet/live-walk.mjs`）走完：開第 1 本 50 題；重新整理與跨日仍是同一本、停在第 4 題、不確定 1 題；交卷答對 50／50；第 2 本 50 題、與第 1 本重疊 0；科目 3 開本不影響科目 1；瀏覽器錯誤 0。證據在 `tmp/daily-verify/booklet/live/`。
 - 2026-11-08：走查發現規格第 219 行的註解與程式不一致。註解寫「沒有舊資料時 `migratedAt` 是 null」，但全新環境開頁時，遷移流程照樣執行並寫入當下時間（`booklet-migration.ts:41`），題本仍是 0 本。沒有程式讀這個欄位做判斷，不影響作答資料。之後只需改規格註解。已改（docs/booklet-migratedat-note）。
+
+## 第 3 版：題本清單連結與放棄這本（2026-11-09）
+
+規格 v3：決策 10、11，第 4.3、4.7 節，第 6.2 節。使用者核可方案 A（刪除題本）與保守規則（有略過題不可放棄）。
+
+### 元件與順序
+
+1. D1 邏輯（`attempts.ts`、`daily-exam.ts` 與單元測試）與 D2a 清單連結（`daily-client.ts`、`daily.astro`、`daily-booklet-smoke.mjs` 的 `expectAnswerFocus`）可平行，檔案不重疊。
+2. D2b 放棄畫面要等 D1、D2a 併入整合分支 `feature/daily-discard`。
+3. 協調者在獨立工作樹驗收、開 PR、合併、部署 4321、親看截圖。
+
+### 契約（D1 提供，D2b 使用）
+
+- `daily-exam.ts`：`canDiscardBooklet(booklet: Booklet): boolean`，檢查第 4.7 節條件 2–4（純函式）。
+- `attempts.ts`：`discardBooklet(expected: BookletRef): BookletStore`。重新讀 store，檢查條件 1–4，同一次寫入刪除並更新 `current`，回傳新 store。不符時丟 `DailyConflictError`（`seq`、`current`、題本不存在）或 `BookletStoreError`（資格不符）。
+
+### 風險與對策
+
+- 放棄後 `pagehide` 仍保存已刪題本：D2b 確認成功後先停計時與保存，再導頁。
+- 刪到 0 本移除新鍵會重新遷移：D1 測試「空 store 仍存在、舊鍵在也不重遷移」。
+- 4321 直接讀 `demo/dist`：建置一律在獨立工作樹。
