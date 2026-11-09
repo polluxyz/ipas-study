@@ -5,41 +5,20 @@
 
 ## 目前進度（2026-11-09）
 
-- main 在 `3d6930c`。最近合併：
-  - PR #199：k-means 步驟圖改成 2D。
-  - PR #200：梯度提升頁白話改寫並換新圖。
-- 兩者都已部署到 4321，截圖親讀過。用完的工作樹、分支、終端機都已清掉。
-- 沒有執行中的 worker。Orca Run 是 `run_e8563c302ab9`。
+- main 在 `920a6c1`。最近合併：
+  - PR #202：規格 v3，每日題本加「題本清單」入口與「放棄這本」。
+  - PR #203：實作上述兩項（3 個 Codex worker：D1 資料層、D2a 清單入口、D2b 放棄按鈕）。
+- 已部署到 4321，截圖親讀過（`tmp/demo-shots/daily-discard/`：清單收合、展開、放棄按鈕、確認框）。
+- 驗收數字：建置 0、tsc 0、測試 45 檔 1223 項、題本 smoke 19/19、多分頁 smoke 18/18、交卷 smoke 成功、CI 綠。
+- 沒有執行中的 worker。Orca Run 是 `run_e8563c302ab9`。用完的工作樹、分支、終端機都已清掉。
+- 實作紀錄在 `tasks/daily-booklet-plan.md` 的「實作紀錄（第 3 版）」。
 
-## 下一步：每日題本的「題本清單」入口與「放棄這本」
+### 放棄題本的做法（已定案）
 
-使用者回報：開 `/daily/` 時不小心開了新題本，回不到題本清單，想回去選舊題本。
-
-### 已查明的原因
-
-- `demo/src/lib/daily-client.ts:149`：作答中（`state.kind === 'resume'`）會隱藏 `#daily-history`（題本清單）與 `#daily-legacy-records`（舊紀錄）。
-- 這是規格的決定：`docs/specs/daily-booklet.md` 第 52 行決策 10、第 4.3 節（第 86 行附近）。
-- 舊題本沒有遺失。`bookletPageState`（`demo/src/lib/daily-exam.ts:118`）讓每科最多 1 本未交卷題本，所以舊題本都已交卷。
-- 舊題本的回看網址：`/daily/?subject=<科目>&book=<id>`。
-
-### 使用者已決定（2026-11-09）
-
-1. 加一個小的「題本清單」連結。作答畫面仍保持專注；清單預設不顯示，點連結才展開。
-2. 加「放棄這本」按鈕。只有作答 0 題時才出現。點下去先確認，確認後題目回到未出題池。
-
-### 實作前要先做
-
-1. 先改規格 `docs/specs/daily-booklet.md`：決策 10、第 4.3 節、第 4.1 節頁面狀態表、第 10 節測試、第 12 節成功條件，並新增放棄規則。
-2. 規格要決定放棄的做法。已知限制：
-   - `bookletExclusions`（`daily-exam.ts:77`）會收集所有題本的 assignedQids，包含已結束的題本。
-   - 所以沿用 `retireBooklet`（`demo/src/lib/attempts.ts:345`）不會讓題目回池。
-   - 可能做法：從 store 刪掉這本 0 作答的 open 題本，並把 `current[subject]` 設為 null。
-   - 這會動到作答紀錄的處理方式。屬 Ask first，要先問 advisor 再請使用者核可。
-3. 派 Codex worker 實作（前端由 Codex 全權負責）。範圍：
-   - `daily-client.ts`、`demo/src/pages/daily.astro`（第 41 行 `#daily-retire`、第 60 行 `#daily-history`）。
-   - `attempts.ts` 的放棄函式與單元測試。
-   - `demo/scripts/daily-booklet-smoke.mjs`：`expectAnswerFocus`（第 86 行）目前斷言清單隱藏，case 13 要依新行為改寫。
-4. 驗收、PR、合併、部署 4321、截圖親讀。
+- 從 store 刪掉這本，題目回到未出題池。`current` 改指同科下一本未交卷題本，沒有就設 null。
+- 資格判斷只有一處：`canDiscardBooklet`（`demo/src/lib/daily-exam.ts:77`）。有任何作答、遷移來的鎖定作答、略過、交卷，都不能放棄。
+- 空的 store 也要寫回。否則 v1 遷移會再跑一次，把題本救回來。
+- 跨分頁沿用 `seq` 比對。對不上就丟 `DailyConflictError`，畫面改唯讀。
 
 ## 待使用者決定
 
@@ -65,7 +44,7 @@
 ### Orca 派工
 
 - 派工：`SPEC_DIR=<dir> sh tmp/daily-verify/booklet/dispatch.sh <工作樹名> <spec 檔> <標題>`
-- 背景等待：`sh tmp/svm-figure/watch.sh <term>`
+- 背景等待：`sh tmp/daily-discard/watch.sh <term...>`（連續 2 次沒看到 Working／esc to interrupt 才算停）
 - 讀訊息：`orca orchestration check --run run_e8563c302ab9 --json`
 - 收尾：`sh tmp/plain-rewrite/release.sh <term>`
 - worker 可能卡在輸入框。派工後確認畫面有 Working。
@@ -76,7 +55,7 @@
 
 | 項目 | 基準 |
 |---|---|
-| 測試 | 45 檔、1180 項 |
+| 測試 | 45 檔、1223 項 |
 | check-textbook | T3 警告 85、T6 錯誤 0、完整率 920/920 |
 | 照抄檢查 | 0 個片段 |
 | 建置 | 1895 頁 |
@@ -89,6 +68,8 @@
 - 本機負載高時，`smoke.test.mjs` 會 5 秒逾時。和改動無關，CI 會過。
 - 部署後 4321 曾自己停掉，原因不明。照上面的方法重開即可。
 - `gh pr merge --delete-branch` 在分支被工作樹占用時刪不掉本機分支。先移除工作樹，再刪分支。
+- `E:/orca/workspaces/ipas-study/daily-list-link` 是空資料夾，被某個程序占用刪不掉。重開機後再 `rmdir`。
+- `scripts/orca/done.sh` 這次找不到 run（run-current 回空），ack 略過。
 
 ## 使用者偏好與界線
 
