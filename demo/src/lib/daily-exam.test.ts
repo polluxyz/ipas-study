@@ -4,7 +4,7 @@ import { clearStudyData, DailyConflictError, DRAFT_KEY, exportAttempts, getAttem
 import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, dailySubjectStatus, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { unseenDailyQuestions } from './daily';
 import { BOOKLET_KEY, discardBooklet, isBooklet, type Booklet, type BookletStore } from './attempts';
-import { bookletAttemptMode, bookletExclusions, bookletNeedsRetire, bookletOpenLabel, bookletPageState, bookletPartialNote, bookletProgramNotice, bookletProgress, bookletRows, canDiscardBooklet, createBooklet, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
+import { bookletAttemptMode, bookletExclusions, bookletNeedsRetire, bookletOpenLabel, bookletPageState, bookletPartialNote, bookletProgramNotice, bookletProgress, bookletRows, canDiscardBooklet, catalogSection, createBooklet, dailyRoute, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
 import { dailyFreeCount, eligibleDailyQuestions, type DailyQuestion } from './daily';
 const set: DailySet = { date: '2026-11-05', subject: 1, questions: Array.from({ length: 5 }, (_, index) => ({ id: `q${index}`, rev: 2 })) };
 const attempt = (overrides: Partial<Attempt> = {}): Attempt => ({ id: 'old', qid: 'q0', rev: 2, choice: 'A', correct: true, ts: '2026-11-05T03:00:00Z', mode: 'daily:2026-11-05:S1', ms: 200, ...overrides });
@@ -532,6 +532,166 @@ describe('題本清單與進度', () => {
       expect(bookletProgress(bookletStore([retired], { '1': current, '3': null }), 1, '2026-11-05', { fullBooks: 0, lastBook: 0 }))
         .toEqual({ answered: 0, total: 0, todaySubmitted: 0, fullBooks: 0, lastBook: 0 });
     }
+  });
+});
+
+describe('網址判斷', () => {
+  it.each([false, true])('bookId 為 null 一律目錄，有未交卷題本=%s', (hasOpen) => {
+    expect(dailyRoute(bookletStore(hasOpen ? [makeBooklet()] : []), 1, null, catalog)).toEqual({ kind: 'catalog' });
+  });
+  it('指定作答中題本時接續，保留答案、標記、位置與用時', () => {
+    const book = makeBooklet({ position: 2 });
+    book.questions[0] = { ...book.questions[0], choice: 'B', unsure: true, ms: 321 };
+    const result = dailyRoute(bookletStore([book]), 1, book.id, catalog);
+    expect(result).toEqual({ kind: 'resume', booklet: book });
+    if (result.kind === 'resume') expect(result.booklet).toBe(book);
+  });
+  it('submitting 即使題庫已無該題也接續交卷重試', () => {
+    const book = { ...submitBookletForTest(), status: 'submitting' as const };
+    expect(dailyRoute(bookletStore([book]), 1, book.id, [])).toEqual({ kind: 'resume', booklet: book });
+  });
+  it.each(['removed', 'revised', 'empty'] as const)('作答中題本已無可答題時需結束：%s', (reason) => {
+    const book = makeBooklet(reason === 'empty' ? { questions: [] } : {});
+    const available = reason === 'revised' ? catalog.map((q) => ({ ...q, rev: 3 })) : [];
+    expect(dailyRoute(bookletStore([book]), 1, book.id, available)).toEqual({ kind: 'retire', booklet: book });
+  });
+  it('已交卷題本可回看，不受另一本作答中影響', () => {
+    const book = submitBookletForTest(); const open = makeBooklet({ id: 'open', number: 2 });
+    expect(dailyRoute(bookletStore([open, book], { '1': open.id, '3': null }), 1, book.id, []))
+      .toEqual({ kind: 'review', booklet: book });
+  });
+  it('retired 題本回已結束，不改為需結束', () => {
+    const book = makeBooklet({ status: 'retired', questions: [] });
+    expect(dailyRoute(bookletStore([book]), 1, book.id, [])).toEqual({ kind: 'retired', booklet: book });
+  });
+  it('找不到指定 ID 時回 not-found', () => {
+    expect(dailyRoute(bookletStore([makeBooklet()]), 1, 'discarded', catalog)).toEqual({ kind: 'missing', reason: 'not-found' });
+  });
+  it.each(['open', 'submitted', 'retired'] as const)('科目不符優先回 subject-mismatch：%s', (status) => {
+    const book = status === 'submitted' ? submitBookletForTest() : makeBooklet({ status });
+    expect(dailyRoute(bookletStore([book]), 3, book.id, catalog)).toEqual({ kind: 'missing', reason: 'subject-mismatch' });
+  });
+  it('current 優先於編號，其他未交卷題本回 not-current', () => {
+    const first = makeBooklet(); const current = makeBooklet({ id: 'current', number: 2 });
+    const store = bookletStore([first, current], { '1': current.id, '3': null });
+    expect(dailyRoute(store, 1, first.id, catalog)).toEqual({ kind: 'missing', reason: 'not-current' });
+    expect(dailyRoute(store, 1, current.id, catalog)).toEqual({ kind: 'resume', booklet: current });
+  });
+  it.each([null, 'absent', 'submitted', 'retired', 'other'])('current=%s 非該科未交卷題本時選編號最小者', (current) => {
+    const first = makeBooklet(); const later = makeBooklet({ id: 'later', number: 3 });
+    const store = bookletStore([
+      later, makeBooklet({ id: 'other', subject: 3 }), submitBookletForTest(answeredBooklet({ id: 'submitted', number: 2 })),
+      makeBooklet({ id: 'retired', status: 'retired', number: 4 }), first,
+    ], { '1': current, '3': null });
+    expect(dailyRoute(store, 1, first.id, catalog)).toEqual({ kind: 'resume', booklet: first });
+    expect(dailyRoute(store, 1, later.id, catalog)).toEqual({ kind: 'missing', reason: 'not-current' });
+  });
+});
+
+describe('題本目錄資料', () => {
+  const today = '2026-11-07';
+  const free = { free: 120, fullBooks: 2, lastBook: 20 };
+  it.each([1, 3] as const)('全新科目 %s 無列，按開第 1 本開 50 題', (subject) => {
+    expect(catalogSection(bookletStore(), subject, today, free)).toEqual({
+      rows: [], todaySubmitted: 0, fullBooks: 2, lastBook: 20, open: { kind: 'button', label: '開第 1 本', next: 50 },
+    });
+  });
+  it('兩科分開列資料，新本在上且只有未交卷科目不能開本', () => {
+    const first = submitBookletForTest();
+    const second = makeBooklet({ id: 'second', number: 2 });
+    second.questions[0].choice = 'A'; second.questions[1].choice = 'B'; second.questions[2].choice = 'C';
+    const other = { ...submitBookletForTest(), id: 'other', subject: 3 as const };
+    const store = bookletStore([first, second, other], { '1': second.id, '3': null });
+    expect(catalogSection(store, 1, today, free)).toEqual({
+      rows: [
+        { id: 'second', number: 2, createdDate: '2026-11-05', statusLabel: '作答中', total: 5, answered: 3, canReview: false, action: 'resume' },
+        { id: 'book1', number: 1, createdDate: '2026-11-05', statusLabel: '已交卷', total: 5, correct: 5, canReview: true, action: 'review' },
+      ], todaySubmitted: 0, fullBooks: 2, lastBook: 20, open: { kind: 'none', reason: 'unfinished' },
+    });
+    expect(catalogSection(store, 3, today, { free: 30, fullBooks: 0, lastBook: 30 })).toEqual({
+      rows: [{ id: 'other', number: 1, createdDate: '2026-11-05', statusLabel: '已交卷', total: 5, correct: 5, canReview: true, action: 'review' }],
+      todaySubmitted: 0, fullBooks: 0, lastBook: 30, open: { kind: 'button', label: '開下一本（30 題）', next: 30 },
+    });
+  });
+  it('retired 列無動作，也不阻擋開下一本', () => {
+    const section = catalogSection(bookletStore([makeBooklet({ status: 'retired', questions: [] })]), 1, today, free);
+    expect(section.rows).toEqual([
+      { id: 'book1', number: 1, createdDate: '2026-11-05', statusLabel: '已結束', total: 0, canReview: false, action: null },
+    ]);
+    expect(section.open).toEqual({ kind: 'button', label: '開下一本', next: 50 });
+  });
+  it('有效題本需結束時給 retire 並阻擋開本', () => {
+    const section = catalogSection(bookletStore([makeBooklet({ questions: [] })]), 1, today, free);
+    expect(section.rows).toEqual([
+      { id: 'book1', number: 1, createdDate: '2026-11-05', statusLabel: '需結束', total: 0, answered: 0, canReview: false, action: 'retire' },
+    ]);
+    expect(section.open).toEqual({ kind: 'none', reason: 'unfinished' });
+  });
+  it.each([false, true])('非有效未交卷題本不給動作，空題本=%s', (empty) => {
+    const first = makeBooklet(empty ? { questions: [] } : {});
+    const current = makeBooklet({ id: 'current', number: 2 });
+    const section = catalogSection(bookletStore([first, current], { '1': current.id, '3': null }), 1, today, free);
+    expect(section.rows.map(({ id, action }) => ({ id, action }))).toEqual([
+      { id: 'current', action: 'resume' }, { id: 'book1', action: null },
+    ]);
+  });
+  it('current 不存在時，目錄也採用編號最小的未交卷題本', () => {
+    const section = catalogSection(bookletStore([makeBooklet({ id: 'later', number: 2 }), makeBooklet()], { '1': 'absent', '3': null }), 1, today, free);
+    expect(section.rows.map(({ id, action }) => ({ id, action }))).toEqual([
+      { id: 'later', action: null }, { id: 'book1', action: 'resume' },
+    ]);
+  });
+  it.each([null, { free: 0, fullBooks: 0, lastBook: 0 }])('submitting 保留 resume 並優先阻擋開本：%j', (available) => {
+    const book = { ...submitBookletForTest(), status: 'submitting' as const };
+    const section = catalogSection(bookletStore([book]), 1, today, available);
+    expect(section.rows[0]).toMatchObject({ statusLabel: '作答中', answered: 5, action: 'resume' });
+    expect(section.open).toEqual({ kind: 'none', reason: 'unfinished' });
+  });
+  it.each([false, true])('作答紀錄無法辨識時 blocked 且可再開為 null，有已交卷題本=%s', (hasSubmitted) => {
+    const section = catalogSection(bookletStore(hasSubmitted ? [submitBookletForTest()] : []), 1, today, null);
+    expect(section.open).toEqual({ kind: 'none', reason: 'blocked' });
+    expect(section.fullBooks).toBeNull(); expect(section.lastBook).toBeNull();
+    if (hasSubmitted) expect(section.rows[0].action).toBe('review');
+  });
+  it('未做題為 0 時 exhausted，可再開數字保留 0', () => {
+    expect(catalogSection(bookletStore(), 1, today, { free: 0, fullBooks: 0, lastBook: 0 })).toEqual({
+      rows: [], todaySubmitted: 0, fullBooks: 0, lastBook: 0, open: { kind: 'none', reason: 'exhausted' },
+    });
+  });
+  it('今日交卷以台北日期累加題數，昨天交卷不計入', () => {
+    const at = (id: string, number: number, subject: 1 | 3, ts: string): Booklet => {
+      const questions = Array.from({ length: 50 }, (_, i) => ({ id: `${id}-q${i}`, rev: 1, choice: 'A' as const, unsure: false, ms: 0, correct: true }));
+      const mode = `booklet:${id}:S${subject}`;
+      const attempts = questions.map((q, i) => ({ id: `${id}-a${i}`, qid: q.id, rev: 1, choice: 'A' as const, correct: true, ts, mode, ms: 0 }));
+      return makeBooklet({ id, number, subject, attemptMode: mode, status: 'submitted', questions, assignedQids: questions.map((q) => q.id),
+        submission: { ts, attempts, total: 50, correct: 50 } });
+    };
+    const submitted = at('today', 1, 1, '2026-11-06T16:00:00Z');
+    const yesterday = at('yesterday', 2, 1, '2026-11-06T15:59:59Z');
+    const other = at('other', 1, 3, '2026-11-06T16:00:00Z');
+    const store = bookletStore([submitted, yesterday, other]);
+    expect(catalogSection(store, 1, today, free).todaySubmitted).toBe(50);
+    expect(catalogSection(store, 1, today, null).todaySubmitted).toBe(50);
+  });
+  it('網址與目錄判斷前後 store 逐字相同，也不碰 localStorage', () => {
+    const store = bookletStore([
+      makeBooklet({ id: 'later', number: 3 }), makeBooklet({ id: 'empty', number: 2, questions: [] }),
+      submitBookletForTest(), makeBooklet({ id: 'retired', number: 4, status: 'retired', questions: [] }),
+    ], { '1': 'empty', '3': null });
+    const before = JSON.stringify(store);
+    const access = vi.fn(() => { throw new Error('純函式不可讀寫 localStorage'); });
+    vi.stubGlobal('localStorage', { getItem: access, setItem: access, removeItem: access });
+    for (const bookId of [null, 'later', 'empty', 'book1', 'retired', 'absent']) {
+      dailyRoute(store, 1, bookId, catalog);
+      expect(JSON.stringify(store)).toBe(before);
+    }
+    dailyRoute(store, 3, 'book1', catalog);
+    for (const available of [free, null, { free: 0, fullBooks: 0, lastBook: 0 }]) {
+      catalogSection(store, 1, today, available);
+      catalogSection(store, 3, today, available);
+      expect(JSON.stringify(store)).toBe(before);
+    }
+    expect(access).not.toHaveBeenCalled();
   });
 });
 

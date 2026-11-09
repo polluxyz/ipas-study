@@ -6,6 +6,7 @@ import { extname, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
 import { ModuleKind, ScriptTarget, transpileModule } from 'typescript';
+import { waitCatalog, waitBooklet, openCatalog, gotoBooklet, enterBooklet, openNewBooklet, backToCatalog } from './daily-nav.mjs';
 
 const BASE = 'http://127.0.0.1:4335';
 const BOOKLET = 'ipas-daily-draft-v2';
@@ -28,13 +29,7 @@ const emptyStore = () => ({ version: 2, migratedAt: null, current: { '1': null, 
 async function waitFor(page, predicate, arg) {
   await page.waitForFunction(predicate, arg, { timeout: 10_000 });
 }
-async function daily(page, query = '') {
-  await page.goto(BASE + '/daily/' + query);
-  await waitFor(page, () => !document.querySelector('#daily-metrics').hidden || /損壞|未知|失敗|無法|超過/.test(document.querySelector('#daily-status').textContent));
-}
-async function firstBook(page, total = 50) {
-  await page.locator('#daily-open-first').click();
-  await page.locator('#daily-practice:visible').waitFor();
+async function assertFirstBook(page, total = 50) {
   assert.match(await page.locator('#daily-date').innerText(), /第 1 本/);
   assert.equal((await store(page)).booklets.length, 1);
   assert.equal((await store(page)).booklets[0].number, 1);
@@ -53,7 +48,14 @@ async function answerAll(page, wrongFirst = false, from = 0) {
 async function submit(page) {
   await page.locator('#daily-submit').click();
   await page.locator('#daily-dialog[open]').waitFor();
-  await page.locator('#daily-confirm').click();
+  // 交卷會導向同一本網址；等真正導向完成，避免驗到離頁前的暫態。
+  await Promise.all([
+    page.waitForEvent('framenavigated', (frame) => frame === page.mainFrame()),
+    page.locator('#daily-confirm').click(),
+  ]);
+  // 同網址導向先換文件才建立元素；共用等待函式需在新文件載入後使用。
+  await page.waitForLoadState('domcontentloaded');
+  await waitBooklet(page);
   await page.locator('#daily-submitted:visible').waitFor();
 }
 async function clear(page) {
@@ -144,32 +146,55 @@ export async function runDailyBookletMultiSmoke() {
     browser = await chromium.launch({ headless: true, channel: 'chrome' });
     report.browser = browser.version();
 
-    await run(1, '下一本使舊分頁唯讀', async (ctx, actual) => {
+    await run(1, '下一本使另一頁目錄只讀重畫', async (ctx, actual) => {
       const fixture = seedBooklet(mock, answerMap, true);
       const a = await seed(ctx, { [BOOKLET]: fixture.data, [ATTEMPTS]: { version: 1, attempts: fixture.batch } });
-      await daily(a); const b = await ctx.newPage(); await daily(b);
-      assert.equal(await b.locator('#daily-submitted:visible').count(), 1);
-      await a.locator('#daily-open-next').click();
-      await a.locator('#daily-practice:visible').waitFor();
+      await enterBooklet(a, BASE, 1, fixture.booklet.id);
+      assert.equal(await a.locator('#daily-readonly:visible').count(), 1);
+      assert.equal(await a.locator('[data-open-subject]').count(), 0, '檢討頁不放開本按鈕');
+      await backToCatalog(a);
+      const b = await ctx.newPage();
+      // 記錄 B 的所有儲存操作，避免只比較最終內容而漏掉重寫相同值。
+      await b.addInitScript((key) => {
+        window.__catalogWrites = [];
+        window.__catalogEvents = 0;
+        for (const method of ['setItem', 'removeItem', 'clear']) {
+          const original = Storage.prototype[method];
+          Storage.prototype[method] = function (...args) {
+            if (this === localStorage) window.__catalogWrites.push({ method, key: args[0] ?? null });
+            return original.apply(this, args);
+          };
+        }
+        window.addEventListener('storage', (event) => { if (event.key === key) window.__catalogEvents++; });
+      }, BOOKLET);
+      const beforeCatalog = await snapshot(a);
+      await openCatalog(b, BASE);
+      assert.deepEqual(await snapshot(b), beforeCatalog, '開目錄不改任何既有紀錄');
+      assert.equal(await b.locator('[data-open-subject="1"]').count(), 1);
+      assert.equal(await b.locator('#daily-directory-1 [data-booklet-id]').count(), 1);
+      const newId = await openNewBooklet(a, BASE, 1);
       assert.match(await a.locator('#daily-date').innerText(), /第 2 本/);
-      await readonly(b);
-      const before = await raw(a);
-      // 點擊被停用的控制項及重送事件，確認畫面沒有留下可再次寫入的路徑。
-      await b.locator('#daily-open-next').evaluate((button) => { button.click(); button.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-      await b.evaluate(() => window.dispatchEvent(new Event('pagehide')));
-      await readonly(b); assert.equal(await raw(a), before);
+      await b.locator(`#daily-directory-1 [data-booklet-id="${newId}"]`).waitFor();
+      assert.equal(await b.locator('[data-open-subject="1"]').count(), 0);
+      assert.equal(await b.locator('#daily-directory-1 [data-booklet-id]').count(), 2);
+      assert.equal(await b.locator('#daily-directory-3 [data-open-subject="3"]').count(), 1);
+      assert.equal(new URL(b.url()).searchParams.has('book'), false);
+      assert.equal(await b.locator('#daily-practice').isVisible(), false);
+      const observed = await b.evaluate(() => ({ writes: window.__catalogWrites, events: window.__catalogEvents }));
+      assert.deepEqual(observed.writes, []); assert.ok(observed.events > 0, '由真實 storage 事件更新目錄');
+      assert.equal(await raw(b, ATTEMPTS), beforeCatalog[ATTEMPTS]);
       const data = await store(a); assert.equal(data.booklets.length, 2); assert.equal(data.booklets[1].questions.length, 50);
-      Object.assign(actual, { tabs: 2, booklets: 2, nextNumber: 2, nextQuestions: 50, retryButtons: 0, overwritten: 0 });
+      Object.assign(actual, { tabs: 2, booklets: 2, nextNumber: 2, nextQuestions: 50, catalogRows: 2, storageEvents: observed.events, catalogWrites: observed.writes.length, attemptsUnchanged: true });
     });
 
     await run(2, '舊 seq 保存被拒', async (ctx, actual) => {
       const fixture = seedBooklet(mock, answerMap);
-      const a = await seed(ctx, { [BOOKLET]: fixture.data }); await daily(a);
+      const a = await seed(ctx, { [BOOKLET]: fixture.data }); await enterBooklet(a, BASE, 1, fixture.booklet.id);
       const b = await ctx.newPage();
       // 延後通知模擬分頁尚未收到更新；保存仍必須自己檢查 seq，不能只靠 storage 事件。
       await b.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation(), true));
-      await daily(b); const stale = (await store(b)).booklets[0].seq;
-      await daily(a); await choose(a, 'A');
+      await enterBooklet(b, BASE, 1, fixture.booklet.id); const stale = (await store(b)).booklets[0].seq;
+      await gotoBooklet(a, BASE, 1, fixture.booklet.id); await choose(a, 'A');
       const before = await raw(a); const current = (await store(a)).booklets[0].seq;
       assert.ok(current > stale); await choose(b, 'B'); await readonly(b);
       assert.equal(await raw(a), before); assert.equal((await store(a)).booklets[0].questions[0].choice, 'A');
@@ -183,38 +208,43 @@ export async function runDailyBookletMultiSmoke() {
       const a = await seed(ctx, old);
       await a.evaluate(() => { window.__held = navigator.locks.request('ipas-daily-migration', () => new Promise((done) => { window.__release = done; })); });
       await waitFor(a, () => typeof window.__release === 'function');
-      const b = await ctx.newPage(); await b.goto(BASE + '/daily/');
+      const b = await ctx.newPage();
+      // 目錄要等遷移完成才就緒；先接住導覽錯誤，再在持鎖期間檢查等待佇列。
+      const loading = openCatalog(b, BASE).then(() => undefined, (error) => error);
+      await b.waitForURL(BASE + '/daily/');
       await waitFor(a, async () => (await navigator.locks.query()).pending.some((lock) => lock.name === 'ipas-daily-migration'));
       assert.equal(await raw(b), null); Object.assign(actual, { heldLocks: 1, queuedLocks: 1, v2WhileWaiting: 0 });
       await a.evaluate(async () => { window.__release(); await window.__held; });
-      await b.locator('#daily-practice:visible').waitFor();
+      const loadError = await loading; if (loadError) throw loadError;
       const migrated = await store(b); assert.equal(migrated.booklets.length, 1); assert.equal(migrated.booklets[0].questions.length, 2);
       const changedDraft = JSON.parse(old[DRAFT]); changedDraft.drafts[0].seq = 11;
       assert.equal(await raw(b, DRAFT), JSON.stringify(changedDraft));
       for (const key of [CACHE, ATTEMPTS, READING]) assert.equal(await raw(b, key), old[key], `${key} 逐字不變`);
       assert.deepEqual(migrated.booklets[0].questions.map(({ id, rev, choice, unsure }) => ({ id, rev, choice, unsure })), draft.questions.map(({ id, rev, choice, unsure }) => ({ id, rev, choice, unsure })));
-      const before = await raw(b); const c = await ctx.newPage(); await daily(c); const after = await raw(c);
+      const before = await raw(b); const c = await ctx.newPage(); await openCatalog(c, BASE); const after = await raw(c);
       Object.assign(actual, { tabs: 3, migratedBooklets: 1, migratedQuestions: 2, oldSeqBefore: 10, oldSeqAfter: 11, seqBeforeThirdTab: migrated.booklets[0].seq, seqAfterThirdTab: (await store(c)).booklets[0].seq, unchangedOldKeys: 3 });
-      if (after !== before) report.productIssues.push({ case: 3, title: '只開第 3 頁也會保存題本並增加 seq', source: 'demo/src/lib/daily-client.ts:260', relatedSource: 'demo/src/lib/question-set-client.ts:33', reproduction: ['保留 1 份 open 舊草稿並進入 /daily/ 完成遷移', '記下 ipas-daily-draft-v2 的內容及題本 seq', '同一 context 開第 3 頁 /daily/，不操作任何控制項', '題本 seq 增加，先開的作答頁收到衝突而改唯讀'], expected: '第 3 頁只載入，題本內容與 seq 不變', actual: { beforeSeq: actual.seqBeforeThirdTab, afterSeq: actual.seqAfterThirdTab } });
+      if (after !== before) report.productIssues.push({ case: 3, title: '只開第 3 頁目錄卻改寫題本', source: 'demo/src/lib/daily-client.ts', reproduction: ['保留 1 份 open 舊草稿並開目錄完成遷移', '記下 ipas-daily-draft-v2 的內容及題本 seq', '同一瀏覽器環境開第 3 頁目錄，不操作任何控制項'], expected: '目錄只讀，題本內容與 seq 不變', actual: { beforeSeq: actual.seqBeforeThirdTab, afterSeq: actual.seqAfterThirdTab } });
       assert.equal(after, before, '第 3 頁不得改題本內容或 seq');
+      await enterBooklet(b, BASE, 1, migrated.booklets[0].id);
+      assert.equal(await b.locator('#daily-cards [data-question]').count(), 2);
     });
 
     await run(4, '清除後舊鍵不復活', async (ctx, actual) => {
       const fixture = seedBooklet(mock, answerMap);
       const a = await seed(ctx, { [BOOKLET]: fixture.data, [DRAFT]: { version: 1, drafts: [] }, [CACHE]: { version: 1, sets: [] }, [ATTEMPTS]: { version: 1, attempts: [] }, [READING]: { version: 1, readings: [] } });
-      await daily(a); const stale = await ctx.newPage(); await daily(stale);
+      await enterBooklet(a, BASE, 1, fixture.booklet.id); const stale = await ctx.newPage(); await enterBooklet(stale, BASE, 1, fixture.booklet.id);
       await clear(a); assert.deepEqual(Object.values(await snapshot(a)), [null, null, null, null, null]);
       await readonly(stale);
       await stale.evaluate(() => { const input = document.querySelector('#daily-cards input'); input.dispatchEvent(new Event('change', { bubbles: true })); window.dispatchEvent(new Event('pagehide')); });
       assert.deepEqual(Object.values(await snapshot(a)), [null, null, null, null, null]);
-      await daily(a); assert.equal((await store(a)).booklets.length, 0);
+      await openCatalog(a, BASE); assert.equal((await store(a)).booklets.length, 0);
       for (const key of [DRAFT, CACHE, ATTEMPTS, READING]) assert.equal(await raw(a, key), null);
-      await firstBook(a); assert.equal((await store(a)).booklets[0].number, 1);
+      await openNewBooklet(a, BASE, 1); await assertFirstBook(a); assert.equal((await store(a)).booklets[0].number, 1);
       Object.assign(actual, { removedKeys: 5, revivedOldKeys: 0, bookletsAfterReload: 0, firstNumber: 1, rejectedStaleTabs: 1 });
     });
 
     await run(5, '備份匯出清除匯入往返', async (ctx, actual) => {
-      const page = await ctx.newPage(); await daily(page); await firstBook(page); await answerAll(page); await submit(page);
+      const page = await ctx.newPage(); await openNewBooklet(page, BASE, 1); await assertFirstBook(page); await answerAll(page); await submit(page);
       const original = await attempts(page); assert.equal(original.length, 50);
       const used = new Set(original.map((a) => a.qid));
       await page.goto(BASE + '/wrong-book/');
@@ -225,23 +255,26 @@ export async function runDailyBookletMultiSmoke() {
       await clear(page); assert.deepEqual(Object.values(await snapshot(page)), [null, null, null, null, null]);
       await page.locator('#import-attempts').setInputFiles(path); await page.locator('#import-status').filter({ hasText: '新增 50 筆' }).waitFor();
       assert.deepEqual(await attempts(page), original); assert.equal(await raw(page), null);
-      await daily(page); assert.equal((await store(page)).booklets.length, 0); await firstBook(page);
+      await openCatalog(page, BASE); assert.equal((await store(page)).booklets.length, 0);
+      await openNewBooklet(page, BASE, 1); await assertFirstBook(page);
       assert.equal((await store(page)).booklets[0].questions.filter((q) => used.has(q.id)).length, 0);
       Object.assign(actual, { exportedAttempts: 50, restoredAttempts: 50, topLevelKeys: Object.keys(backup).sort(), restoredBooklets: 0, nextNumber: 1, repeatedQuestions: 0 });
     });
 
     await run(6, '匯入不改未交卷題本', async (ctx, actual) => {
       const page = await ctx.newPage();
-      // 暫停應用程式計時，讓這一案只量到匯入本身，避免 15 秒自動保存碰巧改 seq。
-      await page.clock.install({ time: new Date(INSTANT) }); await page.clock.pauseAt(new Date(INSTANT));
-      await daily(page); await firstBook(page);
+      await page.clock.install({ time: new Date(INSTANT) });
+      await openNewBooklet(page, BASE, 1); await assertFirstBook(page);
       for (let i = 0; i < 25; i++) { await choose(page, await card(page).getAttribute('data-answer')); await page.locator('#daily-next').click(); }
       assert.equal((await attempts(page)).length, 0);
       const backupPage = await ctx.newPage(); await backupPage.goto(BASE + '/wrong-book/');
+      // 只在匯入期間停時鐘，避免自動保存干擾比對，也保留點選時的動畫影格。
+      await page.clock.pauseAt(await page.evaluate(() => Date.now() + 100));
       const before = await raw(page); const booklet = (await store(page)).booklets[0]; const q = booklet.questions[0]; const opposite = q.choice === 'A' ? 'B' : 'A';
       await importBackup(backupPage, { version: 1, readings: [], attempts: [{ id: 'import-same-mode', qid: q.id, rev: q.rev, choice: opposite, correct: false, ts: INSTANT, mode: booklet.attemptMode, ms: 10 }] });
       assert.equal(await raw(page), before, '匯入不更改內容或 seq');
       const afterImport = (await store(page)).booklets[0];
+      await page.clock.resume();
       await answerAll(page, false, 25); await submit(page);
       const data = await store(page); const saved = await attempts(page); const sameMode = saved.filter((a) => a.mode === booklet.attemptMode);
       assert.equal(data.booklets[0].submission.correct, 50); assert.equal(data.booklets[0].questions[0].choice, q.choice);
@@ -253,10 +286,10 @@ export async function runDailyBookletMultiSmoke() {
     await run(7, '損壞 JSON 與未知版本', async (ctx, actual) => {
       actual.variants = [];
       for (const value of ['{broken-json', '{"version":999,"current":{"1":null,"3":null},"booklets":[]}']) {
-        const page = await seed(ctx, { [BOOKLET]: value }); await daily(page);
+        const page = await seed(ctx, { [BOOKLET]: value }); await openCatalog(page, BASE);
         assert.match(await page.locator('#daily-status').innerText(), /損壞或版本未知/);
         assert.equal(await raw(page), value); assert.equal(await page.locator('#daily-cards [data-question]').count(), 0);
-        assert.equal(await page.locator('#daily-open-first:visible, #daily-open-next:visible').count(), 0);
+        assert.equal(await page.locator('[data-open-subject]:visible').count(), 0);
         assert.equal((await attempts(page)).length, 0); actual.variants.push({ rawPreserved: true, drawnQuestions: 0, attempts: 0 }); await page.close();
       }
       assert.equal(actual.variants.length, 2);
@@ -267,7 +300,7 @@ export async function runDailyBookletMultiSmoke() {
       await page.locator('#official-status').filter({ hasText: '各份題組分開計算進度' }).waitFor();
       const initial = await page.locator('[data-official-set] [id^="progress-"]').allTextContents(); assert.equal(initial.length, 6);
       for (const text of initial) assert.match(text, /^已答 0／\d+ 題・答對 0 題$/);
-      await daily(page); await firstBook(page);
+      await openNewBooklet(page, BASE, 1); await assertFirstBook(page);
       const booklet = (await store(page)).booklets[0]; assert.equal(booklet.questions.length, 50);
       assert.equal(booklet.questions.filter((q) => catalog.find((item) => item.id === q.id)?.source !== 'mock').length, 0);
       await answerAll(page); await submit(page);
@@ -309,12 +342,12 @@ export async function runDailyBookletMultiSmoke() {
         const body = (await response.text()).replace(/(<script[^>]*id="daily-catalog"[^>]*>)[\s\S]*?(<\/script>)/, (_, start, end) => start + JSON.stringify(candidates) + end);
         await route.fulfill({ response, body });
       });
-      await daily(page); await firstBook(page, 49); assert.equal((await store(page)).booklets[0].questions.filter((q) => q.id === qid).length, 0);
+      await openNewBooklet(page, BASE, 1); await assertFirstBook(page, 49); assert.equal((await store(page)).booklets[0].questions.filter((q) => q.id === qid).length, 0);
       Object.assign(actual, { questionId: qid, candidateQuestions: 50, attempts: 1, visibleExplanations: 1, correct: 1, bookletQuestions: 49, repeatedQuestions: 0 });
     });
 
     await run(11, '錯題本只收已交卷答案', async (ctx, actual) => {
-      const page = await ctx.newPage(); await daily(page); await firstBook(page);
+      const page = await ctx.newPage(); await openNewBooklet(page, BASE, 1); await assertFirstBook(page);
       const qid = await card(page).getAttribute('data-qid'); const answer = await card(page).getAttribute('data-answer');
       await choose(page, answer === 'A' ? 'B' : 'A'); assert.equal((await attempts(page)).length, 0);
       const wrong = await ctx.newPage(); await wrong.goto(BASE + '/wrong-book/'); assert.equal(await wrong.locator('#wrong-list [data-qid]').count(), 0);
@@ -348,16 +381,12 @@ export async function runDailyBookletMultiSmoke() {
         await page.screenshot({ path, fullPage: true }); report.screenshots.push(path);
       }
     };
-    const recoveryDaily = async (page, subject) => {
-      await page.goto(BASE + '/daily/?subject=' + subject);
-      await waitFor(page, () => !document.querySelector('#daily-practice').hidden || !document.querySelector('#daily-save-error').hidden);
-    };
 
     await run(12, '他科恢復失敗仍可保存本科', async (ctx, actual) => {
       const data = recoveryFixture(); const original = JSON.stringify(data); const failed = JSON.stringify(data.booklets[1]);
       const invalid = '{"version":99,"attempts":[]}';
       const page = await seed(ctx, { [BOOKLET]: original, [ATTEMPTS]: invalid });
-      await recoveryDaily(page, 1);
+      await enterBooklet(page, BASE, 1, 'recovery-S1');
       assert.equal(await page.locator('#daily-practice:visible').count(), 1, '科目 3 恢復失敗不可阻擋科目 1');
       assert.equal(await raw(page), original, '開頁不改失敗題本或本科');
       assert.equal(await page.locator('#daily-save-error:visible').count(), 0);
@@ -372,7 +401,7 @@ export async function runDailyBookletMultiSmoke() {
     await run(13, '本科恢復失敗顯示錯誤與重試', async (ctx, actual) => {
       const data = recoveryFixture(); const original = JSON.stringify(data); const invalid = '{"version":99,"attempts":[]}';
       const page = await seed(ctx, { [BOOKLET]: original, [ATTEMPTS]: invalid });
-      await recoveryDaily(page, 3);
+      await enterBooklet(page, BASE, 3, 'recovery-S3');
       assert.equal(await page.locator('#daily-save-error:visible').count(), 1);
       assert.ok((await page.locator('#daily-error-message').innerText()).length > 0);
       assert.equal(await page.locator('#daily-status').innerText(), '交卷尚未完成，請重試。');
@@ -396,7 +425,7 @@ export async function runDailyBookletMultiSmoke() {
           return originalSetItem.call(this, name, value);
         };
       }, { key: ATTEMPTS, flag: 'test-recovery-quota' });
-      await recoveryDaily(page, 1);
+      await enterBooklet(page, BASE, 1, 'recovery-S1');
       assert.equal(await page.locator('#daily-practice:visible').count(), 1);
       assert.equal(await page.locator('#daily-save-error:visible').count(), 0);
       assert.equal(await raw(page), original);
@@ -407,7 +436,7 @@ export async function runDailyBookletMultiSmoke() {
       await page.evaluate(() => localStorage.setItem('test-recovery-quota', 'disabled'));
       await page.reload(); await page.locator('#daily-practice:visible').waitFor();
       assert.equal((await store(page)).booklets[1].status, 'submitted');
-      await daily(page, '?subject=3');
+      await enterBooklet(page, BASE, 3, 'recovery-S3');
       await page.locator('#daily-submitted:visible').waitFor();
       const restored = await store(page); const saved = await attempts(page);
       assert.equal(restored.booklets[0].questions[0].choice, 'C'); assert.equal(restored.booklets[1].status, 'submitted'); assert.equal(restored.current[3], null);
@@ -422,7 +451,7 @@ export async function runDailyBookletMultiSmoke() {
     await run(15, '兩科提交中皆恢復且不重複作答', async (ctx, actual) => {
       const data = recoveryFixture(true);
       const page = await seed(ctx, { [BOOKLET]: data, [ATTEMPTS]: { version: 1, attempts: [] } });
-      await daily(page, '?subject=1');
+      await enterBooklet(page, BASE, 1, 'recovery-S1');
       await page.locator('#daily-submitted:visible').waitFor();
       const restored = await store(page); const saved = await attempts(page);
       assert.deepEqual(restored.booklets.map((b) => b.status), ['submitted', 'submitted']);
@@ -430,7 +459,7 @@ export async function runDailyBookletMultiSmoke() {
       for (const [index, b] of restored.booklets.entries()) assert.deepEqual(b.submission, data.booklets[index].submission);
       assert.deepEqual(saved, data.booklets.flatMap((b) => b.submission.attempts)); assert.equal(new Set(saved.map((a) => a.id)).size, 4);
       const completed = await raw(page); const savedRaw = await raw(page, ATTEMPTS);
-      await daily(page, '?subject=3'); await page.locator('#daily-submitted:visible').waitFor();
+      await enterBooklet(page, BASE, 3, 'recovery-S3'); await page.locator('#daily-submitted:visible').waitFor();
       assert.equal(await raw(page), completed); assert.equal(await raw(page, ATTEMPTS), savedRaw);
       Object.assign(actual, { submittedSubjects: [1, 3], attempts: 4, uniqueAttemptIds: 4, duplicateAttempts: 0 });
     });
@@ -444,7 +473,7 @@ export async function runDailyBookletMultiSmoke() {
           return originalSetItem.call(this, name, value);
         };
       }, ATTEMPTS);
-      await recoveryDaily(page, 1);
+      await enterBooklet(page, BASE, 1, 'recovery-S1');
       assert.equal(await page.locator('#daily-save-error:visible').count(), 1);
       assert.equal(await page.locator('#daily-retry:visible').count(), 1);
       assert.equal(await page.locator('#daily-discard').isVisible(), false, '提交中恢復失敗不能放棄');
@@ -462,8 +491,8 @@ export async function runDailyBookletMultiSmoke() {
         // 每種變更各用 2 個新頁；延後通知以測到確認當下的儲存層檢查。
         const a = await seed(ctx, { [BOOKLET]: fixture.data });
         await a.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation(), true));
-        await daily(a);
-        const b = await ctx.newPage(); await b.clock.install(); await daily(b);
+        await enterBooklet(a, BASE, 1, fixture.booklet.id);
+        const b = await ctx.newPage(); await b.clock.install(); await enterBooklet(b, BASE, 1, fixture.booklet.id);
         await a.locator('#daily-discard').click();
         if (change === 'answer') await choose(b, 'A');
         else {
@@ -484,12 +513,13 @@ export async function runDailyBookletMultiSmoke() {
 
     await run(18, 'A 放棄後，B 保存被拒且不復活題本', async (ctx, actual) => {
       const fixture = seedBooklet(mock, answerMap);
-      const a = await seed(ctx, { [BOOKLET]: fixture.data }); await daily(a);
+      const a = await seed(ctx, { [BOOKLET]: fixture.data }); await enterBooklet(a, BASE, 1, fixture.booklet.id);
       const b = await ctx.newPage();
       await b.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation(), true));
-      await daily(b);
+      await enterBooklet(b, BASE, 1, fixture.booklet.id);
       await a.locator('#daily-discard').click(); await a.locator('#daily-discard-confirm').click();
-      await a.locator('#daily-empty:visible').waitFor();
+      await a.waitForURL((url) => !url.searchParams.has('book'));
+      await waitCatalog(a);
       const before = await raw(a);
       await choose(b, 'B'); await readonly(b);
       await b.evaluate(() => window.dispatchEvent(new Event('pagehide')));
@@ -498,9 +528,54 @@ export async function runDailyBookletMultiSmoke() {
       Object.assign(actual, { tabs: 2, deleted: 1, staleSaveRejected: true, resurrected: 0, newKeyRetained: true });
     });
 
+    await run(19, '放棄的 storage 通知使同本另一頁唯讀', async (ctx, actual) => {
+      const fixture = seedBooklet(mock, answerMap);
+      const a = await seed(ctx, { [BOOKLET]: fixture.data, [ATTEMPTS]: { version: 1, attempts: [] } });
+      await enterBooklet(a, BASE, 1, fixture.booklet.id);
+      const b = await ctx.newPage(); await enterBooklet(b, BASE, 1, fixture.booklet.id);
+      const savedAttempts = await raw(a, ATTEMPTS);
+      await a.locator('#daily-discard').click(); await a.locator('#daily-discard-confirm').click();
+      await a.waitForURL((url) => !url.searchParams.has('book'));
+      await waitCatalog(a); await readonly(b);
+      const before = await raw(a);
+      // 不攔截 storage 事件；即使強制重送舊頁事件，也不能復活題本。
+      await b.evaluate(() => {
+        document.querySelector('#daily-cards input').dispatchEvent(new Event('change', { bubbles: true }));
+        window.dispatchEvent(new Event('pagehide'));
+      });
+      assert.equal(await raw(a), before); assert.equal((await store(a)).booklets.length, 0);
+      assert.equal(await raw(a, ATTEMPTS), savedAttempts);
+      assert.equal(await a.locator('[data-open-subject="1"]').count(), 1);
+      Object.assign(actual, { tabs: 2, deleted: 1, readonlyByStorage: true, resurrected: 0, attemptsUnchanged: true });
+    });
+
+    await run(20, '交卷的 storage 通知使同本另一頁唯讀', async (ctx, actual) => {
+      const fixture = seedBooklet(mock, answerMap);
+      // 預先放入 2 題草稿答案，讓衝突由交卷觸發，而非先前的選答觸發。
+      for (const q of fixture.booklet.questions) q.choice = answerMap.get(q.id);
+      const a = await seed(ctx, { [BOOKLET]: fixture.data, [ATTEMPTS]: { version: 1, attempts: [] } });
+      await enterBooklet(a, BASE, 1, fixture.booklet.id);
+      const b = await ctx.newPage(); await enterBooklet(b, BASE, 1, fixture.booklet.id);
+      assert.equal(await b.locator('#daily-save-error').isVisible(), false);
+      await submit(a); await readonly(b);
+      assert.equal(new URL(a.url()).searchParams.get('book'), fixture.booklet.id);
+      assert.equal(await a.locator('#daily-readonly:visible').count(), 1);
+      const before = await snapshot(a);
+      await b.locator('#daily-submit').evaluate((button) => button.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+      await b.evaluate(() => window.dispatchEvent(new Event('pagehide')));
+      assert.deepEqual(await snapshot(a), before);
+      const saved = await attempts(a);
+      assert.equal(saved.length, 2); assert.equal(new Set(saved.map((item) => item.id)).size, 2);
+      assert.equal((await store(a)).booklets[0].status, 'submitted');
+      await backToCatalog(a);
+      await a.locator(`#daily-directory-1 [data-booklet-id="${fixture.booklet.id}"]`).filter({ hasText: '回看檢討' }).waitFor();
+      Object.assign(actual, { tabs: 2, readonlyByStorage: true, submittedAttempts: 2, duplicateAttempts: 0, staleWrites: 0, reviewLink: true });
+    });
+
     report.passed = report.cases.filter((item) => item.success).length;
     report.failed = report.cases.filter((item) => !item.success).length;
-    report.exitCode = report.passed === 18 && report.errors.length === 0 ? 0 : 1;
+    report.total = report.cases.length;
+    report.exitCode = report.total > 0 && report.failed === 0 && report.errors.length === 0 ? 0 : 1;
   } catch (error) { report.fatal = String(error.stack ?? error); }
   finally {
     if (browser) await browser.close();
@@ -513,6 +588,6 @@ export async function runDailyBookletMultiSmoke() {
 
 // 匯入只取得函式，讓協調者能組合其他驗收而不意外啟動服務或瀏覽器。
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  runDailyBookletMultiSmoke().then((report) => { console.log(`report: ${resolve(report.output, 'report.json')}; passed=${report.passed ?? 0}/18; browserErrors=${report.browserErrors}; exitCode=${report.exitCode}`); process.exitCode = report.exitCode; })
+  runDailyBookletMultiSmoke().then((report) => { console.log(`report: ${resolve(report.output, 'report.json')}; passed=${report.passed ?? 0}/${report.cases.length}; browserErrors=${report.browserErrors}; exitCode=${report.exitCode}`); process.exitCode = report.exitCode; })
     .catch((error) => { console.error(error); process.exitCode = 1; });
 }

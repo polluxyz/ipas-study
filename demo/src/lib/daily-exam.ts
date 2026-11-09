@@ -1,4 +1,4 @@
-/** 每日交卷與放棄資格共用純狀態規則，讓畫面與儲存採用相同判斷。 */
+/** 每日題本共用純狀態規則，讓畫面、網址與儲存採用相同判斷。 */
 import type { Attempt, Booklet, BookletStore, DailyDraft, DailyDraftQuestion, DailySet } from './attempts';
 import { dailyMode, taipeiDate, type DailyExclusions, type DailyQuestion, type DailySubject, type DuplicateGroups } from './daily';
 
@@ -122,16 +122,42 @@ export type BookletPageState =
   | { kind: 'blocked' }
   | { kind: 'exhausted' };
 
+/** 舊資料可能有多本未交卷；優先採用 current，失效時依編號接續。 */
+function currentUnfinishedBooklet(store: BookletStore, subject: DailySubject): Booklet | undefined {
+  const unfinished = store.booklets.filter((booklet) => booklet.subject === subject &&
+    (booklet.status === 'open' || booklet.status === 'submitting')).sort((a, b) => a.number - b.number);
+  return unfinished.find((booklet) => booklet.id === store.current[subject]) ?? unfinished[0];
+}
+
 export function bookletPageState(store: BookletStore, subject: DailySubject, free: number | null, catalog: readonly DailyQuestion[]): BookletPageState {
   const booklets = store.booklets.filter((booklet) => booklet.subject === subject).sort((a, b) => a.number - b.number);
-  const unfinished = booklets.filter((booklet) => booklet.status === 'open' || booklet.status === 'submitting');
-  const current = unfinished.find((booklet) => booklet.id === store.current[subject]) ?? unfinished[0];
+  const current = currentUnfinishedBooklet(store, subject);
   if (current) return { kind: bookletNeedsRetire(current, catalog) ? 'retire' : 'resume', booklet: current };
   // 無法讀取作答時，未知題量不能當作 0，也不能據此開本。
   const next = free === null ? null : Math.min(50, free);
   if (booklets.length) return { kind: 'review', booklet: booklets[booklets.length - 1], next };
   if (next === null) return { kind: 'blocked' };
   return next > 0 ? { kind: 'first', next } : { kind: 'exhausted' };
+}
+
+export type DailyRoute =
+  | { kind: 'catalog' }
+  | { kind: 'missing'; reason: 'not-found' | 'subject-mismatch' | 'not-current' }
+  | { kind: 'review'; booklet: Booklet }
+  | { kind: 'retired'; booklet: Booklet }
+  | { kind: 'retire'; booklet: Booklet }
+  | { kind: 'resume'; booklet: Booklet };
+
+/** 接續與回看只依題本判斷，作答紀錄損壞也不能阻擋既有題本。 */
+export function dailyRoute(store: BookletStore, subject: DailySubject, bookId: string | null, catalog: readonly DailyQuestion[]): DailyRoute {
+  if (bookId === null) return { kind: 'catalog' };
+  const booklet = store.booklets.find((booklet) => booklet.id === bookId);
+  if (!booklet) return { kind: 'missing', reason: 'not-found' };
+  if (booklet.subject !== subject) return { kind: 'missing', reason: 'subject-mismatch' };
+  if (booklet.status === 'submitted') return { kind: 'review', booklet };
+  if (booklet.status === 'retired') return { kind: 'retired', booklet };
+  if (currentUnfinishedBooklet(store, subject)?.id !== booklet.id) return { kind: 'missing', reason: 'not-current' };
+  return { kind: bookletNeedsRetire(booklet, catalog) ? 'retire' : 'resume', booklet };
 }
 
 export function bookletOpenLabel(hasBooklets: boolean, next: number | null): string | null {
@@ -166,6 +192,35 @@ export function bookletProgress(store: BookletStore, subject: DailySubject, toda
   const todaySubmitted = store.booklets.reduce((sum, booklet) => sum + (booklet.subject === subject && booklet.status === 'submitted' &&
     booklet.submission && taipeiDate(new Date(booklet.submission.ts)) === today ? booklet.submission.total : 0), 0);
   return { answered, total, todaySubmitted, fullBooks: free?.fullBooks ?? null, lastBook: free?.lastBook ?? null };
+}
+
+export type CatalogRow = BookletRow & { action: 'resume' | 'retire' | 'review' | null };
+export interface CatalogSection {
+  rows: CatalogRow[];
+  todaySubmitted: number;
+  fullBooks: number | null;
+  lastBook: number | null;
+  open: { kind: 'none'; reason: 'unfinished' | 'blocked' | 'exhausted' } | { kind: 'button'; label: string; next: number };
+}
+
+/** 非有效題本不給接續動作，避免異常資料繞過同科只作答一本的規則。 */
+export function catalogSection(store: BookletStore, subject: DailySubject, today: string, free: { free: number; fullBooks: number; lastBook: number } | null): CatalogSection {
+  const current = currentUnfinishedBooklet(store, subject);
+  const rows = bookletRows(store, subject).reverse().map((row): CatalogRow => ({
+    ...row,
+    action: row.statusLabel === '已交卷' ? 'review' : row.id !== current?.id ? null :
+      row.statusLabel === '需結束' ? 'retire' : row.statusLabel === '作答中' ? 'resume' : null,
+  }));
+  const { todaySubmitted, fullBooks, lastBook } = bookletProgress(store, subject, today, free);
+  let open: CatalogSection['open'];
+  if (current) open = { kind: 'none', reason: 'unfinished' };
+  else if (free === null) open = { kind: 'none', reason: 'blocked' };
+  else {
+    const next = Math.min(50, free.free);
+    open = next === 0 ? { kind: 'none', reason: 'exhausted' } :
+      { kind: 'button', label: bookletOpenLabel(rows.length > 0, next)!, next };
+  }
+  return { rows, todaySubmitted, fullBooks, lastBook, open };
 }
 
 export interface LegacyRecord { mode: string; date: string; subject: DailySubject; answered: number; correct: number; }
