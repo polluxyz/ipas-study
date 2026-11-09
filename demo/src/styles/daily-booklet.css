@@ -46,6 +46,12 @@
 .booklet-legacy-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; font-size: 12px; }
 .booklet-legacy > p { margin-top: 10px !important; color: var(--muted); font-size: 12px; }
 .daily-booklet .daily-grid { margin-top: 14px !important; }
+/* 題本操作獨立成列，保留作答工具列與後續題本操作的空間。 */
+.booklet-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; }
+.booklet-history-toggle { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--green); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.booklet-history-toggle:hover { color: var(--ink); }
+.booklet-history-toggle:focus-visible { outline: 2px solid var(--exam-focus); outline-offset: 3px; border-radius: 3px; }
+.booklet-tools:not([hidden]) + .booklet-history { margin-block: 8px 20px !important; }
 .daily-booklet .daily-legend b { font-weight: 400; margin: 0; line-height: 1.5; }
 .daily-booklet .daily-legend i { flex-shrink: 0; margin: 0; }
 .booklet-footer { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 32px !important; }

@@ -36,6 +36,14 @@ export async function initDaily(): Promise<void> {
   let cards: HTMLElement[] = [];
   let timer: number | undefined;
   let saveTimer: number | undefined;
+  // 清單只保留本頁狀態，重新整理或切科都從收起開始。
+  let historyExpanded = false;
+  const historyToggle = element<HTMLButtonElement>('history-toggle');
+  const showHistory = (expanded: boolean) => {
+    historyExpanded = expanded;
+    historyToggle.setAttribute('aria-expanded', String(expanded));
+    element('history').hidden = !expanded;
+  };
   const error = (cause: unknown, action: 'save' | 'open' | 'retire' = 'save', retry?: () => void) => {
     failed = true;
     retryAction = retry;
@@ -146,13 +154,27 @@ export async function initDaily(): Promise<void> {
       for (const value of values) { const cell = document.createElement('div'); cell.setAttribute('role', head ? 'columnheader' : 'cell'); cell.append(value); row.append(cell); } rows.append(row);
     };
     const historyRows = bookletRows(store, subject).reverse();
-    element('history').hidden = answering || historyRows.length === 0;
+    const canToggleHistory = answering && historyRows.length > 0;
+    element('booklet-tools').hidden = !canToggleHistory;
+    if (!canToggleHistory) historyExpanded = false;
+    historyToggle.setAttribute('aria-expanded', String(historyExpanded));
+    element('history').hidden = historyRows.length === 0 || (answering && !historyExpanded);
+    // 作答時把清單放在開關旁，避免展開後還要穿過整份題目才能找到。
+    if (answering) element('practice').before(element('history'));
+    else element('practice').after(element('history'));
     if (historyRows.length) appendRow(['題本／建立日期', '狀態', '題數', '作答結果', '操作'], true);
     for (const row of historyRows) {
       const name = document.createElement('div'); name.append(Object.assign(document.createElement('strong'), { textContent: '第 ' + row.number + ' 本' }), Object.assign(document.createElement('time'), { textContent: row.createdDate, dateTime: row.createdDate }));
       const status = document.createElement('span'); status.className = 'booklet-status' + (row.answered !== undefined ? ' is-open' : ''); status.textContent = row.statusLabel;
       let action: string | HTMLElement = '';
-      if (row.canReview || row.answered !== undefined) { const link = document.createElement('a'); link.className = 'booklet-row-action'; link.href = row.canReview ? currentUrl(row.id) : currentUrl(); link.textContent = row.canReview ? '回看檢討 →' : row.total === 0 ? '前往結束題本 →' : '繼續作答 →'; action = link; }
+      if (row.canReview || row.answered !== undefined) {
+        const link = document.createElement('a'); link.className = 'booklet-row-action'; link.href = row.canReview ? currentUrl(row.id) : currentUrl(); link.textContent = row.canReview ? '回看檢討 →' : row.total === 0 ? '前往結束題本 →' : '繼續作答 →';
+        if (answering && row.id === draft?.id && !row.canReview) link.addEventListener('click', (event) => {
+          // 回到正在作答的同一本只收合清單，不重新載入或重啟計時。
+          event.preventDefault(); showHistory(false); historyToggle.focus({ preventScroll: true });
+        });
+        action = link;
+      }
       appendRow([name, status, row.total + ' 題', row.correct !== undefined ? '答對 ' + row.correct + '／' + row.total : row.answered !== undefined ? '已答 ' + row.answered + '／' + row.total : '', action], false, row.id === store.current[subject]);
     }
     const records = legacyRecords(store, readAttempts() ?? []);
@@ -285,6 +307,7 @@ export async function initDaily(): Promise<void> {
     const q = draft!.questions[draft!.position]; if (q.legacyAttemptId) return;
     settle(); q.choice = input.value as Choice; persist(); displayCards(); render();
   });
+  historyToggle.addEventListener('click', () => showHistory(!historyExpanded));
   unsure.addEventListener('click', () => { const q = draft?.questions[draft.position]; if (!editable() || !q?.choice) return; settle(); q.unsure = !q.unsure; persist(); render(); });
   submit.addEventListener('click', () => {
     if (!draft) return;
