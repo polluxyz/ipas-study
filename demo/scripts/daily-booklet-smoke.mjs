@@ -83,9 +83,11 @@ async function expectDeferred(page) {
 
 async function expectAnswerFocus(page) {
   assert.equal(await page.locator('#daily-current').count(), 0, '已移除目前題本卡片');
-  for (const selector of ['#daily-history', '#daily-legacy-records']) {
-    assert.equal(await page.locator(selector).isVisible(), false, `作答中隱藏 ${selector}`);
-  }
+  assert.equal(await page.locator('#daily-history').isVisible(), false, '作答中清單預設收起');
+  assert.equal(await page.locator('#daily-history-toggle').isVisible(), true, '作答中保留題本清單開關');
+  assert.equal(await page.locator('#daily-history-toggle').getAttribute('aria-expanded'), 'false');
+  assert.equal(await page.locator('#daily-history-toggle').getAttribute('aria-controls'), 'daily-history');
+  assert.equal(await page.locator('#daily-legacy-records').isVisible(), false, '作答中隱藏舊紀錄');
   for (const selector of ['#daily-date', '#daily-metrics', '.daily-subjects', '#daily-practice']) {
     assert.equal(await page.locator(selector).isVisible(), true, `作答中保留 ${selector}`);
   }
@@ -529,6 +531,7 @@ export async function runDailyBookletSmoke() {
       assert.equal(await page.locator('#daily-history').isVisible(), true);
       assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
       assert.equal(await page.locator('#daily-legacy-rows .booklet-legacy-row').count(), 1);
+      assert.equal(await page.locator('#daily-history-toggle').isVisible(), false);
       await page.evaluate(() => { document.documentElement.dataset.theme = 'light'; });
       await page.evaluate(() => document.fonts.ready);
       actual.submittedScreenshot = resolve(output, 'submitted-1440-light-full.png');
@@ -540,7 +543,76 @@ export async function runDailyBookletSmoke() {
       assert.equal(await page.locator('#daily-readonly').isVisible(), true);
       assert.equal(await page.locator('#daily-history').isVisible(), true);
       assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
+      assert.equal(await page.locator('#daily-history-toggle').isVisible(), false);
       Object.assign(actual, { firstNumber: 1, hiddenBeforeAndAfterReload: true, legacyRecords: 1, dateUnchanged: true, submittedWithoutReload: true, reviewHistoryVisible: true, reviewLegacyVisible: true, viewingWithOpenBook: true });
+    });
+
+    await runCase(14, '題本清單可收合且同本繼續作答不重載', async (context, actual) => {
+      const page = await newPage(context);
+      const previous = booklet(pool(1).slice(0, 2), answers, { id: 'list-previous', number: 1, status: 'submitted', answered: 2 });
+      const current = booklet(pool(1).slice(2, 4), answers, { id: 'list-current', number: 2 });
+      const other = booklet(pool(3).slice(0, 2), answers, { id: 'list-other', number: 1, subject: 3 });
+      const q = pool(1)[4];
+      const legacy = { id: 'list-legacy', qid: q.id, rev: q.rev, choice: answers.get(q.id), correct: true, ts: NOW, mode: `daily:${YESTERDAY}:S1`, ms: 1000 };
+      await seed(page, { [BOOK]: { ...emptyStore(), current: { '1': current.id, '3': other.id }, booklets: [previous, current, other] }, [ATT]: { version: 1, attempts: [...previous.submission.attempts, legacy] } });
+      await go(page); await expectAnswerFocus(page);
+      await page.clock.pauseAt(new Date(Date.parse(NOW) + 60_000));
+      const toggle = page.locator('#daily-history-toggle'); const history = page.locator('#daily-history');
+      const before = await snapshot(page); const url = page.url();
+      await page.evaluate(() => { window.listLoaded = true; });
+      await toggle.click();
+      assert.equal(await history.isVisible(), true);
+      assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
+      assert.equal(await page.locator('#daily-current').count(), 0);
+      assert.equal(await page.locator('#daily-legacy-records').isVisible(), false);
+      await toggle.click(); await expectAnswerFocus(page);
+      await toggle.focus(); await page.keyboard.press('Enter');
+      assert.equal(await history.isVisible(), true);
+      assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
+      await page.keyboard.press('Space'); await expectAnswerFocus(page);
+      await toggle.click();
+      const beforeTime = await page.locator('#daily-time').innerText();
+      await history.getByRole('link', { name: '繼續作答 →' }).click();
+      await expectAnswerFocus(page);
+      assert.equal(await toggle.evaluate((element) => document.activeElement === element), true);
+      assert.equal(page.url(), url);
+      assert.equal(await page.evaluate(() => window.listLoaded), true, '同本連結不重新載入');
+      assert.deepEqual(await snapshot(page), before, '清單開關與同本連結不寫入任何儲存鍵');
+      await page.clock.runFor(2000);
+      assert.notEqual(await page.locator('#daily-time').innerText(), beforeTime, '同本連結後計時持續');
+      await toggle.click(); await reload(page); await expectAnswerFocus(page);
+      await toggle.click();
+      await page.locator('[data-daily-subject="3"]').click(); await ready(page); await expectAnswerFocus(page);
+      await page.locator('[data-daily-subject="1"]').click(); await ready(page); await expectAnswerFocus(page);
+      actual.screenshots = [];
+      for (const [width, theme] of [[1440, 'light'], [390, 'light'], [320, 'dark']]) {
+        await page.setViewportSize({ width, height: width === 1440 ? 900 : 700 });
+        await page.evaluate((theme) => { document.documentElement.dataset.theme = theme; }, theme);
+        await page.evaluate(() => document.fonts.ready);
+        for (const expanded of [false, true]) {
+          if ((await toggle.getAttribute('aria-expanded') === 'true') !== expanded) await toggle.click();
+          assert.equal(await history.isVisible(), expanded);
+          assert.equal(await toggle.getAttribute('aria-expanded'), String(expanded));
+          assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth), 0);
+          await page.evaluate(() => window.scrollTo(0, 0));
+          const file = resolve(output, `list-${expanded ? 'expanded' : 'collapsed'}-${width}-${theme}-full.png`);
+          await page.screenshot({ path: file, fullPage: true }); actual.screenshots.push(file);
+        }
+      }
+      await answer(page);
+      assert.equal(await history.isVisible(), true, '保存答案後保留清單狀態');
+      assert.equal(await toggle.getAttribute('aria-expanded'), 'true');
+      await history.getByRole('link', { name: '回看檢討 →' }).click(); await expectScore(page, 2, 2);
+      assert.equal(await history.isVisible(), true);
+      assert.equal(await toggle.isVisible(), false);
+      assert.equal(await page.locator('#daily-readonly').isVisible(), true);
+      await page.locator('#daily-return').click(); await ready(page); await expectAnswerFocus(page);
+      assert.equal((await currentBook(page)).questions[0].choice, answers.get(current.questions[0].id));
+      await page.locator('#daily-next').click(); await answer(page); await submit(page); await expectScore(page, 2, 2);
+      assert.equal(await history.isVisible(), true);
+      assert.equal(await toggle.isVisible(), false);
+      assert.equal(await page.locator('#daily-legacy-records').isVisible(), true);
+      Object.assign(actual, { keyboardEnter: true, keyboardSpace: true, storageUnchangedByToggle: true, sameBookReloaded: false, timerContinued: true, collapsedAfterReload: true, collapsedAfterSubjectChange: true, oldReviewAccessible: true, expandedSurvivesAnswer: true, submittedHistoryVisible: true });
     });
 
     // 全失效畫面另外造資料，確認「結束」保留分配紀錄且不寫作答。
@@ -581,7 +653,8 @@ export async function runDailyBookletSmoke() {
       } catch (error) { measurement.status = 'failed'; measurement.failure = String(error.stack ?? error); }
       finally { await closeContext(context); }
     }
-    assert.equal(report.cases.length, 13);
+    assert.equal(report.cases.length, 14);
+    assert.equal(report.cases.find((entry) => entry.id === 14)?.actual.screenshots?.length, 6, '清單收合與展開各 3 張全頁截圖');
     assert.equal(report.screenshots.filter((s) => !s.fullPage).length, 36, '36張目前視窗截圖');
     assert.equal(report.screenshots.filter((s) => s.fullPage).length, 7, '7張全頁截圖');
     report.maxHorizontalOverflow = Math.max(...report.measurements.map((m) => m.overflow ?? 0));
@@ -594,7 +667,7 @@ export async function runDailyBookletSmoke() {
     report.summary = { casesPassed: report.cases.filter((c) => c.status === 'passed').length, casesFailed: report.cases.filter((c) => c.status === 'failed').length,
       viewportScreenshots: report.screenshots.filter((s) => !s.fullPage).length, fullPageScreenshots: report.screenshots.filter((s) => s.fullPage).length,
       layoutsFailed: report.measurements.filter((m) => m.status === 'failed').length, browserErrors: report.errors.length, requestFailures: report.requestFailures.length };
-    report.exitCode = !report.fatal && report.summary.casesPassed === 13 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 36 && report.summary.fullPageScreenshots === 7 && report.errors.length === 0 && report.requestFailures.length === 0 ? 0 : 1;
+    report.exitCode = !report.fatal && report.summary.casesPassed === 14 && report.summary.layoutsFailed === 0 && report.summary.viewportScreenshots === 36 && report.summary.fullPageScreenshots === 7 && report.errors.length === 0 && report.requestFailures.length === 0 ? 0 : 1;
     await writeFile(resolve(output, 'report.json'), JSON.stringify(report, null, 2));
   }
   return report;
