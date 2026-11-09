@@ -1,11 +1,11 @@
-/** 每日狀態與持久化的正反例，特別驗證交卷每一步失敗後沿用同一批 ID。 */
+/** 每日狀態與持久化的正反例，確保交卷可重試、放棄只釋出安全解除的分配。 */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { clearStudyData, DailyConflictError, DRAFT_KEY, exportAttempts, getAttempts, getDailyDrafts, getWrongBook, importAttempts, isDailyDraft, saveAttemptBatch, saveDailyDraft, submitDailyDraft, type Attempt, type DailyDraft, type DailySet } from './attempts';
 import { availableDailyQuestion, availableDailySet, canOpenToday, createDailyDraft, dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition, dailySource, dailySubjectStatus, prepareDailySubmission, reconcileDailyDraft } from './daily-exam';
 import { unseenDailyQuestions } from './daily';
-import { isBooklet, type Booklet, type BookletStore } from './attempts';
-import { bookletAttemptMode, bookletExclusions, bookletNeedsRetire, bookletOpenLabel, bookletPageState, bookletPartialNote, bookletProgramNotice, bookletProgress, bookletRows, createBooklet, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
-import { eligibleDailyQuestions, type DailyQuestion } from './daily';
+import { BOOKLET_KEY, discardBooklet, isBooklet, type Booklet, type BookletStore } from './attempts';
+import { bookletAttemptMode, bookletExclusions, bookletNeedsRetire, bookletOpenLabel, bookletPageState, bookletPartialNote, bookletProgramNotice, bookletProgress, bookletRows, canDiscardBooklet, createBooklet, legacyRecords, prepareBookletSubmission, reconcileBooklet } from './daily-exam';
+import { dailyFreeCount, eligibleDailyQuestions, type DailyQuestion } from './daily';
 const set: DailySet = { date: '2026-11-05', subject: 1, questions: Array.from({ length: 5 }, (_, index) => ({ id: `q${index}`, rev: 2 })) };
 const attempt = (overrides: Partial<Attempt> = {}): Attempt => ({ id: 'old', qid: 'q0', rev: 2, choice: 'A', correct: true, ts: '2026-11-05T03:00:00Z', mode: 'daily:2026-11-05:S1', ms: 200, ...overrides });
 const make = () => createDailyDraft(set, [], false, 'draft1');
@@ -227,6 +227,72 @@ const makeBooklet = (overrides: Partial<Booklet> = {}): Booklet => ({
 });
 const answeredBooklet = (overrides: Partial<Booklet> = {}): Booklet => makeBooklet({
   questions: set.questions.map((q) => ({ ...q, choice: 'A', unsure: false, ms: 321 })), ...overrides,
+});
+
+describe('放棄資格的共用純規則', () => {
+  it.each(['new', 'v1-draft', 'v1-set'] as const)('來源 %s 的未答題本有用時也可放棄，輸入不變', (origin) => {
+    const book = makeBooklet({ origin, questions: set.questions.map((q) => ({ ...q, choice: null, unsure: false, ms: 321 })) });
+    const before = structuredClone(book);
+    expect(canDiscardBooklet(book)).toBe(true); expect(book).toEqual(before);
+    expect(storage.size).toBe(0);
+  });
+  it.each(['submitting', 'submitted', 'retired'] as const)('狀態 %s 即使未答也不可放棄', (status) => {
+    expect(canDiscardBooklet(makeBooklet({ status }))).toBe(false);
+  });
+  it('open 帶提交內容不可放棄', () => {
+    const book = makeBooklet({ submission: { ts: '2026-11-05T03:00:00Z', attempts: [], total: 5, correct: 0 } });
+    expect(canDiscardBooklet(book)).toBe(false);
+  });
+  it('只選 1 題不可放棄', () => {
+    const book = makeBooklet(); book.questions[4].choice = 'A';
+    expect(canDiscardBooklet(book)).toBe(false);
+  });
+  it('未選答案但有 legacyAttemptId 也拒絕，避免只依答案判斷', () => {
+    const book = makeBooklet(); book.questions[0].legacyAttemptId = 'locked';
+    expect(canDiscardBooklet(book)).toBe(false);
+  });
+  it.each([
+    { label: '0 題', assignedQids: ['q0'], ids: [] },
+    { label: '空分配與空題目', assignedQids: [], ids: [] },
+    { label: '略過題', assignedQids: ['q0', 'q1'], ids: ['q1'] },
+    { label: '多餘題', assignedQids: ['q0'], ids: ['q0', 'q1'] },
+    { label: '順序不同', assignedQids: ['q0', 'q1'], ids: ['q1', 'q0'] },
+    { label: 'ID 不同', assignedQids: ['q0', 'q1'], ids: ['q0', 'q2'] },
+  ])('$label 不符合完整分配順序', ({ assignedQids, ids }) => {
+    const book = makeBooklet({ assignedQids, questions: ids.map((id) => ({ id, rev: 2, choice: null, unsure: false, ms: 0 })) });
+    expect(canDiscardBooklet(book)).toBe(false);
+  });
+  it('1 題且分配相同可放棄', () => {
+    expect(canDiscardBooklet(makeBooklet({ assignedQids: ['q0'], questions: [makeBooklet().questions[0]] }))).toBe(true);
+  });
+});
+
+describe('放棄後題目回池', () => {
+  it('重算兩科題量，釋出本題與跨科同題成員，仍排除已作答與其他題本', () => {
+    const groups = [['q0', 'cross0'], ['q1', 'cross1'], ['q2', 'cross2']];
+    const cross = ['cross0', 'cross1', 'cross2'].map((id) => ({ ...catalog[0], id, subject: 3, codes: ['L23101'] }));
+    const questions = [...catalog, ...cross];
+    const discarded = makeBooklet({ assignedQids: ['q0', 'q1', 'q2'], questions: makeBooklet().questions.slice(0, 3) });
+    const retained = makeBooklet({ id: 'retained', attemptMode: 'booklet:retained:S1', number: 2, status: 'retired',
+      assignedQids: ['q2'], questions: [makeBooklet().questions[2]] });
+    const records = [attempt({ qid: 'q1' })];
+    const before = bookletStore([discarded, retained], { '1': 'book1', '3': null });
+    storage.set(BOOKLET_KEY, JSON.stringify(before));
+    const oldExclusions = bookletExclusions(before, groups);
+    expect([...oldExclusions.assignedQids]).toEqual(['q0', 'q1', 'q2']);
+    expect(eligibleDailyQuestions(questions, records, 1, oldExclusions).map((q) => q.id)).toEqual(['q3', 'q4']);
+    expect(eligibleDailyQuestions(questions, records, 3, oldExclusions)).toEqual([]);
+    expect(dailyFreeCount(questions, records, 1, oldExclusions)).toEqual({ free: 2, fullBooks: 0, lastBook: 2 });
+    expect(dailyFreeCount(questions, records, 3, oldExclusions)).toEqual({ free: 0, fullBooks: 0, lastBook: 0 });
+    const after = discardBooklet(discarded);
+    const exclusions = bookletExclusions(after, groups);
+    expect([...exclusions.assignedQids]).toEqual(['q2']);
+    expect(eligibleDailyQuestions(questions, records, 1, exclusions).map((q) => q.id)).toEqual(['q0', 'q3', 'q4']);
+    expect(eligibleDailyQuestions(questions, records, 3, exclusions).map((q) => q.id)).toEqual(['cross0']);
+    expect(dailyFreeCount(questions, records, 1, exclusions)).toEqual({ free: 3, fullBooks: 0, lastBook: 3 });
+    expect(dailyFreeCount(questions, records, 3, exclusions)).toEqual({ free: 1, fullBooks: 0, lastBook: 1 });
+    expect(records).toEqual([attempt({ qid: 'q1' })]);
+  });
 });
 
 describe('不足 50 題的題本說明', () => {

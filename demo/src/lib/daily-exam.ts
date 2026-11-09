@@ -1,4 +1,4 @@
-/** 每日交卷與題本的純狀態規則；資料來源、舊作答與題號狀態不依賴畫面或儲存。 */
+/** 每日交卷與放棄資格共用純狀態規則，讓畫面與儲存採用相同判斷。 */
 import type { Attempt, Booklet, BookletStore, DailyDraft, DailyDraftQuestion, DailySet } from './attempts';
 import { dailyMode, taipeiDate, type DailyExclusions, type DailyQuestion, type DailySubject, type DuplicateGroups } from './daily';
 
@@ -72,6 +72,13 @@ export function prepareDailySubmission(draft: DailyDraft, answers: ReadonlyMap<s
 
 /** 新題本用身份組合作答模式，同日開多本時不會混在一起。 */
 export function bookletAttemptMode(id: string, subject: DailySubject): string { return `booklet:${id}:S${subject}`; }
+
+/** 略過題目可能曾作答，必須完整保留原分配順序才能安全解除分配；用時不算作答。 */
+export function canDiscardBooklet(booklet: Booklet): boolean {
+  return booklet.status === 'open' && booklet.submission === undefined && booklet.questions.length > 0 &&
+    booklet.questions.length === booklet.assignedQids.length &&
+    booklet.questions.every((q, index) => q.choice === null && q.legacyAttemptId === undefined && q.id === booklet.assignedQids[index]);
+}
 
 /** 所有分配過的題都占用名額，略過失效題或結束題本也不釋出。 */
 export function bookletExclusions(store: BookletStore, groups: DuplicateGroups): DailyExclusions {

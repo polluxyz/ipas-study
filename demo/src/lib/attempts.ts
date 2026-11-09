@@ -1,5 +1,6 @@
-/** 作答與閱讀紀錄集中經此介面進出；備份合併閱讀狀態，舊版作答備份仍可匯入。 */
+/** 作答、閱讀與題本經此介面進出，讓保存與放棄都先保護最新資料。 */
 import revisionIndex from '../data/revisions.json';
+import { canDiscardBooklet } from './daily-exam';
 export type Choice = 'A' | 'B' | 'C' | 'D';
 export interface Attempt { id: string; qid: string; rev: number; choice: Choice; correct: boolean; ts: string; mode: string; ms: number; }
 export const STORAGE_KEY = 'ipas-attempts-v1';
@@ -346,6 +347,18 @@ export function retireBooklet(booklet: Booklet, expected: BookletRef): Booklet {
   const store = assertBookletCurrent(expected);
   if (booklet.status !== 'open' || store.booklets.find((b) => b.id === expected.id)?.status !== 'open') throw new BookletStoreError();
   return saveBooklet({ ...booklet, status: 'retired' }, expected);
+}
+/** 只刪除最新且未答的題本；保留空 store，避免舊鍵重新遷移讓題本復活。 */
+export function discardBooklet(expected: BookletRef): BookletStore {
+  const store = assertBookletCurrent(expected);
+  const booklet = store.booklets.find((b) => b.id === expected.id)!;
+  if (!canDiscardBooklet(booklet)) throw new BookletStoreError();
+  const booklets = store.booklets.filter((b) => b.id !== expected.id);
+  const currentId = booklets.filter((b) => b.subject === expected.subject && unfinished(b))
+    .sort((a, b) => a.number - b.number)[0]?.id ?? null;
+  const saved: BookletStore = { ...store, booklets, current: { ...store.current, [expected.subject]: currentId } };
+  writeBookletStore(saved);
+  return saved;
 }
 /** 遷移必須讀全部日期；與舊讀取介面分開，空字串也視為資料損壞。 */
 export function readAllDailySets(): DailySet[] {
