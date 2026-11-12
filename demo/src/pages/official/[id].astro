@@ -41,18 +41,22 @@ const catalog = { id: set.id, title: set.title, subject: set.subject, session: s
     </section>
     <dialog id="official-dialog" class="exam-dialog" aria-labelledby="official-dialog-heading" aria-describedby="official-dialog-description"><h2 id="official-dialog-heading">確認交卷？</h2><p id="official-dialog-description" class="exam-dialog-description">交卷後不能改答，將顯示本輪結果。</p><p id="official-dialog-count" class="exam-dialog-count"></p><div class="exam-dialog-actions"><button id="official-cancel" class="button secondary" type="button" autofocus>返回作答</button><button id="official-confirm" class="button primary" type="button">確認交卷</button></div></dialog>
     <dialog id="official-restart-dialog" class="exam-dialog" aria-labelledby="official-restart-heading" aria-describedby="official-restart-description"><h2 id="official-restart-heading">重新考這一輪？</h2><p id="official-restart-description" class="exam-dialog-description">這輪的答案、不確定標記與用時會刪除，無法找回；已交卷的輪次與舊紀錄不變。</p><div class="exam-dialog-actions"><button id="official-restart-cancel" class="button secondary" type="button" autofocus>取消，繼續作答</button><button id="official-restart-confirm" class="button primary" type="button">確認重新考</button></div></dialog>
-  </div> : <>
+  </div> : <div class="official-guide exam-layout">
   <p class="lead">依原題順序完整練習。爭議題保留說明，依官方答案計分。</p>
   <div class="button-row"><a href="/official/">← 全部官方題組</a><a href="/wrong-book/">查看錯題本 →</a></div>
-  <p id="official-status" role="status">正在準備官方題組…</p>
-  <section id="official-practice" hidden aria-label="官方題組練習">
-    <div class="quiz-progress"><div><span id="official-progress"></span><span id="official-time">累計用時 0 分 0 秒</span></div><progress id="official-progress-bar" max={set.questions.length || 1} value="0" aria-label="官方題組作答進度"></progress></div>
-    <p id="official-position" class="muted"></p>
-    <div id="official-cards">{set.questions.map((question) => <QuestionCard question={question} titles={titles} unit={units.get(question.codes[0])} mode={set.mode} hidden />)}</div>
-    <div class="button-row official-navigation"><button class="button secondary" id="official-previous" type="button">← 上一題</button><button class="button primary" id="official-next" type="button">下一題 →</button></div>
-    <p id="official-complete" role="status"></p>
+  <p id="official-status" class="exam-status" role="status">正在準備官方題組…</p>
+  <section id="official-practice" class="exam-grid" hidden aria-label="指引練習題">
+    <section class="exam-toolbar" aria-label="指引練習進度">
+      <div class="exam-toolbar-main"><strong id="official-position" class="exam-position"></strong><span id="official-time" class="exam-time" aria-live="off">累計用時 0 分 0 秒</span></div>
+      <div class="exam-progress-copy"><span id="official-progress"></span></div>
+      <progress id="official-progress-bar" class="exam-progress-bar" max={set.questions.length || 1} value="0" aria-label="官方題組作答進度"></progress>
+    </section>
+    <details id="official-panel" class="exam-panel"><summary aria-expanded="false" aria-controls="official-panel-content">題號快速選單<span id="official-panel-toggle">展開</span></summary><div id="official-panel-content" class="exam-panel-content"><h2>題號快速選單</h2><nav id="official-numbers" class="exam-numbers" aria-label="題號快速選單"></nav><div class="exam-legend"><span><i data-status="correct" aria-hidden="true"></i>答對</span><span><i data-status="wrong" aria-hidden="true"></i>答錯</span><span><i data-status="unanswered" aria-hidden="true"></i>未答</span><span><i class="guide-current" aria-hidden="true"></i>目前題</span></div><p class="muted">雙線框是目前題目。確認作答後才開放下一題。</p></div></details>
+    <section class="exam-paper" aria-labelledby="official-question-heading"><h2 id="official-question-heading" class="exam-question-heading" tabindex="-1"></h2><div id="official-cards">{set.questions.map((question) => <QuestionCard question={question} titles={titles} unit={units.get(question.codes[0])} mode={set.mode} hidden />)}</div></section>
+    <div class="exam-actions" aria-label="題目操作"><button class="button secondary" id="official-previous" type="button">← 上一題</button><div class="exam-forward"><button class="button primary" id="official-next" type="button">下一題 →</button></div></div>
   </section>
-  </>}
+  <p id="official-complete" class="exam-status" role="status"></p>
+  </div>}
   <noscript><p>官方練習需要 JavaScript 才能逐題作答及保存進度。請啟用 JavaScript 後重新整理。</p></noscript>
   <script type="application/json" id="official-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\u003c')}></script>
 </StudyPage>
@@ -70,4 +74,8 @@ const catalog = { id: set.id, title: set.title, subject: set.subject, session: s
   .official-navigation { margin-block: 1.5rem; }
   #official-status, #official-progress { overflow-wrap: anywhere; }
   @media (max-width: 40rem) { .quiz-progress > div { flex-direction: column; align-items: start; gap: .4rem; } }
+  .official-guide > .button-row { margin-block: 18px !important; }
+  .official-guide .exam-toolbar { grid-template-columns: minmax(0, 1fr); }
+  .official-guide .guide-current { box-shadow: 0 0 0 1px var(--paper), 0 0 0 3px var(--exam-focus); }
+  .official-guide #official-complete { margin-top: 16px !important; }
 </style>
