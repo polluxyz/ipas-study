@@ -860,10 +860,10 @@ export async function runDailyExamSmoke() {
       const ctx = await context({ viewport: { width, height: 1000 } }); const page = await ctx.newPage();
       await page.goto(base + '/official/'); await page.locator('#official-catalog').waitFor({ state: 'attached' }); await screenshot(page, `official-index-${width}`);
       const qid = questions.find((q) => q.source === 'exam').id;
-      for (const [name, path] of [['official', '/official/115-1-S3/'], ['quiz', '/quiz/'], ['question', `/questions/${qid}/`]]) {
+      for (const [name, path] of [['official', '/official/guide-S3/'], ['quiz', '/quiz/'], ['question', `/questions/${qid}/`]]) {
         if (!selected(`instant-${name}`)) continue;
         await page.goto(base + path); const card = page.locator('[data-question]:visible').first(); await card.waitFor();
-        const before = await getAttempts(page); const expected = { qid: await card.getAttribute('data-qid'), choice: 'A', mode: name === 'official' ? 'official:115-1:S3' : name === 'quiz' ? 'quiz' : 'question' };
+        const before = await getAttempts(page); const expected = { qid: await card.getAttribute('data-qid'), choice: 'A', mode: name === 'official' ? 'official:guide:S3' : name === 'quiz' ? 'quiz' : 'question' };
         if (process.env.DAILY_EXAM_FAULT_INSTANT === name) await page.evaluate(() => { const original = Storage.prototype.setItem; Storage.prototype.setItem = function(key, raw) { if (key === 'ipas-attempts-v1') return; return original.call(this, key, raw); }; });
         await card.locator('input[value="A"]').check(); await card.locator('button[type="submit"]').click(); await card.locator('[data-explanation]').waitFor();
         const after = await getAttempts(page); const previousIds = new Set(before.map((a) => a.id)); const added = after.filter((a) => !previousIds.has(a.id));
@@ -873,13 +873,14 @@ export async function runDailyExamSmoke() {
         assert.deepEqual({ qid: added[0].qid, choice: added[0].choice, mode: added[0].mode }, expected);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
         const alignment = await page.evaluate(() => {
-          const row = document.querySelector('.daily-navigation, .official-navigation') ?? document.querySelector('#official-previous')?.parentElement;
+          const row = document.querySelector('.daily-navigation, .official-guide .exam-actions');
           const controls = row ? [...row.querySelectorAll('button')].map((b) => b.getBoundingClientRect().top) : [];
           const action = document.querySelector('[data-question]:not([hidden]) .answer-actions');
           const rects = action ? [...action.children].map((e) => e.getBoundingClientRect()) : [];
           const centers = rects.map((r) => r.top + r.height / 2);
-          return { delta: controls.length ? Math.max(...controls) - Math.min(...controls) : 0, actionCenterDelta: centers.length ? Math.max(...centers) - Math.min(...centers) : 0, childMargins: action ? [...action.children].map((e) => getComputedStyle(e).marginTop) : [] };
+          return { controls: controls.length, delta: controls.length ? Math.max(...controls) - Math.min(...controls) : 0, actionCenterDelta: centers.length ? Math.max(...centers) - Math.min(...centers) : 0, childMargins: action ? [...action.children].map((e) => getComputedStyle(e).marginTop) : [] };
         });
+        if (name === 'official') assert.equal(alignment.controls, 2, '量測上一題與下一題按鈕');
         assert.ok(alignment.delta <= 1); assert.ok(alignment.actionCenterDelta <= 1); assert.ok(alignment.childMargins.every((margin) => margin === '0px'));
         if (width !== 375) await screenshot(page, `${name}-${width}`);
         report.cases.push({ name: `instant-${name}`, width, ...alignment });

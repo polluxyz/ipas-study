@@ -297,24 +297,34 @@ export async function runDailyBookletMultiSmoke() {
 
     await run(8, '官方題 6 份題組回歸', async (ctx, actual) => {
       const page = await ctx.newPage(); await page.goto(BASE + '/official/');
-      await page.locator('#official-status').filter({ hasText: '各份題組分開計算進度' }).waitFor();
-      const initial = await page.locator('[data-official-set] [id^="progress-"]').allTextContents(); assert.equal(initial.length, 6);
-      for (const text of initial) assert.match(text, /^已答 0／\d+ 題・答對 0 題$/);
+      await page.locator('#official-status').filter({ hasText: '各份題組分開記錄' }).waitFor();
+      const setIds = ['114-2-S1', '114-2-S3', '115-1-S1', '115-1-S3', 'guide-S1', 'guide-S3'];
+      assert.deepEqual((await page.locator('[data-official-set]').evaluateAll((cards) => cards.map((card) => card.dataset.officialSet))).sort(), setIds);
+      const initial = await page.locator('[data-official-set]').allTextContents(); assert.equal(initial.length, 6);
+      assert.equal(await page.locator('[aria-labelledby="official-heading-exam"] [data-official-set]').count(), 4);
+      assert.equal(await page.locator('[aria-labelledby="official-heading-guide"] [data-official-set]').count(), 2);
+      for (const id of setIds.slice(0, 4)) assert.equal(await page.locator('#action-' + id).innerText(), '開始第 1 輪');
+      for (const id of setIds.slice(4)) assert.match(await page.locator('#progress-' + id).innerText(), /^已答 0／\d+ 題・答對 0 題$/);
       await openNewBooklet(page, BASE, 1); await assertFirstBook(page);
       const booklet = (await store(page)).booklets[0]; assert.equal(booklet.questions.length, 50);
       assert.equal(booklet.questions.filter((q) => catalog.find((item) => item.id === q.id)?.source !== 'mock').length, 0);
       await answerAll(page); await submit(page);
-      await page.goto(BASE + '/official/'); await page.locator('#official-status').filter({ hasText: '各份題組分開計算進度' }).waitFor();
-      assert.deepEqual(await page.locator('[data-official-set] [id^="progress-"]').allTextContents(), initial);
-      await page.goto(BASE + '/official/115-1-S3/'); await page.locator('#official-progress').filter({ hasText: '已答 0／50' }).waitFor();
+      await page.goto(BASE + '/official/'); await page.locator('#official-status').filter({ hasText: '各份題組分開記錄' }).waitFor();
+      assert.deepEqual(await page.locator('[data-official-set]').allTextContents(), initial);
+      const roundsBefore = await raw(page, 'ipas-official-rounds-v1');
+      await page.goto(BASE + '/official/115-1-S3/'); await page.locator('#official-round-action button').filter({ hasText: '開始第 1 輪' }).waitFor();
+      assert.equal(await raw(page, 'ipas-official-rounds-v1'), roundsBefore);
+      await page.goto(BASE + '/official/guide-S3/'); await page.locator('#official-progress').filter({ hasText: '已答 0／' }).waitFor();
+      const total = await page.locator('#official-cards [data-question]').count();
+      const progress = `已答 1／${total} 題・答對 1 題`;
       const officialCard = card(page, 'official'); const qid = await officialCard.getAttribute('data-qid');
       await choose(page, await officialCard.getAttribute('data-answer'), 'official'); await officialCard.locator('button[type="submit"]').click();
-      assert.equal(await page.locator('#official-progress').innerText(), '已答 1／50 題・答對 1 題・換算分數 2 分');
-      await page.reload(); await page.locator('#official-progress').filter({ hasText: '已答 1／50 題・答對 1 題・換算分數 2 分' }).waitFor();
-      await page.goto(BASE + '/official/115-1-S3/?position=1'); assert.equal(await card(page, 'official').getAttribute('data-qid'), qid);
+      assert.equal(await page.locator('#official-progress').innerText(), progress);
+      await page.reload(); await page.locator('#official-progress').filter({ hasText: progress }).waitFor();
+      await page.goto(BASE + '/official/guide-S3/?position=1'); assert.equal(await card(page, 'official').getAttribute('data-qid'), qid);
       await card(page, 'official').locator('[data-explanation]:visible').waitFor();
       assert.equal((await attempts(page)).length, 51);
-      Object.assign(actual, { officialSets: 6, affectedSetsByBooklet: 0, nonMockBookletQuestions: 0, officialDone: 1, officialCorrect: 1, officialScore: 2, restoredDone: 1, totalAttempts: 51, initialProgress: initial });
+      Object.assign(actual, { officialSets: 6, affectedSetsByBooklet: 0, nonMockBookletQuestions: 0, officialDone: 1, officialCorrect: 1, officialScore: null, guideQuestions: total, roundsUnchangedOnOpen: true, restoredDone: 1, totalAttempts: 51, initialProgress: initial });
     });
 
     await run(9, '一般測驗及錯題篩選回歸', async (ctx, actual) => {
