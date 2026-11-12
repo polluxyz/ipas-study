@@ -22,11 +22,20 @@ function read(): Attempt[] {
   if (!data || typeof data !== 'object' || !('version' in data) || data.version !== 1 || !('attempts' in data) || !Array.isArray(data.attempts)) throw new Error('作答紀錄格式無法辨識，目前無法匯出備份。');
   return data.attempts.filter(isAttempt);
 }
+/** 寫入前須驗證全部既有紀錄，避免容錯讀取略過的損壞項目被刪除。 */
+function readForWrite(): Attempt[] {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw === null) return [];
+  const data: unknown = JSON.parse(raw);
+  if (!data || typeof data !== 'object' || !('version' in data) || data.version !== 1 || !('attempts' in data) || !Array.isArray(data.attempts)) throw new Error('作答紀錄格式無法辨識，已保留原資料並停止寫入。');
+  if (!data.attempts.every(isAttempt)) throw new Error('作答紀錄有損壞項目，已保留原資料並停止寫入。');
+  return data.attempts;
+}
 function write(attempts: Attempt[]): void { localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, attempts })); }
 export function saveAttempt(a: Omit<Attempt, 'id'>): Attempt {
   const attempt = { ...a, id: crypto.randomUUID() };
   if (!isAttempt(attempt)) throw new Error('作答紀錄欄位不完整。');
-  write([...read(), attempt]); return attempt;
+  write([...readForWrite(), attempt]); return attempt;
 }
 export function getAttempts(filter?: { qid?: string }): Attempt[] { return read().filter((a) => !filter?.qid || a.qid === filter.qid); }
 export function getWrongBook(): { qid: string; lastAttempt: Attempt; outdated: boolean }[] {
@@ -68,7 +77,7 @@ export function importAttempts(json: string): { added: number; skipped: number; 
   try { data = JSON.parse(json); } catch { return { ...result, invalid: 1 }; }
   if (!data || typeof data !== 'object' || !('attempts' in data) || !Array.isArray(data.attempts)) return { ...result, invalid: 1 };
   if (!('version' in data) || data.version !== 1) return { ...result, invalid: Math.max(1, data.attempts.length) };
-  const attempts = read(); const ids = new Set(attempts.map((a) => a.id));
+  const attempts = readForWrite(); const ids = new Set(attempts.map((a) => a.id));
   for (const value of data.attempts) {
     if (!isAttempt(value)) { result.invalid++; continue; }
     if (ids.has(value.id)) { result.skipped++; continue; }
@@ -208,7 +217,7 @@ export function saveDailyDraft(draft: DailyDraft, expected: Pick<DailyDraft, 'id
 /** 整批先驗證再合併，只寫一次；固定 ID 讓交卷重試不增加紀錄。 */
 export function saveAttemptBatch(batch: readonly Attempt[]): void {
   if (!batch.every(isAttempt)) throw new Error('整批作答欄位不完整。');
-  const attempts = read();
+  const attempts = readForWrite();
   const byId = new Map(attempts.map((a) => [a.id, a]));
   for (const attempt of batch) {
     const existing = byId.get(attempt.id);
@@ -411,8 +420,8 @@ function isOfficialRound(value: unknown): value is OfficialRound {
     value.attemptMode !== `official-round:${value.id}:S${value.subject}` ||
     !['open', 'submitting', 'submitted'].includes(String(value.status)) || !Array.isArray(value.questions)) return false;
   const prefix = `${value.setId}-Q`;
-  if (!value.questions.every((q: unknown) => record(q) && typeof q.id === 'string' && q.id.startsWith(prefix) &&
-    /^\d+$/.test(q.id.slice(prefix.length)) && Number.isSafeInteger(q.rev) && !('legacyAttemptId' in q) &&
+  if (!value.questions.every((q: unknown) => record(q) && typeof q.id === 'string' && q.id.startsWith(prefix) && q.id.length === prefix.length + 2 &&
+    /^(?:0[1-9]|[1-4][0-9]|50)$/.test(q.id.slice(prefix.length)) && Number.isSafeInteger(q.rev) && !('legacyAttemptId' in q) &&
     (!('correct' in q) || (value.status !== 'open' && typeof q.correct === 'boolean')))) return false;
   if (value.status === 'open' && 'submission' in value) return false;
   return isDraftContent(value, value.status === 'open', value.attemptMode);

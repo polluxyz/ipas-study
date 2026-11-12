@@ -1,11 +1,44 @@
 /** 驗證紀錄生命週期、版本辨識與部分無效的備份匯入，避免錯題本遺漏。 */
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 vi.mock('../data/revisions.json', () => ({ default: { '115-1-S3-Q44': 2, '115-1-S3-Q45': 1 } }));
-import { saveAttempt, getAttempts, getWrongBook, exportAttempts, importAttempts, getReadings, setConceptRead, saveDailySet, getDailySet, type Attempt } from './attempts';
+import { saveAttempt, saveAttemptBatch, STORAGE_KEY, getAttempts, getWrongBook, exportAttempts, importAttempts, getReadings, setConceptRead, saveDailySet, getDailySet, type Attempt } from './attempts';
 function attempt(overrides: Partial<Omit<Attempt, 'id'>> = {}): Omit<Attempt, 'id'> { return { qid: '115-1-S3-Q44', rev: 2, choice: 'A', correct: false, ts: '2026-10-30T10:00:00Z', mode: 'code:L23303', ms: 1200, ...overrides }; }
 beforeEach(() => {
   const data = new Map<string, string>();
   vi.stubGlobal('localStorage', { getItem: (key: string) => data.get(key) ?? null, setItem: (key: string, value: string) => data.set(key, value) });
+});
+describe('寫入前保護損壞作答紀錄', () => {
+  it.each([
+    ['saveAttempt', () => saveAttempt(attempt())],
+    ['importAttempts', () => importAttempts(JSON.stringify({ version: 1, attempts: [{ ...attempt(), id: 'imported' }],
+      readings: [{ conceptId: 'data-leakage', ts: '2026-11-01T10:00:00Z' }] }))],
+    ['saveAttemptBatch', () => saveAttemptBatch([{ ...attempt(), id: 'batch' }])],
+  ] as const)('%s 遇到損壞項目時丟錯，作答與閱讀原字串不變且不寫入', (_name, save) => {
+    const raw = JSON.stringify({ version: 1, attempts: [
+      { ...attempt(), id: 'valid' }, { ...attempt(), id: 'damaged', ms: '10' },
+    ] }, null, 2);
+    const readingRaw = '{ "version": 1, "readings": [{ "conceptId": "data-leakage", "ts": "2026-10-30T10:00:00Z" }] }';
+    localStorage.setItem(STORAGE_KEY, raw); localStorage.setItem('ipas-reading-v1', readingRaw);
+    const setItem = vi.spyOn(localStorage, 'setItem');
+    expect(save).toThrow('作答紀錄有損壞項目，已保留原資料並停止寫入。');
+    expect(localStorage.getItem(STORAGE_KEY)).toBe(raw);
+    expect(localStorage.getItem('ipas-reading-v1')).toBe(readingRaw);
+    expect(setItem).not.toHaveBeenCalled();
+  });
+  it('唯讀查詢與匯出仍略過損壞項目，原字串不變', () => {
+    const valid = { ...attempt(), id: 'valid' };
+    const raw = JSON.stringify({ version: 1, attempts: [valid, { ...valid, id: 'damaged', ms: '10' }] }, null, 2);
+    localStorage.setItem(STORAGE_KEY, raw); const setItem = vi.spyOn(localStorage, 'setItem');
+    expect(getAttempts()).toEqual([valid]);
+    expect(getWrongBook()).toEqual([{ qid: valid.qid, lastAttempt: valid, outdated: false }]);
+    expect(JSON.parse(exportAttempts()).attempts).toEqual([valid]);
+    expect(localStorage.getItem(STORAGE_KEY)).toBe(raw); expect(setItem).not.toHaveBeenCalled();
+  });
+  it('合法紀錄可整批新增，保留既有紀錄且重試不重複', () => {
+    const existing = saveAttempt(attempt()); const next = { ...attempt({ correct: true }), id: 'batch' };
+    saveAttemptBatch([next]); expect(getAttempts()).toEqual([existing, next]);
+    saveAttemptBatch([next]); expect(getAttempts()).toEqual([existing, next]);
+  });
 });
 describe('閱讀紀錄與備份相容性', () => {
   it('標記與取消已讀，同一概念不產生重複紀錄', () => { setConceptRead('data-leakage', true); setConceptRead('data-leakage', true); expect(getReadings()).toHaveLength(1); setConceptRead('data-leakage', false); expect(getReadings()).toEqual([]); });
