@@ -44,11 +44,11 @@ v2 到 v3：使用者指定按鈕位置，並核可第 3 輪 mockup 與第 9 項
 
 | # | 問題 | 定案 |
 |---|---|---|
-| 1 | 套用範圍 | 只改 `/daily/`。`/official/`、`/quiz/`、單題頁維持即時解析 |
+| 1 | 套用範圍 | 只改 `/daily/`。`/quiz/`、單題頁維持即時解析。2026-11-12 修改：`/official/` 的 4 份考古題改成輪次交卷制，指引練習題仍即時解析，見 `docs/specs/official-exam-mode.md` |
 | 2 | 隔天未交卷 | 隔天仍接續同一本。交卷後先留在檢討畫面，可隨時用明確入口開下一本。不做「放棄題組」。細節見 `docs/specs/daily-booklet.md` 第 4 節（2026-11-07 修改） |
 | 3 | 上線當天已答的題 | 鎖定原答案並計分，交卷前收起解析。原 `Attempt` 不改不重寫。畫面註明「部分解析曾顯示」 |
 | 4 | 交卷前的答案 | 存第 2 版新鍵 `ipas-daily-draft-v2`，讀寫只經 `attempts.ts`。交卷才寫 `Attempt`。不進備份檔。清除資料時一併清除。細節見 `docs/specs/daily-booklet.md` 第 6 節（2026-11-07 修改） |
-| 5 | 既有規格 | 修改 `question-bank-expansion.md` 6.2；6.4 官方題即時解析保留 |
+| 5 | 既有規格 | 修改 `question-bank-expansion.md` 6.2；6.4 官方題即時解析保留（2026-11-12 起只限指引練習題，見 `docs/specs/official-exam-mode.md`） |
 | 6 | 多分頁 | 寫入前檢查資料是否已被另一頁更新。已更新就改唯讀並提示重新載入。兩頁同一瞬間寫入的極端情況不另外處理 |
 | 7 | 作答順序 | 目前題目沒選答案，就不能到下一題，也不能跳到後面的題 |
 | 8 | 快速選單 | 只列已答題與目前要作答的題，答一題增加一題。題號不加勾勾等記號，只用顏色 |
@@ -302,7 +302,7 @@ interface DailyDraft {
 | `demo/src/pages/daily.astro` | 資訊層級、右側選單、手機面板、交卷與開今日題組入口 |
 
 - `QuestionSetOptions.exam` 只管換算分數，不可重新解釋為交卷模式。
-- `/official/[id]` 與 `official-client.ts` 不新增功能，只做回歸驗收。
+- `/official/[id]` 與 `official-client.ts` 不新增功能，只做回歸驗收。2026-11-12 修改：考古題輪次交卷制見 `docs/specs/official-exam-mode.md`。
 
 ---
 
@@ -314,7 +314,7 @@ interface DailyDraft {
 | 故障（Vitest） | 第 4.2 節每一步故意失敗再重試，新增筆數與 ID 不變；保存失敗時既有作答內容逐位元不變 |
 | 瀏覽器（Playwright） | 沒選答案不能到下一題、網址不能跳到未到達的題、選單逐題增加、未答完不能交卷、改答、Enter、不確定、交卷確認的取消與確定、交卷後鎖定、重新整理後檢討 |
 | 多頁生命週期（Playwright） | 關閉後重開、跨日切科、瀏覽器返回、2 頁競爭、匯入與清除後舊頁續寫 |
-| 回歸與版面（Playwright） | `/official/`、`/quiz/`、單題頁仍即時解析；同列按鈕上緣差不超過 1px；320／375／1440 無水平溢出；暗色模式；鍵盤操作 |
+| 回歸與版面（Playwright） | 指引練習題、`/quiz/`、單題頁仍即時解析（2026-11-12 起考古題改交卷制）；同列按鈕上緣差不超過 1px；320／375／1440 無水平溢出；暗色模式；鍵盤操作 |
 
 - 瀏覽器測試放 `demo/scripts/daily-exam-smoke.mjs`，用 `node` 對建置結果執行。不改 CI，不改 `package.json`。
 - 跨日用 Playwright 的 `page.clock` 控制時間。
@@ -342,7 +342,7 @@ interface DailyDraft {
 6. 跨日未交卷時，舊題組與答案完整保留；切換科目不會覆蓋。交卷後才開得了今日題組。
 7. 交卷前，錯題本、未做題判斷、匯出檔內容都不因草稿改變。
 8. 第 6.1 節 4 個問題都解決：同列按鈕上緣差不超過 1px；不再有重複說明。
-9. `/official/`、`/quiz/`、單題頁仍即時解析。
+9. 指引練習題、`/quiz/`、單題頁仍即時解析。2026-11-12 起考古題改交卷制，見 `docs/specs/official-exam-mode.md`。
 10. `pnpm --dir demo test`、`node demo/scripts/check-textbook/cli.mjs --summary`、`pnpm --dir demo run build --force`、`node demo/scripts/daily-exam-smoke.mjs` 全過。
 11. 目前題目沒選答案時，「下一題」、不確定鈕、網址參數都無法前進或標記；未答完不能交卷。
 12. `/daily/` 的按鈕位置符合第 6.5 節全部門檻：2 科、寬度 320／375／390／1440、未答完／答完／交卷後都要量。
