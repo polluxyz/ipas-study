@@ -89,6 +89,16 @@ describe('輪次驗證規則 4：題目識別與欄位', () => {
     expect(isOfficialRoundStore(storeOf(make({ questions: [make().questions[1]] })))).toBe(true);
     expect(isOfficialRoundStore(storeOf(make({ questions: [] })))).toBe(true);
   });
+  it.each(['Q999', 'Q00', 'Q1', 'Q51', 'Q050', 'Q01\n'])('拒絕原考卷題號範圍或位數不符的 %s', (suffix) => {
+    const round = make(); round.questions[0].id = `${round.setId}-${suffix}`;
+    seed(round); unchanged(() => readOfficialRounds());
+    expect(isOfficialRoundStore(storeOf(round))).toBe(false);
+  });
+  it.each(['Q01', 'Q50'])('接受原考卷兩位數題號 %s，不依目前建置題庫判斷', (suffix) => {
+    const round = make(); round.questions[0].id = `${round.setId}-${suffix}`;
+    seed(round); expect(readOfficialRounds()).toEqual(storeOf(round));
+    expect(isOfficialRoundStore(storeOf(round))).toBe(true); expect(setItem).not.toHaveBeenCalled();
+  });
   it.each(['duplicate', 'set', 'suffix', 'legacy', 'rev', 'choice', 'unsure', 'ms', 'count'] as const)('拒絕題目錯誤 %s', (kind) => {
     const round = make();
     if (kind === 'duplicate') round.questions.push(round.questions[0]);
@@ -217,6 +227,29 @@ describe('保存與狀態', () => {
 });
 
 describe('交卷恢復', () => {
+  it('作答含損壞項目時保留 submitting 與原字串，修好後重試成功且不重複作答', () => {
+    const round = make(); seed(round); const prepared = prepare(round);
+    const valid: Attempt = { ...prepared.submission!.attempts[0], id: 'existing' };
+    const damaged = { ...valid, id: 'damaged', ms: '10' };
+    const raw = JSON.stringify({ version: 1, attempts: [valid, damaged] }, null, 2);
+    storage.set(STORAGE_KEY, raw); setItem.mockClear();
+    const failed = submitOfficialRound(round, prepared);
+    expect(failed.error?.message).toBe('作答紀錄有損壞項目，已保留原資料並停止寫入。');
+    expect(failed.round.status).toBe('submitting');
+    expect(readOfficialRounds()).toEqual(storeOf(failed.round));
+    expect(storage.get(STORAGE_KEY)).toBe(raw);
+    expect(setItem.mock.calls.map(([key]) => key)).toEqual([OFFICIAL_ROUND_KEY]);
+    const repaired: Attempt = { ...damaged, ms: 10 };
+    storage.set(STORAGE_KEY, JSON.stringify({ version: 1, attempts: [valid, repaired] }));
+    const pending = readOfficialRounds().rounds[0];
+    const done = submitOfficialRound(pending, pending);
+    expect(done.error).toBeUndefined(); expect(done.round.status).toBe('submitted');
+    expect(done.round.submission).toEqual(prepared.submission);
+    expect(getAttempts()).toEqual([valid, repaired, ...prepared.submission!.attempts]);
+    expect(new Set(getAttempts().map((a) => a.id)).size).toBe(4);
+    const retry = submitOfficialRound(done.round, done.round);
+    expect(retry.error).toBeUndefined(); expect(getAttempts()).toHaveLength(4);
+  });
   it.each([1, 2, 3])('第 %i 次寫入中斷，重載後同 ID 完成，不重複作答', (step) => {
     const round = make(); const other = make({ id: 'other', setId: '114-2-S1' }); seed(round, other);
     const prepared = prepare(round); let writes = 0;

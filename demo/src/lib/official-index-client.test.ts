@@ -7,7 +7,7 @@ import { buildOfficialIndexCards, readOfficialIndexCards } from './official-inde
 
 const ts = '2026-11-12T00:00:00Z';
 const questions: OfficialRoundCatalogQuestion[] = Array.from({ length: 50 }, (_, index) => ({
-  id: `115-1-S3-Q${index + 1}`, rev: 1, number: index + 1, subject: 3, source: 'exam', session: '115-1', review: { status: 'verified' },
+  id: `115-1-S3-Q${String(index + 1).padStart(2, '0')}`, rev: 1, number: index + 1, subject: 3, source: 'exam', session: '115-1', review: { status: 'verified' },
 }));
 const sets = officialSets([...questions, { id: 'guide-S1-01', rev: 1, number: 1, subject: 1, source: 'guide', review: { status: 'verified' } }]);
 const attempt = (qid = questions[0].id, mode = 'official:115-1:S3'): Attempt => ({
