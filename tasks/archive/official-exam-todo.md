@@ -21,7 +21,7 @@
 | F2 輪次頁旗標與焦點 | `demo/src/lib/official-round-client.ts`、`official-round-client.test.ts` | R3：重新考失敗不擋交卷；R5：定時保存不丟題號焦點；T1、T2 smoke 全過 | 完成（`0fb8000`，整合 `668cd27`；11／11、13／13，另 6 項隔離實測） |
 | F3 指引用時 | `QuestionCard.astro`、`question-set-client.ts`、`guide-set.ts`（含測試） | R4：畫面與 `Attempt.ms` 同一來源，重新整理前後一致；其他頁行為不變 | 完成（`77fff18`，整合 `9c8b47f`） |
 | V1 協調者驗收 | 主工作區 | 規格第 12 節逐條有證據；親看截圖；截圖交使用者 | 完成（`9c8b47f`：測試 1476／1476、tsc 0、教材 920／920、照抄 0、建置 1895 頁、6 支 smoke 結束碼 0） |
-| P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完開輪、交卷、回看、重新考 | 待做 |
+| P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完開輪、交卷、回看、重新考 | 完成（#210 合併為 `ef097f8`；4321 已部署；隔離瀏覽器實走通過） |
 
 O1、O2、O3 可平行。O4、O5、O7 要等 O1、O2、O3。O6 要等 O4（共用 `[id].astro` 與 `official-client.ts`）。T0、T1、T2 要等 O4–O7，可平行，共用同一個驗收工作樹的建置產物。
 
