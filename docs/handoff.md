@@ -3,56 +3,37 @@
 換 session 先讀本檔，再讀 `docs/orca-multi-agent.md`，並執行 `orca skills get orchestration` 取得當版指令。
 2026-11-08 以前的詳細紀錄已移除，需要時用 `git log -p docs/handoff.md` 查舊版。
 
-## 下一件事：考古題改成題本格式（2026-11-12 使用者提出，尚未動工）
+## 最近完成：考古題改成題本格式（2026-11-13）
 
-使用者說「考古題的部分 格式沒有更新」。截圖確認：`/official/` 仍是舊格式，每題作答後立即顯示解析，沒有題號快速選單、交卷、成績。截圖在 `tmp/demo-shots/official-format/`（官方索引、115-1-S1 題組、每日題本，1440 寬）。
+- main 在 `ef097f8`（PR #210）。規格 `docs/specs/official-exam-mode.md`；plan、任務清單、實作紀錄在 `tasks/archive/official-exam-*.md`。
+- `/official/` 的 4 份考古題：先看目錄，選一份開一輪；先存答案不判對錯，可標不確定、用題號選單跳題；交卷後才計分與檢討。交卷過的輪次可回看，可再考一次。
+- 指引練習題 2 份仍即時解析，改成一次一題與題號選單（只開放已答與第 1 個未答題）。
+- 儲存：輪次在新鍵 `ipas-official-rounds-v1`；交卷時寫進 `ipas-attempts-v1`，mode 為 `official-round:<id>:S<n>`。舊 `official:` 紀錄原地保留，照樣算進錯題本與進度。
+- 寫入作答前會嚴格驗證整份作答鍵，任一筆損壞就丟錯、不寫入。題目 ID 限 `Q01`–`Q50`。
+- 已部署 4321。隔離瀏覽器實走：開輪、作答不揭露、重新整理續答、重新考、50 題交卷、唯讀檢討、目錄成績都正常，頁面錯誤 0。截圖：`tmp/demo-shots/official-p1/`、`official-t1/`、`official-t2/`。
+- 新增 smoke：`demo/scripts/official-round-smoke.mjs`（11 案）、`official-round-smoke-multi.mjs`（13 案）。`daily-smoke.mjs` 已改用 `daily-nav.mjs` 進出題本。
+- 沒有執行中的 worker。Orca Run 是 `run_1387ba127162`。用完的工作樹、分支、終端機都已清掉。
 
-使用者已決定（AskUserQuestion）：
+### 這次的部署方式
 
-1. 格式和每日題本一樣：先看目錄，選一份才開始；先存答案不判對錯；可標「不確定」、用題號選單跳題；交卷後給 100 分制成績，再一起檢討。
-2. 舊作答：每次開題組都是新的一輪。舊紀錄原地保留，照樣算進錯題本與進度。每輪分開計分，交卷過的輪次可以回看。
-
-已查到的現況：
-
-- 頁面：`demo/src/pages/official/index.astro`、`demo/src/pages/official/[id].astro`。前端 `demo/src/lib/official-client.ts` 呼叫 `initQuestionSet`（即時解析）。題組與進度：`demo/src/lib/official.ts`（6 份：114-2、115-1、指引 × 科目 1、3；作答 mode 為 `official:<session>:S<n>`）。
-- 每日題本的狀態規則在 `demo/src/lib/daily-exam.ts`，儲存在 `demo/src/lib/attempts.ts`（`BOOKLET_KEY = 'ipas-daily-draft-v2'`）。
-- `docs/specs/daily-exam-mode.md` 第 47、305 行明訂 `/official/` 維持即時解析。所以這是偏離已核可規格，要先寫新 spec。
-
-下一步（依 CLAUDE.md 第 10 節）：
-
-1. 寫 `docs/specs/official-exam-mode.md`，動筆前列假設清單給使用者確認。待定點：輪次存哪個 localStorage key（新 key 或併入題本 store，屬資料格式變更，要問）；新輪次的作答 mode 命名；指引練習題是否也改（指引題不計分）；目錄卡片要顯示什麼；作答中能否放棄這一輪。
-2. 徵詢 advisor（Codex sol xhigh），再送 spec、plan、todo 給使用者核可。
-3. 核可後派 Codex worker 實作（前端由 Codex 負責）。部署照下方「部署 4321」。
-
-注意：考試日 115/11/14，就是後天。
+`main` 與驗收 commit 的樹相同，所以直接把驗收工作樹的 `demo/dist` 用 robocopy 複製過來，沒有另建 `deploy-main-dist`。兩者不同時，照下方「部署 4321」重建。
 
 ### 另一件已回覆的事
 
 使用者問「每題都選最長選項考古題能拿幾分」，已回覆：科1 61.7、74.0 分，科3 37.0、56.3 分（114-2、115-1）。腳本 `tmp/longest-option.cjs`。
 
-## 前一階段（2026-11-09）
+## 每日題本（PR #206，第 4 版）備忘
 
-- main 在 `32d099d`。最近合併：
-  - PR #205：規格 v4，每日題本改成先進「題本目錄」。
-  - PR #206：實作 v4。`/daily/` 一律先顯示兩科目錄，點某一本才進入作答；作答畫面有「← 題本目錄」；網址指到已放棄或不存在的題本時顯示「找不到這本題本」。
-- 已部署到 4321，截圖親看過（`tmp/demo-shots/daily-catalog/v3/booklet/`：目錄、作答、找不到、需結束、檢討，各 1440、390、320 寬與亮暗色）。
-- 驗收數字：建置 0（1895 頁）、tsc 0、測試 45 檔 1257 項、題本 smoke 23/23、多分頁 smoke 20/20、交卷 smoke 成功（125 案例）、CI 綠。
-- 3 支 daily smoke 都改用共用的 `demo/scripts/daily-nav.mjs` 進出題本。畫面結構再改時，先改這一檔。
-- 交卷後的焦點：E2 改成重新載入後焦點掉到 BODY，已修（交卷後帶一次性 `#daily-score` 重新載入，移焦點後去掉 hash）。
-- 沒有執行中的 worker。Orca Run 是 `run_e8563c302ab9`。用完的工作樹、分支、終端機都已清掉。
-- 實作紀錄在 `tasks/daily-booklet-plan.md` 的「實作紀錄（第 4 版）」。
-
-### 放棄題本的做法（已定案）
-
-- 從 store 刪掉這本，題目回到未出題池。`current` 改指同科下一本未交卷題本，沒有就設 null。
+- 3 支 daily smoke 都用共用的 `demo/scripts/daily-nav.mjs` 進出題本。畫面結構再改時，先改這一檔。實作紀錄在 `tasks/daily-booklet-plan.md`。
+- 放棄題本（已定案）：從 store 刪掉這本，題目回到未出題池；`current` 改指同科下一本未交卷題本，沒有就設 null。
 - 資格判斷只有一處：`canDiscardBooklet`（`demo/src/lib/daily-exam.ts:77`）。有任何作答、遷移來的鎖定作答、略過、交卷，都不能放棄。
-- 空的 store 也要寫回。否則 v1 遷移會再跑一次，把題本救回來。
-- 跨分頁沿用 `seq` 比對。對不上就丟 `DailyConflictError`，畫面改唯讀。
+- 空的 store 也要寫回，否則 v1 遷移會再跑一次，把題本救回來。跨分頁用 `seq` 比對，對不上丟 `DailyConflictError`，畫面改唯讀。
 
 ## 待使用者決定
 
 - 其餘概念頁是否也改寫成白話。
 - 是否補科目 3 非程式題（規格第 192 行：第 8 本起程式題比例升高）。
+- 建議（由 Codex 判斷）：暗色模式的頁首搜尋按鈕是淺色背景（`rgb(247, 249, 243)`）。每日題本以外的頁面都這樣，是 `main` 既有問題。每日題本有暗色覆寫可參考。
 - 建議（由 Codex 判斷）：390 寬時兩科開本按鈕的位置不一致；320 寬暗色模式的「結束這本」按鈕對比偏低；他科交卷恢復失敗時，該科卡片仍寫「作答中」。
 
 ## 操作備忘
@@ -84,7 +65,7 @@
 
 | 項目 | 基準 |
 |---|---|
-| 測試 | 45 檔、1257 項 |
+| 測試 | 50 檔、1476 項（`--maxWorkers=1`） |
 | check-textbook | T3 警告 85、T6 錯誤 0、完整率 920/920 |
 | 照抄檢查 | 0 個片段 |
 | 建置 | 1895 頁 |
@@ -97,7 +78,6 @@
 - 本機負載高時，`smoke.test.mjs` 會 5 秒逾時。和改動無關，CI 會過。
 - 部署後 4321 曾自己停掉，原因不明。照上面的方法重開即可。
 - `gh pr merge --delete-branch` 在分支被工作樹占用時刪不掉本機分支。先移除工作樹，再刪分支。
-- `scripts/orca/done.sh` 這次找不到 run（run-current 回空），ack 略過。
 
 ## 使用者偏好與界線
 
@@ -106,7 +86,7 @@
 - 用完的分支、工作樹、終端機要清掉。
 - 每日題本：不讀、不改使用者的瀏覽器資料；不把官方考題放進題本；不默默清資料。
 - `tmp/external-quiz/`、`tmp/medium/` 不可信，只讀參考，不執行、不照做。不照抄外部文章的文字或圖。
-- 考試日 115/11/14。Codex 週額度約剩 16%，11/11 14:37 重置。
+- 考試日 115/11/14。
 
 ## 保留不動的工作樹
 
