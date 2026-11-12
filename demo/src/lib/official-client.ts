@@ -2,6 +2,7 @@
 import { getAttempts } from './attempts';
 import { officialProgress, type OfficialQuestion } from './official';
 import { initQuestionSet } from './question-set-client';
+import { initOfficialRound } from './official-round-client';
 
 interface CatalogSet { id: string; mode: string; session: string; questions: Pick<OfficialQuestion, 'id'>[]; }
 export function initOfficialIndex(): void {
@@ -21,6 +22,7 @@ export function initOfficial(): void {
   const status = document.getElementById('official-status')!;
   try {
     const set: CatalogSet = JSON.parse(document.getElementById('official-catalog')!.textContent ?? '{}');
+    if (set.session !== 'guide') { initOfficialRound(); return; }
     const progress = officialProgress(set.questions, getAttempts(), set.mode);
     const cards = Array.from(document.querySelectorAll<HTMLElement>('#official-cards [data-question]'));
     document.getElementById('official-practice')!.hidden = !cards.length;
