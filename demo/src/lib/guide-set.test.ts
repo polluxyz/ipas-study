@@ -1,6 +1,35 @@
 /** 驗證新作答與不連續舊紀錄的開放範圍，並避免網址繞過確認作答。 */
 import { describe, expect, it } from 'vitest';
-import { guideNext, guideNumbers, guidePosition } from './guide-set';
+import { guideNext, guideNumbers, guidePosition, settleGuideTimer, type GuideTimer } from './guide-set';
+
+describe('指引可見用時', () => {
+  it('隱藏 60 秒不累加，恢復後保存值等於畫面累計', () => {
+    const initial: GuideTimer = { elapsed: 0, questionMs: {}, active: { qid: 'q1', started: 100 } };
+    const hidden = settleGuideTimer(initial, 5100);
+    expect(hidden).toEqual({ elapsed: 5000, questionMs: { q1: 5000 }, active: null });
+    const stillHidden = settleGuideTimer(hidden, 65100);
+    expect(stillHidden).toEqual(hidden);
+    const confirmed = settleGuideTimer({ ...stillHidden, active: { qid: 'q1', started: 65100 } }, 65100);
+    expect(confirmed.elapsed).toBe(confirmed.questionMs.q1);
+    expect(confirmed.questionMs.q1).toBe(5000);
+    expect(initial.questionMs).toEqual({});
+  });
+
+  it('跨題與多個可見片段的總和等於每題保存值', () => {
+    const first = settleGuideTimer({ elapsed: 7000, questionMs: {}, active: { qid: 'q1', started: 0 } }, 1234.4);
+    const resumed = settleGuideTimer({ ...first, active: { qid: 'q1', started: 5000 } }, 6000.4);
+    const next = settleGuideTimer({ ...resumed, active: { qid: 'q2', started: 8000 } }, 10000.6);
+    expect(next.questionMs).toEqual({ q1: 2234, q2: 2001 });
+    expect(next.elapsed).toBe(7000 + next.questionMs.q1 + next.questionMs.q2);
+    expect(settleGuideTimer(next, 99999)).toEqual(next);
+  });
+
+  it('片段用時為非負整數', () => {
+    const timer: GuideTimer = { elapsed: 0, questionMs: {}, active: { qid: 'q1', started: 100 } };
+    expect(settleGuideTimer(timer, 99).questionMs.q1).toBe(0);
+    expect(settleGuideTimer(timer, 101.6).questionMs.q1).toBe(2);
+  });
+});
 
 describe('指引題號選單', () => {
   it.each([

@@ -1,7 +1,7 @@
 /** 題組共用答題還原、逐題導覽與計時；位置放在網址，沿用既有作答儲存。 */
 import type { Attempt } from './attempts';
 import { displayQuestionCard } from './question-card-display';
-import { guideNext, guideNumbers, guidePosition } from './guide-set';
+import { guideNext, guideNumbers, guidePosition, settleGuideTimer, type GuideTimer } from './guide-set';
 
 function restoreCard(card: HTMLElement, attempt: Attempt): void {
   displayQuestionCard(card, { choice: attempt.choice, correct: attempt.correct, locked: true, reveal: true, saved: true });
@@ -61,11 +61,10 @@ export function initQuestionSet(options: QuestionSetOptions): void {
     if (attempt) restoreCard(card, attempt);
   }
   let position = guidePosition(confirmed(), new URL(location.href).searchParams.get('position'));
-  let elapsed = options.elapsed;
-  let segmentStarted: number | null = null;
+  let time: GuideTimer = { elapsed: options.elapsed, questionMs: {}, active: null };
   let navigation: ReturnType<typeof initQuestionNavigation> | undefined;
   const showTime = () => {
-    const ms = elapsed + (segmentStarted === null ? 0 : performance.now() - segmentStarted);
+    const ms = time.elapsed + (time.active === null ? 0 : performance.now() - time.active.started);
     const seconds = Math.floor(ms / 1000);
     text('time', '累計用時 ' + Math.floor(seconds / 60) + ' 分 ' + seconds % 60 + ' 秒');
   };
@@ -93,20 +92,26 @@ export function initQuestionSet(options: QuestionSetOptions): void {
     text('complete', done === cards.length ? '這份題組已完成。可回看解析，或到錯題練習繼續複習。' : '每題確認作答後，立即顯示解析。');
   };
   const settleSegment = () => {
-    if (segmentStarted !== null) elapsed += performance.now() - segmentStarted;
-    segmentStarted = null;
+    time = settleGuideTimer(time, performance.now());
   };
-  document.getElementById(prefix + '-cards')!.addEventListener('question-answered', ((event: CustomEvent<{ qid: string; correct: boolean }>) => {
+  // 題卡保存前同步取得已結算用時；沒有題組的題卡保留自己的計時。
+  document.getElementById(prefix + '-cards')!.addEventListener('question-time-request', ((event: CustomEvent<{ ms?: number }>) => {
+    const card = cards[position];
+    if (event.target !== card || card.dataset.reveal === 'deferred' || answered.has(card.dataset.qid!)) return;
+    settleSegment();
+    event.detail.ms = time.questionMs[card.dataset.qid!] ?? 0;
+  }) as EventListener);
+  document.getElementById(prefix + '-cards')!.addEventListener('question-answered', ((event: CustomEvent<{ qid: string; correct: boolean; ms: number }>) => {
     const card = cards.find((item) => item.dataset.qid === event.detail.qid);
     if (!card) return;
     settleSegment();
     const selected = card.querySelector<HTMLInputElement>('input:checked')!;
-    answered.set(event.detail.qid, { id: '', qid: event.detail.qid, rev: Number(card.dataset.rev), choice: selected.value as Attempt['choice'], correct: event.detail.correct, ts: new Date().toISOString(), mode, ms: 0 });
+    answered.set(event.detail.qid, { id: '', qid: event.detail.qid, rev: Number(card.dataset.rev), choice: selected.value as Attempt['choice'], correct: event.detail.correct, ts: new Date().toISOString(), mode, ms: event.detail.ms });
     updateProgress(); showTime(); options.onAnswered?.();
   }) as EventListener);
   const visibility = () => {
     settleSegment();
-    if (!document.hidden && !answered.has(cards[position].dataset.qid!)) segmentStarted = performance.now();
+    if (!document.hidden && !answered.has(cards[position].dataset.qid!)) time.active = { qid: cards[position].dataset.qid!, started: performance.now() };
     showTime();
   };
   document.addEventListener('visibilitychange', visibility);
@@ -119,7 +124,7 @@ export function initQuestionSet(options: QuestionSetOptions): void {
     nextPosition: (current) => guideNext(confirmed(), current), previousPosition,
     onLeave: settleSegment, onShow: (next) => {
     position = next;
-    segmentStarted = !document.hidden && !answered.has(cards[position].dataset.qid!) ? performance.now() : null;
+    time.active = !document.hidden && !answered.has(cards[position].dataset.qid!) ? { qid: cards[position].dataset.qid!, started: performance.now() } : null;
     updateProgress(); showTime();
   } });
   panel.addEventListener('toggle', () => {
