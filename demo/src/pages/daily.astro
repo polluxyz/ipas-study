@@ -15,7 +15,7 @@ const titles = Object.fromEntries(concepts.map((entry) => [entry.data.id, entry.
 const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
 ---
 <StudyPage title="每日題本" section="每日題本">
-  <div class="daily-exam daily-booklet">
+  <div class="daily-exam daily-booklet exam-layout">
     <a id="daily-back" class="booklet-back" href="/daily/" hidden>← 題本目錄</a>
     <section id="daily-directory" class="booklet-directory" hidden aria-label="題本目錄">
       <div class="booklet-directory-intro"><p class="lead">選一本開始作答，完成後一起檢討。</p><p>每天每科建議 50 題。開本後不會隨日期換題。</p><p class="booklet-local">題本只存在這個瀏覽器的這個網址</p></div>
@@ -23,10 +23,10 @@ const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
       <section id="daily-directory-3" class="booklet-catalog-section" aria-labelledby="daily-directory-heading-3"></section>
     </section>
     <p id="daily-code-note" class="booklet-code-note" data-testid="booklet-code-note" hidden></p>
-    <p id="daily-date" class="muted"></p>
-    <p id="daily-status" role="status">正在讀取題本…</p>
-    <p id="daily-legacy" class="muted" hidden>部分解析曾顯示；已沿用先前作答，計入本次成績。</p>
-    <div id="daily-save-error" role="status" hidden><p id="daily-error-message"></p><button id="daily-retry" class="button secondary" type="button">重試保存</button><a href="" id="daily-reload" hidden>重新載入</a></div>
+    <p id="daily-date" class="muted exam-date"></p>
+    <p id="daily-status" class="exam-status" role="status">正在讀取題本…</p>
+    <p id="daily-legacy" class="muted exam-legacy" hidden>部分解析曾顯示；已沿用先前作答，計入本次成績。</p>
+    <div id="daily-save-error" class="exam-save-error" role="status" hidden><p id="daily-error-message"></p><button id="daily-retry" class="button secondary" type="button">重試保存</button><a href="" id="daily-reload" hidden>重新載入</a></div>
     <aside id="daily-readonly" class="booklet-readonly" data-testid="booklet-readonly" hidden><div><span class="booklet-kicker">回看已交卷題本</span><h2 id="daily-readonly-title"></h2><p>唯讀檢討・不計時・不能改答</p></div></aside>
     <section id="daily-unavailable" class="booklet-empty" hidden><h2 id="daily-unavailable-title"></h2></section>
     <section id="daily-score" class="booklet-result" data-testid="booklet-result" tabindex="-1" aria-label="本次練習結果" hidden>
@@ -35,27 +35,27 @@ const units = new Map(codes.map((entry) => [entry.data.code, entry.data]));
     <section id="daily-retire" class="booklet-empty" data-testid="booklet-retire" hidden><h2>這本已沒有可作答的題目</h2><p>題目已移除或改版，不能交卷。結束後保留題本清單，不新增作答。</p><button id="daily-retire-book" class="button secondary" type="button">結束這本</button></section>
     <p id="daily-partial-note" class="booklet-code-note" hidden></p>
     <div class="booklet-tools"><button id="daily-discard" class="booklet-discard" type="button" hidden>放棄這本</button></div>
-    <section id="daily-practice" class="daily-grid" hidden aria-label="題本作答與檢討">
-      <section class="daily-toolbar" aria-label="題本進度">
-        <div class="daily-toolbar-main"><strong id="daily-position"></strong><span id="daily-time" aria-live="off">累計用時 0:00</span></div>
-        <div class="daily-submission"><button id="daily-submit" class="button primary" type="button" disabled>交卷</button><span id="daily-submitted" hidden>已交卷・僅供檢討</span></div>
-        <div class="daily-progress-copy"><span id="daily-progress"></span><span id="daily-unsure-count"></span></div>
-        <progress id="daily-progress-bar" value="0" max="50" aria-label="已作答題數"></progress>
+    <section id="daily-practice" class="daily-grid exam-grid" hidden aria-label="題本作答與檢討">
+      <section class="daily-toolbar exam-toolbar" aria-label="題本進度">
+        <div class="daily-toolbar-main exam-toolbar-main"><strong id="daily-position" class="exam-position"></strong><span id="daily-time" class="exam-time" aria-live="off">累計用時 0:00</span></div>
+        <div class="daily-submission exam-submission"><button id="daily-submit" class="button primary exam-submit" type="button" disabled>交卷</button><span id="daily-submitted" class="exam-submitted" hidden>已交卷・僅供檢討</span></div>
+        <div class="daily-progress-copy exam-progress-copy"><span id="daily-progress"></span><span id="daily-unsure-count"></span></div>
+        <progress id="daily-progress-bar" class="exam-progress-bar" value="0" max="50" aria-label="已作答題數"></progress>
       </section>
-      <details id="daily-panel" class="daily-panel">
+      <details id="daily-panel" class="daily-panel exam-panel">
         <summary aria-expanded="false" aria-controls="daily-panel-content">題號快速選單<span id="daily-panel-toggle">展開</span></summary>
-        <div id="daily-panel-content"><h2>題號快速選單</h2><nav id="daily-numbers" class="daily-numbers" aria-label="題號快速選單"></nav><div id="daily-legend" class="daily-legend"></div><p class="muted">雙線框是目前題目。點選題號可回看。</p></div>
+        <div id="daily-panel-content" class="exam-panel-content"><h2>題號快速選單</h2><nav id="daily-numbers" class="daily-numbers exam-numbers" aria-label="題號快速選單"></nav><div id="daily-legend" class="daily-legend exam-legend"></div><p class="muted">雙線框是目前題目。點選題號可回看。</p></div>
       </details>
-      <section class="daily-paper" aria-labelledby="daily-question-heading">
-        <h2 id="daily-question-heading" tabindex="-1"></h2>
+      <section class="daily-paper exam-paper" aria-labelledby="daily-question-heading">
+        <h2 id="daily-question-heading" class="exam-question-heading" tabindex="-1"></h2>
         <div id="daily-cards">{verified.map((question) => <QuestionCard question={question} titles={titles} unit={units.get(question.codes[0])} mode="daily" reveal="deferred" hidden />)}</div>
       </section>
-      <div class="daily-actions" aria-label="題目操作"><button class="button secondary" id="daily-previous" type="button">← 上一題</button><div class="daily-forward"><button class="button secondary" id="daily-unsure" type="button" aria-pressed="false" disabled>不確定</button><button class="button primary" id="daily-next" type="button">下一題 →</button></div></div>
+      <div class="daily-actions exam-actions" aria-label="題目操作"><button class="button secondary" id="daily-previous" type="button">← 上一題</button><div class="daily-forward exam-forward"><button class="button secondary exam-unsure" id="daily-unsure" type="button" aria-pressed="false" disabled>不確定</button><button class="button primary" id="daily-next" type="button">下一題 →</button></div></div>
     </section>
     <section id="daily-legacy-records" class="booklet-legacy" data-testid="booklet-legacy" hidden aria-labelledby="daily-legacy-heading"><h3 id="daily-legacy-heading">舊紀錄</h3><div id="daily-legacy-rows"></div><p>未答題清單無法列出；這些題仍在題庫，之後可能抽到。</p></section>
     <footer id="daily-footer" class="booklet-footer" hidden><div><a href="/official/">官方題完整練習</a><a href="/quiz/?wrong=1">另開錯題練習</a><a href="/wrong-book/">錯題本與備份</a></div><p>備份只含作答與已讀紀錄，不含題本清單。清除後再匯入，作答會恢復，題本清單不會恢復。</p></footer>
-    <dialog id="daily-dialog" aria-labelledby="daily-dialog-heading" aria-describedby="daily-dialog-description"><h2 id="daily-dialog-heading">確認交卷？</h2><p id="daily-dialog-description">交卷後不能改答，將顯示本次結果。</p><p id="daily-dialog-count"></p><div class="daily-dialog-actions"><button id="daily-cancel" class="button secondary" type="button" autofocus>返回作答</button><button id="daily-confirm" class="button primary" type="button">確認交卷</button></div></dialog>
-    <dialog id="daily-discard-dialog" class="booklet-discard-dialog" aria-labelledby="daily-discard-heading" aria-describedby="daily-discard-description"><h2 id="daily-discard-heading">放棄這本題本？</h2><div id="daily-discard-description"><p>這本會從題本清單移除。</p><p>題目會解除分配，之後可能再抽到。</p><p>這本的用時不保留，已有的作答紀錄不變。</p></div><div class="daily-dialog-actions"><button id="daily-discard-cancel" class="button secondary" type="button" autofocus>取消，繼續作答</button><button id="daily-discard-confirm" class="button booklet-discard-confirm" type="button">確認放棄這本</button></div></dialog>
+    <dialog id="daily-dialog" class="exam-dialog" aria-labelledby="daily-dialog-heading" aria-describedby="daily-dialog-description"><h2 id="daily-dialog-heading">確認交卷？</h2><p id="daily-dialog-description" class="exam-dialog-description">交卷後不能改答，將顯示本次結果。</p><p id="daily-dialog-count" class="exam-dialog-count"></p><div class="daily-dialog-actions exam-dialog-actions"><button id="daily-cancel" class="button secondary" type="button" autofocus>返回作答</button><button id="daily-confirm" class="button primary" type="button">確認交卷</button></div></dialog>
+    <dialog id="daily-discard-dialog" class="booklet-discard-dialog" aria-labelledby="daily-discard-heading" aria-describedby="daily-discard-description"><h2 id="daily-discard-heading">放棄這本題本？</h2><div id="daily-discard-description"><p>這本會從題本清單移除。</p><p>題目會解除分配，之後可能再抽到。</p><p>這本的用時不保留，已有的作答紀錄不變。</p></div><div class="daily-dialog-actions exam-dialog-actions"><button id="daily-discard-cancel" class="button secondary" type="button" autofocus>取消，繼續作答</button><button id="daily-discard-confirm" class="button booklet-discard-confirm" type="button">確認放棄這本</button></div></dialog>
   </div>
   <noscript><p>每日練習需要 JavaScript 才能建立題本及保存答案。</p></noscript>
   <script type="application/json" id="daily-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\\u003c')}></script>
