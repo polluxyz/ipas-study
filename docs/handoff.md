@@ -3,7 +3,34 @@
 換 session 先讀本檔，再讀 `docs/orca-multi-agent.md`，並執行 `orca skills get orchestration` 取得當版指令。
 2026-11-08 以前的詳細紀錄已移除，需要時用 `git log -p docs/handoff.md` 查舊版。
 
-## 目前進度（2026-11-09）
+## 下一件事：考古題改成題本格式（2026-11-12 使用者提出，尚未動工）
+
+使用者說「考古題的部分 格式沒有更新」。截圖確認：`/official/` 仍是舊格式，每題作答後立即顯示解析，沒有題號快速選單、交卷、成績。截圖在 `tmp/demo-shots/official-format/`（官方索引、115-1-S1 題組、每日題本，1440 寬）。
+
+使用者已決定（AskUserQuestion）：
+
+1. 格式和每日題本一樣：先看目錄，選一份才開始；先存答案不判對錯；可標「不確定」、用題號選單跳題；交卷後給 100 分制成績，再一起檢討。
+2. 舊作答：每次開題組都是新的一輪。舊紀錄原地保留，照樣算進錯題本與進度。每輪分開計分，交卷過的輪次可以回看。
+
+已查到的現況：
+
+- 頁面：`demo/src/pages/official/index.astro`、`demo/src/pages/official/[id].astro`。前端 `demo/src/lib/official-client.ts` 呼叫 `initQuestionSet`（即時解析）。題組與進度：`demo/src/lib/official.ts`（6 份：114-2、115-1、指引 × 科目 1、3；作答 mode 為 `official:<session>:S<n>`）。
+- 每日題本的狀態規則在 `demo/src/lib/daily-exam.ts`，儲存在 `demo/src/lib/attempts.ts`（`BOOKLET_KEY = 'ipas-daily-draft-v2'`）。
+- `docs/specs/daily-exam-mode.md` 第 47、305 行明訂 `/official/` 維持即時解析。所以這是偏離已核可規格，要先寫新 spec。
+
+下一步（依 CLAUDE.md 第 10 節）：
+
+1. 寫 `docs/specs/official-exam-mode.md`，動筆前列假設清單給使用者確認。待定點：輪次存哪個 localStorage key（新 key 或併入題本 store，屬資料格式變更，要問）；新輪次的作答 mode 命名；指引練習題是否也改（指引題不計分）；目錄卡片要顯示什麼；作答中能否放棄這一輪。
+2. 徵詢 advisor（Codex sol xhigh），再送 spec、plan、todo 給使用者核可。
+3. 核可後派 Codex worker 實作（前端由 Codex 負責）。部署照下方「部署 4321」。
+
+注意：考試日 115/11/14，就是後天。
+
+### 另一件已回覆的事
+
+使用者問「每題都選最長選項考古題能拿幾分」，已回覆：科1 61.7、74.0 分，科3 37.0、56.3 分（114-2、115-1）。腳本 `tmp/longest-option.cjs`。
+
+## 前一階段（2026-11-09）
 
 - main 在 `32d099d`。最近合併：
   - PR #205：規格 v4，每日題本改成先進「題本目錄」。
