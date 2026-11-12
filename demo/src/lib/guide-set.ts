@@ -1,4 +1,22 @@
 /** 指引題組只開放已確認作答的題與第 1 個未答題；位置一律用從 0 開始的索引。 */
+export interface GuideTimer {
+  elapsed: number;
+  questionMs: Readonly<Record<string, number>>;
+  active: { qid: string; started: number } | null;
+}
+
+/** 結算可見片段時，同步累加題組與單題用時，避免保存後重整改變累計。 */
+export function settleGuideTimer(timer: GuideTimer, now: number): GuideTimer {
+  if (timer.active === null) return timer;
+  const { qid, started } = timer.active;
+  const ms = Math.max(0, Math.round(now - started));
+  return {
+    elapsed: timer.elapsed + ms,
+    questionMs: { ...timer.questionMs, [qid]: (timer.questionMs[qid] ?? 0) + ms },
+    active: null,
+  };
+}
+
 export function guideNumbers(confirmed: readonly boolean[]): number[] {
   const firstUnanswered = confirmed.indexOf(false);
   return confirmed.flatMap((answered, position) => answered || position === firstUnanswered ? [position] : []);

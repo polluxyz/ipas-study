@@ -68,14 +68,18 @@ const [stem, summary, correct, rule, disputeHtml, ...optionAndReasons] = await P
         const choice = selected.value as Choice;
         const correct = choice === card.dataset.answer;
         const error = card.querySelector<HTMLElement>('.save-error');
+        // 題組同步結算可見片段；單題頁沒有回覆時沿用題卡計時。
+        const timeRequest = new CustomEvent<{ ms?: number }>('question-time-request', { bubbles: true, detail: {} });
+        card.dispatchEvent(timeRequest);
+        const ms = timeRequest.detail.ms ?? Math.round(performance.now() - (started ?? performance.now()));
         try {
-          saveAttempt({ qid: card.dataset.qid!, rev: Number(card.dataset.rev), choice, correct, ts: new Date().toISOString(), mode: card.dataset.mode!, ms: Math.round(performance.now() - (started ?? performance.now())) });
+          saveAttempt({ qid: card.dataset.qid!, rev: Number(card.dataset.rev), choice, correct, ts: new Date().toISOString(), mode: card.dataset.mode!, ms });
           card.dataset.saved = 'true';
         } catch (cause) { if (error) { error.hidden = false; error.textContent = `本次答案已顯示，但作答紀錄未儲存：${cause instanceof Error ? cause.message : '請確認瀏覽器允許本機儲存。'}`; } }
         displayQuestionCard(card, { choice, correct, locked: true, reveal: true, saved: card.dataset.saved === 'true' });
         const explanation = card.querySelector<HTMLElement>('[data-explanation]');
         explanation?.focus({ preventScroll: true });
-        card.dispatchEvent(new CustomEvent('question-answered', { bubbles: true, detail: { qid: card.dataset.qid, correct } }));
+        card.dispatchEvent(new CustomEvent('question-answered', { bubbles: true, detail: { qid: card.dataset.qid, correct, ms } }));
       });
     }
   }
