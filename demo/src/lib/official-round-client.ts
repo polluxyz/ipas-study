@@ -6,6 +6,12 @@ import { displayQuestionCard } from './question-card-display';
 import { initQuestionNavigation } from './question-set-client';
 
 interface RoundCatalog { id: string; title: string; subject: 1 | 3; questions: OfficialRoundCatalogQuestion[]; }
+interface RoundFailures { save: boolean; restart: boolean; }
+
+/** 重新考失敗不影響已保存答案；只有答案保存失敗會擋住交卷。 */
+export function officialRoundSubmitEnabled(round: OfficialRound, failures: RoundFailures): boolean {
+  return !failures.save && canSubmitOfficialRound(round);
+}
 
 /** 題號選單沿用每日規則，但文字始終保留原考卷題號。 */
 export function officialRoundNumbers(round: OfficialRound, catalog: readonly OfficialRoundCatalogQuestion[]) {
@@ -53,7 +59,7 @@ export function initOfficialRound(): void {
   let pending: OfficialRound | undefined;
   let savedContent = '';
   let readOnly = false;
-  let failed = false;
+  const failures: RoundFailures = { save: false, restart: false };
   let opening = false;
   let stopped = false;
   let started: number | null = null;
@@ -65,8 +71,8 @@ export function initOfficialRound(): void {
   const url = (id: string) => '/official/' + catalog.id + '/?round=' + encodeURIComponent(id);
   const editable = () => Boolean(round?.status === 'open' && !readOnly && !pending && !stopped && !restartDialog.open);
   const stop = () => { stopped = true; started = null; window.clearInterval(timer); window.clearInterval(saveTimer); };
-  const error = (cause: unknown, lead = '尚未保存，畫面上的答案仍保留。', retry?: () => void) => {
-    failed = true; retryAction = retry;
+  const error = (cause: unknown, lead = '尚未保存，畫面上的答案仍保留。', retry?: () => void, failure: keyof RoundFailures = 'save') => {
+    failures[failure] = true; retryAction = retry;
     if (cause instanceof DailyConflictError) {
       readOnly = true; started = null;
       if (dialog.open) dialog.close();
@@ -76,7 +82,7 @@ export function initOfficialRound(): void {
     text('error-message', cause instanceof DailyConflictError ? '這一輪已由另一頁更新，請重新載入。本頁已改為唯讀。' : readOnly ? `目前無法確認這一輪，請重新載入。本頁已改為唯讀。${message}` : lead + message);
     element('save-error').hidden = false; element('retry').hidden = readOnly; element('reload').hidden = !readOnly;
   };
-  const clearError = () => { failed = false; retryAction = undefined; element('save-error').hidden = true; };
+  const clearError = () => { failures.save = false; failures.restart = false; retryAction = undefined; element('save-error').hidden = true; };
   const settle = () => {
     const now = performance.now();
     const q = round?.questions[round.position];
@@ -149,7 +155,7 @@ export function initOfficialRound(): void {
     text('position', `第 ${number ?? '—'} 題／共 ${counts.total} 題`); text('question-heading', `第 ${number ?? '—'} 題`);
     text('progress', `本輪已答 ${counts.answered}／${counts.total}`); text('unsure-count', `不確定 ${counts.unsure}`);
     const bar = element<HTMLProgressElement>('progress-bar'); bar.max = Math.max(1, counts.total); bar.value = counts.answered;
-    submit.hidden = submitted; submit.disabled = !editable() || !canSubmitOfficialRound(round) || failed;
+    submit.hidden = submitted; submit.disabled = !editable() || !officialRoundSubmitEnabled(round, failures);
     submit.textContent = counts.answered === counts.total ? '交卷' : `交卷（${counts.answered}／${counts.total}）`;
     element('submitted').hidden = !submitted;
     restart.hidden = round.status !== 'open'; restart.disabled = readOnly || Boolean(pending) || stopped;
@@ -157,7 +163,9 @@ export function initOfficialRound(): void {
     unsure.textContent = submitted ? '已標不確定' : '不確定'; unsure.setAttribute('aria-pressed', String(Boolean(q?.unsure)));
     element<HTMLButtonElement>('previous').disabled = submitting || !q || round.position === 0;
     element<HTMLButtonElement>('next').disabled = submitting || !q || round.position === counts.total - 1 || (!submitted && !q.choice);
-    element('numbers').replaceChildren(...officialRoundNumbers(round, catalog.questions).map((item) => {
+    const numbers = element('numbers');
+    const focusedNumber = document.activeElement instanceof HTMLButtonElement && numbers.contains(document.activeElement) ? document.activeElement.textContent : null;
+    numbers.replaceChildren(...officialRoundNumbers(round, catalog.questions).map((item) => {
       const button = Object.assign(document.createElement('button'), { type: 'button', textContent: String(item.number), disabled: submitting });
       button.dataset.status = item.state; button.dataset.unsure = String(item.unsure);
       if (item.current) button.setAttribute('aria-current', 'step');
@@ -166,6 +174,8 @@ export function initOfficialRound(): void {
       button.addEventListener('click', () => { if (!desktop.matches) panel.open = false; navigation?.go(item.position); });
       return button;
     }));
+    // 保存會重建題號按鈕，依原考卷題號還原焦點，避免鍵盤導覽中斷。
+    if (focusedNumber !== null) Array.from(numbers.querySelectorAll('button')).find((button) => button.textContent === focusedNumber)?.focus({ preventScroll: true });
     const legend = submitted ? [['correct', '答對'], ['wrong', '答錯'], ['outlined', '曾標不確定'], ['unavailable', '解析不可用']] : [['unanswered', '未答'], ['answered', '已答'], ['unsure', '不確定']];
     element('legend').replaceChildren(...legend.map(([state, label]) => { const span = document.createElement('span'); const swatch = document.createElement('i'); swatch.dataset.status = state; swatch.setAttribute('aria-hidden', 'true'); span.append(swatch, label); return span; }));
     element('practice').hidden = cards.length === 0;
@@ -243,7 +253,7 @@ export function initOfficialRound(): void {
     settle(); round.questions[round.position].unsure = !round.questions[round.position].unsure; persist(); render();
   });
   submit.addEventListener('click', () => {
-    if (!round || !editable() || !canSubmitOfficialRound(round) || failed) return;
+    if (!round || !editable() || !officialRoundSubmitEnabled(round, failures)) return;
     text('dialog-count', `不確定 ${dailyCounts(round).unsure} 題`); dialog.showModal(); element('cancel').focus();
   });
   element('cancel').addEventListener('click', () => dialog.close());
@@ -264,7 +274,7 @@ export function initOfficialRound(): void {
       if (!questions.length) throw new Error('這份題組目前沒有可作答的題目。');
       const opened = restartOfficialRound(expected, crypto.randomUUID(), new Date().toISOString(), questions);
       stop(); restartDialog.close(); location.href = url(opened.id);
-    } catch (cause) { restartDialog.close(); error(cause, '尚未重新開始。', () => restart.click()); render(); }
+    } catch (cause) { restartDialog.close(); error(cause, '尚未重新開始。', () => restart.click(), 'restart'); render(); }
   });
   panel.addEventListener('toggle', () => { panel.querySelector('summary')!.setAttribute('aria-expanded', String(panel.open)); text('panel-toggle', panel.open ? '收合' : '展開'); });
   panel.open = desktop.matches;

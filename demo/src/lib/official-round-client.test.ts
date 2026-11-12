@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import type { OfficialRound } from './attempts';
 import type { OfficialRoundCatalogQuestion } from './official-round';
-import { officialElapsed, officialRoundNumbers, prepareOfficialSubmission } from './official-round-client';
+import { officialElapsed, officialRoundNumbers, officialRoundSubmitEnabled, prepareOfficialSubmission } from './official-round-client';
 
 const catalog: OfficialRoundCatalogQuestion[] = [1, 3, 7].map((number) => ({ id: `115-1-S3-Q${number}`, number, rev: 1, subject: 3, source: 'exam', session: '115-1', review: { status: number === 3 ? 'disputed' : 'verified' } }));
 function draft(): OfficialRound {
@@ -15,6 +15,21 @@ function answered(): OfficialRound {
 }
 const answers = new Map(catalog.map((q, index) => [q.id, index === 1 ? 'B' : 'A']));
 const ts = '2026-11-12T01:00:00Z';
+
+describe('交卷與保存失敗狀態', () => {
+  it.each([
+    [false, false, true], [false, true, true], [true, false, false], [true, true, false],
+  ] as const)('答案保存失敗 %s、重新考失敗 %s 時，交卷可用為 %s', (save, restart, enabled) => {
+    expect(officialRoundSubmitEnabled(answered(), { save, restart })).toBe(enabled);
+  });
+  it('重新考失敗仍不能交出未答完的輪次', () => {
+    expect(officialRoundSubmitEnabled(draft(), { save: false, restart: true })).toBe(false);
+  });
+  it.each(['submitting', 'submitted'] as const)('%s 輪次不能再次交卷', (status) => {
+    const round = answered(); round.status = status;
+    expect(officialRoundSubmitEnabled(round, { save: false, restart: true })).toBe(false);
+  });
+});
 
 describe('考古題題號選單', () => {
   it('未答時只列第 1 題，不開放未來題', () => {
