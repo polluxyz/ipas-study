@@ -22,11 +22,20 @@ function read(): Attempt[] {
   if (!data || typeof data !== 'object' || !('version' in data) || data.version !== 1 || !('attempts' in data) || !Array.isArray(data.attempts)) throw new Error('作答紀錄格式無法辨識，目前無法匯出備份。');
   return data.attempts.filter(isAttempt);
 }
+/** 寫入前須驗證全部既有紀錄，避免容錯讀取略過的損壞項目被刪除。 */
+function readForWrite(): Attempt[] {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw === null) return [];
+  const data: unknown = JSON.parse(raw);
+  if (!data || typeof data !== 'object' || !('version' in data) || data.version !== 1 || !('attempts' in data) || !Array.isArray(data.attempts)) throw new Error('作答紀錄格式無法辨識，已保留原資料並停止寫入。');
+  if (!data.attempts.every(isAttempt)) throw new Error('作答紀錄有損壞項目，已保留原資料並停止寫入。');
+  return data.attempts;
+}
 function write(attempts: Attempt[]): void { localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, attempts })); }
 export function saveAttempt(a: Omit<Attempt, 'id'>): Attempt {
   const attempt = { ...a, id: crypto.randomUUID() };
   if (!isAttempt(attempt)) throw new Error('作答紀錄欄位不完整。');
-  write([...read(), attempt]); return attempt;
+  write([...readForWrite(), attempt]); return attempt;
 }
 export function getAttempts(filter?: { qid?: string }): Attempt[] { return read().filter((a) => !filter?.qid || a.qid === filter.qid); }
 export function getWrongBook(): { qid: string; lastAttempt: Attempt; outdated: boolean }[] {
@@ -68,7 +77,7 @@ export function importAttempts(json: string): { added: number; skipped: number; 
   try { data = JSON.parse(json); } catch { return { ...result, invalid: 1 }; }
   if (!data || typeof data !== 'object' || !('attempts' in data) || !Array.isArray(data.attempts)) return { ...result, invalid: 1 };
   if (!('version' in data) || data.version !== 1) return { ...result, invalid: Math.max(1, data.attempts.length) };
-  const attempts = read(); const ids = new Set(attempts.map((a) => a.id));
+  const attempts = readForWrite(); const ids = new Set(attempts.map((a) => a.id));
   for (const value of data.attempts) {
     if (!isAttempt(value)) { result.invalid++; continue; }
     if (ids.has(value.id)) { result.skipped++; continue; }
@@ -127,7 +136,7 @@ export function saveDailySet(set: DailySet, replaceExisting = false): DailySet {
 }
 /** 清除本機學習資料時一併移除每日題組，避免保留與作答不一致的快取。 */
 export function clearStudyData(): void {
-  for (const key of [BOOKLET_KEY, DRAFT_KEY, STORAGE_KEY, READING_KEY, DAILY_KEY]) localStorage.removeItem(key);
+  for (const key of [OFFICIAL_ROUND_KEY, BOOKLET_KEY, DRAFT_KEY, STORAGE_KEY, READING_KEY, DAILY_KEY]) localStorage.removeItem(key);
 }
 
 /** 每日草稿獨立於備份；版本或內容不明時拒絕讀寫，避免蓋掉尚未交卷的答案。 */
@@ -208,7 +217,7 @@ export function saveDailyDraft(draft: DailyDraft, expected: Pick<DailyDraft, 'id
 /** 整批先驗證再合併，只寫一次；固定 ID 讓交卷重試不增加紀錄。 */
 export function saveAttemptBatch(batch: readonly Attempt[]): void {
   if (!batch.every(isAttempt)) throw new Error('整批作答欄位不完整。');
-  const attempts = read();
+  const attempts = readForWrite();
   const byId = new Map(attempts.map((a) => [a.id, a]));
   for (const attempt of batch) {
     const existing = byId.get(attempt.id);
@@ -384,4 +393,140 @@ export function commitMigratedBookletStore(store: BookletStore): 'written' | 'ad
   } catch { /* 讀回不合法才撤回新鍵，舊鍵仍可供下次遷移。 */ }
   localStorage.removeItem(BOOKLET_KEY);
   throw new BookletStoreError();
+}
+
+/** 考古題輪次獨立保存；交卷前不讀作答紀錄，重試沿用已固定的作答 ID。 */
+export const OFFICIAL_ROUND_KEY = 'ipas-official-rounds-v1';
+export const OFFICIAL_ROUND_SETS = {
+  '114-2-S1': 1, '114-2-S3': 3, '115-1-S1': 1, '115-1-S3': 3,
+} as const;
+export interface OfficialRoundQuestion {
+  id: string; rev: number; choice: Choice | null; unsure: boolean; ms: number; correct?: boolean;
+}
+export interface OfficialRound {
+  id: string; seq: number; setId: string; subject: 1 | 3; number: number; createdAt: string;
+  attemptMode: string; status: 'open' | 'submitting' | 'submitted'; position: number;
+  questions: OfficialRoundQuestion[]; submission?: DailySubmission;
+}
+export interface OfficialRoundStore { version: 1; rounds: OfficialRound[]; }
+export type OfficialRoundRef = Pick<OfficialRound, 'id' | 'seq' | 'setId'>;
+function officialRoundError(): Error { return new Error('考古題輪次損壞或欄位不完整，已保留原資料並停止覆寫。'); }
+function isOfficialRound(value: unknown): value is OfficialRound {
+  if (!record(value) || typeof value.id !== 'string' || !value.id.trim() || !Number.isSafeInteger(value.seq) || Number(value.seq) < 0 ||
+    !Number.isSafeInteger(value.number) || Number(value.number) < 1 || !Number.isSafeInteger(value.position) ||
+    typeof value.createdAt !== 'string' || !Number.isFinite(Date.parse(value.createdAt)) ||
+    typeof value.setId !== 'string' || !Object.hasOwn(OFFICIAL_ROUND_SETS, value.setId) ||
+    OFFICIAL_ROUND_SETS[value.setId as keyof typeof OFFICIAL_ROUND_SETS] !== value.subject ||
+    value.attemptMode !== `official-round:${value.id}:S${value.subject}` ||
+    !['open', 'submitting', 'submitted'].includes(String(value.status)) || !Array.isArray(value.questions)) return false;
+  const prefix = `${value.setId}-Q`;
+  if (!value.questions.every((q: unknown) => record(q) && typeof q.id === 'string' && q.id.startsWith(prefix) && q.id.length === prefix.length + 2 &&
+    /^(?:0[1-9]|[1-4][0-9]|50)$/.test(q.id.slice(prefix.length)) && Number.isSafeInteger(q.rev) && !('legacyAttemptId' in q) &&
+    (!('correct' in q) || (value.status !== 'open' && typeof q.correct === 'boolean')))) return false;
+  if (value.status === 'open' && 'submission' in value) return false;
+  return isDraftContent(value, value.status === 'open', value.attemptMode);
+}
+export function isOfficialRoundStore(value: unknown): value is OfficialRoundStore {
+  if (!record(value) || value.version !== 1 || !Array.isArray(value.rounds) || !value.rounds.every(isOfficialRound)) return false;
+  const rounds: OfficialRound[] = value.rounds;
+  return new Set(rounds.map((round) => round.id)).size === rounds.length &&
+    new Set(rounds.map((round) => `${round.setId}:${round.number}`)).size === rounds.length &&
+    Object.keys(OFFICIAL_ROUND_SETS).every((setId) => rounds.filter((round) => round.setId === setId && round.status !== 'submitted').length <= 1);
+}
+export function readOfficialRounds(): OfficialRoundStore {
+  const raw = localStorage.getItem(OFFICIAL_ROUND_KEY);
+  if (raw === null) return { version: 1, rounds: [] };
+  try {
+    const value: unknown = JSON.parse(raw);
+    if (isOfficialRoundStore(value)) return value;
+  } catch { /* 損壞資料保持不動，由呼叫端顯示錯誤。 */ }
+  throw officialRoundError();
+}
+function writeOfficialRounds(store: OfficialRoundStore): void {
+  if (!isOfficialRoundStore(store)) throw officialRoundError();
+  localStorage.setItem(OFFICIAL_ROUND_KEY, JSON.stringify(store));
+}
+function assertOfficialRoundCurrent(expected: OfficialRoundRef): { store: OfficialRoundStore; round: OfficialRound } {
+  const store = readOfficialRounds();
+  const round = store.rounds.find((item) => item.id === expected.id && item.setId === expected.setId);
+  if (!round || round.seq !== expected.seq) throw new DailyConflictError();
+  return { store, round };
+}
+/** 比對欄位值而非物件鍵順序，固定交卷內容也能接受重新組成的物件。 */
+function sameOfficialSubmission(round: OfficialRound, original: OfficialRound): boolean {
+  const fields = ['id', 'rev', 'choice', 'unsure', 'ms', 'correct'] as const;
+  const attemptFields = ['id', 'qid', 'rev', 'choice', 'correct', 'ts', 'mode', 'ms'] as const;
+  const submission = round.submission; const previous = original.submission;
+  return round.position === original.position && round.questions.length === original.questions.length &&
+    round.questions.every((q, i) => fields.every((key) => q[key] === original.questions[i][key])) &&
+    Boolean(submission && previous && submission.ts === previous.ts && submission.total === previous.total &&
+      submission.correct === previous.correct && submission.attempts.length === previous.attempts.length &&
+      submission.attempts.every((a, i) => attemptFields.every((key) => a[key] === previous.attempts[i][key])));
+}
+/** 新輪的題目一律清空作答；sorted 為真時依原題號排序，開新輪與換題重新考共用。 */
+function freshOfficialQuestions(questions: readonly { id: string; rev: number }[], sorted: boolean): OfficialRoundQuestion[] {
+  const list = sorted ? [...questions].sort((a, b) => Number(a.id.split('-Q').at(-1)) - Number(b.id.split('-Q').at(-1))) : questions;
+  return list.map((q) => ({ id: q.id, rev: q.rev, choice: null, unsure: false, ms: 0 }));
+}
+export function openOfficialRound(setId: string, questions: { id: string; rev: number }[], id: string, createdAt: string): OfficialRound {
+  const store = readOfficialRounds();
+  if (!Object.hasOwn(OFFICIAL_ROUND_SETS, setId)) throw officialRoundError();
+  if (store.rounds.some((round) => round.setId === setId && round.status !== 'submitted')) throw new DailyConflictError();
+  const subject = OFFICIAL_ROUND_SETS[setId as keyof typeof OFFICIAL_ROUND_SETS];
+  const round: OfficialRound = {
+    id, seq: 0, setId, subject, number: Math.max(0, ...store.rounds.filter((item) => item.setId === setId).map((item) => item.number)) + 1,
+    createdAt, attemptMode: `official-round:${id}:S${subject}`, status: 'open', position: 0,
+    questions: freshOfficialQuestions(questions, true),
+  };
+  writeOfficialRounds({ ...store, rounds: [...store.rounds, round] });
+  return round;
+}
+export function saveOfficialRound(round: OfficialRound, expected: OfficialRoundRef): OfficialRound {
+  const { store, round: original } = assertOfficialRoundCurrent(expected);
+  if (round.seq !== expected.seq || (['id', 'setId', 'subject', 'number', 'createdAt', 'attemptMode'] as const)
+    .some((key) => round[key] !== original[key])) throw new DailyConflictError();
+  if (original.status === 'submitted' ||
+    (original.status === 'open' && round.status !== 'open' && round.status !== 'submitting') ||
+    (original.status === 'submitting' && (round.status !== 'submitted' || !sameOfficialSubmission(round, original)))) throw officialRoundError();
+  const saved = { ...round, seq: expected.seq + 1 };
+  writeOfficialRounds({ ...store, rounds: store.rounds.map((item) => item.id === original.id ? saved : item) });
+  return saved;
+}
+/**
+ * 重新考只讀最新輪次；刪除舊輪與加入新輪共用一次寫入。
+ * 傳入 questions 時改用這份題目（例如目前建置的有效題），讓全部失效的輪次也能換成可作答的新輪；
+ * 省略時沿用舊輪的題目與順序。題目 ID 不屬於這個題組時，整筆寫入被拒絕，原輪保留。
+ */
+export function restartOfficialRound(expected: OfficialRoundRef, newId: string, createdAt: string,
+  questions?: readonly { id: string; rev: number }[]): OfficialRound {
+  const { store, round } = assertOfficialRoundCurrent(expected);
+  if (round.status !== 'open' || newId === round.id) throw officialRoundError();
+  const restarted: OfficialRound = {
+    id: newId, seq: 0, setId: round.setId, subject: round.subject, number: round.number, createdAt,
+    attemptMode: `official-round:${newId}:S${round.subject}`, status: 'open', position: 0,
+    questions: questions ? freshOfficialQuestions(questions, true) : freshOfficialQuestions(round.questions, false),
+  };
+  writeOfficialRounds({ ...store, rounds: store.rounds.map((item) => item.id === round.id ? restarted : item) });
+  return restarted;
+}
+/** 每個成功階段都保留在回傳值；重載後以固定的提交內容續傳。 */
+export function submitOfficialRound(round: OfficialRound, prepared: OfficialRound): { round: OfficialRound; error?: Error } {
+  let saved = round;
+  try {
+    if (saved.status === 'submitted') {
+      const current = assertOfficialRoundCurrent(saved).round;
+      if (current.status !== 'submitted') throw new DailyConflictError();
+      return { round: current };
+    }
+    if (saved.status === 'open') {
+      if (prepared.status !== 'submitting' || !isOfficialRound(prepared)) throw officialRoundError();
+      saved = saveOfficialRound(prepared, saved);
+    }
+    // 從儲存內容取回固定 ID，避免使用呼叫端改過的 submitting 資料。
+    saved = assertOfficialRoundCurrent(saved).round;
+    if (saved.status !== 'submitting' || !saved.submission) throw officialRoundError();
+    saveAttemptBatch(saved.submission.attempts);
+    saved = saveOfficialRound({ ...saved, status: 'submitted' }, saved);
+    return { round: saved };
+  } catch (cause) { return { round: saved, error: cause instanceof Error ? cause : new Error('交卷保存失敗。') }; }
 }

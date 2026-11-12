@@ -1,26 +1,59 @@
 ---
-/** 官方題完整練習列出所有題組，瀏覽器只補上個人進度。 */
+/** 官方題目錄依作答方式分區；個人輪次與進度只由瀏覽器讀取。 */
 import StudyPage from '../../components/StudyPage.astro';
 import { getData } from '../../lib/content';
 import { officialSets } from '../../lib/official';
+import '../../styles/daily-exam.css';
+import '../../styles/daily-booklet.css';
 const sets = officialSets((await getData()).questions);
-const catalog = sets.map(({ id, session, mode, questions }) => ({ id, session, mode, questions: questions.map(({ id }) => ({ id })) }));
+const sections = [
+  { id: 'exam', title: '考古題', note: '先存答案，交卷後計分與檢討。', sets: sets.filter((set) => set.session !== 'guide') },
+  { id: 'guide', title: '指引練習題', note: '確認作答後，立即顯示解析。', sets: sets.filter((set) => set.session === 'guide') },
+];
+// 指引未設場次與題號時，使用題組場次與目錄順序補齊欄位。
+const catalog = sets.map(({ id, session, subject, mode, questions }) => ({ id, session, subject, mode,
+  questions: questions.map(({ id, rev, number, subject, source, session: questionSession, review }, index) => ({
+    id, rev, number: number ?? index + 1, subject, source, session: questionSession ?? session, review: { status: review.status },
+  })) }));
 ---
 <StudyPage title="官方題完整練習" section="官方題完整練習">
-  <p class="lead">依原題順序，完整練習考古題與指引練習題。每份題組獨立記錄進度，包含有爭議的題目。</p>
-  <p id="official-status" role="status">正在讀取作答進度…</p>
-  <div class="official-grid">{sets.map((set) => <section class="official-set" data-official-set={set.id} data-count={set.questions.length}>
-    <h2>{set.title}</h2><p>共 {set.questions.length} 題{set.session !== 'guide' && '・每題 2 分'}</p>
-    <p id={`progress-${set.id}`} class="muted">已答與答對題數需要 JavaScript 才能讀取。</p>
-    <a class="button primary" href={`/official/${set.id}/`}>開啟題組 →</a>
-  </section>)}</div>
-  <p><a href="/daily/">練習非官方題：每日題本 →</a></p>
-  <noscript><p>官方練習需要 JavaScript 才能逐題作答及保存進度。請啟用 JavaScript 後重新整理。</p></noscript>
-  <script type="application/json" id="official-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\u003c')}></script>
+  <div class="official-directory daily-booklet exam-layout">
+    <div class="booklet-directory-intro">
+      <p class="lead">選一份題組，依原題順序練習。</p>
+      <p>考古題每輪分開計分，已交卷的輪次可以回看。</p>
+      <p class="booklet-local">輪次與作答紀錄只存在這個瀏覽器的這個網址</p>
+    </div>
+    <p id="official-status" class="exam-status" role="status">正在讀取輪次與作答進度…</p>
+    {sections.map((section) => <section class="booklet-catalog-section" aria-labelledby={`official-heading-${section.id}`}>
+      <div class="booklet-section-head"><h2 id={`official-heading-${section.id}`}>{section.title}</h2><p>{section.sets.length} 份題組</p></div>
+      <p class="official-section-note">{section.note}</p>
+      <div class="official-grid">{section.sets.map((set) => <article class="official-set" data-official-set={set.id} data-count={set.questions.length}>
+        <div class="official-set-heading"><span class="booklet-kicker">科目 {set.subject}</span><h3>{set.title}</h3><p>共 {set.questions.length} 題{set.session !== 'guide' && '・每題 2 分'}</p></div>
+        <div class="official-set-records">
+          <p id={`progress-${set.id}`}>輪次與進度需要 JavaScript 才能讀取。</p>
+          <p id={`history-${set.id}`} hidden></p>
+          <p id={`legacy-${set.id}`} class="official-legacy" hidden></p>
+          <p id={`error-${set.id}`} class="official-error" hidden></p>
+        </div>
+        <a id={`action-${set.id}`} class="booklet-row-action" href={`/official/${set.id}/`} hidden>開啟題組 →</a>
+      </article>)}</div>
+    </section>)}
+    <footer class="booklet-footer"><div><a href="/daily/">練習非官方題：每日題本 →</a><a href="/wrong-book/">錯題本與備份 →</a></div><p>備份檔只含作答紀錄，不含考古題輪次。清除後再匯入，作答與統計會恢復，輪次清單、未交卷答案與回看不會恢復。</p></footer>
+    <noscript><p>官方練習需要 JavaScript 才能逐題作答及保存進度。請啟用 JavaScript 後重新整理。</p></noscript>
+    <script type="application/json" id="official-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\u003c')}></script>
+  </div>
 </StudyPage>
-<script>import { initOfficialIndex } from '../../lib/official-client'; initOfficialIndex();</script>
+<script>import { initOfficialIndex } from '../../lib/official-index-client'; initOfficialIndex();</script>
 <style>
-  .official-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; margin-block: 1.5rem; }
-  .official-set { min-width: 0; padding: 1.25rem; border: 1px solid var(--sl-color-gray-5); border-radius: .75rem; }
-  .official-set h2 { margin-top: 0; font-size: 1.2rem; }
+  .official-directory .official-section-note { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+  .official-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .official-set { min-width: 0; display: flex; flex-direction: column; align-items: start; gap: 16px; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); overflow-wrap: anywhere; }
+  .official-set h3 { font-size: 16px; line-height: 1.6; color: var(--ink); }
+  .official-set-heading > p { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .official-set-records { display: grid; gap: 8px; font-size: 13px; line-height: 1.8; color: var(--ink); }
+  .official-directory .official-legacy { padding-top: 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+  .official-error { color: var(--exam-red); }
+  .official-set .booklet-row-action { margin-top: auto; font-size: 14px; }
+  .official-directory [hidden] { display: none !important; }
+  @media (max-width: 760px) { .official-grid { grid-template-columns: minmax(0, 1fr); } .official-set { padding: 16px; gap: 12px; } }
 </style>
