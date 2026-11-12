@@ -454,6 +454,11 @@ function sameOfficialSubmission(round: OfficialRound, original: OfficialRound): 
       submission.correct === previous.correct && submission.attempts.length === previous.attempts.length &&
       submission.attempts.every((a, i) => attemptFields.every((key) => a[key] === previous.attempts[i][key])));
 }
+/** 新輪的題目一律清空作答；sorted 為真時依原題號排序，開新輪與換題重新考共用。 */
+function freshOfficialQuestions(questions: readonly { id: string; rev: number }[], sorted: boolean): OfficialRoundQuestion[] {
+  const list = sorted ? [...questions].sort((a, b) => Number(a.id.split('-Q').at(-1)) - Number(b.id.split('-Q').at(-1))) : questions;
+  return list.map((q) => ({ id: q.id, rev: q.rev, choice: null, unsure: false, ms: 0 }));
+}
 export function openOfficialRound(setId: string, questions: { id: string; rev: number }[], id: string, createdAt: string): OfficialRound {
   const store = readOfficialRounds();
   if (!Object.hasOwn(OFFICIAL_ROUND_SETS, setId)) throw officialRoundError();
@@ -462,8 +467,7 @@ export function openOfficialRound(setId: string, questions: { id: string; rev: n
   const round: OfficialRound = {
     id, seq: 0, setId, subject, number: Math.max(0, ...store.rounds.filter((item) => item.setId === setId).map((item) => item.number)) + 1,
     createdAt, attemptMode: `official-round:${id}:S${subject}`, status: 'open', position: 0,
-    questions: [...questions].sort((a, b) => Number(a.id.split('-Q').at(-1)) - Number(b.id.split('-Q').at(-1)))
-      .map((q) => ({ id: q.id, rev: q.rev, choice: null, unsure: false, ms: 0 })),
+    questions: freshOfficialQuestions(questions, true),
   };
   writeOfficialRounds({ ...store, rounds: [...store.rounds, round] });
   return round;
@@ -479,14 +483,19 @@ export function saveOfficialRound(round: OfficialRound, expected: OfficialRoundR
   writeOfficialRounds({ ...store, rounds: store.rounds.map((item) => item.id === original.id ? saved : item) });
   return saved;
 }
-/** 重新考只讀最新輪次；刪除舊輪與加入新輪共用一次寫入。 */
-export function restartOfficialRound(expected: OfficialRoundRef, newId: string, createdAt: string): OfficialRound {
+/**
+ * 重新考只讀最新輪次；刪除舊輪與加入新輪共用一次寫入。
+ * 傳入 questions 時改用這份題目（例如目前建置的有效題），讓全部失效的輪次也能換成可作答的新輪；
+ * 省略時沿用舊輪的題目與順序。題目 ID 不屬於這個題組時，整筆寫入被拒絕，原輪保留。
+ */
+export function restartOfficialRound(expected: OfficialRoundRef, newId: string, createdAt: string,
+  questions?: readonly { id: string; rev: number }[]): OfficialRound {
   const { store, round } = assertOfficialRoundCurrent(expected);
   if (round.status !== 'open' || newId === round.id) throw officialRoundError();
   const restarted: OfficialRound = {
     id: newId, seq: 0, setId: round.setId, subject: round.subject, number: round.number, createdAt,
     attemptMode: `official-round:${newId}:S${round.subject}`, status: 'open', position: 0,
-    questions: round.questions.map((q) => ({ id: q.id, rev: q.rev, choice: null, unsure: false, ms: 0 })),
+    questions: questions ? freshOfficialQuestions(questions, true) : freshOfficialQuestions(round.questions, false),
   };
   writeOfficialRounds({ ...store, rounds: store.rounds.map((item) => item.id === round.id ? restarted : item) });
   return restarted;

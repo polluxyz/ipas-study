@@ -296,6 +296,22 @@ describe('重新考、備份與清除', () => {
     expect(() => restartOfficialRound(stale, 'fresh', TS)).toThrow('quota'); expect(storage.get(OFFICIAL_ROUND_KEY)).toBe(raw);
     expect(restartOfficialRound(stale, 'fresh', TS).questions.map((q) => q.id)).toEqual(['115-1-S3-Q02']);
   });
+  it('傳入目前有效題時換題重新考：1 次寫入、依原題號排序、作答清空', () => {
+    const round = make({ number: 4 }); round.questions.forEach((q) => { q.choice = 'B'; q.ms = 30; }); seed(round);
+    setItem.mockClear();
+    const fresh = [{ id: '115-1-S3-Q12', rev: 2 }, { id: '115-1-S3-Q03', rev: 1 }];
+    const restarted = restartOfficialRound(round, 'fresh', TS, fresh);
+    expect(restarted).toMatchObject({ id: 'fresh', number: 4, seq: 0, position: 0, status: 'open' });
+    expect(restarted.questions).toEqual([
+      { id: '115-1-S3-Q03', rev: 1, choice: null, unsure: false, ms: 0 },
+      { id: '115-1-S3-Q12', rev: 2, choice: null, unsure: false, ms: 0 },
+    ]);
+    expect(setItem).toHaveBeenCalledExactlyOnceWith(OFFICIAL_ROUND_KEY, JSON.stringify(storeOf(restarted)));
+  });
+  it('換題重新考的題目不屬於這個題組時，不改資料', () => {
+    const round = make(); seed(round);
+    unchanged(() => restartOfficialRound(round, 'fresh', TS, [{ id: '114-2-S1-Q01', rev: 1 }]));
+  });
   it('匯入只補作答，不建立輪次，也不改現有輪次；備份不含輪次', () => {
     const backup = { version: 1, attempts: submitted().submission!.attempts };
     expect(importAttempts(JSON.stringify(backup))).toEqual({ added: 2, skipped: 0, invalid: 0 });
