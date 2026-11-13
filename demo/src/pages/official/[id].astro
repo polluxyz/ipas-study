@@ -18,19 +18,19 @@ const catalog = { id: set.id, title: set.title, subject: set.subject, session: s
 <StudyPage title={set.title} section="官方題完整練習">
   {exam ? <div class="official-round exam-layout">
     <a class="official-back" href="/official/">← 考古題目錄</a>
-    <p id="official-status" class="exam-status" role="status">正在讀取考古題輪次…</p>
+    <p id="official-status" class="exam-status" role="status">正在讀取考古題作答紀錄…</p>
     <div id="official-save-error" class="exam-save-error" role="status" hidden><p id="official-error-message"></p><button id="official-retry" class="button secondary" type="button">重試保存</button><a id="official-reload" href="" hidden>重新載入</a></div>
-    <section id="official-round-list" class="official-round-list" aria-label="考古題輪次" hidden>
+    <section id="official-round-list" class="official-round-list" aria-label="全部紀錄" hidden>
       <p class="lead">依原考卷順序作答，交卷後一起檢討。每題 2 分。</p>
-      <div id="official-round-action"></div><h2>已交卷輪次</h2><div id="official-round-rows"></div>
+      <div id="official-round-action"></div><h2>全部紀錄</h2><div id="official-round-rows"></div>
     </section>
-    <p id="official-round-label" class="exam-date" hidden></p>
-    <section id="official-score" class="exam-score" tabindex="-1" aria-label="本輪結果" hidden><p>已交卷・唯讀檢討・不計時</p><h2 id="official-score-heading"></h2><p id="official-score-points"></p><div id="official-review-action"></div></section>
-    <section id="official-empty" class="exam-unavailable" hidden><h2>這輪已沒有可作答的題目</h2><p>題目已移除或改版，不能交卷。請重新考。</p></section>
-    <div class="official-tools"><button id="official-restart" class="button secondary" type="button" hidden>重新考</button></div>
+    <section id="official-retired" class="official-retired" aria-label="未交卷紀錄" hidden><p id="official-retired-summary" class="lead"></p><p id="official-retired-time" class="exam-time"></p><a href={`/official/${set.id}/`}>全部紀錄 →</a></section>
+    <section id="official-score" class="exam-score" tabindex="-1" aria-label="本次結果" hidden><p>已交卷・唯讀檢討・不計時</p><h2 id="official-score-heading"></h2><p id="official-score-points"></p><div id="official-review-action"></div></section>
+    <section id="official-empty" class="exam-unavailable" hidden><h2>這次作答已沒有可作答的題目</h2><p>題目已移除或改版，不能交卷。請按重新開始。</p></section>
+    <div class="official-tools"><button id="official-restart" class="button secondary" type="button" hidden>重新開始</button></div>
     <section id="official-practice" class="exam-grid" aria-label="考古題作答與檢討" hidden>
-      <section class="exam-toolbar" aria-label="本輪進度">
-        <div class="exam-toolbar-main"><strong id="official-position" class="exam-position"></strong><span id="official-time" class="exam-time" aria-live="off">本輪用時 0:00</span></div>
+      <section class="exam-toolbar" aria-label="本次進度">
+        <div class="exam-toolbar-main"><strong id="official-position" class="exam-position"></strong><span id="official-time" class="exam-time" aria-live="off">本次用時 0:00</span></div>
         <div class="exam-submission"><button id="official-submit" class="button primary exam-submit" type="button" disabled>交卷</button><span id="official-submitted" class="exam-submitted" hidden>已交卷・僅供檢討</span></div>
         <div class="exam-progress-copy"><span id="official-progress"></span><span id="official-unsure-count"></span></div>
         <progress id="official-progress-bar" class="exam-progress-bar" value="0" max="50" aria-label="已作答題數"></progress>
@@ -39,8 +39,8 @@ const catalog = { id: set.id, title: set.title, subject: set.subject, session: s
       <section class="exam-paper" aria-labelledby="official-question-heading"><h2 id="official-question-heading" class="exam-question-heading" tabindex="-1"></h2><div id="official-cards">{set.questions.map((question) => <QuestionCard question={question} titles={titles} unit={units.get(question.codes[0])} mode="official-round" reveal="deferred" hidden />)}</div></section>
       <div class="exam-actions" aria-label="題目操作"><button id="official-previous" class="button secondary" type="button">← 上一題</button><div class="exam-forward"><button id="official-unsure" class="button secondary exam-unsure" type="button" aria-pressed="false" disabled>不確定</button><button id="official-next" class="button primary" type="button">下一題 →</button></div></div>
     </section>
-    <dialog id="official-dialog" class="exam-dialog" aria-labelledby="official-dialog-heading" aria-describedby="official-dialog-description"><h2 id="official-dialog-heading">確認交卷？</h2><p id="official-dialog-description" class="exam-dialog-description">交卷後不能改答，將顯示本輪結果。</p><p id="official-dialog-count" class="exam-dialog-count"></p><div class="exam-dialog-actions"><button id="official-cancel" class="button secondary" type="button" autofocus>返回作答</button><button id="official-confirm" class="button primary" type="button">確認交卷</button></div></dialog>
-    <dialog id="official-restart-dialog" class="exam-dialog" aria-labelledby="official-restart-heading" aria-describedby="official-restart-description"><h2 id="official-restart-heading">重新考這一輪？</h2><p id="official-restart-description" class="exam-dialog-description">這輪的答案、不確定標記與用時會刪除，無法找回；已交卷的輪次與舊紀錄不變。</p><div class="exam-dialog-actions"><button id="official-restart-cancel" class="button secondary" type="button" autofocus>取消，繼續作答</button><button id="official-restart-confirm" class="button primary" type="button">確認重新考</button></div></dialog>
+    <dialog id="official-dialog" class="exam-dialog" aria-labelledby="official-dialog-heading" aria-describedby="official-dialog-description"><h2 id="official-dialog-heading">確認交卷？</h2><p id="official-dialog-description" class="exam-dialog-description">交卷後不能改答，將顯示本次結果。</p><p id="official-dialog-count" class="exam-dialog-count"></p><div class="exam-dialog-actions"><button id="official-cancel" class="button secondary" type="button" autofocus>返回作答</button><button id="official-confirm" class="button primary" type="button">確認交卷</button></div></dialog>
+    <dialog id="official-restart-dialog" class="exam-dialog" aria-labelledby="official-restart-heading" aria-describedby="official-restart-description"><h2 id="official-restart-heading">重新開始？</h2><p id="official-restart-description" class="exam-dialog-description">這次答案會保留為未交卷紀錄，之後只能查看，不計分。重新開始後，從第 1 題作答。</p><div class="exam-dialog-actions"><button id="official-restart-cancel" class="button secondary" type="button" autofocus>取消，繼續作答</button><button id="official-restart-confirm" class="button primary" type="button">確認重新開始</button></div></dialog>
   </div> : <div class="official-guide exam-layout">
   <p class="lead">依原題順序完整練習。爭議題保留說明，依官方答案計分。</p>
   <div class="button-row"><a href="/official/">← 全部官方題組</a><a href="/wrong-book/">查看錯題本 →</a></div>
@@ -69,7 +69,15 @@ const catalog = { id: set.id, title: set.title, subject: set.subject, session: s
   .official-round :global(.official-round-row a) { margin-left: auto; }
   .official-round :global(.official-round-row time) { color: var(--muted); font-size: 12px; }
   .official-tools { display: flex; justify-content: end; margin-block: 12px !important; }
-  #official-review-action { margin-top: 16px !important; }
+  #official-review-action { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 16px !important; }
+  .official-retired { padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+  .official-round { min-width: 0; }
+  .official-round :global(.official-round-row > *) { min-width: 0; overflow-wrap: anywhere; }
+  @media (max-width: 40rem) {
+    .official-round-list { padding: 16px; }
+    .official-round :global(.official-round-row) { align-items: start; gap: 8px 12px; }
+    .official-round :global(.official-round-row time) { flex-basis: 100%; }
+  }
   .official-round :global(.exam-unavailable) { overflow-wrap: anywhere; }
   .official-navigation { margin-block: 1.5rem; }
   #official-status, #official-progress { overflow-wrap: anywhere; }

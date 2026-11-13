@@ -1,26 +1,55 @@
 /** 考古題輪次管理畫面與保存生命週期；只有交卷成功才揭露結果。 */
-import { DailyConflictError, OFFICIAL_ROUND_KEY, openOfficialRound, readOfficialRounds, restartOfficialRound, saveOfficialRound, submitOfficialRound, type Choice, type OfficialRound, type OfficialRoundRef } from './attempts';
+import { DailyConflictError, OFFICIAL_ROUND_KEY, readOfficialRounds, restartOfficialRound, saveOfficialRound, submitOfficialRound, type Choice, type OfficialRound, type OfficialRoundRef } from './attempts';
 import { dailyCounts, dailyNext, dailyNumbers, dailyNumberState, dailyPosition } from './daily-exam';
-import { availableOfficialQuestion, canSubmitOfficialRound, officialQuestionNumber, officialRoundList, officialRoundReviewAction, officialRoundScore, reconcileOfficialRound, type OfficialRoundAction, type OfficialRoundCatalogQuestion } from './official-round';
-import { displayQuestionCard } from './question-card-display';
+import { availableOfficialQuestion, canSubmitOfficialRound, officialQuestionNumber, officialRetiredSummary, officialRoundList, officialRoundReviewAction, officialRoundScore, reconcileOfficialRound, type OfficialRoundAction, type OfficialRoundCatalogQuestion } from './official-round';
+import { startOfficialRound } from './official-start';
+import { displayQuestionCard, type CardDisplay } from './question-card-display';
 import { initQuestionNavigation } from './question-set-client';
 
 interface RoundCatalog { id: string; title: string; subject: 1 | 3; questions: OfficialRoundCatalogQuestion[]; }
 interface RoundFailures { save: boolean; restart: boolean; }
 
-/** 重新考失敗不影響已保存答案；只有答案保存失敗會擋住交卷。 */
+/** 重新開始失敗不影響已保存答案；只有答案保存失敗會擋住交卷。 */
 export function officialRoundSubmitEnabled(round: OfficialRound, failures: RoundFailures): boolean {
   return !failures.save && canSubmitOfficialRound(round);
 }
 
 /** 題號選單沿用每日規則，但文字始終保留原考卷題號。 */
 export function officialRoundNumbers(round: OfficialRound, catalog: readonly OfficialRoundCatalogQuestion[]) {
-  return dailyNumbers(round).map((position) => {
+  return officialRoundPositions(round).map((position) => {
     const q = round.questions[position];
     return { position, number: officialQuestionNumber(q.id, catalog),
       state: dailyNumberState(round, position, availableOfficialQuestion(q, catalog, round)),
-      current: position === round.position, unsure: round.status === 'submitted' && q.unsure };
+      current: position === round.position, unsure: (round.status === 'submitted' || round.status === 'retired') && q.unsure };
   });
+}
+
+/** 未交卷紀錄可跳到所有題目，不使用每日作答的逐題開放規則。 */
+export function officialRoundPositions(round: OfficialRound): number[] {
+  return round.status === 'retired' ? round.questions.map((_, index) => index) : dailyNumbers(round);
+}
+
+export function officialRoundCanVisit(round: OfficialRound, target: number, current: number, initial = false): boolean {
+  return officialRoundPositions(round).includes(target) && (round.status === 'retired' || initial ||
+    (round.status !== 'submitting' && (round.status === 'submitted' || Boolean(round.questions[current]?.choice) || target <= current)));
+}
+
+/** 唯讀未交卷題卡只還原選擇；不傳入計分結果。 */
+export function officialRoundCardDisplay(round: OfficialRound, position: number, editable: boolean): CardDisplay {
+  const q = round.questions[position];
+  if (round.status === 'retired') return { choice: q.choice, locked: true, reveal: false };
+  return { choice: q.choice, locked: !editable, reveal: round.status === 'submitted', correct: q.correct, saved: round.status === 'submitted' };
+}
+
+/** 重新開始只保留畫面有效題與作答欄位，不把交卷結果帶入未交卷紀錄。 */
+export function latestOfficialRound(round: OfficialRound, expected: OfficialRoundRef, catalog: readonly OfficialRoundCatalogQuestion[], elapsed = 0): OfficialRound {
+  const kept = round.questions.map((q, index) => ({ q, index })).filter(({ q }) => availableOfficialQuestion(q, catalog, round));
+  const next = kept.findIndex(({ index }) => index >= round.position);
+  return { id: round.id, seq: expected.seq, setId: round.setId, subject: round.subject, number: round.number,
+    createdAt: round.createdAt, attemptMode: round.attemptMode, status: 'open',
+    position: next < 0 ? Math.max(0, kept.length - 1) : next,
+    questions: kept.map(({ q, index }) => ({ id: q.id, rev: q.rev, choice: q.choice, unsure: q.unsure,
+      ms: q.ms + (index === round.position ? officialElapsed(0, elapsed) : 0) })) };
 }
 
 /** 時間以可見片段累加；負時間與無效時鐘不污染儲存資料。 */
@@ -79,7 +108,7 @@ export function initOfficialRound(): void {
       if (restartDialog.open) restartDialog.close();
     }
     const message = cause instanceof Error ? cause.message : String(cause);
-    text('error-message', cause instanceof DailyConflictError ? '這一輪已由另一頁更新，請重新載入。本頁已改為唯讀。' : readOnly ? `目前無法確認這一輪，請重新載入。本頁已改為唯讀。${message}` : lead + message);
+    text('error-message', cause instanceof DailyConflictError ? '這次作答已由另一頁更新，請重新載入。本頁已改為唯讀。' : readOnly ? `目前無法確認這次作答，請重新載入。本頁已改為唯讀。${message}` : lead + message);
     element('save-error').hidden = false; element('retry').hidden = readOnly; element('reload').hidden = !readOnly;
   };
   const clearError = () => { failures.save = false; failures.restart = false; retryAction = undefined; element('save-error').hidden = true; };
@@ -97,72 +126,67 @@ export function initOfficialRound(): void {
   const showTime = () => {
     if (!round) return;
     const ms = round.questions.reduce((sum, q) => sum + q.ms, 0) + (editable() ? officialElapsed(started, performance.now()) : 0);
-    const seconds = Math.floor(ms / 1000); text('time', `本輪用時 ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`);
+    const seconds = Math.floor(ms / 1000); text('time', `本次用時 ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`);
+    if (round.status === 'retired') text('retired-time', element('time').textContent ?? '');
   };
   const actionElement = (action: OfficialRoundAction): HTMLElement => {
     if (action.kind === 'resume') return Object.assign(document.createElement('a'), { className: 'button primary', href: url(action.roundId), textContent: action.label });
     const button = Object.assign(document.createElement('button'), { type: 'button', className: 'button primary', textContent: action.label, disabled: readOnly || opening });
     button.addEventListener('click', startRound); return button;
   };
+  const historyLink = () => Object.assign(document.createElement('a'), { href: '/official/' + catalog.id + '/', textContent: '全部紀錄 →' });
   const currentQuestions = () => catalog.questions.filter((q) => availableOfficialQuestion(q, catalog.questions, { setId: catalog.id, subject: catalog.subject }));
   function startRound(): void {
     if (opening || readOnly) return;
     opening = true;
     for (const button of document.querySelectorAll<HTMLButtonElement>('#official-round-action button, #official-review-action button')) button.disabled = true;
     try {
-      const questions = currentQuestions();
-      if (!questions.length) throw new Error('這份題組目前沒有可作答的題目。');
-      const opened = openOfficialRound(catalog.id, questions, crypto.randomUUID(), new Date().toISOString());
-      stop(); location.href = url(opened.id);
+      const opened = startOfficialRound(catalog, () => crypto.randomUUID(), () => new Date().toISOString());
+      stop(); location.href = url(opened.roundId);
     } catch (cause) {
-      // 開輪競爭只導向儲存層已建立的未交卷輪次，不建立第 2 輪。
-      if (cause instanceof DailyConflictError) {
-        try {
-          const existing = readOfficialRounds().rounds.find((item) => item.setId === catalog.id && item.status !== 'submitted');
-          if (existing) { stop(); location.href = url(existing.id); return; }
-        } catch (readError) { opening = false; error(readError, '輪次清單無法讀取，原資料已保留。', () => location.reload()); return; }
-      }
-      opening = false; error(cause, '輪次尚未建立，原輪次不變。', startRound);
+      opening = false; error(cause, '尚未開始作答，原資料已保留。', startRound);
       for (const button of document.querySelectorAll<HTMLButtonElement>('#official-round-action button, #official-review-action button')) button.disabled = readOnly;
     }
   }
+
   const renderList = () => {
     const list = officialRoundList(catalog.id, readOfficialRounds().rounds);
-    element('round-list').hidden = false; text('status', '按下開始按鈕才會建立新的一輪。');
+    element('round-list').hidden = false; text('status', '按下開始按鈕才會開始作答。');
     element('round-action').replaceChildren(actionElement(list.action));
     const rows = list.rows.map((item) => {
       const row = document.createElement('div'); row.className = 'official-round-row';
-      row.append(Object.assign(document.createElement('strong'), { textContent: item.label }),
-        Object.assign(document.createElement('time'), { dateTime: item.submittedDate, textContent: item.submittedDate }),
-        Object.assign(document.createElement('span'), { textContent: item.score.summary }),
-        Object.assign(document.createElement('a'), { href: url(item.id), textContent: '回看 →' }));
+      row.append(Object.assign(document.createElement('time'), { dateTime: item.createdAt, textContent: item.startedText }),
+        Object.assign(document.createElement('span'), { textContent: item.statusText + '・' + item.resultText }),
+        Object.assign(document.createElement('a'), { href: url(item.id), textContent: '查看 →', ariaLabel: item.ariaLabel }));
       return row;
     });
-    element('round-rows').replaceChildren(...(rows.length ? rows : [Object.assign(document.createElement('p'), { textContent: '還沒有已交卷輪次。' })]));
+    element('round-rows').replaceChildren(...(rows.length ? rows : [Object.assign(document.createElement('p'), { textContent: '還沒有作答紀錄。' })]));
   };
   const displayCards = () => cards.forEach((card, index) => {
     const q = round!.questions[index];
     if (!availableOfficialQuestion(q, catalog.questions, round!)) return;
-    displayQuestionCard(card, { choice: q.choice, locked: !editable(), reveal: round!.status === 'submitted', correct: q.correct, saved: round!.status === 'submitted' });
+    displayQuestionCard(card, officialRoundCardDisplay(round!, index, editable()));
   });
   const render = () => {
     if (!round) return;
     const submitted = round.status === 'submitted';
+    const retired = round.status === 'retired';
+    element('time').hidden = retired;
     const submitting = round.status === 'submitting' || Boolean(pending);
     const counts = dailyCounts(round);
     const q = round.questions[round.position];
     const number = q ? officialQuestionNumber(q.id, catalog.questions) : null;
     text('position', `第 ${number ?? '—'} 題／共 ${counts.total} 題`); text('question-heading', `第 ${number ?? '—'} 題`);
-    text('progress', `本輪已答 ${counts.answered}／${counts.total}`); text('unsure-count', `不確定 ${counts.unsure}`);
+    text('progress', `已答 ${counts.answered}／${counts.total}`); text('unsure-count', `不確定 ${counts.unsure}`);
     const bar = element<HTMLProgressElement>('progress-bar'); bar.max = Math.max(1, counts.total); bar.value = counts.answered;
-    submit.hidden = submitted; submit.disabled = !editable() || !officialRoundSubmitEnabled(round, failures);
+    submit.hidden = submitted || retired; submit.disabled = !editable() || !officialRoundSubmitEnabled(round, failures);
     submit.textContent = counts.answered === counts.total ? '交卷' : `交卷（${counts.answered}／${counts.total}）`;
     element('submitted').hidden = !submitted;
     restart.hidden = round.status !== 'open'; restart.disabled = readOnly || Boolean(pending) || stopped;
-    unsure.hidden = submitted && !q?.unsure; unsure.disabled = !editable() || !q?.choice;
+    unsure.hidden = retired || (submitted && !q?.unsure); unsure.disabled = !editable() || !q?.choice;
     unsure.textContent = submitted ? '已標不確定' : '不確定'; unsure.setAttribute('aria-pressed', String(Boolean(q?.unsure)));
     element<HTMLButtonElement>('previous').disabled = submitting || !q || round.position === 0;
-    element<HTMLButtonElement>('next').disabled = submitting || !q || round.position === counts.total - 1 || (!submitted && !q.choice);
+    element<HTMLButtonElement>('next').disabled = submitting || !q || round.position === counts.total - 1 || (!submitted && !retired && !q.choice);
     const numbers = element('numbers');
     const focusedNumber = document.activeElement instanceof HTMLButtonElement && numbers.contains(document.activeElement) ? document.activeElement.textContent : null;
     numbers.replaceChildren(...officialRoundNumbers(round, catalog.questions).map((item) => {
@@ -184,9 +208,11 @@ export function initOfficialRound(): void {
     if (submitted && round.submission) {
       const score = officialRoundScore(round.submission);
       text('score-heading', score.answerText); text('score-points', score.scoreText ?? '');
-      try { element('review-action').replaceChildren(actionElement(officialRoundReviewAction(catalog.id, readOfficialRounds().rounds))); }
-      catch (cause) { element('review-action').replaceChildren(); error(cause, '輪次清單無法讀取，原資料已保留。', () => location.reload()); }
+      try { element('review-action').replaceChildren(actionElement(officialRoundReviewAction(catalog.id, readOfficialRounds().rounds)), historyLink()); }
+      catch (cause) { element('review-action').replaceChildren(historyLink()); error(cause, '紀錄清單無法讀取，原資料已保留。', () => location.reload()); }
     }
+    element('retired').hidden = !retired;
+    if (retired) text('retired-summary', officialRetiredSummary(round));
     displayCards(); showTime();
   };
   const finishSubmission = () => {
@@ -201,10 +227,10 @@ export function initOfficialRound(): void {
     } catch (cause) { error(cause); render(); }
   };
   const checkCurrent = () => {
-    if (!round || !expected || round.status === 'submitted' || readOnly || stopped) return;
+    if (!round || !expected || (round.status === 'submitted' || round.status === 'retired') || readOnly || stopped) return;
     try {
       const current = readOfficialRounds().rounds.find((item) => item.id === expected!.id && item.setId === expected!.setId);
-      if (!current || current.seq !== expected.seq) throw new DailyConflictError();
+      if (!current || current.seq !== expected.seq || current.status === 'retired') throw new DailyConflictError();
     } catch (cause) { readOnly = true; started = null; error(cause); render(); }
   };
   element('retry').addEventListener('click', () => {
@@ -217,32 +243,35 @@ export function initOfficialRound(): void {
     if (roundId === null) { renderList(); }
     else {
       round = store.rounds.find((item) => item.id === roundId && item.setId === catalog.id);
-      if (!round) { text('status', '找不到這一輪'); return; }
+      if (!round) { text('status', '找不到這次作答'); return; }
       expected = { ...round };
       const resolved = reconcileOfficialRound(round, catalog.questions); round = resolved.round;
-      text('status', resolved.skipped ? `${resolved.skipped} 題已移除或改版，已略過，不補題。` : round.status === 'submitting' ? '正在恢復交卷…' : round.status === 'submitted' ? '唯讀檢討・不能改答' : '先保存答案，交卷後一起檢討。');
-      text('round-label', `第 ${round.number} 輪`); element('round-label').hidden = false;
-      const heading = document.querySelector('h1'); if (heading) heading.textContent = `${catalog.title}・第 ${round.number} 輪`;
-      document.title = `${catalog.title}・第 ${round.number} 輪`;
+      text('status', resolved.skipped ? `${resolved.skipped} 題已移除或改版，已略過，不補題。` : round.status === 'submitting' ? '正在恢復交卷…' : round.status === 'submitted' ? '唯讀檢討・不能改答' : round.status === 'retired' ? '唯讀紀錄・不能改答' : '先保存答案，交卷後一起檢討。');
+      const heading = document.querySelector('h1'); if (heading) heading.textContent = catalog.title;
+      document.title = catalog.title;
       cards = round.questions.map((q) => {
         const card = allCards.get(q.id);
         if (card && availableOfficialQuestion(q, catalog.questions, round!)) { card.dataset.mode = round!.attemptMode; return card; }
-        const missing = document.createElement('article'); missing.className = 'exam-unavailable'; missing.textContent = '解析不可用。題目已移除或改版，本輪成績維持交卷時的紀錄。'; missing.hidden = true; return missing;
+        const missing = document.createElement('article'); missing.className = 'exam-unavailable'; missing.textContent = round!.status === 'retired' ? '題目已更新，無法顯示。' : '解析不可用。題目已移除或改版，這次成績維持交卷時的紀錄。'; missing.hidden = true; return missing;
       });
       container.replaceChildren(...cards);
       const requested = Number(new URL(location.href).searchParams.get('position')) - 1;
-      round.position = dailyPosition(round, requested);
+      if (round.status === 'retired') {
+        const positions = officialRoundPositions(round);
+        round.position = positions.includes(requested) ? requested : positions.includes(round.position) ? round.position : 0;
+        if (resolved.unavailable.length) text('status', `${resolved.unavailable.length} 題已移除或改版，無法顯示題目；其他題照常查看。`);
+      } else round.position = dailyPosition(round, requested);
       // 初始導覽與失效題過濾只改記憶體；開頁本身不寫入。
       savedContent = JSON.stringify(round);
       let initial = true;
       if (cards.length) navigation = initQuestionNavigation({ prefix: 'official', cards, position: round.position, heading: element('question-heading'),
-        canVisit: (target, current) => Boolean(round && dailyNumbers(round).includes(target) && (initial || (!pending && round.status !== 'submitting' && (round.status === 'submitted' || round.questions[current]?.choice || target <= current)))),
-        nextPosition: (position) => dailyNext(round!, position), onLeave: settle,
+        canVisit: (target, current) => Boolean(round && !pending && officialRoundCanVisit(round, target, current, initial)),
+        nextPosition: (position) => round!.status === 'retired' ? Math.min(position + 1, cards.length - 1) : dailyNext(round!, position), onLeave: settle,
         onShow: (position) => { round!.position = position; if (!initial) persist(); initial = false; started = editable() && !document.hidden ? performance.now() : null; render(); } });
       else render();
       if (round.status === 'submitting') finishSubmission();
     }
-  } catch (cause) { text('status', '無法載入考古題輪次。'); error(cause, '原資料已保留。', () => location.reload()); return; }
+  } catch (cause) { text('status', '無法載入考古題作答紀錄。'); error(cause, '原資料已保留。', () => location.reload()); return; }
   container.addEventListener('change', (event) => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement) || !editable() || !round) return;
@@ -272,7 +301,8 @@ export function initOfficialRound(): void {
     try {
       const questions = currentQuestions();
       if (!questions.length) throw new Error('這份題組目前沒有可作答的題目。');
-      const opened = restartOfficialRound(expected, crypto.randomUUID(), new Date().toISOString(), questions);
+      const latest = latestOfficialRound(round, expected, catalog.questions);
+      const opened = restartOfficialRound(expected, latest, crypto.randomUUID(), new Date().toISOString(), questions);
       stop(); restartDialog.close(); location.href = url(opened.id);
     } catch (cause) { restartDialog.close(); error(cause, '尚未重新開始。', () => restart.click(), 'restart'); render(); }
   });
@@ -290,8 +320,10 @@ export function initOfficialRound(): void {
     else { checkCurrent(); if (round?.status === 'submitted') render(); }
   });
   document.addEventListener('visibilitychange', () => { settle(); persist(); if (!document.hidden) checkCurrent(); render(); });
-  timer = window.setInterval(showTime, 1000);
-  saveTimer = window.setInterval(() => { if (!document.hidden && editable()) { settle(); persist(); render(); } }, 15_000);
+  if (round?.status === 'open' && !stopped) {
+    timer = window.setInterval(showTime, 1000);
+    saveTimer = window.setInterval(() => { if (!document.hidden && editable()) { settle(); persist(); render(); } }, 15_000);
+  }
   window.addEventListener('pagehide', () => { if (stopped) return; settle(); persist(); window.clearInterval(timer); window.clearInterval(saveTimer); started = null; });
   // 返回快取一律重新讀網址與儲存資料，避免舊頁復活已刪或已交卷的輪次。
   window.addEventListener('pageshow', (event) => { if (event.persisted) { stopped = true; started = null; location.reload(); } });
