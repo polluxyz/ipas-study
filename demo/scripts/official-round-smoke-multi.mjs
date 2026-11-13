@@ -7,12 +7,11 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
 import { ModuleKind, ScriptTarget, transpileModule } from 'typescript';
 
-const BASE = 'http://127.0.0.1:4363';
 const ROUND = 'ipas-official-rounds-v1';
 const ATTEMPTS = 'ipas-attempts-v1';
 const INSTANT = '2026-11-12T04:00:00.000Z';
-const DEFAULT_DIST = 'E:/orca/workspaces/ipas-study/official-verify/demo/dist';
-const OUTPUT = fileURLToPath(new URL('../../tmp/demo-shots/t2/', import.meta.url));
+const DEFAULT_DIST = fileURLToPath(new URL('../dist/', import.meta.url));
+const OUTPUT = fileURLToPath(new URL('../../tmp/demo-shots/official-v2-w5b/', import.meta.url));
 const card = (page) => page.locator('#official-cards [data-question]:visible');
 const raw = (page, key = ROUND) => page.evaluate((key) => localStorage.getItem(key), key);
 const store = async (page) => JSON.parse(await raw(page));
@@ -35,17 +34,14 @@ async function choose(page, choice) {
 }
 async function readonly(page) {
   await page.locator('#official-save-error:visible').waitFor();
-  assert.match(await page.locator('#official-error-message').innerText(), /唯讀/);
+  assert.equal(await page.locator('#official-error-message').innerText(), '這次作答已由另一頁更新，請重新載入。本頁已改為唯讀。');
   assert.equal(await page.locator('#official-cards input:not(:disabled)').count(), 0);
   assert.equal(await page.locator('#official-retry').isVisible(), false);
   assert.equal(await page.locator('#official-reload').isVisible(), true);
   assert.equal(await page.locator('#official-restart').isDisabled(), true);
 }
-async function enter(page, round) {
-  await page.goto(`${BASE}/official/${round.setId}/?round=${round.id}`);
-  await waitPractice(page);
-}
 async function restart(page, oldId) {
+  assert.equal(await page.locator('#official-restart').innerText(), '重新開始');
   await page.locator('#official-restart').click();
   await page.locator('#official-restart-dialog[open]').waitFor();
   await Promise.all([
@@ -54,11 +50,22 @@ async function restart(page, oldId) {
   ]);
   await waitPractice(page);
   const current = (await store(page)).rounds;
-  assert.equal(current.length, 1);
-  assert.notEqual(current[0].id, oldId);
-  assert.equal(current[0].number, 1);
-  assert.ok(current[0].questions.every((q) => q.choice === null && !q.unsure));
-  return current[0];
+  assert.equal(current.length, 2);
+  const old = current.find((round) => round.id === oldId);
+  const next = current.find((round) => round.id !== oldId);
+  assert.equal(old.status, 'retired');
+  assert.equal(next.status, 'open');
+  assert.equal(next.number, old.number + 1);
+  assert.ok(next.questions.every((q) => q.choice === null && !q.unsure));
+  return next;
+}
+async function retired(page) {
+  await page.locator('#official-retired:visible').waitFor();
+  assert.match(await page.locator('#official-status').innerText(), /唯讀紀錄・不能改答/);
+  assert.match(await page.locator('#official-retired-summary').innerText(), /未交卷・已答 1／50・不計分/);
+  assert.equal(await page.locator('#official-cards input:not(:disabled)').count(), 0);
+  for (const suffix of ['submit', 'restart', 'score']) assert.equal(await page.locator(`#official-${suffix}`).isVisible(), false);
+  assert.equal(await card(page).locator('[data-explanation]:visible').count(), 0);
 }
 async function forceOldSave(page) {
   // 送出已停用輸入與離頁事件，驗證舊生命週期也不能復活資料。
@@ -70,11 +77,12 @@ async function forceOldSave(page) {
 }
 
 export async function runOfficialRoundMultiSmoke() {
+  let BASE = '';
   const dist = resolve(process.env.OFFICIAL_ROUND_DIST ?? DEFAULT_DIST);
   assert.notEqual(dist.toLowerCase().replaceAll('\\', '/'), 'd:/ipas-study/demo/dist');
-  const output = resolve(OUTPUT);
+  const output = resolve(OUTPUT, `${new Date().toISOString().replaceAll(':', '-')}-${process.pid}`);
   await mkdir(output, { recursive: true });
-  const report = { dist, output, origin: BASE, cases: [], screenshots: [], errors: [], exitCode: 1,
+  const report = { dist, output, cases: [], screenshots: [], errors: [], exitCode: 1,
     deviations: ['網站目前沒有清除入口，經協調者核可以分頁 B 呼叫產品 clearStudyData()。'] };
   const parseCatalog = (html) => JSON.parse(html.match(/<script[^>]*id="official-catalog"[^>]*>([\s\S]*?)<\/script>/)[1]);
   const directory = parseCatalog(await readFile(resolve(dist, 'official/index.html'), 'utf8'));
@@ -124,6 +132,10 @@ export async function runOfficialRoundMultiSmoke() {
     } catch { response.writeHead(404).end(); }
   });
   let browser;
+  async function enter(page, round) {
+    await page.goto(`${BASE}/official/${round.setId}/?round=${round.id}`);
+    await waitPractice(page);
+  }
   async function seed(ctx, entries = {}) {
     const page = await ctx.newPage(); await page.goto(BASE + '/__test/blank.html');
     await page.evaluate((entries) => {
@@ -172,14 +184,29 @@ export async function runOfficialRoundMultiSmoke() {
     } catch (error) {
       result.failure = String(error.stack ?? error);
       console.error(`${name}：${result.failure}`);
+      result.evidence = [];
       for (const [index, page] of ctx.pages().entries()) {
         const path = resolve(output, `failure-${id}-page-${index + 1}.png`);
-        try { await page.screenshot({ path, fullPage: true }); report.screenshots.push(path); } catch { /* 截圖失敗仍保留原始錯誤。 */ }
+        const evidence = { url: page.url(), screenshot: path };
+        try {
+          evidence.storage = await snapshot(page);
+          evidence.text = await page.locator('body').innerText();
+          await page.screenshot({ path, fullPage: true }); report.screenshots.push(path);
+        } catch (cause) { evidence.captureError = String(cause); }
+        result.evidence.push(evidence);
       }
+      const evidencePath = resolve(output, `failure-${id}.json`);
+      await writeFile(evidencePath, JSON.stringify(result, null, 2) + '\n');
+      console.error(`失敗證據：${evidencePath}`);
     } finally { await ctx.close(); report.cases.push(result); console.log(`${id}. ${name}：${result.success ? '通過' : '失敗'} ${JSON.stringify(result.actual)}`); }
   }
   try {
-    await new Promise((done, reject) => { server.once('error', reject); server.listen(4363, '127.0.0.1', done); });
+    await new Promise((done, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', done); });
+    const address = server.address();
+    assert.ok(address && typeof address === 'object');
+    assert.notEqual(address.port, 4321);
+    BASE = `http://127.0.0.1:${address.port}`;
+    report.origin = BASE;
     browser = await chromium.launch({ headless: true, channel: 'chrome' });
     for (const state of ['empty', 'open', 'submitted']) await run(`目錄只讀：${{ empty: '空資料', open: '作答中', submitted: '已交卷' }[state]}`, async (ctx, actual) => {
       const fixtures = state === 'empty' ? [] : exams.map((set) => fixture(state, set));
@@ -202,7 +229,7 @@ export async function runOfficialRoundMultiSmoke() {
       }
       Object.assign(actual, { directory: 1, setPages: 4, rawUnchanged: true, screenshots: 6 });
     });
-    await run('讀目錄不恢復 submitting，進入該輪才交卷', async (ctx, actual) => {
+    await run('讀目錄不恢復 submitting，進入該筆才交卷', async (ctx, actual) => {
       const f = fixture('submitting');
       const page = await seed(ctx, { [ROUND]: JSON.stringify(f.data, null, 2), [ATTEMPTS]: '{ "version": 1, "attempts": [] }' });
       const before = await snapshot(page);
@@ -214,13 +241,14 @@ export async function runOfficialRoundMultiSmoke() {
       const submitted = await snapshot(page); await page.reload(); await waitPractice(page); assert.deepEqual(await snapshot(page), submitted);
       Object.assign(actual, { recoveryOnDirectory: 0, submittedAttempts: f.batch.length, duplicateAttempts: 0 });
     });
-    await run('損壞輪次 JSON：考古題顯示錯誤，指引正常', async (ctx, actual) => {
+    await run('損壞紀錄 JSON：考古題顯示錯誤，指引正常', async (ctx, actual) => {
       const damaged = '{"version":1,"rounds":[';
       const page = await seed(ctx, { [ROUND]: damaged }); const before = await snapshot(page);
       await page.goto(BASE + '/official/'); await waitDirectory(page);
       for (const set of exams) {
-        assert.match(await page.locator(`#error-${set.id}`).innerText(), /無法讀取輪次/);
+        assert.match(await page.locator(`#error-${set.id}`).innerText(), /無法讀取作答紀錄/);
         assert.equal(await page.locator(`#action-${set.id}`).isVisible(), false);
+        assert.equal(await page.locator(`#start-${set.id}`).isVisible(), false);
       }
       for (const id of ['guide-S1', 'guide-S3']) {
         assert.equal(await page.locator(`#error-${id}`).isVisible(), false);
@@ -228,18 +256,28 @@ export async function runOfficialRoundMultiSmoke() {
       }
       assert.deepEqual(await snapshot(page), before); Object.assign(actual, { examErrors: 4, guideActions: 2, rawUnchanged: true });
     });
-    for (const delayed of [false, true]) await run(`2 分頁重新考：${delayed ? '延後通知後保存拒絕' : 'storage 通知改唯讀'}`, async (ctx, actual) => {
+    for (const delayed of [false, true]) await run(`2 分頁重新開始：${delayed ? '延後通知後保存拒絕' : 'storage 通知改唯讀'}`, async (ctx, actual) => {
       const f = fixture(); const a = await seed(ctx, { [ROUND]: f.data }); await enter(a, f.round);
       const b = await ctx.newPage();
       if (delayed) await b.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation(), true));
       await enter(b, f.round);
       const next = await restart(a, f.round.id);
-      if (delayed) await choose(b, f.round.questions[0].choice === 'A' ? 'B' : 'A');
+      const before = await snapshot(a);
+      if (delayed) {
+        assert.equal(await b.locator('#official-save-error').isVisible(), false);
+        await choose(b, f.round.questions[0].choice === 'A' ? 'B' : 'A');
+      }
       await readonly(b);
-      const before = await snapshot(a); await forceOldSave(b);
-      assert.deepEqual(await snapshot(a), before); assert.ok(!(await store(a)).rounds.some((round) => round.id === f.round.id));
-      assert.equal((await store(a)).rounds[0].id, next.id);
-      Object.assign(actual, { tabs: 2, readonly: true, resurrectedRounds: 0, delayedStorage: delayed });
+      assert.deepEqual(await snapshot(a), before);
+      await forceOldSave(b);
+      assert.deepEqual(await snapshot(a), before);
+      const saved = (await store(a)).rounds;
+      assert.equal(saved.find((round) => round.id === f.round.id).status, 'retired');
+      assert.equal(saved.find((round) => round.id === next.id).status, 'open');
+      await b.reload(); await waitPractice(b); await retired(b);
+      assert.equal(await card(b).locator('input:checked').inputValue(), f.round.questions[0].choice);
+      await forceOldSave(b); assert.deepEqual(await snapshot(a), before);
+      Object.assign(actual, { tabs: 2, readonly: true, oldStatus: 'retired', newStatus: 'open', totalRecords: saved.length, reloadRetired: true, rawUnchanged: true, delayedStorage: delayed });
     });
     await run('清除後舊頁唯讀：網站無入口，改呼叫產品清除函式', async (ctx, actual) => {
       const f = fixture(); const a = await seed(ctx, { [ROUND]: f.data, [ATTEMPTS]: { version: 1, attempts: [] } });
@@ -252,20 +290,113 @@ export async function runOfficialRoundMultiSmoke() {
       const before = await snapshot(b); await forceOldSave(a); assert.deepEqual(await snapshot(b), before); assert.equal(await raw(b), null);
       Object.assign(actual, { tabs: 2, clearFunction: '產品 clearStudyData()', readonly: true, recreatedKey: false });
     });
-    await run('重新考後 goBack 不復活舊輪', async (ctx, actual) => {
+    await run('重新開始後 goBack 回看唯讀未交卷紀錄', async (ctx, actual) => {
       const f = fixture(); const page = await seed(ctx, { [ROUND]: f.data }); await enter(page, f.round);
       const next = await restart(page, f.round.id); const attemptsBefore = await raw(page, ATTEMPTS);
       await page.goBack(); await page.waitForURL((url) => url.searchParams.get('round') === f.round.id);
-      await page.locator('#official-status').filter({ hasText: '找不到這一輪' }).waitFor();
+      await waitPractice(page); await retired(page);
       // 新輪離頁可正常保存用時；抵達舊網址後，才凍結逐字比較基準。
       const before = await snapshot(page); await forceOldSave(page); assert.deepEqual(await snapshot(page), before);
       assert.equal(await raw(page, ATTEMPTS), attemptsBefore);
-      assert.equal((await store(page)).rounds[0].id, next.id); assert.equal((await store(page)).rounds.length, 1);
-      Object.assign(actual, { browserBack: true, missingOldRound: true, resurrectedRounds: 0 });
+      const saved = (await store(page)).rounds;
+      assert.equal(saved.find((round) => round.id === next.id).status, 'open');
+      assert.equal(saved.find((round) => round.id === f.round.id).status, 'retired'); assert.equal(saved.length, 2);
+      Object.assign(actual, { browserBack: true, retiredReadonly: true, totalRecords: 2, rawUnchanged: true });
+    });
+    // 目錄與全部紀錄頁各驗開始、重新開始；同一事件循環連按，避免導向後誤點新頁。
+    for (const surface of ['directory', 'records']) await run(`${surface === 'directory' ? '目錄' : '全部紀錄'}連按開始或重新開始只建立 1 筆`, async (ctx, actual) => {
+      actual.scenarios = [];
+      for (const state of ['empty', 'submitted']) {
+        const f = fixture('submitted');
+        const page = await seed(ctx);
+        await page.evaluate(({ key, data }) => {
+          localStorage.clear();
+          if (data) localStorage.setItem(key, JSON.stringify(data));
+        }, { key: ROUND, data: state === 'submitted' ? f.data : null });
+        const set = exams[0];
+        await page.goto(surface === 'directory' ? `${BASE}/official/` : `${BASE}/official/${set.id}/`);
+        if (surface === 'directory') await waitDirectory(page);
+        else await page.locator('#official-round-list:visible').waitFor();
+        const button = page.locator(surface === 'directory' ? `#start-${set.id}` : '#official-round-action button');
+        const label = state === 'empty' ? '開始作答' : '重新開始';
+        assert.equal(await button.innerText(), label);
+        const original = state === 'submitted' ? JSON.stringify((await store(page)).rounds[0]) : null;
+        await Promise.all([
+          page.waitForURL((url) => Boolean(url.searchParams.get('round'))),
+          button.evaluate((element) => {
+            if (!(element instanceof HTMLButtonElement)) throw new Error('開始作答必須使用按鈕。');
+            element.click(); element.click();
+          }),
+        ]);
+        await waitPractice(page);
+        const saved = (await store(page)).rounds;
+        assert.equal(saved.length, state === 'empty' ? 1 : 2);
+        const opened = saved.filter((round) => round.status === 'open');
+        assert.equal(opened.length, 1);
+        assert.equal(new URL(page.url()).searchParams.get('round'), opened[0].id);
+        assert.equal(opened[0].number, state === 'empty' ? 1 : 2);
+        assert.ok(opened[0].questions.every((question) => question.choice === null && !question.unsure));
+        if (original) assert.equal(JSON.stringify(saved.find((round) => round.id === f.round.id)), original);
+        actual.scenarios.push({ label, clicks: 2, createdRecords: 1, totalRecords: saved.length, originalUnchanged: true });
+        await page.close();
+      }
+    });
+    // 先完成 A 的開啟，再點 B 的舊按鈕；延後通知只模擬已開頁的舊畫面，不模擬同時寫入。
+    for (const surface of ['directory', 'records']) await run(`${surface === 'directory' ? '目錄' : '全部紀錄'}舊頁開始導向另一頁已建立的紀錄`, async (ctx, actual) => {
+      const set = exams[0];
+      const a = await seed(ctx);
+      const b = await ctx.newPage();
+      await b.addInitScript(() => window.addEventListener('storage', (event) => event.stopImmediatePropagation(), true));
+      await a.goto(`${BASE}/official/`); await waitDirectory(a);
+      await b.goto(surface === 'directory' ? `${BASE}/official/` : `${BASE}/official/${set.id}/`);
+      if (surface === 'directory') await waitDirectory(b);
+      else await b.locator('#official-round-list:visible').waitFor();
+      const button = b.locator(surface === 'directory' ? `#start-${set.id}` : '#official-round-action button');
+      assert.equal(await button.innerText(), '開始作答');
+      await a.locator(`#start-${set.id}`).click(); await waitPractice(a);
+      const id = new URL(a.url()).searchParams.get('round');
+      assert.ok(id);
+      assert.equal((await store(a)).rounds.length, 1);
+      const before = await snapshot(a);
+      await button.click(); await waitPractice(b);
+      assert.equal(new URL(b.url()).searchParams.get('round'), id);
+      assert.equal((await store(b)).rounds.length, 1);
+      assert.deepEqual(await snapshot(b), before);
+      Object.assign(actual, { tabs: 2, completedBeforeSecondClick: true, sameRecord: true, totalRecords: 1, rawUnchanged: true, delayedStorage: true });
+    });
+    await run('4 份題組交錯保存互不影響', async (ctx, actual) => {
+      const fixtures = exams.map((set) => fixture('open', set));
+      const first = await seed(ctx, { [ROUND]: { version: 1, rounds: fixtures.map((item) => item.round) }, [ATTEMPTS]: { version: 1, attempts: [] } });
+      const pages = [first];
+      for (let index = 1; index < fixtures.length; index++) pages.push(await ctx.newPage());
+      for (let index = 0; index < fixtures.length; index++) await enter(pages[index], fixtures[index].round);
+      let saves = 0;
+      // 各題組先改答案、再改標記；每次都逐字比較另外 3 筆。
+      for (const mark of [false, true]) for (const index of [0, 2, 1, 3]) {
+        const page = pages[index]; const id = fixtures[index].round.id;
+        const before = (await store(first)).rounds;
+        const target = before.find((round) => round.id === id);
+        const otherBefore = before.filter((round) => round.id !== id).map((round) => JSON.stringify(round));
+        const attemptsBefore = await raw(first, ATTEMPTS);
+        if (mark) await page.locator('#official-unsure').click();
+        else await choose(page, target.questions[0].choice === 'A' ? 'B' : 'A');
+        const after = (await store(first)).rounds;
+        assert.equal(after.length, 4);
+        assert.deepEqual(after.filter((round) => round.id !== id).map((round) => JSON.stringify(round)), otherBefore);
+        const changed = after.find((round) => round.id === id);
+        assert.equal(changed.seq, target.seq + 1);
+        assert.equal(changed.status, 'open');
+        assert.equal(changed.questions[0].unsure, mark);
+        if (!mark) assert.notEqual(changed.questions[0].choice, target.questions[0].choice);
+        assert.equal(await raw(first, ATTEMPTS), attemptsBefore);
+        assert.equal(await page.locator('#official-save-error').isVisible(), false);
+        saves++;
+      }
+      Object.assign(actual, { tabs: 4, sets: 4, interleavedSaves: saves, untouchedRecordsPerSave: 3, attemptsUnchanged: true });
     });
     // 缺少輪次鍵及既有輪次鍵各測一次，整段指引操作都監測該鍵不得寫入。
     for (const existing of [false, true]) {
-      for (const sparse of [false, true]) await run(`指引${sparse ? '不連續紀錄與網址還原' : '確認、解析與題號顏色'}：輪次鍵${existing ? '既有' : '不存在'}`, async (ctx, actual) => {
+      for (const sparse of [false, true]) await run(`指引${sparse ? '不連續紀錄與網址還原' : '確認、解析與題號顏色'}：紀錄鍵${existing ? '既有' : '不存在'}`, async (ctx, actual) => {
         const data = sparse ? [guideAttempt(0, true), guideAttempt(2, false), guideAttempt(6, true)] : [];
         const entries = { [ATTEMPTS]: { version: 1, attempts: data }, ...(existing ? { [ROUND]: JSON.stringify(fixture('submitted').data, null, 2) } : {}) };
         const page = await seed(ctx, entries); const roundBefore = await raw(page);
@@ -329,7 +460,7 @@ export async function runOfficialRoundMultiSmoke() {
     if (server.listening) await new Promise((done, reject) => server.close((error) => error ? reject(error) : done()));
     report.passed = report.cases.filter((item) => item.success).length;
     report.total = report.cases.length;
-    report.exitCode = !report.fatal && report.total === 13 && report.passed === report.total && report.errors.length === 0 ? 0 : 1;
+    report.exitCode = !report.fatal && report.total === 18 && report.passed === report.total && report.errors.length === 0 ? 0 : 1;
     await writeFile(resolve(output, 'report.json'), JSON.stringify(report, null, 2) + '\n');
   }
   return report;
