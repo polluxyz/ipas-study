@@ -20,25 +20,32 @@ const catalog = sets.map(({ id, session, subject, mode, questions }) => ({ id, s
   <div class="official-directory daily-booklet exam-layout">
     <div class="booklet-directory-intro">
       <p class="lead">選一份題組，依原題順序練習。</p>
-      <p>考古題每輪分開計分，已交卷的輪次可以回看。</p>
-      <p class="booklet-local">輪次與作答紀錄只存在這個瀏覽器的這個網址</p>
+      <p>考古題每次作答分開計分，交卷過和中途重新開始的紀錄都會保留。</p>
+      <p class="booklet-local">作答紀錄只存在這個瀏覽器的這個網址</p>
     </div>
-    <p id="official-status" class="exam-status" role="status">正在讀取輪次與作答進度…</p>
+    <p id="official-status" class="exam-status" role="status">正在讀取作答紀錄與進度…</p>
     {sections.map((section) => <section class="booklet-catalog-section" aria-labelledby={`official-heading-${section.id}`}>
       <div class="booklet-section-head"><h2 id={`official-heading-${section.id}`}>{section.title}</h2><p>{section.sets.length} 份題組</p></div>
       <p class="official-section-note">{section.note}</p>
       <div class="official-grid">{section.sets.map((set) => <article class="official-set" data-official-set={set.id} data-count={set.questions.length}>
         <div class="official-set-heading"><span class="booklet-kicker">科目 {set.subject}</span><h3>{set.title}</h3><p>共 {set.questions.length} 題{set.session !== 'guide' && '・每題 2 分'}</p></div>
         <div class="official-set-records">
-          <p id={`progress-${set.id}`}>輪次與進度需要 JavaScript 才能讀取。</p>
+          <p id={`progress-${set.id}`}>作答紀錄與進度需要 JavaScript 才能讀取。</p>
           <p id={`history-${set.id}`} hidden></p>
           <p id={`legacy-${set.id}`} class="official-legacy" hidden></p>
-          <p id={`error-${set.id}`} class="official-error" hidden></p>
+          <p id={`error-${set.id}`} class="official-error" role="alert" hidden></p>
         </div>
-        <a id={`action-${set.id}`} class="booklet-row-action" href={`/official/${set.id}/`} hidden>開啟題組 →</a>
+        <div class="official-set-actions">
+          {set.session !== 'guide' && <button id={`start-${set.id}`} class="official-start" type="button" hidden>開始作答</button>}
+          <a id={`action-${set.id}`} class="booklet-row-action" hidden>開啟題組 →</a>
+          {set.session !== 'guide' && <>
+            <a id={`latest-${set.id}`} class="booklet-row-action" hidden>查看上次作答 →</a>
+            <a id={`records-${set.id}`} class="booklet-row-action" hidden>全部紀錄 →</a>
+          </>}
+        </div>
       </article>)}</div>
     </section>)}
-    <footer class="booklet-footer"><div><a href="/daily/">練習非官方題：每日題本 →</a><a href="/wrong-book/">錯題本與備份 →</a></div><p>備份檔只含作答紀錄，不含考古題輪次。清除後再匯入，作答與統計會恢復，輪次清單、未交卷答案與回看不會恢復。</p></footer>
+    <footer class="booklet-footer"><div><a href="/daily/">練習非官方題：每日題本 →</a><a href="/wrong-book/">錯題本與備份 →</a></div><p>備份包含已保存的作答與已讀紀錄。考古題只備份已交卷的作答，不含紀錄清單與未交卷答案。清除後再匯入，作答與統計會恢復，紀錄清單與回看不會恢復。</p></footer>
     <noscript><p>官方練習需要 JavaScript 才能逐題作答及保存進度。請啟用 JavaScript 後重新整理。</p></noscript>
     <script type="application/json" id="official-catalog" set:html={JSON.stringify(catalog).replace(/</g, '\u003c')}></script>
   </div>
@@ -53,7 +60,12 @@ const catalog = sets.map(({ id, session, subject, mode, questions }) => ({ id, s
   .official-set-records { display: grid; gap: 8px; font-size: 13px; line-height: 1.8; color: var(--ink); }
   .official-directory .official-legacy { padding-top: 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
   .official-error { color: var(--exam-red); }
-  .official-set .booklet-row-action { margin-top: auto; font-size: 14px; }
+  .official-set-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: auto; max-width: 100%; }
+  .official-set .booklet-row-action { font-size: 14px; }
+  .official-start { min-height: 44px; max-width: 100%; padding: 9px 16px; border: 1px solid var(--ink); border-radius: 6px; background: var(--ink); color: var(--paper); font: inherit; font-size: 14px; cursor: pointer; }
+  .official-start:hover { opacity: .85; }
+  .official-start:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .official-start:disabled { cursor: wait; opacity: .6; }
   .official-directory [hidden] { display: none !important; }
   @media (max-width: 760px) { .official-grid { grid-template-columns: minmax(0, 1fr); } .official-set { padding: 16px; gap: 12px; } }
 </style>
