@@ -194,6 +194,22 @@ describe('目錄只讀儲存', () => {
     expect(assign).toHaveBeenCalledExactlyOnceWith('/official/115-1-S3/?round=new-id');
     expect(button.disabled).toBe(true);
   });
+  it('從返回快取恢復時重新載入，避免開始按鈕停在停用狀態', () => {
+    directory();
+    const handlers: ((event: { persisted: boolean }) => void)[] = [];
+    const reload = vi.fn();
+    vi.stubGlobal('window', { addEventListener: (type: string, handler: (event: { persisted: boolean }) => void) => {
+      if (type === 'pageshow') handlers.push(handler);
+    } });
+    vi.stubGlobal('location', { assign: vi.fn(), reload });
+    initOfficialIndex();
+    expect(handlers).toHaveLength(1);
+    handlers[0]({ persisted: false });
+    expect(reload).not.toHaveBeenCalled();
+    handlers[0]({ persisted: true });
+    expect(reload).toHaveBeenCalledOnce();
+    expect(setItem).not.toHaveBeenCalled();
+  });
   it('目錄內容無法解析時顯示錯誤，不寫入', () => {
     const elements = directory();
     elements.get('official-catalog')!.textContent = '{';

@@ -91,6 +91,10 @@ export function initOfficialIndex(): void {
   const status = document.getElementById('official-status');
   const catalog = document.getElementById('official-catalog');
   if (!status || !catalog) return;
+  // 返回快取會保留已停用的開始按鈕與舊卡片；重新載入才會重讀紀錄，顯示剛建立那一次的「繼續作答」。
+  if (typeof window !== 'undefined') {
+    window.addEventListener('pageshow', (event) => { if (event.persisted) location.reload(); });
+  }
   try {
     const sets: OfficialIndexSet[] = JSON.parse(catalog.textContent ?? '[]');
     const cards = readOfficialIndexCards(sets);
