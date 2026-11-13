@@ -405,12 +405,12 @@ export interface OfficialRoundQuestion {
 }
 export interface OfficialRound {
   id: string; seq: number; setId: string; subject: 1 | 3; number: number; createdAt: string;
-  attemptMode: string; status: 'open' | 'submitting' | 'submitted'; position: number;
+  attemptMode: string; status: 'open' | 'submitting' | 'submitted' | 'retired'; position: number;
   questions: OfficialRoundQuestion[]; submission?: DailySubmission;
 }
 export interface OfficialRoundStore { version: 1; rounds: OfficialRound[]; }
 export type OfficialRoundRef = Pick<OfficialRound, 'id' | 'seq' | 'setId'>;
-function officialRoundError(): Error { return new Error('考古題輪次損壞或欄位不完整，已保留原資料並停止覆寫。'); }
+function officialRoundError(): Error { return new Error('考古題作答紀錄損壞或欄位不完整，已保留原資料並停止覆寫。'); }
 function isOfficialRound(value: unknown): value is OfficialRound {
   if (!record(value) || typeof value.id !== 'string' || !value.id.trim() || !Number.isSafeInteger(value.seq) || Number(value.seq) < 0 ||
     !Number.isSafeInteger(value.number) || Number(value.number) < 1 || !Number.isSafeInteger(value.position) ||
@@ -418,20 +418,22 @@ function isOfficialRound(value: unknown): value is OfficialRound {
     typeof value.setId !== 'string' || !Object.hasOwn(OFFICIAL_ROUND_SETS, value.setId) ||
     OFFICIAL_ROUND_SETS[value.setId as keyof typeof OFFICIAL_ROUND_SETS] !== value.subject ||
     value.attemptMode !== `official-round:${value.id}:S${value.subject}` ||
-    !['open', 'submitting', 'submitted'].includes(String(value.status)) || !Array.isArray(value.questions)) return false;
+    !['open', 'submitting', 'submitted', 'retired'].includes(String(value.status)) || !Array.isArray(value.questions)) return false;
+  const unsubmitted = value.status === 'open' || value.status === 'retired';
   const prefix = `${value.setId}-Q`;
   if (!value.questions.every((q: unknown) => record(q) && typeof q.id === 'string' && q.id.startsWith(prefix) && q.id.length === prefix.length + 2 &&
     /^(?:0[1-9]|[1-4][0-9]|50)$/.test(q.id.slice(prefix.length)) && Number.isSafeInteger(q.rev) && !('legacyAttemptId' in q) &&
-    (!('correct' in q) || (value.status !== 'open' && typeof q.correct === 'boolean')))) return false;
-  if (value.status === 'open' && 'submission' in value) return false;
-  return isDraftContent(value, value.status === 'open', value.attemptMode);
+    (!('correct' in q) || (!unsubmitted && typeof q.correct === 'boolean')))) return false;
+  if (unsubmitted && 'submission' in value) return false;
+  return isDraftContent(value, unsubmitted, value.attemptMode);
 }
 export function isOfficialRoundStore(value: unknown): value is OfficialRoundStore {
   if (!record(value) || value.version !== 1 || !Array.isArray(value.rounds) || !value.rounds.every(isOfficialRound)) return false;
   const rounds: OfficialRound[] = value.rounds;
   return new Set(rounds.map((round) => round.id)).size === rounds.length &&
     new Set(rounds.map((round) => `${round.setId}:${round.number}`)).size === rounds.length &&
-    Object.keys(OFFICIAL_ROUND_SETS).every((setId) => rounds.filter((round) => round.setId === setId && round.status !== 'submitted').length <= 1);
+    Object.keys(OFFICIAL_ROUND_SETS).every((setId) => rounds.filter((round) => round.setId === setId &&
+      (round.status === 'open' || round.status === 'submitting')).length <= 1);
 }
 export function readOfficialRounds(): OfficialRoundStore {
   const raw = localStorage.getItem(OFFICIAL_ROUND_KEY);
@@ -471,7 +473,7 @@ function freshOfficialQuestions(questions: readonly { id: string; rev: number }[
 export function openOfficialRound(setId: string, questions: { id: string; rev: number }[], id: string, createdAt: string): OfficialRound {
   const store = readOfficialRounds();
   if (!Object.hasOwn(OFFICIAL_ROUND_SETS, setId)) throw officialRoundError();
-  if (store.rounds.some((round) => round.setId === setId && round.status !== 'submitted')) throw new DailyConflictError();
+  if (store.rounds.some((round) => round.setId === setId && (round.status === 'open' || round.status === 'submitting'))) throw new DailyConflictError();
   const subject = OFFICIAL_ROUND_SETS[setId as keyof typeof OFFICIAL_ROUND_SETS];
   const round: OfficialRound = {
     id, seq: 0, setId, subject, number: Math.max(0, ...store.rounds.filter((item) => item.setId === setId).map((item) => item.number)) + 1,
@@ -485,7 +487,7 @@ export function saveOfficialRound(round: OfficialRound, expected: OfficialRoundR
   const { store, round: original } = assertOfficialRoundCurrent(expected);
   if (round.seq !== expected.seq || (['id', 'setId', 'subject', 'number', 'createdAt', 'attemptMode'] as const)
     .some((key) => round[key] !== original[key])) throw new DailyConflictError();
-  if (original.status === 'submitted' ||
+  if (original.status === 'submitted' || original.status === 'retired' ||
     (original.status === 'open' && round.status !== 'open' && round.status !== 'submitting') ||
     (original.status === 'submitting' && (round.status !== 'submitted' || !sameOfficialSubmission(round, original)))) throw officialRoundError();
   const saved = { ...round, seq: expected.seq + 1 };
@@ -493,26 +495,32 @@ export function saveOfficialRound(round: OfficialRound, expected: OfficialRoundR
   return saved;
 }
 /**
- * 重新考只讀最新輪次；刪除舊輪與加入新輪共用一次寫入。
+ * 重新開始先比對最新輪次；保留畫面上的答案為未交卷紀錄，並在同一次寫入加入新輪。
  * 傳入 questions 時改用這份題目（例如目前建置的有效題），讓全部失效的輪次也能換成可作答的新輪；
- * 省略時沿用舊輪的題目與順序。題目 ID 不屬於這個題組時，整筆寫入被拒絕，原輪保留。
+ * 省略時沿用 latest 的題目與順序。題目 ID 不屬於這個題組時，整筆寫入被拒絕，原輪保留。
  */
-export function restartOfficialRound(expected: OfficialRoundRef, newId: string, createdAt: string,
+export function restartOfficialRound(expected: OfficialRoundRef, latest: OfficialRound, newId: string, createdAt: string,
   questions?: readonly { id: string; rev: number }[]): OfficialRound {
   const { store, round } = assertOfficialRoundCurrent(expected);
   if (round.status !== 'open' || newId === round.id) throw officialRoundError();
+  if (latest.seq !== expected.seq || (['id', 'setId', 'subject', 'number', 'createdAt', 'attemptMode'] as const)
+    .some((key) => latest[key] !== round[key])) throw new DailyConflictError();
+  if (latest.status !== 'open' || !isOfficialRound(latest)) throw officialRoundError();
+  const retired: OfficialRound = { ...latest, status: 'retired', seq: expected.seq + 1 };
   const restarted: OfficialRound = {
-    id: newId, seq: 0, setId: round.setId, subject: round.subject, number: round.number, createdAt,
+    id: newId, seq: 0, setId: round.setId, subject: round.subject,
+    number: Math.max(...store.rounds.filter((item) => item.setId === round.setId).map((item) => item.number)) + 1, createdAt,
     attemptMode: `official-round:${newId}:S${round.subject}`, status: 'open', position: 0,
-    questions: questions ? freshOfficialQuestions(questions, true) : freshOfficialQuestions(round.questions, false),
+    questions: questions ? freshOfficialQuestions(questions, true) : freshOfficialQuestions(latest.questions, false),
   };
-  writeOfficialRounds({ ...store, rounds: store.rounds.map((item) => item.id === round.id ? restarted : item) });
+  writeOfficialRounds({ ...store, rounds: [...store.rounds.map((item) => item.id === round.id ? retired : item), restarted] });
   return restarted;
 }
 /** 每個成功階段都保留在回傳值；重載後以固定的提交內容續傳。 */
 export function submitOfficialRound(round: OfficialRound, prepared: OfficialRound): { round: OfficialRound; error?: Error } {
   let saved = round;
   try {
+    if (saved.status === 'retired' || prepared.status === 'retired') throw officialRoundError();
     if (saved.status === 'submitted') {
       const current = assertOfficialRoundCurrent(saved).round;
       if (current.status !== 'submitted') throw new DailyConflictError();
