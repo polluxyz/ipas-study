@@ -3,7 +3,18 @@
 換 session 先讀本檔，再讀 `docs/orca-multi-agent.md`，並執行 `orca skills get orchestration` 取得當版指令。
 2026-11-08 以前的詳細紀錄已移除，需要時用 `git log -p docs/handoff.md` 查舊版。
 
-## 最近完成：考古題改成題本格式（2026-11-13）
+## 最近完成：考古題 v2（2026-11-13）
+
+- main 在 `1cd50b9`（PR #213）。規格 `docs/specs/official-exam-mode.md`（v2 各節）；plan、任務清單、實作紀錄在 `tasks/archive/official-exam-v2-*.md`。
+- 目錄卡：交卷過的考古題顯示「已交卷 N 次・最近 X 分」、「查看上次作答 →」、「重新開始」按鈕、「全部紀錄 →」。
+- 重新開始直接進行，不再出現「輪」字。作答中重新開始時，原本的答案留成唯讀的未交卷紀錄（狀態 `retired`）。任何流程都不刪紀錄。
+- v1 資料（`open`、`submitting`、`submitted`）不轉換，照常讀取。v1 頁面讀到 `retired` 會顯示無法讀取、不寫入；重新載入就換成 v2。
+- 已部署 4321，隔離瀏覽器走查通過，截圖 `tmp/demo-shots/official-v2-deploy/`。使用者原有的作答紀錄沒有被讀取或改動。
+- 兩支題本 smoke 要設 `DAILY_BOOKLET_DIST=<工作樹>/demo/dist`，預設路徑的工作樹已刪除。
+- 已知小問題（未修）：全部紀錄頁有「繼續作答 →」時，狀態列仍寫「按下開始按鈕才會開始作答。」。
+- 沒有執行中的 worker。
+
+## 上一版：考古題改成題本格式（2026-11-13）
 
 - main 在 `ef097f8`（PR #210）。規格 `docs/specs/official-exam-mode.md`；plan、任務清單、實作紀錄在 `tasks/archive/official-exam-*.md`。
 - `/official/` 的 4 份考古題：先看目錄，選一份開一輪；先存答案不判對錯，可標不確定、用題號選單跳題；交卷後才計分與檢討。交卷過的輪次可回看，可再考一次。
@@ -65,7 +76,7 @@
 
 | 項目 | 基準 |
 |---|---|
-| 測試 | 50 檔、1476 項（`--maxWorkers=1`） |
+| 測試 | 51 檔、1587 項 |
 | check-textbook | T3 警告 85、T6 錯誤 0、完整率 920/920 |
 | 照抄檢查 | 0 個片段 |
 | 建置 | 1895 頁 |
