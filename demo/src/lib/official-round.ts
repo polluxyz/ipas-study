@@ -1,6 +1,6 @@
 /** 考古題輪次只計算畫面資料；失效題不改已固定的交卷內容與成績。 */
 import type { Attempt, Choice } from './attempts';
-import { taipeiDate, type DailyQuestion, type DailySubject } from './daily';
+import type { DailyQuestion, DailySubject } from './daily';
 import { officialMode, officialProgress, type OfficialQuestion } from './official';
 
 export interface OfficialRoundQuestionSource {
@@ -10,7 +10,7 @@ export interface OfficialRoundQuestionSource {
 /** 結構型別可直接接受儲存層的輪次，不依賴儲存層新增型別的時序。 */
 export interface OfficialRoundSource {
   id: string; seq: number; setId: string; subject: DailySubject; number: number;
-  createdAt: string; attemptMode: string; status: 'open' | 'submitting' | 'submitted';
+  createdAt: string; attemptMode: string; status: 'open' | 'submitting' | 'submitted' | 'retired';
   position: number; questions: readonly OfficialRoundQuestionSource[];
   submission?: { total: number; correct: number; ts: string };
 }
@@ -23,17 +23,18 @@ export interface OfficialRoundScore {
   answerText: string; scoreText: string | null; summary: string;
 }
 export type OfficialRoundAction =
-  | { kind: 'resume'; roundId: string; number: number; label: string }
-  | { kind: 'start'; number: number; label: string };
+  | { kind: 'resume'; roundId: string; label: '繼續作答 →' }
+  | { kind: 'start'; label: '開始作答' | '重新開始' };
 export interface OfficialRoundRow {
-  id: string; number: number; label: string; submittedDate: string; score: OfficialRoundScore;
+  id: string; status: 'submitted' | 'retired'; createdAt: string; startedText: string;
+  ariaLabel: string; statusText: '已交卷' | '未交卷'; resultText: string; score: OfficialRoundScore | null;
 }
 export interface OfficialRoundList {
   action: OfficialRoundAction; rows: OfficialRoundRow[];
 }
 export interface OfficialRoundCard extends OfficialRoundList {
   progressText: string | null; submittedCount: number; latestScore: OfficialRoundScore | null;
-  historyText: string | null; legacyText: string | null;
+  latestSubmittedId: string | null; historyText: string | null; legacyText: string | null;
 }
 
 export function officialRoundMode(id: string, subject: DailySubject): string {
@@ -85,17 +86,49 @@ function unfinishedRound(setId: string, rounds: readonly OfficialRoundSource[]):
   return rounds.find((round) => round.setId === setId && (round.status === 'open' || round.status === 'submitting'));
 }
 
-/** 已交卷清單只讀輪次；舊作答紀錄不會產生虛構的歷史輪次。 */
+/** 用固定時區與完整秒數，避免不同瀏覽器語系改變時間格式。 */
+function startedTime(createdAt: string): string {
+  const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei',
+    year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit',
+    hourCycle: 'h23' }).formatToParts(new Date(createdAt));
+  const part = (type: Intl.DateTimeFormatPartTypes): string => parts.find((item) => item.type === type)!.value;
+  return `${part('year')}-${part('month')}-${part('day')} ${part('hour')}:${part('minute')}:${part('second')}`;
+}
+
+function answeredText(round: Pick<OfficialRoundSource, 'questions'>): string {
+  return `已答 ${round.questions.filter((q) => q.choice !== null).length}／${round.questions.length}`;
+}
+
+/** 歷史包含已交卷與未交卷紀錄；同秒的紀錄依內部編號辨識。 */
 export function officialRoundList(setId: string, rounds: readonly OfficialRoundSource[]): OfficialRoundList {
   const current = unfinishedRound(setId, rounds);
-  const next = rounds.reduce((max, round) => round.setId === setId ? Math.max(max, round.number) : max, 0) + 1;
+  const history = rounds.filter((round) => round.setId === setId &&
+    ((round.status === 'submitted' && round.submission) || round.status === 'retired'))
+    .sort((a, b) => b.number - a.number);
   const action: OfficialRoundAction = current
-    ? { kind: 'resume', roundId: current.id, number: current.number, label: `繼續第 ${current.number} 輪 →` }
-    : { kind: 'start', number: next, label: `開始第 ${next} 輪` };
-  const rows = rounds.filter((round) => round.setId === setId && round.status === 'submitted' && round.submission)
-    .sort((a, b) => b.number - a.number)
-    .map((round) => ({ id: round.id, number: round.number, label: `第 ${round.number} 輪`,
-      submittedDate: taipeiDate(new Date(round.submission!.ts)), score: officialRoundScore(round.submission!) }));
+    ? { kind: 'resume', roundId: current.id, label: '繼續作答 →' }
+    : { kind: 'start', label: rounds.some((round) => round.setId === setId &&
+      (round.status === 'submitted' || round.status === 'retired')) ? '重新開始' : '開始作答' };
+  const times = new Map(history.map((round) => [round.id, startedTime(round.createdAt)]));
+  const counts = new Map<string, number>();
+  for (const time of times.values()) counts.set(time, (counts.get(time) ?? 0) + 1);
+  const ranks = new Map<string, number>();
+  const startedTexts = new Map<string, string>();
+  for (const round of [...history].reverse()) {
+    const time = times.get(round.id)!;
+    const rank = (ranks.get(time) ?? 0) + 1;
+    ranks.set(time, rank);
+    startedTexts.set(round.id, counts.get(time)! > 1 ? `${time}・同時間第 ${rank} 筆` : time);
+  }
+  const rows = history.map((round): OfficialRoundRow => {
+    const status = round.status === 'submitted' ? 'submitted' : 'retired';
+    const score = status === 'submitted' ? officialRoundScore(round.submission!) : null;
+    const statusText = status === 'submitted' ? '已交卷' : '未交卷';
+    const resultText = score ? score.summary : answeredText(round);
+    const startedText = startedTexts.get(round.id)!;
+    return { id: round.id, status, createdAt: round.createdAt, startedText, statusText, resultText, score,
+      ariaLabel: `查看 ${startedText} ${statusText} ${resultText}` };
+  });
   return { action, rows };
 }
 
@@ -109,14 +142,21 @@ export function officialRoundCard(set: OfficialRoundSetSource, rounds: readonly 
   const list = officialRoundList(set.id, rounds);
   const current = unfinishedRound(set.id, rounds);
   const resolved = current ? reconcileOfficialRound(current, set.questions).round : undefined;
-  const progressText = resolved ? `第 ${resolved.number} 輪・已答 ${resolved.questions.filter((q) => q.choice !== null).length}／${resolved.questions.length}` : null;
-  const latestScore = list.rows[0]?.score ?? null;
-  return { ...list, progressText, submittedCount: list.rows.length, latestScore,
-    historyText: latestScore ? `已交卷 ${list.rows.length} 輪・最近 ${latestScore.summary}` : null,
+  const progressText = resolved ? `作答中・${answeredText(resolved)}` : null;
+  const submitted = list.rows.filter((row) => row.status === 'submitted');
+  const latestScore = submitted[0]?.score ?? null;
+  return { ...list, progressText, submittedCount: submitted.length, latestScore,
+    latestSubmittedId: submitted[0]?.id ?? null,
+    historyText: latestScore ? `已交卷 ${submitted.length} 次・最近 ${latestScore.summary}` : null,
     legacyText: officialLegacyText(set, attempts) };
 }
 
 export function officialRoundReviewAction(setId: string, rounds: readonly OfficialRoundSource[]): OfficialRoundAction {
   const action = officialRoundList(setId, rounds).action;
-  return action.kind === 'resume' ? action : { ...action, label: '再考一次' };
+  return action.kind === 'resume' ? action : { kind: 'start', label: '重新開始' };
+}
+
+/** 未交卷紀錄保留原題數與已答數，不因題庫更新計分或刪題。 */
+export function officialRetiredSummary(round: OfficialRoundSource): string {
+  return `未交卷・${answeredText(round)}・不計分`;
 }
