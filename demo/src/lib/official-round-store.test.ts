@@ -77,6 +77,11 @@ describe('輪次驗證規則 3：輪次編號與未交卷數量', () => {
   });
   it('同題組拒絕重複編號', () => {
     expect(isOfficialRoundStore(storeOf(submitted(), submitted(make({ id: 'two' }))))).toBe(false);
+    expect(isOfficialRoundStore(storeOf(make(), make({ id: 'two', status: 'retired' })))).toBe(false);
+  });
+  it('同題組接受 1 輪 open 加多輪 retired', () => {
+    expect(isOfficialRoundStore(storeOf(make(), make({ id: 'two', number: 2, status: 'retired' }),
+      make({ id: 'three', number: 3, status: 'retired' })))).toBe(true);
   });
   it.each(['open', 'submitting'] as const)('已有 open 時拒絕另 1 輪 %s', (status) => {
     const next = make({ id: 'two', number: 2 });
@@ -118,11 +123,24 @@ describe('輪次驗證規則 5：固定提交與完整成績', () => {
   it.each(['open', 'submitting', 'submitted'] as const)('接受完整 %s', (status) => {
     expect(isOfficialRoundStore(storeOf(status === 'open' ? make() : { ...prepare(make()), status }))).toBe(true);
   });
-  it.each(['correct', 'submission'] as const)('open 拒絕欄位 %s', (key) => {
-    const round = make();
-    if (key === 'correct') Object.assign(round.questions[0], { correct: undefined });
-    else Object.assign(round, { submission: undefined });
-    expect(isOfficialRoundStore(storeOf(round))).toBe(false);
+  it('retired 接受不完整答案與空題目', () => {
+    const round = make({ status: 'retired' });
+    round.questions[0] = { ...round.questions[0], choice: 'B', unsure: true, ms: 30 };
+    expect(isOfficialRoundStore(storeOf(round))).toBe(true);
+    expect(isOfficialRoundStore(storeOf(make({ status: 'retired', questions: [] })))).toBe(true);
+  });
+  describe.each(['open', 'retired'] as const)('%s 的未交卷欄位', (status) => {
+    it.each(['correct', 'submission'] as const)('拒絕欄位 %s，含值為 undefined', (key) => {
+      for (const value of [undefined, key === 'correct' ? true : prepare(make()).submission]) {
+        const round = make({ status });
+        if (key === 'correct') Object.assign(round.questions[0], { correct: value });
+        else Object.assign(round, { submission: value });
+        expect(isOfficialRoundStore(storeOf(round))).toBe(false);
+      }
+    });
+  });
+  it.each(['unknown', '', null, 0])('拒絕未知狀態 %j', (status) => {
+    expect(isOfficialRoundStore(storeOf({ ...make(), status } as unknown as OfficialRound))).toBe(false);
   });
   it.each(['answer', 'correct', 'submission', 'id', 'total', 'score', 'qid', 'rev', 'mode', 'ms', 'ts', 'count'] as const)
   ('拒絕不完整提交 %s', (kind) => {
@@ -146,6 +164,20 @@ describe('輪次驗證規則 5：固定提交與完整成績', () => {
 describe('讀取與開新輪', () => {
   it('不存在時回空 store，不寫入', () => {
     expect(readOfficialRounds()).toEqual(storeOf()); expect(setItem).not.toHaveBeenCalled();
+  });
+  it('v1 形狀的 open、submitting、submitted 混合資料不轉換、不重寫', () => {
+    const store = storeOf(make(), prepare(make({ id: 'pending', setId: '114-2-S1' })),
+      submitted(make({ id: 'done', number: 2 })));
+    const raw = JSON.stringify(store, null, 2); storage.set(OFFICIAL_ROUND_KEY, raw);
+    expect(readOfficialRounds()).toEqual(store);
+    expect(storage.get(OFFICIAL_ROUND_KEY)).toBe(raw); expect(setItem).not.toHaveBeenCalled();
+  });
+  it('retired 不擋開新輪，編號跳過 retired 用過的最大值', () => {
+    const done = submitted(); const retired = make({ id: 'retired', number: 8, status: 'retired' });
+    seed(done, retired);
+    const opened = openOfficialRound(done.setId, done.questions, 'fresh', TS);
+    expect(opened).toMatchObject({ id: 'fresh', number: 9, status: 'open', seq: 0 });
+    expect(readOfficialRounds()).toEqual(storeOf(done, retired, opened));
   });
   it.each(['', '{', '{"version":99,"rounds":[]}', '{"version":1,"rounds":[{}]}'])('損壞資料不覆寫 %s', (raw) => {
     storage.set(OFFICIAL_ROUND_KEY, raw);
@@ -177,6 +209,23 @@ describe('讀取與開新輪', () => {
 });
 
 describe('保存與狀態', () => {
+  it('一般保存不能把 open 改成 retired', () => {
+    const round = make(); seed(round);
+    unchanged(() => saveOfficialRound({ ...round, status: 'retired' }, round));
+  });
+  it.each(['unchanged', 'seq', 'id', 'setId', 'subject', 'number', 'createdAt', 'attemptMode', 'status', 'position',
+    'choice', 'unsure', 'ms', 'rev', 'questions', 'correct', 'submission'] as const)('retired 拒絕保存 %s', (key) => {
+    const round = make({ status: 'retired' }); seed(round); const changed = structuredClone(round);
+    if (['id', 'setId', 'createdAt', 'attemptMode'].includes(key)) Object.assign(changed, { [key]: 'changed' });
+    if (['seq', 'subject', 'number', 'position'].includes(key)) Object.assign(changed, { [key]: 2 });
+    if (key === 'status') changed.status = 'open';
+    if (key === 'choice' || key === 'unsure') Object.assign(changed.questions[0], { choice: 'B', unsure: key === 'unsure' });
+    if (key === 'ms' || key === 'rev') changed.questions[0][key] = 2;
+    if (key === 'questions') changed.questions.pop();
+    if (key === 'correct') changed.questions[0].correct = true;
+    if (key === 'submission') changed.submission = prepare(make()).submission;
+    unchanged(() => saveOfficialRound(changed, round));
+  });
   it('每次讀最新 store，只替換目標輪次並加序號', () => {
     const round = make(); const other = make({ id: 'other', setId: '114-2-S1' }); seed(round, other);
     const latest = saveOfficialRound({ ...other, position: 1 }, other);
@@ -227,6 +276,18 @@ describe('保存與狀態', () => {
 });
 
 describe('交卷恢復', () => {
+  it.each(['retired-input', 'retired-prepared', 'retired-store-open', 'retired-store-submitting', 'retired-store-submitted'] as const)
+  ('拒絕未交卷紀錄 %s，逐筆作答與 store 不變', (kind) => {
+    const original = make(); const retired = { ...original, status: 'retired' as const };
+    seed(kind.startsWith('retired-store') ? retired : original);
+    const existing = submitted(make({ id: 'other', setId: '114-2-S1' })).submission!.attempts;
+    saveAttemptBatch(existing); const before = [...storage]; setItem.mockClear();
+    const input = kind === 'retired-input' ? retired : kind.endsWith('submitting') ? prepare(original) :
+      kind.endsWith('submitted') ? submitted(original) : original;
+    const prepared = kind === 'retired-prepared' ? retired : prepare(original);
+    expect(submitOfficialRound(input, prepared).error).toBeInstanceOf(Error);
+    expect([...storage]).toEqual(before); expect(getAttempts()).toEqual(existing); expect(setItem).not.toHaveBeenCalled();
+  });
   it('作答含損壞項目時保留 submitting 與原字串，修好後重試成功且不重複作答', () => {
     const round = make(); seed(round); const prepared = prepare(round);
     const valid: Attempt = { ...prepared.submission!.attempts[0], id: 'existing' };
@@ -296,54 +357,83 @@ describe('交卷恢復', () => {
 });
 
 describe('重新考、備份與清除', () => {
-  it('只寫 1 次，沿用最新題目順序與編號，清空全部作答欄位', () => {
-    const round = make({ number: 7, position: 1 }); round.questions.reverse();
-    round.questions.forEach((q) => { q.choice = 'C'; q.unsure = true; q.ms = 90; });
-    const other = submitted(make({ id: 'other', setId: '114-2-S1' })); seed(round, other);
+  it('只寫 1 次保留最新答案，編號用同題組最大值加 1，新輪清空作答', () => {
+    const round = make({ number: 7, seq: 3 });
+    const latest = structuredClone(round); latest.position = 1; latest.questions.reverse();
+    latest.questions.forEach((q, i) => { q.choice = i === 0 ? 'C' : null; q.unsure = i === 0; q.ms = 90 + i; });
+    const history = make({ id: 'history', number: 12, status: 'retired' });
+    const other = submitted(make({ id: 'other', setId: '114-2-S1', number: 20 })); seed(round, history, other);
     saveAttemptBatch(other.submission!.attempts); storage.set(BOOKLET_KEY, 'daily-untouched');
     const attempts = storage.get(STORAGE_KEY); const before = JSON.stringify(other); setItem.mockClear(); getItem.mockClear();
-    const restarted = restartOfficialRound(round, 'fresh', '2026-11-12T04:00:00Z');
-    expect(restarted).toMatchObject({ id: 'fresh', number: 7, seq: 0, position: 0, createdAt: '2026-11-12T04:00:00Z' });
+    const restarted = restartOfficialRound(round, latest, 'fresh', '2026-11-12T04:00:00Z');
+    const retired = { ...latest, status: 'retired' as const, seq: 4 };
+    expect(restarted).toMatchObject({ id: 'fresh', number: 13, seq: 0, position: 0, status: 'open', createdAt: '2026-11-12T04:00:00Z' });
     expect(restarted.attemptMode).toBe('official-round:fresh:S3');
-    expect(restarted.questions).toEqual(round.questions.map((q) => ({ id: q.id, rev: q.rev, choice: null, unsure: false, ms: 0 })));
-    expect(readOfficialRounds()).toEqual(storeOf(restarted, other));
-    expect(JSON.stringify(readOfficialRounds().rounds[1])).toBe(before);
+    expect(restarted.questions).toEqual(latest.questions.map((q) => ({ id: q.id, rev: q.rev, choice: null, unsure: false, ms: 0 })));
+    expect(readOfficialRounds()).toEqual(storeOf(retired, history, other, restarted));
+    expect(JSON.stringify(readOfficialRounds().rounds[2])).toBe(before);
     expect(storage.get(STORAGE_KEY)).toBe(attempts); expect(storage.get(BOOKLET_KEY)).toBe('daily-untouched');
-    expect(setItem).toHaveBeenCalledExactlyOnceWith(OFFICIAL_ROUND_KEY, JSON.stringify(storeOf(restarted, other)));
+    expect(setItem).toHaveBeenCalledExactlyOnceWith(OFFICIAL_ROUND_KEY, JSON.stringify(storeOf(retired, history, other, restarted)));
     expect(getItem.mock.calls.every(([key]) => key === OFFICIAL_ROUND_KEY)).toBe(true);
+    expect(getAttempts()).toEqual(other.submission!.attempts);
     unchanged(() => saveOfficialRound(round, round), true);
   });
-  it.each(['submitting', 'submitted'] as const)('拒絕重新考 %s', (status) => {
-    const round = { ...prepare(make()), status }; seed(round);
-    unchanged(() => restartOfficialRound(round, 'fresh', TS));
+  it.each(['submitting', 'submitted', 'retired'] as const)('拒絕重新考 %s', (status) => {
+    const round = status === 'retired' ? make({ status }) : { ...prepare(make()), status }; seed(round);
+    unchanged(() => restartOfficialRound(round, make(), 'fresh', TS));
   });
   it('舊序號、輪次不存在、重複 ID 與相同 ID 不改資料', () => {
     const round = make(); const other = make({ id: 'other', setId: '114-2-S1' }); seed(round, other);
-    unchanged(() => restartOfficialRound({ ...round, seq: 1 }, 'fresh', TS), true);
-    unchanged(() => restartOfficialRound({ ...round, id: 'missing' }, 'fresh', TS), true);
-    unchanged(() => restartOfficialRound(round, 'other', TS)); unchanged(() => restartOfficialRound(round, round.id, TS));
+    unchanged(() => restartOfficialRound({ ...round, seq: 1 }, round, 'fresh', TS), true);
+    unchanged(() => restartOfficialRound({ ...round, id: 'missing' }, round, 'fresh', TS), true);
+    unchanged(() => restartOfficialRound(round, round, 'other', TS)); unchanged(() => restartOfficialRound(round, round, round.id, TS));
   });
-  it('重新考採用 store 最新內容，寫入失敗保留舊輪', () => {
+  it('重新考採用畫面上最新內容，寫入失敗保留舊輪', () => {
     const stale = make(); const latest = make({ questions: [make().questions[1]] }); seed(latest);
     const raw = storage.get(OFFICIAL_ROUND_KEY); setItem.mockImplementationOnce(() => { throw new Error('quota'); });
-    expect(() => restartOfficialRound(stale, 'fresh', TS)).toThrow('quota'); expect(storage.get(OFFICIAL_ROUND_KEY)).toBe(raw);
-    expect(restartOfficialRound(stale, 'fresh', TS).questions.map((q) => q.id)).toEqual(['115-1-S3-Q02']);
+    expect(() => restartOfficialRound(stale, latest, 'fresh', TS)).toThrow('quota'); expect(storage.get(OFFICIAL_ROUND_KEY)).toBe(raw);
+    expect(restartOfficialRound(stale, latest, 'fresh', TS).questions.map((q) => q.id)).toEqual(['115-1-S3-Q02']);
+    expect(readOfficialRounds().rounds[0]).toEqual({ ...latest, status: 'retired', seq: 1 });
+  });
+  it.each(['seq', 'id', 'setId', 'subject', 'number', 'createdAt', 'attemptMode'] as const)
+  ('latest 的 %s 不符時拒絕且 store 逐字不變', (key) => {
+    const round = make(); seed(round);
+    const value = typeof round[key] === 'number' ? Number(round[key]) + 1 : `${round[key]}-changed`;
+    unchanged(() => restartOfficialRound(round, { ...round, [key]: value }, 'fresh', TS), true);
+  });
+  it.each(['submitting', 'submitted', 'retired'] as const)('latest 狀態 %s 拒絕且 store 逐字不變', (status) => {
+    const round = make(); seed(round);
+    unchanged(() => restartOfficialRound(round, { ...round, status }, 'fresh', TS));
+  });
+  it.each(['correct', 'submission', 'position', 'questions'] as const)('latest 含無效 %s 拒絕且 store 逐字不變', (key) => {
+    const round = make(); seed(round); const latest = structuredClone(round);
+    if (key === 'correct') latest.questions[0].correct = true;
+    if (key === 'submission') latest.submission = prepare(round).submission;
+    if (key === 'position') latest.position = 2;
+    if (key === 'questions') latest.questions[0].id = '114-2-S1-Q01';
+    unchanged(() => restartOfficialRound(round, latest, 'fresh', TS));
+  });
+  it.each([false, true])('0 題作答仍保留 retired，空題目為 %s', (empty) => {
+    const round = make(empty ? { questions: [] } : {}); seed(round);
+    const restarted = restartOfficialRound(round, round, 'fresh', TS);
+    expect(readOfficialRounds()).toEqual(storeOf({ ...round, status: 'retired', seq: 1 }, restarted));
+    expect(restarted.questions.every((q) => q.choice === null)).toBe(true);
   });
   it('傳入目前有效題時換題重新考：1 次寫入、依原題號排序、作答清空', () => {
     const round = make({ number: 4 }); round.questions.forEach((q) => { q.choice = 'B'; q.ms = 30; }); seed(round);
     setItem.mockClear();
     const fresh = [{ id: '115-1-S3-Q12', rev: 2 }, { id: '115-1-S3-Q03', rev: 1 }];
-    const restarted = restartOfficialRound(round, 'fresh', TS, fresh);
-    expect(restarted).toMatchObject({ id: 'fresh', number: 4, seq: 0, position: 0, status: 'open' });
+    const restarted = restartOfficialRound(round, round, 'fresh', TS, fresh);
+    expect(restarted).toMatchObject({ id: 'fresh', number: 5, seq: 0, position: 0, status: 'open' });
     expect(restarted.questions).toEqual([
       { id: '115-1-S3-Q03', rev: 1, choice: null, unsure: false, ms: 0 },
       { id: '115-1-S3-Q12', rev: 2, choice: null, unsure: false, ms: 0 },
     ]);
-    expect(setItem).toHaveBeenCalledExactlyOnceWith(OFFICIAL_ROUND_KEY, JSON.stringify(storeOf(restarted)));
+    expect(setItem).toHaveBeenCalledExactlyOnceWith(OFFICIAL_ROUND_KEY, JSON.stringify(storeOf({ ...round, status: 'retired', seq: 1 }, restarted)));
   });
   it('換題重新考的題目不屬於這個題組時，不改資料', () => {
     const round = make(); seed(round);
-    unchanged(() => restartOfficialRound(round, 'fresh', TS, [{ id: '114-2-S1-Q01', rev: 1 }]));
+    unchanged(() => restartOfficialRound(round, round, 'fresh', TS, [{ id: '114-2-S1-Q01', rev: 1 }]));
   });
   it('匯入只補作答，不建立輪次，也不改現有輪次；備份不含輪次', () => {
     const backup = { version: 1, attempts: submitted().submission!.attempts };
@@ -362,6 +452,31 @@ describe('重新考、備份與清除', () => {
 });
 
 describe('合成容量實測', () => {
+  it('50 交卷加 50 未交卷，其中 25 次未作答，記錄字元數與連續保存時間', () => {
+    const rounds = Array.from({ length: 100 }, (_, i) => {
+      const round = make({ id: `mixed-${i}`, number: i + 1 });
+      round.questions = Array.from({ length: 50 }, (_, n) => ({ id: `115-1-S3-Q${String(n + 1).padStart(2, '0')}`, rev: 1,
+        choice: i >= 50 && i < 75 && n < 25 ? 'B' as const : null,
+        unsure: i >= 50 && i < 75 && n < 25, ms: i < 75 ? 1234 : 0 }));
+      return i < 50 ? submitted(round) : { ...round, status: i === 99 ? 'open' as const : 'retired' as const };
+    });
+    const store = storeOf(...rounds); expect(isOfficialRoundStore(store)).toBe(true);
+    expect(rounds.filter((round) => round.status === 'submitted')).toHaveLength(50);
+    const unsubmitted = rounds.filter((round) => round.status !== 'submitted');
+    expect(unsubmitted).toHaveLength(50);
+    expect(unsubmitted.filter((round) => round.questions.every((q) => q.choice === null))).toHaveLength(25);
+    const attempts = rounds.flatMap((round) => round.submission?.attempts ?? []); expect(attempts).toHaveLength(2500);
+    const roundChars = JSON.stringify(store).length; const attemptChars = JSON.stringify({ version: 1, attempts }).length;
+    seed(...rounds); saveAttemptBatch(attempts); const attemptRaw = storage.get(STORAGE_KEY);
+    const historyRaw = rounds.slice(0, 99).map((round) => JSON.stringify(round)); setItem.mockClear();
+    let active = rounds[99]; const start = performance.now();
+    for (let i = 0; i < 50; i++) active = saveOfficialRound(active, active);
+    const elapsed = performance.now() - start;
+    expect(active.seq).toBe(50); expect(setItem).toHaveBeenCalledTimes(50);
+    expect(storage.get(STORAGE_KEY)).toBe(attemptRaw);
+    expect(readOfficialRounds().rounds.slice(0, 99).map((round) => JSON.stringify(round))).toEqual(historyRaw);
+    console.log(`混合容量實測：50 交卷 + 50 未交卷（25 次未作答），各 50 題；輪次 ${roundChars} 字元；作答 ${attemptChars} 字元；合計 ${roundChars + attemptChars} 字元；Node 連續保存 50 次 ${elapsed.toFixed(3)} ms`);
+  });
   it('50 輪各 50 題與固定作答，記錄字元數與連續保存時間', () => {
     const rounds = Array.from({ length: 50 }, (_, i) => {
       const round = make({ id: `capacity-${i}`, number: i + 1 });
