@@ -200,7 +200,7 @@ export async function runDailySmoke() {
         if (session === 'guide') {
           await official.locator('#official-status').filter({ hasText: '本份共' }).waitFor();
         } else {
-          await official.locator('#official-round-action button').filter({ hasText: '開始第 1 輪' }).waitFor();
+          await official.locator('#official-round-action button').filter({ hasText: '開始作答' }).waitFor();
           assert.equal(await official.evaluate(() => localStorage.getItem('ipas-official-rounds-v1')), roundsBefore);
           await official.locator('#official-round-action button').click();
           await official.locator('#official-position').filter({ hasText: '第 1 題／共' }).waitFor();
@@ -241,8 +241,8 @@ export async function runDailySmoke() {
           assert.equal(await card.locator('[data-explanation]').isVisible(), false);
           assert.equal(await official.locator('[data-explanation]:visible, .option-status:not(:empty):visible, .is-correct:visible, .is-wrong:visible, #official-score:visible').count(), 0);
           assert.doesNotMatch(await official.locator('#official-practice').ariaSnapshot(), /參考答案|官方答案|為什麼 [ABCD] 正確|答對了|你的答案|其他選項的問題|已答.*答對/);
-          assert.equal(await official.locator('#official-progress').textContent(), `本輪已答 1／${expected.length}`);
-          await official.reload(); await official.locator('#official-progress').filter({ hasText: `本輪已答 1／${expected.length}` }).waitFor();
+          assert.equal(await official.locator('#official-progress').textContent(), `已答 1／${expected.length}`);
+          await official.reload(); await official.locator('#official-progress').filter({ hasText: `已答 1／${expected.length}` }).waitFor();
           assert.equal(await card.locator('input[value="' + answer + '"]').isChecked(), true);
           assert.equal(await card.locator('[data-explanation]').isVisible(), false);
           const restored = await official.evaluate((id) => JSON.parse(localStorage.getItem('ipas-official-rounds-v1')).rounds.find((round) => round.id === id), openedRound.id);
@@ -253,7 +253,7 @@ export async function runDailySmoke() {
         const overflow = await official.evaluate(() => document.documentElement.scrollWidth - innerWidth);
         assert.ok(overflow <= 0);
         await official.goto(base + '/official/');
-        await official.locator('#progress-' + set.id).filter({ hasText: session === 'guide' ? '已答 1／' : `第 1 輪・已答 1／${expected.length}` }).waitFor();
+        await official.locator('#progress-' + set.id).filter({ hasText: session === 'guide' ? '已答 1／' : `作答中・已答 1／${expected.length}` }).waitFor();
         if (session !== 'guide') assert.equal(await official.locator('#action-' + set.id).innerText(), '繼續作答 →');
         report.official.push({ width, id: set.id, count: expected.length, correct: session === 'guide' ? 1 : null, answered: 1, refreshed: true, positionRestored: true, roundsAdded: session === 'guide' ? 0 : 1, explanationHidden: session !== 'guide', overflow });
       }

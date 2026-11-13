@@ -303,7 +303,7 @@ export async function runDailyBookletMultiSmoke() {
       const initial = await page.locator('[data-official-set]').allTextContents(); assert.equal(initial.length, 6);
       assert.equal(await page.locator('[aria-labelledby="official-heading-exam"] [data-official-set]').count(), 4);
       assert.equal(await page.locator('[aria-labelledby="official-heading-guide"] [data-official-set]').count(), 2);
-      for (const id of setIds.slice(0, 4)) assert.equal(await page.locator('#action-' + id).innerText(), '開始第 1 輪');
+      for (const id of setIds.slice(0, 4)) { assert.equal(await page.locator('#start-' + id).innerText(), '開始作答'); assert.equal(await page.locator('#action-' + id).isHidden(), true); }
       for (const id of setIds.slice(4)) assert.match(await page.locator('#progress-' + id).innerText(), /^已答 0／\d+ 題・答對 0 題$/);
       await openNewBooklet(page, BASE, 1); await assertFirstBook(page);
       const booklet = (await store(page)).booklets[0]; assert.equal(booklet.questions.length, 50);
@@ -312,7 +312,7 @@ export async function runDailyBookletMultiSmoke() {
       await page.goto(BASE + '/official/'); await page.locator('#official-status').filter({ hasText: '各份題組分開記錄' }).waitFor();
       assert.deepEqual(await page.locator('[data-official-set]').allTextContents(), initial);
       const roundsBefore = await raw(page, 'ipas-official-rounds-v1');
-      await page.goto(BASE + '/official/115-1-S3/'); await page.locator('#official-round-action button').filter({ hasText: '開始第 1 輪' }).waitFor();
+      await page.goto(BASE + '/official/115-1-S3/'); await page.locator('#official-round-action button').filter({ hasText: '開始作答' }).waitFor();
       assert.equal(await raw(page, 'ipas-official-rounds-v1'), roundsBefore);
       await page.goto(BASE + '/official/guide-S3/'); await page.locator('#official-progress').filter({ hasText: '已答 0／' }).waitFor();
       const total = await page.locator('#official-cards [data-question]').count();

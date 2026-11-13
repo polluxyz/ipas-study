@@ -11,10 +11,10 @@
 | W3 目錄 | `demo/src/lib/official-index-client.ts`、`demo/src/lib/official-index-client.test.ts`、`demo/src/pages/official/index.astro` | 規格第 4.2 節 5 種狀態；「開始作答」「重新開始」按下才寫入、同頁連按只開 1 輪；開輪失敗留在目錄顯示錯誤；開頁不寫入；頁首與備份說明 v2 文字；可見文字無「輪」字 | 完成：1aad793，已整合 |
 | W4 作答與全部紀錄頁 | `demo/src/lib/official-round-client.ts`、`demo/src/lib/official-round-client.test.ts`、`demo/src/pages/official/[id].astro`、考古題頁樣式 | 規格第 4.1、4.3、4.4、4.6、7 節；作答中重新開始保留成未交卷紀錄且併入最新答案；未交卷紀錄唯讀、可跳任一題、不計時、不揭露答案（另寫唯讀導覽，不偽裝成 `submitted`）；全部紀錄頁；「本次用時」；開輪改用 `startOfficialRound`；可見文字無「輪」字 | 完成：c39ff78，已整合；全套測試 51 檔 1586 個通過 |
 | W6 錯題本文字 | `demo/src/pages/wrong-book.astro` | 備份說明「考古題輪次」改「考古題的紀錄清單與未交卷答案」，其他不動。在 W3、W4 整合時一起做 | 完成（協調者）：cc12299 |
-| W5a 主流程 smoke | `demo/scripts/official-round-smoke.mjs` | 規格第 10 節 v2 瀏覽器案例：目錄 5 種狀態、查看上次作答、目錄重新開始、作答中重新開始保留紀錄、未交卷紀錄唯讀不揭露（含 0 題）、v1 三狀態混合資料、舊網址回看唯讀、「輪」字掃描（含錯誤與朗讀文字）；原案例保留目的與數量，「刪掉原輪」的斷言改成「原輪變 `retired`、新輪 `open`」；連跑 2 次全過 | 進行中：worker 已派 |
-| W5b 多分頁 smoke | `demo/scripts/official-round-smoke-multi.mjs` | 原 13 案保留目的與數量，改新文字與新斷言；一頁重新開始另一頁改唯讀；同頁連按只建 1 輪；另一頁先開輪後本頁按開始導向既有那輪；不驗 2 頁真正同時按；連跑 2 次全過 | 進行中：worker 已派 |
-| R1 非作者審查 | `tmp/advisor/official-exam-v2-review.md` | 高中度問題清零 | 待做 |
-| V1 協調者驗收 | 驗收工作樹 | 規格第 12 節逐條有證據（含條件 14：v1 建置讀到 `retired` 保存失敗、store 不變）；截圖交使用者 | 待做 |
+| W5a 主流程 smoke | `demo/scripts/official-round-smoke.mjs` | 規格第 10 節 v2 瀏覽器案例：目錄 5 種狀態、查看上次作答、目錄重新開始、作答中重新開始保留紀錄、未交卷紀錄唯讀不揭露（含 0 題）、v1 三狀態混合資料、舊網址回看唯讀、「輪」字掃描（含錯誤與朗讀文字）；原案例保留目的與數量，「刪掉原輪」的斷言改成「原輪變 `retired`、新輪 `open`」；連跑 2 次全過 | 完成：8f6e784（27 案連跑 2 次全過，42 張截圖） |
+| W5b 多分頁 smoke | `demo/scripts/official-round-smoke-multi.mjs` | 原 13 案保留目的與數量，改新文字與新斷言；一頁重新開始另一頁改唯讀；同頁連按只建 1 輪；另一頁先開輪後本頁按開始導向既有那輪；不驗 2 頁真正同時按；連跑 2 次全過 | 完成：2c5ac4c（18 案連跑 2 次全過） |
+| R1 非作者審查 | `tmp/advisor/official-exam-v2-review.md` | 高中度問題清零 | 完成：高 0、中 1、低 0；中度 R1-01（返回快取開始鈕停用）已修，e5db730 |
+| V1 協調者驗收 | 驗收工作樹 | 規格第 12 節逐條有證據（含條件 14：v1 建置讀到 `retired` 保存失敗、store 不變）；截圖交使用者 | 完成：條件 1–9、11–14 有證據（含 v1 建置實測，見 `tmp/official-exam/v2-condition14-evidence.md`）；條件 9 的 CI 與條件 10 在合併部署後補；3 支每日 smoke 的過期字樣已更新 |
 | P1 上線 | PR、4321、`docs/handoff.md` | CI 全綠；4321 重建；隔離瀏覽器走完目錄回看、重新開始、未交卷紀錄 | 待做 |
 
 W1、W2 可平行。W3、W4 要等 W1、W2 整合，兩者可平行。全專案 `tsc` 只在 W1–W4、W6 都整合後要求 0 錯。W5a、W5b 要等 W3、W4，可平行。
