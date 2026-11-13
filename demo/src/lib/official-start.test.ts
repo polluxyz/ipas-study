@@ -85,6 +85,16 @@ describe('共用開新作答', () => {
     expect(saved).toHaveLength(2); expect(saved[0]).toEqual(existing);
     expect(saved[1]).toMatchObject({ number: 2, status: 'open' });
   });
+  it('只有未交卷紀錄時建立新作答，未交卷紀錄逐字保留', () => {
+    const first = round({ id: 'r1', status: 'retired', seq: 3, attemptMode: 'official-round:r1:S3' });
+    const second = round({ id: 'r2', number: 2, status: 'retired', seq: 1, attemptMode: 'official-round:r2:S3',
+      questions: round().questions.map((q, i) => i === 0 ? { ...q, choice: 'B' as const, unsure: true, ms: 900 } : q) });
+    seed(first, second);
+    expect(startOfficialRound(set(), randomId, now)).toEqual({ roundId: 'fresh', resumed: false });
+    const saved = readOfficialRounds().rounds;
+    expect(saved).toHaveLength(3); expect(saved[0]).toEqual(first); expect(saved[1]).toEqual(second);
+    expect(saved[2]).toMatchObject({ id: 'fresh', number: 3, status: 'open' });
+  });
   it('其他題組作答中不妨礙建立，其他儲存鍵不變', () => {
     const other = round({ id: 'other', setId: '114-2-S3', questions: [], attemptMode: 'official-round:other:S3' });
     seed(other); storage.set('ipas-attempts-v1', 'untouched');
